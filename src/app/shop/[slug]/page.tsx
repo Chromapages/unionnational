@@ -33,7 +33,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
                     {/* Breadcrumb / Back Link */}
                     <div className="mb-8">
-                        <Link href="/scorp-playbook" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-gold-500 transition-colors font-sans group">
+                        <Link href="/shop" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-gold-500 transition-colors font-sans group">
                             <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" /> Back to Shop
                         </Link>
                     </div>

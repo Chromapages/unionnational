@@ -33,7 +33,7 @@ export function ProductCard({ title, coverImage, price, compareAtPrice, shortDes
 
     return (
         <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full group">
-            <Link href={`/scorp-playbook/${slug}`} className="relative aspect-[3/4] bg-slate-100 overflow-hidden block">
+            <Link href={`/shop/${slug}`} className="relative aspect-[3/4] bg-slate-100 overflow-hidden block">
                 {/* Badge/Format */}
                 <div className="absolute top-4 left-4 z-10 px-3 py-1 bg-white/90 backdrop-blur rounded-full text-[10px] font-bold uppercase tracking-wider text-brand-900 border border-slate-200">
                     {format}
@@ -47,7 +47,7 @@ export function ProductCard({ title, coverImage, price, compareAtPrice, shortDes
             </Link>
 
             <div className="p-6 flex flex-col flex-1">
-                <Link href={`/scorp-playbook/${slug}`} className="block">
+                <Link href={`/shop/${slug}`} className="block">
                     <h3 className="text-xl font-bold text-brand-900 mb-2 font-heading leading-tight group-hover:text-gold-600 transition-colors">{title}</h3>
                 </Link>
                 <p className="text-sm text-slate-500 mb-6 font-sans line-clamp-2">{shortDescription}</p>
@@ -60,7 +60,7 @@ export function ProductCard({ title, coverImage, price, compareAtPrice, shortDes
                         <span className="text-2xl font-bold text-brand-900 font-sans">{formatPrice(price)}</span>
                     </div>
                     <Link
-                        href={`/scorp-playbook/${slug}`}
+                        href={`/shop/${slug}`}
                         className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-900 text-white text-xs font-bold hover:bg-gold-500 hover:text-brand-900 transition-all font-sans"
                     >
                         View Details <ArrowRight className="w-3.5 h-3.5" />

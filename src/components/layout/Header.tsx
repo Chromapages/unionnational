@@ -33,7 +33,7 @@ export function Header() {
     const navLinks = [
         { name: "Home", href: "/" },
         { name: "Services", href: "/services" },
-        { name: "S-Corp System", href: "/scorp-playbook" },
+        { name: "Shop", href: "/shop" },
         { name: "Blog", href: "/blog" },
         { name: "About", href: "/about" },
         { name: "Team", href: "/team" },

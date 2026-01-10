@@ -27,7 +27,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                             Editor's Choice
                         </div>
 
-                        <Link href={`/scorp-playbook/${product.slug}`} className="block group">
+                        <Link href={`/shop/${product.slug}`} className="block group">
                             <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6 font-heading leading-tight group-hover:text-gold-500 transition-colors">
                                 {product.title}
                             </h2>
@@ -60,7 +60,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                                 </a>
                             ) : (
                                 <Link
-                                    href={`/scorp-playbook/${product.slug}`}
+                                    href={`/shop/${product.slug}`}
                                     className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-4 rounded-xl text-sm font-bold hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 font-sans"
                                 >
                                     View Details <ArrowRight className="w-4 h-4" />
@@ -78,7 +78,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
 
                     {/* Image */}
                     <div className="order-1 lg:order-2 flex justify-center">
-                        <Link href={`/scorp-playbook/${product.slug}`} className="relative w-full max-w-md aspect-[3/4] rotate-3 hover:rotate-0 transition-all duration-700 block">
+                        <Link href={`/shop/${product.slug}`} className="relative w-full max-w-md aspect-[3/4] rotate-3 hover:rotate-0 transition-all duration-700 block">
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gold-500/20 blur-2xl -z-10 rounded-3xl transform translate-y-4"></div>
 
