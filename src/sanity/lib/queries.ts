@@ -173,7 +173,6 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
   badge,
   isPopular,
   accentColor
-  accentColor
 }`;
 
 export const SHOP_PAGE_QUERY = defineQuery(`
