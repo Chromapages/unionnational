@@ -1,0 +1,355 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Union National Tax</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #B45309 0%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Form Elements */
+        .custom-input {
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .custom-input:focus {
+            box-shadow: 0 0 0 2px rgba(11, 37, 53, 0.05);
+        }
+
+        /* Custom Radio */
+        .custom-radio:checked + div {
+            border-color: #B45309;
+            background-color: #fff7ed;
+            color: #0B2535;
+        }
+        .custom-radio:checked + div .radio-dot {
+            border-color: #B45309;
+            background-color: #B45309;
+        }
+    </style>
+</head>
+<body class="text-slate-900 antialiased selection:bg-[#B45309] selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-8 h-8 bg-[#0B2535] rounded-lg flex items-center justify-center overflow-hidden border border-[#0B2535]">
+                    <div class="absolute w-full h-full flex items-center justify-center">
+                        <div class="w-4 h-4 border-2 border-[#D97706] rounded-sm rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                    </div>
+                </div>
+                <span class="text-lg font-semibold tracking-tight text-[#0B2535]">Union National Tax</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-[#B45309] transition-colors">About</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Services</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Resources</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-sm font-medium text-slate-600 hover:text-[#0B2535] transition-colors hidden sm:block">
+                    Client Portal
+                </a>
+                <a href="#" class="text-sm font-medium bg-[#0B2535] text-white px-5 py-2.5 rounded-full hover:bg-[#153a52] transition-all shadow-lg shadow-[#0B2535]/20 border border-[#1e4e6e]">
+                    Book Consultation
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+        <!-- Header -->
+        <section class="max-w-4xl mx-auto px-6 mb-20 text-center">
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6 shadow-sm">
+                    Contact Us
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B2535] tracking-tight mb-8 leading-[1.1]">
+                    Start the <br>
+                    <span class="text-gold-gradient">conversation.</span>
+                </h1>
+                <p class="text-lg text-slate-500 leading-relaxed max-w-xl mx-auto">
+                    Whether you are facing a complex audit or looking to restructure for growth, our strategists are ready to listen.
+                </p>
+            </div>
+        </section>
+
+        <!-- Content Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+                
+                <!-- Contact Info (Left) -->
+                <div class="lg:col-span-4 reveal delay-100">
+                    <div class="lg:sticky lg:top-32 space-y-10">
+                        
+                        <!-- Info Block -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-[#0B2535] uppercase tracking-wide mb-6">Headquarters</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 text-[#B45309]">
+                                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-slate-900 font-medium text-sm">Union National Tower</p>
+                                        <p class="text-slate-500 text-sm mt-1 leading-relaxed">
+                                            1200 Financial District Blvd, Suite 400<br>
+                                            New York, NY 10005
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 text-[#B45309]">
+                                        <i data-lucide="mail" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-slate-900 font-medium text-sm">General Inquiries</p>
+                                        <a href="mailto:hello@unionnational.com" class="text-slate-500 text-sm mt-1 hover:text-[#B45309] transition-colors">hello@unionnational.com</a>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 text-[#B45309]">
+                                        <i data-lucide="phone" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-slate-900 font-medium text-sm">Direct Line</p>
+                                        <p class="text-slate-500 text-sm mt-1">+1 (212) 555-0198</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-px bg-slate-200"></div>
+
+                        <!-- Hours -->
+                        <div>
+                            <h3 class="text-sm font-semibold text-[#0B2535] uppercase tracking-wide mb-4">Support Hours</h3>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-slate-900 font-medium">Mon - Fri</p>
+                                    <p class="text-slate-500 mt-1">8am - 6pm EST</p>
+                                </div>
+                                <div>
+                                    <p class="text-slate-900 font-medium">Weekend</p>
+                                    <p class="text-slate-500 mt-1">By Appointment</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Form (Right) -->
+                <div class="lg:col-span-8 reveal delay-200">
+                    <form class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10 shadow-sm relative overflow-hidden">
+                        
+                        <!-- Top Decoration -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-full -mr-8 -mt-8 pointer-events-none"></div>
+
+                        <div class="relative z-10 space-y-8">
+                            
+                            <!-- Inquiry Type Selector -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-3">I am inquiring as a</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <label class="cursor-pointer group">
+                                        <input type="radio" name="client_type" class="custom-radio hidden" checked="">
+                                        <div class="border border-slate-200 rounded-lg p-4 flex items-center gap-3 transition-all hover:border-slate-300">
+                                            <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center radio-dot transition-colors"></div>
+                                            <span class="text-sm font-medium">Business / Corp</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer group">
+                                        <input type="radio" name="client_type" class="custom-radio hidden">
+                                        <div class="border border-slate-200 rounded-lg p-4 flex items-center gap-3 transition-all hover:border-slate-300">
+                                            <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center radio-dot transition-colors"></div>
+                                            <span class="text-sm font-medium">Individual</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Name Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="space-y-1.5">
+                                    <label for="first_name" class="text-sm font-medium text-slate-700">First Name</label>
+                                    <input type="text" id="first_name" class="custom-input w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none" placeholder="Jane">
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label for="last_name" class="text-sm font-medium text-slate-700">Last Name</label>
+                                    <input type="text" id="last_name" class="custom-input w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none" placeholder="Doe">
+                                </div>
+                            </div>
+
+                            <!-- Contact Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="space-y-1.5">
+                                    <label for="email" class="text-sm font-medium text-slate-700">Work Email</label>
+                                    <input type="email" id="email" class="custom-input w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none" placeholder="jane@company.com">
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label for="phone" class="text-sm font-medium text-slate-700">Phone (Optional)</label>
+                                    <input type="tel" id="phone" class="custom-input w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none" placeholder="+1 (555) 000-0000">
+                                </div>
+                            </div>
+
+                            <!-- Service Selection -->
+                            <div class="space-y-1.5 relative">
+                                <label for="service" class="text-sm font-medium text-slate-700">Topic of Interest</label>
+                                <div class="relative">
+                                    <select id="service" class="custom-input w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 outline-none appearance-none cursor-pointer">
+                                        <option value="" disabled="" selected="">Select a topic...</option>
+                                        <option value="tax-strategy">Corporate Tax Strategy</option>
+                                        <option value="audit-defense">Audit Defense</option>
+                                        <option value="ma-advisory">M&amp;A Advisory</option>
+                                        <option value="wealth-management">Wealth Preservation</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div class="space-y-1.5">
+                                <label for="message" class="text-sm font-medium text-slate-700">How can we help?</label>
+                                <textarea id="message" rows="4" class="custom-input w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none resize-none" placeholder="Tell us a bit about your current financial situation..."></textarea>
+                            </div>
+
+                            <!-- Checkbox -->
+                            <div class="flex items-start gap-3">
+                                <div class="relative flex items-center mt-0.5">
+                                    <input type="checkbox" id="privacy" class="peer h-4 w-4 cursor-pointer appearance-none rounded border border-slate-300 bg-white checked:border-[#0B2535] checked:bg-[#0B2535] transition-all">
+                                    <i data-lucide="check" class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                                </div>
+                                <label for="privacy" class="text-xs text-slate-500 leading-relaxed cursor-pointer select-none">
+                                    I agree to the processing of my personal data as described in the <a href="#" class="text-[#0B2535] underline decoration-slate-300 underline-offset-2 hover:decoration-[#0B2535]">Privacy Policy</a>.
+                                </label>
+                            </div>
+
+                            <button type="button" class="w-full bg-[#0B2535] text-white font-medium py-3 rounded-lg hover:bg-[#153a52] transition-all shadow-lg shadow-[#0B2535]/20 flex items-center justify-center gap-2 group">
+                                Send Message 
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Minimal FAQ -->
+        <section class="max-w-3xl mx-auto px-6 mb-24 reveal">
+            <h2 class="text-2xl font-medium text-[#0B2535] tracking-tight mb-8 text-center">Common Questions</h2>
+            <div class="space-y-4">
+                <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&amp;_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer text-[#0B2535] font-medium text-sm hover:bg-slate-50 transition-colors">
+                        What is your typical onboarding timeline?
+                        <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-open:rotate-45 transition-transform"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-slate-500 leading-relaxed">
+                        For new corporate clients, our initial discovery and audit phase typically takes 2-3 weeks. This allows us to fully reconstruct your financial picture before implementing new strategies.
+                    </div>
+                </details>
+                <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&amp;_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer text-[#0B2535] font-medium text-sm hover:bg-slate-50 transition-colors">
+                        Do you handle international tax compliance?
+                        <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-open:rotate-45 transition-transform"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-slate-500 leading-relaxed">
+                        Yes. Our legal team specializes in cross-border entities, FBAR filings, and international treaties to ensure full compliance for global operations.
+                    </div>
+                </details>
+                <details class="group bg-white border border-slate-200 rounded-xl overflow-hidden [&amp;_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex items-center justify-between p-5 cursor-pointer text-[#0B2535] font-medium text-sm hover:bg-slate-50 transition-colors">
+                        What industries do you specialize in?
+                        <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-open:rotate-45 transition-transform"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-slate-500 leading-relaxed">
+                        We have deep expertise in Technology, Real Estate, Healthcare, and Professional Services. We typically work with entities generating between $2M and $50M in annual revenue.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8">
+                <div class="mb-4 md:mb-0">
+                    <a href="#" class="flex items-center gap-2 mb-2">
+                        <div class="w-5 h-5 bg-[#0B2535] rounded flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-0.5 bg-[#B45309] rotate-45 transform translate-y-0.5"></div>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-[#0B2535]">Union National Tax</span>
+                    </a>
+                    <p class="text-[10px] text-slate-400">
+                        © 2024 Union National Tax. All Rights Reserved.
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Terms of Service</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Reveal Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>

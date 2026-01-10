@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* Custom Theme Configuration - Modern Wealth Design System */
+@theme {
+  /* Midnight Forest - Primary Brand */
+  --color-brand-50: #E0E9E8;
+  --color-brand-100: #B3C6C4;
+  --color-brand-200: #80A3A0;
+  --color-brand-300: #4D807C;
+  --color-brand-400: #266661;
+  --color-brand-500: #0D2E2B;
+  --color-brand-600: #0A2522;
+  --color-brand-700: #071C1A;
+  --color-brand-800: #041211;
+  --color-brand-900: #020908;
+
+  /* Champagne Gold - Secondary/Action */
+  --color-gold-50: #FBF8EA;
+  --color-gold-100: #F5ECCB;
+  --color-gold-200: #EDDFA9;
+  --color-gold-300: #E4D187;
+  --color-gold-400: #DCC46C;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #AA8C2C;
+  --color-gold-700: #806921;
+  --color-gold-800: #554616;
+  --color-gold-900: #2B230B;
+
+  /* Slate Scale */
+  --color-slate-50: #F8F9FA;
+  --color-slate-100: #F1F3F5;
+  --color-slate-200: #E9ECEF;
+  --color-slate-300: #DEE2E6;
+  --color-slate-400: #CED4DA;
+  --color-slate-500: #ADB5BD;
+  --color-slate-600: #6C757D;
+  --color-slate-700: #495057;
+  --color-slate-800: #343A40;
+  --color-slate-900: #212529;
+
+  /* Semantic Colors */
+  --color-primary: #0D2E2B;
+  --color-secondary: #D4AF37;
+  --color-surface: #F8F9FA;
+  --color-white: #FFFFFF;
+
+  /* Feedback Colors */
+  --color-feedback-error: #D32F2F;
+  --color-feedback-success: #2E7D32;
+  --color-feedback-warning: #ED6C02;
+
+  /* Font Family */
+  --font-heading: var(--font-outfit), sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Max Widths */
+  --max-width-7xl: 80rem;
+  --max-width-5xl: 64rem;
+  --max-width-4xl: 56rem;
+  --max-width-3xl: 48rem;
+  --max-width-2xl: 42rem;
+  --max-width-xl: 36rem;
+  --max-width-lg: 32rem;
+  --max-width-md: 28rem;
+  --max-width-sm: 24rem;
+}
+
+/* Ensure containers center properly */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 80rem;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  --foreground-rgb: 30, 58, 138;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Action Gradient Text */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-action-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold-500 to-brand-400;
+  }
+
+  /* Reveal Animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Base body styles */
+body {
+  font-family: var(--font-body);
+  background-color: #F8F9FA;
+  color: #020908;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keyframes for shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* Explicit utility overrides for max-width centering */
+.max-w-7xl {
+  max-width: 80rem !important;
+}
+
+.max-w-5xl {
+  max-width: 64rem !important;
+}
+
+.max-w-4xl {
+  max-width: 56rem !important;
+}
+
+.max-w-3xl {
+  max-width: 48rem !important;
+}
+
+.max-w-2xl {
+  max-width: 42rem !important;
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 3D Book Animation */
+.book-container {
+  perspective: 1000px;
+}
+
+.book {
+  width: 300px;
+  height: 420px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(-25deg) rotateX(5deg);
+  box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.5s ease;
+}
+
+.book:hover {
+  transform: rotateY(-20deg) rotateX(2deg) translateY(-10px);
+}
+
+.book-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #002D56;
+  border-radius: 4px 12px 12px 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+}
+
+.book-spine {
+  position: absolute;
+  width: 40px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #001f3d;
+  transform-origin: left;
+  transform: rotateY(90deg) translateX(-40px);
+  border-radius: 4px 0 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-spine span {
+  transform: rotate(90deg);
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.book-pages {
+  position: absolute;
+  width: 38px;
+  height: 98%;
+  top: 1%;
+  right: 0;
+  background: #fff;
+  transform: translateZ(-38px);
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(to right, #ccc, #fff 10%, #fff 90%, #ccc);
+}
+
+.book-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #002D56;
+  transform: translateZ(-40px);
+  border-radius: 4px 12px 12px 4px;
+}

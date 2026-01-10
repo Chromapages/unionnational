@@ -1,0 +1,347 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team | Union National Tax</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #B45309 0%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .team-card-hover:hover .team-social {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-slate-900 antialiased selection:bg-[#B45309] selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-8 h-8 bg-[#0B2535] rounded-lg flex items-center justify-center overflow-hidden border border-[#0B2535]">
+                    <div class="absolute w-full h-full flex items-center justify-center">
+                        <div class="w-4 h-4 border-2 border-[#D97706] rounded-sm rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                    </div>
+                </div>
+                <span class="text-lg font-semibold tracking-tight text-[#0B2535]">Union National Tax</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#" class="text-[#0B2535] font-semibold">About</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Services</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Resources</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-sm font-medium text-slate-600 hover:text-[#0B2535] transition-colors hidden sm:block">
+                    Client Portal
+                </a>
+                <a href="#" class="text-sm font-medium bg-[#0B2535] text-white px-5 py-2.5 rounded-full hover:bg-[#153a52] transition-all shadow-lg shadow-[#0B2535]/20 border border-[#1e4e6e]">
+                    Book Consultation
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+        <!-- Hero -->
+        <section class="max-w-4xl mx-auto px-6 mb-24 text-center">
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6 shadow-sm">
+                    Our People
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B2535] tracking-tight mb-8 leading-[1.1]">
+                    The experts behind <br>
+                    <span class="text-gold-gradient">your strategy.</span>
+                </h1>
+                <p class="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+                    We are a team of CPAs, tax attorneys, and financial strategists united by a single mission: preserving wealth for the modern economy.
+                </p>
+            </div>
+        </section>
+
+        <!-- Leadership Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="mb-10 reveal">
+                <h2 class="text-2xl font-medium text-[#0B2535] tracking-tight">Leadership</h2>
+                <div class="h-1 w-12 bg-[#B45309] mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal delay-75">
+                <!-- Partner 1 -->
+                <div class="group bg-white rounded-2xl border border-slate-200 p-8 flex flex-col sm:flex-row gap-8 items-start hover:border-[#B45309]/30 transition-all duration-300 team-card-hover shadow-sm">
+                    <div class="relative w-full sm:w-48 aspect-[4/5] sm:aspect-square rounded-xl overflow-hidden shrink-0">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Jason Miller" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-semibold text-[#0B2535]">Jason Miller, CPA</h3>
+                                <p class="text-sm text-[#B45309] font-medium mb-4">Managing Partner</p>
+                            </div>
+                            <a href="#" class="text-slate-400 hover:text-[#0077b5] transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                        </div>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                            Former Big 4 senior manager specializing in S-Corp taxation and executive compensation. Jason founded Union National to bring enterprise-grade strategy to independent consultants.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-medium uppercase tracking-wide rounded border border-slate-100">Tax Strategy</span>
+                            <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-medium uppercase tracking-wide rounded border border-slate-100">M&amp;A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partner 2 -->
+                <div class="group bg-white rounded-2xl border border-slate-200 p-8 flex flex-col sm:flex-row gap-8 items-start hover:border-[#B45309]/30 transition-all duration-300 team-card-hover shadow-sm">
+                    <div class="relative w-full sm:w-48 aspect-[4/5] sm:aspect-square rounded-xl overflow-hidden shrink-0">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Elena Rodriguez" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-semibold text-[#0B2535]">Elena Rodriguez, JD</h3>
+                                <p class="text-sm text-[#B45309] font-medium mb-4">Head of Tax Law</p>
+                            </div>
+                            <a href="#" class="text-slate-400 hover:text-[#0077b5] transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                        </div>
+                        <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                            A tax attorney with 12 years of experience defending audits and structuring complex entities. Elena ensures every strategy we implement is ironclad and compliant.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-medium uppercase tracking-wide rounded border border-slate-100">Compliance</span>
+                            <span class="px-2.5 py-1 bg-slate-50 text-slate-600 text-[10px] font-medium uppercase tracking-wide rounded border border-slate-100">Entity Structure</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advisory Team -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="mb-10 reveal">
+                <h2 class="text-2xl font-medium text-[#0B2535] tracking-tight">Advisory Team</h2>
+                <p class="text-slate-500 text-sm mt-2">Dedicated strategists managing your accounts.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 reveal delay-75">
+                
+                <!-- Team Member 1 -->
+                <div class="group relative bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div class="aspect-[4/5] overflow-hidden bg-slate-100 relative">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Team Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 transform translate-y-2 transition-all duration-300 team-social">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white/90 backdrop-blur text-[#0B2535] flex items-center justify-center hover:bg-[#B45309] hover:text-white transition-colors">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-semibold text-[#0B2535]">Marcus Chen</h4>
+                        <p class="text-xs text-[#B45309] font-medium uppercase tracking-wide mt-1 mb-2">Senior Strategist</p>
+                        <p class="text-xs text-slate-500 line-clamp-2">Specialist in R&amp;D tax credits and tech startups.</p>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="group relative bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div class="aspect-[4/5] overflow-hidden bg-slate-100 relative">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Team Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 transform translate-y-2 transition-all duration-300 team-social">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white/90 backdrop-blur text-[#0B2535] flex items-center justify-center hover:bg-[#B45309] hover:text-white transition-colors">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-semibold text-[#0B2535]">Sarah O'Connor</h4>
+                        <p class="text-xs text-[#B45309] font-medium uppercase tracking-wide mt-1 mb-2">Client Success Lead</p>
+                        <p class="text-xs text-slate-500 line-clamp-2">Ensuring seamless onboarding and communication.</p>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="group relative bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div class="aspect-[4/5] overflow-hidden bg-slate-100 relative">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Team Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 transform translate-y-2 transition-all duration-300 team-social">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white/90 backdrop-blur text-[#0B2535] flex items-center justify-center hover:bg-[#B45309] hover:text-white transition-colors">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-semibold text-[#0B2535]">David Wright</h4>
+                        <p class="text-xs text-[#B45309] font-medium uppercase tracking-wide mt-1 mb-2">Tax Associate</p>
+                        <p class="text-xs text-slate-500 line-clamp-2">Focus on bookkeeping accuracy and quarterly projections.</p>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="group relative bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div class="aspect-[4/5] overflow-hidden bg-slate-100 relative">
+                        <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Team Member" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute bottom-4 left-4 right-4 flex gap-2 opacity-0 transform translate-y-2 transition-all duration-300 team-social">
+                            <a href="#" class="w-8 h-8 rounded-full bg-white/90 backdrop-blur text-[#0B2535] flex items-center justify-center hover:bg-[#B45309] hover:text-white transition-colors">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-semibold text-[#0B2535]">Priya Patel</h4>
+                        <p class="text-xs text-[#B45309] font-medium uppercase tracking-wide mt-1 mb-2">Payroll Specialist</p>
+                        <p class="text-xs text-slate-500 line-clamp-2">Reasonable compensation analysis and payroll setup.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hiring / Culture -->
+        <section class="max-w-7xl mx-auto px-6 mb-24">
+            <div class="bg-[#0B2535] rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden reveal">
+                 <!-- Abstract Glow -->
+                 <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#B45309] opacity-10 rounded-full blur-[80px] pointer-events-none -translate-x-1/4 translate-y-1/4"></div>
+
+                 <div class="flex flex-col lg:flex-row gap-12 items-center relative z-10">
+                    <div class="flex-1">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-[#B45309] text-[10px] font-semibold uppercase tracking-widest mb-6">
+                            Join the team
+                        </div>
+                        <h2 class="text-3xl font-medium text-white tracking-tight mb-6">
+                            Obsessed with details?<br>We're hiring.
+                        </h2>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-8 max-w-lg">
+                            We don't hire typical accountants. We hire problem solvers who love the puzzle of the tax code. If you believe in precision over speed and strategy over data entry, you belong here.
+                        </p>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3 text-slate-300 text-sm">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#B45309]"></i>
+                                Fully remote culture
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#B45309]"></i>
+                                Competitive salary &amp; equity
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300 text-sm">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#B45309]"></i>
+                                Continuous education stipend
+                            </li>
+                        </ul>
+                        <a href="#" class="inline-flex items-center gap-2 text-white font-medium text-sm hover:text-[#B45309] transition-colors border-b border-white/20 hover:border-[#B45309] pb-0.5">
+                            View Open Positions <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                    <div class="w-full lg:w-1/2">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-4 mt-8">
+                                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&amp;fit=crop&amp;q=80&amp;w=400" class="rounded-2xl border border-white/10 opacity-80" alt="Office Culture">
+                                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&amp;fit=crop&amp;q=80&amp;w=400" class="rounded-2xl border border-white/10 opacity-60" alt="Meeting">
+                            </div>
+                            <div class="space-y-4">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&amp;fit=crop&amp;q=80&amp;w=400" class="rounded-2xl border border-white/10 opacity-60" alt="Planning">
+                                <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&amp;fit=crop&amp;q=80&amp;w=400" class="rounded-2xl border border-white/10 opacity-80" alt="Team">
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-20">
+            <div class="bg-gradient-to-br from-slate-50 to-white rounded-3xl border border-slate-200 p-12 lg:p-20 text-center reveal shadow-sm">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl lg:text-4xl font-medium text-[#0B2535] tracking-tight mb-6">
+                        Work with the best.
+                    </h2>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-8">
+                        Stop settling for generalist accounting. Upgrade to a dedicated team that understands your industry.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#" class="w-full sm:w-auto bg-[#0B2535] text-white px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-[#153a52] transition-colors shadow-lg shadow-[#0B2535]/20 flex items-center justify-center gap-2">
+                            Book Discovery Call <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8">
+                <div class="mb-4 md:mb-0">
+                    <a href="#" class="flex items-center gap-2 mb-2">
+                        <div class="w-5 h-5 bg-[#0B2535] rounded flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-0.5 bg-[#B45309] rotate-45 transform translate-y-0.5"></div>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-[#0B2535]">Union National Tax</span>
+                    </a>
+                    <p class="text-[10px] text-slate-400">
+                        © 2024 Union National Tax. All Rights Reserved.
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Terms of Service</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Reveal Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>

@@ -1,0 +1,463 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Union National Tax</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #B45309 0%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-slate-900 antialiased selection:bg-[#B45309] selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-8 h-8 bg-[#0B2535] rounded-lg flex items-center justify-center overflow-hidden border border-[#0B2535]">
+                    <div class="absolute w-full h-full flex items-center justify-center">
+                        <div class="w-4 h-4 border-2 border-[#D97706] rotate-45"></div>
+                    </div>
+                </div>
+                <span class="text-lg font-semibold tracking-tight text-[#0B2535]">Union National Tax</span>
+            </a>
+
+            <!-- Links -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#" class="text-[#B45309]">Services</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">S-Corp System</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">About</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Resources</a>
+            </div>
+
+            <!-- Auth/Portal -->
+            <div class="flex items-center gap-4">
+                <a href="#" class="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-[#0B2535] transition-colors px-4 py-2">
+                    <i data-lucide="lock" class="w-3 h-3"></i> Client Portal
+                </a>
+                <a href="#contact" class="text-sm font-medium bg-[#0B2535] text-white px-5 py-2.5 rounded-full hover:bg-[#153a52] transition-all shadow-lg shadow-[#0B2535]/20 border border-[#1e4e6e]">
+                    Book Strategy Call
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+        <!-- Header -->
+        <section class="max-w-7xl mx-auto px-6 mb-24 relative">
+             <!-- Background Decoration -->
+             <div class="absolute top-0 left-1/2 w-[800px] h-[600px] bg-gradient-to-b from-[#FFF7ED] to-transparent rounded-full blur-3xl -z-10 opacity-60 pointer-events-none -translate-x-1/2 -translate-y-1/4"></div>
+
+            <div class="text-center max-w-3xl mx-auto reveal">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#B45309]"></span>
+                    Comprehensive Financial Solutions
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B2535] tracking-tight mb-6 leading-[1.1]">
+                    Beyond the tax return. <br>
+                    <span class="text-gold-gradient">A system for wealth.</span>
+                </h1>
+                <p class="text-lg text-slate-500 mb-10 leading-relaxed">
+                    We replace the transactional "once-a-year" accountant model with a proactive partnership designed for contractors, freelancers, and S-Corp owners.
+                </p>
+            </div>
+        </section>
+
+        <!-- Core Services Grid -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Service 1 -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 group reveal">
+                    <div class="w-12 h-12 bg-[#FFF7ED] rounded-xl flex items-center justify-center text-[#B45309] mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="calculator" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-[#0B2535] mb-3">Tax Compliance</h3>
+                    <p class="text-sm text-slate-500 mb-6 leading-relaxed">
+                        Precision preparation for Federal and State returns. We handle 1040, 1120S, and 1065 filings with a focus on audit-proofing your deductions.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-xs text-slate-600 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Multi-state filing
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-slate-600 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Extension management
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-slate-600 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Depreciation schedules
+                        </li>
+                    </ul>
+                    <a href="#" class="text-xs font-semibold text-[#0B2535] flex items-center gap-1 hover:gap-2 transition-all">
+                        Learn more <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2 (Highlighted) -->
+                <div class="bg-[#0B2535] p-8 rounded-3xl border border-[#1e4e6e] shadow-xl relative overflow-hidden group reveal delay-100">
+                    <!-- Decor -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#B45309] opacity-10 blur-2xl rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                    
+                    <div class="w-12 h-12 bg-[#B45309] rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-[#B45309]/30">
+                        <i data-lucide="briefcase" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-white mb-3">S-Corp Management</h3>
+                    <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                        Our flagship service. We convert your LLC to an S-Corp to save on self-employment taxes, then manage the entire payroll and compliance ecosystem.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Reasonable Comp Study
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Quarterly Payroll Filing
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Election (Form 2553)
+                        </li>
+                    </ul>
+                    <a href="#" class="text-xs font-semibold text-white flex items-center gap-1 hover:gap-2 transition-all">
+                        View bundle details <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 group reveal delay-200">
+                    <div class="w-12 h-12 bg-[#FFF7ED] rounded-xl flex items-center justify-center text-[#B45309] mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-medium text-[#0B2535] mb-3">Fractional CFO</h3>
+                    <p class="text-sm text-slate-500 mb-6 leading-relaxed">
+                        For businesses generating $250k+. We meet monthly or quarterly to review P&amp;Ls, forecast cash flow, and strategize on major asset purchases.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-xs text-slate-600 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Profit Margin Analysis
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-slate-600 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Budgeting &amp; Forecasting
+                        </li>
+                        <li class="flex items-center gap-3 text-xs text-slate-600 font-medium">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309]"></i> Tax Projection
+                        </li>
+                    </ul>
+                    <a href="#" class="text-xs font-semibold text-[#0B2535] flex items-center gap-1 hover:gap-2 transition-all">
+                        Compare plans <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep Dive: The Process -->
+        <section class="mb-32 bg-white border-y border-slate-100">
+            <div class="max-w-7xl mx-auto px-6 py-24">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="reveal">
+                        <span class="text-[#B45309] text-xs font-semibold uppercase tracking-widest mb-4 block">The Workflow</span>
+                        <h2 class="text-3xl lg:text-4xl font-medium text-[#0B2535] tracking-tight mb-6">
+                            How we onboard <br>new partners.
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="flex gap-4">
+                                <div class="flex-none pt-1">
+                                    <div class="w-6 h-6 rounded-full bg-[#FFF7ED] text-[#B45309] flex items-center justify-center text-xs font-bold ring-4 ring-white">1</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[#0B2535] font-medium text-sm">Prior Year Review</h4>
+                                    <p class="text-slate-500 text-sm mt-1 leading-relaxed">We analyze up to 3 years of previous returns to find missed deductions or errors. We often pay for ourselves just in amended returns.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex-none pt-1">
+                                    <div class="w-6 h-6 rounded-full bg-[#FFF7ED] text-[#B45309] flex items-center justify-center text-xs font-bold ring-4 ring-white">2</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[#0B2535] font-medium text-sm">Tech Stack Implementation</h4>
+                                    <p class="text-slate-500 text-sm mt-1 leading-relaxed">We move you to Xero/Quickbooks Online and set up Gusto for payroll. No more paper checks or spreadsheets.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="flex-none pt-1">
+                                    <div class="w-6 h-6 rounded-full bg-[#FFF7ED] text-[#B45309] flex items-center justify-center text-xs font-bold ring-4 ring-white">3</div>
+                                </div>
+                                <div>
+                                    <h4 class="text-[#0B2535] font-medium text-sm">Cadence Establishment</h4>
+                                    <p class="text-slate-500 text-sm mt-1 leading-relaxed">We set our quarterly check-in dates. You'll know exactly when to expect reports and when tax estimates are due.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Side -->
+                    <div class="bg-[#F8FAFC] rounded-3xl p-10 border border-slate-200 relative reveal">
+                        <!-- Simulated Tax Dome / Portal UI -->
+                        <div class="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden">
+                            <div class="h-10 bg-slate-50 border-b border-slate-100 flex items-center px-4 gap-2">
+                                <div class="flex gap-1.5">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                                    <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-6">
+                                    <div class="text-sm font-semibold text-[#0B2535]">Action Items</div>
+                                    <div class="text-[10px] bg-red-50 text-red-600 px-2 py-1 rounded-full font-medium">2 Due Soon</div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                        <div class="w-4 h-4 rounded border border-slate-300 bg-white"></div>
+                                        <div class="flex-1">
+                                            <div class="text-xs font-medium text-[#0B2535]">Sign Form 8879 (E-File Auth)</div>
+                                            <div class="text-[10px] text-slate-400">Due: Oct 15</div>
+                                        </div>
+                                        <button class="text-[10px] bg-[#0B2535] text-white px-3 py-1.5 rounded">Sign</button>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                        <div class="w-4 h-4 rounded border border-slate-300 bg-white"></div>
+                                        <div class="flex-1">
+                                            <div class="text-xs font-medium text-[#0B2535]">Upload Q3 Bank Statements</div>
+                                            <div class="text-[10px] text-slate-400">Due: Nov 01</div>
+                                        </div>
+                                        <button class="text-[10px] bg-white border border-slate-200 text-slate-600 px-3 py-1.5 rounded">Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-6 -left-6 bg-[#B45309] text-white p-4 rounded-xl shadow-xl flex items-center gap-3 max-w-[200px]">
+                            <i data-lucide="shield-check" class="w-6 h-6 flex-none"></i>
+                            <div class="text-xs font-medium leading-tight">Secure 256-bit Encrypted Portal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section class="max-w-5xl mx-auto px-6 mb-32">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl font-medium text-[#0B2535] tracking-tight">The Union National Difference</h2>
+            </div>
+
+            <div class="overflow-hidden border border-slate-200 rounded-3xl shadow-sm bg-white reveal">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="py-6 px-6 text-xs font-semibold text-slate-500 uppercase tracking-widest w-1/3">Feature</th>
+                            <th class="py-6 px-6 text-xs font-semibold text-slate-500 uppercase tracking-widest w-1/3 text-center">Typical CPA</th>
+                            <th class="py-6 px-6 text-xs font-semibold text-[#B45309] uppercase tracking-widest w-1/3 text-center bg-[#FFF7ED]">Union National</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                            <td class="py-5 px-6 font-medium text-[#0B2535]">Communication</td>
+                            <td class="py-5 px-6 text-center text-slate-500">Billable hours / Rare</td>
+                            <td class="py-5 px-6 text-center font-semibold text-[#0B2535] bg-[#FFF7ED]/30">Unlimited Email &amp; Slack</td>
+                        </tr>
+                        <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                            <td class="py-5 px-6 font-medium text-[#0B2535]">Tax Planning</td>
+                            <td class="py-5 px-6 text-center text-slate-500">Retroactive (April 14th)</td>
+                            <td class="py-5 px-6 text-center font-semibold text-[#0B2535] bg-[#FFF7ED]/30">Proactive (Quarterly)</td>
+                        </tr>
+                        <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                            <td class="py-5 px-6 font-medium text-[#0B2535]">Audit Representation</td>
+                            <td class="py-5 px-6 text-center text-slate-500">Additional High Fee</td>
+                            <td class="py-5 px-6 text-center font-semibold text-[#0B2535] bg-[#FFF7ED]/30">Included in Retainer</td>
+                        </tr>
+                        <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                            <td class="py-5 px-6 font-medium text-[#0B2535]">S-Corp Reasonable Comp</td>
+                            <td class="py-5 px-6 text-center text-slate-500">Often Guesswork</td>
+                            <td class="py-5 px-6 text-center font-semibold text-[#0B2535] bg-[#FFF7ED]/30">Data-Backed RC Reports</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50">
+                            <td class="py-5 px-6 font-medium text-[#0B2535]">Bookkeeping</td>
+                            <td class="py-5 px-6 text-center text-slate-500">Outsourced / Manual</td>
+                            <td class="py-5 px-6 text-center font-semibold text-[#0B2535] bg-[#FFF7ED]/30">Integrated Cloud Tech</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Additional Services (Add-ons) -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <h3 class="text-xl font-medium text-[#0B2535] mb-8 tracking-tight px-2">Specialized Add-ons</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+                <!-- Add on 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:border-[#B45309]/30 hover:shadow-lg transition-all group">
+                    <i data-lucide="file-warning" class="w-8 h-8 text-slate-300 mb-4 group-hover:text-[#B45309] transition-colors"></i>
+                    <h4 class="font-medium text-[#0B2535] text-sm mb-2">IRS Resolution</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Dealing with back taxes or liens? We negotiate Offers in Compromise directly with the IRS.</p>
+                </div>
+                <!-- Add on 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:border-[#B45309]/30 hover:shadow-lg transition-all group">
+                    <i data-lucide="users" class="w-8 h-8 text-slate-300 mb-4 group-hover:text-[#B45309] transition-colors"></i>
+                    <h4 class="font-medium text-[#0B2535] text-sm mb-2">Entity Formation</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">LLC and Corporation setup in all 50 states, including EIN and Operating Agreements.</p>
+                </div>
+                <!-- Add on 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:border-[#B45309]/30 hover:shadow-lg transition-all group">
+                    <i data-lucide="coins" class="w-8 h-8 text-slate-300 mb-4 group-hover:text-[#B45309] transition-colors"></i>
+                    <h4 class="font-medium text-[#0B2535] text-sm mb-2">R&amp;D Credits</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Specialized analysis for software developers and engineers to claim research credits.</p>
+                </div>
+                <!-- Add on 4 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 hover:border-[#B45309]/30 hover:shadow-lg transition-all group">
+                    <i data-lucide="building" class="w-8 h-8 text-slate-300 mb-4 group-hover:text-[#B45309] transition-colors"></i>
+                    <h4 class="font-medium text-[#0B2535] text-sm mb-2">Cost Segregation</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Accelerated depreciation studies for commercial real estate owners and Airbnb hosts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact" class="max-w-7xl mx-auto px-6 mb-20">
+            <div class="bg-[#0B2535] rounded-3xl p-12 lg:p-20 relative overflow-hidden text-center reveal">
+                <!-- Background Glow -->
+                <div class="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#B45309] opacity-15 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
+
+                <div class="relative z-10 max-w-2xl mx-auto">
+                    <h2 class="text-3xl lg:text-4xl font-medium text-white tracking-tight mb-6">
+                        Ready to upgrade your financial team?
+                    </h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                        The first step is a Discovery Call. We'll review your situation and tell you honestly if we can save you money.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button class="w-full sm:w-auto bg-[#B45309] text-white px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-[#92400e] transition-colors shadow-lg shadow-[#B45309]/20">
+                            Book Discovery Call
+                        </button>
+                        <button class="w-full sm:w-auto bg-white/10 backdrop-blur-sm border border-white/10 text-white px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-white/20 transition-colors">
+                            View Pricing
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
+                <div class="lg:col-span-2">
+                    <a href="#" class="flex items-center gap-2 mb-6">
+                        <div class="w-6 h-6 bg-[#0B2535] rounded flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-1 bg-[#B45309] rotate-45 transform translate-y-0.5"></div>
+                        </div>
+                        <span class="text-lg font-bold tracking-tight text-[#0B2535]">Union National Tax</span>
+                    </a>
+                    <p class="text-xs text-slate-500 max-w-xs leading-relaxed">
+                        Specializing in S-Corp elections and fractional CFO services for Utah small businesses.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-[#0B2535] text-sm mb-6">Services</h4>
+                    <ul class="space-y-4 text-xs text-slate-500 font-medium">
+                        <li><a href="#" class="text-[#B45309] transition-colors">Tax Compliance</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">S-Corp Management</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">Fractional CFO</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">IRS Representation</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-[#0B2535] text-sm mb-6">Company</h4>
+                    <ul class="space-y-4 text-xs text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">About Jason</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">Orem Office</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-[#0B2535] text-sm mb-6">Clients</h4>
+                    <ul class="space-y-4 text-xs text-slate-500 font-medium">
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">Client Portal</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">Upload Documents</a></li>
+                        <li><a href="#" class="hover:text-[#B45309] transition-colors">Calculators</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-slate-100">
+                <p class="text-[10px] text-slate-400 mb-4 md:mb-0">
+                    © 2024 Union National Tax. Orem, UT. All Rights Reserved.
+                </p>
+                <div class="flex items-center gap-6">
+                    <span class="text-[10px] text-slate-900 font-medium">Connect</span>
+                    <div class="flex gap-4">
+                        <a href="#" class="text-[#0B2535] hover:text-[#B45309] transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+                        <a href="#" class="text-[#0B2535] hover:text-[#B45309] transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Reveal Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>

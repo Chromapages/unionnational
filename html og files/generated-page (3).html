@@ -1,0 +1,562 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The S-Corp System | The Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #B45309 0%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* CSS 3D Book Mockup */
+        .book-container {
+            perspective: 1000px;
+        }
+        .book {
+            width: 300px;
+            height: 420px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(-25deg) rotateX(5deg);
+            box-shadow: 20px 20px 30px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease;
+        }
+        .book:hover {
+            transform: rotateY(-20deg) rotateX(2deg) translateY(-10px);
+        }
+        .book-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #0B2535;
+            border-radius: 4px 12px 12px 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
+        }
+        .book-spine {
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: #081e2b;
+            transform-origin: left;
+            transform: rotateY(90deg) translateX(-40px);
+            border-radius: 4px 0 0 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .book-spine span {
+            transform: rotate(90deg);
+            white-space: nowrap;
+            color: rgba(255,255,255,0.4);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .book-pages {
+            position: absolute;
+            width: 38px;
+            height: 98%;
+            top: 1%;
+            right: 0;
+            background: #fff;
+            transform: translateZ(-38px);
+            border-radius: 0 4px 4px 0;
+            background: linear-gradient(to right, #ccc, #fff 10%, #fff 90%, #ccc);
+        }
+        .book-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #0B2535;
+            transform: translateZ(-40px);
+            border-radius: 4px 12px 12px 4px;
+        }
+        
+    </style>
+</head>
+<body class="text-slate-900 antialiased selection:bg-[#B45309] selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-8 h-8 bg-[#0B2535] rounded-lg flex items-center justify-center overflow-hidden border border-[#0B2535]">
+                    <div class="absolute w-full h-full flex items-center justify-center">
+                        <div class="w-4 h-4 border-2 border-[#D97706] rotate-45"></div>
+                    </div>
+                </div>
+                <span class="text-lg font-semibold tracking-tight text-[#0B2535]">The S-Corp System</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#inside" class="hover:text-[#B45309] transition-colors">What's Inside</a>
+                <a href="#author" class="hover:text-[#B45309] transition-colors">Author</a>
+                <a href="#reviews" class="hover:text-[#B45309] transition-colors">Reviews</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#pricing" class="text-sm font-medium bg-[#0B2535] text-white px-5 py-2.5 rounded-full hover:bg-[#153a52] transition-all shadow-lg shadow-[#0B2535]/20 border border-[#1e4e6e]">
+                    Order Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+        <!-- Hero -->
+        <section class="max-w-7xl mx-auto px-6 mb-24 relative">
+             <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-[#FFF7ED] to-transparent rounded-full blur-3xl -z-10 opacity-70 pointer-events-none translate-x-1/4 -translate-y-1/4"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6 shadow-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#B45309]"></span>
+                        Best Seller in Small Business Tax
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B2535] tracking-tight mb-6 leading-[1.1]">
+                        The playbook needed <br>
+                        <span class="text-gold-gradient">to save $10k+ a year.</span>
+                    </h1>
+                    <p class="text-lg text-slate-500 mb-8 leading-relaxed max-w-lg">
+                        The definitive guide for solopreneurs making over $60k. Stop overpaying Self-Employment tax and implement the exact system used by high-net-worth consultants.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#pricing" class="bg-[#B45309] text-white px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-[#92400e] transition-colors shadow-lg shadow-[#B45309]/20 flex items-center justify-center gap-2">
+                            Get the Book <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <button class="bg-white border border-slate-200 text-slate-600 px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> Read Chapter 1
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8 flex items-center gap-4 text-xs font-medium text-slate-500">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white"></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-300 border-2 border-white"></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-400 border-2 border-white"></div>
+                        </div>
+                        <p>Trusted by 5,000+ business owners</p>
+                    </div>
+                </div>
+
+                <!-- 3D Book Visual -->
+                <div class="relative reveal delay-100 flex justify-center order-1 lg:order-2">
+                    <div class="book-container py-10">
+                        <div class="book">
+                            <div class="book-front">
+                                <div class="space-y-2">
+                                    <div class="text-[10px] font-bold text-[#B45309] tracking-widest uppercase">Union National Tax</div>
+                                    <h2 class="text-3xl font-bold tracking-tight text-white leading-tight">The <br>S-Corp <br>System</h2>
+                                </div>
+                                <div class="mt-auto">
+                                    <div class="h-0.5 w-12 bg-[#B45309] mb-4"></div>
+                                    <p class="text-[11px] text-slate-300 font-medium tracking-wide">JASON • CPA</p>
+                                    <p class="text-[9px] text-slate-400 mt-1 uppercase tracking-wider">The Solopreneur's Guide to Tax Efficiency</p>
+                                </div>
+                                <!-- Minimal cover texture -->
+                                <div class="absolute top-0 right-0 w-full h-full border border-white/10 rounded-[3px_11px_11px_3px] pointer-events-none"></div>
+                                <div class="absolute -right-4 bottom-12 w-24 h-24 bg-[#B45309] blur-3xl opacity-20"></div>
+                            </div>
+                            <div class="book-spine">
+                                <span>THE S-CORP SYSTEM</span>
+                            </div>
+                            <div class="book-pages"></div>
+                            <div class="book-back"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof / Stats -->
+        <section class="border-y border-slate-200 bg-white py-12 mb-32">
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center reveal">
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">$50M+</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-medium">Income Protected</div>
+                </div>
+                <div class="text-center reveal delay-75">
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">5,000+</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-medium">Copies Sold</div>
+                </div>
+                <div class="text-center reveal delay-150">
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">4.9/5</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-medium">Average Rating</div>
+                </div>
+                <div class="text-center reveal delay-200">
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">100%</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wide font-medium">Audit Compliant</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What's Inside -->
+        <section id="inside" class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-semibold text-[#B45309] uppercase tracking-widest mb-3">Chapter Breakdown</h2>
+                <h3 class="text-3xl font-medium text-[#0B2535] tracking-tight">Master the system in 4 phases.</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Phase 1 -->
+                <div class="p-8 bg-white rounded-2xl border border-slate-100 hover:shadow-xl transition-all duration-300 group reveal">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-4xl font-semibold text-slate-100 group-hover:text-[#B45309]/20 transition-colors">01</div>
+                        <i data-lucide="file-check" class="w-5 h-5 text-[#B45309]"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-[#0B2535] mb-3">The Election</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        How to file Form 2553 correctly. We cover Late Election Relief, deadlines, and how to verify your status with the IRS before moving money.
+                    </p>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="p-8 bg-white rounded-2xl border border-slate-100 hover:shadow-xl transition-all duration-300 group reveal delay-75">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-4xl font-semibold text-slate-100 group-hover:text-[#B45309]/20 transition-colors">02</div>
+                        <i data-lucide="scissors" class="w-5 h-5 text-[#B45309]"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-[#0B2535] mb-3">The Split</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        The core mathematical strategy. Learn how to legally split income between Salary (W2) and Distributions (K-1) to bypass the 15.3% SE tax.
+                    </p>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="p-8 bg-[#0B2535] rounded-2xl border border-[#0B2535] hover:shadow-xl transition-all duration-300 group reveal delay-150 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#B45309] opacity-10 blur-2xl rounded-full"></div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-4xl font-semibold text-white/20">03</div>
+                        <i data-lucide="shield-check" class="w-5 h-5 text-[#B45309]"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-white mb-3">Reasonable Comp</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        The "Audit Shield". Learn the RCReports™ methodology to calculate the lowest defensible salary the IRS will accept for your role.
+                    </p>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="p-8 bg-white rounded-2xl border border-slate-100 hover:shadow-xl transition-all duration-300 group reveal delay-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-4xl font-semibold text-slate-100 group-hover:text-[#B45309]/20 transition-colors">04</div>
+                        <i data-lucide="refresh-cw" class="w-5 h-5 text-[#B45309]"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-[#0B2535] mb-3">Payroll Loop</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Setting up Gusto to automate the flow. Learn how to handle quarterly 941s, FUTA, and state withholdings on autopilot.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Proposition / Simulation -->
+        <section class="bg-slate-50 border-y border-slate-200 py-24 mb-32">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row gap-16 items-center">
+                    <div class="flex-1 reveal">
+                        <h2 class="text-3xl font-medium text-[#0B2535] mb-6 tracking-tight">The "Success Penalty"</h2>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                            Most accountants won't tell you this: As a standard LLC, the IRS treats you as both employer and employee. You pay 15.3% tax on <strong class="text-[#0B2535]">100% of your profit</strong>.
+                        </p>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-8">
+                            The S-Corp System teaches you how to cap that tax. Here is the actual math for a consultant netting $150,000:
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <!-- Standard LLC -->
+                            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                                <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">
+                                    <span>Standard LLC (The Default)</span>
+                                    <span>Total Tax: ~$28,000</span>
+                                </div>
+                                <div class="h-4 w-full bg-slate-100 rounded-full overflow-hidden flex">
+                                    <div class="h-full bg-slate-400 w-[85%]"></div>
+                                </div>
+                                <div class="mt-2 text-[10px] text-slate-400">15.3% tax applied to entire $150k</div>
+                            </div>
+
+                            <!-- Union National S-Corp -->
+                            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm ring-1 ring-[#B45309]/20">
+                                <div class="flex justify-between text-xs font-semibold mb-2 uppercase tracking-wide">
+                                    <span class="text-[#0B2535]">The S-Corp System</span>
+                                    <span class="text-[#B45309]">Total Tax: ~$19,500</span>
+                                </div>
+                                <div class="h-4 w-full bg-[#FFF7ED] rounded-full overflow-hidden flex relative">
+                                    <div class="h-full bg-[#B45309] w-[60%]"></div>
+                                    <div class="h-full bg-green-500/20 w-[25%] absolute right-0 top-0 bottom-0 flex items-center justify-center">
+                                        <span class="text-[9px] font-bold text-green-700">$8,500 Savings</span>
+                                    </div>
+                                </div>
+                                <div class="mt-2 text-[10px] text-slate-400">15.3% tax applied ONLY to $60k Salary</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-[450px] relative reveal delay-100">
+                        <div class="absolute -top-10 -left-10 w-20 h-20 bg-[#B45309] opacity-10 rounded-full blur-xl"></div>
+                        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Book interior preview" class="rounded-2xl shadow-2xl border border-slate-200 rotate-1 hover:rotate-0 transition-all duration-500">
+                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl shadow-lg border border-slate-100 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-[#FFF7ED] rounded-full flex items-center justify-center text-[#B45309]">
+                                <i data-lucide="download" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Templates Included</div>
+                                <div class="text-xs font-semibold text-[#0B2535]">Excel &amp; PDF Worksheets</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing / Packages -->
+        <section id="pricing" class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl font-medium text-[#0B2535] tracking-tight">Start saving today.</h2>
+                <p class="text-slate-500 mt-4 text-sm">One-time purchase. Lifetime updates for tax law changes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Tier 1: Digital -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 reveal flex flex-col">
+                    <div class="text-lg font-semibold text-[#0B2535] mb-2">Digital Edition</div>
+                    <div class="text-xs text-slate-500 mb-6">Instant access to PDF and ePub.</div>
+                    <div class="text-3xl font-bold text-[#0B2535] mb-8">$29</div>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start gap-3 text-xs text-slate-600">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> PDF, ePub, Kindle formats
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-600">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> Digital Worksheets (Excel)
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-600">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> Lifetime Digital Updates
+                        </li>
+                    </ul>
+                    <a href="#" class="block w-full text-center py-2.5 rounded-lg border border-slate-200 text-[#0B2535] text-xs font-semibold hover:border-[#0B2535] transition-colors">Buy Digital Only</a>
+                </div>
+
+                <!-- Tier 2: The Bundle (Featured) -->
+                <div class="bg-[#0B2535] p-8 rounded-3xl border border-[#1e4e6e] relative shadow-xl transform md:-translate-y-4 reveal delay-100 flex flex-col">
+                    <div class="absolute top-0 right-0 bg-[#B45309] text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl rounded-tr-2xl uppercase tracking-wider">Best Value</div>
+                    
+                    <div class="text-lg font-semibold text-white mb-2">Masterclass Bundle</div>
+                    <div class="text-xs text-slate-300 mb-6">The book plus video implementation guide.</div>
+                    <div class="text-3xl font-bold text-white mb-8">$97</div>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start gap-3 text-xs text-slate-200">
+                            <div class="bg-[#B45309] rounded-full p-0.5"><i data-lucide="check" class="w-3 h-3 text-white"></i></div>
+                            <span class="font-medium">Everything in Digital</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-300">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> 4-Part Video Walkthrough
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-300">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> "Reasonable Comp" Calculator
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-300">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> Gusto Setup Checklist
+                        </li>
+                    </ul>
+                    <a href="#" class="block w-full text-center py-3 rounded-lg bg-[#B45309] text-white text-xs font-semibold hover:bg-[#d97706] transition-colors shadow-lg shadow-[#B45309]/20">Get The Bundle</a>
+                </div>
+
+                <!-- Tier 3: Print -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 reveal delay-200 flex flex-col">
+                    <div class="text-lg font-semibold text-[#0B2535] mb-2">Hardcover</div>
+                    <div class="text-xs text-slate-500 mb-6">Premium matte finish hardcover.</div>
+                    <div class="text-3xl font-bold text-[#0B2535] mb-8">$49<span class="text-sm font-normal text-slate-400"> + shipping</span></div>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start gap-3 text-xs text-slate-600">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> Premium Hardcover Book
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-600">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> Includes Digital Edition
+                        </li>
+                        <li class="flex items-start gap-3 text-xs text-slate-600">
+                            <i data-lucide="check" class="w-4 h-4 text-[#B45309] shrink-0"></i> Free US Shipping
+                        </li>
+                    </ul>
+                    <a href="#" class="block w-full text-center py-2.5 rounded-lg border border-slate-200 text-[#0B2535] text-xs font-semibold hover:border-[#0B2535] transition-colors">Order Hardcover</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Author -->
+        <section id="author" class="max-w-4xl mx-auto px-6 mb-24 reveal">
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 flex flex-col sm:flex-row gap-8 items-center">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 shrink-0 bg-slate-200 rounded-full overflow-hidden border-4 border-slate-50">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&amp;fit=crop&amp;q=80&amp;w=400" alt="Author" class="w-full h-full object-cover grayscale">
+                </div>
+                <div>
+                    <h3 class="text-xl font-medium text-[#0B2535] mb-2">About the Author</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed mb-4">
+                        Jason is a CPA with over 15 years of experience specializing in single-member entities. After seeing hundreds of freelancers overpay their taxes by neglecting the S-Corp election, he codified his strategy into <span class="text-[#0B2535] font-medium italic">The S-Corp System</span>.
+                    </p>
+                    <div class="flex gap-4">
+                         <div class="flex items-center gap-2 text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+                            <i data-lucide="award" class="w-4 h-4 text-[#B45309]"></i>
+                            Licensed CPA
+                         </div>
+                         <div class="flex items-center gap-2 text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+                            <i data-lucide="users" class="w-4 h-4 text-[#B45309]"></i>
+                            Advisor to 500+ LLCs
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="max-w-3xl mx-auto px-6 mb-20 reveal">
+            <h3 class="text-xl font-medium text-[#0B2535] mb-8">Common Questions</h3>
+            <div class="space-y-4">
+                <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden cursor-pointer">
+                    <summary class="flex justify-between items-center p-5 font-medium text-sm text-[#0B2535] list-none">
+                        <span>Is this suitable for a brand new LLC?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                        </span>
+                    </summary>
+                    <div class="px-5 pb-5 text-xs text-slate-500 leading-relaxed">
+                        Yes. In fact, setting this up from day one is ideal. The book covers how to file your initial election (Form 2553) within the 75-day window for new businesses.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden cursor-pointer">
+                    <summary class="flex justify-between items-center p-5 font-medium text-sm text-[#0B2535] list-none">
+                        <span>Do I need an accountant if I buy this book?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                        </span>
+                    </summary>
+                    <div class="px-5 pb-5 text-xs text-slate-500 leading-relaxed">
+                        This book is designed to let you "DIY" the setup and maintenance. However, we always recommend having a CPA file your actual year-end tax return. This book handles the payroll, reasonable comp, and bookkeeping systems that CPAs often charge thousands to manage.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden cursor-pointer">
+                    <summary class="flex justify-between items-center p-5 font-medium text-sm text-[#0B2535] list-none">
+                        <span>What if I make less than $60k?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                        </span>
+                    </summary>
+                    <div class="px-5 pb-5 text-xs text-slate-500 leading-relaxed">
+                        The book explains why $60k is typically the "break-even" point. If you earn less, the administrative costs of payroll (Gusto fees, etc.) might outweigh the tax savings. The book helps you calculate your specific number.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-20">
+            <div class="bg-[#0B2535] rounded-3xl p-12 lg:p-20 relative overflow-hidden text-center reveal">
+                <!-- Background Glow -->
+                <div class="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#B45309] opacity-15 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
+
+                <div class="relative z-10 max-w-2xl mx-auto">
+                    <h2 class="text-3xl lg:text-4xl font-medium text-white tracking-tight mb-6">
+                        The investment pays for itself <br> in your first paycheck.
+                    </h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                        Join 5,000+ solopreneurs who have stopped over-tipping the IRS.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#pricing" class="w-full sm:w-auto bg-[#B45309] text-white px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-[#92400e] transition-colors shadow-lg shadow-[#B45309]/20">
+                            Buy The Book
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8">
+                <div class="mb-4 md:mb-0">
+                    <a href="#" class="flex items-center gap-2 mb-2">
+                        <div class="w-5 h-5 bg-[#0B2535] rounded flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-0.5 bg-[#B45309] rotate-45 transform translate-y-0.5"></div>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-[#0B2535]">The S-Corp System</span>
+                    </a>
+                    <p class="text-[10px] text-slate-400">
+                        © 2024 Union National Tax. All Rights Reserved.
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Privacy</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Terms</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Reveal Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>

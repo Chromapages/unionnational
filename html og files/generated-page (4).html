@@ -1,0 +1,330 @@
+<html lang="en" class="scroll-smooth"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Union National Tax</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #B45309 0%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="text-slate-900 antialiased selection:bg-[#B45309] selection:text-white overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 bg-[#F8FAFC]/90 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-8 h-8 bg-[#0B2535] rounded-lg flex items-center justify-center overflow-hidden border border-[#0B2535]">
+                    <div class="absolute w-full h-full flex items-center justify-center">
+                        <div class="w-4 h-4 border-2 border-[#D97706] rounded-sm rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
+                    </div>
+                </div>
+                <span class="text-lg font-semibold tracking-tight text-[#0B2535]">Union National Tax</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+                <a href="#" class="text-[#0B2535] font-semibold">About</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Services</a>
+                <a href="#" class="hover:text-[#B45309] transition-colors">Resources</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-sm font-medium text-slate-600 hover:text-[#0B2535] transition-colors hidden sm:block">
+                    Client Portal
+                </a>
+                <a href="#" class="text-sm font-medium bg-[#0B2535] text-white px-5 py-2.5 rounded-full hover:bg-[#153a52] transition-all shadow-lg shadow-[#0B2535]/20 border border-[#1e4e6e]">
+                    Book Consultation
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+        <!-- Hero -->
+        <section class="max-w-4xl mx-auto px-6 mb-24 text-center">
+            <div class="reveal">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6 shadow-sm">
+                    About The Firm
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B2535] tracking-tight mb-8 leading-[1.1]">
+                    Modern tax strategy for <br>
+                    <span class="text-gold-gradient">the digital economy.</span>
+                </h1>
+                <p class="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+                    Union National Tax bridges the gap between complex IRS regulations and the agile needs of modern consultants, creators, and agencies. We turn tax compliance into wealth preservation.
+                </p>
+            </div>
+        </section>
+
+        <!-- Stats / Impact -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 reveal delay-75">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+                    <div class="w-12 h-12 bg-[#FFF7ED] text-[#B45309] rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">$50M+</div>
+                    <div class="text-xs text-slate-500 font-medium uppercase tracking-wide">Client Tax Saved</div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+                    <div class="w-12 h-12 bg-[#FFF7ED] text-[#B45309] rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="building-2" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">1,200+</div>
+                    <div class="text-xs text-slate-500 font-medium uppercase tracking-wide">Entities Managed</div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+                    <div class="w-12 h-12 bg-[#FFF7ED] text-[#B45309] rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-[#0B2535] mb-1">15+</div>
+                    <div class="text-xs text-slate-500 font-medium uppercase tracking-wide">Years Experience</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Story / Origin -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="bg-[#0B2535] rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden reveal">
+                <!-- Abstract Glow -->
+                <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#B45309] opacity-10 rounded-full blur-[100px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 relative z-10">
+                    <div>
+                        <h2 class="text-3xl font-medium text-white tracking-tight mb-6">Why we started</h2>
+                        <div class="space-y-6 text-slate-300 text-sm leading-relaxed">
+                            <p>
+                                In 2018, I sat across from a freelance software engineer named Sarah. She had just made $180,000 in her first year of consulting. She was ecstatic, until I showed her the tax return prepared by her previous generalist accountant.
+                            </p>
+                            <p>
+                                She owed nearly $30,000 in Self-Employment tax alone. Not income tax—just the tax for the "privilege" of working for herself.
+                            </p>
+                            <p>
+                                The tragedy wasn't the bill; it was that it was entirely avoidable. Had she simply filed a specific 2-page form (Form 2553) and run payroll, she would have saved $12,000.
+                            </p>
+                            <p>
+                                I realized that high-end tax strategies were gatekept behind "Big 4" firms and expensive retainers. <strong>Union National Tax</strong> was built to democratize this knowledge for the modern entrepreneur.
+                            </p>
+                        </div>
+                        <div class="mt-8 pt-8 border-t border-white/10 flex items-center gap-4">
+                            <div class="h-px w-8 bg-[#B45309]"></div>
+                            <span class="text-white font-medium text-sm">Jason Miller, Managing Partner</span>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-[#0B2535] via-transparent to-transparent z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;q=80&amp;w=1000" alt="Union National Office" class="w-full h-full object-cover rounded-xl opacity-60 grayscale mix-blend-overlay border border-white/10">
+                        
+                        <!-- Floater Card -->
+                        <div class="absolute bottom-8 left-8 right-8 z-20 bg-[#0f2d40] border border-white/10 p-6 rounded-xl backdrop-blur-sm shadow-2xl">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-[#B45309]/20 flex items-center justify-center shrink-0">
+                                    <i data-lucide="quote" class="w-4 h-4 text-[#B45309]"></i>
+                                </div>
+                                <div>
+                                    <p class="text-slate-200 text-xs italic leading-relaxed mb-3">
+                                        "Most people think tax planning is about evasion. It's not. It's about using the rulebook exactly as it was written to encourage business growth."
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Principles -->
+        <section class="max-w-7xl mx-auto px-6 mb-32">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-semibold text-[#B45309] uppercase tracking-widest mb-3">Our Philosophy</h2>
+                <h3 class="text-3xl font-medium text-[#0B2535] tracking-tight">Built on three core pillars.</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Pillar 1 -->
+                <div class="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-[#B45309]/30 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#FFF7ED] transition-colors">
+                        <i data-lucide="scale" class="w-6 h-6 text-slate-600 group-hover:text-[#B45309] transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-[#0B2535] mb-3">Compliance First</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        We don't deal in "gray areas." Every strategy we deploy is backed by IRS code sections and tax court precedent. Aggressive is fine; reckless is not.
+                    </p>
+                </div>
+
+                <!-- Pillar 2 -->
+                <div class="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-[#B45309]/30 transition-all duration-300 reveal delay-75">
+                    <div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#FFF7ED] transition-colors">
+                        <i data-lucide="cpu" class="w-6 h-6 text-slate-600 group-hover:text-[#B45309] transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-[#0B2535] mb-3">Tech-Forward</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Tax strategy fails when it requires manual willpower. We integrate Gusto, Quickbooks, and AI-driven analysis to handle the heavy lifting on autopilot.
+                    </p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="group bg-white p-8 rounded-2xl border border-slate-200 hover:border-[#B45309]/30 transition-all duration-300 reveal delay-150">
+                    <div class="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#FFF7ED] transition-colors">
+                        <i data-lucide="microscope" class="w-6 h-6 text-slate-600 group-hover:text-[#B45309] transition-colors"></i>
+                    </div>
+                    <h4 class="text-lg font-medium text-[#0B2535] mb-3">Precision</h4>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        A salary of $0 is a red flag. A salary of $100k is a waste. We use the RCReports™ methodology to find the mathematical "perfect number" for your reasonable compensation.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership / Founder -->
+        <section class="max-w-5xl mx-auto px-6 mb-24 reveal">
+            <div class="flex flex-col md:flex-row gap-12 items-start border-t border-slate-200 pt-16">
+                <div class="w-full md:w-1/3">
+                    <div class="sticky top-24">
+                        <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-lg mb-6">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&amp;fit=crop&amp;q=80&amp;w=600" alt="Jason CPA" class="w-full aspect-[4/5] object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="font-bold text-[#0B2535]">Jason Miller, CPA</h3>
+                                <p class="text-xs text-slate-500">Founder, Union National Tax</p>
+                            </div>
+                            <a href="#" class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-[#0B2535] hover:text-white hover:border-[#0B2535] transition-all">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-2/3">
+                    <h3 class="text-2xl font-medium text-[#0B2535] mb-6">A note from the founder</h3>
+                    <div class="prose prose-slate text-slate-500 text-sm leading-7">
+                        <p class="mb-4">
+                            I spent the first decade of my career at a "Big 4" accounting firm. We had entire teams dedicated to saving massive corporations 0.5% on their effective tax rate.
+                        </p>
+                        <p class="mb-4">
+                            When I left to start Union National Tax, I was shocked. I saw brilliant designers, consultants, and developers—people smart enough to build complex systems—completely ignoring the single biggest leak in their financial bucket.
+                        </p>
+                        <p class="mb-6">
+                            They weren't lazy. They were just overwhelmed. The IRS code is 70,000 pages long.
+                        </p>
+                        <p class="mb-8">
+                            We don't just file forms. We act as the strategic partner I wish I could hand to every client. Our goal is to remove the jargon and provide the step-by-step actions needed to stop overpaying.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center gap-3">
+                            <i data-lucide="award" class="w-5 h-5 text-[#B45309]"></i>
+                            <span class="text-xs font-medium text-[#0B2535]">Certified Public Accountant (IL)</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex items-center gap-3">
+                            <i data-lucide="graduation-cap" class="w-5 h-5 text-[#B45309]"></i>
+                            <span class="text-xs font-medium text-[#0B2535]">Masters in Taxation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="max-w-7xl mx-auto px-6 mb-20">
+            <div class="bg-gradient-to-br from-slate-50 to-white rounded-3xl border border-slate-200 p-12 lg:p-20 text-center reveal shadow-sm">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-3xl lg:text-4xl font-medium text-[#0B2535] tracking-tight mb-6">
+                        Ready to optimize your taxes?
+                    </h2>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-8">
+                        Get the same strategy used by high-net-worth consultants. Schedule a discovery call with our team today.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#" class="w-full sm:w-auto bg-[#0B2535] text-white px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-[#153a52] transition-colors shadow-lg shadow-[#0B2535]/20 flex items-center justify-center gap-2">
+                            Become a Client <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-full sm:w-auto text-slate-600 px-8 py-3.5 rounded-lg text-sm font-medium hover:bg-slate-50 border border-slate-200 transition-colors">
+                            View Services
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-20 pb-10 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8">
+                <div class="mb-4 md:mb-0">
+                    <a href="#" class="flex items-center gap-2 mb-2">
+                        <div class="w-5 h-5 bg-[#0B2535] rounded flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-0.5 bg-[#B45309] rotate-45 transform translate-y-0.5"></div>
+                        </div>
+                        <span class="text-sm font-bold tracking-tight text-[#0B2535]">Union National Tax</span>
+                    </a>
+                    <p class="text-[10px] text-slate-400">
+                        © 2024 Union National Tax. All Rights Reserved.
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Terms of Service</a>
+                    <a href="#" class="text-[11px] text-slate-500 hover:text-[#B45309] transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Reveal Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>
