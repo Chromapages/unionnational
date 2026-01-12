@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { VideoHero } from "@/components/home/VideoHero";
 import { ServicesSection } from "@/components/home/ServicesSection";
@@ -10,11 +10,15 @@ import { PricingPreview } from "@/components/home/PricingPreview";
 import { CTASection } from "@/components/home/CTASection";
 
 import { TrustBar } from "@/components/home/TrustBar";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import { FAQSection } from "@/components/home/FAQSection";
+import { FAQPageSchema } from "@/components/seo/FAQPageSchema";
 
 export default function Home() {
   return (
     <main className="min-h-screen w-full bg-surface flex flex-col">
-      <Header />
+      <FAQPageSchema />
+      <HeaderWrapper />
       <div className="flex-1">
         <VideoHero />
         <TrustBar />
@@ -23,7 +27,9 @@ export default function Home() {
         <BentoGridSection />
 
         <StatsSection />
+        <TestimonialsSection />
         <PricingPreview />
+        <FAQSection />
         <CTASection />
       </div>
       <Footer />

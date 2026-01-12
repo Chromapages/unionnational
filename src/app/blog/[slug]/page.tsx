@@ -23,13 +23,35 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const post = await client.fetch(BLOG_POST_QUERY, { slug });
     if (!post) return { title: "Post Not Found" };
 
+    const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
+    ogUrl.searchParams.set("title", post.title);
+    ogUrl.searchParams.set("subtitle", "Union National Tax Blog");
+    ogUrl.searchParams.set("type", "article");
+    if (post.publishedAt) {
+        ogUrl.searchParams.set("date", new Date(post.publishedAt).toLocaleDateString());
+    }
+
+    const images = post.featuredImage?.asset?.url
+        ? [post.featuredImage.asset.url]
+        : [{ url: ogUrl.toString(), width: 1200, height: 630, alt: post.title }];
+
     return {
         title: `${post.title} | Union National Tax`,
         description: post.excerpt,
         openGraph: {
             title: post.title,
             description: post.excerpt,
-            images: post.featuredImage ? [post.featuredImage.asset?.url] : [],
+            type: "article",
+            publishedTime: post.publishedAt,
+            authors: [post.author?.name || "Union National Tax"],
+            url: `https://unionnationaltax.com/blog/${slug}`,
+            images: images,
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: post.title,
+            description: post.excerpt,
+            images: images,
         },
     };
 }

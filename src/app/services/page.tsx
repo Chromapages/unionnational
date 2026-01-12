@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight, CheckCircle2, ShieldCheck, Zap, Users, Quote } from "lucide-react";
@@ -53,7 +53,7 @@ export default async function ServicesPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <Header />
+            <HeaderWrapper />
 
             <main className="pt-32 pb-20">
                 {/* Hero Section */}
@@ -81,129 +81,73 @@ export default async function ServicesPage() {
                 {/* Services Grid */}
                 <section className="max-w-[90rem] mx-auto px-6 mb-32">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {services.map((service: any, i: number) => (
-                            <RevealOnScroll
-                                key={service._id}
-                                delay={i * 100}
-                                className={`group relative rounded-[2.5rem] p-10 transition-all duration-500 hover:-translate-y-3 flex flex-col h-full border overflow-hidden
-                                    ${service.isPopular
-                                        ? 'bg-brand-900 border-brand-900 text-white shadow-2xl shadow-gold-500/20 ring-1 ring-white/10'
-                                        : 'bg-white border-slate-100 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-slate-200/60 hover:border-gold-500/30'
-                                    }`}
-                            >
-                                <Link href={`/services/${service.slug?.current}`} className="absolute inset-0 z-10">
+                        {services?.map((service: any, i: number) => (
+                            <RevealOnScroll key={service._id} delay={i * 50} className={`rounded-[2.5rem] border p-8 sm:p-10 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-300 flex flex-col h-full group relative overflow-hidden
+                                ${service.isPopular ? 'bg-brand-900 border-brand-900' : 'bg-white border-slate-100 hover:border-gold-500/30'}`}>
+
+                                <Link href={`/services/${service.slug?.current}`} className="absolute inset-0 z-20">
                                     <span className="sr-only">View {service.title}</span>
                                 </Link>
 
                                 {/* Top Gradient Accent */}
-                                <div
-                                    className={`absolute top-0 left-0 right-0 h-1.5 opacity-100 transition-all duration-500 group-hover:h-2
-                                        ${service.isPopular ? 'bg-gradient-to-r from-gold-400 to-gold-600' : 'bg-slate-100 group-hover:bg-gold-400'}`}
+                                <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-500 group-hover:h-2
+                                    ${service.isPopular ? 'bg-gradient-to-r from-gold-400 to-gold-600' : 'bg-slate-100 group-hover:bg-gold-400'}`}
                                 />
 
-                                {/* Card Badge */}
-                                {service.badge && (
-                                    <div className={`absolute top-8 right-8 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-sans border-2
-                                        ${service.isPopular
-                                            ? 'bg-gold-500 border-gold-500 text-brand-900'
-                                            : 'bg-white border-slate-100 text-slate-500 group-hover:border-gold-500/30 group-hover:text-gold-600 transition-colors'}
-                                    `}>
-                                        {service.badge}
-                                    </div>
-                                )}
-
-                                {/* Icon Container */}
-                                <div className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center mb-10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg
-                                    ${service.isPopular
-                                        ? 'bg-white/10 text-gold-400 ring-1 ring-white/20'
-                                        : 'bg-gold-50 text-gold-600 group-hover:bg-gold-500 group-hover:text-white'}
-                                `}>
-                                    <DynamicIcon name={service.icon} className="w-8 h-8" />
+                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg relative z-10
+                                    ${service.isPopular ? 'bg-white/10 text-gold-500 ring-1 ring-white/20' : 'bg-gold-50 text-gold-600 group-hover:bg-gold-500 group-hover:text-white'}`}>
+                                    <DynamicIcon name={service.icon} className="w-7 h-7" />
                                 </div>
 
-                                <h3 className={`text-3xl font-bold mb-6 tracking-tight font-heading leading-tight
-                                    ${service.isPopular ? 'text-white' : 'text-brand-900'}
-                                `}>
+                                <h3 className={`text-2xl font-bold mb-4 font-heading transition-colors relative z-10
+                                    ${service.isPopular ? 'text-white' : 'text-brand-900 group-hover:text-gold-600'}`}>
                                     {service.title}
                                 </h3>
 
-                                <p className={`text-base mb-10 leading-relaxed font-sans flex-grow
-                                    ${service.isPopular ? 'text-slate-300' : 'text-slate-600'}
-                                `}>
+                                <p className={`text-base leading-relaxed mb-8 flex-grow font-sans relative z-10
+                                    ${service.isPopular ? 'text-white/80' : 'text-brand-900/70'}`}>
                                     {service.shortDescription}
                                 </p>
 
-                                <div className="mt-auto space-y-8">
-                                    {service.impactGoal && (
-                                        <div className={`pl-4 border-l-2
-                                            ${service.isPopular ? 'border-gold-500/50' : 'border-gold-500'}
-                                        `}>
-                                            <div className={`text-[10px] font-bold uppercase tracking-widest mb-1 font-sans
-                                                 ${service.isPopular ? 'text-gold-400' : 'text-gold-600'}
-                                            `}>
-                                                Impact Goal
-                                            </div>
-                                            <div className={`text-sm font-medium italic font-sans
-                                                ${service.isPopular ? 'text-white/90' : 'text-brand-900'}
-                                            `}>
-                                                "{service.impactGoal}"
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Link UI */}
-                                    <div className={`pt-8 border-t flex items-center justify-between transition-all duration-300
-                                        ${service.isPopular ? 'border-white/10' : 'border-slate-100'}
-                                    `}>
-                                        <span className={`text-xs font-bold uppercase tracking-widest transition-all duration-300 group-hover:translate-x-1 font-sans
-                                            ${service.isPopular ? 'text-white' : 'text-brand-900'}
-                                        `}>
-                                            Explore Service
-                                        </span>
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover:translate-x-2 group-hover:bg-gold-500 group-hover:text-brand-900
-                                            ${service.isPopular ? 'bg-white/10 text-white' : 'bg-slate-100 text-brand-900'}
-                                        `}>
-                                            <ArrowRight className="w-4 h-4" />
-                                        </div>
-                                    </div>
+                                <div className={`pt-6 border-t mt-auto relative z-10 flex items-center justify-between
+                                    ${service.isPopular ? 'border-white/10' : 'border-slate-100'}`}>
+                                    <span className={`text-sm font-bold uppercase tracking-widest transition-colors font-sans
+                                        ${service.isPopular ? 'text-gold-400 group-hover:text-white' : 'text-brand-900 group-hover:text-gold-600'}`}>
+                                        Learn More
+                                    </span>
+                                    <ArrowRight className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${service.isPopular ? 'text-gold-400' : 'text-brand-900'}`} />
                                 </div>
                             </RevealOnScroll>
                         ))}
                     </div>
                 </section>
 
-                {/* The Union National Difference */}
-                <section className="max-w-[90rem] mx-auto px-6 mb-32">
-                    <div className="bg-brand-900 rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
-                        {/* Abstract Shapes */}
-                        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-                        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+                {/* Process / Methodology */}
+                <section className="max-w-7xl mx-auto px-6 mb-32">
+                    <RevealOnScroll className="bg-brand-900 rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden text-center">
+                        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                            <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2"></div>
+                            <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[100px] -translate-x-1/2 translate-y-1/2"></div>
+                        </div>
 
-                        <div className="relative z-10">
-                            <RevealOnScroll className="text-center mb-16 max-w-2xl mx-auto">
-                                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-heading">The Union National Standard</h2>
-                                <p className="text-slate-300 text-lg font-sans">
-                                    Most accountants just record history. We help you make it. Our proactive methodology is designed to maximize retention and minimize liability.
-                                </p>
-                            </RevealOnScroll>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                                {[
-                                    { icon: Zap, title: "Proactive Strategy", desc: "We meet quarterly, not just annually, to adjust your plan before the year ends." },
-                                    { icon: ShieldCheck, title: "Audit Defense", desc: "Our strategies are conservative, compliant, and defensible. Sleep soundly." },
-                                    { icon: Users, title: "Dedicated Team", desc: "No call centers. You get a dedicated CPA and account manager who knows your name." }
-                                ].map((feature, i) => (
-                                    <RevealOnScroll key={i} delay={i * 100} className="text-center group">
-                                        <div className="w-20 h-20 mx-auto bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center mb-6 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-500 shadow-lg">
-                                            <feature.icon className="w-8 h-8 text-gold-500 group-hover:text-brand-900 transition-colors" />
-                                        </div>
-                                        <h3 className="text-xl font-bold text-white mb-4 font-heading">{feature.title}</h3>
-                                        <p className="text-slate-400 font-sans leading-relaxed">{feature.desc}</p>
-                                    </RevealOnScroll>
-                                ))}
+                        <div className="relative z-10 max-w-3xl mx-auto">
+                            <h2 className="text-3xl font-bold text-white tracking-tight mb-6 font-heading">
+                                Ready to upgrade your financial infrastructure?
+                            </h2>
+                            <p className="text-slate-300 text-lg leading-relaxed mb-10 font-sans">
+                                Stop overpaying taxes and start building wealth. Schedule a discovery call with our team today.
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-gold-500 text-brand-900 font-bold rounded-xl hover:bg-white transition-all shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 font-sans">
+                                    Book a Discovery Call
+                                    <ArrowRight className="w-4 h-4" />
+                                </Link>
+                                <Link href="/about" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 backdrop-blur-sm transition-all flex items-center justify-center gap-2 font-sans">
+                                    Learn About Us
+                                </Link>
                             </div>
                         </div>
-                    </div>
+                    </RevealOnScroll>
                 </section>
 
                 {/* Featured Testimonial */}

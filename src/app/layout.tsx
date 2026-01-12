@@ -16,10 +16,40 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Union National Tax",
-  description: "Modern tax strategy for the digital economy.",
+  metadataBase: new URL("https://unionnationaltax.com"),
+  title: {
+    default: "Union National Tax",
+    template: "%s | Union National Tax",
+  },
+  description: "Modern tax strategy, bookkeeping, and fractional CFO services for digital entrepreneurs and growth-focused businesses.",
+  openGraph: {
+    siteName: "Union National Tax",
+    locale: "en_US",
+    type: "website",
+    title: "Union National Tax | Modern Tax Strategy",
+    description: "Proactive tax strategy and financial infrastructure for the digital economy.",
+    images: ["/images/og-default.png"], // Ideally we create this static fallback too
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Union National Tax",
+    description: "Modern tax strategy for the digital economy.",
+    // site: "@unionnational" // Add if they have one
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/images/union national tax favicon.svg",
+    apple: "/images/apple-icon.png", // Recommended to add later if missing
   },
 };
 

@@ -5,7 +5,11 @@ import Link from "next/link";
 import { Menu, X, Mail, Check } from "lucide-react";
 import Image from "next/image";
 
-export function Header() {
+interface HeaderProps {
+    siteSettings?: any;
+}
+
+export function Header({ siteSettings }: HeaderProps) {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [newsletterOpen, setNewsletterOpen] = useState(false);
@@ -39,6 +43,10 @@ export function Header() {
         { name: "Team", href: "/team" },
     ];
 
+    const logoUrl = siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
+    const ctaText = siteSettings?.ctaButtonText || "Book a Call";
+    const ctaUrl = siteSettings?.ctaButtonUrl || "/contact";
+
     return (
         <>
             <nav
@@ -49,8 +57,8 @@ export function Header() {
                     <Link href="/" className="flex items-center gap-3 group relative z-50">
                         <div className={`relative transition-all duration-300 ${scrolled ? 'w-48 h-12' : 'w-56 h-14'}`}>
                             <Image
-                                src="/images/logo.png"
-                                alt="Union National Tax"
+                                src={logoUrl}
+                                alt={siteSettings?.companyName || "Union National Tax"}
                                 fill
                                 className="object-contain brightness-0 invert"
                                 priority
@@ -81,10 +89,10 @@ export function Header() {
                             <Mail className="w-4 h-4" /> Subscribe
                         </button>
                         <Link
-                            href="/contact"
+                            href={ctaUrl}
                             className="text-sm font-medium text-brand-900 bg-gold-500 hover:bg-gold-600 px-6 py-2.5 rounded-md transition-all shadow-sm hover:shadow-md active:scale-95 font-heading"
                         >
-                            Book a Call
+                            {ctaText}
                         </Link>
                     </div>
 
@@ -118,11 +126,11 @@ export function Header() {
                             <Mail className="w-4 h-4" /> Subscribe
                         </button>
                         <Link
-                            href="/contact"
+                            href={ctaUrl}
                             className="text-lg font-medium text-brand-900 bg-gold-500 hover:bg-gold-600 px-8 py-3 rounded-md shadow-sm font-heading"
                             onClick={() => setMobileMenuOpen(false)}
                         >
-                            Book a Call
+                            {ctaText}
                         </Link>
                     </div>
                 </div>

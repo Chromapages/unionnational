@@ -234,3 +234,147 @@ export const PRODUCT_SLUGS_QUERY = defineQuery(`
     "slug": slug.current
   }
 `);
+
+export const SITE_SETTINGS_QUERY = defineQuery(`
+  *[_type == "siteSettings"][0] {
+    companyName,
+    tagline,
+    logo {
+      asset->,
+      alt
+    },
+    logoAlt {
+      asset->,
+      alt
+    },
+    phone,
+    email,
+    address,
+    businessHours,
+    socialLinks,
+    ctaButtonText,
+    ctaButtonUrl,
+    copyrightText
+  }
+`);
+
+export const HOME_PAGE_QUERY = defineQuery(`
+  *[_type == "homePage"][0] {
+    heroTitle,
+    heroSubtitle,
+    heroVideoUrl,
+    heroCtaText,
+    heroCtaUrl,
+    trustLogos[] {
+      asset->,
+      alt
+    },
+    stats[] {
+      value,
+      label
+    },
+    ctaTitle,
+    ctaSubtitle,
+    ctaButtonText,
+    ctaButtonUrl
+  }
+`);
+
+export const TESTIMONIALS_QUERY = defineQuery(`
+  *[_type == "testimonial" && isPublished == true] | order(displayOrder asc) {
+    _id,
+    clientName,
+    clientTitle,
+    clientCompany,
+    quote,
+    rating,
+    isFeatured,
+    image {
+      asset->
+    },
+    serviceUsed->{
+      title
+    }
+  }
+`);
+
+export const FAQ_QUERY = defineQuery(`
+  *[_type == "faq"]|order(displayOrder asc){
+    _id,
+    question,
+    answer,
+    category
+  }
+`);
+
+export const ABOUT_PAGE_QUERY = defineQuery(`
+  *[_type == "aboutPage"][0]{
+    heroTitle,
+    heroSubtitle,
+    heroBadge,
+    missionStatement,
+    storyContent,
+    values[]{
+      title,
+      description,
+      iconName
+    },
+    certifications[]{
+      name,
+      logo
+    }
+  }
+`);
+
+export const CONTACT_SETTINGS_QUERY = defineQuery(`
+  *[_type == "contactSettings"][0]{
+    heroTitle,
+    heroSubtitle,
+    contactEmail,
+    contactPhone,
+    officeAddress,
+    officeHours,
+    formTitle,
+    formSubtitle,
+    mapEmbedUrl
+  }
+`);
+
+export const SERVICES_PAGE_QUERY = defineQuery(`
+  *[_type == "servicesPage"][0]{
+    heroTitle,
+    heroSubtitle,
+    heroBadge,
+    ctaTitle,
+    ctaSubtitle,
+    ctaButtonText,
+    ctaButtonUrl
+  }
+`);
+
+export const PRICING_TIERS_QUERY = defineQuery(`
+  *[_type == "pricingTier"]|order(displayOrder asc){
+    _id,
+    name,
+    slug,
+    tagline,
+    price,
+    billingPeriod,
+    features,
+    isFeatured,
+    ctaText,
+    ctaUrl,
+    relatedService->{
+      title,
+      slug
+    }
+  }
+`);
+
+export const LEGAL_PAGE_QUERY = defineQuery(`
+  *[_type == "legalPage" && slug.current == $slug][0]{
+    title,
+    lastUpdated,
+    body
+  }
+`);

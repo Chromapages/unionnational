@@ -31,9 +31,34 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const service = await client.fetch(SERVICE_QUERY, { slug });
     if (!service) return { title: "Service Not Found" };
 
+    const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
+    ogUrl.searchParams.set("title", service.title);
+    ogUrl.searchParams.set("subtitle", "Professional Tax Services");
+    ogUrl.searchParams.set("type", "service");
+
     return {
         title: `${service.title} | Union National Tax`,
         description: service.shortDescription,
+        openGraph: {
+            title: service.title,
+            description: service.shortDescription,
+            type: "article",
+            url: `https://unionnationaltax.com/services/${slug}`,
+            images: [
+                {
+                    url: ogUrl.toString(),
+                    width: 1200,
+                    height: 630,
+                    alt: service.title,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: service.title,
+            description: service.shortDescription,
+            images: [ogUrl.toString()],
+        },
     };
 }
 
