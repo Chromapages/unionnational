@@ -4,7 +4,22 @@ import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Briefcase, Clock, Users } from "lucide-react";
 
-export function StatsSection() {
+interface StatsSectionProps {
+    stats?: Array<{
+        value: string;
+        label: string;
+    }>;
+}
+
+export function StatsSection({ stats }: StatsSectionProps) {
+    const defaultStats = [
+        { value: "$2M+", label: "Tax savings generated for our clients annually" },
+        { value: "500+", label: "Clients Served" },
+        { value: "15+", label: "Years of Experience" },
+    ];
+
+    const displayStats = stats && stats.length > 0 ? stats : defaultStats;
+    const [featuredStat, ...otherStats] = displayStats;
     return (
         <section
             id="about"
@@ -43,9 +58,9 @@ export function StatsSection() {
                         <div className="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/40 to-transparent -z-[5]" />
 
                         <div className="relative z-10">
-                            <div className="text-6xl lg:text-7xl font-bold mb-4 tracking-tight text-white font-sans">$2M+</div>
+                            <div className="text-6xl lg:text-7xl font-bold mb-4 tracking-tight text-white font-sans">{featuredStat.value}</div>
                             <p className="text-xl lg:text-2xl font-medium max-w-sm leading-tight text-white font-sans">
-                                Tax savings generated for our clients annually
+                                {featuredStat.label}
                             </p>
                         </div>
                     </RevealOnScroll>

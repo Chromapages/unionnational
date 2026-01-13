@@ -5,7 +5,16 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-export function CTASection() {
+interface CTASectionProps {
+    data?: {
+        ctaTitle?: string;
+        ctaSubtitle?: string;
+        ctaButtonText?: string;
+        ctaButtonUrl?: string;
+    };
+}
+
+export function CTASection({ data }: CTASectionProps) {
     return (
         <section id="contact" className="max-w-7xl mx-auto px-6 mb-20">
             <RevealOnScroll className="rounded-md p-8 lg:p-12 relative overflow-hidden min-h-[320px] flex items-center">
@@ -29,16 +38,16 @@ export function CTASection() {
                         <div className="max-w-lg text-center lg:text-left">
                             <span className="text-gold-600 text-xs font-bold uppercase tracking-widest mb-4 block font-heading">Take Action</span>
                             <h2 className="text-3xl lg:text-4xl font-bold text-brand-900 tracking-tight mb-5 font-heading">
-                                Stop guessing with your taxes.
+                                {data?.ctaTitle || "Stop guessing with your taxes."}
                             </h2>
                             <p className="text-brand-900 text-sm leading-relaxed mb-0 font-sans">
-                                Book a strategy call with Jason Astwood today. We'll identify your potential savings in the first 15 minutes.
+                                {data?.ctaSubtitle || "Book a strategy call with Jason Astwood today. We'll identify your potential savings in the first 15 minutes."}
                             </p>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto shrink-0">
-                            <Link href="/contact" className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-3.5 rounded-md text-sm font-bold hover:bg-gold-600 transition-colors shadow-sm text-center whitespace-nowrap font-heading tracking-wide">
-                                Contact Us
+                        <div className="flex flex-col items-center gap-4 w-full lg:w-auto shrink-0">
+                            <Link href={data?.ctaButtonUrl || "/contact"} className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-3.5 rounded-md text-sm font-bold hover:bg-gold-600 transition-colors shadow-sm text-center whitespace-nowrap font-heading tracking-wide">
+                                {data?.ctaButtonText || "Contact Us"}
                             </Link>
                             <button className="w-full sm:w-auto bg-white border border-slate-200 text-brand-900 px-8 py-3.5 rounded-md text-sm font-bold hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 group whitespace-nowrap font-heading tracking-wide shadow-sm">
                                 S-Corp Playbook

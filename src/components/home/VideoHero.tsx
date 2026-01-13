@@ -5,7 +5,17 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, Play, X } from "lucide-react";
 import Hls from "hls.js";
 
-export function VideoHero() {
+interface VideoHeroProps {
+    data?: {
+        heroTitle?: string;
+        heroSubtitle?: string;
+        heroVideoUrl?: string;
+        heroCtaText?: string;
+        heroCtaUrl?: string;
+    };
+}
+
+export function VideoHero({ data }: VideoHeroProps) {
     const [income, setIncome] = useState<string>("");
     const [result, setResult] = useState<{
         savings: number;
@@ -17,7 +27,8 @@ export function VideoHero() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const modalVideoRef = useRef<HTMLVideoElement>(null);
 
-    const hlsUrl = "https://content.apisystem.tech/hls/medias/N5KQjySifAxlxhrrvY8g/media/transcoded_videos/cts-ce33eacf939007ad_,360,480,720,1080,p.mp4.urlset/master.m3u8";
+    const hlsUrl = data?.heroVideoUrl || "https://content.apisystem.tech/hls/medias/N5KQjySifAxlxhrrvY8g/media/transcoded_videos/cts-ce33eacf939007ad_,360,480,720,1080,p.mp4.urlset/master.m3u8";
+    const modalVideoUrl = data?.heroCtaUrl || hlsUrl;
 
     // Background video HLS
     useEffect(() => {
@@ -49,19 +60,19 @@ export function VideoHero() {
         let hls: Hls;
         if (Hls.isSupported()) {
             hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-            hls.loadSource(hlsUrl);
+            hls.loadSource(modalVideoUrl);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 video.play().catch(() => { });
             });
         } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-            video.src = hlsUrl;
+            video.src = modalVideoUrl;
             video.addEventListener("loadedmetadata", () => {
                 video.play().catch(() => { });
             });
         }
         return () => { if (hls) hls.destroy(); };
-    }, [isVideoModalOpen]);
+    }, [isVideoModalOpen, modalVideoUrl]);
 
     // Close modal on Escape
     useEffect(() => {
@@ -127,11 +138,22 @@ export function VideoHero() {
                         <h1
                             className="text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.1] font-bold font-heading tracking-tight mb-8 text-white drop-shadow-lg"
                         >
-                            Stop Overpaying the IRS. <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">We build wealth.</span>
+                            {data?.heroTitle ? (
+                                <>
+                                    {data.heroTitle.split('.')[0]}. <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">
+                                        {data.heroTitle.split('.').slice(1).join('.')}
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    Stop Overpaying the IRS. <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">We build wealth.</span>
+                                </>
+                            )}
                         </h1>
                         <p className="text-lg text-slate-200 mb-10 leading-relaxed font-sans max-w-xl font-light">
-                            Boutique S-Corp specialists and Fractional CFO services for contractors and business owners. Don't just file forms—install a financial system.
+                            {data?.heroSubtitle || "Boutique S-Corp specialists and Fractional CFO services for contractors and business owners. Don't just file forms—install a financial system."}
                         </p>
 
                         {/* S-Corp Calculator - Material Card */}
@@ -171,7 +193,7 @@ export function VideoHero() {
                             <div className="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-brand-900 group-hover:scale-110 transition-transform shadow-sm">
                                 <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                             </div>
-                            Watch 2 Min Intro
+                            {data?.heroCtaText || "Watch 2 Min Intro"}
                         </button>
                     </RevealOnScroll>
 

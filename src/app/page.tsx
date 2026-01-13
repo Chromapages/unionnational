@@ -13,24 +13,28 @@ import { TrustBar } from "@/components/home/TrustBar";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { FAQSection } from "@/components/home/FAQSection";
 import { FAQPageSchema } from "@/components/seo/FAQPageSchema";
+import { sanityFetch } from "@/sanity/lib/live";
+import { HOME_PAGE_QUERY } from "@/sanity/lib/queries";
 
-export default function Home() {
+export default async function Home() {
+  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY });
+
   return (
     <main className="min-h-screen w-full bg-surface flex flex-col">
       <FAQPageSchema />
       <HeaderWrapper />
       <div className="flex-1">
-        <VideoHero />
-        <TrustBar />
+        <VideoHero data={homePageData} />
+        <TrustBar logos={homePageData?.trustLogos} />
         <ServicesSection />
         <IndustriesSection />
         <BentoGridSection />
 
-        <StatsSection />
+        <StatsSection stats={homePageData?.stats} />
         <TestimonialsSection />
         <PricingPreview />
         <FAQSection />
-        <CTASection />
+        <CTASection data={homePageData} />
       </div>
       <Footer />
     </main>

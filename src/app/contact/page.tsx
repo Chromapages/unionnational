@@ -55,8 +55,22 @@ export default async function ContactPage() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-brand-900 mb-1 font-heading">Office</h4>
-                                            <div className="text-brand-900/70 leading-relaxed font-sans whitespace-pre-line">
-                                                {settings?.officeAddress || "123 Financial District Blvd\nNew York, NY 10005"}
+                                            <div className="text-brand-900/70 leading-relaxed font-sans">
+                                                {settings?.officeAddress ? (
+                                                    <>
+                                                        {settings.officeAddress.street && <div>{settings.officeAddress.street}</div>}
+                                                        {(settings.officeAddress.city || settings.officeAddress.state || settings.officeAddress.zip) && (
+                                                            <div>
+                                                                {settings.officeAddress.city}{settings.officeAddress.city && settings.officeAddress.state ? ', ' : ''}{settings.officeAddress.state} {settings.officeAddress.zip}
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div>123 Financial District Blvd</div>
+                                                        <div>New York, NY 10005</div>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
@@ -82,8 +96,19 @@ export default async function ContactPage() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-brand-900 mb-1 font-heading">Hours</h4>
-                                            <div className="text-brand-900/70 font-sans whitespace-pre-line">
-                                                {settings?.officeHours || "Mon-Fri: 9am - 6pm EST\nSat-Sun: Closed"}
+                                            <div className="text-brand-900/70 font-sans">
+                                                {settings?.officeHours && settings.officeHours.length > 0 ? (
+                                                    settings.officeHours.map((item: any, i: number) => (
+                                                        <div key={i}>
+                                                            {item.day}: {item.hours}
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <>
+                                                        <div>Mon-Fri: 9am - 6pm EST</div>
+                                                        <div>Sat-Sun: Closed</div>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

@@ -95,6 +95,7 @@ export const siteSettings = defineType({
             name: "ctaButtonUrl",
             title: "Header CTA URL",
             type: "url",
+            validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
             initialValue: "https://calendly.com/",
         }),
         defineField({

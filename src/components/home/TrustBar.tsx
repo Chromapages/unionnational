@@ -1,9 +1,17 @@
 "use client";
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import Image from "next/image";
 
-export function TrustBar() {
-    const brands = [
+interface TrustBarProps {
+    logos?: Array<{
+        asset?: { url: string };
+        alt?: string;
+    }>;
+}
+
+export function TrustBar({ logos }: TrustBarProps) {
+    const defaultBrands = [
         { name: "ABC", url: "https://www.vectorlogo.zone/logos/abcgo/abcgo-ar21.svg", className: "h-12 w-auto md:h-16" },
         { name: "Fox News", url: "https://www.vectorlogo.zone/logos/fox/fox-wordmark.svg", className: "h-10 w-auto md:h-14" },
         { name: "NBC", url: "https://www.vectorlogo.zone/logos/nbc/nbc-ar21.svg", className: "h-12 w-auto md:h-16" },
@@ -11,6 +19,10 @@ export function TrustBar() {
         { name: "CBS", url: "https://api.iconify.design/simple-icons:cbs.svg", className: "h-12 w-auto md:h-16" },
         { name: "Sports Illustrated", url: "/images/sports-illustrated-logo.png", className: "h-10 w-auto md:h-14" },
     ];
+
+    const displayLogos = logos && logos.length > 0
+        ? logos.map(logo => ({ url: logo.asset?.url || '', name: logo.alt || 'Logo' }))
+        : defaultBrands;
 
     return (
         <section className="py-10 border-b border-slate-100 bg-slate-50/50">
@@ -21,12 +33,12 @@ export function TrustBar() {
                             As Featured In:
                         </span>
                         <div className="flex flex-wrap justify-center items-center gap-8 lg:gap-16">
-                            {brands.map((brand, i) => (
+                            {displayLogos.map((brand, i) => (
                                 <img
                                     key={i}
                                     src={brand.url}
                                     alt={brand.name}
-                                    className={`${brand.className} object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer`}
+                                    className="h-12 w-auto md:h-16 object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer"
                                     loading="lazy"
                                 />
                             ))}

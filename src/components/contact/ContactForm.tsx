@@ -91,7 +91,7 @@ export function ContactForm() {
                 </div>
 
                 <button type="button" className="w-full bg-brand-900 text-white font-bold py-3 rounded-lg hover:bg-gold-500 hover:text-brand-900 transition-all shadow-lg shadow-brand-900/20 flex items-center justify-center gap-2 group font-sans">
-                    Send Message
+                    Request Consultation
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
 
