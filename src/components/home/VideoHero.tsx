@@ -27,7 +27,7 @@ export function VideoHero({ data }: VideoHeroProps) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const modalVideoRef = useRef<HTMLVideoElement>(null);
 
-    const hlsUrl = data?.heroVideoUrl || "https://content.apisystem.tech/hls/medias/N5KQjySifAxlxhrrvY8g/media/transcoded_videos/cts-ce33eacf939007ad_,360,480,720,1080,p.mp4.urlset/master.m3u8";
+    const hlsUrl = data?.heroVideoUrl;
     const modalVideoUrl = data?.heroCtaUrl || hlsUrl;
 
     // Background video HLS
@@ -35,7 +35,7 @@ export function VideoHero({ data }: VideoHeroProps) {
         const video = videoRef.current;
         if (!video) return;
 
-        if (Hls.isSupported()) {
+        if (Hls.isSupported() && hlsUrl) {
             const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
             hls.loadSource(hlsUrl);
             hls.attachMedia(video);
@@ -43,7 +43,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                 video.play().catch(() => { });
             });
             return () => hls.destroy();
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        } else if (video.canPlayType("application/vnd.apple.mpegurl") && hlsUrl) {
             video.src = hlsUrl;
             video.addEventListener("loadedmetadata", () => {
                 video.play().catch(() => { });
@@ -58,14 +58,14 @@ export function VideoHero({ data }: VideoHeroProps) {
         if (!video) return;
 
         let hls: Hls;
-        if (Hls.isSupported()) {
+        if (Hls.isSupported() && modalVideoUrl) {
             hls = new Hls({ enableWorker: true, lowLatencyMode: true });
             hls.loadSource(modalVideoUrl);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
                 video.play().catch(() => { });
             });
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        } else if (video.canPlayType("application/vnd.apple.mpegurl") && modalVideoUrl) {
             video.src = modalVideoUrl;
             video.addEventListener("loadedmetadata", () => {
                 video.play().catch(() => { });
@@ -138,22 +138,17 @@ export function VideoHero({ data }: VideoHeroProps) {
                         <h1
                             className="text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.1] font-bold font-heading tracking-tight mb-8 text-white drop-shadow-lg"
                         >
-                            {data?.heroTitle ? (
+                            {data?.heroTitle && (
                                 <>
                                     {data.heroTitle.split('.')[0]}. <br />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">
                                         {data.heroTitle.split('.').slice(1).join('.')}
                                     </span>
                                 </>
-                            ) : (
-                                <>
-                                    Stop Overpaying the IRS. <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">We build wealth.</span>
-                                </>
                             )}
                         </h1>
                         <p className="text-lg text-slate-200 mb-10 leading-relaxed font-sans max-w-xl font-light">
-                            {data?.heroSubtitle || "Boutique S-Corp specialists and Fractional CFO services for contractors and business owners. Don't just file forms—install a financial system."}
+                            {data?.heroSubtitle}
                         </p>
 
                         {/* S-Corp Calculator - Material Card */}
@@ -193,7 +188,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                             <div className="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-brand-900 group-hover:scale-110 transition-transform shadow-sm">
                                 <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                             </div>
-                            {data?.heroCtaText || "Watch 2 Min Intro"}
+                            {data?.heroCtaText}
                         </button>
                     </RevealOnScroll>
 
