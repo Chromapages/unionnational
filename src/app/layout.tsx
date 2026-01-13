@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import Script from "next/script";
 import "@/styles/globals.css";
 import { LocalBusinessSchema } from "@/components/seo/LocalBusinessSchema";
 
@@ -66,6 +67,12 @@ export default function RootLayout({
       >
         {children}
         <LocalBusinessSchema />
+        <Script
+          src="https://widgets.leadconnectorhq.com/loader.js"
+          data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
+          data-widget-id="6966a53597a4a8bf3f27548a"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
