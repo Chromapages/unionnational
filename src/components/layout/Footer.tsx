@@ -42,7 +42,7 @@ export async function Footer() {
                     </div>
 
                     <nav className="flex flex-wrap justify-center gap-6 md:gap-8">
-                        {['Home', 'Services', 'Shop', 'Blog', 'About', 'Team', 'Contact'].map((item) => (
+                        {['Home', 'Services', 'Shop', 'Blog', 'About', 'Team', 'Contact', 'Intake'].map((item) => (
                             <Link
                                 key={item}
                                 href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}

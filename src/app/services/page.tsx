@@ -78,6 +78,82 @@ export default async function ServicesPage() {
                     </div>
                 </section>
 
+                {/* Featured Partner Programs */}
+                <section className="max-w-[90rem] mx-auto px-6 mb-16 space-y-8">
+                    <RevealOnScroll>
+                        <h2 className="text-2xl font-bold text-brand-900 mb-8 font-heading">Specialized Partner Programs</h2>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                            {/* Construction Card */}
+                            <Link href="/vsl/construction" className="block group h-full">
+                                <div className="relative h-full rounded-[2.5rem] bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 p-8 sm:p-10 border border-brand-700 overflow-hidden hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 flex flex-col">
+                                    {/* Gradient accent bar */}
+                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400" />
+
+                                    {/* Badge */}
+                                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
+                                        <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                                        For Construction Firms
+                                    </div>
+
+                                    <div className="flex flex-col gap-6 flex-grow">
+                                        <div className="flex items-center gap-6">
+                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                                                <Icons.HardHat className="w-8 h-8" />
+                                            </div>
+                                            <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading group-hover:text-emerald-400 transition-colors">
+                                                Construction CFO Partnership
+                                            </h3>
+                                        </div>
+
+                                        <p className="text-brand-200 text-lg flex-grow">
+                                            Stop bleeding cash on job costing & labor. The "Hybrid CFO + COO" model for $1M–$10M contractors.
+                                        </p>
+
+                                        <div className="flex items-center text-emerald-400 font-bold uppercase tracking-widest text-sm mt-auto">
+                                            Apply Now <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+
+                            {/* Restaurant Card */}
+                            <Link href="/vsl/restaurants" className="block group h-full">
+                                <div className="relative h-full rounded-[2.5rem] bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 p-8 sm:p-10 border border-brand-700 overflow-hidden hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-500 flex flex-col">
+                                    {/* Gradient accent bar */}
+                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-400 via-red-400 to-orange-400" />
+
+                                    {/* Badge */}
+                                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-6">
+                                        <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+                                        For Restaurants
+                                    </div>
+
+                                    <div className="flex flex-col gap-6 flex-grow">
+                                        <div className="flex items-center gap-6">
+                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                                                <Icons.UtensilsCrossed className="w-8 h-8" />
+                                            </div>
+                                            <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading group-hover:text-orange-400 transition-colors">
+                                                Restaurant CFO Partnership
+                                            </h3>
+                                        </div>
+
+                                        <p className="text-brand-200 text-lg flex-grow">
+                                            Stop profit leaks on food cost & labor. The "Kitchen Command Center" system for $500K–$5M venues.
+                                        </p>
+
+                                        <div className="flex items-center text-orange-400 font-bold uppercase tracking-widest text-sm mt-auto">
+                                            Apply Now <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+
+                        </div>
+                    </RevealOnScroll>
+                </section>
+
                 {/* Services Grid */}
                 <section className="max-w-[90rem] mx-auto px-6 mb-32">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
