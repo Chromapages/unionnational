@@ -39,6 +39,7 @@ export function Header({ siteSettings }: HeaderProps) {
         { name: "Services", href: "/services" },
         { name: "Shop", href: "/shop" },
         { name: "Blog", href: "/blog" },
+        { name: "Health Check", href: "/health-check" },
         { name: "About", href: "/about" },
         { name: "Team", href: "/team" },
     ];

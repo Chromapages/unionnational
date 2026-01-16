@@ -1,8 +1,7 @@
-import Image from "next/image";
-import { Star, Quote } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { sanityFetch } from "@/sanity/lib/live";
 import { TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
+import { TestimonialsCarousel } from "./TestimonialsCarousel";
 
 export async function TestimonialsSection() {
     const { data: testimonials } = await sanityFetch({ query: TESTIMONIALS_QUERY });
@@ -31,56 +30,8 @@ export async function TestimonialsSection() {
                     </h2>
                 </RevealOnScroll>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial: any, index: number) => (
-                        <RevealOnScroll key={testimonial._id} delay={index * 100} className="h-full">
-                            <div className="h-full bg-brand-800/30 border border-brand-700/50 p-8 rounded-xl backdrop-blur-sm hover:border-gold-500/30 transition-all duration-300 group flex flex-col">
-                                {/* Stars */}
-                                <div className="flex gap-1 mb-6">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star
-                                            key={i}
-                                            className={`w-4 h-4 ${i < testimonial.rating ? "text-gold-500 fill-gold-500" : "text-brand-700"}`}
-                                        />
-                                    ))}
-                                </div>
-
-                                {/* Quote */}
-                                <blockquote className="text-slate-300 leading-relaxed mb-8 flex-1 font-sans italic relative">
-                                    <Quote className="absolute -top-4 -left-2 w-8 h-8 text-gold-500/10 rotate-180" />
-                                    "{testimonial.quote}"
-                                </blockquote>
-
-                                {/* Author */}
-                                <div className="flex items-center gap-4 mt-auto pt-6 border-t border-brand-700/50">
-                                    {testimonial.image?.asset?.url ? (
-                                        <div className="relative w-12 h-12 rounded-full overflow-hidden border border-brand-600">
-                                            <Image
-                                                src={testimonial.image.asset.url}
-                                                alt={testimonial.clientName}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="w-12 h-12 rounded-full bg-brand-700 flex items-center justify-center text-gold-500 font-bold border border-brand-600">
-                                            {testimonial.clientName.charAt(0)}
-                                        </div>
-                                    )}
-                                    <div>
-                                        <div className="font-bold text-white text-sm font-heading tracking-wide">
-                                            {testimonial.clientName}
-                                        </div>
-                                        <div className="text-xs text-brand-300 font-sans">
-                                            {testimonial.clientTitle}
-                                            {testimonial.clientTitle && testimonial.clientCompany && ", "}
-                                            {testimonial.clientCompany}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </RevealOnScroll>
-                    ))}
+                <div className="relative">
+                    <TestimonialsCarousel testimonials={testimonials} />
                 </div>
             </div>
         </section>
