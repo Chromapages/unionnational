@@ -24,7 +24,7 @@ export default async function HealthCheckPage() {
                 <HealthCheckSurvey />
             </div>
 
-            <Footer siteSettings={siteSettings} />
+            <Footer />
         </main>
     );
 }
