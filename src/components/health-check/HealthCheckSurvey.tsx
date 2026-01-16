@@ -377,20 +377,37 @@ interface BreakdownCardProps { title: string; score: number; max: number; icon: 
 const BreakdownCard = ({ title, score, max, icon: Icon, color }: BreakdownCardProps) => {
     const percentage = Math.max(0, (score / max) * 100);
     const colorStyles = {
-        blue: { bg: 'bg-blue-50', text: 'text-blue-600', bar: 'bg-blue-500' },
-        purple: { bg: 'bg-purple-50', text: 'text-purple-600', bar: 'bg-purple-500' },
-        emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', bar: 'bg-emerald-500' },
+        blue: { bg: 'bg-blue-50', text: 'text-blue-600', bar: 'bg-blue-500', border: 'border-blue-100' },
+        purple: { bg: 'bg-purple-50', text: 'text-purple-600', bar: 'bg-purple-500', border: 'border-purple-100' },
+        emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', bar: 'bg-emerald-500', border: 'border-emerald-100' },
     }[color];
 
     return (
-        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl ${colorStyles.bg} ${colorStyles.text} flex items-center justify-center flex-shrink-0`}><Icon className="w-6 h-6" /></div>
-            <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-end mb-1">
-                    <h3 className="font-bold text-slate-700 text-sm truncate">{title}</h3>
-                    <span className="font-bold text-brand-900 text-sm">{score}/{max}</span>
+        <div className={`bg-white p-6 rounded-2xl border ${colorStyles.border} shadow-sm flex flex-col h-full hover:shadow-md transition-shadow duration-300`}>
+            {/* Top Row: Icon and Score */}
+            <div className="flex justify-between items-start mb-4">
+                <div className={`w-12 h-12 rounded-xl ${colorStyles.bg} ${colorStyles.text} flex items-center justify-center`}>
+                    <Icon className="w-6 h-6" />
                 </div>
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden"><div style={{ width: `${percentage}%` }} className={`h-full ${colorStyles.bar} rounded-full`} /></div>
+                <div className="text-right">
+                    <div className="flex items-baseline gap-1 justify-end">
+                        <span className="text-3xl font-bold font-heading text-brand-900 leading-none">{score}</span>
+                        <span className="text-sm font-bold text-slate-400">/{max}</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom Content: Title and Bar */}
+            <div className="mt-auto">
+                <h3 className="font-bold text-slate-700 text-base mb-3">{title}</h3>
+                <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+                    <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${percentage}%` }}
+                        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+                        className={`h-full ${colorStyles.bar} rounded-full`}
+                    />
+                </div>
             </div>
         </div>
     );
