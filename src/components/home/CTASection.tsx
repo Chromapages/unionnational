@@ -16,47 +16,72 @@ interface CTASectionProps {
 
 export function CTASection({ data }: CTASectionProps) {
     return (
-        <section id="contact" className="max-w-7xl mx-auto px-6 mb-20">
-            <RevealOnScroll className="rounded-md p-8 lg:p-12 relative overflow-hidden min-h-[320px] flex items-center">
-                {/* Background Image */}
-                <Image
-                    src="/images/ctasection.jpg"
-                    alt="CTA Background"
-                    fill
-                    className="object-cover"
-                    priority
-                />
-                {/* Softer Overlay to let background show */}
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-900/90 via-brand-900/70 to-brand-900/30"></div>
+        <section id="contact" className="bg-brand-900 relative overflow-hidden py-16 sm:py-20 lg:py-24">
+            {/* Background Gradients/Effects */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-800/20 rounded-full blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/4"></div>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 translate-y-1/4"></div>
 
-                {/* Background Glow */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500 opacity-20 rounded-full blur-[100px] pointer-events-none"></div>
-
-                {/* Solid White Card */}
-                <div className="relative z-10 bg-white border border-slate-200 rounded-md p-10 shadow-2xl max-w-3xl">
-                    <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
-                        <div className="max-w-lg text-center lg:text-left">
-                            <span className="text-gold-600 text-xs font-bold uppercase tracking-widest mb-4 block font-heading">Take Action</span>
-                            <h2 className="text-3xl lg:text-4xl font-bold text-brand-900 tracking-tight mb-5 font-heading">
-                                {data?.ctaTitle || "Stop guessing with your taxes."}
-                            </h2>
-                            <p className="text-brand-900 text-sm leading-relaxed mb-0 font-sans">
-                                {data?.ctaSubtitle || "Book a strategy call with Jason Astwood today. We'll identify your potential savings in the first 15 minutes."}
-                            </p>
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    {/* Left Column: Content */}
+                    <div className="flex flex-col text-center lg:text-left">
+                        <div className="inline-flex items-center gap-2 justify-center lg:justify-start mb-6">
+                            <span className="bg-gold-500/10 text-gold-500 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest border border-gold-500/20 font-heading">
+                                Limited Availability
+                            </span>
                         </div>
 
-                        <div className="flex flex-col items-center gap-4 w-full lg:w-auto shrink-0">
-                            <Link href={data?.ctaButtonUrl || "/contact"} className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-3.5 rounded-md text-sm font-bold hover:bg-gold-600 transition-colors shadow-sm text-center whitespace-nowrap font-heading tracking-wide">
-                                {data?.ctaButtonText || "Contact Us"}
+                        <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-6 font-heading leading-tight">
+                            {data?.ctaTitle || "Stop Overpaying. Start Building Wealth."}
+                        </h2>
+
+                        <p className="text-brand-100 text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0 font-sans">
+                            {data?.ctaSubtitle || "Join 500+ business owners saving more on taxes. Book your free 15-minute strategy call to unlock your potential savings."}
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                            <Link
+                                href={data?.ctaButtonUrl || "/contact"}
+                                className="w-full sm:w-auto bg-gold-500 text-brand-950 px-8 py-4 rounded-lg text-base font-bold hover:bg-gold-400 transition-all duration-300 shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] hover:-translate-y-0.5 text-center whitespace-nowrap font-heading tracking-wide"
+                            >
+                                {data?.ctaButtonText || "Book Strategy Call"}
                             </Link>
-                            <button className="w-full sm:w-auto bg-white border border-slate-200 text-brand-900 px-8 py-3.5 rounded-md text-sm font-bold hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 group whitespace-nowrap font-heading tracking-wide shadow-sm">
-                                S-Corp Playbook
-                                <ArrowUpRight className="w-4 h-4 text-gold-500 group-hover:text-gold-600 transition-colors" />
+
+                            <button className="w-full sm:w-auto bg-transparent border border-brand-700 text-white px-8 py-4 rounded-lg text-base font-bold hover:bg-brand-900/50 hover:border-gold-500/50 hover:text-gold-500 transition-all duration-300 flex items-center justify-center gap-2 group whitespace-nowrap font-heading tracking-wide">
+                                Download S-Corp Playbook
+                                <ArrowUpRight className="w-4 h-4 text-brand-400 group-hover:text-gold-500 transition-colors" />
                             </button>
                         </div>
+
+                        {/* Trust Indicators */}
+                        <div className="flex items-center gap-4 justify-center lg:justify-start text-sm text-brand-200/80 font-sans">
+                            <div className="flex items-center gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <svg key={star} className="w-5 h-5 text-gold-500 fill-gold-500" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                ))}
+                            </div>
+                            <span className="w-1 h-1 bg-brand-700 rounded-full"></span>
+                            <span>Trusted by 500+ Businesses</span>
+                        </div>
+                    </div>
+
+                    {/* Right Column: Visual */}
+                    <div className="relative h-[400px] lg:h-[500px] w-full rounded-2xl overflow-hidden border border-brand-800 shadow-2xl lg:translate-x-8">
+                        {/* Using the existing background image but framed effectively */}
+                        <Image
+                            src="/images/ctasection.jpg"
+                            alt="Jason Astwood - Union National Tax"
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                        />
+                        {/* Overlay to ensure text readability if image spans (though here it's contained) */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-transparent to-transparent"></div>
                     </div>
                 </div>
-            </RevealOnScroll>
+            </div>
         </section>
     );
 }

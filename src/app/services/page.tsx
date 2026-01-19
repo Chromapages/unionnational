@@ -79,26 +79,23 @@ export default async function ServicesPage() {
                 </section>
 
                 {/* Featured Partner Programs */}
-                <section className="max-w-[90rem] mx-auto px-6 mb-16 space-y-8">
+                <section className="max-w-[90rem] mx-auto px-6 mb-24">
                     <RevealOnScroll>
                         <h2 className="text-2xl font-bold text-brand-900 mb-8 font-heading">Specialized Partner Programs</h2>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                             {/* Construction Card */}
                             <Link href="/vsl/construction" className="block group h-full">
-                                <div className="relative h-full rounded-[2.5rem] bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 p-8 sm:p-10 border border-brand-700 overflow-hidden hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500 flex flex-col">
-                                    {/* Gradient accent bar */}
-                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-400 via-cyan-400 to-emerald-400" />
-
+                                <div className="relative h-full rounded-[2.5rem] bg-brand-500 p-8 sm:p-10 border border-emerald-500/10 hover:border-emerald-500/30 overflow-hidden hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col group-hover:-translate-y-1">
                                     {/* Badge */}
-                                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
-                                        <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-widest mb-8">
+                                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                                         For Construction Firms
                                     </div>
 
-                                    <div className="flex flex-col gap-6 flex-grow">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                                    <div className="flex flex-col flex-grow">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6">
+                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 flex-shrink-0">
                                                 <Icons.HardHat className="w-8 h-8" />
                                             </div>
                                             <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading group-hover:text-emerald-400 transition-colors">
@@ -106,12 +103,49 @@ export default async function ServicesPage() {
                                             </h3>
                                         </div>
 
-                                        <p className="text-brand-200 text-lg flex-grow">
+                                        <p className="text-brand-100/70 text-lg mb-8 leading-relaxed">
                                             Stop bleeding cash on job costing & labor. The "Hybrid CFO + COO" model for $1M–$10M contractors.
                                         </p>
 
-                                        <div className="flex items-center text-emerald-400 font-bold uppercase tracking-widest text-sm mt-auto">
-                                            Apply Now <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+                                        {/* Features */}
+                                        <div className="space-y-3 mb-8">
+                                            <div className="flex items-center gap-3 text-brand-100/90">
+                                                <Icons.Check className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium">Job costing automation</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 text-brand-100/90">
+                                                <Icons.Check className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium">Real-time margin tracking</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 text-brand-100/90">
+                                                <Icons.Check className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium">Tax strategy optimization</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="h-px w-full bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0 mb-8" />
+
+                                        {/* Stats */}
+                                        <div className="grid grid-cols-3 gap-4 mb-8">
+                                            <div>
+                                                <div className="text-2xl font-bold text-emerald-400">$400K+</div>
+                                                <div className="text-[10px] uppercase tracking-wider text-brand-100/50 mt-1">Avg Savings</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-2xl font-bold text-emerald-400">95%</div>
+                                                <div className="text-[10px] uppercase tracking-wider text-brand-100/50 mt-1">Retention</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-2xl font-bold text-emerald-400">90 Days</div>
+                                                <div className="text-[10px] uppercase tracking-wider text-brand-100/50 mt-1">To Results</div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-auto">
+                                            <div className="w-full py-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold uppercase tracking-widest text-sm flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
+                                                Apply Now <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -119,19 +153,16 @@ export default async function ServicesPage() {
 
                             {/* Restaurant Card */}
                             <Link href="/vsl/restaurants" className="block group h-full">
-                                <div className="relative h-full rounded-[2.5rem] bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900 p-8 sm:p-10 border border-brand-700 overflow-hidden hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-500 flex flex-col">
-                                    {/* Gradient accent bar */}
-                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-400 via-red-400 to-orange-400" />
-
+                                <div className="relative h-full rounded-[2.5rem] bg-brand-500 p-8 sm:p-10 border border-orange-500/10 hover:border-orange-500/30 overflow-hidden hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 flex flex-col group-hover:-translate-y-1">
                                     {/* Badge */}
-                                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-widest mb-6">
-                                        <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+                                    <div className="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-bold uppercase tracking-widest mb-8">
+                                        <span className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-pulse" />
                                         For Restaurants
                                     </div>
 
-                                    <div className="flex flex-col gap-6 flex-grow">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                                    <div className="flex flex-col flex-grow">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-6">
+                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/20 flex-shrink-0">
                                                 <Icons.UtensilsCrossed className="w-8 h-8" />
                                             </div>
                                             <h3 className="text-2xl sm:text-3xl font-bold text-white font-heading group-hover:text-orange-400 transition-colors">
@@ -139,12 +170,49 @@ export default async function ServicesPage() {
                                             </h3>
                                         </div>
 
-                                        <p className="text-brand-200 text-lg flex-grow">
+                                        <p className="text-brand-100/70 text-lg mb-8 leading-relaxed">
                                             Stop profit leaks on food cost & labor. The "Kitchen Command Center" system for $500K–$5M venues.
                                         </p>
 
-                                        <div className="flex items-center text-orange-400 font-bold uppercase tracking-widest text-sm mt-auto">
-                                            Apply Now <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" />
+                                        {/* Features */}
+                                        <div className="space-y-3 mb-8">
+                                            <div className="flex items-center gap-3 text-brand-100/90">
+                                                <Icons.Check className="w-5 h-5 text-orange-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium">Inventory & COGS control</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 text-brand-100/90">
+                                                <Icons.Check className="w-5 h-5 text-orange-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium">Real-time P&L visibility</span>
+                                            </div>
+                                            <div className="flex items-center gap-3 text-brand-100/90">
+                                                <Icons.Check className="w-5 h-5 text-orange-400 flex-shrink-0" />
+                                                <span className="text-sm font-medium">Menu pricing strategy</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="h-px w-full bg-gradient-to-r from-orange-500/0 via-orange-500/20 to-orange-500/0 mb-8" />
+
+                                        {/* Stats */}
+                                        <div className="grid grid-cols-3 gap-4 mb-8">
+                                            <div>
+                                                <div className="text-2xl font-bold text-orange-400">$350K+</div>
+                                                <div className="text-[10px] uppercase tracking-wider text-brand-100/50 mt-1">Avg Savings</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-2xl font-bold text-orange-400">98%</div>
+                                                <div className="text-[10px] uppercase tracking-wider text-brand-100/50 mt-1">Retention</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-2xl font-bold text-orange-400">90 Days</div>
+                                                <div className="text-[10px] uppercase tracking-wider text-brand-100/50 mt-1">To Results</div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-auto">
+                                            <div className="w-full py-4 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 font-bold uppercase tracking-widest text-sm flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                                                Apply Now <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -158,40 +226,48 @@ export default async function ServicesPage() {
                 <section className="max-w-[90rem] mx-auto px-6 mb-32">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services?.map((service: any, i: number) => (
-                            <RevealOnScroll key={service._id} delay={i * 50} className={`rounded-[2.5rem] border p-8 sm:p-10 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-300 flex flex-col h-full group relative overflow-hidden
-                                ${service.isPopular ? 'bg-brand-900 border-brand-900' : 'bg-white border-slate-100 hover:border-gold-500/30'}`}>
-
-                                <Link href={`/services/${service.slug?.current}`} className="absolute inset-0 z-20">
+                            <RevealOnScroll key={service._id} delay={i * 50} className="group relative bg-white rounded-[2rem] p-8 border border-slate-200 hover:border-gold-500/20 shadow-sm hover:shadow-2xl hover:shadow-gold-500/5 transition-all duration-300 flex flex-col h-full overflow-hidden hover:-translate-y-1">
+                                <Link href={`/services/${service.slug.current}`} className="absolute inset-0 z-20">
                                     <span className="sr-only">View {service.title}</span>
                                 </Link>
 
-                                {/* Top Gradient Accent */}
-                                <div className={`absolute top-0 left-0 right-0 h-1.5 transition-all duration-500 group-hover:h-2
-                                    ${service.isPopular ? 'bg-gradient-to-r from-gold-400 to-gold-600' : 'bg-slate-100 group-hover:bg-gold-400'}`}
-                                />
+                                {/* Hover Gradient Glow */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gold-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-lg relative z-10
-                                    ${service.isPopular ? 'bg-white/10 text-gold-500 ring-1 ring-white/20' : 'bg-gold-50 text-gold-600 group-hover:bg-gold-500 group-hover:text-white'}`}>
-                                    <DynamicIcon name={service.icon} className="w-7 h-7" />
+                                <div className="relative w-16 h-16 rounded-2xl bg-brand-900 flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                                    <DynamicIcon name={service.icon} className="w-8 h-8 opacity-90" />
                                 </div>
 
-                                <h3 className={`text-2xl font-bold mb-4 font-heading transition-colors relative z-10
-                                    ${service.isPopular ? 'text-white' : 'text-brand-900 group-hover:text-gold-600'}`}>
-                                    {service.title}
-                                </h3>
+                                <div className="relative flex-grow">
+                                    <h3 className="text-2xl font-bold text-brand-900 mb-3 font-heading group-hover:text-gold-600 transition-colors">
+                                        {service.title}
+                                    </h3>
 
-                                <p className={`text-base leading-relaxed mb-8 flex-grow font-sans relative z-10
-                                    ${service.isPopular ? 'text-white/80' : 'text-brand-900/70'}`}>
-                                    {service.shortDescription}
-                                </p>
+                                    <p className="text-slate-600 leading-relaxed mb-6 font-sans">
+                                        {service.shortDescription}
+                                    </p>
 
-                                <div className={`pt-6 border-t mt-auto relative z-10 flex items-center justify-between
-                                    ${service.isPopular ? 'border-white/10' : 'border-slate-100'}`}>
-                                    <span className={`text-sm font-bold uppercase tracking-widest transition-colors font-sans
-                                        ${service.isPopular ? 'text-gold-400 group-hover:text-white' : 'text-brand-900 group-hover:text-gold-600'}`}>
-                                        Learn More
-                                    </span>
-                                    <ArrowRight className={`w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 ${service.isPopular ? 'text-gold-400' : 'text-brand-900'}`} />
+                                    {/* Features List */}
+                                    {service.features && service.features.length > 0 && (
+                                        <>
+                                            <div className="h-px w-full bg-slate-100 mb-6" />
+                                            <ul className="space-y-3 mb-8">
+                                                {service.features.slice(0, 3).map((feature: string, idx: number) => (
+                                                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                                                        <div className="mt-0.5 rounded-full bg-emerald-500/10 p-1 shrink-0">
+                                                            <Icons.Check className="w-3 h-3 text-emerald-500" />
+                                                        </div>
+                                                        <span className="leading-snug">{feature}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                    )}
+                                </div>
+
+                                <div className="mt-auto pt-6 border-t border-slate-100 relative flex items-center justify-between">
+                                    <span className="text-gold-600 font-bold uppercase tracking-widest text-xs group-hover:text-gold-500 transition-colors">Explore Service</span>
+                                    <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-gold-500 group-hover:translate-x-1 transition-all" />
                                 </div>
                             </RevealOnScroll>
                         ))}
@@ -199,29 +275,72 @@ export default async function ServicesPage() {
                 </section>
 
                 {/* Process / Methodology */}
-                <section className="max-w-7xl mx-auto px-6 mb-32">
-                    <RevealOnScroll className="bg-brand-900 rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden text-center">
-                        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                            <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-[100px] translate-x-1/2 -translate-y-1/2"></div>
-                            <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-[100px] -translate-x-1/2 translate-y-1/2"></div>
+                {/* Process / Methodology - Redesigned CTA (Wide Strip) */}
+                <section className="max-w-[100rem] mx-auto px-6 mb-32">
+                    <RevealOnScroll className="bg-brand-900 rounded-[2.5rem] p-8 sm:p-10 lg:py-12 lg:px-16 relative overflow-hidden border border-white/5 shadow-2xl shadow-black/20">
+                        {/* Background Effects */}
+                        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[120px] translate-x-1/2 -translate-y-1/2 will-change-transform"></div>
+                            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] -translate-x-1/2 translate-y-1/2 will-change-transform"></div>
                         </div>
 
-                        <div className="relative z-10 max-w-3xl mx-auto">
-                            <h2 className="text-3xl font-bold text-white tracking-tight mb-6 font-heading">
-                                Ready to upgrade your financial infrastructure?
-                            </h2>
-                            <p className="text-slate-300 text-lg leading-relaxed mb-10 font-sans">
-                                Stop overpaying taxes and start building wealth. Schedule a discovery call with our team today.
-                            </p>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-gold-500 text-brand-900 font-bold rounded-xl hover:bg-white transition-all shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 font-sans">
-                                    Book a Discovery Call
+                        <div className="relative z-10 w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-16">
+
+                            {/* Left Block: Text Content (40%) */}
+                            <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:flex-1 lg:max-w-2xl">
+                                {/* Badge & Pills - Inline */}
+                                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-6">
+                                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 backdrop-blur-sm shrink-0">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-400">Explore Services</span>
+                                    </span>
+
+                                    {['Tax Strategy', 'Bookkeeping', 'CFO Advisory'].map((pill) => (
+                                        <span key={pill} className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-brand-100/70 text-[11px] font-medium backdrop-blur-sm whitespace-nowrap">
+                                            {pill}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold text-white tracking-tight mb-4 font-heading leading-[1.1]">
+                                    Premier Tax & Advisory Services
+                                </h2>
+
+                                <p className="text-brand-100/80 text-base md:text-lg leading-relaxed font-sans max-w-xl mx-auto lg:mx-0">
+                                    From proactive tax strategy to real-time bookkeeping—services built to maximize savings.
+                                </p>
+                            </div>
+
+                            {/* Center Block: Metrics (35%) */}
+                            <div className="w-full lg:w-auto flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 lg:gap-8 lg:border-l lg:border-white/10 lg:pl-10">
+                                <div className="text-center lg:text-left">
+                                    <div className="text-3xl xl:text-4xl font-bold text-gold-400 font-heading mb-1 tracking-tight">$2M+</div>
+                                    <div className="text-[10px] uppercase tracking-widest text-brand-200/60 font-bold whitespace-nowrap">Tax Savings</div>
+                                </div>
+                                <div className="hidden sm:block w-px h-10 bg-white/10 lg:hidden" />
+                                <div className="text-center lg:text-left">
+                                    <div className="text-3xl xl:text-4xl font-bold text-gold-400 font-heading mb-1 tracking-tight">500+</div>
+                                    <div className="text-[10px] uppercase tracking-widest text-brand-200/60 font-bold whitespace-nowrap">Clients Serviced</div>
+                                </div>
+                                <div className="hidden sm:block w-px h-10 bg-white/10 lg:hidden" />
+                                <div className="text-center lg:text-left">
+                                    <div className="text-3xl xl:text-4xl font-bold text-gold-400 font-heading mb-1 tracking-tight">100%</div>
+                                    <div className="text-[10px] uppercase tracking-widest text-brand-200/60 font-bold whitespace-nowrap">Satisfaction</div>
+                                </div>
+                            </div>
+
+                            {/* Right Block: Actions (25%) */}
+                            <div className="flex flex-col items-center lg:items-end gap-3 w-full lg:w-auto shrink-0">
+                                <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-gold-500 text-brand-900 font-bold text-base rounded-xl hover:bg-gold-400 transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2 font-heading tracking-wide hover:-translate-y-1 duration-300 whitespace-nowrap">
+                                    Schedule Consultation
                                     <ArrowRight className="w-4 h-4" />
                                 </Link>
-                                <Link href="/about" className="w-full sm:w-auto px-8 py-4 bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 backdrop-blur-sm transition-all flex items-center justify-center gap-2 font-sans">
-                                    Learn About Us
-                                </Link>
+                                <div className="flex items-center justify-center lg:justify-end gap-2 text-[10px] text-brand-200/40 font-medium tracking-wide">
+                                    <Icons.Lock className="w-3 h-3 text-gold-500/50" />
+                                    <span>Free 30-Min Session</span>
+                                </div>
                             </div>
+
                         </div>
                     </RevealOnScroll>
                 </section>

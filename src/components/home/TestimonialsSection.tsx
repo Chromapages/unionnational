@@ -17,7 +17,7 @@ export async function TestimonialsSection() {
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-500/20 via-transparent to-transparent" />
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="max-w-[1440px] 2xl:max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-24 relative z-10">
                 <RevealOnScroll className="text-center mb-16">
                     <span className="text-gold-500 font-bold tracking-widest text-sm uppercase mb-3 block font-sans">
                         Client Success Stories
