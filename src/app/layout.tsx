@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "@/styles/globals.css";
 import { LocalBusinessSchema } from "@/components/seo/LocalBusinessSchema";
 import { ChatWidget } from "@/components/ChatWidget";
+import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -65,10 +66,13 @@ export default function RootLayout({
         className={`${inter.variable} ${outfit.variable} font-body antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden`}
         suppressHydrationWarning
       >
-        {children}
-        <LocalBusinessSchema />
-        <ChatWidget />
+        <ThemeProvider>
+          {children}
+          <LocalBusinessSchema />
+          <ChatWidget />
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+

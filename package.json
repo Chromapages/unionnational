@@ -9,7 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.2.2",
+    "@mui/icons-material": "^6.5.0",
+    "@mui/material": "^6.5.0",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.22.0",
     "clsx": "^2.1.1",

@@ -1,7 +1,6 @@
 "use client";
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import Image from "next/image";
 
 interface TrustBarProps {
     logos?: Array<{
@@ -12,40 +11,64 @@ interface TrustBarProps {
 
 export function TrustBar({ logos }: TrustBarProps) {
     const defaultBrands = [
-        { name: "ABC", url: "https://www.vectorlogo.zone/logos/abcgo/abcgo-ar21.svg", className: "h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto" },
-        { name: "Fox News", url: "https://www.vectorlogo.zone/logos/fox/fox-wordmark.svg", className: "h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto" },
-        { name: "NBC", url: "https://www.vectorlogo.zone/logos/nbc/nbc-ar21.svg", className: "h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto" },
-        { name: "Associated Press", url: "https://www.vectorlogo.zone/logos/ap/ap-icon.svg", className: "h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto" },
-        { name: "CBS", url: "https://api.iconify.design/simple-icons:cbs.svg", className: "h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto" },
-        { name: "Sports Illustrated", url: "/images/sports-illustrated-logo.png", className: "h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto" },
+        { name: "ABC", url: "https://www.vectorlogo.zone/logos/abcgo/abcgo-ar21.svg" },
+        { name: "Fox News", url: "https://www.vectorlogo.zone/logos/fox/fox-wordmark.svg" },
+        { name: "NBC", url: "https://www.vectorlogo.zone/logos/nbc/nbc-ar21.svg" },
+        { name: "Associated Press", url: "https://www.vectorlogo.zone/logos/ap/ap-icon.svg" },
+        { name: "CBS", url: "https://api.iconify.design/simple-icons:cbs.svg" },
+        { name: "Sports Illustrated", url: "/images/sports-illustrated-logo.png" },
     ];
 
     const displayLogos = logos && logos.length > 0
         ? logos.map(logo => ({ url: logo.asset?.url || '', name: logo.alt || 'Logo' }))
         : defaultBrands;
 
+    // Double the array for seamless infinite scroll
+    const marqueeLogos = [...displayLogos, ...displayLogos];
+
     return (
-        <section className="py-8 sm:py-12 border-b border-slate-100 bg-slate-50/50">
-            <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 2xl:px-16">
-                <RevealOnScroll>
-                    <div className="flex flex-col items-center justify-center">
-                        <span className="text-sm font-bold text-brand-900/50 uppercase tracking-widest mb-8 whitespace-nowrap font-heading">
-                            As Featured In:
-                        </span>
-                        <div className="flex flex-wrap lg:flex-nowrap justify-center items-center gap-6 sm:gap-8 md:gap-10 lg:gap-16 xl:gap-20 2xl:gap-24 w-full">
-                            {displayLogos.map((brand, i) => (
-                                <img
-                                    key={i}
-                                    src={brand.url}
-                                    alt={brand.name}
-                                    className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-20 w-auto object-contain mix-blend-multiply grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-110 transition-all duration-300 cursor-pointer"
-                                    loading="lazy"
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </RevealOnScroll>
+        <section className="py-10 border-b border-slate-100 bg-white relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
+                <p className="text-xs font-bold text-brand-900/40 uppercase tracking-[0.2em] font-heading">
+                    Trusted By Industry Leaders
+                </p>
             </div>
+
+            <div className="relative w-full overflow-hidden mask-gradient-x">
+                {/* Gradient Masks */}
+                <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+                <div className="flex w-max animate-scroll">
+                    {marqueeLogos.map((brand, i) => (
+                        <div
+                            key={i}
+                            className="flex items-center justify-center px-8 sm:px-12 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                        >
+                            <img
+                                src={brand.url}
+                                alt={brand.name}
+                                className="h-8 sm:h-9 md:h-10 w-auto object-contain max-w-[120px]"
+                                loading="lazy"
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Add custom keyframe for scroll if not using Tailwind plugin */}
+            <style jsx global>{`
+                @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-scroll {
+                    animation: scroll 40s linear infinite;
+                }
+                .animate-scroll:hover {
+                    animation-play-state: paused;
+                }
+            `}</style>
         </section>
     );
 }

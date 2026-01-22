@@ -1,39 +1,130 @@
+"use client";
+
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { sanityFetch } from "@/sanity/lib/live";
-import { TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
-import { TestimonialsCarousel } from "./TestimonialsCarousel";
+import { Quote, Star, ShieldCheck } from "lucide-react";
 
-export async function TestimonialsSection() {
-    const { data: testimonials } = await sanityFetch({ query: TESTIMONIALS_QUERY });
-
-    if (!testimonials || testimonials.length === 0) {
-        return null;
+// Placeholder data
+const testimonials = [
+    {
+        _id: "1",
+        clientName: "David Chen",
+        clientTitle: "CEO, TechFlow Solutions",
+        content: "We were overpaying by $40k/year before Union National Tax reorganized our S-Corp structure. The difference was immediate and significant. Their 'Digital Vault' approach gives me total peace of mind.",
+        rating: 5,
+    },
+    {
+        _id: "2",
+        clientName: "Sarah Miller",
+        clientTitle: "Founder, Miller Design Group",
+        content: "I needed a CFO, not just a tax preparer. Jason and his team helped me forecast cash flow and plan for a major expansion. It feels like having a partner in the business.",
+        rating: 5,
+    },
+    {
+        _id: "3",
+        clientName: "James Wilson",
+        clientTitle: "Owner, Wilson Contracting",
+        content: "Complexity is my enemy. Union National Tax simplified my multi-state filing and job costing issues. I can finally focus on bidding new work instead of worrying about the IRS.",
+        rating: 5,
+    },
+    {
+        _id: "4",
+        clientName: "Elena Rodriguez",
+        clientTitle: "Director, Apex Properties",
+        content: "The level of detail they go into is unmatched. They found deductions previous accountants missed for years. The 'Digital Vault' keeps everything organized and accessible.",
+        rating: 5,
+    },
+    {
+        _id: "5",
+        clientName: "Michael Chang",
+        clientTitle: "Founder, Chang & Co.",
+        content: "Professional, secure, and incredibly knowledgeable. They treat my business taxes with the same seriousness as a Fortune 500 company. Highly recommended.",
+        rating: 5,
     }
+];
+
+export function TestimonialsSection() {
+    // Duplicate for seamless scroll
+    const marqueeTestimonials = [...testimonials, ...testimonials];
 
     return (
-        <section className="py-24 bg-brand-900 border-t border-brand-800/50 relative overflow-hidden">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-5 pointer-events-none">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-500/20 via-transparent to-transparent" />
-            </div>
+        <section className="py-24 bg-slate-50 relative overflow-hidden">
+            {/* Background Decoration */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-100/40 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-            <div className="max-w-[1440px] 2xl:max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-24 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <RevealOnScroll className="text-center mb-16">
-                    <span className="text-gold-500 font-bold tracking-widest text-sm uppercase mb-3 block font-sans">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
                         Client Success Stories
                     </span>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 font-heading tracking-tight">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 tracking-tight text-brand-900 font-heading">
                         Trusted by High-Growth <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
                             Business Owners
                         </span>
                     </h2>
                 </RevealOnScroll>
 
-                <div className="relative">
-                    <TestimonialsCarousel testimonials={testimonials} />
+                <div className="relative w-full overflow-hidden mask-gradient-x py-6">
+                    {/* Gradient Masks */}
+                    <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-slate-50 to-transparent z-20 pointer-events-none"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-slate-50 to-transparent z-20 pointer-events-none"></div>
+
+                    <div className="flex w-max animate-scroll gap-6 sm:gap-8 hover:pause">
+                        {marqueeTestimonials.map((testimonial, index) => (
+                            <div
+                                key={`${testimonial._id}-${index}`}
+                                className="w-[350px] sm:w-[400px] h-[320px] bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:border-gold-500/30 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between shrink-0 group relative overflow-hidden"
+                            >
+                                {/* Fintech Accent: Top Bar */}
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-900 to-gold-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                                <div>
+                                    <div className="flex justify-between items-start mb-6">
+                                        <div className="flex text-gold-500 gap-1">
+                                            {[...Array(5)].map((_, i) => (
+                                                <Star key={i} className="w-4 h-4 fill-current" />
+                                            ))}
+                                        </div>
+                                        <ShieldCheck className="w-5 h-5 text-slate-200 group-hover:text-gold-500/50 transition-colors" />
+                                    </div>
+
+                                    <div className="relative">
+                                        <p className="text-base font-sans font-medium text-slate-700 leading-relaxed relative z-10 line-clamp-4 group-hover:text-brand-900 transition-colors">
+                                            "{testimonial.content}"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="border-t border-slate-100 pt-4 mt-4 group-hover:border-gold-500/10 transition-colors">
+                                    <div className="text-sm font-bold text-brand-900 font-heading">
+                                        {testimonial.clientName}
+                                    </div>
+                                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mt-0.5">
+                                        {testimonial.clientTitle}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
+
+            <style jsx global>{`
+                .mask-gradient-x {
+                    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+                }
+                .hover\:pause:hover {
+                    animation-play-state: paused;
+                }
+                @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-scroll {
+                    animation: scroll 60s linear infinite;
+                }
+            `}</style>
         </section>
     );
 }
