@@ -1,7 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { HardHat, TrendingUp, ShieldCheck, Play, ChevronRight } from "lucide-react";
+import { HardHat, TrendingUp, ShieldCheck, Play, ChevronRight, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import VideoEmbed from "@/components/ui/VideoEmbed";
+import * as LucideIcons from "lucide-react";
 
 // Animation Variants
 const fadeInUp = {
@@ -44,9 +46,44 @@ const ValuePropCard = ({ icon: Icon, title, description, delay = 0 }: ValuePropC
     </motion.div>
 );
 
-export default function ConstructionVSLClient() {
+interface ConstructionVSLClientProps {
+    data: any; // We can improve typing later
+}
+
+// Icon helper function
+const getIcon = (iconName: string) => {
+    // @ts-ignore - Lucide icon indexing
+    return LucideIcons[iconName] || LucideIcons.Check;
+};
+
+export default function ConstructionVSLClient({ data }: ConstructionVSLClientProps) {
     // Get current month dynamically
     const currentMonth = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+
+    // Sanity Data Fallbacks
+    const heroHeadline = data?.heroHeadline || "Stop Bleeding Cash on Job Costing & Labor.";
+    const heroSubheadline = data?.heroSubheadline || "The \"Hybrid CFO + COO\" Model used by elite construction firms to fix margins and automate operations.";
+    const heroBadge = data?.heroBadge || "Limited Partner Program";
+    const videoUrl = data?.videoFile?.asset?.url;
+    const heroCtaText = data?.heroCtaText || "Apply for Partner Program";
+    const heroCtaUrl = data?.heroCtaUrl || "/construction/apply";
+
+    const valueProps = data?.valuePropositions || [
+        { icon: "HardHat", title: "Construction Focused", description: "Standard CPAs stick you in the \"generic business\" box. We know WIP schedules, 1099 compliance, and job costing." },
+        { icon: "TrendingUp", title: "Profit First", description: "Cash flow isn't profit. We implement strict profit-taking systems so you actually keep the money you make." },
+        { icon: "ShieldCheck", title: "Audit Proof", description: "Aggressive tax strategies that are fully documented and defensible. Sleep soundly knowing you're protected." }
+    ];
+
+    const testimonial = data?.testimonial || {
+        quote: "Before Union National, I was grossing $2M but keeping $100k. Now I'm keeping $400k+ and I have clear financials.",
+        author: "Mike R.",
+        role: "Owner",
+        company: "Ridge&Build"
+    };
+
+    const ctaHeadline = data?.ctaHeadline || "Ready to fix your margins?";
+    const ctaButtonText = data?.ctaButtonText || "Book Your Discovery Call";
+    const urgencyText = data?.urgencyText || `Limited spots for ${currentMonth}`;
 
     return (
         <>
@@ -66,7 +103,7 @@ export default function ConstructionVSLClient() {
                 >
                     <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-sm font-bold uppercase tracking-widest">
                         <span className="w-2 h-2 bg-gold-400 rounded-full animate-pulse" />
-                        Limited Partner Program
+                        {heroBadge}
                     </span>
                 </motion.div>
 
@@ -81,16 +118,13 @@ export default function ConstructionVSLClient() {
                         variants={fadeInUp}
                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 font-heading"
                     >
-                        Stop Bleeding Cash on{" "}
-                        <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                            Job Costing & Labor.
-                        </span>
+                        {heroHeadline}
                     </motion.h1>
                     <motion.p
                         variants={fadeInUp}
                         className="text-lg sm:text-xl md:text-2xl text-brand-100/70 max-w-3xl mx-auto leading-relaxed"
                     >
-                        The <span className="text-gold-400 font-semibold">"Hybrid CFO + COO"</span> Model used by elite construction firms to fix margins and automate operations.
+                        {heroSubheadline}
                     </motion.p>
                 </motion.div>
 
@@ -98,62 +132,45 @@ export default function ConstructionVSLClient() {
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                    className="relative z-10 w-full max-w-4xl mx-auto mb-10"
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    className="relative z-10 w-full max-w-4xl mx-auto mb-12"
                 >
-                    <div className="relative aspect-video bg-brand-800 rounded-2xl overflow-hidden border border-brand-700/50 shadow-[0_0_60px_rgba(16,185,129,0.15)]">
-                        {/* Video Placeholder */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-brand-800 to-brand-900">
-                            {/* Play Button */}
-                            <button
-                                className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gold-500 text-brand-900 flex items-center justify-center hover:bg-gold-400 hover:scale-110 transition-all duration-300 shadow-lg shadow-gold-500/30"
-                                aria-label="Play Video"
-                            >
-                                <Play className="w-8 h-8 md:w-10 md:h-10 ml-1" fill="currentColor" />
-                            </button>
-                            <p className="mt-4 text-brand-300 text-sm font-medium">Watch the 5-Minute Breakdown</p>
+                    {videoUrl ? (
+                        <VideoEmbed
+                            videoUrl={videoUrl}
+                            posterImage={data?.videoPoster?.asset?.url} // Pass optional poster from Sanity
+                        />
+                    ) : (
+                        <div className="aspect-video bg-black/50 rounded-xl flex items-center justify-center border border-white/10 text-white/50">
+                            Video Placeholder (Add URL in Sanity)
                         </div>
-
-                        {/* Corner Accents (Blueprint aesthetic) */}
-                        <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-gold-500/30" />
-                        <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-gold-500/30" />
-                        <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-gold-500/30" />
-                        <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-gold-500/30" />
-                    </div>
+                    )}
                 </motion.div>
 
-                {/* CTA Button */}
+                {/* Primary CTA */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                    className="relative z-10 text-center"
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className="relative z-10 flex flex-col items-center"
                 >
                     <Link
-                        href="/construction/apply"
-                        className="group inline-flex items-center gap-3 px-8 py-5 md:px-12 md:py-6 bg-emerald-500 text-brand-900 font-bold text-lg md:text-xl rounded-full hover:bg-emerald-400 hover:scale-105 transition-all duration-300 shadow-lg shadow-emerald-500/30"
+                        href={heroCtaUrl}
+                        className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-emerald-500 text-white font-bold text-lg hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 group animate-float" // Restore animations/styles
                     >
-                        See If Your Business Qualifies
-                        <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                        {heroCtaText}
+                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
-
-                    {/* Scarcity Indicator */}
-                    <div className="mt-6 flex items-center justify-center gap-2 text-sm text-brand-200">
-                        <span className="relative flex h-3 w-3">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                        </span>
-                        <span>Only <span className="font-bold text-white">3 Partner Spots</span> Remaining for {currentMonth}</span>
+                    <div className="mt-4 flex items-center justify-center gap-2 text-emerald-400/80 text-sm font-medium">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        {urgencyText}
                     </div>
                 </motion.div>
             </section>
 
             {/* ===== VALUE PROPS SECTION ===== */}
-            <section className="relative py-20 md:py-32 px-6 bg-slate-50">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-50" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23D4AF37\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
-
-                <div className="relative max-w-6xl mx-auto">
+            <section className="bg-slate-50 py-20 relative overflow-hidden">
+                <div className="container mx-auto px-6 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -174,49 +191,126 @@ export default function ConstructionVSLClient() {
                         variants={staggerContainer}
                         className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
                     >
-                        <ValuePropCard
-                            icon={HardHat}
-                            title="Fix Job Costing"
-                            description="Know your true profit on every project. No more guessing, no more profit leaks."
-                        />
-                        <ValuePropCard
-                            icon={TrendingUp}
-                            title="Boost Net Margins"
-                            description="Our clients see 15-25% margin improvements within the first 90 days."
-                        />
-                        <ValuePropCard
-                            icon={ShieldCheck}
-                            title="IRS Audit Guard Included"
-                            description="Sleep easy knowing your books are bulletproof. Audit defense included."
-                        />
+                        {valueProps.map((prop: any, index: number) => (
+                            <ValuePropCard
+                                key={index}
+                                icon={getIcon(prop.icon)}
+                                title={prop.title}
+                                description={prop.description}
+                                delay={0.2 * index}
+                            />
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* ===== TESTIMONIAL SECTION ===== */}
+            <section className="py-20 bg-slate-50 relative">
+                <div className="container mx-auto px-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="max-w-5xl mx-auto relative"
+                    >
+                        {/* Executive Card */}
+                        <div className="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 md:p-12 lg:p-16 shadow-2xl shadow-brand-900/20 relative overflow-hidden">
+                            {/* Decorative Quote Mark Watermark */}
+                            <div className="absolute top-0 left-0 text-[200px] md:text-[300px] font-serif text-white/5 leading-none select-none pointer-events-none">
+                                "
+                            </div>
+
+                            {/* Stars */}
+                            <div className="relative z-10 mb-6 flex justify-center md:justify-start text-gold-400 gap-1">
+                                {[...Array(5)].map((_, i) => (
+                                    <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                    </svg>
+                                ))}
+                            </div>
+
+                            {/* Content Grid */}
+                            <div className="relative z-10 grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-center">
+                                {/* Quote */}
+                                <div>
+                                    <blockquote className="text-xl md:text-2xl lg:text-3xl text-white font-heading leading-tight mb-6">
+                                        "{testimonial.quote}"
+                                    </blockquote>
+
+                                    {/* Author Info - Mobile/Desktop */}
+                                    <div className="flex items-center gap-4 md:hidden">
+                                        {data?.testimonial?.authorImage?.asset?.url ? (
+                                            <img
+                                                src={data.testimonial.authorImage.asset.url}
+                                                alt={testimonial.author}
+                                                className="w-14 h-14 rounded-full object-cover border-2 border-gold-400/30"
+                                            />
+                                        ) : (
+                                            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center border-2 border-gold-400/30">
+                                                <span className="text-white font-bold text-xl">
+                                                    {testimonial?.author?.charAt(0) || 'C'}
+                                                </span>
+                                            </div>
+                                        )}
+                                        <div>
+                                            <p className="font-bold text-white text-lg">{testimonial.author}</p>
+                                            <p className="text-sm text-gold-200">{testimonial.role}</p>
+                                            <p className="text-xs text-brand-100/60">{testimonial.company}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Author Avatar - Desktop Only */}
+                                <div className="hidden md:flex flex-col items-center gap-4">
+                                    {data?.testimonial?.authorImage?.asset?.url ? (
+                                        <img
+                                            src={data.testimonial.authorImage.asset.url}
+                                            alt={testimonial.author}
+                                            className="w-24 h-24 lg:w-28 lg:h-28 rounded-full object-cover border-4 border-gold-400/30 shadow-xl"
+                                        />
+                                    ) : (
+                                        <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center border-4 border-gold-400/30 shadow-xl">
+                                            <span className="text-white font-bold text-4xl">
+                                                {testimonial?.author?.charAt(0) || 'C'}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <div className="text-center">
+                                        <p className="font-bold text-white text-lg">{testimonial.author}</p>
+                                        <p className="text-sm text-gold-200">{testimonial.role}</p>
+                                        <p className="text-xs text-brand-100/60">{testimonial.company}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </section>
 
             {/* ===== FINAL CTA SECTION ===== */}
-            <section className="relative py-20 md:py-32 px-6 bg-brand-900">
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-900 to-brand-800" />
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="relative max-w-3xl mx-auto text-center"
-                >
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 font-heading">
-                        Ready to Stop the Cash Bleed?
+            <section className="py-24 bg-brand-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5" />
+                <div className="container mx-auto px-6 text-center relative z-10">
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">
+                        {ctaHeadline}
                     </h2>
-                    <p className="text-lg md:text-xl text-brand-200 mb-10 leading-relaxed">
-                        Join the elite construction firms that have taken control of their finances. Limited spots available.
+                    <p className="text-xl text-brand-100/60 mb-10 max-w-2xl mx-auto">
+                        We only override standard CPA work with aggressive, industry-specific strategies.
                     </p>
-                    <Link
-                        href="/construction/apply"
-                        className="group inline-flex items-center gap-3 px-10 py-5 md:px-14 md:py-6 bg-gold-500 text-brand-900 font-bold text-lg md:text-xl rounded-full hover:bg-gold-400 hover:scale-105 transition-all duration-300 shadow-lg shadow-gold-500/30"
-                    >
-                        Apply for Partner Program
-                        <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </motion.div>
+                    <div className="flex flex-col items-center gap-4">
+                        <Link
+                            href={heroCtaUrl}
+                            className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gold-500 text-brand-900 font-bold text-xl hover:bg-gold-400 transition-all shadow-lg shadow-gold-500/20 hover:scale-105"
+                        >
+                            {ctaButtonText}
+                            <ArrowRight className="w-6 h-6" />
+                        </Link>
+                        <p className="text-sm text-brand-100/40 mt-4">
+                            {urgencyText}
+                        </p>
+                    </div>
+                </div>
             </section>
         </>
     );

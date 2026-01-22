@@ -255,14 +255,26 @@ export default function ServiceDetailClient({ service, relatedServices }: Servic
                             <Link
                                 key={s._id}
                                 href={`/services/${s.slug.current}`}
-                                className="group bg-white rounded-3xl p-8 border border-slate-200 hover:border-gold-500/30 hover:shadow-xl transition-all flex items-start gap-6"
+                                className="group relative bg-white rounded-[2rem] p-8 md:p-10 border border-transparent hover:border-gold-500/20 shadow-md hover:shadow-2xl hover:shadow-gold-500/5 transition-all duration-500 hover:-translate-y-1 flex items-center gap-8 overflow-hidden"
                             >
-                                <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center shrink-0 group-hover:bg-gold-50 group-hover:text-gold-600 transition-colors">
-                                    <DynamicIcon name={s.icon} className="w-8 h-8 text-slate-400 group-hover:text-gold-600" />
+                                {/* Hover Gradient Glow */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-gold-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                <div className="relative w-20 h-20 rounded-2xl bg-brand-900 text-white flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500">
+                                    <DynamicIcon name={s.icon} className="w-9 h-9 opacity-90" />
                                 </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-brand-900 mb-2 font-heading group-hover:text-gold-600 transition-colors">{s.title}</h3>
-                                    <p className="text-sm text-slate-500 font-sans line-clamp-2">{s.shortDescription}</p>
+
+                                <div className="relative flex-grow min-w-0">
+                                    <h3 className="text-2xl font-bold text-brand-900 mb-3 font-heading group-hover:text-gold-600 transition-colors">{s.title}</h3>
+                                    <p className="text-slate-500 font-sans leading-relaxed mb-4 line-clamp-2">{s.shortDescription}</p>
+
+                                    <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gold-600 group-hover:text-gold-500 transition-colors">
+                                        Learn More
+                                    </div>
+                                </div>
+
+                                <div className="relative hidden sm:flex w-12 h-12 rounded-full border border-slate-200 items-center justify-center group-hover:border-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 text-slate-300 transition-all duration-300 group-hover:translate-x-1">
+                                    <ArrowRight className="w-5 h-5" />
                                 </div>
                             </Link>
                         ))}

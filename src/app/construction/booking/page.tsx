@@ -134,11 +134,10 @@ export default function ConstructionBookingPage() {
                             </div>
 
                             {/* GHL Calendar Embed */}
-                            <div className="w-full h-[calc(100%-50px)] bg-white overflow-y-auto">
+                            <div className="w-full h-[calc(100%-50px)] bg-white">
                                 <iframe
                                     src="https://link.agent-crm.com/widget/booking/18TmANwweAsRQRF1Gyhr"
-                                    style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '600px' }}
-                                    scrolling="no"
+                                    style={{ width: '100%', height: '100%', border: 'none', minHeight: '650px' }}
                                     id="18TmANwweAsRQRF1Gyhr_1768594394623"
                                 ></iframe>
                                 <Script src="https://link.agent-crm.com/js/form_embed.js" strategy="lazyOnload" />

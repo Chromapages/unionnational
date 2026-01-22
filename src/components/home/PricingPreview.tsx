@@ -7,8 +7,7 @@ export function PricingPreview() {
     return (
         <section
             id="pricing"
-            className="mb-0 py-20"
-            style={{ maxWidth: '80rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
+            className="mb-0 py-16 sm:py-20 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
             <RevealOnScroll className="text-center mb-16">
                 <span className="text-xs font-semibold uppercase tracking-widest text-gold-600 font-sans">Engagement Models</span>
@@ -18,8 +17,7 @@ export function PricingPreview() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Compliance Plan */}
                 <RevealOnScroll
-                    className="rounded-md p-10 lg:p-12 flex flex-col relative group transition-all duration-300 hover:shadow-xl overflow-hidden"
-                    style={{ backgroundColor: '#F8FAFC', border: '1px solid #e2e8f0' }}
+                    className="rounded-md p-8 sm:p-10 lg:p-12 flex flex-col relative group transition-all duration-300 hover:shadow-xl overflow-hidden bg-slate-50 border border-slate-200"
                 >
                     <div className="relative z-10 flex flex-col h-full">
                         <div className="flex justify-between items-start mb-8">
@@ -58,7 +56,7 @@ export function PricingPreview() {
                 {/* Fractional CFO Plan */}
                 <RevealOnScroll
                     delay={100}
-                    className="rounded-md p-10 lg:p-12 flex flex-col relative group transition-all duration-300 hover:shadow-xl overflow-hidden bg-brand-500"
+                    className="rounded-md p-8 sm:p-10 lg:p-12 flex flex-col relative group transition-all duration-300 hover:shadow-xl overflow-hidden bg-brand-500"
                 >
                     {/* Visual Flourish */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500 rounded-full blur-[120px] opacity-20 -translate-y-1/2 translate-x-1/2" />

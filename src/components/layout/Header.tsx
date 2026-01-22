@@ -52,10 +52,10 @@ export function Header({ siteSettings }: HeaderProps) {
             <nav
                 className={`fixed w-full z-50 top-0 transition-all duration-300 border-b bg-brand-500 border-brand-600 shadow-md ${scrolled ? 'py-2' : 'py-4'}`}
             >
-                <div className="max-w-[90rem] mx-auto px-6 h-16 flex items-center justify-between">
+                <div className="max-w-[90rem] 2xl:max-w-[100rem] mx-auto px-6 h-16 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group relative z-50">
-                        <div className={`relative transition-all duration-300 ${scrolled ? 'w-48 h-12' : 'w-56 h-14'}`}>
+                        <div className={`relative transition-all duration-300 ${scrolled ? 'w-40 h-10 sm:w-48 sm:h-12' : 'w-48 h-12 sm:w-56 sm:h-14'}`}>
                             <Image
                                 src={logoUrl}
                                 alt={siteSettings?.companyName || "Union National Tax"}
@@ -67,7 +67,7 @@ export function Header({ siteSettings }: HeaderProps) {
                     </Link>
 
                     {/* Desktop Links */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="hidden md:flex items-center gap-4 md:gap-6 lg:gap-8 xl:gap-10">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}

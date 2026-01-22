@@ -237,8 +237,7 @@ export const PRODUCT_SLUGS_QUERY = defineQuery(`
 
 export const SITE_SETTINGS_QUERY = defineQuery(`
   *[_type == "siteSettings"][0] {
-    companyName,
-    tagline,
+    ...,
     logo {
       asset->,
       alt
@@ -246,43 +245,35 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
     logoAlt {
       asset->,
       alt
-    },
-    phone,
-    email,
-    address,
-    businessHours,
-    socialLinks,
-    ctaButtonText,
-    ctaButtonUrl,
-    copyrightText
+    }
   }
 `);
 
 export const HOME_PAGE_QUERY = defineQuery(`
-  *[_type == "homePage"][0] {
-    heroTitle,
+  * [_type == "homePage"][0] {
+  heroTitle,
     heroSubtitle,
     heroVideoUrl,
     heroCtaText,
     heroCtaUrl,
     trustLogos[] {
-      asset->,
+    asset ->,
       alt
-    },
-    stats[] {
-      value,
+  },
+  stats[] {
+    value,
       label
-    },
-    ctaTitle,
+  },
+  ctaTitle,
     ctaSubtitle,
     ctaButtonText,
     ctaButtonUrl
-  }
+}
 `);
 
 export const TESTIMONIALS_QUERY = defineQuery(`
-  *[_type == "testimonial" && isPublished == true] | order(displayOrder asc) {
-    _id,
+  * [_type == "testimonial" && isPublished == true] | order(displayOrder asc) {
+  _id,
     clientName,
     clientTitle,
     clientCompany,
@@ -290,45 +281,45 @@ export const TESTIMONIALS_QUERY = defineQuery(`
     rating,
     isFeatured,
     image {
-      asset->
+    asset ->
     },
-    serviceUsed->{
-      title
-    }
+  serviceUsed -> {
+    title
   }
+}
 `);
 
 export const FAQ_QUERY = defineQuery(`
-  *[_type == "faq"]|order(displayOrder asc){
-    _id,
+  * [_type == "faq"] | order(displayOrder asc){
+  _id,
     question,
     answer,
     category
-  }
+}
 `);
 
 export const ABOUT_PAGE_QUERY = defineQuery(`
-  *[_type == "aboutPage"][0]{
-    heroTitle,
+  * [_type == "aboutPage"][0]{
+  heroTitle,
     heroSubtitle,
     heroBadge,
     missionStatement,
     storyContent,
     values[]{
-      title,
+    title,
       description,
       iconName
-    },
-    certifications[]{
-      name,
+  },
+  certifications[]{
+    name,
       logo
-    }
   }
+}
 `);
 
 export const CONTACT_SETTINGS_QUERY = defineQuery(`
-  *[_type == "contactSettings"][0]{
-    heroTitle,
+  * [_type == "contactSettings"][0]{
+  heroTitle,
     heroSubtitle,
     contactEmail,
     contactPhone,
@@ -337,24 +328,24 @@ export const CONTACT_SETTINGS_QUERY = defineQuery(`
     formTitle,
     formSubtitle,
     mapEmbedUrl
-  }
+}
 `);
 
 export const SERVICES_PAGE_QUERY = defineQuery(`
-  *[_type == "servicesPage"][0]{
-    heroTitle,
+  * [_type == "servicesPage"][0]{
+  heroTitle,
     heroSubtitle,
     heroBadge,
     ctaTitle,
     ctaSubtitle,
     ctaButtonText,
     ctaButtonUrl
-  }
+}
 `);
 
 export const PRICING_TIERS_QUERY = defineQuery(`
-  *[_type == "pricingTier"]|order(displayOrder asc){
-    _id,
+  * [_type == "pricingTier"] | order(displayOrder asc){
+  _id,
     name,
     slug,
     tagline,
@@ -364,17 +355,42 @@ export const PRICING_TIERS_QUERY = defineQuery(`
     isFeatured,
     ctaText,
     ctaUrl,
-    relatedService->{
+    relatedService -> {
       title,
       slug
+    }
+}
+`);
+
+export const LEGAL_PAGE_QUERY = defineQuery(`
+  * [_type == "legalPage" && slug.current == $slug][0]{
+  title,
+    lastUpdated,
+    body
+}
+`);
+
+export const VSL_PAGE_QUERY = defineQuery(`
+  *[_type == "vslPage" && slug.current == $slug][0] {
+    ...,
+    videoFile {
+      asset-> {
+        url
+      }
+    },
+    videoPoster {
+      asset-> {
+        url
+      }
+    },
+    testimonial {
+      ...,
+      authorImage {
+        asset-> {
+          url
+        }
+      }
     }
   }
 `);
 
-export const LEGAL_PAGE_QUERY = defineQuery(`
-  *[_type == "legalPage" && slug.current == $slug][0]{
-    title,
-    lastUpdated,
-    body
-  }
-`);

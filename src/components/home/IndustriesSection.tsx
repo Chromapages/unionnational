@@ -57,20 +57,20 @@ export function IndustriesSection() {
 
     return (
         <section className="mb-0 border-y border-slate-100 bg-slate-50/50">
-            <div className="max-w-7xl mx-auto px-6 py-20">
-                <RevealOnScroll className="text-center mb-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+                <RevealOnScroll className="text-center mb-12 sm:mb-16">
                     <span className="text-xs font-semibold uppercase tracking-widest text-gold-600 font-sans">Who We Serve</span>
                     <h2 className="text-3xl lg:text-4xl font-bold mt-3 text-brand-900 tracking-tight font-heading">Specialized Tax Strategy for Your Industry</h2>
                 </RevealOnScroll>
 
-                <div className="grid lg:grid-cols-12 gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
                     {/* Sidebar / Navigation */}
-                    <div className="lg:col-span-4 flex flex-col gap-3">
+                    <div className="lg:col-span-4 flex flex-row flex-wrap lg:flex-col gap-3">
                         {industries.map((industry, index) => (
                             <button
                                 key={industry.id}
                                 onClick={() => setActiveIndex(index)}
-                                className={`flex items-center gap-4 p-4 rounded-md text-left transition-all duration-300 border ${activeindex === index
+                                className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-md text-left transition-all duration-300 border flex-1 lg:flex-none min-w-[140px] ${activeindex === index
                                     ? "bg-white border-gold-500 shadow-md ring-1 ring-gold-500"
                                     : "bg-transparent border-transparent hover:bg-white/50 hover:border-slate-200"
                                     }`}
@@ -93,7 +93,7 @@ export function IndustriesSection() {
                     </div>
 
                     {/* Content Display */}
-                    <div className="lg:col-span-8 bg-white rounded-md border border-slate-200 p-8 lg:p-12 shadow-sm relative overflow-hidden">
+                    <div className="lg:col-span-8 bg-white rounded-md border border-slate-200 p-6 sm:p-10 lg:p-12 shadow-sm relative overflow-hidden">
                         {/* Background Decor */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-slate-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 z-0" />
 
@@ -115,7 +115,7 @@ export function IndustriesSection() {
                                 {industries[activeindex].detailText}
                             </p>
 
-                            <div className="grid sm:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {industries[activeindex].benefits.map((benefit, i) => (
                                     <div key={i} className="flex flex-col gap-3">
                                         <div className="w-8 h-8 rounded-full bg-gold-100 flex items-center justify-center">

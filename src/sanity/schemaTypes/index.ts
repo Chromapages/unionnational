@@ -17,6 +17,7 @@ import { servicesPage } from './servicesPage'
 import { caseStudy } from './caseStudy'
 import { pricingTier } from './pricingTier'
 import { legalPage } from './legalPage'
+import { vslPage } from './vslPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -37,6 +38,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     servicesPage,
     caseStudy,
     pricingTier,
-    legalPage
+    legalPage,
+    vslPage
   ],
 }

@@ -7,20 +7,18 @@ export function ServicesSection() {
     return (
         <section
             id="services"
-            className="mb-0 py-20"
-            style={{ maxWidth: '80rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
+            className="mb-0 py-16 sm:py-20 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
             <RevealOnScroll
-                className="rounded-md shadow-sm bg-white"
-                style={{ border: '1px solid #e2e8f0', padding: '2.5rem' }}
+                className="rounded-md shadow-sm bg-white border border-slate-200 p-6 sm:p-8 lg:p-10"
             >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20 pb-12" style={{ borderBottom: '1px solid #f1f5f9' }}>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-16 sm:mb-20 pb-8 sm:pb-12 border-b border-slate-100">
                     <div>
                         <div className="text-xs font-semibold uppercase tracking-widest mb-4 text-gold-600 font-sans">Our Expertise</div>
                         <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-brand-900 font-heading">Comprehensive Financial Solutions.</h2>
                     </div>
                     <div className="flex items-end">
-                        <p className="text-brand-900 leading-relaxed font-sans" style={{ maxWidth: '28rem' }}>
+                        <p className="text-brand-900 leading-relaxed font-sans max-w-md">
                             Design a financial operating system that works for your business. From basic compliance to strategic growth tools.
                         </p>
                     </div>
@@ -28,7 +26,7 @@ export function ServicesSection() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {/* Service 1: Strategic Bookkeeping */}
-                    <div className="group bg-white rounded-2xl border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
+                    <div className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-gold-50 text-gold-600"
                         >
@@ -44,7 +42,7 @@ export function ServicesSection() {
                     </div>
 
                     {/* Service 2: Fractional CFO */}
-                    <div className="group bg-white rounded-2xl border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
+                    <div className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-gold-50 text-gold-600"
                         >
@@ -60,7 +58,7 @@ export function ServicesSection() {
                     </div>
 
                     {/* Service 3: S-Corp Tax Advantage */}
-                    <div className="group bg-white rounded-2xl border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
+                    <div className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-gold-50 text-gold-600"
                         >
@@ -76,7 +74,7 @@ export function ServicesSection() {
                     </div>
 
                     {/* Service 4: Tax Planning Consulting */}
-                    <div className="group bg-white rounded-2xl border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
+                    <div className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-gold-50 text-gold-600"
                         >
@@ -92,7 +90,7 @@ export function ServicesSection() {
                     </div>
 
                     {/* Service 5: Tax Filing & Preparation */}
-                    <div className="group bg-white rounded-2xl border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
+                    <div className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-gold-50 text-gold-600"
                         >
@@ -108,7 +106,7 @@ export function ServicesSection() {
                     </div>
 
                     {/* Service 6: New Business Formation */}
-                    <div className="group bg-white rounded-2xl border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
+                    <div className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:-translate-y-1 hover:shadow-lg hover:border-gold-500/30 transition-all duration-300 cursor-pointer">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center mb-6 bg-gold-50 text-gold-600"
                         >

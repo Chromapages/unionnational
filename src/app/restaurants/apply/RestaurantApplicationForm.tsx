@@ -33,16 +33,31 @@ export default function RestaurantApplicationForm() {
 
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true);
-        console.log("Restaurant Application Data:", data);
 
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        try {
+            // Submit to API endpoint (which forwards to GHL webhook)
+            const response = await fetch('/api/submit-restaurant-application', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-        // Gatekeeper Logic
-        if (data.revenue === "less_500k") {
-            router.push("/restaurants/downsell");
-        } else {
-            router.push("/restaurants/booking");
+            if (!response.ok) {
+                throw new Error('Failed to submit application');
+            }
+
+            // After successful submission, redirect based on revenue
+            if (data.revenue === "less_500k") {
+                router.push("/restaurants/downsell");
+            } else {
+                router.push("/restaurants/booking");
+            }
+        } catch (error) {
+            console.error('Application submission error:', error);
+            setIsSubmitting(false);
+            alert('There was an error submitting your application. Please try again.');
         }
     };
 

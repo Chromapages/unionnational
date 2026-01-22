@@ -7,18 +7,17 @@ import { User, Landmark, ArrowUp } from "lucide-react";
 export function BentoGridSection() {
     return (
         <section
-            className="mb-0 py-20"
-            style={{ maxWidth: '80rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}
+            className="mb-0 py-16 sm:py-20 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
             <RevealOnScroll className="text-center mb-16">
                 <span className="text-xs font-semibold uppercase tracking-widest text-gold-600 font-sans">Why Us</span>
                 <h2 className="text-3xl lg:text-4xl font-bold mt-4 tracking-tight text-brand-900 font-heading">Why Contractors & E-Com Choose Us</h2>
             </RevealOnScroll>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Stat Card with Background Image */}
                 <RevealOnScroll
-                    className="rounded-md p-10 flex flex-col justify-end hover:shadow-xl transition-all duration-300 group cursor-default relative overflow-hidden min-h-[280px]"
+                    className="rounded-md p-6 sm:p-8 md:p-10 flex flex-col justify-end hover:shadow-xl transition-all duration-300 group cursor-default relative overflow-hidden min-h-[280px]"
                 >
                     {/* Background Image */}
                     <Image
@@ -41,7 +40,7 @@ export function BentoGridSection() {
                 {/* Credentials Card */}
                 <RevealOnScroll
                     delay={100}
-                    className="rounded-md p-10 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group bg-brand-500"
+                    className="rounded-md p-6 sm:p-8 md:p-10 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group bg-brand-500"
                     style={{ minHeight: '300px' }}
                 >
                     <div>
@@ -66,7 +65,7 @@ export function BentoGridSection() {
                 {/* Enrolled Agent Education Card (Full Width) */}
                 <RevealOnScroll
                     delay={200}
-                    className="md:col-span-2 rounded-md p-10 flex flex-col md:flex-row gap-10 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+                    className="md:col-span-2 rounded-md p-6 sm:p-8 md:p-10 flex flex-col md:flex-row gap-8 md:gap-10 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 -z-10"></div>
 

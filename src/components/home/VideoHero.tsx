@@ -131,12 +131,12 @@ export function VideoHero({ data }: VideoHeroProps) {
                 <div className="absolute inset-0 bg-brand-900/90"></div>
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
                     {/* Left Content */}
                     <RevealOnScroll>
                         <h1
-                            className="text-5xl sm:text-6xl lg:text-[4.5rem] leading-[1.1] font-bold font-heading tracking-tight mb-8 text-white drop-shadow-lg"
+                            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] font-bold font-heading tracking-tight mb-8 text-white drop-shadow-lg"
                         >
                             {data?.heroTitle && (
                                 <>
@@ -158,7 +158,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                         >
                             <div className="relative bg-white border border-slate-200 rounded-md p-6 shadow-sm hover:shadow-md transition-shadow">
                                 <label className="block text-xs font-bold text-brand-900 uppercase tracking-widest mb-3 font-heading">Estimate Your Savings</label>
-                                <form className="flex items-center gap-3" onSubmit={(e) => { e.preventDefault(); handleCalculate(); }}>
+                                <form className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3" onSubmit={(e) => { e.preventDefault(); handleCalculate(); }}>
                                     <div className="relative flex-1 group/input">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-900/60 font-medium group-focus-within/input:text-gold-500">$</span>
                                         <input
@@ -195,11 +195,11 @@ export function VideoHero({ data }: VideoHeroProps) {
                     {/* Right Visual: Financial Fortress/Dashboard */}
                     <RevealOnScroll className="relative flex items-center justify-center lg:justify-end h-[500px] sm:h-[600px]">
                         {/* Dashboard Card */}
+                        {/* Dashboard Card */}
                         <div
-                            className="relative z-10 rounded-md shadow-2xl p-6"
+                            className="relative z-10 rounded-md shadow-2xl p-6 hidden sm:block w-full sm:w-80 md:w-[340px] lg:w-[380px]"
                             style={{
                                 backgroundColor: 'white',
-                                width: '380px',
                                 border: '1px solid #e2e8f0',
                                 transform: 'perspective(1000px) rotateY(-5deg) rotateX(2deg)',
                                 transition: 'transform 0.5s ease-out',

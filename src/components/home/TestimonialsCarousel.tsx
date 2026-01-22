@@ -46,14 +46,14 @@ export const TestimonialsCarousel = ({ testimonials }: TestimonialsCarouselProps
     }, [emblaApi, onSelect]);
 
     return (
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative">
             {/* Carousel Container */}
             <div className="overflow-hidden p-4 -m-4" ref={emblaRef}>
                 <div className="flex touch-pan-y touch-pinch-zoom backface-visible">
                     {testimonials.map((testimonial, index) => (
                         <div
                             key={testimonial._id}
-                            className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4 md:pl-6 lg:pl-8"
+                            className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%] 2xl:flex-[0_0_25%] pl-4 md:pl-5 lg:pl-6"
                         >
                             <TestimonialCard
                                 testimonial={testimonial}
@@ -67,7 +67,7 @@ export const TestimonialsCarousel = ({ testimonials }: TestimonialsCarouselProps
 
             {/* Navigation Arrows - Desktop/Tablet (Outside) */}
             <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-12 z-10 w-10 h-10 rounded-full bg-brand-800/80 backdrop-blur-sm border border-brand-700 flex items-center justify-center text-gold-500 shadow-lg hover:bg-brand-700 hover:scale-105 transition-all duration-300 group hidden md:flex"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 lg:-translate-x-12 z-10 w-10 h-10 rounded-full bg-brand-800/80 backdrop-blur-sm border border-brand-700 flex items-center justify-center text-gold-500 shadow-lg hover:bg-brand-700 hover:scale-105 transition-all duration-300 group hidden md:flex"
                 onClick={scrollPrev}
                 aria-label="Previous slide"
             >
@@ -75,7 +75,7 @@ export const TestimonialsCarousel = ({ testimonials }: TestimonialsCarouselProps
             </button>
 
             <button
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-12 z-10 w-10 h-10 rounded-full bg-brand-800/80 backdrop-blur-sm border border-brand-700 flex items-center justify-center text-gold-500 shadow-lg hover:bg-brand-700 hover:scale-105 transition-all duration-300 group hidden md:flex"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 lg:translate-x-12 z-10 w-10 h-10 rounded-full bg-brand-800/80 backdrop-blur-sm border border-brand-700 flex items-center justify-center text-gold-500 shadow-lg hover:bg-brand-700 hover:scale-105 transition-all duration-300 group hidden md:flex"
                 onClick={scrollNext}
                 aria-label="Next slide"
             >

@@ -16,13 +16,13 @@ export async function Footer() {
     ].filter(link => link.href);
 
     return (
-        <footer className="bg-brand-900 border-t border-brand-800">
-            <div className="max-w-[80rem] mx-auto px-6 py-12">
+        <footer className="bg-brand-500 border-t border-brand-600">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4">
 
                     {/* Brand Section */}
                     <div className="flex items-center gap-2">
-                        <Link href="/" className="relative h-24 w-96">
+                        <Link href="/" className="relative h-20 sm:h-24 w-80 sm:w-96">
                             {siteSettings?.logoAlt?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logoAlt.asset.url}
@@ -41,7 +41,7 @@ export async function Footer() {
                         </Link>
                     </div>
 
-                    <nav className="flex flex-wrap justify-center gap-6 md:gap-8">
+                    <nav className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
                         {['Home', 'Services', 'Shop', 'Blog', 'About', 'Team', 'Contact', 'Intake'].map((item) => (
                             <Link
                                 key={item}
@@ -54,7 +54,7 @@ export async function Footer() {
                     </nav>
 
                     {/* Social Icons */}
-                    <div className="flex gap-4">
+                    <div className="flex gap-3 sm:gap-4">
                         {socialLinks.length > 0 ? (
                             socialLinks.map((social, i) => (
                                 <a

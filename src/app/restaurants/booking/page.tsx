@@ -135,11 +135,10 @@ export default function RestaurantBookingPage() {
                             </div>
 
                             {/* GHL Calendar Embed */}
-                            <div className="w-full h-[calc(100%-50px)] bg-white overflow-y-auto">
+                            <div className="w-full h-[calc(100%-50px)] bg-white">
                                 <iframe
                                     src="https://link.agent-crm.com/widget/booking/JjJJoiZL5Yai7GjRYocf"
-                                    style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '600px' }}
-                                    scrolling="no"
+                                    style={{ width: '100%', height: '100%', border: 'none', minHeight: '650px' }}
                                     id="5g7OR4CC9hn6rJ97lKXE_1768594559523"
                                 ></iframe>
                                 <Script src="https://link.agent-crm.com/js/form_embed.js" strategy="lazyOnload" />

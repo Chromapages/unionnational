@@ -33,19 +33,33 @@ export default function ApplicationForm() {
 
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true);
-        console.log("Application Data:", data);
 
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        try {
+            // Submit to API endpoint (which forwards to GHL webhook)
+            const response = await fetch('/api/submit-application', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
 
-        // Gatekeeper Logic
-        if (data.revenue === "less_500k") {
-            router.push("/construction/downsell");
-        } else {
-            router.push("/construction/booking");
+            if (!response.ok) {
+                throw new Error('Failed to submit application');
+            }
+
+            // After successful submission, redirect based on revenue
+            if (data.revenue === "less_500k") {
+                router.push("/construction/downsell");
+            } else {
+                router.push("/construction/booking");
+            }
+        } catch (error) {
+            console.error('Application submission error:', error);
+            setIsSubmitting(false);
+            // You might want to show an error message to the user here
+            alert('There was an error submitting your application. Please try again.');
         }
-
-        // Note: isSubmitting stays true during redirect for smooth UX
     };
 
     return (
