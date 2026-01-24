@@ -1,7 +1,6 @@
 import { HealthCheckSurvey } from "@/components/health-check/HealthCheckSurvey";
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { getSiteSettings } from "@/sanity/lib/getSiteSettings";
 
 export const metadata = {
     title: "Business Financial Health Check | Union National Tax",
@@ -9,11 +8,9 @@ export const metadata = {
 };
 
 export default async function HealthCheckPage() {
-    const siteSettings = await getSiteSettings();
-
     return (
         <main className="min-h-screen bg-slate-50 relative overflow-hidden">
-            <Header siteSettings={siteSettings} />
+            <HeaderWrapper />
 
             {/* Background Decorative Elements */}
             <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-brand-500/5 to-transparent pointer-events-none" />

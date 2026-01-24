@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, Play, X, ArrowRight, CheckCircle2 } from "lucide-react";
-import Hls from "hls.js";
+import { useVideoPlayer } from "@/hooks/useVideoPlayer";
+import { VideoPlayer } from "@/components/ui/VideoPlayer";
 
 // Custom hook for counting numbers with ease-out
 const useCounter = (end: number, duration: number = 1000, start: boolean = false) => {
@@ -63,8 +64,6 @@ export function VideoHero({ data }: VideoHeroProps) {
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
 
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const modalVideoRef = useRef<HTMLVideoElement>(null);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -74,53 +73,17 @@ export function VideoHero({ data }: VideoHeroProps) {
     const hlsUrl = data?.heroVideoUrl;
     const modalVideoUrl = data?.heroCtaUrl || hlsUrl;
 
+    // Background video hook
+    const { videoRef: bgVideoRef } = useVideoPlayer({
+        src: hlsUrl,
+        autoPlay: true,
+        muted: true,
+        loop: true
+    });
+
     useEffect(() => {
         setMounted(true);
     }, []);
-
-    // Background video HLS
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
-
-        if (Hls.isSupported() && hlsUrl) {
-            const hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-            hls.loadSource(hlsUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(() => { });
-            });
-            return () => hls.destroy();
-        } else if (video.canPlayType("application/vnd.apple.mpegurl") && hlsUrl) {
-            video.src = hlsUrl;
-            video.addEventListener("loadedmetadata", () => {
-                video.play().catch(() => { });
-            });
-        }
-    }, [hlsUrl]);
-
-    // Modal video HLS
-    useEffect(() => {
-        if (!isVideoModalOpen) return;
-        const video = modalVideoRef.current;
-        if (!video) return;
-
-        let hls: Hls;
-        if (Hls.isSupported() && modalVideoUrl) {
-            hls = new Hls({ enableWorker: true, lowLatencyMode: true });
-            hls.loadSource(modalVideoUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(() => { });
-            });
-        } else if (video.canPlayType("application/vnd.apple.mpegurl") && modalVideoUrl) {
-            video.src = modalVideoUrl;
-            video.addEventListener("loadedmetadata", () => {
-                video.play().catch(() => { });
-            });
-        }
-        return () => { if (hls) hls.destroy(); };
-    }, [isVideoModalOpen, modalVideoUrl]);
 
     // Accessibility: Focus Management for Modal
     useEffect(() => {
@@ -204,19 +167,22 @@ export function VideoHero({ data }: VideoHeroProps) {
             aria-label="Hero Section"
         >
             {/* Video Background */}
-            <div className="absolute inset-0 w-full h-full z-0 bg-brand-950">
+            <div className="absolute inset-0 w-full h-full z-0 bg-brand-900">
                 <video
-                    ref={videoRef}
+                    ref={bgVideoRef}
                     className="absolute inset-0 w-full h-full object-cover opacity-50"
-                    autoPlay
+                    playsInline
                     muted
                     loop
-                    playsInline
                     poster="/images/hero-poster.jpg"
                 />
-                {/* Gradient Overlay: Left-heavy for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-950/95 via-brand-950/80 to-brand-950/40 lg:to-transparent"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-transparent to-brand-950/30"></div>
+                {/* Overlay: 70% opacity for balanced contrast and video visibility
+                    Base layer: 70% opaque bg-brand-900 (#020908 - near black) provides dark foundation
+                    Second layer: 70% opaque bg-brand-950 (#010504 - near black) for additional darkening
+                    Video at 50% opacity + 70% overlay ensures readable text with visible video movement
+                    Aligns with "Digital Vault" design system's "Solid over Translucent" principle */}
+                <div className="absolute inset-0 bg-brand-900/70"></div>
+                <div className="absolute inset-0 bg-brand-950/70"></div>
             </div>
 
             <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full mb-8">
@@ -463,11 +429,6 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-gold-500" />
                                     </button>
                                 </div>
-
-                                {/* Floating Badge Effect */}
-                                <div className="absolute -top-6 -right-6 bg-gold-500 text-brand-900 w-20 h-20 rounded-full flex items-center justify-center font-bold text-xs shadow-xl rotate-12 border-4 border-brand-900/10 backdrop-blur-md group-hover:rotate-6 transition-transform">
-                                    <span className="text-center leading-tight">Save<br />More</span>
-                                </div>
                             </div>
                         </RevealOnScroll>
                     </div>
@@ -496,12 +457,17 @@ export function VideoHero({ data }: VideoHeroProps) {
                         >
                             <X className="w-6 h-6" />
                         </button>
-                        <video
-                            ref={modalVideoRef}
-                            className="w-full h-full object-contain"
-                            controls
+                        <VideoPlayer
+                            src={modalVideoUrl || ""}
                             autoPlay
-                            playsInline
+                            className="w-full h-full"
+                            chapters={[
+                                { id: '1', title: 'Introduction', startTime: 0, cta: { text: 'Book a Strategy Call', url: '/contact' } },
+                                { id: '2', title: 'The S-Corp Strategy', startTime: 15 },
+                                { id: '3', title: 'Calculating Savings', startTime: 45, cta: { text: 'Try Our Calculator', url: '#calculator' } },
+                                { id: '4', title: 'Implementation', startTime: 90 },
+                                { id: '5', title: 'Next Steps', startTime: 120, cta: { text: 'Get Started Today', url: '/contact' } }
+                            ]}
                         />
                     </div>
                 </div>

@@ -21,6 +21,7 @@ const config: Config = {
                     700: '#071C1A',
                     800: '#041211',
                     900: '#020908',
+                    950: '#010504', // Near black - for overlays
                 },
                 // The "Champagne Gold" - Action Color
                 gold: {

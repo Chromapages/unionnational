@@ -70,7 +70,7 @@ export function TestimonialsSection() {
                     <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-slate-50 to-transparent z-20 pointer-events-none"></div>
                     <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-slate-50 to-transparent z-20 pointer-events-none"></div>
 
-                    <div className="flex w-max animate-scroll gap-6 sm:gap-8 hover:pause">
+                    <div className="flex w-max animate-scroll-slow gap-6 sm:gap-8 hover:pause">
                         {marqueeTestimonials.map((testimonial, index) => (
                             <div
                                 key={`${testimonial._id}-${index}`}
@@ -109,22 +109,6 @@ export function TestimonialsSection() {
                     </div>
                 </div>
             </div>
-
-            <style jsx global>{`
-                .mask-gradient-x {
-                    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-                }
-                .hover\:pause:hover {
-                    animation-play-state: paused;
-                }
-                @keyframes scroll {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
-                .animate-scroll {
-                    animation: scroll 60s linear infinite;
-                }
-            `}</style>
         </section>
     );
 }

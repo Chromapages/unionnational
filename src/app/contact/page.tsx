@@ -1,12 +1,14 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { MapPin, Mail, Clock, Facebook, Linkedin, Instagram } from "lucide-react";
-import { ContactForm } from "@/components/contact/ContactForm";
-import { CTASection } from "@/components/home/CTASection";
+import { ContactHero } from "@/components/contact/ContactHero";
+import { TeamMemberCard } from "@/components/contact/TeamMemberCard";
+import { MultiStepContactForm } from "@/components/contact/MultiStepContactForm";
+import { ClientLogoStrip } from "@/components/contact/ClientLogoStrip";
+import { AlternativeCTA } from "@/components/contact/AlternativeCTA";
 import { FAQSection } from "@/components/home/FAQSection";
 import { sanityFetch } from "@/sanity/lib/live";
-import { CONTACT_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { CONTACT_SETTINGS_QUERY, ABOUT_PAGE_QUERY } from "@/sanity/lib/queries";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,142 +18,58 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
     const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY });
+    const { data: aboutPage } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
 
-            <main className="pt-32 pb-20">
-                {/* Hero */}
-                <section className="max-w-4xl mx-auto px-6 mb-20 text-center">
-                    <RevealOnScroll>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gold-200 text-gold-600 text-[10px] font-semibold uppercase tracking-widest mb-6 shadow-sm font-sans">
-                            Contact Us
-                        </div>
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-900 tracking-tight mb-8 leading-[1.1] font-heading">
-                            {settings?.heroTitle || "Start the conversation."}
-                        </h1>
-                        <p className="text-lg text-brand-900 leading-relaxed max-w-xl mx-auto font-sans">
-                            {settings?.heroSubtitle || "Whether you are facing a complex audit or looking to restructure for growth, our strategists are ready to listen."}
-                        </p>
-                    </RevealOnScroll>
-                </section>
+            <main>
+                <ContactHero
+                    title={settings?.heroTitle}
+                    subtitle={settings?.heroSubtitle}
+                    stats={settings?.heroStats}
+                />
 
-                {/* Content Grid */}
-                <section className="max-w-7xl mx-auto px-6 mb-24">
+                <section className="max-w-7xl mx-auto px-6 py-24">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-
-                        {/* Contact Info (Left) */}
-                        <div className="lg:col-span-5 space-y-12 lg:sticky lg:top-32 h-fit">
-
+                        {/* Left Column: Founder Spotlight */}
+                        <div className="lg:col-span-5">
                             <RevealOnScroll delay={100}>
-                                <h3 className="text-sm font-bold text-brand-900 uppercase tracking-wide mb-8 font-heading">Headquarters</h3>
-
-                                <div className="space-y-8">
-                                    {/* Address */}
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 text-gold-600">
-                                            <MapPin className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-brand-900 mb-1 font-heading">Office</h4>
-                                            <div className="text-brand-900/70 leading-relaxed font-sans">
-                                                {settings?.officeAddress ? (
-                                                    <>
-                                                        {settings.officeAddress.street && <div>{settings.officeAddress.street}</div>}
-                                                        {(settings.officeAddress.city || settings.officeAddress.state || settings.officeAddress.zip) && (
-                                                            <div>
-                                                                {settings.officeAddress.city}{settings.officeAddress.city && settings.officeAddress.state ? ', ' : ''}{settings.officeAddress.state} {settings.officeAddress.zip}
-                                                            </div>
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <div>123 Financial District Blvd</div>
-                                                        <div>New York, NY 10005</div>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Email */}
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 text-gold-600">
-                                            <Mail className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-brand-900 mb-1 font-heading">Email Us</h4>
-                                            <a href={`mailto:${settings?.contactEmail || "hello@unionnationaltax.com"}`} className="text-brand-900/70 hover:text-gold-600 transition-colors font-sans block">
-                                                {settings?.contactEmail || "hello@unionnationaltax.com"}
-                                            </a>
-                                            <span className="text-xs text-brand-900/40 mt-1 block font-sans">Typical response time: 2 hours</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Hours */}
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 text-gold-600">
-                                            <Clock className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-brand-900 mb-1 font-heading">Hours</h4>
-                                            <div className="text-brand-900/70 font-sans">
-                                                {settings?.officeHours && settings.officeHours.length > 0 ? (
-                                                    settings.officeHours.map((item: any, i: number) => (
-                                                        <div key={i}>
-                                                            {item.day}: {item.hours}
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <>
-                                                        <div>Mon-Fri: 9am - 6pm EST</div>
-                                                        <div>Sat-Sun: Closed</div>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </RevealOnScroll>
-
-                            <RevealOnScroll delay={200}>
-                                <div className="pt-8 border-t border-slate-200">
-                                    <h4 className="text-xs font-bold text-brand-900 uppercase tracking-widest mb-4 font-sans">Follow Us</h4>
-                                    <div className="flex gap-4">
-                                        <a href="#" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-brand-900/60 hover:bg-brand-900 hover:text-white hover:border-brand-900 transition-all">
-                                            <Instagram className="w-4 h-4" />
-                                        </a>
-                                        <a href="#" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-brand-900/60 hover:bg-brand-900 hover:text-white hover:border-brand-900 transition-all">
-                                            <Linkedin className="w-4 h-4" />
-                                        </a>
-                                        <a href="#" className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-brand-900/60 hover:bg-brand-900 hover:text-white hover:border-brand-900 transition-all">
-                                            <Facebook className="w-4 h-4" />
-                                        </a>
-                                    </div>
-                                </div>
+                                <TeamMemberCard
+                                    name={settings?.founder?.name || "Jason Astwood"}
+                                    title={settings?.founder?.title || "Director"}
+                                    image={settings?.founder?.imageUrl}
+                                    quote={settings?.founder?.quote || "I personally review every inquiry to ensure you're matched with the right strategist for your specific situation."}
+                                    credentials={settings?.founder?.credentials || ["EA Licensed", "IRS Representation", "15+ Years Exp"]}
+                                    email={settings?.contactEmail || "hello@unionnationaltax.com"}
+                                    phone={settings?.contactPhone || "(555) 123-4567"}
+                                    address={settings?.officeAddress}
+                                />
                             </RevealOnScroll>
                         </div>
 
-                        {/* Contact Form (Right) */}
+                        {/* Right Column: Multi-Step Form */}
                         <div className="lg:col-span-7">
-                            <RevealOnScroll delay={300}>
-                                <div className="bg-white rounded-2xl p-8 lg:p-12 border border-slate-100 shadow-xl">
-                                    <div className="mb-8">
-                                        <h3 className="text-2xl font-bold text-brand-900 mb-2 font-heading">{settings?.formTitle || "Send us a message"}</h3>
-                                        <p className="text-brand-900/60 font-sans">{settings?.formSubtitle || "Fill out the form below and we'll route your inquiry to the right expert."}</p>
-                                    </div>
-                                    <ContactForm />
-                                </div>
+                            <RevealOnScroll delay={200}>
+                                <MultiStepContactForm />
                             </RevealOnScroll>
                         </div>
-
                     </div>
                 </section>
 
+                <RevealOnScroll delay={300}>
+                    <ClientLogoStrip logos={aboutPage?.clientLogos} />
+                </RevealOnScroll>
+
                 <FAQSection />
 
-                <CTASection />
+                <AlternativeCTA
+                    title={settings?.alternativeCTA?.title}
+                    subtitle={settings?.alternativeCTA?.subtitle}
+                    calendarUrl={settings?.ghlCalendarUrl}
+                    phone={settings?.alternativeCTA?.phone || settings?.contactPhone}
+                />
             </main>
 
             <Footer />

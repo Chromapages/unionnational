@@ -74,6 +74,26 @@ export const service = defineType({
             description: "Optional badge like 'Most Popular' or 'Scale'.",
         }),
         defineField({
+            name: "category",
+            title: "Category",
+            type: "string",
+            options: {
+                list: [
+                    { title: "Tax Services", value: "Tax" },
+                    { title: "Bookkeeping", value: "Bookkeeping" },
+                    { title: "CFO & Advisory", value: "CFO" },
+                    { title: "Business Formation", value: "Formation" },
+                ],
+            },
+            initialValue: "Tax",
+        }),
+        defineField({
+            name: "startingPrice",
+            title: "Starting Price",
+            type: "string",
+            description: "e.g., 'From $500/mo' or 'Custom Quote'",
+        }),
+        defineField({
             name: "isPopular",
             title: "Is Popular/Featured?",
             type: "boolean",
@@ -84,6 +104,41 @@ export const service = defineType({
             title: "Accent Color",
             type: "string",
             description: "Hex code for accent (e.g., #D4AF37).",
+        }),
+        defineField({
+            name: "faq",
+            title: "FAQ",
+            type: "array",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "question", type: "string", title: "Question" },
+                        { name: "answer", type: "text", title: "Answer" },
+                    ],
+                },
+            ],
+        }),
+        defineField({
+            name: "comparisonPoints",
+            title: "Comparison Points",
+            type: "array",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "feature", type: "string", title: "Feature" },
+                        { name: "diy", type: "boolean", title: "DIY (Yes/No)" },
+                        { name: "bigFirm", type: "boolean", title: "Big Firm (Yes/No)" },
+                        { name: "unionNational", type: "boolean", title: "Union National (Yes/No)" },
+                    ],
+                    preview: {
+                        select: {
+                            title: "feature",
+                        },
+                    },
+                },
+            ],
         }),
     ],
     preview: {

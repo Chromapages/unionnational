@@ -158,9 +158,14 @@ export const SERVICES_QUERY = `*[_type == "service"] | order(isPopular desc) {
   features,
   impactGoal,
   badge,
+  category,
+  startingPrice,
   isPopular,
-  accentColor
+  accentColor,
+  faq,
+  comparisonPoints
 }`;
+
 export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] {
   _id,
   title,
@@ -171,36 +176,46 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
   features,
   impactGoal,
   badge,
+  category,
+  startingPrice,
   isPopular,
-  accentColor
+  accentColor,
+  faq,
+  comparisonPoints
 }`;
 
+// SHOP QUERIES
+// Shop page content/settings (hero, featured product, faq)
 export const SHOP_PAGE_QUERY = defineQuery(`
   *[_type == "shopSettings"][0] {
     heroTitle,
     heroSubtitle,
     heroVideo,
-    featuredProduct->{
+    featuredProduct-> {
       _id,
       title,
+      "slug": slug.current,
       "imageUrl": coverImage.asset->url,
       price,
       compareAtPrice,
       shortDescription,
-      "slug": slug.current,
-      features,
-      buyLink,
-      format
-    },
-    faq
-  }
+      format,
+    buyLink,
+    features,
+    badge,
+    category,
+    rating
+  },
+  faq
+}
 `);
 
+// Product listing for the shop grid
 export const ALL_PRODUCTS_QUERY = defineQuery(`
   *[_type == "product" && !(_id in path("drafts.**"))] | order(isFeatured desc, title asc) {
     _id,
     title,
-    slug,
+    "slug": slug.current,
     "imageUrl": coverImage.asset->url,
     price,
     compareAtPrice,
@@ -208,7 +223,9 @@ export const ALL_PRODUCTS_QUERY = defineQuery(`
     format,
     buyLink,
     isFeatured,
-    badge
+    badge,
+    category,
+    rating
   }
 `);
 
@@ -225,7 +242,9 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     format,
     buyLink,
     features,
-    badge
+    badge,
+    category,
+    rating
   }
 `);
 
@@ -313,22 +332,41 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
   certifications[]{
     name,
       logo
-  }
+  },
+  timeline[]{
+    year,
+    title,
+    description
+  },
+  clientLogos[]{
+    asset->,
+    alt
+  },
+  founderVideoUrl
 }
 `);
 
 export const CONTACT_SETTINGS_QUERY = defineQuery(`
-  * [_type == "contactSettings"][0]{
-  heroTitle,
+  *[_type == "contactSettings"][0]{
+    heroTitle,
     heroSubtitle,
+    heroStats,
+    founder {
+      name,
+      title,
+      "imageUrl": image.asset->url,
+      quote,
+      credentials
+    },
     contactEmail,
     contactPhone,
     officeAddress,
     officeHours,
+    ghlCalendarUrl,
+    alternativeCTA,
     formTitle,
-    formSubtitle,
-    mapEmbedUrl
-}
+    formSubtitle
+  }
 `);
 
 export const SERVICES_PAGE_QUERY = defineQuery(`

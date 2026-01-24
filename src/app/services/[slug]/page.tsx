@@ -1,6 +1,6 @@
 import { client } from "@/sanity/lib/client";
 import { SERVICE_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries";
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -95,9 +95,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <Header />
+            <HeaderWrapper />
 
-            <main className="pt-20"> {/* Padding for fixed header */}
+            <main>
                 <ServiceDetailClient service={service} relatedServices={relatedServices} />
             </main>
 

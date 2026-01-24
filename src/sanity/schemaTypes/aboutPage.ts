@@ -66,5 +66,31 @@ export const aboutPage = defineType({
                 },
             ],
         }),
+        defineField({
+            name: 'timeline',
+            title: 'Company Timeline',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        defineField({ name: 'year', type: 'string', title: 'Year' }),
+                        defineField({ name: 'title', type: 'string', title: 'Milestone Title' }),
+                        defineField({ name: 'description', type: 'text', title: 'Description' }),
+                    ],
+                },
+            ],
+        }),
+        defineField({
+            name: 'clientLogos',
+            title: 'Client Logos',
+            type: 'array',
+            of: [{ type: 'image', options: { hotspot: true } }],
+        }),
+        defineField({
+            name: 'founderVideoUrl',
+            title: 'Founder Video URL',
+            type: 'url',
+        }),
     ],
 })

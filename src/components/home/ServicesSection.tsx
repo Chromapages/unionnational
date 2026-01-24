@@ -70,17 +70,6 @@ export function ServicesSection() {
                     </div>
                 </RevealOnScroll>
 
-                {/* Global style for hiding scrollbar but allowing functionality */}
-                <style jsx global>{`
-                    .no-scrollbar::-webkit-scrollbar {
-                        display: none;
-                    }
-                    .no-scrollbar {
-                        -ms-overflow-style: none;
-                        scrollbar-width: none;
-                    }
-                `}</style>
-
                 {/* Mobile: Horizontal Scroll | Desktop: Grid */}
                 <div className="flex overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 space-x-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-8 md:space-x-0 md:pb-0 md:mx-0 md:px-0 no-scrollbar items-stretch">
                     {services.map((service, index) => (

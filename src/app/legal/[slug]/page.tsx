@@ -35,7 +35,7 @@ export default async function LegalPage({ params }: { params: { slug: string } }
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased overflow-x-hidden">
             <HeaderWrapper />
 
-            <main className="pt-32 pb-20 flex-grow">
+            <main className="pt-12 pb-20 flex-grow">
                 <article className="max-w-3xl mx-auto px-6 mb-24">
                     <RevealOnScroll>
                         <header className="mb-12 border-b border-slate-200 pb-8">

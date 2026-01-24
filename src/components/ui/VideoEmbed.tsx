@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
+import { VideoPlayer } from "@/components/ui/VideoPlayer";
 
 interface VideoEmbedProps {
     videoUrl?: string; // Sanity file URL or external embed URL
@@ -24,49 +25,76 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
 
     return (
         <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border-4 border-slate-800">
-            {/* Poster / Thumbnail Overlay */}
-            {!isPlaying && posterImage && (
-                <div
-                    className="absolute inset-0 z-10 cursor-pointer group"
-                    onClick={handlePlay}
-                    role="button"
-                    aria-label="Play video"
-                    tabIndex={0}
-                    onKeyDown={(e) => e.key === "Enter" && handlePlay()}
-                >
-                    <Image
-                        src={posterImage}
-                        alt="Video Thumbnail"
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                        <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
-                            <Play className="w-8 h-8 text-white fill-white ml-1" />
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {/* Video Player - Native HTML5 for Sanity uploads */}
-            {(isPlaying || !posterImage) && isSanityVideo && (
-                <video
-                    src={videoUrl}
-                    className="w-full h-full object-cover"
-                    controls
-                    autoPlay={isPlaying}
-                    playsInline
-                />
+            {isSanityVideo && (
+                <>
+                    <VideoPlayer
+                        src={videoUrl}
+                        autoPlay={isPlaying}
+                        poster={posterImage}
+                        className="w-full h-full"
+                    />
+                    {/* Poster / Thumbnail Overlay - Only show if not playing and poster exists */}
+                    {!isPlaying && posterImage && (
+                        <div
+                            className="absolute inset-0 z-10 cursor-pointer group"
+                            onClick={handlePlay}
+                            role="button"
+                            aria-label="Play video"
+                            tabIndex={0}
+                            onKeyDown={(e) => e.key === "Enter" && handlePlay()}
+                        >
+                            <Image
+                                src={posterImage}
+                                alt="Video Thumbnail"
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
+                                    <Play className="w-8 h-8 text-white fill-white ml-1" />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
 
             {/* Video Player - Iframe for YouTube/Vimeo */}
-            {(isPlaying || !posterImage) && !isSanityVideo && (
-                <iframe
-                    src={getEmbedUrl(videoUrl)}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                />
+            {!isSanityVideo && (
+                <>
+                    {(isPlaying || !posterImage) && (
+                        <iframe
+                            src={getEmbedUrl(videoUrl)}
+                            className="w-full h-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        />
+                    )}
+                    {/* Poster / Thumbnail Overlay for YouTube/Vimeo */}
+                    {!isPlaying && posterImage && (
+                        <div
+                            className="absolute inset-0 z-10 cursor-pointer group"
+                            onClick={handlePlay}
+                            role="button"
+                            aria-label="Play video"
+                            tabIndex={0}
+                            onKeyDown={(e) => e.key === "Enter" && handlePlay()}
+                        >
+                            <Image
+                                src={posterImage}
+                                alt="Video Thumbnail"
+                                fill
+                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
+                                    <Play className="w-8 h-8 text-white fill-white ml-1" />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

@@ -4,7 +4,7 @@ import { BlogHero } from "@/components/blog/BlogHero";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
 import { BlogPagination } from "@/components/blog/BlogPagination";
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { Metadata } from "next";
 
@@ -43,7 +43,7 @@ export default async function BlogPage({ searchParams }: { searchParams: { page?
 
     return (
         <main className="bg-surface min-h-screen">
-            <Header />
+            <HeaderWrapper />
             <BlogHero
                 title={settings?.heroTitle || "Union National Blog"}
                 subtitle={settings?.heroSubtitle || "Expert insights on tax strategy, S-Corps, and wealth preservation."}

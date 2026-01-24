@@ -60,4 +60,55 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    .mask-gradient-x {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .hover\:pause:hover {
+        animation-play-state: paused;
+    }
+}
+
+/* Animations for marquee scrolls */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+    animation: scroll 40s linear infinite;
+}
+
+.animate-scroll:hover {
+    animation-play-state: paused;
+}
+
+/* Slower scroll for testimonials */
+.animate-scroll-slow {
+    animation: scroll 60s linear infinite;
+}
+
+.animate-scroll-slow:hover {
+    animation-play-state: paused;
+}
+
+/* Gradient animation for CTA banners */
+@keyframes gradient-x {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-x {
+    animation: gradient-x 8s ease infinite;
+}
+
+/* Shimmer effect for buttons */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+    animation: shimmer 2s infinite;
 }

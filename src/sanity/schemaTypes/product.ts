@@ -95,6 +95,34 @@ export const product = defineType({
             title: "Badge Text",
             type: "string",
             description: "Optional badge like 'Best Seller' or 'New'.",
+            options: {
+                list: [
+                    { title: "Best Seller", value: "bestseller" },
+                    { title: "New", value: "new" },
+                    { title: "Limited", value: "limited" },
+                ],
+                layout: "radio",
+            },
+        }),
+        defineField({
+            name: "category",
+            title: "Category",
+            type: "string",
+            options: {
+                list: [
+                    { title: "Ebook", value: "ebook" },
+                    { title: "Template", value: "template" },
+                    { title: "Course", value: "course" },
+                ],
+            },
+            initialValue: "ebook",
+        }),
+        defineField({
+            name: "rating",
+            title: "Rating (1-5)",
+            type: "number",
+            validation: (Rule) => Rule.min(1).max(5).precision(1),
+            initialValue: 5,
         }),
     ],
     preview: {

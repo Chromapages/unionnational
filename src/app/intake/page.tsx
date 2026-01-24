@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { getSiteSettings } from "@/sanity/lib/getSiteSettings";
 
 export default async function IntakePage() {

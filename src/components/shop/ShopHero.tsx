@@ -1,89 +1,62 @@
 "use client";
 
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { ArrowRight, ChevronDown, Play, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import Hls from "hls.js";
+import { motion } from "framer-motion";
+import { ArrowDown } from "lucide-react";
+import { ShopStatsBar } from "./ShopStatsBar";
 
 interface ShopHeroProps {
     title: string;
     subtitle: string;
-    videoUrl?: string; // Expecting HLS or MP4
 }
 
-export function ShopHero({ title, subtitle, videoUrl }: ShopHeroProps) {
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video || !videoUrl) return;
-
-        if (Hls.isSupported() && videoUrl.includes(".m3u8")) {
-            const hls = new Hls({
-                enableWorker: true,
-                lowLatencyMode: true,
-            });
-            hls.loadSource(videoUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                video.play().catch(() => { });
-            });
-            return () => hls.destroy();
-        } else {
-            video.src = videoUrl;
-            video.addEventListener("loadedmetadata", () => {
-                video.play().catch(() => { });
-            });
-        }
-    }, [videoUrl]);
-
+export function ShopHero({ title, subtitle }: ShopHeroProps) {
     return (
-        <section className="relative min-h-[80vh] flex items-center justify-center mb-24 overflow-hidden">
-            {/* Video Background */}
-            <div className="absolute inset-0 w-full h-full z-0">
-                {videoUrl ? (
-                    <video
-                        ref={videoRef}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                    />
-                ) : (
-                    // Fallback background if no video
-                    <div className="absolute inset-0 w-full h-full bg-brand-900" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-b from-brand-900/90 via-brand-900/80 to-brand-900/95"></div>
-            </div>
+        <section className="relative bg-brand-900 pt-32 pb-32 overflow-hidden">
+            {/* Background Elements */}
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-900 via-brand-900 to-brand-800 z-0" />
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 rounded-full blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/3 z-0" />
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/3 translate-y-1/3 z-0" />
 
-            <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-                <RevealOnScroll>
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-gold-400 text-[10px] font-semibold uppercase tracking-widest mb-8 font-sans">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
-                        Shop Official Resources
+            <div className="relative max-w-7xl mx-auto px-6 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative z-10"
+                >
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gold-400 text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm backdrop-blur-sm">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
+                        Premium Resources
                     </div>
-                    <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-[1.1] font-heading">
+
+                    <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-8 leading-[1.1] font-heading">
                         {title}
                     </h1>
-                    <p className="text-lg sm:text-xl text-white/70 mb-10 leading-relaxed max-w-2xl mx-auto font-sans">
+
+                    <p className="text-lg md:text-xl text-brand-100/80 leading-relaxed max-w-2xl mx-auto mb-16">
                         {subtitle}
                     </p>
+                </motion.div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="#featured" className="bg-gold-500 text-brand-900 px-10 py-4 rounded-lg text-sm font-bold hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/30 flex items-center justify-center gap-2 font-sans">
-                            View Latest Book <ArrowRight className="w-4 h-4" />
-                        </a>
-                        <a href="#browse" className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-10 py-4 rounded-lg text-sm font-bold hover:bg-white/20 transition-colors flex items-center justify-center gap-2 font-sans">
-                            Browse All
-                        </a>
-                    </div>
-                </RevealOnScroll>
+                <div className="relative z-20">
+                    <ShopStatsBar />
+                </div>
             </div>
 
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-                <ChevronDown className="w-6 h-6 text-white/50" />
-            </div>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 1 }}
+                className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 z-30 text-brand-200"
+            >
+                <a
+                    href="#browse"
+                    className="flex flex-col items-center gap-2 hover:text-gold-400 transition-colors opacity-50 hover:opacity-80"
+                >
+                    <span className="text-[10px] uppercase tracking-widest">Scroll to Explore</span>
+                    <ArrowDown className="w-4 h-4 animate-bounce" />
+                </a>
+            </motion.div>
         </section>
     );
 }

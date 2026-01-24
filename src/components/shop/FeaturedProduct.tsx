@@ -24,7 +24,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                     <div className="order-2 lg:order-1">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[10px] font-bold uppercase tracking-widest mb-6 font-sans">
                             <Star className="w-3 h-3 fill-gold-500" />
-                            Editor's Choice
+                            BESTSELLER
                         </div>
 
                         <Link href={`/shop/${product.slug}`} className="block group">
@@ -78,10 +78,10 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
 
                     {/* Image */}
                     <div className="order-1 lg:order-2 flex justify-center">
-                        <Link href={`/shop/${product.slug}`} className="relative w-full max-w-md aspect-[3/4] rotate-3 hover:rotate-0 transition-all duration-700 block">
+                        <Link href={`/shop/${product.slug}`} className="relative w-full max-w-md aspect-[3/4] block">
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gold-500/20 blur-2xl -z-10 rounded-3xl transform translate-y-4"></div>
-
+ 
                             <img
                                 src={product.imageUrl}
                                 alt={product.title}

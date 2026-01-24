@@ -1,12 +1,13 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { VideoHero } from "@/components/home/VideoHero";
+import { DifferentiationSection } from "@/components/home/DifferentiationSection";
+import { NationwideServiceSection } from "@/components/home/NationwideServiceSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { BentoGridSection } from "@/components/home/BentoGridSection";
+import { StickyCTABar } from "@/components/home/StickyCTABar";
 
 import { IndustriesSection } from "@/components/home/IndustriesSection";
-import { StatsSection } from "@/components/home/StatsSection";
-import { PricingPreview } from "@/components/home/PricingPreview";
 import { CTASection } from "@/components/home/CTASection";
 
 import { TrustBar } from "@/components/home/TrustBar";
@@ -26,16 +27,17 @@ export default async function Home() {
       <div className="flex-1">
         <VideoHero data={homePageData} />
         <TrustBar logos={homePageData?.trustLogos} />
+        <DifferentiationSection />
+        <NationwideServiceSection />
         <ServicesSection />
         <IndustriesSection />
         <BentoGridSection />
 
-        <StatsSection stats={homePageData?.stats} />
         <TestimonialsSection />
-        <PricingPreview />
         <FAQSection />
         <CTASection data={homePageData} />
       </div>
+      <StickyCTABar data={homePageData} />
       <Footer />
     </main>
   );

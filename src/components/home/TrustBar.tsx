@@ -30,7 +30,7 @@ export function TrustBar({ logos }: TrustBarProps) {
         <section className="py-10 border-b border-slate-100 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
                 <p className="text-xs font-bold text-brand-900/40 uppercase tracking-[0.2em] font-heading">
-                    Trusted By Industry Leaders
+                    TAX EXPERT FEATURED IN
                 </p>
             </div>
 
@@ -55,20 +55,6 @@ export function TrustBar({ logos }: TrustBarProps) {
                     ))}
                 </div>
             </div>
-
-            {/* Add custom keyframe for scroll if not using Tailwind plugin */}
-            <style jsx global>{`
-                @keyframes scroll {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                }
-                .animate-scroll {
-                    animation: scroll 40s linear infinite;
-                }
-                .animate-scroll:hover {
-                    animation-play-state: paused;
-                }
-            `}</style>
         </section>
     );
 }

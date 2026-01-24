@@ -3,7 +3,7 @@
 import { ProductCard } from "./ProductCard";
 
 interface ProductGridProps {
-    products: any[]; // Using any[] for now as we haven't typed the Sanity response yet
+    products: any[];
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
@@ -25,13 +25,16 @@ export function ProductGrid({ products }: ProductGridProps) {
                     <ProductCard
                         key={product._id}
                         title={product.title}
-                        slug={product.slug.current}
-                        coverImage={product.imageUrl} // Pre-processed URL
+                        slug={product.slug}
+                        coverImage={product.imageUrl}
                         price={product.price}
                         compareAtPrice={product.compareAtPrice}
                         shortDescription={product.shortDescription}
                         format={product.format}
                         buyLink={product.buyLink}
+                        badge={product.badge}
+                        rating={product.rating}
+                        category={product.category}
                     />
                 ))}
             </div>

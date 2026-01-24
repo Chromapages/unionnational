@@ -1,0 +1,114 @@
+"use client";
+
+import { Check, Mail, Phone, MapPin } from "lucide-react";
+
+interface TeamMemberCardProps {
+    name: string;
+    title: string;
+    image?: any; // Sanity image
+    quote: string;
+    credentials: string[];
+    email: string;
+    phone?: string;
+    address?: {
+        street: string;
+        city: string;
+        state: string;
+        zip: string;
+    };
+}
+
+export function TeamMemberCard({
+    name,
+    title,
+    image,
+    quote,
+    credentials,
+    email,
+    phone,
+    address
+}: TeamMemberCardProps) {
+    return (
+        <div className="lg:sticky lg:top-32 h-fit space-y-8 p-6 lg:p-0">
+            <div className="relative">
+                {/* Photo Container */}
+                <div className="flex items-start gap-6 mb-8">
+                    <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-gold-500/30 shrink-0 bg-slate-100">
+                        {/* Placeholder for now if no image provided */}
+                        <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs">
+                            {name}
+                        </div>
+                        {/* Note: We'll implement actual Sanity Image rendering in the parent or use a helper */}
+                    </div>
+                    <div>
+                        <h3 className="text-2xl font-bold text-brand-900 font-heading mb-1">{name}</h3>
+                        <p className="text-sm font-medium text-brand-900/60 font-sans mb-4 uppercase tracking-wider">{title}</p>
+                        <div className="flex flex-wrap gap-2">
+                            {credentials.map((cred, i) => (
+                                <span key={i} className="inline-flex items-center px-2 py-1 rounded-md bg-gold-50 text-gold-700 text-xs font-bold border border-gold-200">
+                                    {cred}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Quote */}
+                <blockquote className="relative mb-10 pl-6 border-l-4 border-gold-500">
+                    <p className="text-lg italic text-brand-800 leading-relaxed font-serif">
+                        "{quote}"
+                    </p>
+                </blockquote>
+
+                <div className="h-px w-full bg-slate-200 mb-10" />
+
+                {/* Contact Details */}
+                <div className="space-y-6">
+                    <div className="flex items-start gap-4 group">
+                        <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-gold-600 shadow-sm group-hover:border-gold-500/50 group-hover:bg-gold-50 transition-all">
+                            <MapPin className="w-5 h-5" />
+                        </div>
+                        <div className="font-sans">
+                            <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">Office</div>
+                            <div className="text-brand-900 text-sm leading-relaxed">
+                                {address ? (
+                                    <>
+                                        {address.street}<br />
+                                        {address.city}, {address.state} {address.zip}
+                                    </>
+                                ) : "Financial District, NYC"}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex items-start gap-4 group">
+                        <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-gold-600 shadow-sm group-hover:border-gold-500/50 group-hover:bg-gold-50 transition-all">
+                            <Mail className="w-5 h-5" />
+                        </div>
+                        <div className="font-sans">
+                            <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">Email</div>
+                            <a href={`mailto:${email}`} className="text-brand-900 text-sm hover:text-gold-600 transition-colors">
+                                {email}
+                            </a>
+                        </div>
+                    </div>
+
+                    {phone && (
+                        <div className="flex items-start gap-4 group">
+                            <div className="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-gold-600 shadow-sm group-hover:border-gold-500/50 group-hover:bg-gold-50 transition-all">
+                                <Phone className="w-5 h-5" />
+                            </div>
+                            <div className="font-sans">
+                                <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">Phone</div>
+                                <a href={`tel:${phone}`} className="text-brand-900 text-sm hover:text-gold-600 transition-colors">
+                                    {phone}
+                                </a>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+            </div>
+        </div>
+    );
+}

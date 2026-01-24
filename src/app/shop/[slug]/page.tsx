@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { client } from "@/sanity/lib/client";
 import { PRODUCT_DETAIL_QUERY, PRODUCT_SLUGS_QUERY } from "@/sanity/lib/queries";
@@ -26,9 +26,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
-            <Header />
+            <HeaderWrapper />
 
-            <main className="pt-32 pb-20">
+            <main className="pt-12 pb-20">
                 <div className="max-w-7xl mx-auto px-6">
 
                     {/* Breadcrumb / Back Link */}
