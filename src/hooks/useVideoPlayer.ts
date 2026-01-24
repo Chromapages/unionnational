@@ -61,12 +61,6 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
                     });
                 }
             });
-            
-            if (loop) {
-                hls.on(Hls.Events.ENDED, () => {
-                    video.play().catch(() => {});
-                });
-            }
         } else if (isHls && video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = src;
             video.addEventListener('loadedmetadata', () => {
@@ -79,7 +73,7 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
             video.src = src;
             video.muted = muted;
             video.loop = loop;
-            
+
             const handleLoadedMetadata = () => {
                 if (autoPlay) {
                     video.play().catch(() => {
@@ -88,25 +82,25 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
                     });
                 }
             };
-            
+
             const handleEnded = () => {
                 if (loop) {
-                    video.play().catch(() => {});
+                    video.play().catch(() => { });
                 }
             };
-            
+
             video.addEventListener('loadedmetadata', handleLoadedMetadata);
             if (loop) {
                 video.addEventListener('ended', handleEnded);
             }
-            
+
             // If metadata is already loaded, try to play immediately
             if (video.readyState >= 1 && autoPlay) {
                 video.play().catch(() => {
                     setState(s => ({ ...s, isPlaying: false }));
                 });
             }
-            
+
             return () => {
                 video.removeEventListener('loadedmetadata', handleLoadedMetadata);
                 video.removeEventListener('ended', handleEnded);
@@ -213,7 +207,7 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
 
     const toggleFullscreen = useCallback(async () => {
         if (!containerRef.current) return;
-        
+
         if (!document.fullscreenElement) {
             try {
                 await containerRef.current.requestFullscreen();
@@ -234,7 +228,7 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
 
     const togglePip = useCallback(async () => {
         if (!videoRef.current) return;
-        
+
         try {
             if (document.pictureInPictureElement) {
                 await document.exitPictureInPicture();

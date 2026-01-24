@@ -1,12 +1,9 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
-import { getSiteSettings } from "@/sanity/lib/getSiteSettings";
 
 export default async function IntakePage() {
-    const siteSettings = await getSiteSettings();
-
     return (
         <div className="min-h-screen bg-slate-50 font-sans">
-            <Header siteSettings={siteSettings} />
+            <HeaderWrapper />
 
             <div className="flex flex-col md:flex-row min-h-screen pt-16">
                 {/* LEFT PANEL: The Context & Trust Building (The "Velvet Rope") */}

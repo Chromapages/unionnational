@@ -19,6 +19,7 @@ export interface ProductCardProps {
     category?: string;
     badge?: string; // 'bestseller', 'new', 'limited'
     rating?: number;
+    buyLink?: string;
 }
 
 // Map format to icon
@@ -54,7 +55,8 @@ export function ProductCard({
     slug,
     format = 'ebook',
     badge,
-    rating = 5
+    rating = 5,
+    buyLink
 }: ProductCardProps) {
     const ref = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);

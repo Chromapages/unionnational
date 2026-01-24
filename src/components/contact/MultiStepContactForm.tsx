@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 // --- Form Schema & Types ---
 const contactFormSchema = z.object({
     goal: z.enum(['tax-reduction', 'audit-defense', 'restructure', 'partnership'], {
-        required_error: "Please select a primary goal.",
+        message: "Please select a primary goal.",
     }),
     clientType: z.enum(['business', 'individual']),
     firstName: z.string().min(2, "First name is required"),
@@ -29,7 +29,7 @@ const contactFormSchema = z.object({
     phone: z.string().optional(),
     message: z.string().optional(),
     privacy: z.literal(true, {
-        errorMap: () => ({ message: "You must agree to the privacy policy" }),
+        message: "You must agree to the privacy policy",
     }),
 });
 
