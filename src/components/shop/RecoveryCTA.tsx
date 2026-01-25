@@ -4,7 +4,19 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight, MessageSquare } from "lucide-react";
 import Link from "next/link";
 
-export function RecoveryCTA() {
+interface RecoveryCTAProps {
+    title?: string;
+    subtitle?: string;
+    buttonText?: string;
+    buttonUrl?: string;
+}
+
+export function RecoveryCTA({
+    title = "Still have questions about which resource is right for you?",
+    subtitle = "Book a free 15-minute call with our team. We'll help you identify the exact tools you need for your specific business stage.",
+    buttonText = "Book Your Free Call",
+    buttonUrl = "/contact",
+}: RecoveryCTAProps) {
     return (
         <section className="max-w-7xl mx-auto px-6 py-24">
             <RevealOnScroll>
@@ -18,18 +30,18 @@ export function RecoveryCTA() {
                         </div>
                         
                         <h2 className="text-3xl font-bold text-brand-900 mb-4 font-heading">
-                            Still have questions about which resource is right for you?
+                            {title}
                         </h2>
                         
                         <p className="text-slate-600 text-lg mb-10 max-w-2xl font-sans">
-                            Book a free 15-minute call with our team. We'll help you identify the exact tools you need for your specific business stage.
+                            {subtitle}
                         </p>
                         
                         <Link 
-                            href="/contact" 
+                            href={buttonUrl} 
                             className="inline-flex items-center gap-2 bg-brand-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-700 transition-all shadow-lg shadow-brand-900/10"
                         >
-                            Book Your Free Call
+                            {buttonText}
                             <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>

@@ -76,6 +76,33 @@ export const BLOG_POSTS_QUERY = defineQuery(`
   }
 `)
 
+export const BLOG_RECENT_POSTS_QUERY = defineQuery(`
+  *[_type == "blogPost" && isFeatured != true] | order(publishedAt desc) [0...$limit] {
+    _id,
+    title,
+    slug,
+    excerpt,
+    publishedAt,
+    readingTime,
+    isFeatured,
+    featuredImage {
+      asset->,
+      alt
+    },
+    categories[]->{
+      title,
+      slug
+    },
+    author->{
+      name,
+      image {
+        asset->
+      },
+      role
+    }
+  }
+`)
+
 export const BLOG_POST_QUERY = defineQuery(`
   *[_type == "blogPost" && slug.current == $slug][0] {
     _id,
@@ -112,9 +139,15 @@ export const FEATURED_POSTS_QUERY = defineQuery(`
     slug,
     excerpt,
     publishedAt,
+    readingTime,
+    isFeatured,
     featuredImage {
       asset->,
       alt
+    },
+    categories[]->{
+      title,
+      slug
     },
     author->{
       name,
@@ -181,7 +214,12 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
   isPopular,
   accentColor,
   faq,
-  comparisonPoints
+  comparisonPoints,
+  "videoFileUrl": videoFile.asset->url,
+  videoThumbnail {
+    asset->,
+    alt
+  }
 }`;
 
 // SHOP QUERIES
@@ -206,7 +244,18 @@ export const SHOP_PAGE_QUERY = defineQuery(`
     category,
     rating
   },
-  faq
+  faq,
+  recoveryCTA {
+    title,
+    subtitle,
+    buttonText,
+    buttonUrl
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    openGraphImage
+  }
 }
 `);
 
@@ -244,7 +293,26 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     features,
     badge,
     category,
-    rating
+    rating,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage
+    },
+    relatedProducts[]-> {
+      _id,
+      title,
+      "slug": slug.current,
+      "imageUrl": coverImage.asset->url,
+      price,
+      compareAtPrice,
+      shortDescription,
+      format,
+      buyLink,
+      badge,
+      category,
+      rating
+    }
   }
 `);
 
@@ -286,7 +354,12 @@ export const HOME_PAGE_QUERY = defineQuery(`
   ctaTitle,
     ctaSubtitle,
     ctaButtonText,
-    ctaButtonUrl
+    ctaButtonUrl,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage
+    }
 }
 `);
 
@@ -365,7 +438,12 @@ export const CONTACT_SETTINGS_QUERY = defineQuery(`
     ghlCalendarUrl,
     alternativeCTA,
     formTitle,
-    formSubtitle
+    formSubtitle,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage
+    }
   }
 `);
 
@@ -431,4 +509,3 @@ export const VSL_PAGE_QUERY = defineQuery(`
     }
   }
 `);
-

@@ -7,21 +7,48 @@ import { MultiStepContactForm } from "@/components/contact/MultiStepContactForm"
 import { ClientLogoStrip } from "@/components/contact/ClientLogoStrip";
 import { AlternativeCTA } from "@/components/contact/AlternativeCTA";
 import { FAQSection } from "@/components/home/FAQSection";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { sanityFetch } from "@/sanity/lib/live";
-import { CONTACT_SETTINGS_QUERY, ABOUT_PAGE_QUERY } from "@/sanity/lib/queries";
-import { Metadata } from "next";
+import { ABOUT_PAGE_QUERY, CONTACT_SETTINGS_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import type { Metadata } from "next";
+import { urlFor } from "@/sanity/lib/image";
 
-export const metadata: Metadata = {
-    title: "Contact Us | Union National Tax",
-    description: "Get in touch with our tax strategy experts for a consultation.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY });
+    const seo = settings?.seo;
+
+    if (!seo) {
+        return {};
+    }
+
+    const ogImage = seo.openGraphImage
+        ? urlFor(seo.openGraphImage).width(1200).height(630).url()
+        : undefined;
+
+    return {
+        title: seo.metaTitle,
+        description: seo.metaDescription,
+        openGraph: {
+            title: seo.metaTitle,
+            description: seo.metaDescription,
+            ...(ogImage ? { images: [ogImage] } : {}),
+        },
+        twitter: {
+            title: seo.metaTitle,
+            description: seo.metaDescription,
+            ...(ogImage ? { images: [ogImage] } : {}),
+        },
+    };
+}
 
 export default async function ContactPage() {
     const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY });
     const { data: aboutPage } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
+    const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+            <JsonLd siteSettings={siteSettings} contactSettings={settings} />
             <HeaderWrapper />
 
             <main>
@@ -45,6 +72,7 @@ export default async function ContactPage() {
                                     email={settings?.contactEmail || "hello@unionnationaltax.com"}
                                     phone={settings?.contactPhone || "(555) 123-4567"}
                                     address={settings?.officeAddress}
+                                    mapEmbedUrl={settings?.mapEmbedUrl}
                                 />
                             </RevealOnScroll>
                         </div>
@@ -52,7 +80,10 @@ export default async function ContactPage() {
                         {/* Right Column: Multi-Step Form */}
                         <div className="lg:col-span-7">
                             <RevealOnScroll delay={200}>
-                                <MultiStepContactForm />
+                                <MultiStepContactForm
+                                    title={settings?.formTitle}
+                                    subtitle={settings?.formSubtitle}
+                                />
                             </RevealOnScroll>
                         </div>
                     </div>

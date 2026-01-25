@@ -52,7 +52,7 @@ export default async function ServicesPage() {
             />
             <HeaderWrapper />
 
-            <main id="main-content" className="pb-20">
+            <main id="main-content">
                 {/* Hero Section */}
                 <section className="max-w-[90rem] mx-auto px-6 mb-32 relative">
                     {/* Radial Gradient Background */}

@@ -4,12 +4,44 @@ import { ShopHero } from "@/components/shop/ShopHero";
 import { FeaturedProduct } from "@/components/shop/FeaturedProduct";
 import { ShopFAQ } from "@/components/shop/ShopFAQ";
 import { client } from "@/sanity/lib/client";
-import { ALL_PRODUCTS_QUERY, SHOP_PAGE_QUERY } from "@/sanity/lib/queries";
+import { ALL_PRODUCTS_QUERY, SHOP_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 import { ShopClient } from "@/components/shop/ShopClient";
 import { ShopTestimonialStrip } from "@/components/shop/ShopTestimonialStrip";
 import { RecoveryCTA } from "@/components/shop/RecoveryCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import type { Metadata } from "next";
+import { sanityFetch } from "@/sanity/lib/live";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 60; // Revalidate every minute
+
+export async function generateMetadata(): Promise<Metadata> {
+    const { data: shopSettings } = await sanityFetch({ query: SHOP_PAGE_QUERY });
+    const seo = shopSettings?.seo;
+
+    if (!seo) {
+        return {};
+    }
+
+    const ogImage = seo.openGraphImage
+        ? urlFor(seo.openGraphImage).width(1200).height(630).url()
+        : undefined;
+
+    return {
+        title: seo.metaTitle,
+        description: seo.metaDescription,
+        openGraph: {
+            ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
+            ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
+            ...(ogImage ? { images: [ogImage] } : {}),
+        },
+        twitter: {
+            ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
+            ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
+            ...(ogImage ? { images: [ogImage] } : {}),
+        },
+    };
+}
 
 type ShopProduct = {
     _id: string;
@@ -28,18 +60,25 @@ type ShopProduct = {
 };
 
 export default async function ShopPage() {
-    const shopSettings = await client.fetch(SHOP_PAGE_QUERY);
-    const products: ShopProduct[] = (await client.fetch(ALL_PRODUCTS_QUERY)) || [];
+    const [shopSettings, products, siteSettings, testimonials] = await Promise.all([
+        client.fetch(SHOP_PAGE_QUERY),
+        client.fetch(ALL_PRODUCTS_QUERY),
+        client.fetch(SITE_SETTINGS_QUERY),
+        client.fetch(TESTIMONIALS_QUERY),
+    ]);
+    const typedProducts: ShopProduct[] = products || [];
+    const shopTestimonials = testimonials?.slice(0, 3) || [];
 
     // Filter out the featured product from the main grid so it's not duplicated
     const featuredId = shopSettings?.featuredProduct?._id;
-    const gridProducts = products.filter((p) => p._id !== featuredId);
+    const gridProducts = typedProducts.filter((p) => p._id !== featuredId);
 
     return (
         <div className="min-h-screen bg-brand-900 flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+            <JsonLd siteSettings={siteSettings} shopPageData={shopSettings} />
             <HeaderWrapper />
 
-            <main id="main-content" className="pb-20">
+            <main id="main-content">
                 <ShopHero
                     title={shopSettings?.heroTitle || "Shop Our Resources"}
                     subtitle={shopSettings?.heroSubtitle || "Expert strategy to optimize your taxes and wealth."}
@@ -50,7 +89,7 @@ export default async function ShopPage() {
                         <FeaturedProduct product={shopSettings.featuredProduct} />
                     )}
 
-                    <ShopTestimonialStrip />
+                    <ShopTestimonialStrip testimonials={shopTestimonials} />
 
                     <div className="pt-24">
                         <ShopClient products={gridProducts} />
@@ -58,7 +97,12 @@ export default async function ShopPage() {
 
                     {shopSettings?.faq && <ShopFAQ items={shopSettings.faq} />}
 
-                    <RecoveryCTA />
+                    <RecoveryCTA
+                        title={shopSettings?.recoveryCTA?.title}
+                        subtitle={shopSettings?.recoveryCTA?.subtitle}
+                        buttonText={shopSettings?.recoveryCTA?.buttonText}
+                        buttonUrl={shopSettings?.recoveryCTA?.buttonUrl}
+                    />
                 </div>
 
             </main>

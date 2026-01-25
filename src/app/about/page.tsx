@@ -30,7 +30,7 @@ export default async function AboutPage() {
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
 
-            <main className="pb-20">
+            <main>
                 {/* Hero */}
                 <AboutHero
                     title={page?.heroTitle || "Modern tax strategy for the digital economy."}

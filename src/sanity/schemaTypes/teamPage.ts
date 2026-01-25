@@ -51,6 +51,22 @@ export const teamPage = defineType({
             group: 'team',
         }),
         defineField({
+            name: 'values',
+            title: 'Values',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        defineField({ name: 'title', type: 'string', title: 'Title' }),
+                        defineField({ name: 'description', type: 'text', title: 'Description', rows: 3 }),
+                        defineField({ name: 'iconName', type: 'string', title: 'Lucide Icon Name' }),
+                    ],
+                },
+            ],
+            group: 'values',
+        }),
+        defineField({
             name: 'hiringBadge',
             title: 'Hiring Badge Text',
             type: 'string',
@@ -98,12 +114,20 @@ export const teamPage = defineType({
             options: { hotspot: true },
             group: 'hiring',
         }),
+        defineField({
+            name: 'seo',
+            title: 'SEO',
+            type: 'seo',
+            group: 'seo',
+        }),
     ],
     groups: [
         { name: 'hero', title: 'Hero Section' },
         { name: 'founder', title: 'Founder Section' },
         { name: 'team', title: 'Team Grid' },
+        { name: 'values', title: 'Values' },
         { name: 'hiring', title: 'Hiring / Culture' },
+        { name: 'seo', title: 'SEO' },
     ],
     preview: {
         select: {

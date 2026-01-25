@@ -1,6 +1,6 @@
 import { Quote, Star } from "lucide-react";
 
-const testimonials = [
+const fallbackTestimonials = [
     {
         quote: "Clear, actionable, and built for real-world tax decisions.",
         author: "Business Owner",
@@ -15,7 +15,22 @@ const testimonials = [
     },
 ];
 
-export function ShopTestimonialStrip() {
+interface ShopTestimonialStripProps {
+    testimonials?: Array<{
+        quote?: string;
+        clientName?: string;
+        clientTitle?: string;
+        rating?: number;
+    }>;
+}
+
+export function ShopTestimonialStrip({ testimonials = [] }: ShopTestimonialStripProps) {
+    const items = testimonials.length > 0
+        ? testimonials.map((testimonial) => ({
+            quote: testimonial.quote || "",
+            author: testimonial.clientName || "Client",
+        }))
+        : fallbackTestimonials;
     return (
         <section className="max-w-7xl mx-auto px-6 pt-12">
             <div className="rounded-3xl border border-zinc-200 bg-white overflow-hidden shadow-sm">
@@ -40,7 +55,7 @@ export function ShopTestimonialStrip() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-100">
-                    {testimonials.map((t, i) => (
+                    {items.map((t, i) => (
                         <div key={i} className="bg-white p-6 md:p-8">
                             <Quote className="w-7 h-7 text-gold-500/25" />
                             <p className="mt-4 text-zinc-700 leading-relaxed font-medium">

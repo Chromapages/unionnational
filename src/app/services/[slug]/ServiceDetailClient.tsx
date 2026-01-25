@@ -10,6 +10,8 @@ import { ComparisonTable } from "@/components/services/ComparisonTable";
 import { ServiceFAQ } from "@/components/services/ServiceFAQ";
 import { PortableText } from "@portabletext/react";
 import { PortableTextComponents } from "@portabletext/react";
+import VideoEmbed from "@/components/ui/VideoEmbed";
+import { urlFor } from "@/sanity/lib/image";
 
 // Dynamic Icon Component
 const DynamicIcon = ({ name, className }: { name: string; className?: string }) => {
@@ -54,6 +56,8 @@ interface Service {
     startingPrice?: string;
     comparisonPoints?: any[];
     faq?: any[];
+    videoFileUrl?: string;
+    videoThumbnail?: { asset?: unknown };
 }
 
 interface RelatedService {
@@ -139,6 +143,29 @@ export default function ServiceDetailClient({ service, relatedServices }: Servic
                                 </div>
                             )}
                         </section>
+
+                        {(service.videoFileUrl || service.videoThumbnail) && (
+                            <section id="strategy-breakdown" className="scroll-mt-24">
+                                <div className="flex flex-col gap-6">
+                                    <div>
+                                        <h2 className="text-3xl font-bold text-brand-900 mb-3 font-heading">
+                                            Strategy Breakdown
+                                        </h2>
+                                        <p className="text-lg text-zinc-600 leading-relaxed">
+                                            Walk through the strategy behind this service and see how we apply it in practice.
+                                        </p>
+                                    </div>
+                                    <VideoEmbed
+                                        videoUrl={service.videoFileUrl}
+                                        posterImage={
+                                            service.videoThumbnail?.asset
+                                                ? urlFor(service.videoThumbnail.asset).width(1200).height(675).url()
+                                                : undefined
+                                        }
+                                    />
+                                </div>
+                            </section>
+                        )}
 
                         {/* Comparison Table */}
                         {service.comparisonPoints && service.comparisonPoints.length > 0 && (

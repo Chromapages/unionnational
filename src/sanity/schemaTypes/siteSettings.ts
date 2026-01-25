@@ -99,6 +99,11 @@ export const siteSettings = defineType({
             initialValue: "https://calendly.com/",
         }),
         defineField({
+            name: "seo",
+            title: "Default SEO",
+            type: "seo",
+        }),
+        defineField({
             name: "copyrightText",
             title: "Copyright Text",
             type: "string",

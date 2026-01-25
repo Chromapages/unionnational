@@ -100,5 +100,20 @@ export const contactSettings = defineType({
             title: 'Contact Form Subtitle',
             type: 'text',
         }),
+        defineField({
+            name: 'mapEmbedUrl',
+            title: 'Map Embed URL',
+            type: 'url',
+            description: 'Google Maps Shared Embed URL or link.',
+        }),
+        defineField({
+            name: 'seo',
+            title: 'SEO & Metadata',
+            type: 'seo',
+            group: 'seo',
+        }),
+    ],
+    groups: [
+        { name: 'seo', title: 'SEO' },
     ],
 })

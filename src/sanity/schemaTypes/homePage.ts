@@ -11,6 +11,7 @@ export const homePage = defineType({
         { name: "trust", title: "Trust Bar" },
         { name: "stats", title: "Statistics" },
         { name: "cta", title: "CTA Section" },
+        { name: "seo", title: "SEO" },
     ],
     fields: [
         // Hero Section
@@ -114,6 +115,12 @@ export const homePage = defineType({
             type: "url",
             validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
             group: "cta",
+        }),
+        defineField({
+            name: "seo",
+            title: "SEO Overrides",
+            type: "seo",
+            group: "seo",
         }),
     ],
     preview: {

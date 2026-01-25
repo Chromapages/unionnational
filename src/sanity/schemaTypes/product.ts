@@ -124,6 +124,17 @@ export const product = defineType({
             validation: (Rule) => Rule.min(1).max(5).precision(1),
             initialValue: 5,
         }),
+        defineField({
+            name: "relatedProducts",
+            title: "Related Products",
+            type: "array",
+            of: [{ type: "reference", to: [{ type: "product" }] }],
+        }),
+        defineField({
+            name: "seo",
+            title: "SEO",
+            type: "seo",
+        }),
     ],
     preview: {
         select: {

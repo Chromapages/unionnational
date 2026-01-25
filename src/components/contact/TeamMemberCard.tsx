@@ -16,6 +16,7 @@ interface TeamMemberCardProps {
         state: string;
         zip: string;
     };
+    mapEmbedUrl?: string;
 }
 
 export function TeamMemberCard({
@@ -26,7 +27,8 @@ export function TeamMemberCard({
     credentials,
     email,
     phone,
-    address
+    address,
+    mapEmbedUrl
 }: TeamMemberCardProps) {
     return (
         <div className="lg:sticky lg:top-32 h-fit space-y-8 p-6 lg:p-0">
@@ -35,10 +37,9 @@ export function TeamMemberCard({
                 <div className="flex items-start gap-6 mb-8">
                     <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-gold-500/30 shrink-0 bg-slate-100">
                         {/* Placeholder for now if no image provided */}
-                        <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs">
+                        <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs text-center px-1">
                             {name}
                         </div>
-                        {/* Note: We'll implement actual Sanity Image rendering in the parent or use a helper */}
                     </div>
                     <div>
                         <h3 className="text-2xl font-bold text-brand-900 font-heading mb-1">{name}</h3>
@@ -103,6 +104,25 @@ export function TeamMemberCard({
                                 <a href={`tel:${phone}`} className="text-brand-900 text-sm hover:text-gold-600 transition-colors">
                                     {phone}
                                 </a>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Map Embed */}
+                    {mapEmbedUrl && (
+                        <div className="pt-4">
+                            <div className="w-full aspect-video rounded-xl overflow-hidden border border-slate-200 shadow-inner group/map group">
+                                <iframe
+                                    src={mapEmbedUrl}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen={false}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="Office Location Map"
+                                    className="grayscale hover:grayscale-0 transition-all duration-500 opacity-80 group-hover/map:opacity-100"
+                                ></iframe>
                             </div>
                         </div>
                     )}

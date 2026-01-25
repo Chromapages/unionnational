@@ -14,26 +14,61 @@ import { TrustBar } from "@/components/home/TrustBar";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { FAQSection } from "@/components/home/FAQSection";
 import { FAQPageSchema } from "@/components/seo/FAQPageSchema";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { sanityFetch } from "@/sanity/lib/live";
-import { HOME_PAGE_QUERY } from "@/sanity/lib/queries";
+import { HOME_PAGE_QUERY, SERVICES_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
+import type { Metadata } from "next";
+import { urlFor } from "@/sanity/lib/image";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY });
+  const seo = homePageData?.seo;
+
+  if (!seo) {
+    return {};
+  }
+
+  const ogImage = seo.openGraphImage
+    ? urlFor(seo.openGraphImage).width(1200).height(630).url()
+    : undefined;
+
+  return {
+    title: seo.metaTitle,
+    description: seo.metaDescription,
+    openGraph: {
+      ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
+      ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
+      ...(ogImage ? { images: [ogImage] } : {}),
+    },
+    twitter: {
+      ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
+      ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
+      ...(ogImage ? { images: [ogImage] } : {}),
+    },
+  };
+}
 
 export default async function Home() {
   const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY });
+  const { data: services } = await sanityFetch({ query: SERVICES_QUERY });
+  const { data: testimonials } = await sanityFetch({ query: TESTIMONIALS_QUERY });
+  const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
 
   return (
     <main className="min-h-screen w-full bg-surface flex flex-col">
       <FAQPageSchema />
+      <JsonLd siteSettings={siteSettings} homePageData={homePageData} />
       <HeaderWrapper />
       <div className="flex-1">
         <VideoHero data={homePageData} />
         <TrustBar logos={homePageData?.trustLogos} />
         <DifferentiationSection />
         <NationwideServiceSection />
-        <ServicesSection />
+        <ServicesSection services={services} />
         <IndustriesSection />
-        <BentoGridSection />
+        <BentoGridSection stats={homePageData?.stats} />
 
-        <TestimonialsSection />
+        <TestimonialsSection testimonials={testimonials} />
         <FAQSection />
         <CTASection data={homePageData} />
       </div>

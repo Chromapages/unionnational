@@ -18,9 +18,11 @@ import { caseStudy } from './caseStudy'
 import { pricingTier } from './pricingTier'
 import { legalPage } from './legalPage'
 import { vslPage } from './vslPage'
+import { seo } from './seo'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
+    seo,
     teamMember,
     teamPage,
     blogPost,

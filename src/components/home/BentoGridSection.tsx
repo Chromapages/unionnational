@@ -4,7 +4,13 @@ import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { User, Landmark, ArrowUp, TrendingUp, Shield, BarChart2 } from "lucide-react";
 
-export function BentoGridSection() {
+interface BentoGridProps {
+    stats?: { value: string; label: string }[];
+}
+
+export function BentoGridSection({ stats }: BentoGridProps) {
+    const mainStat = stats?.[0] || { value: "$2M+", label: "Annual tax savings generated for our clients" };
+
     return (
         <section className="py-24 bg-slate-50 relative overflow-hidden">
             {/* Background elements */}
@@ -44,9 +50,9 @@ export function BentoGridSection() {
 
                         <div className="mt-8">
                             <div className="text-6xl md:text-7xl font-bold text-white tracking-tight font-heading group-hover:scale-105 transition-transform origin-left">
-                                $2M<span className="text-gold-500">+</span>
+                                {mainStat.value}
                             </div>
-                            <p className="text-slate-400 font-medium mt-2 font-sans">Annual tax savings generated for our clients</p>
+                            <p className="text-slate-400 font-medium mt-2 font-sans">{mainStat.label}</p>
                         </div>
                     </RevealOnScroll>
 

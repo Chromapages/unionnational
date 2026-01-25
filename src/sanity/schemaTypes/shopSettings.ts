@@ -46,6 +46,27 @@ export const shopSettings = defineType({
                 },
             ],
         }),
+        defineField({
+            name: "recoveryCTA",
+            title: "Recovery CTA",
+            type: "object",
+            fields: [
+                defineField({ name: "title", type: "string", title: "Title" }),
+                defineField({ name: "subtitle", type: "text", title: "Subtitle" }),
+                defineField({ name: "buttonText", type: "string", title: "Button Text" }),
+                defineField({
+                    name: "buttonUrl",
+                    type: "url",
+                    title: "Button URL",
+                    validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
+                }),
+            ],
+        }),
+        defineField({
+            name: "seo",
+            title: "SEO",
+            type: "seo",
+        }),
     ],
     preview: {
         select: {

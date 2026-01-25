@@ -140,6 +140,18 @@ export const service = defineType({
                 },
             ],
         }),
+        defineField({
+            name: "videoFile",
+            title: "Strategy Video File",
+            type: "file",
+            description: "Upload an MP4 or similar file for the service walkthrough.",
+        }),
+        defineField({
+            name: "videoThumbnail",
+            title: "Strategy Video Thumbnail",
+            type: "image",
+            options: { hotspot: true },
+        }),
     ],
     preview: {
         select: {

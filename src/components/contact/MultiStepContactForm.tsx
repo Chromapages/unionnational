@@ -42,7 +42,12 @@ const goals = [
     { id: 'partnership', label: 'Explore a partnership', icon: Handshake },
 ] as const;
 
-export function MultiStepContactForm() {
+interface MultiStepContactFormProps {
+    title?: string;
+    subtitle?: string;
+}
+
+export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormProps) {
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState(0); // -1 for back, 1 for next
 
@@ -126,8 +131,12 @@ export function MultiStepContactForm() {
                             className="space-y-6"
                         >
                             <div>
-                                <h2 className="text-2xl font-bold text-brand-900 font-heading mb-2">What's your primary goal?</h2>
-                                <p className="text-brand-900/60 font-sans text-sm">Select the option that best describes your needs.</p>
+                                <h2 className="text-2xl font-bold text-brand-900 font-heading mb-2">
+                                    {title || "What's your primary goal?"}
+                                </h2>
+                                <p className="text-brand-900/60 font-sans text-sm">
+                                    {subtitle || "Select the option that best describes your needs."}
+                                </p>
                             </div>
 
                             {errors.goal && (

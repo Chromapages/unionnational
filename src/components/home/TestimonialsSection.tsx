@@ -3,46 +3,22 @@
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Quote, Star, ShieldCheck } from "lucide-react";
 
-// Placeholder data
-const testimonials = [
-    {
-        _id: "1",
-        clientName: "David Chen",
-        clientTitle: "CEO, TechFlow Solutions",
-        content: "We were overpaying by $40k/year before Union National Tax reorganized our S-Corp structure. The difference was immediate and significant. Their 'Digital Vault' approach gives me total peace of mind.",
-        rating: 5,
-    },
-    {
-        _id: "2",
-        clientName: "Sarah Miller",
-        clientTitle: "Founder, Miller Design Group",
-        content: "I needed a CFO, not just a tax preparer. Jason and his team helped me forecast cash flow and plan for a major expansion. It feels like having a partner in the business.",
-        rating: 5,
-    },
-    {
-        _id: "3",
-        clientName: "James Wilson",
-        clientTitle: "Owner, Wilson Contracting",
-        content: "Complexity is my enemy. Union National Tax simplified my multi-state filing and job costing issues. I can finally focus on bidding new work instead of worrying about the IRS.",
-        rating: 5,
-    },
-    {
-        _id: "4",
-        clientName: "Elena Rodriguez",
-        clientTitle: "Director, Apex Properties",
-        content: "The level of detail they go into is unmatched. They found deductions previous accountants missed for years. The 'Digital Vault' keeps everything organized and accessible.",
-        rating: 5,
-    },
-    {
-        _id: "5",
-        clientName: "Michael Chang",
-        clientTitle: "Founder, Chang & Co.",
-        content: "Professional, secure, and incredibly knowledgeable. They treat my business taxes with the same seriousness as a Fortune 500 company. Highly recommended.",
-        rating: 5,
-    }
-];
+interface Testimonial {
+    _id?: string;
+    clientName?: string;
+    clientTitle?: string;
+    clientCompany?: string;
+    quote?: string;
+    rating?: number;
+}
 
-export function TestimonialsSection() {
+interface TestimonialProps {
+    testimonials: Testimonial[];
+}
+
+export function TestimonialsSection({ testimonials = [] }: TestimonialProps) {
+    if (!testimonials || testimonials.length === 0) return null;
+
     // Duplicate for seamless scroll
     const marqueeTestimonials = [...testimonials, ...testimonials];
 
@@ -73,7 +49,7 @@ export function TestimonialsSection() {
                     <div className="flex w-max animate-scroll-slow gap-6 sm:gap-8 hover:pause">
                         {marqueeTestimonials.map((testimonial, index) => (
                             <div
-                                key={`${testimonial._id}-${index}`}
+                                key={`${testimonial._id || "testimonial"}-${index}`}
                                 className="w-[350px] sm:w-[400px] h-[320px] bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:border-gold-500/30 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between shrink-0 group relative overflow-hidden"
                             >
                                 {/* Fintech Accent: Top Bar */}
@@ -82,7 +58,7 @@ export function TestimonialsSection() {
                                 <div>
                                     <div className="flex justify-between items-start mb-6">
                                         <div className="flex text-gold-500 gap-1">
-                                            {[...Array(5)].map((_, i) => (
+                                            {[...Array(testimonial.rating || 5)].map((_, i) => (
                                                 <Star key={i} className="w-4 h-4 fill-current" />
                                             ))}
                                         </div>
@@ -91,7 +67,7 @@ export function TestimonialsSection() {
 
                                     <div className="relative">
                                         <p className="text-base font-sans font-medium text-slate-700 leading-relaxed relative z-10 line-clamp-4 group-hover:text-brand-900 transition-colors">
-                                            "{testimonial.content}"
+                                            "{testimonial.quote}"
                                         </p>
                                     </div>
                                 </div>
@@ -102,6 +78,7 @@ export function TestimonialsSection() {
                                     </div>
                                     <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mt-0.5">
                                         {testimonial.clientTitle}
+                                        {testimonial.clientCompany && ` • ${testimonial.clientCompany}`}
                                     </div>
                                 </div>
                             </div>
