@@ -7,10 +7,11 @@ import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
     const { data: page } = await sanityFetch({
         query: LEGAL_PAGE_QUERY,
-        params: { slug: params.slug }
+        params: { slug }
     });
 
     if (!page) return { title: 'Page Not Found' };
@@ -21,10 +22,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
 }
 
-export default async function LegalPage({ params }: { params: { slug: string } }) {
+export default async function LegalPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
     const { data: page } = await sanityFetch({
         query: LEGAL_PAGE_QUERY,
-        params: { slug: params.slug }
+        params: { slug }
     });
 
     if (!page) {

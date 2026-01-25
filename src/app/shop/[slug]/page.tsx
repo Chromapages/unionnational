@@ -19,10 +19,11 @@ export async function generateStaticParams() {
     return slugs.map((slug: any) => ({ slug: slug.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
     const { data: product } = await sanityFetch({
         query: PRODUCT_DETAIL_QUERY,
-        params: { slug: params.slug },
+        params: { slug },
     });
     const seo = product?.seo;
 
