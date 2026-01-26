@@ -120,7 +120,7 @@ export const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
-                                        className="w-full bg-brand-950/50 border border-brand-700 rounded-xl px-4 py-3.5 text-white placeholder:text-brand-500 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans"
+                                        className="w-full bg-brand-950/50 border border-gold-900/50 rounded-xl px-4 py-3.5 text-white placeholder:text-white/40 focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans"
                                     />
                                 </div>
 
@@ -138,7 +138,7 @@ export const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
                                     )}
                                 </button>
 
-                                <p className="text-xs text-brand-600 font-sans mt-4">
+                                <p className="text-xs text-gold-500/60 font-sans mt-4">
                                     No spam. Unsubscribe at any time.
                                 </p>
                             </form>
