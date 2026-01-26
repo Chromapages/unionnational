@@ -60,8 +60,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-    notFound();
+export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
+    const params = await props.params;
+
+    // notFound();
     const { slug } = await params;
     const post = await client.fetch(BLOG_POST_QUERY, { slug });
 
