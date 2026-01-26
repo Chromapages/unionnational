@@ -6,5 +6,5 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Set to false for dynamic pages to always get fresh data
+  useCdn: true, // Set to true to enable edge caching for better performance
 })
