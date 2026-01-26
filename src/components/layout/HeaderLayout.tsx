@@ -2,6 +2,7 @@
 
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { VaultNavbar } from "./FloatingNavbar";
+import type { ServiceSummary } from "./ServicesDropdown";
 
 type HeaderLayoutProps = {
     siteSettings?: {
@@ -12,12 +13,13 @@ type HeaderLayoutProps = {
         phone?: string;
         phoneNumber?: string;
     };
+    services?: ServiceSummary[];
 };
 
-export function HeaderLayout({ siteSettings }: HeaderLayoutProps) {
+export function HeaderLayout({ siteSettings, services }: HeaderLayoutProps) {
     return (
         <ErrorBoundary name="Header Navigation">
-            <VaultNavbar siteSettings={siteSettings} />
+            <VaultNavbar siteSettings={siteSettings} services={services} />
         </ErrorBoundary>
     );
 }

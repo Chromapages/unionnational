@@ -79,7 +79,10 @@ export default async function Home() {
         </ErrorBoundary>
 
         <IndustriesSection />
-        <BentoGridSection stats={homePageData?.stats} />
+        <BentoGridSection
+          stats={homePageData?.stats}
+          backgroundImage={homePageData?.bentoGridBackgroundImage}
+        />
 
         <ErrorBoundary name="Testimonials">
           <TestimonialsSection testimonials={testimonials} />

@@ -21,16 +21,12 @@ import {
     Mail,
     Phone,
     Check,
-    ChevronDown,
-    Calculator,
-    TrendingUp,
-    FileText,
-    Briefcase,
-    Target,
-    Building2
+    ChevronDown
 } from "lucide-react";
+import * as Icons from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
 import { NewsletterModal } from "@/components/ui/NewsletterModal";
+import type { ServiceSummary } from "./ServicesDropdown";
 
 type NavLink = {
     name: string;
@@ -47,6 +43,7 @@ type FloatingNavbarProps = {
         phone?: string;
         phoneNumber?: string;
     };
+    services?: ServiceSummary[];
 };
 
 // Nav links without Services (handled separately via dropdown)
@@ -58,23 +55,38 @@ const navLinks: NavLink[] = [
     { name: "Team", href: "/team" },
 ];
 
-// All services for mobile drawer accordion
-const allServices = [
-    { name: "Strategic Bookkeeping", href: "/services/bookkeeping", icon: Calculator },
-    { name: "S-Corp Tax Advantage", href: "/services/s-corp", icon: TrendingUp },
-    { name: "Tax Filing & Preparation", href: "/services/tax-filing", icon: FileText },
-    { name: "Fractional CFO", href: "/services/cfo", icon: Briefcase },
-    { name: "Tax Planning Consulting", href: "/services/tax-planning", icon: Target },
-    { name: "New Business Formation", href: "/services/formation", icon: Building2 },
+const fallbackServices: ServiceSummary[] = [
+    { title: "Strategic Bookkeeping", slug: { current: "bookkeeping" }, icon: "Calculator" },
+    { title: "S-Corp Tax Advantage", slug: { current: "s-corp" }, icon: "TrendingUp" },
+    { title: "Tax Filing & Preparation", slug: { current: "tax-filing" }, icon: "FileText" },
+    { title: "Fractional CFO", slug: { current: "cfo" }, icon: "Briefcase" },
+    { title: "Tax Planning Consulting", slug: { current: "tax-planning" }, icon: "Target" },
+    { title: "New Business Formation", slug: { current: "formation" }, icon: "Building2" },
 ];
 
-export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
+const getServiceHref = (service: ServiceSummary) => {
+    if (service.slug?.current) {
+        return `/services/${service.slug.current}`;
+    }
+    return "/services";
+};
+
+const getIcon = (iconName?: string) => {
+    if (!iconName) {
+        return Icons.Briefcase;
+    }
+    // @ts-expect-error - Lucide exports aren't typed for dynamic access
+    return Icons[iconName] || Icons.Briefcase;
+};
+
+export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
     const [scrolled, setScrolled] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [servicesExpanded, setServicesExpanded] = useState(false);
     const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
+    const drawerServices = services?.length ? services : fallbackServices;
 
 
     // Check for reduced motion preference
@@ -248,7 +260,7 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
                             </Button>
 
                             {/* Services Dropdown */}
-                            <ServicesDropdown isScrolled={scrolled} />
+                            <ServicesDropdown services={services} />
 
                             {/* Other Nav Links */}
                             {navLinks.filter(link => link.name !== "Home").map((link) => {
@@ -552,14 +564,17 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
                     {/* Services Sub-items */}
                     {servicesExpanded && (
                         <Box sx={{ pl: 2, mb: 1 }}>
-                            {allServices.map((service) => {
-                                const ServiceIcon = service.icon;
-                                const isServiceActive = pathname === service.href;
+                            {drawerServices.map((service) => {
+                                const ServiceIcon = getIcon(service.icon);
+                                const serviceHref = getServiceHref(service);
+                                const serviceTitle = service.title || "Service";
+                                const serviceKey = service._id || service.slug?.current || serviceTitle;
+                                const isServiceActive = pathname === serviceHref;
                                 return (
                                     <ListItemButton
-                                        key={service.name}
+                                        key={serviceKey}
                                         component={Link}
-                                        href={service.href}
+                                        href={serviceHref}
                                         onClick={handleCloseDrawer}
                                         sx={{
                                             minHeight: 48,
@@ -573,7 +588,7 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
                                     >
                                         <ServiceIcon size={18} className="mr-3 text-gold-600" />
                                         <ListItemText
-                                            primary={service.name}
+                                            primary={serviceTitle}
                                             primaryTypographyProps={{
                                                 sx: {
                                                     color: isServiceActive ? "primary.main" : "rgba(255, 255, 255, 0.8)",

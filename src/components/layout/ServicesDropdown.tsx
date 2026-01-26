@@ -4,70 +4,101 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import {
-  Calculator,
-  TrendingUp,
-  FileText,
-  Briefcase,
-  Target,
-  Building2,
-  ChevronDown,
-  ArrowRight,
-  Sparkles,
-  DollarSign,
-} from "lucide-react";
+import { ArrowRight, ChevronDown, DollarSign, Sparkles } from "lucide-react";
+import * as Icons from "lucide-react";
 
-const taxServices = [
-  {
-    name: "Strategic Bookkeeping",
-    href: "/services/bookkeeping",
-    icon: Calculator,
-    description: "Detailed records for cash flow & decisions",
-  },
-  {
-    name: "S-Corp Tax Advantage",
-    href: "/services/s-corp",
-    icon: TrendingUp,
-    description: "Save up to $15,000/year in taxes",
-    featured: true,
-  },
-  {
-    name: "Tax Filing & Preparation",
-    href: "/services/tax-filing",
-    icon: FileText,
-    description: "Accurate, compliant, optimized filing",
-  },
-];
-
-const businessServices = [
-  {
-    name: "Fractional CFO",
-    href: "/services/cfo",
-    icon: Briefcase,
-    description: "High-level financial leadership",
-  },
-  {
-    name: "Tax Planning Consulting",
-    href: "/services/tax-planning",
-    icon: Target,
-    description: "Personalized tax-saving strategies",
-  },
-  {
-    name: "New Business Formation",
-    href: "/services/formation",
-    icon: Building2,
-    description: "Smart entity structure guidance",
-  },
-];
-
-type ServicesDropdownProps = {
-  isScrolled: boolean;
+export type ServiceSummary = {
+  _id?: string;
+  title?: string;
+  slug?: { current?: string };
+  shortDescription?: string;
+  category?: string;
+  icon?: string;
+  isPopular?: boolean;
+  badge?: string;
 };
 
-export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
+const fallbackServices: ServiceSummary[] = [
+  {
+    title: "Strategic Bookkeeping",
+    slug: { current: "bookkeeping" },
+    icon: "Calculator",
+    shortDescription: "Detailed records for cash flow & decisions",
+    category: "Tax",
+  },
+  {
+    title: "S-Corp Tax Advantage",
+    slug: { current: "s-corp" },
+    icon: "TrendingUp",
+    shortDescription: "Save up to $15,000/year in taxes",
+    category: "Tax",
+    isPopular: true,
+  },
+  {
+    title: "Tax Filing & Preparation",
+    slug: { current: "tax-filing" },
+    icon: "FileText",
+    shortDescription: "Accurate, compliant, optimized filing",
+    category: "Tax",
+  },
+  {
+    title: "Fractional CFO",
+    slug: { current: "cfo" },
+    icon: "Briefcase",
+    shortDescription: "High-level financial leadership",
+    category: "Business",
+  },
+  {
+    title: "Tax Planning Consulting",
+    slug: { current: "tax-planning" },
+    icon: "Target",
+    shortDescription: "Personalized tax-saving strategies",
+    category: "Business",
+  },
+  {
+    title: "New Business Formation",
+    slug: { current: "formation" },
+    icon: "Building2",
+    shortDescription: "Smart entity structure guidance",
+    category: "Business",
+  },
+];
+
+const isTaxCategory = (category?: string) => {
+  if (!category) return true;
+  return category.toLowerCase().includes("tax");
+};
+
+const getServiceHref = (service: ServiceSummary) => {
+  if (service.slug?.current) {
+    return `/services/${service.slug.current}`;
+  }
+  return "/services";
+};
+
+const getIcon = (iconName?: string) => {
+  if (!iconName) {
+    return Icons.Briefcase;
+  }
+  // @ts-expect-error - Lucide exports aren't typed for dynamic access
+  return Icons[iconName] || Icons.Briefcase;
+};
+
+type ServicesDropdownProps = {
+  services?: ServiceSummary[];
+};
+
+export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isServicesActive = pathname.startsWith("/services");
+  const serviceData = services?.length ? services : fallbackServices;
+  const taxServices = serviceData.filter((service) => isTaxCategory(service.category));
+  const businessServices = serviceData.filter((service) => !isTaxCategory(service.category));
+  const featuredService = serviceData.find((service) => service.isPopular) || serviceData[0];
+  const featuredHref = featuredService ? getServiceHref(featuredService) : "/services";
+  const featuredTitle = featuredService?.title || "Most Popular";
+  const featuredDescription = featuredService?.shortDescription || "Explore our most popular service.";
 
   return (
     <div
@@ -138,15 +169,20 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
                   Tax Services
                 </h3>
                 <div className="space-y-1">
-                  {taxServices.map((service) => (
+                  {taxServices.map((service) => {
+                    const ServiceIcon = getIcon(service.icon);
+                    const badgeLabel = service.badge || (service.isPopular ? "Popular" : undefined);
+                    const serviceTitle = service.title || "Service";
+                    const serviceKey = service._id || service.slug?.current || serviceTitle;
+                    return (
                     <Link
-                      key={service.name}
-                      href={service.href}
+                      key={serviceKey}
+                      href={getServiceHref(service)}
                       className="group/item relative flex items-start gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-slate-50 hover:to-gold-50/50"
                     >
                       {/* Icon container with animated border */}
                       <div className="relative flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 bg-brand-50 group-hover/item:bg-gold-500/15 group-hover/item:shadow-lg group-hover/item:shadow-gold-500/10">
-                        <service.icon
+                        <ServiceIcon
                           size={20}
                           className="text-brand-500 transition-colors duration-200 group-hover/item:text-gold-600"
                         />
@@ -154,16 +190,16 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="font-semibold text-brand-900 group-hover/item:text-gold-600 transition-colors duration-200">
-                            {service.name}
+                            {serviceTitle}
                           </span>
-                          {service.featured && (
+                          {badgeLabel && (
                             <span className="px-2 py-0.5 text-[10px] font-bold bg-gradient-to-r from-gold-500 to-gold-400 text-brand-900 rounded-full uppercase shadow-sm">
-                              Popular
+                              {badgeLabel}
                             </span>
                           )}
                         </div>
                         <p className="text-sm text-slate-500 mt-0.5 group-hover/item:text-slate-600 transition-colors">
-                          {service.description}
+                          {service.shortDescription}
                         </p>
                       </div>
                       {/* Arrow indicator on hover */}
@@ -172,7 +208,8 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-gold-500 opacity-0 -translate-x-2 transition-all duration-200 group-hover/item:opacity-100 group-hover/item:translate-x-0"
                       />
                     </Link>
-                  ))}
+                  );
+                })}
                 </div>
               </div>
 
@@ -183,24 +220,28 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
                   Business Services
                 </h3>
                 <div className="space-y-1">
-                  {businessServices.map((service) => (
+                  {businessServices.map((service) => {
+                    const ServiceIcon = getIcon(service.icon);
+                    const serviceTitle = service.title || "Service";
+                    const serviceKey = service._id || service.slug?.current || serviceTitle;
+                    return (
                     <Link
-                      key={service.name}
-                      href={service.href}
+                      key={serviceKey}
+                      href={getServiceHref(service)}
                       className="group/item relative flex items-start gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-slate-50 hover:to-gold-50/50"
                     >
                       <div className="relative flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 bg-brand-50 group-hover/item:bg-gold-500/15 group-hover/item:shadow-lg group-hover/item:shadow-gold-500/10">
-                        <service.icon
+                        <ServiceIcon
                           size={20}
                           className="text-brand-500 transition-colors duration-200 group-hover/item:text-gold-600"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="font-semibold text-brand-900 group-hover/item:text-gold-600 transition-colors duration-200">
-                          {service.name}
+                          {serviceTitle}
                         </span>
                         <p className="text-sm text-slate-500 mt-0.5 group-hover/item:text-slate-600 transition-colors">
-                          {service.description}
+                          {service.shortDescription}
                         </p>
                       </div>
                       <ArrowRight
@@ -208,7 +249,8 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-gold-500 opacity-0 -translate-x-2 transition-all duration-200 group-hover/item:opacity-100 group-hover/item:translate-x-0"
                       />
                     </Link>
-                  ))}
+                  );
+                })}
                 </div>
               </div>
             </div>
@@ -224,7 +266,7 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
               <div className="absolute top-3 right-32 w-1 h-1 bg-gold-400/80 rounded-full animate-pulse delay-150" />
 
               <Link
-                href="/services/s-corp"
+                href={featuredHref}
                 className="relative group/cta flex items-center justify-between p-5"
               >
                 <div className="flex items-center gap-4">
@@ -244,10 +286,10 @@ export const ServicesDropdown = ({ isScrolled }: ServicesDropdownProps) => {
                       </span>
                     </div>
                     <span className="text-white font-bold text-lg">
-                      S-Corp Tax Advantage
+                      {featuredTitle}
                     </span>
                     <span className="text-white/70 text-sm ml-3">
-                      Save up to $15,000/year
+                      {featuredDescription}
                     </span>
                   </div>
                 </div>

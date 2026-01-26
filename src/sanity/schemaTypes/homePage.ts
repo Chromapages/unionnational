@@ -86,6 +86,20 @@ export const homePage = defineType({
                 },
             ],
         }),
+        defineField({
+            name: "bentoGridBackgroundImage",
+            title: "Bento Grid: Expert Card Background",
+            type: "image",
+            group: "stats",
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: "alt",
+                    title: "Alternative Text",
+                    type: "string",
+                },
+            ],
+        }),
 
         // CTA Section (Pricing/Bottom)
         defineField({
@@ -115,6 +129,20 @@ export const homePage = defineType({
             type: "url",
             validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
             group: "cta",
+        }),
+        defineField({
+            name: "ctaBackgroundImage",
+            title: "CTA Section Background",
+            type: "image",
+            group: "cta",
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: "alt",
+                    title: "Alternative Text",
+                    type: "string",
+                },
+            ],
         }),
         defineField({
             name: "seo",

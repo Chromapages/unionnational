@@ -1,7 +1,8 @@
 "use client";
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { ArrowRight, ArrowUpRight, Phone, Calendar } from "lucide-react";
+import { urlFor } from "@/sanity/lib/image";
+import { Phone, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,22 +12,31 @@ interface CTASectionProps {
         ctaSubtitle?: string;
         ctaButtonText?: string;
         ctaButtonUrl?: string;
+        ctaBackgroundImage?: {
+            asset?: unknown;
+            alt?: string;
+        };
     };
 }
 
 export function CTASection({ data }: CTASectionProps) {
+    const backgroundImageUrl = data?.ctaBackgroundImage?.asset
+        ? urlFor(data.ctaBackgroundImage).width(2000).height(1200).url()
+        : "/images/ctasection.jpg";
+    const backgroundImageAlt = data?.ctaBackgroundImage?.alt || "Office Background";
+
     return (
         <section id="contact" className="relative py-20 lg:py-28 overflow-hidden">
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/images/ctasection.jpg"
-                    alt="Office Background"
+                    src={backgroundImageUrl}
+                    alt={backgroundImageAlt}
                     fill
                     className="object-cover"
                 />
-                <div className="absolute inset-0 bg-brand-950/90 mix-blend-multiply"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-900/95 to-brand-900/80"></div>
+                <div className="absolute inset-0 bg-brand-950/60 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-900/70 to-brand-900/50"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

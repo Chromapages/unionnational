@@ -351,12 +351,20 @@ export const HOME_PAGE_QUERY = defineQuery(`
     value,
       label
   },
+  bentoGridBackgroundImage {
+    asset->,
+    alt
+  },
   ctaTitle,
     ctaSubtitle,
     ctaButtonText,
     ctaButtonUrl,
-    seo {
-      metaTitle,
+  ctaBackgroundImage {
+    asset->,
+    alt
+  },
+  seo {
+    metaTitle,
       metaDescription,
       openGraphImage
     }

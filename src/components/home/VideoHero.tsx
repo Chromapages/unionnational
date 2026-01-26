@@ -181,8 +181,8 @@ export function VideoHero({ data }: VideoHeroProps) {
                     Second layer: 70% opaque bg-brand-950 (#010504 - near black) for additional darkening
                     Video at 50% opacity + 70% overlay ensures readable text with visible video movement
                     Aligns with "Digital Vault" design system's "Solid over Translucent" principle */}
-                <div className="absolute inset-0 bg-brand-900/70"></div>
-                <div className="absolute inset-0 bg-brand-950/70"></div>
+                <div className="absolute inset-0 bg-brand-900/40"></div>
+                <div className="absolute inset-0 bg-brand-950/40"></div>
             </div>
 
             <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full mb-8">

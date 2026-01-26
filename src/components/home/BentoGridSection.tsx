@@ -2,14 +2,22 @@
 
 import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { User, Landmark, ArrowUp, TrendingUp, Shield, BarChart2 } from "lucide-react";
+import { urlFor } from "@/sanity/lib/image";
+import { Landmark, ArrowUp, TrendingUp, Shield, BarChart2 } from "lucide-react";
 
 interface BentoGridProps {
     stats?: { value: string; label: string }[];
+    backgroundImage?: {
+        asset?: unknown;
+        alt?: string;
+    };
 }
 
-export function BentoGridSection({ stats }: BentoGridProps) {
+export function BentoGridSection({ stats, backgroundImage }: BentoGridProps) {
     const mainStat = stats?.[0] || { value: "$2M+", label: "Annual tax savings generated for our clients" };
+    const backgroundImageUrl = backgroundImage?.asset
+        ? urlFor(backgroundImage).width(900).height(1100).url()
+        : null;
 
     return (
         <section className="py-24 bg-slate-50 relative overflow-hidden">
@@ -63,10 +71,18 @@ export function BentoGridSection({ stats }: BentoGridProps) {
 
                     {/* Card 2: Lead Expert (Portrait) */}
                     <RevealOnScroll delay={100} className="md:col-span-2 rounded-3xl p-8 bg-brand-900 border border-white/10 hover:border-gold-500/30 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden min-h-[320px]">
+                        {backgroundImageUrl ? (
+                            <Image
+                                src={backgroundImageUrl}
+                                alt={backgroundImage?.alt || "Lead expert background"}
+                                fill
+                                className="object-cover object-[center_0%]"
+                            />
+                        ) : null}
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-brand-950/90 z-10"></div>
 
                         {/* Abstract Portrait Illustration or Icon */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gold-500/5 rounded-full blur-3xl group-hover:bg-gold-500/10 transition-colors"></div>
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gold-500/5 rounded-full blur-3xl group-hover:bg-gold-500/10 transition-colors z-0"></div>
 
                         <div className="relative z-20">
                             <span className="inline-block px-3 py-1 rounded-full bg-white/5 text-white/80 text-[10px] font-bold uppercase tracking-widest mb-6 border border-white/10">
