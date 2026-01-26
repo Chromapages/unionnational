@@ -73,7 +73,7 @@ export async function Footer() {
         <footer className="bg-brand-900 border-t border-brand-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
-                    
+
                     {/* Column 1: Brand & Bio */}
                     <div className="space-y-6">
                         <Link href="/" className="block relative h-16 w-64 mb-6">
@@ -105,7 +105,7 @@ export async function Footer() {
                         <ul className="space-y-3">
                             {['Tax Planning', 'Tax Preparation', 'IRS Resolution', 'Bookkeeping'].map((item) => (
                                 <li key={item}>
-                                    <Link 
+                                    <Link
                                         href={`/services/${item.toLowerCase().replace(' ', '-')}`}
                                         className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
                                     >
@@ -114,7 +114,7 @@ export async function Footer() {
                                 </li>
                             ))}
                             <li>
-                                <Link 
+                                <Link
                                     href="/services"
                                     className="text-gold-500 hover:text-gold-400 text-sm font-medium transition-colors inline-flex items-center gap-1"
                                 >
@@ -128,16 +128,18 @@ export async function Footer() {
                     <div>
                         <h3 className="text-white font-bold mb-6 font-heading">Company</h3>
                         <ul className="space-y-3">
-                            {['About', 'Team', 'Blog', 'Contact', 'Intake', 'Shop'].map((item) => (
-                                <li key={item}>
-                                    <Link 
-                                        href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                                        className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
-                                    >
-                                        {item}
-                                    </Link>
-                                </li>
-                            ))}
+                            {['About', 'Team', 'Blog', 'Contact', 'Shop']
+                                .filter(item => item !== 'Blog')
+                                .map((item) => (
+                                    <li key={item}>
+                                        <Link
+                                            href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                                            className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
+                                        >
+                                            {item}
+                                        </Link>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
 
@@ -178,7 +180,7 @@ export async function Footer() {
                     <p className="text-zinc-500 text-xs text-center md:text-left">
                         {siteSettings?.copyrightText || `© ${new Date().getFullYear()} Union National Tax. All Rights Reserved.`}
                     </p>
-                    
+
                     {/* Social Icons */}
                     <div className="flex gap-3">
                         {socialLinks.map((social, i) => (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const NewsletterForm = () => {
   const [email, setEmail] = useState("");
@@ -39,18 +40,22 @@ export const NewsletterForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
-          className="flex-1 px-3 py-2 text-sm bg-brand-800 border border-brand-700 rounded-l-lg 
-                     text-white placeholder:text-zinc-500 focus:outline-none focus:border-gold-500
-                     transition-colors"
+          className={cn(
+            "flex-1 px-3 py-2 text-sm bg-brand-800 border border-brand-700 rounded-l-lg",
+            "text-white placeholder:text-zinc-500 focus:outline-none focus:border-gold-500",
+            "transition-colors"
+          )}
           required
         />
         <button
           type="submit"
           disabled={status === "loading"}
           aria-label="Subscribe to newsletter"
-          className="px-4 py-2 bg-gold-500 text-brand-900 rounded-r-lg font-semibold text-sm
-                     hover:bg-gold-400 disabled:opacity-50 transition-colors cursor-pointer
-                     flex items-center justify-center"
+          className={cn(
+            "px-4 py-2 bg-gold-500 text-brand-900 rounded-r-lg font-semibold text-sm",
+            "hover:bg-gold-400 disabled:opacity-50 transition-colors cursor-pointer",
+            "flex items-center justify-center"
+          )}
         >
           {status === "loading" ? (
             <Loader2 className="w-4 h-4 animate-spin" />

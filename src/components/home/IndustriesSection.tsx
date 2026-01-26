@@ -4,9 +4,10 @@ import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { 
-  Hammer, Home, Utensils, ShoppingBag, ShieldCheck, 
-  ArrowRight, CheckCircle2, ChevronLeft, ChevronRight 
+import { cn } from "@/lib/utils";
+import {
+    Hammer, Home, Utensils, ShoppingBag, ShieldCheck,
+    ArrowRight, CheckCircle2, ChevronLeft, ChevronRight
 } from "lucide-react";
 
 const industries = [
@@ -63,8 +64,8 @@ const industries = [
 ];
 
 export function IndustriesSection() {
-    const [emblaRef, emblaApi] = useEmblaCarousel({ 
-        loop: true, 
+    const [emblaRef, emblaApi] = useEmblaCarousel({
+        loop: true,
         align: "center",
         skipSnaps: false,
     });
@@ -97,7 +98,7 @@ export function IndustriesSection() {
     return (
         <section className="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden border-b border-slate-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                
+
                 {/* Header */}
                 <RevealOnScroll className="text-center mb-12 lg:mb-16">
                     <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-500 font-heading">
@@ -121,17 +122,19 @@ export function IndustriesSection() {
                         <div className="overflow-hidden" ref={emblaRef}>
                             <div className="flex gap-6">
                                 {industries.map((industry, index) => (
-                                    <div 
-                                        key={industry.id} 
+                                    <div
+                                        key={industry.id}
                                         className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_80%] lg:flex-[0_0_60%]"
                                     >
-                                        <div className={`
-                                            bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden
-                                            transition-all duration-500 h-full
-                                            ${selectedIndex === index 
-                                                ? "shadow-2xl scale-100 opacity-100 border-gold-500/30" 
-                                                : "shadow-md scale-95 opacity-60"}
-                                        `}>
+                                        <div
+                                            className={cn(
+                                                "bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden",
+                                                "transition-all duration-500 h-full",
+                                                selectedIndex === index
+                                                    ? "shadow-2xl scale-100 opacity-100 border-gold-500/30"
+                                                    : "shadow-md scale-95 opacity-60"
+                                            )}
+                                        >
                                             {/* Image */}
                                             <div className="relative h-48 sm:h-56 lg:h-64 w-full overflow-hidden bg-gradient-to-br from-brand-900 to-brand-800">
                                                 <Image
@@ -176,8 +179,8 @@ export function IndustriesSection() {
 
                                                 {/* CTA */}
                                                 <a
-                                                    href="/intake"
-                                                    aria-label={`Get started with ${industry.name} tax planning`}
+                                                    href="/contact"
+                                                    aria-label={`Contact us about ${industry.name} tax planning`}
                                                     className="inline-flex items-center gap-2 text-gold-600 hover:text-gold-700 font-semibold text-sm transition-colors cursor-pointer group"
                                                 >
                                                     Learn More
@@ -195,12 +198,14 @@ export function IndustriesSection() {
                             onClick={scrollPrev}
                             disabled={!canScrollPrev}
                             aria-label="Previous industry"
-                            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 
-                                       w-12 h-12 rounded-full bg-white shadow-lg border border-slate-200
-                                       items-center justify-center text-brand-900 
-                                       hover:bg-gold-50 hover:border-gold-500/30 hover:text-gold-600
-                                       disabled:opacity-30 disabled:cursor-not-allowed
-                                       transition-all duration-200 cursor-pointer z-10"
+                            className={cn(
+                                "hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4",
+                                "w-12 h-12 rounded-full bg-white shadow-lg border border-slate-200",
+                                "items-center justify-center text-brand-900",
+                                "hover:bg-gold-50 hover:border-gold-500/30 hover:text-gold-600",
+                                "disabled:opacity-30 disabled:cursor-not-allowed",
+                                "transition-all duration-200 cursor-pointer z-10"
+                            )}
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
@@ -208,12 +213,14 @@ export function IndustriesSection() {
                             onClick={scrollNext}
                             disabled={!canScrollNext}
                             aria-label="Next industry"
-                            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 
-                                       w-12 h-12 rounded-full bg-white shadow-lg border border-slate-200
-                                       items-center justify-center text-brand-900 
-                                       hover:bg-gold-50 hover:border-gold-500/30 hover:text-gold-600
-                                       disabled:opacity-30 disabled:cursor-not-allowed
-                                       transition-all duration-200 cursor-pointer z-10"
+                            className={cn(
+                                "hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4",
+                                "w-12 h-12 rounded-full bg-white shadow-lg border border-slate-200",
+                                "items-center justify-center text-brand-900",
+                                "hover:bg-gold-50 hover:border-gold-500/30 hover:text-gold-600",
+                                "disabled:opacity-30 disabled:cursor-not-allowed",
+                                "transition-all duration-200 cursor-pointer z-10"
+                            )}
                         >
                             <ChevronRight className="w-5 h-5" />
                         </button>
@@ -226,12 +233,12 @@ export function IndustriesSection() {
                                 key={index}
                                 onClick={() => scrollTo(index)}
                                 aria-label={`Go to slide ${index + 1}`}
-                                className={`
-                                    w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer
-                                    ${selectedIndex === index 
-                                        ? "bg-gold-500 w-8" 
-                                        : "bg-slate-300 hover:bg-slate-400"}
-                                `}
+                                className={cn(
+                                    "w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer",
+                                    selectedIndex === index
+                                        ? "bg-gold-500 w-8"
+                                        : "bg-slate-300 hover:bg-slate-400"
+                                )}
                             />
                         ))}
                     </div>

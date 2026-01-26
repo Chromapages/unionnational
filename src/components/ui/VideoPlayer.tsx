@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useVideoPlayer } from '@/hooks/useVideoPlayer';
+import { cn } from '@/lib/utils';
 import { 
     Play, 
     Pause, 
@@ -214,13 +215,17 @@ export function VideoPlayer({
 
             {/* Center Play/Pause Overlay */}
             <div 
-                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-200 pointer-events-none
-                    ${!state.isPlaying && !state.isBuffering ? 'opacity-100' : 'opacity-0'}`}
+                className={cn(
+                    'absolute inset-0 flex items-center justify-center transition-opacity duration-200 pointer-events-none',
+                    !state.isPlaying && !state.isBuffering ? 'opacity-100' : 'opacity-0'
+                )}
             >
                 <button
                     onClick={controls.togglePlay}
-                    className="w-16 h-16 rounded-full bg-brand-900/80 flex items-center justify-center text-white 
-                             pointer-events-auto hover:ring-2 hover:ring-gold-500 transition-all transform hover:scale-105"
+                    className={cn(
+                        'w-16 h-16 rounded-full bg-brand-900/80 flex items-center justify-center text-white',
+                        'pointer-events-auto hover:ring-2 hover:ring-gold-500 transition-all transform hover:scale-105'
+                    )}
                     aria-label={state.isPlaying ? "Pause" : "Play"}
                 >
                     {state.isPlaying ? (
@@ -233,9 +238,11 @@ export function VideoPlayer({
 
             {/* Control Bar */}
             <div 
-                className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-brand-900/95 to-transparent px-4 pb-4 pt-12 
-                           transition-opacity duration-300 flex flex-col gap-2
-                           ${showControls || !state.isPlaying ? 'opacity-100' : 'opacity-0'}`}
+                className={cn(
+                    'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-brand-900/95 to-transparent px-4 pb-4 pt-12',
+                    'transition-opacity duration-300 flex flex-col gap-2',
+                    showControls || !state.isPlaying ? 'opacity-100' : 'opacity-0'
+                )}
             >
                 {/* Progress Bar */}
                 <div 

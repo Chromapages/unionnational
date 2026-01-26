@@ -15,7 +15,10 @@ export const metadata: Metadata = {
     description: "Insights and strategies for tax optimization and wealth building from our expert team.",
 };
 
+import { notFound } from "next/navigation";
+
 export default async function BlogPage({ searchParams }: { searchParams: { page?: string } }) {
+    notFound();
     // Parallel data fetching
     const [settings, categories, featuredPosts, recentPosts] = await Promise.all([
         client.fetch(BLOG_SETTINGS_QUERY),
