@@ -36,7 +36,7 @@ export function CTASection({ data }: CTASectionProps) {
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-brand-950/60 mix-blend-multiply"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-900/70 to-brand-900/50"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-brand-950/80 via-brand-900/70 to-brand-900/50"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
