@@ -129,7 +129,6 @@ export async function Footer() {
                         <h3 className="text-white font-bold mb-6 font-heading">Company</h3>
                         <ul className="space-y-3">
                             {['About', 'Team', 'Blog', 'Contact', 'Shop']
-                                .filter(item => item !== 'Blog')
                                 .map((item) => (
                                     <li key={item}>
                                         <Link
