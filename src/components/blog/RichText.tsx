@@ -119,7 +119,7 @@ export function RichText({ value, headings = [] }: RichTextProps) {
     };
 
     return (
-        <div className="space-y-7">
+        <div className="prose prose-slate max-w-none space-y-7">
             <PortableText value={value} components={components} />
         </div>
     );

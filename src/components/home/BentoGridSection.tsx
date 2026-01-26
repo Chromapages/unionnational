@@ -33,13 +33,18 @@ export function BentoGridSection({ stats }: BentoGridProps) {
                 <div className="grid grid-cols-1 md:grid-cols-6 gap-6 grid-rows-[auto_auto]">
 
                     {/* Card 1: Tax Savings (Large) */}
-                    <RevealOnScroll className="md:col-span-4 rounded-3xl p-8 md:p-10 bg-gradient-to-br from-brand-900 to-brand-950 border border-white/10 hover:border-gold-500/30 transition-all duration-300 group relative overflow-hidden min-h-[320px] flex flex-col justify-between">
-                        <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                            <TrendingUp className="w-32 h-32 text-gold-500" />
+                    <RevealOnScroll className="md:col-span-4 rounded-3xl p-8 md:p-10 border border-white/10 hover:border-gold-500/30 transition-all duration-300 group relative overflow-hidden min-h-[320px] flex flex-col justify-between">
+                        <div className="absolute inset-0 bg-[#0d2e2b]">
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[#1b4f49]/70 via-[#0d2e2b]/70 to-transparent"></div>
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,_rgba(255,255,255,0.08)_0,_transparent_55%)]"></div>
+                            <div className="absolute top-2 -right-8 opacity-[0.07] group-hover:opacity-15 transition-all duration-500 rotate-12">
+                                <TrendingUp className="h-48 w-48 text-gold-500" />
+                            </div>
+                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light"></div>
                         </div>
 
-                        <div>
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold uppercase tracking-wider mb-6">
+                        <div className="relative">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gold-200 text-xs font-bold uppercase tracking-wider mb-6 backdrop-blur">
                                 <span className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
                                 Client Impact
                             </div>
@@ -48,7 +53,7 @@ export function BentoGridSection({ stats }: BentoGridProps) {
                             </h3>
                         </div>
 
-                        <div className="mt-8">
+                        <div className="relative mt-8">
                             <div className="text-6xl md:text-7xl font-bold text-white tracking-tight font-heading group-hover:scale-105 transition-transform origin-left">
                                 {mainStat.value}
                             </div>

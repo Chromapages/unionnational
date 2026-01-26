@@ -15,11 +15,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import { 
-    Menu as MenuIcon, 
-    X as CloseIcon, 
-    Mail, 
-    Phone, 
+import {
+    Menu as MenuIcon,
+    X as CloseIcon,
+    Mail,
+    Phone,
     Check,
     ChevronDown,
     Calculator,
@@ -30,6 +30,7 @@ import {
     Building2
 } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
+import { NewsletterModal } from "@/components/ui/NewsletterModal";
 
 type NavLink = {
     name: string;
@@ -71,6 +72,7 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
     const [scrolled, setScrolled] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [servicesExpanded, setServicesExpanded] = useState(false);
+    const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
 
@@ -79,7 +81,7 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         setPrefersReducedMotion(mediaQuery.matches);
-        
+
         const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
         mediaQuery.addEventListener('change', handler);
         return () => mediaQuery.removeEventListener('change', handler);
@@ -356,6 +358,7 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
                             </Box>
                             <IconButton
                                 aria-label="Subscribe to newsletter"
+                                onClick={() => setIsNewsletterOpen(true)}
                                 sx={{
                                     color: "rgba(255, 255, 255, 0.7)",
                                     "&:hover": { color: "primary.main" },
@@ -540,9 +543,9 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
                                 },
                             }}
                         />
-                        <ChevronDown 
-                            size={18} 
-                            className={`text-white/70 transition-transform duration-200 ${servicesExpanded ? "rotate-180" : ""}`} 
+                        <ChevronDown
+                            size={18}
+                            className={`text-white/70 transition-transform duration-200 ${servicesExpanded ? "rotate-180" : ""}`}
                         />
                     </ListItemButton>
 
@@ -722,6 +725,8 @@ export const VaultNavbar = ({ siteSettings }: FloatingNavbarProps) => {
                     </Button>
                 </Box>
             </SwipeableDrawer>
+
+            <NewsletterModal isOpen={isNewsletterOpen} onClose={() => setIsNewsletterOpen(false)} />
 
         </>
     );

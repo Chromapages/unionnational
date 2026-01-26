@@ -11,6 +11,7 @@ import { Footer } from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
+import { NewsletterCta } from "@/components/blog/NewsletterCta";
 
 export const revalidate = 60;
 
@@ -78,13 +79,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     const takeaways = headings.slice(0, 3).map((heading) => heading.text);
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main className="bg-slate-50 min-h-screen">
             <HeaderWrapper />
             <BlogHeader post={post} />
-            <div className="mx-auto max-w-7xl px-6 py-16">
+            <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-32 -mt-20">
                 <div className="grid gap-12 lg:grid-cols-12">
                     <article className="space-y-10 lg:col-span-8">
-                        <div className="rounded-2xl border border-gold-200/60 bg-gold-50/70 p-8 shadow-sm">
+                        <div className="rounded-3xl border border-gold-200/70 bg-gradient-to-br from-gold-50 via-white to-white p-8 shadow-lg shadow-gold-200/40">
                             <div className="text-xs font-bold uppercase tracking-[0.3em] text-brand-900/60 font-sans">
                                 Key Takeaways
                             </div>
@@ -109,30 +110,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </article>
 
                     <aside className="lg:col-span-4">
-                        <div className="space-y-8 lg:sticky lg:top-28">
+                        <div className="space-y-8 lg:sticky lg:top-36">
                             <TableOfContents headings={headings} />
-                            <div className="rounded-2xl border border-brand-100/60 bg-white p-6 shadow-sm">
-                                <div className="text-xs font-bold uppercase tracking-[0.3em] text-brand-900/50 font-sans">
-                                    Weekly Insights
-                                </div>
-                                <h3 className="mt-4 text-lg font-semibold text-brand-900 font-heading">
-                                    Join the tax strategy brief.
-                                </h3>
-                                <p className="mt-2 text-sm text-brand-900/60 font-sans">
-                                    A short, actionable newsletter built for founders and high earners.
-                                </p>
-                                <form className="mt-5 space-y-3">
-                                    <input
-                                        type="email"
-                                        placeholder="Email address"
-                                        className="w-full rounded-full border border-brand-100/80 px-4 py-2.5 text-sm text-brand-900 placeholder:text-brand-900/40 focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 font-sans"
-                                    />
-                                    <button className="w-full rounded-full bg-brand-900 px-4 py-2.5 text-xs font-bold uppercase tracking-[0.3em] text-gold-200 transition-colors hover:bg-brand-800">
-                                        Get the Brief
-                                    </button>
-                                </form>
-                            </div>
-                            <div className="rounded-2xl border border-brand-900/10 bg-brand-950 p-6 text-white shadow-lg">
+
+                            <NewsletterCta />
+
+                            <div className="rounded-3xl border border-brand-900/10 bg-brand-950 p-6 text-white shadow-xl shadow-brand-900/30">
                                 <div className="text-xs uppercase tracking-[0.3em] text-gold-200 font-sans">
                                     Need a plan?
                                 </div>

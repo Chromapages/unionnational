@@ -5,7 +5,7 @@ import { Map, Video, Shield, Laptop, CheckCircle2 } from "lucide-react";
 
 export function NationwideServiceSection() {
     return (
-        <section className="py-20 sm:py-24 bg-brand-900 relative overflow-hidden">
+        <section className="py-20 sm:py-24 bg-[#0d2e2b] relative overflow-hidden">
             {/* Background Map Pattern (SVG) */}
             <div className="absolute inset-0 opacity-5 pointer-events-none">
                 <svg className="w-full h-full" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
@@ -16,7 +16,7 @@ export function NationwideServiceSection() {
             </div>
 
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-900/90 via-brand-900/80 to-brand-900/95"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0d2e2b]/90 via-[#0d2e2b]/80 to-[#0d2e2b]/95"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">

@@ -42,7 +42,12 @@ export function TableOfContents({ headings, className }: TableOfContentsProps) {
     if (headings.length === 0) return null;
 
     return (
-        <nav className={cn("rounded-2xl border border-brand-100/60 bg-white p-6 shadow-sm", className)}>
+        <nav
+            className={cn(
+                "rounded-3xl border border-brand-100/70 bg-white/90 p-6 shadow-lg shadow-brand-900/5 backdrop-blur",
+                className
+            )}
+        >
             <div className="text-xs font-bold uppercase tracking-[0.3em] text-brand-900/50 font-sans">
                 Table of Contents
             </div>
@@ -54,7 +59,9 @@ export function TableOfContents({ headings, className }: TableOfContentsProps) {
                         className={cn(
                             "block transition-colors",
                             heading.level === 3 ? "pl-4" : "pl-0",
-                            activeId === heading.id ? "text-gold-600 font-semibold" : "text-brand-900/60 hover:text-brand-900"
+                            activeId === heading.id
+                                ? "text-gold-600 font-semibold"
+                                : "text-brand-900/60 hover:text-brand-900"
                         )}
                     >
                         {heading.text}
