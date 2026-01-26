@@ -27,7 +27,7 @@ export default async function AboutPage() {
     const { data: page } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
 
     return (
-        <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+        <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
 
             <main>
@@ -185,7 +185,7 @@ export default async function AboutPage() {
                     </RevealOnScroll>
                 </div>
 
-                
+
                 {/* Principles / Values */}
                 <section className="max-w-7xl mx-auto px-6 py-24">
                     <RevealOnScroll delay={850} className="text-center mb-16">

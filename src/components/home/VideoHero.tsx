@@ -163,8 +163,8 @@ export function VideoHero({ data }: VideoHeroProps) {
 
     return (
         <section
-            className="relative w-full min-h-[85vh] md:min-h-[90vh] lg:min-h-[95vh] flex items-center pt-24 pb-12 overflow-hidden"
-            aria-label="Hero Section"
+            className="relative w-full min-h-[85dvh] md:min-h-[90dvh] lg:min-h-[95dvh] flex items-center pt-24 pb-12 overflow-hidden"
+            aria-label="Welcome to Union National Tax"
         >
             {/* Video Background */}
             <div className="absolute inset-0 w-full h-full z-0 bg-brand-900">

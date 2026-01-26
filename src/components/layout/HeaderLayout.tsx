@@ -1,5 +1,6 @@
 "use client";
 
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { VaultNavbar } from "./FloatingNavbar";
 
 type HeaderLayoutProps = {
@@ -15,8 +16,8 @@ type HeaderLayoutProps = {
 
 export function HeaderLayout({ siteSettings }: HeaderLayoutProps) {
     return (
-        <>
+        <ErrorBoundary name="Header Navigation">
             <VaultNavbar siteSettings={siteSettings} />
-        </>
+        </ErrorBoundary>
     );
 }

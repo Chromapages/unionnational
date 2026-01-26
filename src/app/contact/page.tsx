@@ -47,7 +47,7 @@ export default async function ContactPage() {
     const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
 
     return (
-        <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+        <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <JsonLd siteSettings={siteSettings} contactSettings={settings} />
             <HeaderWrapper />
 

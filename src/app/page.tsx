@@ -18,6 +18,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { sanityFetch } from "@/sanity/lib/live";
 import { HOME_PAGE_QUERY, SERVICES_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { urlFor } from "@/sanity/lib/image";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,7 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = homePageData?.seo;
 
   if (!seo) {
-    return {};
+    return {
+      title: "Union National Tax",
+    };
   }
 
   const ogImage = seo.openGraphImage
@@ -55,20 +58,33 @@ export default async function Home() {
   const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
 
   return (
-    <main className="min-h-screen w-full bg-surface flex flex-col">
+    <main className="min-h-dvh w-full bg-surface flex flex-col">
       <FAQPageSchema />
       <JsonLd siteSettings={siteSettings} homePageData={homePageData} />
       <HeaderWrapper />
       <div className="flex-1">
-        <VideoHero data={homePageData} />
-        <TrustBar logos={homePageData?.trustLogos} />
+        <ErrorBoundary name="Hero Section">
+          <VideoHero data={homePageData} />
+        </ErrorBoundary>
+
+        <ErrorBoundary name="Trust Bar">
+          <TrustBar logos={homePageData?.trustLogos} />
+        </ErrorBoundary>
+
         <DifferentiationSection />
         <NationwideServiceSection />
-        <ServicesSection services={services} />
+
+        <ErrorBoundary name="Services Section">
+          <ServicesSection services={services} />
+        </ErrorBoundary>
+
         <IndustriesSection />
         <BentoGridSection stats={homePageData?.stats} />
 
-        <TestimonialsSection testimonials={testimonials} />
+        <ErrorBoundary name="Testimonials">
+          <TestimonialsSection testimonials={testimonials} />
+        </ErrorBoundary>
+
         <FAQSection />
         <CTASection data={homePageData} />
       </div>
