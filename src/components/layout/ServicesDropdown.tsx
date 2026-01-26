@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, DollarSign, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Hammer, Utensils } from "lucide-react";
 import * as Icons from "lucide-react";
 
 export type ServiceSummary = {
@@ -93,13 +93,10 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
   const pathname = usePathname();
   const isServicesActive = pathname.startsWith("/services");
   const serviceData = services?.length ? services : fallbackServices;
-  const taxServices = serviceData.filter((service) => isTaxCategory(service.category));
-  const businessServices = serviceData.filter((service) => !isTaxCategory(service.category));
-  const featuredService = serviceData.find((service) => service.isPopular) || serviceData[0];
-  const featuredHref = featuredService ? getServiceHref(featuredService) : "/services";
-  const featuredTitle = featuredService?.title || "Most Popular";
-  const featuredDescription = featuredService?.shortDescription || "Explore our most popular service.";
-
+  // Split services into two columns locally for display
+  const halfLength = Math.ceil(serviceData.length / 2);
+  const leftColumnServices = serviceData.slice(0, halfLength);
+  const rightColumnServices = serviceData.slice(halfLength);
   return (
     <div
       className="relative"
@@ -157,165 +154,115 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
           )}
         >
           {/* Dropdown arrow/caret */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-l border-t border-slate-200" />
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-l border-t border-slate-100" />
 
-          <div className="relative w-[680px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+          <div className="relative w-[680px] bg-white rounded-xl shadow-2xl shadow-slate-900/10 border border-slate-100 overflow-hidden">
             {/* Two Column Grid */}
-            <div className="grid grid-cols-2 gap-0 divide-x divide-slate-100">
-              {/* Tax Services Column */}
-              <div className="p-6">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <span className="w-6 h-px bg-gold-500" />
+            <div className="grid grid-cols-2 gap-0 divide-x divide-slate-50 p-2">
+              {/* Left Column */}
+              <div className="p-4">
+                <h3 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                   Tax Services
                 </h3>
-                <div className="space-y-1">
-                  {taxServices.map((service) => {
+                <div className="space-y-0.5">
+                  {leftColumnServices.map((service) => {
                     const ServiceIcon = getIcon(service.icon);
-                    const badgeLabel = service.badge || (service.isPopular ? "Popular" : undefined);
                     const serviceTitle = service.title || "Service";
                     const serviceKey = service._id || service.slug?.current || serviceTitle;
                     return (
-                    <Link
-                      key={serviceKey}
-                      href={getServiceHref(service)}
-                      className="group/item relative flex items-start gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-slate-50 hover:to-gold-50/50"
-                    >
-                      {/* Icon container with animated border */}
-                      <div className="relative flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 bg-brand-50 group-hover/item:bg-gold-500/15 group-hover/item:shadow-lg group-hover/item:shadow-gold-500/10">
+                      <Link
+                        key={serviceKey}
+                        href={getServiceHref(service)}
+                        className="group/item flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 hover:bg-slate-50"
+                      >
                         <ServiceIcon
-                          size={20}
-                          className="text-brand-500 transition-colors duration-200 group-hover/item:text-gold-600"
+                          size={18}
+                          className="text-slate-400 transition-colors duration-200 group-hover/item:text-brand-600"
                         />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-brand-900 group-hover/item:text-gold-600 transition-colors duration-200">
-                            {serviceTitle}
-                          </span>
-                          {badgeLabel && (
-                            <span className="px-2 py-0.5 text-[10px] font-bold bg-gradient-to-r from-gold-500 to-gold-400 text-brand-900 rounded-full uppercase shadow-sm">
-                              {badgeLabel}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-slate-500 mt-0.5 group-hover/item:text-slate-600 transition-colors">
-                          {service.shortDescription}
-                        </p>
-                      </div>
-                      {/* Arrow indicator on hover */}
-                      <ArrowRight
-                        size={16}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gold-500 opacity-0 -translate-x-2 transition-all duration-200 group-hover/item:opacity-100 group-hover/item:translate-x-0"
-                      />
-                    </Link>
-                  );
-                })}
+                        <span className="font-medium text-[0.9375rem] text-slate-700 group-hover/item:text-brand-900 transition-colors duration-200">
+                          {serviceTitle}
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Business Services Column */}
-              <div className="p-6">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                  <span className="w-6 h-px bg-gold-500" />
-                  Business Services
+              {/* Right Column */}
+              <div className="p-4">
+                <h3 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2 opacity-0">
+                  &nbsp;
                 </h3>
-                <div className="space-y-1">
-                  {businessServices.map((service) => {
+                <div className="space-y-0.5">
+                  {rightColumnServices.map((service) => {
                     const ServiceIcon = getIcon(service.icon);
                     const serviceTitle = service.title || "Service";
                     const serviceKey = service._id || service.slug?.current || serviceTitle;
                     return (
-                    <Link
-                      key={serviceKey}
-                      href={getServiceHref(service)}
-                      className="group/item relative flex items-start gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-slate-50 hover:to-gold-50/50"
-                    >
-                      <div className="relative flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 bg-brand-50 group-hover/item:bg-gold-500/15 group-hover/item:shadow-lg group-hover/item:shadow-gold-500/10">
+                      <Link
+                        key={serviceKey}
+                        href={getServiceHref(service)}
+                        className="group/item flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 hover:bg-slate-50"
+                      >
                         <ServiceIcon
-                          size={20}
-                          className="text-brand-500 transition-colors duration-200 group-hover/item:text-gold-600"
+                          size={18}
+                          className="text-slate-400 transition-colors duration-200 group-hover/item:text-brand-600"
                         />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="font-semibold text-brand-900 group-hover/item:text-gold-600 transition-colors duration-200">
+                        <span className="font-medium text-[0.9375rem] text-slate-700 group-hover/item:text-brand-900 transition-colors duration-200">
                           {serviceTitle}
                         </span>
-                        <p className="text-sm text-slate-500 mt-0.5 group-hover/item:text-slate-600 transition-colors">
-                          {service.shortDescription}
-                        </p>
-                      </div>
-                      <ArrowRight
-                        size={16}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gold-500 opacity-0 -translate-x-2 transition-all duration-200 group-hover/item:opacity-100 group-hover/item:translate-x-0"
-                      />
-                    </Link>
-                  );
-                })}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {/* Premium Featured CTA Banner */}
-            <div className="relative overflow-hidden">
-              {/* Animated gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-brand-500 via-brand-600 to-brand-500 bg-[length:200%_100%] animate-gradient-x" />
-
-              {/* Sparkle decorations */}
-              <div className="absolute top-2 left-8 w-1 h-1 bg-gold-400 rounded-full animate-pulse" />
-              <div className="absolute bottom-3 left-24 w-1.5 h-1.5 bg-gold-500/60 rounded-full animate-pulse delay-300" />
-              <div className="absolute top-3 right-32 w-1 h-1 bg-gold-400/80 rounded-full animate-pulse delay-150" />
-
+            {/* VSL Industry Cards Footer */}
+            <div className="grid grid-cols-2 gap-px bg-slate-100 border-t border-slate-100">
               <Link
-                href={featuredHref}
-                className="relative group/cta flex items-center justify-between p-5"
+                href="/vsl/construction"
+                className="group/card relative bg-slate-50/50 p-6 transition-colors hover:bg-white"
               >
-                <div className="flex items-center gap-4">
-                  {/* Animated icon container */}
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gold-500/30 rounded-xl blur-md group-hover/cta:bg-gold-500/50 transition-all" />
-                    <div className="relative w-12 h-12 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center shadow-lg shadow-gold-500/30 group-hover/cta:scale-110 group-hover/cta:rotate-3 transition-all duration-300">
-                      <DollarSign className="w-6 h-6 text-brand-900" />
-                    </div>
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-slate-500 shadow-sm group-hover/card:text-brand-600 group-hover/card:border-brand-100 transition-colors">
+                    <Hammer className="w-4 h-4" />
                   </div>
-
                   <div>
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <Sparkles className="w-4 h-4 text-gold-400" />
-                      <span className="text-xs font-bold text-gold-400 uppercase tracking-wider">
-                        Most Popular
-                      </span>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Construction</div>
+                    <div className="font-semibold text-brand-900 group-hover/card:text-brand-600 transition-colors">
+                      Tax Strategy
                     </div>
-                    <span className="text-white font-bold text-lg">
-                      {featuredTitle}
-                    </span>
-                    <span className="text-white/70 text-sm ml-3">
-                      {featuredDescription}
-                    </span>
                   </div>
                 </div>
+              </Link>
 
-                {/* Premium CTA Button */}
-                <div className="flex items-center gap-3">
-                  <span className="relative overflow-hidden px-5 py-2.5 bg-gold-500 text-brand-900 font-bold rounded-lg shadow-lg shadow-gold-500/30 group-hover/cta:shadow-gold-500/50 transition-all duration-300 group-hover/cta:scale-105">
-                    {/* Button shimmer effect */}
-                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/cta:translate-x-full transition-transform duration-700" />
-                    <span className="relative flex items-center gap-2">
-                      Calculate Savings
-                      <ArrowRight size={16} className="group-hover/cta:translate-x-1 transition-transform" />
-                    </span>
-                  </span>
+              <Link
+                href="/vsl/restaurants"
+                className="group/card relative bg-slate-50/50 p-6 transition-colors hover:bg-white"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-slate-500 shadow-sm group-hover/card:text-brand-600 group-hover/card:border-brand-100 transition-colors">
+                    <Utensils className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Restaurants</div>
+                    <div className="font-semibold text-brand-900 group-hover/card:text-brand-600 transition-colors">
+                      Profit Recovery
+                    </div>
+                  </div>
                 </div>
               </Link>
             </div>
 
-            {/* View All Link with hover animation */}
-            <div className="bg-slate-50 px-6 py-3 text-center border-t border-slate-100">
+            {/* View All Link */}
+            <div className="bg-white py-3 text-center border-t border-slate-100">
               <Link
                 href="/services"
-                className="group/all inline-flex items-center gap-2 text-sm font-semibold text-brand-500 hover:text-gold-600 transition-colors"
+                className="group/all inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-brand-600 transition-colors"
               >
                 <span>View All Services</span>
-                <ArrowRight size={14} className="group-hover/all:translate-x-1 transition-transform" />
+                <ArrowRight size={12} className="group-hover/all:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
