@@ -1,8 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
-import { ShopStatsBar } from "./ShopStatsBar";
+import { ShieldCheck, Zap, Award } from "lucide-react";
 
 interface ShopHeroProps {
     title: string;
@@ -11,52 +9,50 @@ interface ShopHeroProps {
 
 export function ShopHero({ title, subtitle }: ShopHeroProps) {
     return (
-        <section className="relative bg-brand-900 pt-32 pb-32 overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-gradient-to-b from-brand-900 via-brand-900 to-brand-800 z-0" />
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 rounded-full blur-[120px] pointer-events-none translate-x-1/3 -translate-y-1/3 z-0" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none -translate-x-1/3 translate-y-1/3 z-0" />
+        <section className="relative bg-slate-50 py-24 overflow-hidden border-b border-slate-200">
+            {/* Abstract Background Gradient - Light Mode */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-slate-50 to-slate-100 opacity-80" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light" />
 
-            <div className="relative max-w-7xl mx-auto px-6 text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="relative z-10"
-                >
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gold-400 text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm backdrop-blur-sm">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
-                        Premium Resources
+            {/* Geometric Accent */}
+            <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-gold-400/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-brand-200/5 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-gold-600 text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm">
+                    Resource Center
+                </div>
+
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-900 tracking-tight mb-6 font-heading">
+                    {title}
+                </h1>
+
+                <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto mb-10 font-sans">
+                    {subtitle}
+                </p>
+
+                {/* Trust Badges - Minimal Row */}
+                <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <div className="flex items-center gap-2">
+                        <div className="bg-green-100 p-1 rounded-full">
+                            <ShieldCheck className="w-3.5 h-3.5 text-green-700" />
+                        </div>
+                        Secure Checkout
                     </div>
-
-                    <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-8 leading-[1.1] font-heading">
-                        {title}
-                    </h1>
-
-                    <p className="text-lg md:text-xl text-brand-100/80 leading-relaxed max-w-2xl mx-auto mb-16">
-                        {subtitle}
-                    </p>
-                </motion.div>
-
-                <div className="relative z-20">
-                    <ShopStatsBar />
+                    <div className="flex items-center gap-2">
+                        <div className="bg-gold-100 p-1 rounded-full">
+                            <Zap className="w-3.5 h-3.5 text-gold-700" />
+                        </div>
+                        Instant Access
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="bg-brand-100 p-1 rounded-full">
+                            <Award className="w-3.5 h-3.5 text-brand-700" />
+                        </div>
+                        Expert Verified
+                    </div>
                 </div>
             </div>
-
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 z-30 text-brand-200"
-            >
-                <a
-                    href="#browse"
-                    className="flex flex-col items-center gap-2 hover:text-gold-400 transition-colors opacity-50 hover:opacity-80"
-                >
-                    <span className="text-[10px] uppercase tracking-widest">Scroll to Explore</span>
-                    <ArrowDown className="w-4 h-4 animate-bounce" />
-                </a>
-            </motion.div>
         </section>
     );
 }

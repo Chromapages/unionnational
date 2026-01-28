@@ -14,15 +14,16 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
 
     return (
         <section id="featured" className="max-w-7xl mx-auto px-6 mb-32">
-            <RevealOnScroll className="bg-brand-900 rounded-3xl overflow-hidden relative">
+            <RevealOnScroll className="bg-brand-900 rounded-3xl overflow-hidden relative border border-brand-800 shadow-lg shadow-brand-900/30">
                 {/* Background Pattern */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-900 to-brand-950 pointer-events-none"></div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-8 lg:p-16 relative z-10">
 
                     {/* Content */}
                     <div className="order-2 lg:order-1">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[10px] font-bold uppercase tracking-widest mb-6 font-sans">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gold-300 text-[10px] font-bold uppercase tracking-widest mb-6 font-sans">
                             <Star className="w-3 h-3 fill-gold-500" />
                             BESTSELLER
                         </div>
@@ -40,7 +41,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                         {product.features && (
                             <ul className="space-y-4 mb-10">
                                 {product.features.map((feature: string, idx: number) => (
-                                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-300 font-sans">
+                                    <li key={idx} className="flex items-start gap-3 text-sm text-slate-200 font-sans">
                                         <div className="bg-gold-500 rounded-full p-0.5 mt-0.5"><Check className="w-3 h-3 text-brand-900" /></div>
                                         <span>{feature}</span>
                                     </li>
@@ -81,7 +82,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                         <Link href={`/shop/${product.slug}`} className="relative w-full max-w-md aspect-[3/4] block">
                             {/* Glow */}
                             <div className="absolute inset-0 bg-gold-500/20 blur-2xl -z-10 rounded-3xl transform translate-y-4"></div>
- 
+  
                             <img
                                 src={product.imageUrl}
                                 alt={product.title}

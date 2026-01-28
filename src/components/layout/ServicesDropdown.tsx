@@ -154,14 +154,14 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
           )}
         >
           {/* Dropdown arrow/caret */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-l border-t border-slate-100" />
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#0D2E2B] rotate-45 border-l border-t border-white/10" />
 
-          <div className="relative w-[680px] bg-white rounded-xl shadow-2xl shadow-slate-900/10 border border-slate-100 overflow-hidden">
+          <div className="relative w-[680px] bg-[#0D2E2B] rounded-xl shadow-2xl shadow-black/50 border border-white/10 overflow-hidden backdrop-blur-xl">
             {/* Two Column Grid */}
-            <div className="grid grid-cols-2 gap-0 divide-x divide-slate-50 p-2">
+            <div className="grid grid-cols-2 gap-0 divide-x divide-white/5 p-2">
               {/* Left Column */}
               <div className="p-4">
-                <h3 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                <h3 className="px-3 text-[10px] font-bold text-gold-500/80 uppercase tracking-widest mb-2 flex items-center gap-2">
                   Tax Services
                 </h3>
                 <div className="space-y-0.5">
@@ -173,13 +173,13 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
                       <Link
                         key={serviceKey}
                         href={getServiceHref(service)}
-                        className="group/item flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 hover:bg-slate-50"
+                        className="group/item flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 hover:bg-white/5"
                       >
                         <ServiceIcon
                           size={18}
-                          className="text-slate-400 transition-colors duration-200 group-hover/item:text-brand-600"
+                          className="text-slate-400 transition-colors duration-200 group-hover/item:text-gold-500"
                         />
-                        <span className="font-medium text-[0.9375rem] text-slate-700 group-hover/item:text-brand-900 transition-colors duration-200">
+                        <span className="font-medium text-[0.9375rem] text-slate-200 group-hover/item:text-white transition-colors duration-200">
                           {serviceTitle}
                         </span>
                       </Link>
@@ -202,13 +202,13 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
                       <Link
                         key={serviceKey}
                         href={getServiceHref(service)}
-                        className="group/item flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 hover:bg-slate-50"
+                        className="group/item flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 hover:bg-white/5"
                       >
                         <ServiceIcon
                           size={18}
-                          className="text-slate-400 transition-colors duration-200 group-hover/item:text-brand-600"
+                          className="text-slate-400 transition-colors duration-200 group-hover/item:text-gold-500"
                         />
-                        <span className="font-medium text-[0.9375rem] text-slate-700 group-hover/item:text-brand-900 transition-colors duration-200">
+                        <span className="font-medium text-[0.9375rem] text-slate-200 group-hover/item:text-white transition-colors duration-200">
                           {serviceTitle}
                         </span>
                       </Link>
@@ -219,18 +219,18 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
             </div>
 
             {/* VSL Industry Cards Footer */}
-            <div className="grid grid-cols-2 gap-px bg-slate-100 border-t border-slate-100">
+            <div className="grid grid-cols-2 gap-px bg-white/5 border-t border-white/10">
               <Link
                 href="/vsl/construction"
-                className="group/card relative bg-slate-50/50 p-6 transition-colors hover:bg-white"
+                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10"
               >
                 <div className="flex items-start gap-4">
-                  <div className="mt-1 w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-slate-500 shadow-sm group-hover/card:text-brand-600 group-hover/card:border-brand-100 transition-colors">
+                  <div className="mt-1 w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-gold-500/80 shadow-sm group-hover/card:text-gold-400 group-hover/card:border-gold-500/30 transition-colors">
                     <Hammer className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Construction</div>
-                    <div className="font-semibold text-brand-900 group-hover/card:text-brand-600 transition-colors">
+                    <div className="font-semibold text-slate-200 group-hover/card:text-white transition-colors">
                       Tax Strategy
                     </div>
                   </div>
@@ -239,15 +239,15 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
 
               <Link
                 href="/vsl/restaurants"
-                className="group/card relative bg-slate-50/50 p-6 transition-colors hover:bg-white"
+                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10"
               >
                 <div className="flex items-start gap-4">
-                  <div className="mt-1 w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-slate-500 shadow-sm group-hover/card:text-brand-600 group-hover/card:border-brand-100 transition-colors">
+                  <div className="mt-1 w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-gold-500/80 shadow-sm group-hover/card:text-gold-400 group-hover/card:border-gold-500/30 transition-colors">
                     <Utensils className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Restaurants</div>
-                    <div className="font-semibold text-brand-900 group-hover/card:text-brand-600 transition-colors">
+                    <div className="font-semibold text-slate-200 group-hover/card:text-white transition-colors">
                       Profit Recovery
                     </div>
                   </div>
@@ -256,10 +256,11 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
             </div>
 
             {/* View All Link */}
-            <div className="bg-white py-3 text-center border-t border-slate-100">
+            <div className="bg-[#0b2926] py-3 text-center border-t border-white/10">
               <Link
                 href="/services"
-                className="group/all inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-brand-600 transition-colors"
+                className="group/all inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-gold-500 transition-colors"
+                id="view-all-services-link"
               >
                 <span>View All Services</span>
                 <ArrowRight size={12} className="group-hover/all:translate-x-0.5 transition-transform" />

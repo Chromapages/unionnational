@@ -74,7 +74,7 @@ export default async function ShopPage() {
     const gridProducts = typedProducts.filter((p) => p._id !== featuredId);
 
     return (
-        <div className="min-h-screen bg-brand-900 flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+        <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <JsonLd siteSettings={siteSettings} shopPageData={shopSettings} />
             <HeaderWrapper />
 
@@ -84,15 +84,17 @@ export default async function ShopPage() {
                     subtitle={shopSettings?.heroSubtitle || "Expert strategy to optimize your taxes and wealth."}
                 />
 
-                <div className="bg-zinc-50 pt-24">
+                <div className="relative z-10">
                     {shopSettings?.featuredProduct && (
                         <FeaturedProduct product={shopSettings.featuredProduct} />
                     )}
 
-                    <ShopTestimonialStrip testimonials={shopTestimonials} />
-
-                    <div className="pt-24">
+                    <div className="pt-12">
                         <ShopClient products={gridProducts} />
+                    </div>
+
+                    <div className="mb-24">
+                        <ShopTestimonialStrip testimonials={shopTestimonials} />
                     </div>
 
                     {shopSettings?.faq && <ShopFAQ items={shopSettings.faq} />}

@@ -25,7 +25,7 @@ export function ShopClient({ products }: ShopClientProps) {
 
     return (
         <section id="browse" className="max-w-7xl mx-auto px-6 mb-32 relative z-10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 sticky top-24 bg-surface/95 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-sm z-30 transition-all duration-300">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 sticky top-24 bg-white/80 backdrop-blur-xl p-4 rounded-2xl border border-slate-200 shadow-lg z-30 transition-all duration-300">
                 <CategoryFilter
                     activeCategory={activeCategory}
                     onCategoryChange={setActiveCategory}
@@ -37,23 +37,18 @@ export function ShopClient({ products }: ShopClientProps) {
             </div>
 
             <motion.div layout>
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-brand-900 tracking-tight font-heading">
-                        MasterClass Resources
-                    </h2>
-                    <p className="text-brand-900 mt-4 text-sm font-sans max-w-2xl mx-auto">
-                        Tools, templates, and guides to help you optimize your business and save on taxes.
-                    </p>
+                <div className="text-center mb-12">
+                    {/* Removed redundant header text to keep it minimal as per plan */}
                 </div>
 
                 <ProductGrid products={filteredProducts} />
 
                 {filteredProducts.length === 0 && (
-                    <div className="text-center py-20 text-brand-400">
+                    <div className="text-center py-20 text-slate-400">
                         <p className="text-lg">No products found matching your criteria.</p>
                         <button
                             onClick={() => { setActiveCategory("all"); setSearchQuery(""); }}
-                            className="mt-4 text-gold-500 hover:text-gold-600 font-bold"
+                            className="mt-4 text-gold-600 hover:text-gold-500 font-bold underline underline-offset-4"
                         >
                             Clear Filters
                         </button>
