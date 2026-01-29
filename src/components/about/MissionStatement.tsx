@@ -19,17 +19,17 @@ export function MissionStatement({ mission, vision }: MissionStatementProps) {
                 className="relative"
             >
                 {/* Decorative Elements */}
-                <Quote className="w-16 h-16 text-gold-500/20 absolute -top-8 -left-8 md:-left-16" />
-                <Quote className="w-16 h-16 text-gold-500/20 absolute -bottom-8 -right-8 md:-right-16" />
+                <Quote className="w-16 h-16 text-[var(--color-primary)]/10 absolute -top-8 -left-8 md:-left-16" />
+                <Quote className="w-16 h-16 text-[var(--color-primary)]/10 absolute -bottom-8 -right-8 md:-right-16" />
 
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-900 leading-tight mb-8 font-heading relative z-10">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[var(--color-text)] leading-tight mb-8 font-heading relative z-10">
                     {mission}
                 </h2>
 
-                <div className="w-24 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent mx-auto mb-8" />
+                <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[var(--color-primary)] to-transparent mx-auto mb-8" />
 
                 {vision && (
-                    <p className="text-lg text-zinc-600 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-lg text-white/60 max-w-3xl mx-auto leading-relaxed">
                         {vision}
                     </p>
                 )}
@@ -37,3 +37,4 @@ export function MissionStatement({ mission, vision }: MissionStatementProps) {
         </section>
     );
 }
+

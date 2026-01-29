@@ -18,7 +18,7 @@ const milestones: TimelineEvent[] = [
 
 export function CompanyTimeline() {
     return (
-        <section className="py-24 bg-white border-y border-slate-100 overflow-hidden">
+        <section className="py-24 bg-white border-y border-brand-900/5 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold text-brand-900 font-heading">Our Journey</h2>
@@ -28,7 +28,7 @@ export function CompanyTimeline() {
                 {/* Desktop Horizontal Timeline */}
                 <div className="hidden lg:flex relative items-center justify-between py-12">
                     {/* Connecting Line */}
-                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-gold-500/10 via-gold-500 to-gold-500/10" />
+                    <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-gold-500/10 via-gold-500 to-gold-500/10" />
 
                     {milestones.map((event, index) => (
                         <motion.div

@@ -1,9 +1,8 @@
 "use client";
 
-import { useScroll, useTransform, motion, useSpring } from "framer-motion";
+import { useScroll, useTransform, motion } from "framer-motion";
 import { useRef } from "react";
 import { ArrowDownRight } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const steps = [
     {
@@ -28,13 +27,10 @@ const steps = [
 
 export function ScrollyTellingSection() {
     return (
-        <section className="relative bg-brand-950 py-32 overflow-hidden">
-            {/* Ambient Background */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 rounded-full blur-[120px] mix-blend-screen" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[100px] mix-blend-screen" />
-                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
-            </div>
+        <section className="relative bg-brand-900 py-32 overflow-hidden">
+            {/* Ambient Background - Solid & Dark */}
+            <div className="absolute inset-0 pointer-events-none bg-brand-900" />
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 rounded-full blur-[120px]" />
 
             <div className="relative mx-auto max-w-4xl px-6">
                 <header className="mb-24 text-center">
@@ -75,7 +71,7 @@ function StoryStep({ step, index }: { step: typeof steps[0]; index: number }) {
 
             <div className="max-w-2xl">
                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-500 mb-4">{step.kicker}</p>
-                <h3 className="text-3xl md:text-4xl font-bold text-white font-heading mb-6">{step.title}</h3>
+                <h3 className="text-3xl md:text-4xl font-semibold text-white font-heading mb-6">{step.title}</h3>
                 <p className="text-lg md:text-xl text-brand-100/80 leading-relaxed font-sans">{step.body}</p>
 
                 <div className="mt-8 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400/90">

@@ -23,20 +23,20 @@ export function ClientLogosSection({ logos }: ClientLogosSectionProps) {
     const hasLogos = logos && logos.length > 0;
 
     return (
-        <section className="relative overflow-hidden border-y border-brand-900/10 bg-white py-16">
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(13,46,43,0.08),_rgba(255,204,102,0.08),_rgba(13,46,43,0.08))]" />
+        <section className="relative overflow-hidden border-y border-white/5 bg-[var(--color-background)] py-16">
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(245,158,11,0.03),_rgba(139,92,246,0.03),_rgba(245,158,11,0.03))]" />
             <div className="relative mx-auto max-w-6xl px-6">
                 <div className="flex flex-col items-center gap-6 text-center">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-brand-300">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
                         Trusted by 1,000+ Business Owners
                     </p>
-                    <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16 opacity-70">
+                    <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16 opacity-50 transition-opacity hover:opacity-100">
                         {hasLogos ? (
                             logos.map((logo, i) => (
                                 <motion.div
                                     key={i}
-                                    whileHover={{ scale: 1.05, filter: "grayscale(0%)", opacity: 1 }}
-                                    className="relative h-8 w-32 grayscale"
+                                    whileHover={{ scale: 1.05, filter: "grayscale(0%)" }}
+                                    className="relative h-8 w-32 grayscale invert"
                                 >
                                     {logo.asset ? (
                                         <Image
@@ -46,7 +46,7 @@ export function ClientLogosSection({ logos }: ClientLogosSectionProps) {
                                             className="object-contain"
                                         />
                                     ) : (
-                                        <span className="font-heading font-black text-2xl text-brand-200">
+                                        <span className="font-heading font-black text-2xl text-white/20">
                                             {logo.alt || "Logo"}
                                         </span>
                                     )}
@@ -56,8 +56,8 @@ export function ClientLogosSection({ logos }: ClientLogosSectionProps) {
                             placeholderLogos.map((logo, i) => (
                                 <motion.div
                                     key={i}
-                                    whileHover={{ scale: 1.05, filter: "grayscale(0%)", opacity: 1 }}
-                                    className="font-heading font-black text-2xl text-brand-200 grayscale"
+                                    whileHover={{ scale: 1.05, filter: "grayscale(0%)" }}
+                                    className="font-heading font-black text-2xl text-white/20 grayscale"
                                 >
                                     {logo.name}
                                 </motion.div>
@@ -69,3 +69,4 @@ export function ClientLogosSection({ logos }: ClientLogosSectionProps) {
         </section>
     );
 }
+

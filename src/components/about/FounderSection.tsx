@@ -8,58 +8,66 @@ interface FounderSectionProps {
 
 export function FounderSection({ videoUrl }: FounderSectionProps) {
     return (
-        <section className="relative overflow-hidden py-24">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,_rgba(13,46,43,0.08),_transparent_55%)]" />
-            <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="relative overflow-hidden py-24 bg-brand-900 border-t border-white/5">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-brand-900" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,_rgba(255,255,255,0.02),_transparent_55%)]" />
+
+            <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] items-center">
                 <div className="relative order-2 flex flex-col justify-center lg:order-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-600">Founder</p>
-                    <h2 className="mt-4 text-3xl font-semibold text-brand-900 font-heading">
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-500">Founder</p>
+                    <h2 className="mt-4 text-3xl font-semibold text-white font-heading">
                         Jason Astwood, EA, FSCP
                     </h2>
-                    <p className="mt-4 text-base text-slate-600">
-                        "The tax code wasn’t written to punish you. It was written to incentivize you." Jason combines two decades of experience with a
-                        strategy-first mindset to help founders keep more of what they earn.
+                    <p className="mt-6 text-lg text-brand-100/70 leading-relaxed">
+                        &quot;The tax code wasn&apos;t written to punish you. It was written to incentivize you.&quot;
+                        <br /><br />
+                        Jason combines two decades of experience with a strategy-first mindset to help founders keep more of what they earn. He treats every client's business with the same rigor as an institutional portfolio.
                     </p>
-                    <div className="mt-6 flex flex-wrap gap-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-300">
-                        <span className="rounded-full border border-slate-200 bg-white px-4 py-2">EA Licensed</span>
-                        <span className="rounded-full border border-slate-200 bg-white px-4 py-2">MBA</span>
-                        <span className="rounded-full border border-slate-200 bg-white px-4 py-2">FSCP</span>
+                    <div className="mt-8 flex flex-wrap gap-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-gold-400">
+                        <span className="rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2">EA Licensed</span>
+                        <span className="rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2">MBA</span>
+                        <span className="rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2">FSCP</span>
                     </div>
-                    <div className="mt-8 flex items-center gap-4">
+                    <div className="mt-10 flex items-center gap-4">
                         {videoUrl && (
                             <a
                                 href={videoUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 rounded-full border border-brand-900/15 bg-white px-5 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-brand-900 transition hover:border-gold-500/60 hover:text-gold-600"
+                                className="inline-flex items-center gap-3 rounded-xl border border-gold-500 bg-gold-500 px-6 py-3 text-xs font-bold uppercase tracking-[0.15em] text-brand-950 transition-all hover:bg-gold-400 hover:scale-105 shadow-lg shadow-gold-500/20"
                             >
-                                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-900 text-gold-400">
-                                    <Play className="h-4 w-4" />
+                                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-950 text-gold-500">
+                                    <Play className="h-3 w-3 fill-current" />
                                 </span>
                                 Watch Founder Intro
                             </a>
                         )}
                         <a
-                            href="#"
-                            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-brand-900/60 transition hover:border-[#0077b5] hover:text-[#0077b5]"
+                            href="https://www.linkedin.com/in/jasonastwood/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 transition-all hover:border-[#0077b5] hover:text-[#0077b5] hover:bg-white/10"
                         >
-                            <Linkedin className="h-4 w-4" />
+                            <Linkedin className="h-5 w-5" />
                         </a>
                     </div>
                 </div>
 
                 <div className="relative order-1 lg:order-2">
-                    <div className="relative overflow-hidden rounded-[32px]">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-white/10 shadow-2xl bg-brand-950">
+                        {/* Placeholder or Real Image - Using the provided one but with better object-position if needed */}
                         <img
                             src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/N5KQjySifAxlxhrrvY8g/media/65cc3ecf190e877c7eed693d.png"
                             alt="Jason Astwood"
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-cover grayscale-[20%] transition-all duration-700 hover:grayscale-0 hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/70 via-brand-900/10 to-transparent" />
-                    </div>
-                    <div className="absolute -bottom-10 left-10 max-w-sm rounded-3xl border border-white/40 bg-white/80 p-6 text-sm text-brand-900 shadow-xl backdrop-blur-lg">
-                        <p className="font-semibold">"Planning isn’t a once-a-year event. It’s a partnership that compounds over time."</p>
-                        <p className="mt-3 text-xs uppercase tracking-[0.2em] text-brand-300">Director & Chief Strategist</p>
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 via-transparent to-transparent" />
+
+                        <div className="absolute bottom-8 left-8 right-8 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
+                            <p className="font-medium italic text-white/90 text-sm leading-relaxed">&quot;Planning isn&apos;t a once-a-year event. It&apos;s a partnership that compounds over time.&quot;</p>
+                            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-gold-500">Director & Chief Strategist</p>
+                        </div>
                     </div>
                 </div>
             </div>

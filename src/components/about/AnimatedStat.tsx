@@ -15,7 +15,7 @@ interface AnimatedStatProps {
 export function AnimatedStat({ value, suffix = "", prefix = "", label, icon, delay = 0 }: AnimatedStatProps) {
     const ref = useRef<HTMLDivElement>(null);
     const inView = useInView(ref, { once: true, margin: "-50px" });
-    
+
     const spring = useSpring(0, {
         duration: 2500,
         bounce: 0,
@@ -38,7 +38,7 @@ export function AnimatedStat({ value, suffix = "", prefix = "", label, icon, del
     }, [inView, value, spring, delay]);
 
     return (
-        <motion.div 
+        <motion.div
             ref={ref}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}

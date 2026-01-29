@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ImpactMetrics } from "./ImpactMetrics";
 
 interface AboutHeroProps {
     title: string;
@@ -10,58 +11,87 @@ interface AboutHeroProps {
 
 export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
     return (
-        <section className="relative bg-brand-900 pt-32 pb-24 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.05),_transparent_55%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(15,50,46,0.9),_rgba(7,18,16,0.95))]" />
-            <div className="absolute -top-24 right-0 h-[520px] w-[520px] translate-x-1/3 rounded-full bg-gold-500/10 blur-[140px]" />
-            <div className="absolute bottom-0 left-0 h-[420px] w-[420px] -translate-x-1/3 translate-y-1/3 rounded-full bg-gold-500/5 blur-[160px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(255,204,102,0.08),_transparent_45%),radial-gradient(circle_at_70%_80%,_rgba(13,46,43,0.6),_transparent_55%)] opacity-80" />
+        <section className="relative bg-brand-900 pt-32 pb-24 overflow-hidden border-b border-white/5">
+            {/* Solid Midnight Forest Background - "The Digital Vault" */}
+            <div className="absolute inset-0 bg-brand-900" />
 
-            <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-16 px-6 lg:grid-cols-[1.1fr_0.9fr]">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-gold-400">
-                        <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
-                        {badge || "About The Firm"}
-                    </div>
+            {/* Subtle Grid Pattern for Texture */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 
-                    <h1 className="mt-8 text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl font-heading leading-[1.05]">
-                        {title}
-                    </h1>
+            {/* Radial Gradient for Focus */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.03),_transparent_70%)]" />
 
-                    <p className="mt-6 max-w-xl text-lg text-brand-100/80 md:text-xl">
-                        {subtitle}
-                    </p>
-                </motion.div>
+            <div className="relative z-10 mx-auto max-w-7xl px-6">
+                <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1.1fr_0.9fr] items-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-gold-400">
+                            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
+                            {badge || "EST. 2015"}
+                        </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.15 }}
-                    className="relative"
-                >
-                    <div className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl">
-                        <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-100/70">North Star</p>
-                        <h2 className="mt-4 text-2xl font-semibold text-white font-heading">
-                            Engineering tax certainty for the entrepreneurs shaping the modern economy.
-                        </h2>
-                        <p className="mt-4 text-sm text-brand-100/75">
-                            Every engagement is designed to move capital toward growth, backed by transparent planning and auditable strategy.
+                        <h1 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl font-heading leading-[0.95]">
+                            {title || "The Architects of Modern Wealth."}
+                        </h1>
+
+                        <p className="mt-8 max-w-xl text-lg text-brand-100/70 md:text-xl font-sans leading-relaxed">
+                            {subtitle || "Union National Tax bridges the gap between complex IRS regulations and the agile needs of modern consultants, creators, and agencies."}
                         </p>
-                        <div className="mt-6 grid grid-cols-2 gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-brand-100/70">
-                            <div className="rounded-2xl border border-white/10 bg-brand-900/40 px-4 py-3">
-                                Predictable outcomes
-                            </div>
-                            <div className="rounded-2xl border border-white/10 bg-brand-900/40 px-4 py-3">
-                                Institutional rigor
+
+                        <div className="mt-10 flex flex-wrap gap-4">
+                            <button className="bg-gold-500 text-brand-950 px-8 py-4 rounded-lg font-bold hover:bg-gold-400 transition-colors shadow-[0_0_20px_-5px_rgba(212,175,55,0.3)]">
+                                Book Consultation
+                            </button>
+                            <button className="px-8 py-4 rounded-lg font-bold text-white border border-white/10 hover:bg-white/5 transition-colors">
+                                Explore Our Firm
+                            </button>
+                        </div>
+
+                        <div className="mt-16 pt-8 border-t border-white/5">
+                            <ImpactMetrics />
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7, delay: 0.2 }}
+                        className="relative hidden lg:block"
+                    >
+                        {/* Abstract Visual - The Secure Vault */}
+                        <div className="relative aspect-square max-w-md mx-auto">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-gold-500/20 to-transparent rounded-3xl rotate-6 blur-2xl" />
+                            <div className="relative h-full w-full rounded-3xl border border-white/10 bg-brand-950/50 backdrop-blur-sm p-8 flex flex-col justify-center border-l-gold-500/50 border-l-4 shadow-2xl">
+                                <div className="space-y-8">
+                                    <div className="flex items-start gap-4">
+                                        <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">1</div>
+                                        <div>
+                                            <h3 className="text-white font-heading font-semibold text-lg">Entity Structure</h3>
+                                            <p className="text-sm text-brand-100/60 mt-1">Optimized for liability and tax efficiency.</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">2</div>
+                                        <div>
+                                            <h3 className="text-white font-heading font-semibold text-lg">Strategic Planning</h3>
+                                            <p className="text-sm text-brand-100/60 mt-1">Quarterly projections to eliminate surprises.</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">3</div>
+                                        <div>
+                                            <h3 className="text-white font-heading font-semibold text-lg">Compliance & Defense</h3>
+                                            <p className="text-sm text-brand-100/60 mt-1">Audit-proof documentation and support.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="pointer-events-none absolute -bottom-8 -right-6 h-32 w-32 rounded-full bg-gold-500/30 blur-3xl" />
-                </motion.div>
+                    </motion.div>
+                </div>
             </div>
         </section>
     );
