@@ -1,8 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { StickyServiceNav } from "./StickyServiceNav";
-import { ServiceFilterBar } from "./ServiceFilterBar";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import * as Icons from "lucide-react";
@@ -34,40 +31,19 @@ interface ServicesClientProps {
 }
 
 export function ServicesClient({ services }: ServicesClientProps) {
-    const [activeCategory, setActiveCategory] = useState("All");
-
-    // Extract unique categories from services
-    const uniqueCategories = Array.from(new Set(services.map(s => s.category || "Tax").filter(Boolean)));
-    // Ensure standard order if possible or just sort
-    const categories = uniqueCategories.sort();
-
-    const filteredServices = activeCategory === "All"
-        ? services
-        : services.filter(s => (s.category || "Tax") === activeCategory);
+    const filteredServices = services;
 
     return (
         <div className="relative min-h-screen pb-20">
-            <StickyServiceNav
-                categories={categories}
-                activeCategory={activeCategory}
-                onCategorySelect={setActiveCategory}
-            />
-
-            <div className="max-w-7xl mx-auto px-6 pt-12">
-                <ServiceFilterBar
-                    categories={categories}
-                    activeCategory={activeCategory}
-                    onCategorySelect={setActiveCategory}
-                />
-
+            <div className="max-w-7xl mx-auto px-6">
                 <motion.div
                     layout
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
                     <AnimatePresence mode="popLayout">
                         {filteredServices.map((service) => {
-                             const Icon = getIcon(service.icon);
-                             return (
+                            const Icon = getIcon(service.icon);
+                            return (
                                 <motion.div
                                     layout
                                     initial={{ opacity: 0, scale: 0.95 }}
@@ -119,7 +95,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
                                         <ArrowRight className="w-4 h-4" />
                                     </Link>
                                 </motion.div>
-                             );
+                            );
                         })}
                     </AnimatePresence>
                 </motion.div>

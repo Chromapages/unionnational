@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { Check, ArrowRight, HelpCircle, Plus, Minus } from "lucide-react";
+
+import { Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
 
 import { TaxPrepGrid } from "./TaxPrepGrid";
 import { OptionalServices } from "./OptionalServices";
-import { PricingTrustSection } from "./PricingTrustSection";
 
 export interface PricingTier {
     _id: string;
@@ -39,15 +38,9 @@ interface FAQItem {
 
 interface PricingSectionProps {
     tiers: PricingTier[];
-    faqs: FAQItem[];
 }
 
-export function PricingSection({ tiers, faqs }: PricingSectionProps) {
-    const [openFAQ, setOpenFAQ] = useState<string | null>(null);
-
-    const toggleFAQ = (id: string) => {
-        setOpenFAQ(openFAQ === id ? null : id);
-    };
+export function PricingSection({ tiers }: PricingSectionProps) {
 
     // Group tiers by category
     const advisoryTiers = tiers.filter(t => t.category === 'advisory' || !t.category); // Fallback for legacy
@@ -61,12 +54,6 @@ export function PricingSection({ tiers, faqs }: PricingSectionProps) {
             {/* 1. Advisory Plans (Cards) */}
             {advisoryTiers.length > 0 && (
                 <div>
-                    <div className="text-center mb-16">
-                        <RevealOnScroll>
-                            <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-4 font-heading">Tax Planning & Advisory</h2>
-                            <p className="text-brand-900/60 font-sans max-w-2xl mx-auto text-lg">Year-round strategic partnership for business owners and high-net-worth individuals.</p>
-                        </RevealOnScroll>
-                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-6">
                         {advisoryTiers.map((tier, i) => (
@@ -163,50 +150,8 @@ export function PricingSection({ tiers, faqs }: PricingSectionProps) {
             {/* 3. Optional Services */}
             <OptionalServices services={optionalServices} />
 
-            {/* 4. Trust & Disclosures */}
-            <PricingTrustSection />
 
-            {/* Pricing FAQ Section */}
-            <section className="max-w-3xl mx-auto px-6">
-                <RevealOnScroll>
-                    <div className="text-center mb-12">
-                        <h2 className="text-2xl font-bold text-brand-900 mb-4 font-heading">Pricing FAQ</h2>
-                        <p className="text-brand-900/60 font-sans">Common questions about our engagement models.</p>
-                    </div>
 
-                    <div className="space-y-4">
-                        {faqs.filter(f => f.category === 'pricing' || f.category === 'general').slice(0, 5).map((faq) => (
-                            <div key={faq._id} className="border border-slate-200 rounded-xl bg-white overflow-hidden">
-                                <button
-                                    onClick={() => toggleFAQ(faq._id)}
-                                    className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 transition-colors"
-                                >
-                                    <span className="font-bold text-brand-900 font-heading">{faq.question}</span>
-                                    {openFAQ === faq._id ? (
-                                        <Minus className="w-5 h-5 text-gold-600 shrink-0" />
-                                    ) : (
-                                        <Plus className="w-5 h-5 text-slate-400 shrink-0" />
-                                    )}
-                                </button>
-                                <AnimatePresence>
-                                    {openFAQ === faq._id && (
-                                        <motion.div
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: "auto", opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            transition={{ duration: 0.3 }}
-                                        >
-                                            <div className="px-6 pb-6 text-sm text-brand-900/70 leading-relaxed font-sans border-t border-slate-100 pt-4">
-                                                {faq.answer}
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        ))}
-                    </div>
-                </RevealOnScroll>
-            </section>
         </div>
     );
 }
