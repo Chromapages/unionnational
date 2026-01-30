@@ -2,12 +2,13 @@ import Link from "next/link";
 import { Linkedin, Facebook, Youtube, Instagram, Twitter, Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { sanityFetch } from "@/sanity/lib/live";
-import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { SITE_SETTINGS_QUERY, FOOTER_LEGAL_PAGES_QUERY } from "@/sanity/lib/queries";
 import { EABadge } from "@/components/ui/EABadge";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
 
 export async function Footer() {
     const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
+    const { data: legalPages } = await sanityFetch({ query: FOOTER_LEGAL_PAGES_QUERY });
 
     const formatAddress = (address: unknown): string | null => {
         if (!address) return null;
@@ -174,8 +175,15 @@ export async function Footer() {
                     </div>
                 </div>
 
+                {/* Disclaimer */}
+                <div className="pt-8 border-t border-brand-800">
+                    <p className="text-zinc-500 text-xs text-center leading-relaxed max-w-4xl mx-auto">
+                        <span className="font-semibold text-zinc-400">Disclaimer:</span> The information on this website is for general informational purposes only and does not constitute tax, legal, accounting, or financial advice. Use of this site does not create a professional relationship. Please consult a qualified professional for advice specific to your situation.
+                    </p>
+                </div>
+
                 {/* Bottom Bar */}
-                <div className="pt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="pt-8 mt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-zinc-500 text-xs text-center md:text-left">
                         {siteSettings?.copyrightText || `© ${new Date().getFullYear()} Union National Tax. All Rights Reserved.`}
                     </p>
@@ -197,8 +205,15 @@ export async function Footer() {
                     </div>
 
                     <div className="flex gap-6 text-xs text-zinc-500">
-                        <Link href="/privacy" className="hover:text-gold-500 transition-colors">Privacy Policy</Link>
-                        <Link href="/terms" className="hover:text-gold-500 transition-colors">Terms of Service</Link>
+                        {legalPages?.map((page: any) => (
+                            <Link
+                                key={page.slug}
+                                href={`/legal/${page.slug}`}
+                                className="hover:text-gold-500 transition-colors"
+                            >
+                                {page.title}
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>

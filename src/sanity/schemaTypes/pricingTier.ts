@@ -12,6 +12,33 @@ export const pricingTier = defineType({
             validation: (rule) => rule.required(),
         }),
         defineField({
+            name: 'category',
+            title: 'Category',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Advisory Level (Cards)', value: 'advisory' },
+                    { title: 'Individual Tax (Table)', value: 'individual' },
+                    { title: 'Business Tax (Table)', value: 'business' },
+                    { title: 'Optional Services', value: 'optional' },
+                ],
+            },
+            validation: (rule) => rule.required(),
+        }),
+        defineField({
+            name: 'bestFor',
+            title: 'Best For (Table Column)',
+            type: 'string',
+            description: 'Short description of who this plan is for (e.g., "W-2 / 1099 Filers")',
+        }),
+        defineField({
+            name: 'includes',
+            title: 'Included Items (Table Column)',
+            type: 'text',
+            rows: 3,
+            description: 'List of specific items included (used for the comparison table)',
+        }),
+        defineField({
             name: 'slug',
             title: 'Slug',
             type: 'slug',

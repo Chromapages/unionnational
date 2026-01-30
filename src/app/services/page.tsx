@@ -5,12 +5,13 @@ import { Quote, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { CTASection } from "@/components/home/CTASection";
 import { client } from "@/sanity/lib/client";
-import { SERVICES_QUERY } from "@/sanity/lib/queries";
-import * as Icons from "lucide-react";
-import { Metadata } from "next";
-import { ProcessTimeline } from "@/components/services/ProcessTimeline";
 import { ServicesClient } from "@/components/services/ServicesClient";
 import { PartnerProgramCard } from "@/components/services/PartnerProgramCard";
+import { PricingSection } from "@/components/pricing/PricingSection";
+import { SERVICES_QUERY, PRICING_TIERS_QUERY, FAQ_QUERY } from "@/sanity/lib/queries";
+import { Metadata } from "next";
+import { ProcessTimeline } from "@/components/services/ProcessTimeline";
+import * as Icons from "lucide-react";
 
 export const metadata: Metadata = {
     title: "Services | Union National Tax",
@@ -20,7 +21,11 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ServicesPage() {
-    const services = await client.fetch(SERVICES_QUERY);
+    const [services, pricingTiers, faqs] = await Promise.all([
+        client.fetch(SERVICES_QUERY),
+        client.fetch(PRICING_TIERS_QUERY),
+        client.fetch(FAQ_QUERY)
+    ]);
 
     // Schema.org Structured Data
     const jsonLd = {
@@ -96,6 +101,17 @@ export default async function ServicesPage() {
                     <ServicesClient services={services} />
                 </div>
 
+                {/* Pricing Section */}
+                <section className="py-24 bg-white/30">
+                    <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
+                        <RevealOnScroll>
+                            <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-4 font-heading">Simple, Transparent Pricing</h2>
+                            <p className="text-brand-900/60 font-sans max-w-2xl mx-auto text-lg">Choose the tier that fits your business stage. No hidden fees, just expert partnership.</p>
+                        </RevealOnScroll>
+                    </div>
+                    <PricingSection tiers={pricingTiers} faqs={faqs} />
+                </section>
+
                 {/* Featured Testimonial */}
                 <section className="max-w-5xl mx-auto px-6 mb-32 text-center">
                     <RevealOnScroll>
@@ -117,6 +133,7 @@ export default async function ServicesPage() {
 
                 {/* Process Timeline */}
                 <ProcessTimeline />
+
 
                 {/* Featured Partner Programs */}
                 <section className="max-w-[90rem] mx-auto px-6 mb-32">
@@ -237,6 +254,8 @@ export default async function ServicesPage() {
                         </div>
                     </RevealOnScroll>
                 </section>
+
+
 
                 <CTASection />
             </main>

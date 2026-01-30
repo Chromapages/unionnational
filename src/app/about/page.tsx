@@ -5,7 +5,6 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { ABOUT_PAGE_QUERY } from "@/sanity/lib/queries";
 import { AboutHero } from "@/components/about/AboutHero";
 import { ClientLogosSection } from "@/components/about/ClientLogosSection";
-import { ScrollyTellingSection } from "@/components/about/ScrollyTellingSection";
 import { TrustVault } from "@/components/about/TrustVault";
 import { ValuesBento } from "@/components/about/ValuesBento";
 import { FounderSection } from "@/components/about/FounderSection";
@@ -25,7 +24,6 @@ export default async function AboutPage() {
                     badge={page?.heroBadge}
                 />
 
-                <ScrollyTellingSection />
 
                 <CompanyTimeline />
 

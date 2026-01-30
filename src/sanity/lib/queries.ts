@@ -476,6 +476,9 @@ export const PRICING_TIERS_QUERY = defineQuery(`
     price,
     billingPeriod,
     features,
+    category,
+    bestFor,
+    includes,
     isFeatured,
     ctaText,
     ctaUrl,
@@ -495,25 +498,33 @@ export const LEGAL_PAGE_QUERY = defineQuery(`
 `);
 
 export const VSL_PAGE_QUERY = defineQuery(`
-  *[_type == "vslPage" && slug.current == $slug][0] {
-    ...,
-    videoFile {
-      asset-> {
-        url
-      }
-    },
-    videoPoster {
-      asset-> {
-        url
-      }
-    },
-    testimonial {
+    *[_type == "vslPage" && slug.current == $slug][0] {
       ...,
-      authorImage {
+      videoFile {
         asset-> {
           url
         }
+      },
+      videoPoster {
+        asset-> {
+          url
+        }
+      },
+      testimonial {
+        ...,
+        authorImage {
+          asset-> {
+            url
+          }
+        }
       }
     }
-  }
-`);
+  `)
+
+export const FOOTER_LEGAL_PAGES_QUERY = defineQuery(`
+    *[_type == "legalPage" && isPublished == true] | order(title asc) {
+      title,
+      "slug": slug.current,
+      pageType
+    }
+  `);

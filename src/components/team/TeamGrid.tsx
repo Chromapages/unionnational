@@ -23,19 +23,19 @@ export function TeamGrid({ members, title, subtitle }: TeamGridProps) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {members.map((member, index) => (
-                    <RevealOnScroll key={member._id} delay={index * 50}>
-                        <TeamMemberCard 
-                            member={member} 
+                    <RevealOnScroll key={member._id} delay={index * 50} className="h-full">
+                        <TeamMemberCard
+                            member={member}
                             onClick={() => setSelectedMember(member)}
                         />
                     </RevealOnScroll>
                 ))}
             </div>
 
-            <TeamMemberModal 
-                member={selectedMember} 
-                isOpen={!!selectedMember} 
-                onClose={() => setSelectedMember(null)} 
+            <TeamMemberModal
+                member={selectedMember}
+                isOpen={!!selectedMember}
+                onClose={() => setSelectedMember(null)}
             />
         </section>
     );

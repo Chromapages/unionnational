@@ -7,8 +7,8 @@
 ---
 
 **Project:** Union National Tax
-**Generated:** 2026-01-28 14:40:06
-**Category:** Service Landing Page
+**Generated:** 2026-01-29 03:40:04
+**Category:** Luxury/Premium Brand
 
 ---
 
@@ -24,7 +24,7 @@
 | Background | `#0F172A` | `--color-background` |
 | Text | `#F8FAFC` | `--color-text` |
 
-**Color Notes:** Gold trust + purple tech
+**Color Notes:** Dark tech colors + trust + vibrant accents
 
 ### Typography
 
@@ -153,28 +153,28 @@
 
 ## Style Guidelines
 
-**Style:** Social Proof-Focused
+**Style:** Liquid Glass
 
-**Keywords:** Testimonials prominent, client logos displayed, case studies sections, reviews/ratings, user avatars, success metrics, credibility markers
+**Keywords:** Flowing glass, morphing, smooth transitions, fluid effects, translucent, animated blur, iridescent, chromatic aberration
 
-**Best For:** B2B SaaS, professional services, premium products, e-commerce conversion pages, established brands
+**Best For:** Premium SaaS, high-end e-commerce, creative platforms, branding experiences, luxury portfolios
 
-**Key Effects:** Testimonial carousel animations, logo grid fade-in, stat counter animations (number count-up), review star ratings
+**Key Effects:** Morphing elements (SVG/CSS), fluid animations (400-600ms curves), dynamic blur (backdrop-filter), color transitions
 
 ### Page Pattern
 
-**Pattern Name:** Scroll-Triggered Storytelling
+**Pattern Name:** Pricing-Focused Landing
 
-- **Conversion Strategy:** Narrative increases time-on-page 3x. Use progress indicator. Mobile: simplify animations.
-- **CTA Placement:** End of each chapter (mini) + Final climax CTA
-- **Section Order:** 1. Intro hook, 2. Chapter 1 (problem), 3. Chapter 2 (journey), 4. Chapter 3 (solution), 5. Climax CTA
+- **Conversion Strategy:** Annual discount 20-30%. Recommend mid-tier (most popular badge). Address objections in FAQ.
+- **CTA Placement:** Each pricing card + Sticky CTA in nav + Bottom
+- **Section Order:** 1. Hero (value proposition), 2. Pricing cards (3 tiers), 3. Feature comparison, 4. FAQ, 5. Final CTA
 
 ---
 
 ## Anti-Patterns (Do NOT Use)
 
-- ❌ Complex navigation
-- ❌ Hidden contact info
+- ❌ Cheap visuals
+- ❌ Fast animations
 
 ### Additional Forbidden Patterns
 
