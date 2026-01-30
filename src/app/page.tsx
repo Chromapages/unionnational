@@ -7,7 +7,6 @@ import { ServicesSection } from "@/components/home/ServicesSection";
 import { BentoGridSection } from "@/components/home/BentoGridSection";
 import { StickyCTABar } from "@/components/home/StickyCTABar";
 
-import { IndustriesSection } from "@/components/home/IndustriesSection";
 import { CTASection } from "@/components/home/CTASection";
 
 import { TrustBar } from "@/components/home/TrustBar";
@@ -77,7 +76,6 @@ export default async function Home() {
           <ServicesSection services={services} />
         </ErrorBoundary>
 
-        <IndustriesSection />
         <BentoGridSection
           stats={homePageData?.stats}
           backgroundImage={homePageData?.bentoGridBackgroundImage}
