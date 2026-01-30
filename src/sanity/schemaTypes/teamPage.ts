@@ -120,6 +120,48 @@ export const teamPage = defineType({
             type: 'seo',
             group: 'seo',
         }),
+        defineField({
+            name: "ctaTitle",
+            title: "Bottom CTA Title",
+            type: "string",
+            group: "hiring",
+            initialValue: "Ready to join the standard of excellence?",
+        }),
+        defineField({
+            name: "ctaSubtitle",
+            title: "Bottom CTA Subtitle",
+            type: "text",
+            rows: 2,
+            group: "hiring",
+        }),
+        defineField({
+            name: "ctaButtonText",
+            title: "Button Text",
+            type: "string",
+            group: "hiring",
+            initialValue: "Contact Us",
+        }),
+        defineField({
+            name: "ctaButtonUrl",
+            title: "Button URL",
+            type: "url",
+            validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
+            group: "hiring",
+        }),
+        defineField({
+            name: "ctaBackgroundImage",
+            title: "CTA Section Background",
+            type: "image",
+            group: "hiring",
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: "alt",
+                    title: "Alternative Text",
+                    type: "string",
+                },
+            ],
+        }),
     ],
     groups: [
         { name: 'hero', title: 'Hero Section' },

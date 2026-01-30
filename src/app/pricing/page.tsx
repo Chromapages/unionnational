@@ -2,7 +2,7 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { sanityFetch } from "@/sanity/lib/live";
-import { FAQ_QUERY, PRICING_TIERS_QUERY } from "@/sanity/lib/queries";
+import { FAQ_QUERY, PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { PricingSection } from "@/components/pricing/PricingSection";
 import { CTASection } from "@/components/home/CTASection";
 
@@ -14,6 +14,7 @@ export const metadata = {
 export default async function PricingPage() {
     const { data: tiers } = await sanityFetch({ query: PRICING_TIERS_QUERY });
     const { data: faqs } = await sanityFetch({ query: FAQ_QUERY });
+    const { data: pageData } = await sanityFetch({ query: SERVICES_PAGE_QUERY });
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
@@ -39,7 +40,7 @@ export default async function PricingPage() {
                 <PricingSection tiers={tiers} faqs={faqs} />
 
                 <div className="mt-32">
-                    <CTASection />
+                    <CTASection data={pageData} />
                 </div>
             </main>
 

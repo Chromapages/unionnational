@@ -8,7 +8,7 @@ import { client } from "@/sanity/lib/client";
 import { ServicesClient } from "@/components/services/ServicesClient";
 import { PartnerProgramCard } from "@/components/services/PartnerProgramCard";
 import { PricingSection } from "@/components/pricing/PricingSection";
-import { SERVICES_QUERY, PRICING_TIERS_QUERY, FAQ_QUERY } from "@/sanity/lib/queries";
+import { SERVICES_QUERY, PRICING_TIERS_QUERY, FAQ_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { Metadata } from "next";
 import { ProcessTimeline } from "@/components/services/ProcessTimeline";
 import * as Icons from "lucide-react";
@@ -21,10 +21,11 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ServicesPage() {
-    const [services, pricingTiers, faqs] = await Promise.all([
+    const [services, pricingTiers, faqs, pageData] = await Promise.all([
         client.fetch(SERVICES_QUERY),
         client.fetch(PRICING_TIERS_QUERY),
-        client.fetch(FAQ_QUERY)
+        client.fetch(FAQ_QUERY),
+        client.fetch(SERVICES_PAGE_QUERY)
     ]);
 
     // Schema.org Structured Data
@@ -257,7 +258,7 @@ export default async function ServicesPage() {
 
 
 
-                <CTASection />
+                <CTASection data={pageData} />
             </main>
 
             <Footer />

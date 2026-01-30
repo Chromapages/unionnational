@@ -12,7 +12,6 @@ import { CTASection } from "@/components/home/CTASection";
 
 import { TrustBar } from "@/components/home/TrustBar";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
-import { FAQSection } from "@/components/home/FAQSection";
 import { FAQPageSchema } from "@/components/seo/FAQPageSchema";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -59,7 +58,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-dvh w-full bg-surface flex flex-col">
-      <FAQPageSchema />
+      {/* <FAQPageSchema /> */}
       <JsonLd siteSettings={siteSettings} homePageData={homePageData} />
       <HeaderWrapper />
       <div className="flex-1">
@@ -88,7 +87,6 @@ export default async function Home() {
           <TestimonialsSection testimonials={testimonials} />
         </ErrorBoundary>
 
-        <FAQSection />
         <CTASection data={homePageData} />
       </div>
       <StickyCTABar data={homePageData} />

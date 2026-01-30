@@ -5,6 +5,10 @@ export const TEAM_PAGE_QUERY = defineQuery(`
     ...,
     hiringImage {
       asset->
+    },
+    ctaBackgroundImage {
+      asset->,
+      alt
     }
   }
 `)
@@ -423,7 +427,15 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     asset->,
     alt
   },
-  founderVideoUrl
+  founderVideoUrl,
+  ctaTitle,
+  ctaSubtitle,
+  ctaButtonText,
+  ctaButtonUrl,
+  ctaBackgroundImage {
+    asset->,
+    alt
+  }
 }
 `);
 
@@ -463,7 +475,11 @@ export const SERVICES_PAGE_QUERY = defineQuery(`
     ctaTitle,
     ctaSubtitle,
     ctaButtonText,
-    ctaButtonUrl
+    ctaButtonUrl,
+    ctaBackgroundImage {
+      asset->,
+      alt
+    }
 }
 `);
 

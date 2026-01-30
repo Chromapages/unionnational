@@ -40,5 +40,18 @@ export const servicesPage = defineType({
             title: 'CTA Button URL',
             type: 'string',
         }),
+        defineField({
+            name: "ctaBackgroundImage",
+            title: "CTA Section Background",
+            type: "image",
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: "alt",
+                    title: "Alternative Text",
+                    type: "string",
+                },
+            ],
+        }),
     ],
 })

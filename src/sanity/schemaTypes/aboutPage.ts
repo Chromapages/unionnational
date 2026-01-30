@@ -92,5 +92,42 @@ export const aboutPage = defineType({
             title: 'Founder Video URL',
             type: 'url',
         }),
+        defineField({
+            name: "ctaTitle",
+            title: "Bottom CTA Title",
+            type: "string",
+            initialValue: "Ready to keep more of what you earn?",
+        }),
+        defineField({
+            name: "ctaSubtitle",
+            title: "Bottom CTA Subtitle",
+            type: "text",
+            rows: 2,
+        }),
+        defineField({
+            name: "ctaButtonText",
+            title: "Button Text",
+            type: "string",
+            initialValue: "Book a Discovery Call",
+        }),
+        defineField({
+            name: "ctaButtonUrl",
+            title: "Button URL",
+            type: "url",
+            validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
+        }),
+        defineField({
+            name: "ctaBackgroundImage",
+            title: "CTA Section Background",
+            type: "image",
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: "alt",
+                    title: "Alternative Text",
+                    type: "string",
+                },
+            ],
+        }),
     ],
 })

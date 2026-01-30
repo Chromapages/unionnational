@@ -25,6 +25,12 @@ export function CTASection({ data }: CTASectionProps) {
         : "/images/ctasection.jpg";
     const backgroundImageAlt = data?.ctaBackgroundImage?.alt || "Office Background";
 
+    // Fallbacks
+    const title = data?.ctaTitle || "Stop Overpaying. Start Building Wealth.";
+    const subtitle = data?.ctaSubtitle || "Join 500+ business owners who are saving an average of $40k/year. Book your free 15-minute strategy call to unlock your potential savings.";
+    const buttonText = data?.ctaButtonText || "Book Strategy Call";
+    const buttonUrl = data?.ctaButtonUrl || "/contact";
+
     return (
         <section id="contact" className="relative py-20 lg:py-28 overflow-hidden">
             {/* Background Image & Overlay */}
@@ -47,28 +53,30 @@ export function CTASection({ data }: CTASectionProps) {
                             Accepting New Clients for {new Date().getFullYear()} Tax Season
                         </div>
 
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-8 font-heading leading-[1.1]">
-                            Stop Overpaying. <br className="hidden sm:block" />
-                            <span className="text-gold-500">Start Building Wealth.</span>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-8 font-heading leading-[1.1] whitespace-pre-line">
+                            {title}
                         </h2>
 
                         <p className="text-xl text-slate-300 leading-relaxed mb-10 max-w-2xl mx-auto font-sans">
-                            Join 500+ business owners who are saving an average of $40k/year. Book your free 15-minute strategy call to unlock your potential savings.
+                            {subtitle}
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <Link
-                                href={data?.ctaButtonUrl || "/contact"}
+                                href={buttonUrl}
                                 className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-5 rounded-xl text-lg font-bold hover:bg-gold-400 transition-all duration-300 shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:shadow-[0_0_40px_rgba(212,175,55,0.5)] hover:-translate-y-1 text-center font-heading tracking-wide flex items-center justify-center gap-2"
                             >
                                 <Calendar className="w-5 h-5" />
-                                {data?.ctaButtonText || "Book Strategy Call"}
+                                {buttonText}
                             </Link>
 
-                            <button className="w-full sm:w-auto bg-white/5 backdrop-blur-sm border border-white/20 text-white px-8 py-5 rounded-xl text-lg font-bold hover:bg-white/10 hover:border-gold-500/50 hover:text-gold-500 transition-all duration-300 flex items-center justify-center gap-2 group font-heading tracking-wide">
+                            <Link
+                                href="/contact?type=expert"
+                                className="w-full sm:w-auto bg-white/5 backdrop-blur-sm border border-white/20 text-white px-8 py-5 rounded-xl text-lg font-bold hover:bg-white/10 hover:border-gold-500/50 hover:text-gold-500 transition-all duration-300 flex items-center justify-center gap-2 group font-heading tracking-wide"
+                            >
                                 <Phone className="w-5 h-5 text-slate-400 group-hover:text-gold-500" />
                                 Talk to an Expert
-                            </button>
+                            </Link>
                         </div>
 
                         <p className="mt-8 text-sm text-slate-500 font-sans">

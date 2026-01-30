@@ -41,6 +41,14 @@ interface TeamPageData {
     hiringCtaText: string;
     hiringCtaUrl: string;
     hiringImage: any;
+    ctaTitle?: string;
+    ctaSubtitle?: string;
+    ctaButtonText?: string;
+    ctaButtonUrl?: string;
+    ctaBackgroundImage?: {
+        asset?: any;
+        alt?: string;
+    };
     seo?: {
         metaTitle?: string;
         metaDescription?: string;
@@ -132,16 +140,16 @@ export default async function TeamPage() {
             <HeaderWrapper />
 
             <main className="pt-0"> {/* pt-0 because Hero has its own padding */}
-                
-                <TeamHero 
+
+                <TeamHero
                     badge={settings.heroBadge}
                     title={settings.heroTitle}
                     subtitle={settings.heroSubtitle}
                 />
 
-                <FounderSpotlight 
-                    founder={founder} 
-                    title={settings.founderSectionTitle} 
+                <FounderSpotlight
+                    founder={founder}
+                    title={settings.founderSectionTitle}
                 />
 
                 {/* Sentinel: once this is above viewport, show floating CTA */}
@@ -153,16 +161,16 @@ export default async function TeamPage() {
                 <ValuesSection values={settings.values} />
 
                 {teamMembers && teamMembers.length > 0 && (
-                    <TeamGrid 
-                        members={teamMembers} 
-                        title={settings.teamSectionTitle} 
-                        subtitle={settings.teamSectionSubtitle} 
+                    <TeamGrid
+                        members={teamMembers}
+                        title={settings.teamSectionTitle}
+                        subtitle={settings.teamSectionSubtitle}
                     />
                 )}
 
                 <HiringSection settings={settings} />
 
-                <CTASection />
+                <CTASection data={pageSettings} />
 
             </main>
 

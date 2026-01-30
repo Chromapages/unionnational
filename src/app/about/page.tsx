@@ -9,6 +9,7 @@ import { TrustVault } from "@/components/about/TrustVault";
 import { ValuesBento } from "@/components/about/ValuesBento";
 import { FounderSection } from "@/components/about/FounderSection";
 import { CompanyTimeline } from "@/components/about/CompanyTimeline";
+import { FAQSection } from "@/components/home/FAQSection";
 
 export default async function AboutPage() {
     const { data: page } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
@@ -33,9 +34,11 @@ export default async function AboutPage() {
 
                 <TrustVault />
 
+                <FAQSection />
+
                 {/* <ClientLogosSection logos={page?.clientLogos} /> */}
 
-                <CTASection />
+                <CTASection data={page} />
             </main>
 
             <Footer />
