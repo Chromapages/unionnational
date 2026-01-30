@@ -25,16 +25,17 @@ export default async function AboutPage() {
                     badge={page?.heroBadge}
                 />
 
+                <FounderSection videoUrl={page?.founderVideoUrl} />
+
 
                 <CompanyTimeline />
 
                 <ValuesBento />
 
-                <FounderSection videoUrl={page?.founderVideoUrl} />
 
                 <TrustVault />
 
-                <FAQSection />
+                <FAQSection variant="dark" />
 
                 {/* <ClientLogosSection logos={page?.clientLogos} /> */}
 

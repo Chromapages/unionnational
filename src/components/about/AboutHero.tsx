@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ImpactMetrics } from "./ImpactMetrics";
+
 
 interface AboutHeroProps {
     title: string;
@@ -11,7 +11,7 @@ interface AboutHeroProps {
 
 export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
     return (
-        <section className="relative bg-brand-900 pt-32 pb-24 overflow-hidden border-b border-white/5">
+        <section className="relative bg-brand-900 pt-28 pb-16 overflow-hidden border-b border-white/5">
             {/* Solid Midnight Forest Background - "The Digital Vault" */}
             <div className="absolute inset-0 bg-brand-900" />
 
@@ -48,10 +48,6 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
                             <button className="px-8 py-4 rounded-lg font-bold text-white border border-white/10 hover:bg-white/5 transition-colors">
                                 Explore Our Firm
                             </button>
-                        </div>
-
-                        <div className="mt-16 pt-8 border-t border-white/5">
-                            <ImpactMetrics />
                         </div>
                     </motion.div>
 
