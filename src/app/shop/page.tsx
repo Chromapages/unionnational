@@ -7,7 +7,6 @@ import { client } from "@/sanity/lib/client";
 import { ALL_PRODUCTS_QUERY, SHOP_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 import { ShopClient } from "@/components/shop/ShopClient";
 import { ShopTestimonialStrip } from "@/components/shop/ShopTestimonialStrip";
-import { RecoveryCTA } from "@/components/shop/RecoveryCTA";
 import { JsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -99,12 +98,6 @@ export default async function ShopPage() {
 
                     {shopSettings?.faq && <ShopFAQ items={shopSettings.faq} />}
 
-                    <RecoveryCTA
-                        title={shopSettings?.recoveryCTA?.title}
-                        subtitle={shopSettings?.recoveryCTA?.subtitle}
-                        buttonText={shopSettings?.recoveryCTA?.buttonText}
-                        buttonUrl={shopSettings?.recoveryCTA?.buttonUrl}
-                    />
                 </div>
 
             </main>
