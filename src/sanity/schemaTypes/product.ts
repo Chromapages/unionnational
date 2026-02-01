@@ -6,17 +6,23 @@ export const product = defineType({
     title: "Product",
     type: "document",
     icon: Book,
+    groups: [
+        { name: "content", title: "Content" },
+        { name: "seo", title: "SEO" },
+    ],
     fields: [
         defineField({
             name: "title",
             title: "Title",
             type: "string",
+            group: "content",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "slug",
             title: "Slug",
             type: "slug",
+            group: "content",
             options: {
                 source: "title",
                 maxLength: 96,
@@ -27,6 +33,7 @@ export const product = defineType({
             name: "coverImage",
             title: "Cover Image",
             type: "image",
+            group: "content",
             options: {
                 hotspot: true,
             },
@@ -36,18 +43,21 @@ export const product = defineType({
             name: "price",
             title: "Price",
             type: "number",
+            group: "content",
             validation: (Rule) => Rule.required().min(0),
         }),
         defineField({
             name: "compareAtPrice",
             title: "Compare At Price (Original Price)",
             type: "number",
+            group: "content",
             description: "Optional. Show this to indicate a discount.",
         }),
         defineField({
             name: "shortDescription",
             title: "Short Description",
             type: "text",
+            group: "content",
             rows: 3,
             validation: (Rule) => Rule.required().max(200),
         }),
@@ -55,12 +65,14 @@ export const product = defineType({
             name: "fullDescription",
             title: "Full Description",
             type: "array",
+            group: "content",
             of: [{ type: "block" }],
         }),
         defineField({
             name: "format",
             title: "Format",
             type: "string",
+            group: "content",
             options: {
                 list: [
                     { title: "Digital (PDF/ePub)", value: "digital" },
@@ -75,18 +87,21 @@ export const product = defineType({
             name: "buyLink",
             title: "Buy Link",
             type: "url",
+            group: "content",
             description: "Link to Amazon, Gumroad, Stripe checkout, etc.",
         }),
         defineField({
             name: "features",
             title: "Key Features",
             type: "array",
+            group: "content",
             of: [{ type: "string" }],
         }),
         defineField({
             name: "isFeatured",
             title: "Featured Product?",
             type: "boolean",
+            group: "content",
             initialValue: false,
             description: "If checked, this product will be highlighted at the top of the shop.",
         }),
@@ -94,6 +109,7 @@ export const product = defineType({
             name: "badge",
             title: "Badge Text",
             type: "string",
+            group: "content",
             description: "Optional badge like 'Best Seller' or 'New'.",
             options: {
                 list: [
@@ -108,6 +124,7 @@ export const product = defineType({
             name: "category",
             title: "Category",
             type: "string",
+            group: "content",
             options: {
                 list: [
                     { title: "Ebook", value: "ebook" },
@@ -121,6 +138,7 @@ export const product = defineType({
             name: "rating",
             title: "Rating (1-5)",
             type: "number",
+            group: "content",
             validation: (Rule) => Rule.min(1).max(5).precision(1),
             initialValue: 5,
         }),
@@ -128,12 +146,14 @@ export const product = defineType({
             name: "relatedProducts",
             title: "Related Products",
             type: "array",
+            group: "content",
             of: [{ type: "reference", to: [{ type: "product" }] }],
         }),
         defineField({
             name: "seo",
-            title: "SEO",
+            title: "SEO Overrides",
             type: "seo",
+            group: "seo",
         }),
     ],
     preview: {

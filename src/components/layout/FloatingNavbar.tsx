@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
@@ -26,10 +27,12 @@ import {
 import * as Icons from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
 import { NewsletterModal } from "@/components/ui/NewsletterModal";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import type { ServiceSummary } from "./ServicesDropdown";
 
 type NavLink = {
-    name: string;
+    translationKey: string;
     href: string;
     hasDropdown?: boolean;
 };
@@ -47,12 +50,13 @@ type FloatingNavbarProps = {
 };
 
 // Nav links without Services (handled separately via dropdown)
+// translationKey references Header.{key} in message files
 const navLinks: NavLink[] = [
-    { name: "Home", href: "/" },
-    { name: "Shop", href: "/shop" },
-    { name: "Health Check", href: "/health-check" },
-    { name: "About", href: "/about" },
-    { name: "Team", href: "/team" },
+    { translationKey: "home", href: "/" },
+    { translationKey: "shop", href: "/shop" },
+    { translationKey: "healthCheck", href: "/health-check" },
+    { translationKey: "about", href: "/about" },
+    { translationKey: "team", href: "/team" },
 ];
 
 const fallbackServices: ServiceSummary[] = [
@@ -80,13 +84,12 @@ const getIcon = (iconName?: string) => {
 };
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
+    const t = useTranslations('Header');
     const [scrolled, setScrolled] = useState(false);
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    const [servicesExpanded, setServicesExpanded] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
-    const drawerServices = services?.length ? services : fallbackServices;
 
 
     // Check for reduced motion preference
@@ -113,8 +116,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
     const isServicesActive = pathname.startsWith("/services");
 
-    const handleOpenDrawer = useCallback(() => setDrawerOpen(true), []);
-    const handleCloseDrawer = useCallback(() => setDrawerOpen(false), []);
+    const handleToggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
+    const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
     const logoUrl = siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
     const ctaText = siteSettings?.ctaButtonText || "Book a Call";
@@ -263,11 +266,11 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             <ServicesDropdown services={services} />
 
                             {/* Other Nav Links */}
-                            {navLinks.filter(link => link.name !== "Home").map((link) => {
+                            {navLinks.filter(link => link.translationKey !== "home").map((link) => {
                                 const isActive = isLinkActive(link.href);
                                 return (
                                     <Button
-                                        key={link.name}
+                                        key={link.translationKey}
                                         component={Link}
                                         href={link.href}
                                         sx={{
@@ -323,7 +326,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                             },
                                         }}
                                     >
-                                        {link.name}
+                                        {t(link.translationKey)}
                                     </Button>
                                 );
                             })}
@@ -337,6 +340,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 gap: 2,
                             }}
                         >
+                            <LanguageSwitcher />
+
                             {/* Phone Number */}
                             <Box
                                 component={Link}
@@ -423,27 +428,29 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             </Button>
                         </Box>
 
-                        {/* Mobile Menu Button */}
-                        <IconButton
-                            edge="end"
-                            aria-label={drawerOpen ? "Close menu" : "Open menu"}
-                            aria-expanded={drawerOpen}
-                            aria-controls="mobile-navigation"
-                            onClick={drawerOpen ? handleCloseDrawer : handleOpenDrawer}
+                        {/* Mobile Menu Toggle */}
+                        <Box
                             sx={{
                                 display: { xs: "flex", md: "none" },
-                                color: "white",
-                                minWidth: 44,
-                                minHeight: 44,
-                                "&:focus-visible": {
-                                    outline: "2px solid",
-                                    outlineColor: "primary.main",
-                                    outlineOffset: 2,
-                                },
+                                alignItems: "center",
                             }}
                         >
-                            {drawerOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
-                        </IconButton>
+                            <IconButton
+                                onClick={handleToggleSidebar}
+                                aria-label="Toggle menu"
+                                sx={{
+                                    color: "white",
+                                    backgroundColor: "rgba(212, 175, 55, 0.1)",
+                                    border: "1px solid rgba(212, 175, 55, 0.3)",
+                                    p: 1,
+                                    "&:hover": {
+                                        backgroundColor: "rgba(212, 175, 55, 0.2)",
+                                    },
+                                }}
+                            >
+                                <MenuIcon size={24} />
+                            </IconButton>
+                        </Box>
                     </Toolbar>
                 </Container>
             </AppBar>
@@ -453,293 +460,17 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                 aria-hidden
                 disableGutters
                 sx={{
-                    minHeight: { xs: 64, md: scrolled ? 72 : 88 },
+                    minHeight: { xs: 56, md: scrolled ? 72 : 88 },
                     transition: "min-height 0.3s ease",
                 }}
             />
 
-            {/* Mobile Bottom Sheet Drawer */}
-            <SwipeableDrawer
-                id="mobile-navigation"
-                anchor="bottom"
-                open={drawerOpen}
-                onClose={handleCloseDrawer}
-                onOpen={handleOpenDrawer}
-                disableSwipeToOpen
-                swipeAreaWidth={0}
-                ModalProps={{
-                    keepMounted: true,
-                }}
-                PaperProps={{
-                    sx: {
-                        backgroundColor: "secondary.main",
-                        borderTopLeftRadius: 24,
-                        borderTopRightRadius: 24,
-                        maxHeight: "85vh",
-                        pb: 4,
-                    },
-                }}
-            >
-                {/* Drag Handle */}
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        py: 2,
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: 40,
-                            height: 4,
-                            backgroundColor: "rgba(255, 255, 255, 0.3)",
-                            borderRadius: 2,
-                        }}
-                    />
-                </Box>
-
-                {/* Navigation List with Active States */}
-                <Box sx={{ px: 2 }}>
-                    {/* Home Link */}
-                    <ListItemButton
-                        component={Link}
-                        href="/"
-                        onClick={handleCloseDrawer}
-                        sx={{
-                            minHeight: 56,
-                            borderRadius: 3,
-                            mb: 1,
-                            borderLeft: isLinkActive("/") ? "3px solid" : "3px solid transparent",
-                            borderColor: isLinkActive("/") ? "primary.main" : "transparent",
-                            backgroundColor: isLinkActive("/") ? "rgba(212, 175, 55, 0.15)" : "rgba(255, 255, 255, 0.05)",
-                            "&:hover, &:focus": {
-                                backgroundColor: "rgba(212, 175, 55, 0.15)",
-                            },
-                        }}
-                    >
-                        <ListItemText
-                            primary="Home"
-                            primaryTypographyProps={{
-                                sx: {
-                                    color: isLinkActive("/") ? "primary.main" : "white",
-                                    fontWeight: isLinkActive("/") ? 600 : 500,
-                                    fontFamily: 'var(--font-outfit), "Outfit", sans-serif',
-                                },
-                            }}
-                        />
-                        {isLinkActive("/") && <Check size={18} className="text-gold-500" />}
-                    </ListItemButton>
-
-                    {/* Services Accordion */}
-                    <ListItemButton
-                        onClick={() => setServicesExpanded(!servicesExpanded)}
-                        sx={{
-                            minHeight: 56,
-                            borderRadius: 3,
-                            mb: 1,
-                            borderLeft: isServicesActive ? "3px solid" : "3px solid transparent",
-                            borderColor: isServicesActive ? "primary.main" : "transparent",
-                            backgroundColor: isServicesActive ? "rgba(212, 175, 55, 0.15)" : "rgba(255, 255, 255, 0.05)",
-                            "&:hover, &:focus": {
-                                backgroundColor: "rgba(212, 175, 55, 0.15)",
-                            },
-                        }}
-                    >
-                        <ListItemText
-                            primary="Services"
-                            primaryTypographyProps={{
-                                sx: {
-                                    color: isServicesActive ? "primary.main" : "white",
-                                    fontWeight: isServicesActive ? 600 : 500,
-                                    fontFamily: 'var(--font-outfit), "Outfit", sans-serif',
-                                },
-                            }}
-                        />
-                        <ChevronDown
-                            size={18}
-                            className={`text-white/70 transition-transform duration-200 ${servicesExpanded ? "rotate-180" : ""}`}
-                        />
-                    </ListItemButton>
-
-                    {/* Services Sub-items */}
-                    {servicesExpanded && (
-                        <Box sx={{ pl: 2, mb: 1 }}>
-                            {drawerServices.map((service) => {
-                                const ServiceIcon = getIcon(service.icon);
-                                const serviceHref = getServiceHref(service);
-                                const serviceTitle = service.title || "Service";
-                                const serviceKey = service._id || service.slug?.current || serviceTitle;
-                                const isServiceActive = pathname === serviceHref;
-                                return (
-                                    <ListItemButton
-                                        key={serviceKey}
-                                        component={Link}
-                                        href={serviceHref}
-                                        onClick={handleCloseDrawer}
-                                        sx={{
-                                            minHeight: 48,
-                                            borderRadius: 2,
-                                            mb: 0.5,
-                                            backgroundColor: isServiceActive ? "rgba(212, 175, 55, 0.1)" : "transparent",
-                                            "&:hover": {
-                                                backgroundColor: "rgba(212, 175, 55, 0.1)",
-                                            },
-                                        }}
-                                    >
-                                        <ServiceIcon size={18} className="mr-3 text-gold-600" />
-                                        <ListItemText
-                                            primary={serviceTitle}
-                                            primaryTypographyProps={{
-                                                sx: {
-                                                    color: isServiceActive ? "primary.main" : "rgba(255, 255, 255, 0.8)",
-                                                    fontSize: "0.9rem",
-                                                    fontWeight: isServiceActive ? 600 : 400,
-                                                },
-                                            }}
-                                        />
-                                    </ListItemButton>
-                                );
-                            })}
-                            <ListItemButton
-                                component={Link}
-                                href="/services"
-                                onClick={handleCloseDrawer}
-                                sx={{
-                                    minHeight: 40,
-                                    borderRadius: 2,
-                                    "&:hover": {
-                                        backgroundColor: "rgba(212, 175, 55, 0.1)",
-                                    },
-                                }}
-                            >
-                                <ListItemText
-                                    primary="View All Services →"
-                                    primaryTypographyProps={{
-                                        sx: {
-                                            color: "primary.main",
-                                            fontSize: "0.85rem",
-                                            fontWeight: 500,
-                                        },
-                                    }}
-                                />
-                            </ListItemButton>
-                        </Box>
-                    )}
-
-                    {/* Other Nav Links */}
-                    {navLinks.filter(link => link.name !== "Home").map((link) => {
-                        const isActive = isLinkActive(link.href);
-                        return (
-                            <ListItemButton
-                                key={link.name}
-                                component={Link}
-                                href={link.href}
-                                onClick={handleCloseDrawer}
-                                sx={{
-                                    minHeight: 56,
-                                    borderRadius: 3,
-                                    mb: 1,
-                                    borderLeft: isActive ? "3px solid" : "3px solid transparent",
-                                    borderColor: isActive ? "primary.main" : "transparent",
-                                    backgroundColor: isActive ? "rgba(212, 175, 55, 0.15)" : "rgba(255, 255, 255, 0.05)",
-                                    "&:hover, &:focus": {
-                                        backgroundColor: "rgba(212, 175, 55, 0.15)",
-                                    },
-                                }}
-                            >
-                                <ListItemText
-                                    primary={link.name}
-                                    primaryTypographyProps={{
-                                        sx: {
-                                            color: isActive ? "primary.main" : "white",
-                                            fontWeight: isActive ? 600 : 500,
-                                            fontFamily: 'var(--font-outfit), "Outfit", sans-serif',
-                                        },
-                                    }}
-                                />
-                                {isActive && <Check size={18} className="text-gold-500" />}
-                            </ListItemButton>
-                        );
-                    })}
-                </Box>
-
-                <Divider sx={{ my: 2, borderColor: "rgba(255, 255, 255, 0.1)" }} />
-
-                {/* Contact Section */}
-                <Box sx={{ px: 3, mb: 2 }}>
-                    <Typography
-                        variant="caption"
-                        sx={{
-                            color: "rgba(255, 255, 255, 0.5)",
-                            letterSpacing: "0.15em",
-                            textTransform: "uppercase",
-                            fontWeight: 700,
-                            fontSize: "0.65rem",
-                        }}
-                    >
-                        Contact Us
-                    </Typography>
-                    <Box sx={{ mt: 1.5 }}>
-                        <Box
-                            component={Link}
-                            href={phoneHref}
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 1.5,
-                                color: "rgba(255, 255, 255, 0.8)",
-                                textDecoration: "none",
-                                py: 1,
-                                "&:hover": { color: "primary.main" },
-                            }}
-                        >
-                            <Phone size={16} />
-                            <Typography sx={{ fontSize: "0.9rem" }}>{phoneNumber}</Typography>
-                        </Box>
-                        <Box
-                            component={Link}
-                            href="mailto:hello@unionnationaltax.com"
-                            sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 1.5,
-                                color: "rgba(255, 255, 255, 0.8)",
-                                textDecoration: "none",
-                                py: 1,
-                                "&:hover": { color: "primary.main" },
-                            }}
-                        >
-                            <Mail size={16} />
-                            <Typography sx={{ fontSize: "0.9rem" }}>hello@unionnationaltax.com</Typography>
-                        </Box>
-                    </Box>
-                </Box>
-
-                <Divider sx={{ mb: 2, borderColor: "rgba(255, 255, 255, 0.1)" }} />
-
-                {/* CTA Button */}
-                <Box sx={{ px: 3 }}>
-                    <Button
-                        component={Link}
-                        href={ctaUrl}
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        onClick={handleCloseDrawer}
-                        sx={{
-                            py: 1.5,
-                            fontSize: "1rem",
-                            fontWeight: 600,
-                            "&:focus-visible": {
-                                outline: "2px solid white",
-                                outlineOffset: 2,
-                            },
-                        }}
-                    >
-                        {ctaText}
-                    </Button>
-                </Box>
-            </SwipeableDrawer>
+            {/* Mobile Sidebar Navigation */}
+            <MobileSidebar
+                isOpen={sidebarOpen}
+                onClose={handleCloseSidebar}
+                siteSettings={siteSettings}
+            />
 
             <NewsletterModal isOpen={isNewsletterOpen} onClose={() => setIsNewsletterOpen(false)} />
 

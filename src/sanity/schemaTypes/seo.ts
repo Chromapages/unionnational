@@ -24,5 +24,12 @@ export const seo = defineType({
             type: "image",
             options: { hotspot: true },
         }),
+        defineField({
+            name: "keywords",
+            title: "Keywords",
+            type: "array",
+            of: [{ type: "string" }],
+            options: { layout: "tags" },
+        }),
     ],
-});
+})

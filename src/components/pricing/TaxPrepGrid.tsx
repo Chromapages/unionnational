@@ -1,74 +1,104 @@
-"use client";
+import { Check, X, Info } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { Check } from "lucide-react";
-import Link from "next/link";
-import { PricingTier } from "./PricingSection";
+// Define strict types matching the Sanity query
+interface PricingTier {
+    _id: string;
+    name: string;
+    slug: { current: string };
+    category: string;
+    price?: string;
+    billingPeriod?: string;
+    tagline?: string; // Used sometimes as a subheader
+    bestFor?: string; // Column: Best For
+    includes?: string; // Column: Includes
+    ctaText?: string;
+    ctaUrl?: string;
+    displayOrder?: number;
+}
 
 interface TaxPrepGridProps {
-    title: string;
-    subtitle: string;
     tiers: PricingTier[];
 }
 
-export function TaxPrepGrid({ title, subtitle, tiers }: TaxPrepGridProps) {
+export function TaxPrepGrid({ tiers }: TaxPrepGridProps) {
     if (!tiers || tiers.length === 0) return null;
 
-    return (
-        <section className="mb-24">
-            <RevealOnScroll>
-                <div className="mb-10 pl-4 border-l-4 border-brand-900">
-                    <h3 className="text-2xl font-bold text-brand-900 font-heading uppercase tracking-widest">{title}</h3>
-                    <p className="text-brand-900/60 font-sans mt-1">{subtitle}</p>
+    // Filter for Individual and Business tiers
+    const individualTiers = tiers.filter(t => t.category === "individual");
+    const businessTiers = tiers.filter(t => t.category === "business");
+
+    // Helper to render a section
+    const renderSection = (title: string, items: PricingTier[]) => {
+        if (items.length === 0) return null;
+
+        return (
+            <div className="mb-12 last:mb-0">
+                <h3 className="text-xl font-bold text-brand-900 font-heading mb-6 pl-4 border-l-4 border-gold-500">{title}</h3>
+
+                <div className="overflow-hidden rounded-xl border border-brand-900/10 shadow-sm bg-white">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-brand-50/50 border-b border-brand-900/5">
+                                    <th className="py-4 px-6 text-xs font-bold text-brand-900 uppercase tracking-widest w-[25%]">Service Level</th>
+                                    <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest w-[30%]">Best For</th>
+                                    <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest w-[30%]">Includes</th>
+                                    <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest text-right w-[15%]">Starting At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {items.map((item, idx) => (
+                                    <tr
+                                        key={item._id}
+                                        className={cn(
+                                            "group transition-colors hover:bg-brand-50/30",
+                                            idx !== items.length - 1 ? "border-b border-brand-900/5" : ""
+                                        )}
+                                    >
+                                        <td className="py-5 px-6">
+                                            <span className="font-bold text-brand-900 text-lg block">{item.name}</span>
+                                            {item.tagline && (
+                                                <span className="text-xs text-brand-900/50 mt-1 block font-medium">{item.tagline}</span>
+                                            )}
+                                        </td>
+                                        <td className="py-5 px-6 text-sm text-brand-900/80 leading-relaxed max-w-xs">
+                                            {item.bestFor}
+                                        </td>
+                                        <td className="py-5 px-6 text-sm text-brand-900/70 leading-relaxed max-w-xs font-medium">
+                                            {item.includes}
+                                        </td>
+                                        <td className="py-5 px-6 text-right">
+                                            <div className="flex flex-col items-end">
+                                                <span className="text-xl font-bold text-brand-900 font-heading">{item.price}</span>
+                                                {item.billingPeriod === 'one-time' ? null : (
+                                                    <span className="text-[10px] text-brand-900/40 uppercase tracking-wider font-bold">
+                                                        /{item.billingPeriod || 'return'}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </RevealOnScroll>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {tiers.map((tier, i) => (
-                    <RevealOnScroll key={tier._id} delay={i * 100} className="h-full">
-                        <div className="bg-white border border-slate-200 p-8 rounded-xl h-full flex flex-col hover:shadow-xl transition-all duration-300 group">
-                            <div className="mb-6 pb-6 border-b border-slate-100">
-                                <h4 className="text-xl font-bold text-brand-900 font-heading mb-2">{tier.name}</h4>
-                                <div className="text-3xl font-bold text-brand-900 font-heading mb-1">
-                                    {tier.price.startsWith('$') ? tier.price : `$${tier.price}`}
-                                </div>
-                                <div className="text-sm text-slate-500 font-medium font-sans">Starting Price</div>
-                            </div>
-
-                            <div className="mb-8 flex-grow">
-                                <div className="mb-4">
-                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-sans block mb-2">Best For</span>
-                                    <p className="text-sm text-brand-900 leading-relaxed font-sans font-medium">
-                                        {tier.bestFor || "Please contact us for details"}
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider font-sans block mb-2">What's Included</span>
-                                    <ul className="space-y-3">
-                                        {/* Use includes if available, otherwise fallback to features */}
-                                        {(tier.includes ? tier.includes.split('\n') : tier.features)?.map((item, idx) => (
-                                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 font-sans leading-relaxed">
-                                                <div className="mt-1 w-4 h-4 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
-                                                    <Check className="w-2.5 h-2.5" />
-                                                </div>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <Link
-                                href={tier.ctaUrl || "/contact"}
-                                className="w-full py-3 bg-slate-50 text-brand-900 font-bold text-sm rounded-lg flex items-center justify-center transition-colors hover:bg-brand-900 hover:text-white font-sans mt-auto"
-                            >
-                                Get Started
-                            </Link>
-                        </div>
-                    </RevealOnScroll>
-                ))}
             </div>
-        </section>
+        );
+    };
+
+    return (
+        <div className="max-w-7xl mx-auto px-6 mt-24">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold text-brand-900 font-heading mb-3">Compliance & Tax Preparation</h2>
+                <p className="text-brand-900/60 max-w-2xl mx-auto">
+                    Professional, audit-proof filing services for individuals and businesses who need their returns done right, without the full advisory retainer.
+                </p>
+            </div>
+
+            {renderSection("Individual Tax Services", individualTiers)}
+            {renderSection("Business Tax Services", businessTiers)}
+        </div>
     );
 }

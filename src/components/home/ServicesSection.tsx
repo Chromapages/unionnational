@@ -43,22 +43,19 @@ export function ServicesSection({ services = [] }: ServiceProps) {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <RevealOnScroll>
-                    <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 sm:mb-20">
-                        <div className="max-w-2xl">
-                            <div className="flex items-center gap-2 mb-4">
-                                <span className="h-px w-8 bg-gold-500"></span>
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
-                                    Our Expertise
-                                </span>
-                            </div>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1]">
-                                Comprehensive <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
-                                    Financial Solutions.
-                                </span>
-                            </h2>
+                    <div className="mb-12 lg:mb-16 max-w-3xl">
+                        <div className="mb-4">
+                            <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                Our Expertise
+                            </span>
                         </div>
-                        <p className="text-slate-600 leading-relaxed font-sans max-w-md text-base md:text-lg">
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-6">
+                            Comprehensive <br className="hidden md:block" />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
+                                Financial Solutions.
+                            </span>
+                        </h2>
+                        <p className="text-slate-600 leading-relaxed font-sans text-base md:text-lg max-w-2xl">
                             Design a financial operating system that works for your business. From basic compliance to strategic growth tools.
                         </p>
                     </div>

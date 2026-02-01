@@ -13,32 +13,37 @@ export function DifferentiationSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header */}
-        <RevealOnScroll className="text-center mb-12 lg:mb-16">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
-            Why We Are Different
-          </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mt-4 tracking-tight text-brand-900 font-heading">
+        <RevealOnScroll className="mb-12 lg:mb-16 max-w-3xl">
+          <div className="mb-4">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+              Why We Are Different
+            </span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1]">
             We're Not a <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
               Call Center.
             </span>
           </h2>
-          <p className="text-slate-600 mt-6 max-w-2xl mx-auto text-base md:text-lg lg:text-xl leading-relaxed font-sans">
+          <p className="text-slate-600 mt-6 max-w-2xl text-base md:text-lg lg:text-xl leading-relaxed font-sans">
             See the difference between national tax relief firms and our boutique expertise.
           </p>
         </RevealOnScroll>
 
-        {/* Comparison Grid */}
+        {/* Comparison Grid - Mobile: Swipeable Carousel | Desktop: Grid */}
         <div className="relative">
           <div
             className={cn(
-              "grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-10 xl:gap-12",
+              "flex overflow-x-auto snap-x snap-mandatory pb-6 -mx-4 px-4 space-x-4",
+              "md:grid md:grid-cols-2 md:gap-8 lg:gap-10 xl:gap-12",
+              "md:space-x-0 md:pb-0 md:mx-0 md:px-0",
+              "no-scrollbar items-stretch",
               "max-w-lg sm:max-w-xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto"
             )}
           >
 
             {/* Left Column: Competitors */}
-            <RevealOnScroll delay={100} className="h-full">
+            <RevealOnScroll delay={100} className="h-full shrink-0 snap-center w-[320px] sm:w-[380px] md:w-auto">
               <div
                 className={cn(
                   "bg-slate-50 border border-slate-200 rounded-2xl p-6 lg:p-8 xl:p-10",
@@ -108,7 +113,7 @@ export function DifferentiationSection() {
             </RevealOnScroll>
 
             {/* Right Column: Union National Tax (emphasized) */}
-            <RevealOnScroll delay={200} className="h-full">
+            <RevealOnScroll delay={200} className="h-full shrink-0 snap-center w-[320px] sm:w-[380px] md:w-auto">
               <div
                 className={cn(
                   "bg-brand-900 border border-gold-500/40 rounded-2xl p-6 lg:p-8 xl:p-10",
@@ -197,10 +202,10 @@ export function DifferentiationSection() {
             </RevealOnScroll>
           </div>
 
-          {/* VS Badge */}
+          {/* VS Badge - Hidden on mobile carousel */}
           <RevealOnScroll
             delay={150}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:-mt-1 z-20 pointer-events-none"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:-mt-1 z-20 pointer-events-none hidden md:block"
           >
             <div
               className={cn(

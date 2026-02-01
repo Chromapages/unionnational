@@ -6,17 +6,23 @@ export const service = defineType({
     title: "Service",
     type: "document",
     icon: Briefcase,
+    groups: [
+        { name: "content", title: "Content" },
+        { name: "seo", title: "SEO" },
+    ],
     fields: [
         defineField({
             name: "title",
             title: "Title",
             type: "string",
+            group: "content",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "slug",
             title: "Slug",
             type: "slug",
+            group: "content",
             options: {
                 source: "title",
                 maxLength: 96,
@@ -28,6 +34,7 @@ export const service = defineType({
             title: "Short Description",
             type: "text",
             rows: 3,
+            group: "content",
             description: "Used in cards and previews.",
             validation: (Rule) => Rule.required().max(160),
         }),
@@ -36,12 +43,14 @@ export const service = defineType({
             title: "Full Description",
             type: "array",
             of: [{ type: "block" }],
+            group: "content",
             description: "The main content for the service detail page.",
         }),
         defineField({
             name: "icon",
             title: "Icon Name",
             type: "string",
+            group: "content",
             description: "Lucide icon name (e.g., 'Notebook', 'BarChart3').",
             options: {
                 list: [
@@ -60,23 +69,27 @@ export const service = defineType({
             title: "Key Features",
             type: "array",
             of: [{ type: "string" }],
+            group: "content",
         }),
         defineField({
             name: "impactGoal",
             title: "Impact Goal",
             type: "string",
+            group: "content",
             description: "The 'Why' - e.g., 'Maximize your S-Corp tax savings.'",
         }),
         defineField({
             name: "badge",
             title: "Badge Text",
             type: "string",
+            group: "content",
             description: "Optional badge like 'Most Popular' or 'Scale'.",
         }),
         defineField({
             name: "category",
             title: "Category",
             type: "string",
+            group: "content",
             options: {
                 list: [
                     { title: "Tax Services", value: "Tax" },
@@ -91,18 +104,21 @@ export const service = defineType({
             name: "startingPrice",
             title: "Starting Price",
             type: "string",
+            group: "content",
             description: "e.g., 'From $500/mo' or 'Custom Quote'",
         }),
         defineField({
             name: "isPopular",
             title: "Is Popular/Featured?",
             type: "boolean",
+            group: "content",
             initialValue: false,
         }),
         defineField({
             name: "accentColor",
             title: "Accent Color",
             type: "string",
+            group: "content",
             description: "Hex code for accent (e.g., #D4AF37).",
         }),
         defineField({
@@ -118,6 +134,7 @@ export const service = defineType({
                     ],
                 },
             ],
+            group: "content",
         }),
         defineField({
             name: "comparisonPoints",
@@ -139,18 +156,27 @@ export const service = defineType({
                     },
                 },
             ],
+            group: "content",
         }),
         defineField({
             name: "videoFile",
             title: "Strategy Video File",
             type: "file",
+            group: "content",
             description: "Upload an MP4 or similar file for the service walkthrough.",
         }),
         defineField({
             name: "videoThumbnail",
             title: "Strategy Video Thumbnail",
             type: "image",
+            group: "content",
             options: { hotspot: true },
+        }),
+        defineField({
+            name: "seo",
+            title: "SEO Overrides",
+            type: "seo",
+            group: "seo",
         }),
     ],
     preview: {

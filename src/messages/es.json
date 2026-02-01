@@ -1,0 +1,38 @@
+{
+    "Header": {
+        "home": "Inicio",
+        "services": "Servicios",
+        "about": "Nosotros",
+        "team": "Equipo",
+        "contact": "Contacto",
+        "shop": "Tienda",
+        "healthCheck": "Revisión de Salud",
+        "bookCall": "Reservar Consulta",
+        "calculator": "Calc",
+        "more": "Más",
+        "moreOptions": "Más Opciones",
+        "blog": "Blog",
+        "newsletter": "Boletín",
+        "language": "Idioma"
+    },
+    "Hero": {
+        "titlePart1": "Deje de Pagar en Exceso.",
+        "titlePart2": "Empiece a Ahorrar.",
+        "subtitle": "La 'Bóveda Digital' para su patrimonio. Estrategias fiscales de grado institucional diseñadas para ahorrar a personas de altos ingresos $20k+ anualmente.",
+        "calculatorTitle": "Estime sus Ahorros de S-Corp",
+        "confidential": "Cálculo Confidencial",
+        "calculate": "Calcular",
+        "calculating": "Calculando...",
+        "potentialSavings": "Ahorros Potenciales"
+    },
+    "Footer": {
+        "copyright": "© 2026 Union National Tax. Todos los derechos reservados.",
+        "privacy": "Política de Privacidad",
+        "terms": "Términos de Servicio"
+    },
+    "Common": {
+        "learnMore": "Más Información",
+        "getStarted": "Comenzar",
+        "viewAll": "Ver Todo"
+    }
+}

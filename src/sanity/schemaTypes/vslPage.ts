@@ -11,18 +11,21 @@ export const vslPage = defineType({
         { name: "valueProps", title: "Value Props" },
         { name: "testimonial", title: "Testimonial" },
         { name: "cta", title: "Final CTA" },
+        { name: "seo", title: "SEO" },
     ],
     fields: [
         defineField({
             name: "title",
             title: "Internal Title",
             type: "string",
+            group: "hero",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "slug",
             title: "Slug",
             type: "slug",
+            group: "hero",
             description: "Use 'vsl/construction' or 'vsl/restaurants'",
             validation: (Rule) => Rule.required(),
             options: {
@@ -34,6 +37,7 @@ export const vslPage = defineType({
             name: "industry",
             title: "Industry Focus",
             type: "string",
+            group: "hero",
             options: {
                 list: [
                     { title: "Construction", value: "Construction" },
@@ -156,6 +160,12 @@ export const vslPage = defineType({
             title: "Urgency / Bottom Text",
             type: "string",
             group: "cta",
+        }),
+        defineField({
+            name: "seo",
+            title: "SEO Overrides",
+            type: "seo",
+            group: "seo",
         }),
     ],
     preview: {

@@ -1,39 +1,30 @@
 "use client";
 
-import { useState } from "react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-
-import { Check, ArrowRight } from "lucide-react";
-import Link from "next/link";
-
+import { AdvisoryPricingCards } from "./AdvisoryPricingCards";
 import { TaxPrepGrid } from "./TaxPrepGrid";
 import { OptionalServices } from "./OptionalServices";
 
+// Re-using the same interface for consistency across files
 export interface PricingTier {
     _id: string;
     name: string;
     slug: { current: string };
-    tagline: string;
-    price: string;
-    billingPeriod: string;
-    features: string[];
-    isFeatured: boolean;
-    ctaText: string;
-    ctaUrl: string;
-    category?: 'advisory' | 'individual' | 'business' | 'optional';
+    tagline?: string;
+    price?: string;
+    billingPeriod?: string;
+    features?: string[];
+    isFeatured?: boolean;
+    ctaText?: string;
+    ctaUrl?: string;
+    category: string;
     bestFor?: string;
     includes?: string;
-    relatedService: {
+    displayOrder?: number;
+    relatedService?: {
         title: string;
         slug: { current: string };
     };
-}
-
-interface FAQItem {
-    _id: string;
-    question: string;
-    answer: string;
-    category: string;
 }
 
 interface PricingSectionProps {
@@ -41,117 +32,59 @@ interface PricingSectionProps {
 }
 
 export function PricingSection({ tiers }: PricingSectionProps) {
+    if (!tiers) return null;
 
-    // Group tiers by category
-    const advisoryTiers = tiers.filter(t => t.category === 'advisory' || !t.category); // Fallback for legacy
-    const individualTiers = tiers.filter(t => t.category === 'individual');
-    const businessTiers = tiers.filter(t => t.category === 'business');
-    const optionalServices = tiers.filter(t => t.category === 'optional');
+    // Filter tiers based on category
+    // Defaulting to "advisory" if no category is set (graceful fallback)
+    const advisoryTiers = tiers.filter(t => t.category === "advisory" || !t.category);
+
+    // Pass raw tiers to TaxPrepGrid, which handles the filtering for individual/business internally
+    // or pass filtered lists if the component expected separate props.
+    // Based on my TaxPrepGrid implementation, it expects `tiers` and filters itself?
+    // Let's re-read TaxPrepGrid. YES. it takes `tiers` and filters internally.
+    // Wait, in my write_to_file for TaxPrepGrid, I made it filter internally. 
+    // BUT the previous implementation in this file was trying to pass individual filtering.
+    // Let's just pass ALL tiers to TaxPrepGrid and let it handle "individual" and "business".
+
+    // Actually, looking at the previous file content I replaced, I had `individualTiers` and `businessTiers` variables.
+    // I will stick to passing all tiers to TaxPrepGrid as I designed it to be smart.
+
+    // Optional services
+    const optionalTiers = tiers.filter(t => t.category === "optional");
 
     return (
-        <div className="space-y-32">
+        <section className="py-24 relative overflow-hidden">
+            {/* Background elements if needed */}
 
-            {/* 1. Advisory Plans (Cards) */}
-            {advisoryTiers.length > 0 && (
-                <div>
+            <div className="space-y-32">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-6">
-                        {advisoryTiers.map((tier, i) => (
-                            <RevealOnScroll key={tier._id} delay={i * 75} className={`relative rounded-2xl p-8 lg:p-10 flex flex-col h-full border transition-all duration-300 ${tier.isFeatured ? 'bg-brand-900 border-brand-900 shadow-2xl scale-105 z-10' : 'bg-white border-slate-200 hover:border-gold-500/30 hover:shadow-xl'}`}>
-
-                                {tier.isFeatured && (
-                                    <div className="absolute top-0 right-0 left-0 flex justify-center -mt-4 pointer-events-none">
-                                        <span className="bg-gold-500 text-brand-900 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg font-sans">
-                                            Most Popular
-                                        </span>
-                                    </div>
-                                )}
-
-                                {/* Header */}
-                                <div className="mb-8">
-                                    <h3 className={`text-xl font-bold mb-2 font-heading ${tier.isFeatured ? 'text-white' : 'text-brand-900'}`}>
-                                        {tier.name}
-                                    </h3>
-                                    <p className={`text-sm leading-relaxed font-sans ${tier.isFeatured ? 'text-slate-400' : 'text-slate-500'}`}>
-                                        {tier.tagline}
-                                    </p>
-                                </div>
-
-                                {/* Price */}
-                                <div className="mb-8 font-sans">
-                                    <div className="flex items-baseline gap-1">
-                                        <span className={`text-4xl font-bold font-heading ${tier.isFeatured ? 'text-white' : 'text-brand-900'}`}>
-                                            {tier.price.startsWith('$') ? tier.price : `$${tier.price}`}
-                                        </span>
-                                        <span className={`text-sm font-medium ${tier.isFeatured ? 'text-slate-400' : 'text-slate-500'}`}>
-                                            /year
-                                        </span>
-                                    </div>
-                                    <div className="mt-2 text-xs font-semibold text-gold-500 uppercase tracking-wide">
-                                        Annual Investment
-                                    </div>
-                                </div>
-
-                                {/* Features */}
-                                <ul className="space-y-4 mb-10 flex-grow font-sans">
-                                    {tier.features?.map((feature, idx) => (
-                                        <li key={idx} className="flex items-start gap-3">
-                                            <div className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${tier.isFeatured ? 'bg-gold-500/20 text-gold-500' : 'bg-green-100 text-green-600'}`}>
-                                                <Check className="w-3 h-3" />
-                                            </div>
-                                            <span className={`text-sm leading-relaxed ${tier.isFeatured ? 'text-slate-300' : 'text-slate-600'}`}>
-                                                {feature}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-
-                                {/* CTA */}
-                                <Link
-                                    href={tier.ctaUrl || "/contact"}
-                                    className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all group font-sans ${tier.isFeatured
-                                        ? 'bg-gold-500 text-brand-900 hover:bg-white hover:text-brand-900'
-                                        : 'bg-slate-50 text-brand-900 hover:bg-brand-900 hover:text-white'}`}
-                                >
-                                    {tier.ctaText || "Select Plan"}
-                                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                                </Link>
-
-                            </RevealOnScroll>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* 2. Tax Preparation (Grids) */}
-            {(individualTiers.length > 0 || businessTiers.length > 0) && (
-                <div className="max-w-7xl mx-auto px-6 pt-16 border-t border-slate-200">
-                    <div className="text-center mb-16">
+                {/* 1. Advisory Pricing (The Hero Cards) */}
+                <div className="relative">
+                    {/* Section Header */}
+                    <div className="text-center max-w-4xl mx-auto px-6 mb-16">
                         <RevealOnScroll>
-                            <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-4 font-heading">2026 Tax Preparation</h2>
-                            <p className="text-brand-900/60 font-sans max-w-2xl mx-auto text-lg">Transparent, straightforward pricing for your tax needs. Based on complexity, not forms.</p>
+                            <span className="text-gold-500 font-bold tracking-widest text-xs uppercase mb-4 block">Strategic Partnership</span>
+                            <h2 className="text-4xl md:text-5xl font-bold text-brand-900 font-heading mb-6">Choose Your Level of Support</h2>
+                            <p className="text-brand-900/60 font-sans text-lg max-w-2xl mx-auto leading-relaxed">
+                                Move beyond simple compliance. Select an advisory tier that matches the complexity of your business and your wealth goals.
+                            </p>
                         </RevealOnScroll>
                     </div>
 
-                    <TaxPrepGrid
-                        title="Individual Tax Returns"
-                        subtitle="For individuals, families, and sole proprietors."
-                        tiers={individualTiers}
-                    />
-
-                    <TaxPrepGrid
-                        title="Business Entity Returns"
-                        subtitle="For Partnerships, S-Corps, and C-Corps."
-                        tiers={businessTiers}
-                    />
+                    <AdvisoryPricingCards tiers={advisoryTiers} />
                 </div>
-            )}
 
-            {/* 3. Optional Services */}
-            <OptionalServices services={optionalServices} />
+                {/* 2. Tax Compliance (The Clean Table) */}
+                <RevealOnScroll>
+                    <TaxPrepGrid tiers={tiers} />
+                </RevealOnScroll>
 
+                {/* 3. Optional Services (The Grid) */}
+                <RevealOnScroll>
+                    <OptionalServices tiers={optionalTiers} />
+                </RevealOnScroll>
 
-
-        </div>
+            </div>
+        </section>
     );
 }

@@ -37,11 +37,11 @@ export function ContactForm() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-1.5">
                         <label htmlFor="first_name" className="text-sm font-medium text-slate-700 font-sans">First Name</label>
-                        <input type="text" id="first_name" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans" placeholder="Jane" />
+                        <input type="text" id="first_name" inputMode="text" autoComplete="given-name" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 md:py-2.5 text-base md:text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans min-h-[48px]" placeholder="Jane" />
                     </div>
                     <div className="space-y-1.5">
                         <label htmlFor="last_name" className="text-sm font-medium text-slate-700 font-sans">Last Name</label>
-                        <input type="text" id="last_name" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans" placeholder="Doe" />
+                        <input type="text" id="last_name" inputMode="text" autoComplete="family-name" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 md:py-2.5 text-base md:text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans min-h-[48px]" placeholder="Doe" />
                     </div>
                 </div>
 
@@ -49,11 +49,11 @@ export function ContactForm() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-1.5">
                         <label htmlFor="email" className="text-sm font-medium text-slate-700 font-sans">Work Email</label>
-                        <input type="email" id="email" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans" placeholder="jane@company.com" />
+                        <input type="email" id="email" inputMode="email" autoComplete="email" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 md:py-2.5 text-base md:text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans min-h-[48px]" placeholder="jane@company.com" />
                     </div>
                     <div className="space-y-1.5">
                         <label htmlFor="phone" className="text-sm font-medium text-slate-700 font-sans">Phone (Optional)</label>
-                        <input type="tel" id="phone" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans" placeholder="+1 (555) 000-0000" />
+                        <input type="tel" id="phone" inputMode="tel" autoComplete="tel" className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 md:py-2.5 text-base md:text-sm text-brand-900 placeholder:text-brand-900/60 outline-none focus:border-gold-500 focus:shadow-[0_0_0_2px_rgba(212,175,55,0.1)] transition-all font-sans min-h-[48px]" placeholder="+1 (555) 000-0000" />
                     </div>
                 </div>
 

@@ -6,11 +6,16 @@ export const aboutPage = defineType({
     title: 'About Page',
     type: 'document',
     // icon: Store, 
+    groups: [
+        { name: 'content', title: 'Content' },
+        { name: 'seo', title: 'SEO' },
+    ],
     fields: [
         defineField({
             name: 'heroTitle',
             title: 'Hero Title',
             type: 'string',
+            group: 'content',
             validation: (rule) => rule.required(),
         }),
         defineField({
@@ -18,11 +23,13 @@ export const aboutPage = defineType({
             title: 'Hero Subtitle',
             type: 'text',
             rows: 3,
+            group: 'content',
         }),
         defineField({
             name: 'heroBadge',
             title: 'Hero Badge Text',
             type: 'string',
+            group: 'content',
             initialValue: 'About Us',
         }),
         defineField({
@@ -30,12 +37,14 @@ export const aboutPage = defineType({
             title: 'Mission Statement',
             type: 'text',
             rows: 4,
+            group: 'content',
         }),
         defineField({
             name: 'storyContent',
             title: 'Our Story',
             type: 'array',
             of: [{ type: 'block' }],
+            group: 'content',
         }),
         defineField({
             name: 'values',
@@ -51,6 +60,7 @@ export const aboutPage = defineType({
                     ],
                 },
             ],
+            group: 'content',
         }),
         defineField({
             name: 'certifications',
@@ -65,6 +75,7 @@ export const aboutPage = defineType({
                     ],
                 },
             ],
+            group: 'content',
         }),
         defineField({
             name: 'timeline',
@@ -80,22 +91,26 @@ export const aboutPage = defineType({
                     ],
                 },
             ],
+            group: 'content',
         }),
         defineField({
             name: 'clientLogos',
             title: 'Client Logos',
             type: 'array',
             of: [{ type: 'image', options: { hotspot: true } }],
+            group: 'content',
         }),
         defineField({
             name: 'founderVideoUrl',
             title: 'Founder Video URL',
             type: 'url',
+            group: 'content',
         }),
         defineField({
             name: "ctaTitle",
             title: "Bottom CTA Title",
             type: "string",
+            group: 'content',
             initialValue: "Ready to keep more of what you earn?",
         }),
         defineField({
@@ -103,23 +118,27 @@ export const aboutPage = defineType({
             title: "Bottom CTA Subtitle",
             type: "text",
             rows: 2,
+            group: 'content',
         }),
         defineField({
             name: "ctaButtonText",
             title: "Button Text",
             type: "string",
+            group: 'content',
             initialValue: "Book a Discovery Call",
         }),
         defineField({
             name: "ctaButtonUrl",
             title: "Button URL",
             type: "url",
+            group: 'content',
             validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
         }),
         defineField({
             name: "ctaBackgroundImage",
             title: "CTA Section Background",
             type: "image",
+            group: 'content',
             options: { hotspot: true },
             fields: [
                 {
@@ -128,6 +147,12 @@ export const aboutPage = defineType({
                     type: "string",
                 },
             ],
+        }),
+        defineField({
+            name: 'seo',
+            title: 'SEO Overrides',
+            type: 'seo',
+            group: 'seo',
         }),
     ],
 })

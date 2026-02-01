@@ -4,11 +4,16 @@ export const contactSettings = defineType({
     name: 'contactSettings',
     title: 'Contact Settings',
     type: 'document',
+    groups: [
+        { name: 'content', title: 'Content' },
+        { name: 'seo', title: 'SEO' },
+    ],
     fields: [
         defineField({
             name: 'heroTitle',
             title: 'Hero Title',
             type: 'string',
+            group: 'content',
             initialValue: 'Contact Us',
         }),
         defineField({
@@ -16,11 +21,13 @@ export const contactSettings = defineType({
             title: 'Hero Subtitle',
             type: 'text',
             rows: 2,
+            group: 'content',
         }),
         defineField({
             name: 'heroStats',
             title: 'Hero Statistics',
             type: 'object',
+            group: 'content',
             fields: [
                 { name: 'clients', type: 'number', title: 'Clients Served' },
                 { name: 'savings', type: 'string', title: 'Total Tax Savings (e.g., "$2.3B")' },
@@ -31,6 +38,7 @@ export const contactSettings = defineType({
             name: 'founder',
             title: 'Founder Spotlight',
             type: 'object',
+            group: 'content',
             fields: [
                 { name: 'name', type: 'string', title: 'Name' },
                 { name: 'title', type: 'string', title: 'Title' },
@@ -43,16 +51,19 @@ export const contactSettings = defineType({
             name: 'contactEmail',
             title: 'Contact Email',
             type: 'string',
+            group: 'content',
         }),
         defineField({
             name: 'contactPhone',
             title: 'Contact Phone',
             type: 'string',
+            group: 'content',
         }),
         defineField({
             name: 'officeAddress',
             title: 'Office Address',
             type: 'object',
+            group: 'content',
             fields: [
                 defineField({ name: 'street', type: 'string' }),
                 defineField({ name: 'city', type: 'string' }),
@@ -64,6 +75,7 @@ export const contactSettings = defineType({
             name: 'officeHours',
             title: 'Office Hours',
             type: 'array',
+            group: 'content',
             of: [
                 {
                     type: 'object',
@@ -78,12 +90,14 @@ export const contactSettings = defineType({
             name: 'ghlCalendarUrl',
             title: 'GoHighLevel Calendar URL',
             type: 'url',
+            group: 'content',
             description: 'Embed URL from GHL Calendar Settings → Share → Embed Code',
         }),
         defineField({
             name: 'alternativeCTA',
             title: 'Alternative CTA Section',
             type: 'object',
+            group: 'content',
             fields: [
                 { name: 'title', type: 'string', title: 'Title' },
                 { name: 'subtitle', type: 'string', title: 'Subtitle' },
@@ -94,26 +108,26 @@ export const contactSettings = defineType({
             name: 'formTitle',
             title: 'Contact Form Title',
             type: 'string',
+            group: 'content',
         }),
         defineField({
             name: 'formSubtitle',
             title: 'Contact Form Subtitle',
             type: 'text',
+            group: 'content',
         }),
         defineField({
             name: 'mapEmbedUrl',
             title: 'Map Embed URL',
             type: 'url',
+            group: 'content',
             description: 'Google Maps Shared Embed URL or link.',
         }),
         defineField({
             name: 'seo',
-            title: 'SEO & Metadata',
+            title: 'SEO Overrides',
             type: 'seo',
             group: 'seo',
         }),
-    ],
-    groups: [
-        { name: 'seo', title: 'SEO' },
     ],
 })

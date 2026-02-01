@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, Play, X, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useVideoPlayer } from "@/hooks/useVideoPlayer";
@@ -53,6 +54,7 @@ interface VideoHeroProps {
 }
 
 export function VideoHero({ data }: VideoHeroProps) {
+    const t = useTranslations('Hero');
     const [income, setIncome] = useState<string>("");
     const [isCalculating, setIsCalculating] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -163,7 +165,7 @@ export function VideoHero({ data }: VideoHeroProps) {
 
     return (
         <section
-            className="relative w-full min-h-[85dvh] md:min-h-[90dvh] lg:min-h-[95dvh] flex items-center pt-24 pb-12 overflow-hidden"
+            className="relative w-full min-h-[100dvh] md:min-h-[90dvh] lg:min-h-[95dvh] flex items-center pt-20 md:pt-24 pb-safe overflow-hidden"
             aria-label="Welcome to Union National Tax"
         >
             {/* Video Background */}
@@ -174,7 +176,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                     playsInline
                     muted
                     loop
-                    poster="/images/hero-poster.jpg"
+                    poster="/images/ctasection.jpg"
                 />
                 {/* Overlay: 70% opacity for balanced contrast and video visibility
                     Base layer: 70% opaque bg-brand-900 (#020908 - near black) provides dark foundation
@@ -211,10 +213,10 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     </>
                                 ) : (
                                     <>
-                                        Stop Overpaying.
+                                        {t('titlePart1')}
                                         <br />
                                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600">
-                                            Start Keeping.
+                                            {t('titlePart2')}
                                         </span>
                                     </>
                                 )}
@@ -222,7 +224,7 @@ export function VideoHero({ data }: VideoHeroProps) {
 
                             {/* Subtitle */}
                             <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-sans max-w-2xl font-light animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-forwards">
-                                {data?.heroSubtitle || "The 'Digital Vault' for your wealth. Institutional-grade tax strategies designed to save high-income earners $20k+ annually."}
+                                {data?.heroSubtitle || t('subtitle')}
                             </p>
 
                             {/* Calculator & CTA Container */}
@@ -235,8 +237,8 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             htmlFor="hero-income-input"
                                             className="block text-xs font-bold text-brand-900 uppercase tracking-widest mb-3 font-heading flex items-center justify-between"
                                         >
-                                            <span>Estimate Your S-Corp Savings</span>
-                                            <span className="text-gold-600/60 hidden sm:inline-block text-[10px]">Confidential Calculation</span>
+                                            <span>{t('calculatorTitle')}</span>
+                                            <span className="text-gold-600/60 hidden sm:inline-block text-[10px]">{t('confidential')}</span>
                                         </label>
 
                                         <form
@@ -248,9 +250,12 @@ export function VideoHero({ data }: VideoHeroProps) {
                                                 <input
                                                     id="hero-income-input"
                                                     type="text"
-                                                    inputMode="numeric"
+                                                    inputMode="decimal"
+                                                    autoComplete="off"
+                                                    autoCorrect="off"
+                                                    spellCheck="false"
                                                     placeholder="Net Income (e.g. 150,000)"
-                                                    className="w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-lg placeholder:text-slate-400 rounded-md border border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans"
+                                                    className="w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-base md:text-lg placeholder:text-slate-400 rounded-md border border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans min-h-[56px]"
                                                     value={income}
                                                     onChange={(e) => setIncome(e.target.value)}
                                                 />
@@ -258,16 +263,16 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             <button
                                                 type="submit"
                                                 disabled={isCalculating}
-                                                className="px-8 py-4 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-gold-500/20 bg-gold-500 text-brand-900 hover:bg-gold-400 hover:shadow-gold-500/30 font-heading tracking-wide active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+                                                className="px-6 md:px-8 py-4 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-gold-500/20 bg-gold-500 text-brand-900 hover:bg-gold-400 hover:shadow-gold-500/30 font-heading tracking-wide active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 min-h-[56px] min-w-[120px] touch-target-pref no-tap-highlight"
                                             >
                                                 {isCalculating ? (
                                                     <span className="flex items-center gap-2">
                                                         <span className="w-4 h-4 border-2 border-brand-900/30 border-t-brand-900 rounded-full animate-spin"></span>
-                                                        Calculating...
+                                                        {t('calculating')}
                                                     </span>
                                                 ) : (
                                                     <>
-                                                        Calculate
+                                                        {t('calculate')}
                                                         <Calculator className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                                                     </>
                                                 )}
@@ -286,7 +291,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             )}
 
                                             <div className="flex items-center justify-between mb-2">
-                                                <span className="text-xs font-bold uppercase tracking-wider text-gold-400 font-heading">Potential Savings</span>
+                                                <span className="text-xs font-bold uppercase tracking-wider text-gold-400 font-heading">{t('potentialSavings')}</span>
                                                 <TrendingUp className="w-4 h-4 text-gold-500" />
                                             </div>
 
@@ -315,7 +320,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     <button
                                         onClick={() => setIsVideoModalOpen(true)}
                                         aria-label="Watch Strategy Video"
-                                        className="bg-brand-900/50 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-md text-sm font-bold hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center sm:justify-start gap-4 font-heading tracking-wide group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 w-full sm:w-auto"
+                                        className="bg-brand-900/50 backdrop-blur-sm border border-white/20 text-white px-6 md:px-8 py-4 rounded-md text-sm font-bold hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center sm:justify-start gap-4 font-heading tracking-wide group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 w-full sm:w-auto min-h-[56px] touch-target-pref no-tap-highlight"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-gold-500/10 border border-gold-500/50 flex items-center justify-center text-gold-400 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                                             <Play className="w-4 h-4 fill-current ml-0.5" />
@@ -436,42 +441,44 @@ export function VideoHero({ data }: VideoHeroProps) {
             </div>
 
             {/* Video Modal */}
-            {isVideoModalOpen && (
-                <div
-                    ref={modalRef}
-                    className="fixed inset-0 z-[100] bg-brand-950/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300"
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label="Video Player"
-                    onClick={() => setIsVideoModalOpen(false)}
-                >
+            {
+                isVideoModalOpen && (
                     <div
-                        className="relative w-full max-w-6xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 animate-in zoom-in-95 duration-300"
-                        onClick={(e) => e.stopPropagation()}
+                        ref={modalRef}
+                        className="fixed inset-0 z-[100] bg-brand-950/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Video Player"
+                        onClick={() => setIsVideoModalOpen(false)}
                     >
-                        <button
-                            ref={closeButtonRef}
-                            onClick={() => setIsVideoModalOpen(false)}
-                            aria-label="Close video"
-                            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-black/70 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+                        <div
+                            className="relative w-full max-w-6xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 animate-in zoom-in-95 duration-300"
+                            onClick={(e) => e.stopPropagation()}
                         >
-                            <X className="w-6 h-6" />
-                        </button>
-                        <VideoPlayer
-                            src={modalVideoUrl || ""}
-                            autoPlay
-                            className="w-full h-full"
-                            chapters={[
-                                { id: '1', title: 'Introduction', startTime: 0, cta: { text: 'Book a Strategy Call', url: '/contact' } },
-                                { id: '2', title: 'The S-Corp Strategy', startTime: 15 },
-                                { id: '3', title: 'Calculating Savings', startTime: 45, cta: { text: 'Try Our Calculator', url: '#calculator' } },
-                                { id: '4', title: 'Implementation', startTime: 90 },
-                                { id: '5', title: 'Next Steps', startTime: 120, cta: { text: 'Get Started Today', url: '/contact' } }
-                            ]}
-                        />
+                            <button
+                                ref={closeButtonRef}
+                                onClick={() => setIsVideoModalOpen(false)}
+                                aria-label="Close video"
+                                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-black/70 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                            <VideoPlayer
+                                src={modalVideoUrl || ""}
+                                autoPlay
+                                className="w-full h-full"
+                                chapters={[
+                                    { id: '1', title: 'Introduction', startTime: 0, cta: { text: 'Book a Strategy Call', url: '/contact' } },
+                                    { id: '2', title: 'The S-Corp Strategy', startTime: 15 },
+                                    { id: '3', title: 'Calculating Savings', startTime: 45, cta: { text: 'Try Our Calculator', url: '#calculator' } },
+                                    { id: '4', title: 'Implementation', startTime: 90 },
+                                    { id: '5', title: 'Next Steps', startTime: 120, cta: { text: 'Get Started Today', url: '/contact' } }
+                                ]}
+                            />
+                        </div>
                     </div>
-                </div>
-            )}
-        </section>
+                )
+            }
+        </section >
     );
 }

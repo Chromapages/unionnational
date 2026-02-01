@@ -1,0 +1,38 @@
+{
+    "Header": {
+        "home": "Home",
+        "services": "Services",
+        "about": "About",
+        "team": "Team",
+        "contact": "Contact",
+        "shop": "Shop",
+        "healthCheck": "Health Check",
+        "bookCall": "Book a Strategy Call",
+        "calculator": "Calc",
+        "more": "More",
+        "moreOptions": "More Options",
+        "blog": "Blog",
+        "newsletter": "Newsletter",
+        "language": "Language"
+    },
+    "Hero": {
+        "titlePart1": "Stop Overpaying.",
+        "titlePart2": "Start Keeping.",
+        "subtitle": "The 'Digital Vault' for your wealth. Institutional-grade tax strategies designed to save high-income earners $20k+ annually.",
+        "calculatorTitle": "Estimate Your S-Corp Savings",
+        "confidential": "Confidential Calculation",
+        "calculate": "Calculate",
+        "calculating": "Calculating...",
+        "potentialSavings": "Potential Savings"
+    },
+    "Footer": {
+        "copyright": "© 2026 Union National Tax. All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service"
+    },
+    "Common": {
+        "learnMore": "Learn More",
+        "getStarted": "Get Started",
+        "viewAll": "View All"
+    }
+}

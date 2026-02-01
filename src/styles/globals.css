@@ -107,6 +107,69 @@
     .hover\:pause:hover {
         animation-play-state: paused;
     }
+
+    /* Mobile-first design tokens */
+    .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .touch-target-pref {
+        min-height: 48px;
+        min-width: 48px;
+    }
+
+    /* Safe area insets for notch devices */
+    .safe-area-top {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .safe-area-x {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+
+    .safe-area-inset-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Mobile input optimization */
+    .input-mobile {
+        min-height: 48px;
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        touch-action: manipulation;
+    }
+
+    /* Tap highlight removal for native feel */
+    .no-tap-highlight {
+        -webkit-tap-highlight-color: transparent;
+        tap-highlight-color: transparent;
+    }
+
+    /* Prevent pull-to-refresh on mobile */
+    .prevent-overscroll {
+        overscroll-behavior-y: none;
+    }
+
+    /* Smooth scroll behavior */
+    .scroll-smooth-ios {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .pb-safe {
+        padding-bottom: max(env(safe-area-inset-bottom), 12px);
+    }
+}
+
+@supports (backdrop-filter: blur(20px)) {
+    .backdrop-blur-2xl {
+        backdrop-filter: blur(20px) saturate(180%);
+    }
 }
 
 /* Animations for marquee scrolls */
@@ -167,4 +230,150 @@
 
 .animate-shimmer {
     animation: shimmer 2s infinite;
+}
+
+/* Mobile tab bar animations */
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slide-up 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slide-down {
+    animation: slide-down 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Sheet modal animation */
+@keyframes sheet-up {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes sheet-down {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.animate-sheet-up {
+    animation: sheet-up 0.35s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.animate-sheet-down {
+    animation: sheet-down 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+/* Tap feedback animation */
+@keyframes tap-feedback {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.96);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.animate-tap {
+    animation: tap-feedback 0.15s ease-out;
+}
+
+/* Mobile-optimized scrollbar */
+.mobile-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.mobile-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.mobile-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.3);
+    border-radius: 2px;
+}
+
+/* Bottom sheet backdrop */
+.sheet-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+}
+
+/* Compact header styles */
+.compact-header {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.compact-header-hidden {
+    transform: translateY(-100%);
+}
+
+/* Horizontal snap scroll */
+.snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-type: x mandatory;
+}
+
+.snap-center-always {
+    scroll-snap-align: center;
+}
+
+/* Mobile floating action button */
+.fab {
+    position: fixed;
+    bottom: calc(env(safe-area-inset-bottom) + 80px);
+    right: 16px;
+    z-index: 50;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide GHL Chat Widget on mobile (conflicts with bottom tab bar) */
+@media (max-width: 767px) {
+
+    #chat-widget-container,
+    #lc-chat-widget-container,
+    #ghl-chat-widget-container,
+    [id^="chat-widget"],
+    [id*="leadconnector-chat"],
+    iframe[id^="chat-widget"],
+    .chat-widget-wrapper,
+    .leadconnector-chat-widget {
+        display: none !important;
+        visibility: hidden !important;
+    }
 }

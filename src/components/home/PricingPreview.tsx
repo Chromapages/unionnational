@@ -10,12 +10,14 @@ export function PricingPreview() {
             className="py-24 bg-slate-50 relative overflow-hidden"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <RevealOnScroll className="text-center mb-16">
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
-                        Engagement Models
-                    </span>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-4 tracking-tight text-brand-900 font-heading">
-                        Invest in Your <br className="hidden sm:block" />
+                <RevealOnScroll className="mb-16 max-w-3xl">
+                    <div className="mb-4">
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                            Engagement Models
+                        </span>
+                    </div>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1]">
+                        Invest in Your <br className="hidden md:block" />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">Financial Future</span>
                     </h2>
                 </RevealOnScroll>

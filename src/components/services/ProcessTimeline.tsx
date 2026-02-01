@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Search, FileText, Settings, ShieldCheck } from "lucide-react";
+import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
 
 const steps = [
     {
@@ -33,7 +34,7 @@ const steps = [
 export function ProcessTimeline() {
     return (
         <section className="py-24 bg-zinc-50 border-y border-zinc-200">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h2 className="text-3xl font-bold text-brand-900 mb-4 font-heading">
                         Our Proven Process
@@ -44,10 +45,42 @@ export function ProcessTimeline() {
                 </div>
 
                 <div className="relative">
-                    {/* Connecting Line (Desktop) */}
-                    <div className="hidden md:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-zinc-200 -z-0" />
+                    {/* Connecting Line (Desktop only) */}
+                    <div className="hidden md:block absolute top-[60px] left-[12%] right-[12%] h-0.5 bg-zinc-200 -z-0" />
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    {/* Mobile: Swipeable Carousel */}
+                    <div className="md:hidden">
+                        <SwipeableCarousel
+                            showDots={true}
+                            showArrows={false}
+                            gap={16}
+                            slideClassName="w-[280px] max-w-[85vw]"
+                        >
+                            {steps.map((step) => (
+                                <div
+                                    key={step.id}
+                                    className="h-full bg-white rounded-2xl p-8 border border-zinc-200 shadow-sm flex flex-col items-center text-center relative overflow-hidden group min-h-[300px]"
+                                >
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-900 to-gold-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <div className="w-12 h-12 rounded-full bg-brand-50 text-brand-900 font-bold flex items-center justify-center mb-6 text-sm border border-brand-100">
+                                        Step {step.id}
+                                    </div>
+
+                                    <div className="w-20 h-20 rounded-full bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-6 group-hover:bg-gold-50 group-hover:border-gold-200 transition-colors duration-300">
+                                        <step.icon className="w-8 h-8 text-brand-900 group-hover:text-gold-600 transition-colors" />
+                                    </div>
+
+                                    <h3 className="text-xl font-bold text-brand-900 mb-3">{step.title}</h3>
+                                    <p className="text-sm text-zinc-600 leading-relaxed">
+                                        {step.description}
+                                    </p>
+                                </div>
+                            ))}
+                        </SwipeableCarousel>
+                    </div>
+
+                    {/* Desktop: Grid */}
+                    <div className="hidden md:grid md:grid-cols-4 md:gap-8">
                         {steps.map((step, index) => (
                             <motion.div
                                 key={step.id}

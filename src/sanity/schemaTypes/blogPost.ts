@@ -6,17 +6,23 @@ export const blogPost = defineType({
     title: 'Blog Posts',
     type: 'document',
     icon: FileText,
+    groups: [
+        { name: 'content', title: 'Content' },
+        { name: 'seo', title: 'SEO' },
+    ],
     fields: [
         defineField({
             name: 'title',
             title: 'Title',
             type: 'string',
+            group: 'content',
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'slug',
             title: 'Slug',
             type: 'slug',
+            group: 'content',
             options: {
                 source: 'title',
                 maxLength: 96,
@@ -27,6 +33,7 @@ export const blogPost = defineType({
             name: 'author',
             title: 'Author',
             type: 'reference',
+            group: 'content',
             to: { type: 'teamMember' },
             validation: (Rule) => Rule.required(),
         }),
@@ -34,6 +41,7 @@ export const blogPost = defineType({
             name: 'featuredImage',
             title: 'Featured Image',
             type: 'image',
+            group: 'content',
             options: {
                 hotspot: true,
             },
@@ -50,18 +58,21 @@ export const blogPost = defineType({
             name: 'categories',
             title: 'Categories',
             type: 'array',
+            group: 'content',
             of: [{ type: 'reference', to: { type: 'blogCategory' } }],
         }),
         defineField({
             name: 'publishedAt',
             title: 'Published at',
             type: 'datetime',
+            group: 'content',
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'excerpt',
             title: 'Excerpt',
             type: 'text',
+            group: 'content',
             rows: 4,
             validation: (Rule) => Rule.max(200),
             description: 'Short summary for previews and SEO.',
@@ -70,6 +81,7 @@ export const blogPost = defineType({
             name: 'body',
             title: 'Body',
             type: 'array',
+            group: 'content',
             of: [
                 {
                     type: 'block',
@@ -104,12 +116,20 @@ export const blogPost = defineType({
             name: 'readingTime',
             title: 'Reading Time (minutes)',
             type: 'number',
+            group: 'content',
         }),
         defineField({
             name: 'isFeatured',
             title: 'Featured Post',
             type: 'boolean',
+            group: 'content',
             initialValue: false,
+        }),
+        defineField({
+            name: 'seo',
+            title: 'SEO Overrides',
+            type: 'seo',
+            group: 'seo',
         }),
     ],
     preview: {
