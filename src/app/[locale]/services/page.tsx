@@ -106,7 +106,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
                 {/* Pricing Section */}
                 <section className="py-24 bg-white/30">
-                    <PricingSection tiers={pricingTiers} />
+                    <PricingSection tiers={pricingTiers} hideTaxPrep={true} />
                 </section>
 
 

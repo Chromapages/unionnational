@@ -29,9 +29,10 @@ export interface PricingTier {
 
 interface PricingSectionProps {
     tiers: PricingTier[];
+    hideTaxPrep?: boolean;
 }
 
-export function PricingSection({ tiers }: PricingSectionProps) {
+export function PricingSection({ tiers, hideTaxPrep = false }: PricingSectionProps) {
     if (!tiers) return null;
 
     // Filter tiers based on category
@@ -75,9 +76,11 @@ export function PricingSection({ tiers }: PricingSectionProps) {
                 </div>
 
                 {/* 2. Tax Compliance (The Clean Table) */}
-                <RevealOnScroll>
-                    <TaxPrepGrid tiers={tiers} />
-                </RevealOnScroll>
+                {!hideTaxPrep && (
+                    <RevealOnScroll>
+                        <TaxPrepGrid tiers={tiers} />
+                    </RevealOnScroll>
+                )}
 
                 {/* 3. Optional Services (The Grid) */}
                 <RevealOnScroll>
