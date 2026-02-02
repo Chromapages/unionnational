@@ -392,6 +392,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 variant="contained"
                                 color="primary"
                                 sx={{
+                                    display: { xs: "none", lg: "flex" },
                                     fontWeight: 600,
                                     px: 4,
                                     py: 1.5,
