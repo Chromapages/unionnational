@@ -1,25 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Quote, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
+import { Quote, CheckCircle2 } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import * as Icons from "lucide-react";
 import { ServiceSidebar } from "@/components/services/ServiceSidebar";
 import { ComparisonTable } from "@/components/services/ComparisonTable";
 import { ServiceFAQ } from "@/components/services/ServiceFAQ";
+import { RelatedServices } from "@/components/services/RelatedServices";
 import { TaxPrepGrid } from "@/components/pricing/TaxPrepGrid";
 import { PortableText } from "@portabletext/react";
 import { PortableTextComponents } from "@portabletext/react";
 import VideoEmbed from "@/components/ui/VideoEmbed";
 import { urlFor } from "@/sanity/lib/image";
 
-// Dynamic Icon Component
-const DynamicIcon = ({ name, className }: { name: string; className?: string }) => {
-    // @ts-expect-error - Icons access dynamically based on string name
-    const Icon = Icons[name] || Icons.Briefcase;
-    return <Icon className={className} />;
-};
 
 // Portable Text Components
 const ptComponents: PortableTextComponents = {
@@ -219,32 +212,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                         )}
 
                         {/* Related Services */}
-                        <section className="pt-12 border-t border-zinc-200">
-                            <h2 className="text-2xl font-bold text-brand-900 mb-8 font-heading">
-                                You Might Also Need
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {relatedServices.map((s: any) => (
-                                    <Link
-                                        key={s._id}
-                                        href={`/services/${s.slug.current}`}
-                                        className="group p-6 rounded-2xl bg-white border border-zinc-200 hover:border-gold-500/30 hover:shadow-lg transition-all flex items-center gap-4"
-                                    >
-                                        <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-900 group-hover:bg-brand-900 group-hover:text-white transition-colors">
-                                            <DynamicIcon name={s.icon} className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-brand-900 group-hover:text-gold-600 transition-colors">
-                                                {s.title}
-                                            </h4>
-                                            <div className="flex items-center gap-1 text-xs font-bold text-zinc-400 mt-1 uppercase tracking-wider group-hover:text-gold-500">
-                                                Learn More <ArrowRight className="w-3 h-3" />
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </section>
+                        <RelatedServices services={relatedServices} />
 
                     </div>
 
