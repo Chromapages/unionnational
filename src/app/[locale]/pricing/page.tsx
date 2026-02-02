@@ -40,7 +40,7 @@ export default async function PricingPage(props: { params: Promise<{ locale: str
 
                 <PricingSection tiers={tiers} />
 
-                <div className="mt-32">
+                <div className="mt-16">
                     <CTASection data={pageData} />
                 </div>
             </main>

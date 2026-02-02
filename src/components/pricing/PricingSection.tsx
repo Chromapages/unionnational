@@ -57,7 +57,7 @@ export function PricingSection({ tiers, hideTaxPrep = false }: PricingSectionPro
         <section className="py-24 relative overflow-hidden">
             {/* Background elements if needed */}
 
-            <div className="space-y-32">
+            <div className="space-y-16 lg:space-y-24">
 
                 {/* 1. Advisory Pricing (The Hero Cards) */}
                 <div className="relative">

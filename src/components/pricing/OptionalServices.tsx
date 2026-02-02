@@ -98,7 +98,7 @@ export function OptionalServices({ tiers }: OptionalServicesProps) {
     ));
 
     return (
-        <div className="max-w-7xl mx-auto px-6 mt-24 pb-24">
+        <div className="max-w-7xl mx-auto px-6 mt-16 pb-0">
             <div className="text-center mb-12">
                 <h2 className="text-2xl font-bold text-brand-900 font-heading mb-3">Additional Services</h2>
                 <p className="text-brand-900/60 max-w-2xl mx-auto text-sm">
