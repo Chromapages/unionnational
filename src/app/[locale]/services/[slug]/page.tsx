@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { SERVICE_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries";
+import { SERVICE_QUERY, SERVICES_QUERY, PRICING_TIERS_QUERY } from "@/sanity/lib/queries";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
@@ -59,6 +59,9 @@ export default async function ServicePage(props: { params: Promise<{ locale: str
     const allServices = await client.fetch(SERVICES_QUERY);
     const relatedServices = allServices.filter((s: any) => s.slug.current !== slug).slice(0, 2);
 
+    // Fetch pricing tiers for Tax Filing service
+    const pricingTiers = await client.fetch(PRICING_TIERS_QUERY);
+
     if (!service) {
         notFound();
     }
@@ -98,7 +101,7 @@ export default async function ServicePage(props: { params: Promise<{ locale: str
             <HeaderWrapper />
 
             <main>
-                <ServiceDetailClient service={service} relatedServices={relatedServices} />
+                <ServiceDetailClient service={service} relatedServices={relatedServices} tiers={pricingTiers} />
             </main>
 
             <Footer />

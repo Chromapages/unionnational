@@ -99,6 +99,31 @@ export function TaxPrepGrid({ tiers }: TaxPrepGridProps) {
 
             {renderSection("Individual Tax Services", individualTiers)}
             {renderSection("Business Tax Services", businessTiers)}
+
+            {/* Included With Every Return Section */}
+            <div className="mt-20 pt-16 border-t border-brand-900/10">
+                <h3 className="text-sm font-bold text-gold-600 uppercase tracking-[0.2em] text-center mb-10">
+                    What&apos;s Included With Every Return
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-4">
+                    {[
+                        { icon: Icons.ShieldCheck, text: "3-Year Audit Protection" },
+                        { icon: Icons.FileCheck, text: "EA-Prepared Return" },
+                        { icon: Icons.Lock, text: "Secure Client Portal" },
+                        { icon: Icons.BarChart3, text: "Accuracy & Compliance Review" },
+                        { icon: Icons.Phone, text: "Post-Filing Support" },
+                    ].map((item, i) => (
+                        <div key={i} className="flex flex-col items-center text-center group">
+                            <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-900 mb-4 transition-all duration-300 group-hover:bg-brand-900 group-hover:text-gold-400 group-hover:scale-110">
+                                <item.icon className="w-6 h-6" />
+                            </div>
+                            <span className="text-xs md:text-sm font-bold text-brand-900/70 leading-tight px-2 group-hover:text-brand-900 transition-colors">
+                                {item.text}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

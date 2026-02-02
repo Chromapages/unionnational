@@ -19,14 +19,14 @@ import Typography from "@mui/material/Typography";
 import {
     Menu as MenuIcon,
     X as CloseIcon,
-    Mail,
+    HeartPulse,
     Phone,
     Check,
     ChevronDown
 } from "lucide-react";
 import * as Icons from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
-import { NewsletterModal } from "@/components/ui/NewsletterModal";
+import { BusinessHealthAssessmentModal } from "@/components/ui/BusinessHealthAssessmentModal";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import type { ServiceSummary } from "./ServicesDropdown";
@@ -87,7 +87,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const t = useTranslations('Header');
     const [scrolled, setScrolled] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
+    const [isHealthAssessmentOpen, setIsHealthAssessmentOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
 
@@ -376,15 +376,15 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 </Typography>
                             </Box>
                             <IconButton
-                                aria-label="Subscribe to newsletter"
-                                onClick={() => setIsNewsletterOpen(true)}
+                                aria-label="Business Health Assessment"
+                                onClick={() => setIsHealthAssessmentOpen(true)}
                                 sx={{
                                     display: { xs: "none", lg: "flex" },
                                     color: "rgba(255, 255, 255, 0.7)",
                                     "&:hover": { color: "primary.main" },
                                 }}
                             >
-                                <Mail size={20} />
+                                <HeartPulse size={20} />
                             </IconButton>
                             <Button
                                 component={Link}
@@ -476,7 +476,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                 siteSettings={siteSettings}
             />
 
-            <NewsletterModal isOpen={isNewsletterOpen} onClose={() => setIsNewsletterOpen(false)} />
+            <BusinessHealthAssessmentModal isOpen={isHealthAssessmentOpen} onClose={() => setIsHealthAssessmentOpen(false)} />
 
         </>
     );

@@ -8,6 +8,7 @@ import * as Icons from "lucide-react";
 import { ServiceSidebar } from "@/components/services/ServiceSidebar";
 import { ComparisonTable } from "@/components/services/ComparisonTable";
 import { ServiceFAQ } from "@/components/services/ServiceFAQ";
+import { TaxPrepGrid } from "@/components/pricing/TaxPrepGrid";
 import { PortableText } from "@portabletext/react";
 import { PortableTextComponents } from "@portabletext/react";
 import VideoEmbed from "@/components/ui/VideoEmbed";
@@ -48,6 +49,7 @@ const ptComponents: PortableTextComponents = {
 
 interface Service {
     title: string;
+    slug?: { current: string };
     badge?: string;
     shortDescription: string;
     fullDescription?: any;
@@ -68,12 +70,28 @@ interface RelatedService {
     shortDescription: string;
 }
 
+interface PricingTier {
+    _id: string;
+    name: string;
+    slug: { current: string };
+    category: string;
+    price?: string;
+    billingPeriod?: string;
+    tagline?: string;
+    bestFor?: string;
+    includes?: string;
+    ctaText?: string;
+    ctaUrl?: string;
+    displayOrder?: number;
+}
+
 interface ServiceDetailClientProps {
     service: Service;
     relatedServices: RelatedService[];
+    tiers?: PricingTier[];
 }
 
-export default function ServiceDetailClient({ service, relatedServices }: ServiceDetailClientProps) {
+export default function ServiceDetailClient({ service, relatedServices, tiers }: ServiceDetailClientProps) {
     return (
         <>
             {/* ===== HERO SECTION (Shorter) ===== */}
@@ -143,6 +161,19 @@ export default function ServiceDetailClient({ service, relatedServices }: Servic
                                 </div>
                             )}
                         </section>
+
+                        {/* Tax Preparation Pricing - Only for Tax Filing service */}
+                        {service.slug?.current === 'tax-filing' && tiers && tiers.length > 0 && (
+                            <section id="pricing" className="scroll-mt-24">
+                                <h2 className="text-3xl font-bold text-brand-900 mb-3 font-heading">
+                                    Tax Preparation Pricing
+                                </h2>
+                                <p className="text-lg text-zinc-600 leading-relaxed mb-8">
+                                    Transparent, flat-fee pricing for individual and business tax returns. No surprises, no hidden fees.
+                                </p>
+                                <TaxPrepGrid tiers={tiers} />
+                            </section>
+                        )}
 
                         {(service.videoFileUrl || service.videoThumbnail) && (
                             <section id="strategy-breakdown" className="scroll-mt-24">
