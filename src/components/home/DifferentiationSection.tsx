@@ -202,21 +202,7 @@ export function DifferentiationSection() {
             </RevealOnScroll>
           </div>
 
-          {/* VS Badge - Hidden on mobile carousel */}
-          <RevealOnScroll
-            delay={150}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:-mt-1 z-20 pointer-events-none hidden md:block"
-          >
-            <div
-              className={cn(
-                "w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-white shadow-xl border-2 border-slate-200",
-                "flex items-center justify-center ring-4 ring-white/10 md:ring-8 md:ring-white/5",
-                "transition-transform duration-500 hover:scale-110"
-              )}
-            >
-              <span className="text-[10px] md:text-xs lg:text-sm font-bold text-slate-600 tracking-widest">VS</span>
-            </div>
-          </RevealOnScroll>
+
         </div>
 
         {/* Bottom CTA */}
