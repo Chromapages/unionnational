@@ -7,7 +7,6 @@
  * into your existing layout. Copy the structure to your actual layout files.
  */
 
-import { MobileTabBar } from "@/components/ui/MobileTabBar";
 import { SafeAreaProvider } from "@/components/ui/SafeAreaProvider";
 import { VaultNavbar } from "@/components/layout/FloatingNavbar";
 import { Footer } from "@/components/layout/Footer";
@@ -30,10 +29,10 @@ interface MobileLayoutProps {
   }>;
 }
 
-export function MobileLayout({ 
-  children, 
-  siteSettings, 
-  services 
+export function MobileLayout({
+  children,
+  siteSettings,
+  services
 }: MobileLayoutProps) {
   return (
     <SafeAreaProvider>
@@ -50,9 +49,6 @@ export function MobileLayout({
         <div className="hidden md:block">
           <Footer />
         </div>
-
-        {/* Mobile Bottom Tab Navigation */}
-        <MobileTabBar />
       </div>
     </SafeAreaProvider>
   );
@@ -75,8 +71,8 @@ export default async function LocaleLayout({
   const services = await getServices();
 
   return (
-    <MobileLayout 
-      siteSettings={siteSettings} 
+    <MobileLayout
+      siteSettings={siteSettings}
       services={services}
     >
       {children}
@@ -90,14 +86,12 @@ export default async function LocaleLayout({
 /*
 "use client";
 
-import { MobileTabBar } from "@/components/ui/MobileTabBar";
 import { SafeAreaProvider } from "@/components/ui/SafeAreaProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SafeAreaProvider>
       {children}
-      <MobileTabBar />
     </SafeAreaProvider>
   );
 }
