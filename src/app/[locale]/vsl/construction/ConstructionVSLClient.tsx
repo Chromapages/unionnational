@@ -291,25 +291,12 @@ export default function ConstructionVSLClient({ data }: ConstructionVSLClientPro
             {/* ===== FINAL CTA SECTION ===== */}
             <section className="py-24 bg-brand-900 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5" />
-                <div className="container mx-auto px-6 text-center relative z-10">
-                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">
-                        {ctaHeadline}
-                    </h2>
-                    <p className="text-xl text-brand-100/60 mb-10 max-w-2xl mx-auto">
-                        We only override standard CPA work with aggressive, industry-specific strategies.
-                    </p>
-                    <div className="flex flex-col items-center gap-4">
-                        <Link
-                            href={heroCtaUrl}
-                            className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gold-500 text-brand-900 font-bold text-xl hover:bg-gold-400 transition-all shadow-lg shadow-gold-500/20 hover:scale-105"
-                        >
-                            {ctaButtonText}
-                            <ArrowRight className="w-6 h-6" />
-                        </Link>
-                        <p className="text-sm text-brand-100/40 mt-4">
-                            {urgencyText}
-                        </p>
-                    </div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <LuxuryTravelIncentive
+                        revenueThreshold="$500K - $5M+"
+                        title="The Construction Executive Retreat"
+                        description="Elite construction firm owners qualify for our annual business strategy retreats. Stop competing on price and start building a legacy."
+                    />
                 </div>
             </section>
         </>

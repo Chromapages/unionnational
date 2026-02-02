@@ -500,7 +500,9 @@ export const PRICING_TIERS_QUERY = defineQuery(`
     ctaUrl,
     relatedService -> {
       title,
-      slug
+      slug,
+      shortDescription,
+      icon
     }
 }
 `);

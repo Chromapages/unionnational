@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { CTASection } from "@/components/home/CTASection";
+import { LuxuryTravelIncentive } from "@/components/ui/LuxuryTravelIncentive";
 import { client } from "@/sanity/lib/client";
 import { ServicesClient } from "@/components/services/ServicesClient";
 import { PartnerProgramsSection } from "@/components/services/PartnerProgramsSection";
@@ -122,7 +122,10 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
 
 
-                <CTASection data={pageData} />
+
+                <div className="max-w-5xl mx-auto px-6 pb-24">
+                    <LuxuryTravelIncentive />
+                </div>
             </main>
 
             <Footer />
