@@ -106,24 +106,19 @@ export function OptionalServices({ tiers }: OptionalServicesProps) {
                 </p>
             </div>
 
-            {/* Mobile: Swipeable Carousel */}
-            <div className="md:hidden">
-                <SwipeableCarousel
-                    showArrows={false}
-                    showDots={true}
-                    snapAlign="start"
-                    slidesToScroll={1}
-                    gap={16}
-                    slideClassName="w-[85vw] max-w-[340px]"
-                >
-                    {serviceCards}
-                </SwipeableCarousel>
-            </div>
-
-            {/* Desktop: Responsive Grid */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Unified Carousel for Mobile and Desktop */}
+            <SwipeableCarousel
+                autoplay={true}
+                loop={true}
+                showArrows={true}
+                showDots={true}
+                snapAlign="start"
+                slidesToScroll={1}
+                gap={24}
+                slideClassName="w-[85vw] max-w-[340px] md:w-[calc(50%-12px)] md:max-w-none lg:w-[calc(33.333%-16px)]"
+            >
                 {serviceCards}
-            </div>
+            </SwipeableCarousel>
         </div>
     );
 }
