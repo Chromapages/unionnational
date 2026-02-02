@@ -161,7 +161,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="fixed top-0 right-0 bottom-0 z-[70] w-[85vw] max-w-[360px] lg:hidden"
+                        className="fixed top-0 right-0 bottom-0 z-[70] w-[85vw] max-w-[360px] xl:hidden"
                     >
                         <div className="h-full w-full bg-brand-950/95 backdrop-blur-xl border-l border-gold-400/30 shadow-[-4px_0_30px_rgba(0,0,0,0.4)] flex flex-col">
                             {/* Header */}
