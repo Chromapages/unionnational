@@ -12,6 +12,7 @@ import { PricingTrustSection } from "@/components/pricing/PricingTrustSection";
 import { SERVICES_QUERY, PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { Metadata } from "next";
 import { ProcessTimeline } from "@/components/services/ProcessTimeline";
+import { cn } from "@/lib/utils";
 import * as Icons from "lucide-react";
 
 export const metadata: Metadata = {
@@ -61,28 +62,38 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
             <HeaderWrapper />
 
             <main id="main-content">
-                {/* Minimalist Hero Section */}
-                <section className="max-w-7xl mx-auto px-6 pt-24 pb-20 relative">
+                {/* Minimalist Hero Section - Refined with Design System */}
+                <section className="max-w-7xl mx-auto px-6 py-24 md:py-32 relative">
                     <div className="max-w-3xl">
                         <RevealOnScroll>
-                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-900 tracking-tight mb-8 leading-[1.1] font-heading">
+                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-900 tracking-tighter mb-8 leading-[1.05] font-heading font-black">
                                 Eliminate tax anxiety. Build true wealth.
                             </h1>
-                            <p className="text-xl text-brand-900/60 mb-12 leading-relaxed font-sans max-w-2xl">
+                            <p className="text-xl text-brand-900/60 mb-12 leading-relaxed font-sans max-w-xl">
                                 We replace reactive &quot;once-a-year&quot; filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.
                             </p>
 
-                            <div className="flex flex-col sm:flex-row items-center gap-4">
+                            <div className="flex flex-col sm:flex-row items-center gap-6">
                                 <Link
                                     href="/contact"
-                                    className="w-full sm:w-auto px-10 py-4 bg-brand-900 text-white font-bold text-base rounded-xl hover:bg-brand-700 transition-all shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2 font-heading tracking-wide"
+                                    className={cn(
+                                        "w-full sm:w-auto px-10 py-5 bg-brand-900 text-white font-bold text-lg rounded-2xl",
+                                        "hover:bg-gold-500 hover:text-brand-900 transition-all duration-500",
+                                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2",
+                                        "active:scale-95 shadow-xl shadow-brand-900/10 flex items-center justify-center gap-3 font-heading tracking-tight"
+                                    )}
                                 >
                                     Schedule Consultation
-                                    <ArrowRight className="w-4 h-4" />
+                                    <ArrowRight className="w-5 h-5" />
                                 </Link>
                                 <a
                                     href="#services"
-                                    className="w-full sm:w-auto px-10 py-4 bg-transparent text-brand-900 font-bold text-base rounded-xl border border-brand-200 hover:border-brand-900 transition-all flex items-center justify-center gap-2 font-heading tracking-wide"
+                                    className={cn(
+                                        "w-full sm:w-auto px-10 py-5 bg-transparent text-brand-900 font-bold text-lg rounded-2xl",
+                                        "border-2 border-slate-200 hover:border-brand-900 transition-all duration-500",
+                                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-900 focus-visible:ring-offset-2",
+                                        "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
+                                    )}
                                 >
                                     Browse Services
                                 </a>
