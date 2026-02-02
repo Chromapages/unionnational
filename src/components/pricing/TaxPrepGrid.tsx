@@ -1,4 +1,5 @@
 import { Check, X, Info } from "lucide-react";
+import * as Icons from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Define strict types matching the Sanity query
@@ -44,7 +45,7 @@ export function TaxPrepGrid({ tiers }: TaxPrepGridProps) {
                                     <th className="py-4 px-6 text-xs font-bold text-brand-900 uppercase tracking-widest w-[25%]">Service Level</th>
                                     <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest w-[30%]">Best For</th>
                                     <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest w-[30%]">Includes</th>
-                                    <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest text-right w-[15%]">Starting At</th>
+                                    <th className="py-4 px-6 text-xs font-bold text-brand-900/60 uppercase tracking-widest text-right w-[15%]">Pricing</th>
                                 </tr>
                             </thead>
                             <tbody>

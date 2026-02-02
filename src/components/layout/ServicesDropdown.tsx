@@ -36,7 +36,7 @@ const fallbackServices: ServiceSummary[] = [
   },
   {
     title: "Tax Filing & Preparation",
-    slug: { current: "tax-filing" },
+    slug: { current: "tax-filing-and-preparation-services" },
     icon: "FileText",
     shortDescription: "Accurate, compliant, optimized filing",
     category: "Tax",

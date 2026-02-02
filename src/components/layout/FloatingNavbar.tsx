@@ -62,7 +62,7 @@ const navLinks: NavLink[] = [
 const fallbackServices: ServiceSummary[] = [
     { title: "Strategic Bookkeeping", slug: { current: "bookkeeping" }, icon: "Calculator" },
     { title: "S-Corp Tax Advantage", slug: { current: "s-corp" }, icon: "TrendingUp" },
-    { title: "Tax Filing & Preparation", slug: { current: "tax-filing" }, icon: "FileText" },
+    { title: "Tax Filing & Preparation", slug: { current: "tax-filing-and-preparation-services" }, icon: "FileText" },
     { title: "Fractional CFO", slug: { current: "cfo" }, icon: "Briefcase" },
     { title: "Tax Planning Consulting", slug: { current: "tax-planning" }, icon: "Target" },
     { title: "New Business Formation", slug: { current: "formation" }, icon: "Building2" },

@@ -133,10 +133,10 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
 
             <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    
+
                     {/* ===== LEFT CONTENT (Main) ===== */}
                     <div className="lg:col-span-8 space-y-24">
-                        
+
                         {/* Overview / Description */}
                         <section id="overview">
                             {service.fullDescription ? (
@@ -163,7 +163,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                         </section>
 
                         {/* Tax Preparation Pricing - Only for Tax Filing service */}
-                        {service.slug?.current === 'tax-filing' && tiers && tiers.length > 0 && (
+                        {(service.slug?.current === 'tax-filing' || service.slug?.current === 'tax-filing-and-preparation-services') && tiers && tiers.length > 0 && (
                             <section id="pricing" className="scroll-mt-24">
                                 <h2 className="text-3xl font-bold text-brand-900 mb-3 font-heading">
                                     Tax Preparation Pricing
@@ -265,9 +265,9 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
             <section className="py-24 bg-zinc-50 border-t border-zinc-200 text-center px-6">
                 <RevealOnScroll className="max-w-4xl mx-auto">
                     <Quote className="w-12 h-12 text-gold-500/20 mx-auto mb-6" />
-                        <blockquote className="text-2xl md:text-3xl font-bold text-brand-900 leading-tight mb-8 font-heading">
-                            &quot;This service completely transformed our financial operations. We finally have clarity and confidence in our numbers.&quot;
-                        </blockquote>
+                    <blockquote className="text-2xl md:text-3xl font-bold text-brand-900 leading-tight mb-8 font-heading">
+                        &quot;This service completely transformed our financial operations. We finally have clarity and confidence in our numbers.&quot;
+                    </blockquote>
                     <div className="flex items-center justify-center gap-4">
                         <div className="w-12 h-12 rounded-full bg-brand-900 flex items-center justify-center text-white font-bold text-sm">
                             UN
