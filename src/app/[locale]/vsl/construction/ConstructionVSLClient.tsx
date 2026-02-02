@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { HardHat, TrendingUp, ShieldCheck, Play, ChevronRight, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import VideoEmbed from "@/components/ui/VideoEmbed";
+import { LuxuryTravelIncentive } from "@/components/ui/LuxuryTravelIncentive";
 import * as LucideIcons from "lucide-react";
 
 // Animation Variants

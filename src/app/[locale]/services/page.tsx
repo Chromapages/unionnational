@@ -61,36 +61,28 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
             <HeaderWrapper />
 
             <main id="main-content">
-                {/* Hero Section */}
-                <section className="max-w-[90rem] mx-auto px-6 pt-32 mb-32 relative">
-                    {/* Radial Gradient Background */}
-                    <div className="absolute top-0 left-1/2 w-[1000px] h-[800px] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gold-500/20 via-transparent to-transparent rounded-full blur-3xl -z-10 opacity-50 pointer-events-none -translate-x-1/2 -translate-y-1/3"></div>
-
-                    <div className="text-center max-w-4xl mx-auto">
+                {/* Minimalist Hero Section */}
+                <section className="max-w-7xl mx-auto px-6 pt-24 pb-20 relative">
+                    <div className="max-w-3xl">
                         <RevealOnScroll>
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-gold-500/30 text-brand-900 text-[11px] font-bold uppercase tracking-widest mb-8 shadow-sm font-sans">
-                                <span className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
-                                Elite Financial Infrastructure
-                            </div>
                             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-900 tracking-tight mb-8 leading-[1.1] font-heading">
-                                Eliminate tax anxiety. <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-600 to-gold-400">Build true wealth.</span>
+                                Eliminate tax anxiety. Build true wealth.
                             </h1>
-                            <p className="text-xl text-brand-900/70 mb-12 leading-relaxed font-sans max-w-2xl mx-auto">
-                                We replace the reactive &quot;once-a-year&quot; filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.
+                            <p className="text-xl text-brand-900/60 mb-12 leading-relaxed font-sans max-w-2xl">
+                                We replace reactive &quot;once-a-year&quot; filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.
                             </p>
 
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <div className="flex flex-col sm:flex-row items-center gap-4">
                                 <Link
                                     href="/contact"
-                                    className="w-full sm:w-auto px-8 py-4 bg-brand-900 text-white font-bold text-base rounded-xl hover:bg-brand-700 transition-all shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2 font-heading tracking-wide"
+                                    className="w-full sm:w-auto px-10 py-4 bg-brand-900 text-white font-bold text-base rounded-xl hover:bg-brand-700 transition-all shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2 font-heading tracking-wide"
                                 >
                                     Schedule Consultation
                                     <ArrowRight className="w-4 h-4" />
                                 </Link>
                                 <a
                                     href="#services"
-                                    className="w-full sm:w-auto px-8 py-4 bg-white text-brand-900 font-bold text-base rounded-xl border border-slate-200 hover:border-brand-300 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 font-heading tracking-wide"
+                                    className="w-full sm:w-auto px-10 py-4 bg-transparent text-brand-900 font-bold text-base rounded-xl border border-brand-200 hover:border-brand-900 transition-all flex items-center justify-center gap-2 font-heading tracking-wide"
                                 >
                                     Browse Services
                                 </a>

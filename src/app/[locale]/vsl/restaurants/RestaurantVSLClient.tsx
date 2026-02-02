@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { UtensilsCrossed, Users, BarChart3, Play, ChevronRight, TrendingUp, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import VideoEmbed from "@/components/ui/VideoEmbed";
+import { LuxuryTravelIncentive } from "@/components/ui/LuxuryTravelIncentive";
 import * as LucideIcons from "lucide-react";
 
 // Animation Variants
