@@ -197,7 +197,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             component="nav"
                             aria-label="Main navigation"
                             sx={{
-                                display: { xs: "none", md: "flex" },
+                                display: { xs: "none", lg: "flex" },
                                 alignItems: "center",
                                 gap: 1,
                             }}
@@ -340,7 +340,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 gap: 2,
                             }}
                         >
-                            <LanguageSwitcher />
+                            <Box sx={{ display: { xs: "none", lg: "block" } }}>
+                                <LanguageSwitcher />
+                            </Box>
 
                             {/* Phone Number */}
                             <Box
@@ -377,6 +379,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 aria-label="Subscribe to newsletter"
                                 onClick={() => setIsNewsletterOpen(true)}
                                 sx={{
+                                    display: { xs: "none", lg: "flex" },
                                     color: "rgba(255, 255, 255, 0.7)",
                                     "&:hover": { color: "primary.main" },
                                 }}
@@ -431,7 +434,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         {/* Mobile Menu Toggle */}
                         <Box
                             sx={{
-                                display: { xs: "flex", md: "none" },
+                                display: { xs: "flex", lg: "none" },
                                 alignItems: "center",
                             }}
                         >
