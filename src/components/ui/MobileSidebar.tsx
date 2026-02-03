@@ -237,7 +237,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                 />
 
                                 {/* Language Toggle */}
-                                <motion.div
+                                {/* <motion.div
                                     variants={itemVariants}
                                     initial="hidden"
                                     animate="visible"
@@ -250,7 +250,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                         </span>
                                     </div>
                                     <LanguageSwitcher />
-                                </motion.div>
+                                </motion.div> */}
                             </nav>
 
                             {/* Footer - CTA & Contact */}

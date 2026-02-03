@@ -340,9 +340,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 gap: 2,
                             }}
                         >
-                            <Box sx={{ display: { xs: "none", lg: "block" } }}>
+                            {/* <Box sx={{ display: { xs: "none", lg: "block" } }}>
                                 <LanguageSwitcher />
-                            </Box>
+                            </Box> */}
 
                             {/* Phone Number */}
                             <Box
