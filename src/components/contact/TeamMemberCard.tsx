@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Mail, Phone, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface TeamMemberCardProps {
     name: string;
@@ -30,6 +31,8 @@ export function TeamMemberCard({
     address,
     mapEmbedUrl
 }: TeamMemberCardProps) {
+    const t = useTranslations("ContactPage.TeamMemberCard");
+
     return (
         <div className="lg:sticky lg:top-32 h-fit space-y-8 p-6 lg:p-0">
             <div className="relative">
@@ -57,7 +60,7 @@ export function TeamMemberCard({
                 {/* Quote */}
                 <blockquote className="relative mb-10 pl-6 border-l-4 border-gold-500">
                     <p className="text-lg italic text-brand-800 leading-relaxed font-serif">
-                        "{quote}"
+                        &ldquo;{quote}&rdquo;
                     </p>
                 </blockquote>
 
@@ -70,14 +73,16 @@ export function TeamMemberCard({
                             <MapPin className="w-5 h-5" />
                         </div>
                         <div className="font-sans">
-                            <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">Office</div>
+                            <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">
+                                {t("officeLabel")}
+                            </div>
                             <div className="text-brand-900 text-sm leading-relaxed">
                                 {address ? (
                                     <>
                                         {address.street}<br />
                                         {address.city}, {address.state} {address.zip}
                                     </>
-                                ) : "Financial District, NYC"}
+                                ) : t("defaultAddress")}
                             </div>
                         </div>
                     </div>
@@ -87,7 +92,9 @@ export function TeamMemberCard({
                             <Mail className="w-5 h-5" />
                         </div>
                         <div className="font-sans">
-                            <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">Email</div>
+                            <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">
+                                {t("emailLabel")}
+                            </div>
                             <a href={`mailto:${email}`} className="text-brand-900 text-sm hover:text-gold-600 transition-colors">
                                 {email}
                             </a>
@@ -100,7 +107,9 @@ export function TeamMemberCard({
                                 <Phone className="w-5 h-5" />
                             </div>
                             <div className="font-sans">
-                                <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">Phone</div>
+                                <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-0.5">
+                                    {t("phoneLabel")}
+                                </div>
                                 <a href={`tel:${phone}`} className="text-brand-900 text-sm hover:text-gold-600 transition-colors">
                                     {phone}
                                 </a>
@@ -120,7 +129,7 @@ export function TeamMemberCard({
                                     allowFullScreen={false}
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
-                                    title="Office Location Map"
+                                    title={t("mapTitle")}
                                     className="grayscale hover:grayscale-0 transition-all duration-500 opacity-80 group-hover/map:opacity-100"
                                 ></iframe>
                             </div>

@@ -14,7 +14,7 @@ export const product = defineType({
         defineField({
             name: "title",
             title: "Title",
-            type: "string",
+            type: "localizedString",
             group: "content",
             validation: (Rule) => Rule.required(),
         }),
@@ -24,7 +24,7 @@ export const product = defineType({
             type: "slug",
             group: "content",
             options: {
-                source: "title",
+                source: "title.en",
                 maxLength: 96,
             },
             validation: (Rule) => Rule.required(),
@@ -56,17 +56,15 @@ export const product = defineType({
         defineField({
             name: "shortDescription",
             title: "Short Description",
-            type: "text",
+            type: "localizedText",
             group: "content",
-            rows: 3,
             validation: (Rule) => Rule.required().max(200),
         }),
         defineField({
             name: "fullDescription",
             title: "Full Description",
-            type: "array",
+            type: "localizedBlock",
             group: "content",
-            of: [{ type: "block" }],
         }),
         defineField({
             name: "format",
@@ -95,7 +93,7 @@ export const product = defineType({
             title: "Key Features",
             type: "array",
             group: "content",
-            of: [{ type: "string" }],
+            of: [{ type: "localizedString" }],
         }),
         defineField({
             name: "isFeatured",
@@ -108,17 +106,9 @@ export const product = defineType({
         defineField({
             name: "badge",
             title: "Badge Text",
-            type: "string",
+            type: "localizedString",
             group: "content",
             description: "Optional badge like 'Best Seller' or 'New'.",
-            options: {
-                list: [
-                    { title: "Best Seller", value: "bestseller" },
-                    { title: "New", value: "new" },
-                    { title: "Limited", value: "limited" },
-                ],
-                layout: "radio",
-            },
         }),
         defineField({
             name: "category",
@@ -164,7 +154,7 @@ export const product = defineType({
         },
         prepare({ title, subtitle, media }) {
             return {
-                title,
+                title: title?.en || "Untitled",
                 subtitle: subtitle ? `$${subtitle}` : "No price",
                 media,
             };

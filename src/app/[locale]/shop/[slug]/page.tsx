@@ -1,15 +1,12 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { client } from "@/sanity/lib/client";
 import { PRODUCT_DETAIL_QUERY, PRODUCT_SLUGS_QUERY } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { PortableText } from "next-sanity";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-
-
-
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
@@ -25,7 +22,7 @@ export async function generateStaticParams() {
     const slugs = await client.fetch(PRODUCT_SLUGS_QUERY);
     const locales = ["en", "es"];
 
-    return slugs.flatMap((slug: any) =>
+    return (slugs as any[]).flatMap((slug: any) =>
         locales.map((locale) => ({
             locale,
             slug: slug.slug,
@@ -37,7 +34,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const { slug, locale } = await props.params;
     const { data: product } = await sanityFetch({
         query: PRODUCT_DETAIL_QUERY,
-        params: { slug },
+        params: { slug, locale },
     });
     const seo = product?.seo;
 
@@ -67,7 +64,10 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 
 export default async function ProductDetailPage(props: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await props.params;
-    const product = await client.fetch(PRODUCT_DETAIL_QUERY, { slug });
+    const { data: product } = await sanityFetch({
+        query: PRODUCT_DETAIL_QUERY,
+        params: { slug, locale }
+    });
 
     if (!product) {
         notFound();

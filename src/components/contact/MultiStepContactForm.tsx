@@ -16,6 +16,8 @@ import {
     AlertCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 // --- Form Schema & Types ---
 const contactFormSchema = z.object({
@@ -35,21 +37,15 @@ const contactFormSchema = z.object({
 
 type FormData = z.infer<typeof contactFormSchema>;
 
-const goals = [
-    { id: 'tax-reduction', label: 'Reduce my tax liability', icon: TrendingDown },
-    { id: 'audit-defense', label: 'Defend an IRS audit', icon: Shield },
-    { id: 'restructure', label: 'Restructure my business', icon: Building2 },
-    { id: 'partnership', label: 'Explore a partnership', icon: Handshake },
-] as const;
-
 interface MultiStepContactFormProps {
     title?: string;
     subtitle?: string;
 }
 
 export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormProps) {
+    const t = useTranslations("ContactPage.MultiStepForm");
     const [step, setStep] = useState(1);
-    const [direction, setDirection] = useState(0); // -1 for back, 1 for next
+    const [direction, setDirection] = useState(0);
 
     const {
         register,
@@ -57,7 +53,7 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
         watch,
         setValue,
         trigger,
-        formState: { errors, isSubmitting, isValid },
+        formState: { errors, isSubmitting },
     } = useForm<FormData>({
         resolver: zodResolver(contactFormSchema),
         mode: "onChange",
@@ -67,6 +63,13 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
     });
 
     const selectedGoal = watch("goal");
+
+    const goals = [
+        { id: 'tax-reduction', label: t("step1.goals.taxReduction"), icon: TrendingDown },
+        { id: 'audit-defense', label: t("step1.goals.auditDefense"), icon: Shield },
+        { id: 'restructure', label: t("step1.goals.restructure"), icon: Building2 },
+        { id: 'partnership', label: t("step1.goals.partnership"), icon: Handshake },
+    ] as const;
 
     // --- Handlers ---
     const handleGoalSelect = (goalId: FormData['goal']) => {
@@ -87,7 +90,6 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
     };
 
     const onSubmit = async (data: FormData) => {
-        // Simulate API call
         console.log("Form Data:", data);
         await new Promise(resolve => setTimeout(resolve, 1500));
         alert("Message sent! (Simulated)");
@@ -132,17 +134,17 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                         >
                             <div>
                                 <h2 className="text-2xl font-bold text-brand-900 font-heading mb-2">
-                                    {title || "What's your primary goal?"}
+                                    {title || t("step1.fallbackTitle")}
                                 </h2>
                                 <p className="text-brand-900/60 font-sans text-sm">
-                                    {subtitle || "Select the option that best describes your needs."}
+                                    {subtitle || t("step1.fallbackSubtitle")}
                                 </p>
                             </div>
 
                             {errors.goal && (
                                 <div className="flex items-center gap-2 text-rose-500 text-sm bg-rose-50 p-3 rounded-lg border border-rose-100">
                                     <AlertCircle className="w-4 h-4" />
-                                    {errors.goal.message}
+                                    {t("step1.errorMessage")}
                                 </div>
                             )}
 
@@ -187,7 +189,7 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                 disabled={!selectedGoal}
                                 className="w-full bg-brand-900 text-white font-bold py-3.5 rounded-lg hover:bg-gold-500 hover:text-brand-900 transition-all shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed mt-6"
                             >
-                                Continue
+                                {t("step1.continueButton")}
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </button>
 
@@ -211,19 +213,19 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                     onClick={handleBack}
                                     className="flex items-center gap-1 text-xs font-semibold text-brand-900/50 hover:text-gold-600 uppercase tracking-wide mb-4 transition-colors"
                                 >
-                                    <ArrowLeft className="w-3 h-3" /> Back
+                                    <ArrowLeft className="w-3 h-3" /> {t("step2.backButton")}
                                 </button>
-                                <h2 className="text-2xl font-bold text-brand-900 font-heading mb-2">A few details about you.</h2>
-                                <p className="text-brand-900/60 font-sans text-sm">We'll use this to prepare for our conversation.</p>
+                                <h2 className="text-2xl font-bold text-brand-900 font-heading mb-2">{t("step2.title")}</h2>
+                                <p className="text-brand-900/60 font-sans text-sm">{t("step2.subtitle")}</p>
                             </div>
 
                             {/* Client Type */}
                             <div className="flex bg-slate-100 p-1 rounded-lg w-fit">
-                                {['business', 'individual'].map((type) => (
+                                {(['business', 'individual'] as const).map((type) => (
                                     <button
                                         key={type}
                                         type="button"
-                                        onClick={() => setValue('clientType', type as any)}
+                                        onClick={() => setValue('clientType', type)}
                                         className={cn(
                                             "px-4 py-1.5 rounded-md text-sm font-medium transition-all capitalize",
                                             watch('clientType') === type
@@ -231,14 +233,14 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                                 : "text-brand-900/60 hover:text-brand-900"
                                         )}
                                     >
-                                        {type}
+                                        {t(`step2.clientTypes.${type}`)}
                                     </button>
                                 ))}
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-1.5">
-                                    <label htmlFor="firstName" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">First Name</label>
+                                    <label htmlFor="firstName" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{t("step2.labels.firstName")}</label>
                                     <input
                                         {...register("firstName")}
                                         className={cn(
@@ -247,12 +249,12 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                                 ? "border-rose-500 focus:ring-2 focus:ring-rose-500/20"
                                                 : "border-slate-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
                                         )}
-                                        placeholder="Jane"
+                                        placeholder={t("step2.placeholders.firstName")}
                                     />
-                                    {errors.firstName && <span className="text-xs text-rose-500">{errors.firstName.message}</span>}
+                                    {errors.firstName && <span className="text-xs text-rose-500">{t("validation.firstNameRequired")}</span>}
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label htmlFor="lastName" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Last Name</label>
+                                    <label htmlFor="lastName" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{t("step2.labels.lastName")}</label>
                                     <input
                                         {...register("lastName")}
                                         className={cn(
@@ -261,14 +263,14 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                                 ? "border-rose-500 focus:ring-2 focus:ring-rose-500/20"
                                                 : "border-slate-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
                                         )}
-                                        placeholder="Doe"
+                                        placeholder={t("step2.placeholders.lastName")}
                                     />
-                                    {errors.lastName && <span className="text-xs text-rose-500">{errors.lastName.message}</span>}
+                                    {errors.lastName && <span className="text-xs text-rose-500">{t("validation.lastNameRequired")}</span>}
                                 </div>
                             </div>
 
                             <div className="space-y-1.5">
-                                <label htmlFor="email" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Work Email</label>
+                                <label htmlFor="email" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{t("step2.labels.email")}</label>
                                 <input
                                     type="email"
                                     {...register("email")}
@@ -278,18 +280,18 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                             ? "border-rose-500 focus:ring-2 focus:ring-rose-500/20"
                                             : "border-slate-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
                                     )}
-                                    placeholder="jane@company.com"
+                                    placeholder={t("step2.placeholders.email")}
                                 />
-                                {errors.email && <span className="text-xs text-rose-500">{errors.email.message}</span>}
+                                {errors.email && <span className="text-xs text-rose-500">{t("validation.emailInvalid")}</span>}
                             </div>
 
                             <div className="space-y-1.5">
-                                <label htmlFor="message" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">Message (Optional)</label>
+                                <label htmlFor="message" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{t("step2.labels.message")}</label>
                                 <textarea
                                     {...register("message")}
                                     rows={3}
                                     className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm outline-none transition-all placeholder:text-slate-400 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20 resize-none"
-                                    placeholder="Tell us a bit about your situation..."
+                                    placeholder={t("step2.placeholders.message")}
                                 />
                             </div>
 
@@ -305,17 +307,19 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                     <CheckCircle2 className="pointer-events-none absolute left-0 top-0 w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity p-0.5" />
                                 </div>
                                 <label htmlFor="privacy" className="text-xs text-brand-900/70 leading-relaxed cursor-pointer select-none">
-                                    I agree to the <a href="/privacy" className="underline decoration-slate-300 hover:text-brand-900">Privacy Policy</a> and consent to being contacted. We honor your privacy and never share data.
+                                    {t.rich("step2.privacyText", {
+                                        privacyLink: (chunks) => <Link href="/privacy" className="underline decoration-slate-300 hover:text-brand-900">{chunks}</Link>
+                                    })}
                                 </label>
                             </div>
-                            {errors.privacy && <span className="text-xs text-rose-500 block -mt-1">{errors.privacy.message}</span>}
+                            {errors.privacy && <span className="text-xs text-rose-500 block -mt-1">{t("validation.privacyRequired")}</span>}
 
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
                                 className="w-full bg-brand-900 text-white font-bold py-3.5 rounded-lg hover:bg-gold-500 hover:text-brand-900 transition-all shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed mt-6"
                             >
-                                {isSubmitting ? "Sending..." : "Request Consultation"}
+                                {isSubmitting ? t("step2.sending") : t("step2.submitButton")}
                                 {!isSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                             </button>
 

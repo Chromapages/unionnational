@@ -10,14 +10,13 @@ export const faq = defineType({
         defineField({
             name: "question",
             title: "Question",
-            type: "string",
+            type: "localizedString",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "answer",
             title: "Answer",
-            type: "array",
-            of: [{ type: "block" }],
+            type: "localizedBlock",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
@@ -57,7 +56,7 @@ export const faq = defineType({
     ],
     preview: {
         select: {
-            title: "question",
+            title: "question.en",
             subtitle: "category",
         },
     },

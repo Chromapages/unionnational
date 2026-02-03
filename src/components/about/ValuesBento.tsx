@@ -1,32 +1,44 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Gauge, Handshake, Target } from "lucide-react";
 
-const values = [
-    {
-        title: "Precision",
-        description: "We run planning models until the numbers feel inevitable.",
-        icon: Target,
-    },
-    {
-        title: "Partnership",
-        description: "Every plan is built collaboratively with your leadership team.",
-        icon: Handshake,
-    },
-    {
-        title: "Speed",
-        description: "We deliver decisions quickly without cutting corners on compliance.",
-        icon: Gauge,
-    },
-];
+const icons = {
+    precision: Target,
+    partnership: Handshake,
+    speed: Gauge,
+};
 
 export function ValuesBento() {
+    const t = useTranslations('AboutPage.ValuesBento');
+
+    const values = [
+        {
+            key: 'precision',
+            title: t('values.precision.title'),
+            description: t('values.precision.description'),
+            icon: icons.precision,
+        },
+        {
+            key: 'partnership',
+            title: t('values.partnership.title'),
+            description: t('values.partnership.description'),
+            icon: icons.partnership,
+        },
+        {
+            key: 'speed',
+            title: t('values.speed.title'),
+            description: t('values.speed.description'),
+            icon: icons.speed,
+        },
+    ];
+
     return (
         <section className="py-24 bg-slate-50">
             <div className="mx-auto max-w-6xl px-6">
                 <div className="max-w-2xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-600">Core Values</p>
-                    <h2 className="mt-4 text-3xl font-semibold text-brand-900 font-heading">The cultural pillars behind every engagement.</h2>
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-600">{t('eyebrow')}</p>
+                    <h2 className="mt-4 text-3xl font-semibold text-brand-900 font-heading">{t('title')}</h2>
                 </div>
 
                 <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-4 md:grid-rows-2">
@@ -45,10 +57,10 @@ export function ValuesBento() {
                         </video>
 
                         <div className="relative z-10 flex h-full flex-col justify-end p-8">
-                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">Integrity</p>
-                            <h3 className="mt-3 text-2xl font-semibold font-heading">We protect the relationship with the IRS before anything else.</h3>
+                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">{t('integrityBadge')}</p>
+                            <h3 className="mt-3 text-2xl font-semibold font-heading">{t('integrityTitle')}</h3>
                             <p className="mt-3 text-sm text-brand-100/80 leading-relaxed max-w-sm">
-                                Integrity is the anchor. Every recommendation is vetted with documentation and long-term exposure in mind.
+                                {t('integrityDescription')}
                             </p>
                         </div>
                     </div>
@@ -56,7 +68,7 @@ export function ValuesBento() {
                     {/* Value Cards - Solid White with Sharp Borders */}
                     {values.map((value, index) => (
                         <div
-                            key={value.title}
+                            key={value.key}
                             className={`rounded-xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300 ${index === 2 ? "md:col-span-2" : ""
                                 }`}
                         >

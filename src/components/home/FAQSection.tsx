@@ -2,13 +2,15 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { FAQ_QUERY } from "@/sanity/lib/queries";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQAccordion } from "./FAQAccordion";
+import { getLocale } from "next-intl/server";
 
 interface FAQSectionProps {
     variant?: "light" | "dark";
 }
 
 export async function FAQSection({ variant = "light" }: FAQSectionProps) {
-    const { data: faqs } = await sanityFetch({ query: FAQ_QUERY });
+    const locale = await getLocale();
+    const { data: faqs } = await sanityFetch({ query: FAQ_QUERY, params: { locale } });
 
     if (!faqs || faqs.length === 0) {
         return null;

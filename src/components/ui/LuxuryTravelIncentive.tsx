@@ -1,84 +1,121 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Plane, ArrowRight, Gauge, ShieldCheck, Map } from "lucide-react";
+import { Plane, ArrowRight, Gauge, ShieldCheck, Map, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { useTranslations } from "next-intl";
 
 interface LuxuryTravelIncentiveProps {
+    className?: string;
     revenueThreshold?: string;
     title?: string;
     description?: string;
-    className?: string;
 }
 
 export const LuxuryTravelIncentive = ({
-    revenueThreshold = "$500K - $1M+",
-    title = "The Executive Retreat Incentive",
-    description = "Move beyond simple tax savings. High-revenue partners unlock exclusive access to our annual luxury networking retreats and private wealth summits.",
-    className = ""
+    className = "",
+    revenueThreshold,
+    title,
+    description
 }: LuxuryTravelIncentiveProps) => {
+    const t = useTranslations("ServicesPage.ExecutiveIncentive");
+    const currentYear = new Date().getFullYear();
+
+    const features = [
+        { icon: Plane, label: t("features.privateRetreats") },
+        { icon: Gauge, label: t("features.wealthStrategy") },
+        { icon: ShieldCheck, label: t("features.assetProtection") }
+    ];
+
+    // Use props if provided, otherwise fallback to translations
+    const displayThreshold = revenueThreshold || t("badge", { threshold: "$500K - $1M+" });
+    const displayTitle = title || t("title");
+    const displayDescription = description || t("description");
+
     return (
         <RevealOnScroll className={`w-full ${className}`}>
-            <div className="relative group overflow-hidden rounded-[2rem] border border-gold-500/30 bg-brand-950 p-1 md:p-1.5 shadow-2xl transition-all duration-500 hover:shadow-gold-500/20">
-                {/* Glossy Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+            {/* Main Container - Full width with max-width constraint */}
+            <div className="relative bg-brand-900 border border-slate-200 rounded-lg shadow-soft overflow-hidden">
 
-                {/* Main Content Container */}
-                <div className="relative bg-brand-950 rounded-[1.8rem] px-8 py-10 md:px-12 md:py-14 border border-white/5 overflow-hidden">
+                {/* Two-Column Layout */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
 
-                    {/* Background Decorative Elements */}
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-gold-600/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-gold-600/20 transition-colors duration-700" />
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-400/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
+                    {/* Left Column - Content */}
+                    <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
 
-                    <div className="relative z-10 flex flex-col items-center text-center">
-                        {/* Elite Badge */}
+                        {/* Eyebrow Badge - Following Design System */}
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-500 text-xs font-bold uppercase tracking-[0.2em] mb-8 backdrop-blur-md"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-gold-500/10 border border-gold-500/30 rounded-md w-fit mb-8"
                         >
-                            <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
-                            Qualified Revenue: {revenueThreshold}
+                            <Sparkles className="w-4 h-4 text-gold-500" />
+                            <span className="text-xs font-bold text-gold-500 uppercase tracking-widest">
+                                {displayThreshold}
+                            </span>
                         </motion.div>
 
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-8 font-heading leading-tight">
-                            {title}
+                        {/* Title - Outfit font, tracking-tighter */}
+                        <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter mb-6 font-heading leading-[1.1]">
+                            {displayTitle}
                         </h2>
 
-                        <p className="text-lg md:text-xl text-slate-300/80 leading-relaxed mb-12 max-w-2xl mx-auto font-sans">
-                            {description}
+                        {/* Description - Inter font */}
+                        <p className="text-lg text-slate-300 leading-relaxed mb-10 font-sans max-w-xl">
+                            {displayDescription}
                         </p>
 
-                        {/* Interactive Feature Hooks */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 w-full max-w-3xl">
-                            {[
-                                { icon: Plane, label: "Private Retreats" },
-                                { icon: Gauge, label: "Wealth Strategy" },
-                                { icon: ShieldCheck, label: "Asset Protection" }
-                            ].map((item, i) => (
-                                <div key={i} className="flex flex-col items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-gold-500/30 transition-colors group/item">
-                                    <item.icon className="w-6 h-6 text-gold-500 group-hover/item:scale-110 transition-transform" />
-                                    <span className="text-sm font-bold text-white/70 tracking-wide uppercase font-sans">{item.label}</span>
+                        {/* Feature Grid - Solid design */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+                            {features.map((item, i) => (
+                                <div
+                                    key={i}
+                                    className="flex flex-col items-center gap-3 p-5 bg-white/5 border border-white/10 rounded-lg hover:border-gold-500/40 transition-colors"
+                                >
+                                    <item.icon className="w-6 h-6 text-gold-500" />
+                                    <span className="text-xs font-bold text-white/80 uppercase tracking-wider font-sans text-center">
+                                        {item.label}
+                                    </span>
                                 </div>
                             ))}
                         </div>
 
-                        {/* Primary Action */}
-                        <div className="flex flex-col items-center gap-6">
+                        {/* CTA Button - Gold Standard Button per Design System */}
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                             <Link
                                 href="/contact?type=high-revenue"
-                                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gold-500 text-brand-950 font-black text-xl rounded-2xl transition-all duration-300 hover:bg-gold-400 hover:scale-[1.03] active:scale-[0.98] shadow-[0_0_30px_rgba(212,174,55,0.4)] hover:shadow-[0_0_50px_rgba(212,174,55,0.6)] font-heading tracking-tight"
+                                className="group inline-flex items-center gap-3 px-8 py-4 bg-gold-500 text-brand-900 font-bold text-lg rounded-md shadow-sm hover:bg-gold-600 active:scale-95 transition-all font-heading"
                             >
-                                Apply for Partner Status
-                                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                                {t("cta")}
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
 
-                            <p className="text-slate-500 text-sm font-sans flex items-center gap-2">
-                                <Map className="w-4 h-4" />
-                                Limited to 12 new executive partners in {new Date().getFullYear()}
+                            <p className="text-slate-400 text-sm font-sans flex items-center gap-2">
+                                <Map className="w-4 h-4 text-slate-500" />
+                                {t("limitText", { year: currentYear })}
                             </p>
                         </div>
+                    </div>
+
+                    {/* Right Column - Visual Accent */}
+                    <div className="relative bg-brand-500/30 min-h-[300px] lg:min-h-full flex items-center justify-center p-8">
+                        {/* Decorative Elements */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/20 to-transparent" />
+
+                        {/* Central Icon/Graphic */}
+                        <div className="relative z-10 text-center">
+                            <div className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full bg-gold-500/10 border-2 border-gold-500/30 flex items-center justify-center">
+                                <Plane className="w-16 h-16 md:w-20 md:h-20 text-gold-500" />
+                            </div>
+                            <p className="text-white/60 text-sm font-sans uppercase tracking-widest">
+                                {t("exclusiveAccess")}
+                            </p>
+                        </div>
+
+                        {/* Corner Accents */}
+                        <div className="absolute top-6 right-6 w-3 h-3 bg-gold-500 rounded-full" />
+                        <div className="absolute bottom-6 left-6 w-3 h-3 bg-gold-500 rounded-full" />
                     </div>
                 </div>
             </div>

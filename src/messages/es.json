@@ -34,5 +34,434 @@
         "learnMore": "Más Información",
         "getStarted": "Comenzar",
         "viewAll": "Ver Todo"
+    },
+    "ServicesPage": {
+        "metadata": {
+            "title": "Servicios | Union National Tax",
+            "description": "Servicios integrales de estrategia fiscal, contabilidad y CFO para empresas modernas."
+        },
+        "Hero": {
+            "title": "Elimine la ansiedad fiscal. Construya verdadera riqueza.",
+            "subtitle": "Reemplazamos la declaración reactiva \"una vez al año\" con un sistema financiero proactivo durante todo el año, diseñado para contratistas de alto crecimiento y propietarios de S-Corp.",
+            "ctaPrimary": "Programar Consulta",
+            "ctaSecondary": "Explorar Servicios"
+        },
+        "PricingSection": {
+            "eyebrow": "Asociación Estratégica",
+            "title": "Elija Su Nivel de Soporte",
+            "subtitle": "Vaya más allá del simple cumplimiento. Seleccione un nivel de asesoría que coincida con la complejidad de su negocio y sus objetivos de patrimonio.",
+            "comparisonTitle": "Transparencia Total",
+            "comparisonSubtitle": "Compare planes para encontrar el nivel de soporte adecuado para las necesidades de su negocio."
+        },
+        "ComparisonTable": {
+            "tierNames": {
+                "foundation": "Fundación",
+                "growth": "Crecimiento",
+                "executive": "Ejecutivo"
+            },
+            "badge": {
+                "mostPopular": "Más Popular"
+            },
+            "features": {
+                "idealFor": "Ideal Para",
+                "annualInvestment": "Inversión Anual",
+                "taxPrepIncluded": "Preparación de Impuestos Incluida",
+                "strategicTaxPlanning": "Planificación Fiscal Estratégica",
+                "quarterlyReviews": "Revisiones Trimestrales",
+                "prioritySupport": "Soporte Prioritario",
+                "auditProtection": "Protección de Auditoría 3 Años",
+                "hotelIncentive": "Incentivo de Hotel Privado"
+            },
+            "targetAudience": {
+                "businessOwners": "Propietarios de Negocios",
+                "growingBusinesses": "Negocios en Crecimiento",
+                "highNetWorth": "Patrimonio Alto"
+            },
+            "investmentTiers": {
+                "foundation": "$3,500+",
+                "growth": "$6,500+",
+                "executive": "$10,000+"
+            },
+            "hotelNights": "2-5 Noches"
+        },
+        "ExecutiveIncentive": {
+            "badge": "Ingresos Calificados: {threshold}",
+            "title": "El Incentivo de Retiro Ejecutivo",
+            "description": "Vaya más allá de los simples ahorros fiscales. Los socios de altos ingresos desbloquean acceso exclusivo a nuestros retiros anuales de lujo y cumbres privadas de patrimonio.",
+            "features": {
+                "privateRetreats": "Retiros Privados",
+                "wealthStrategy": "Estrategia de Patrimonio",
+                "assetProtection": "Protección de Activos"
+            },
+            "cta": "Solicitar Estado de Socio",
+            "limitText": "Limitado a 12 socios en {year}",
+            "exclusiveAccess": "Acceso Exclusivo"
+        }
+    },
+    "HomePage": {
+        "VideoHero": {
+            "sectionAriaLabel": "Video de Estrategia Fiscal y Calculadora de Ahorros",
+            "titlePart1": "Deje de Pagar en Exceso. <gold>Empiece a Ahorrar.</gold>",
+            "eyebrow": "Su Estrategia Fiscal",
+            "calculator": {
+                "title": "Estime Sus Ahorros de S-Corp",
+                "confidential": "Cálculo Confidencial",
+                "placeholder": "Ingreso Neto (ej. 150,000)",
+                "button": "Calcular",
+                "calculating": "Calculando..."
+            },
+            "mobileResult": {
+                "potentialSavings": "Ahorros Potenciales",
+                "estimatedReduction": "Reducción Anual Estimada",
+                "verifiedStrategy": "Estrategia Verificada"
+            },
+            "videoButton": {
+                "eyebrow": "Vea Cómo Funciona",
+                "label": "Ver Video de Estrategia",
+                "ariaLabel": "Reproducir video de estrategia"
+            },
+            "dashboard": {
+                "advisorName": "Jason Astwood",
+                "advisorCompany": "Union National Tax",
+                "active": "Activo",
+                "projectedSavings": "Ahorros Anuales Proyectados",
+                "retainedEarnings": "+15.3% ganancias retenidas vs Propietario Único",
+                "selfEmploymentTax": "Impuesto de Autoempleo",
+                "newLiability": "Nueva Responsabilidad",
+                "taxEfficiency": "Puntuación de Eficiencia Fiscal",
+                "taxEfficiencyScore": "{score}%",
+                "viewAnalysis": "Ver Análisis Completo"
+            },
+            "videoChapters": {
+                "intro": "Introducción",
+                "strategy": "La Estrategia S-Corp",
+                "calculating": "Calculando Ahorros",
+                "implementation": "Implementación",
+                "nextSteps": "Próximos Pasos",
+                "cta": {
+                    "bookCall": "Reservar Llamada",
+                    "tryCalculator": "Probar Calculadora",
+                    "getStarted": "Comenzar"
+                }
+            },
+            "videoModal": {
+                "ariaLabel": "Modal de video",
+                "closeAriaLabel": "Cerrar modal"
+            }
+        },
+        "ServicesSection": {
+            "eyebrow": "Nuestra Experiencia",
+            "title": "Soluciones Financieras Integrales.",
+            "titleHighlight": "Financieras Integrales.",
+            "subtitle": "Diseñe un sistema financiero que funcione para su negocio. Desde cumplimiento básico hasta herramientas de crecimiento estratégico.",
+            "learnMore": "Más Información"
+        },
+        "NationwideServiceSection": {
+            "badge": "Servicio Virtual Primero",
+            "title": "Sirviendo Clientes en Todo el País Virtualmente.",
+            "titleHighlight": "Todo el País Virtualmente.",
+            "subtitle": "Sin barreras de ubicación. Proveemos estrategia fiscal experta a propietarios de negocios en los 50 estados a través de nuestra plataforma digital segura.",
+            "features": {
+                "video": {
+                    "title": "Consultas por Video",
+                    "description": "Llamadas de estrategia cara a cara desde la comodidad de su oficina."
+                },
+                "portal": {
+                    "title": "Portal Digital",
+                    "description": "Suba documentos y firme declaraciones de forma segura al instante."
+                },
+                "multistate": {
+                    "title": "Experiencia Multi-Estatal",
+                    "description": "Navegando requisitos complejos de nexo y presentación a través de líneas estatales."
+                },
+                "advisor": {
+                    "title": "Asesor Consistente",
+                    "description": "Trabaje con el mismo experto dedicado, independientemente de dónde se mueva."
+                }
+            },
+            "mapLabel": "Estados",
+            "cta": "Reservar Sesión de Estrategia"
+        },
+        "BentoGridSection": {
+            "section": {
+                "badge": "Ventaja Estratégica",
+                "title": "Donde la experiencia institucional se encuentra con",
+                "titleHighlight": "la velocidad empresarial."
+            },
+            "taxSavingsCard": {
+                "badge": "Impacto del Cliente",
+                "title": "Generando riqueza a través de la reducción fiscal estratégica.",
+                "defaultLabel": "Ahorros Totales Identificados"
+            },
+            "leadExpertCard": {
+                "badge": "Director",
+                "name": "Jason Astwood",
+                "credentials": "EA, MBA, FSCP, LUTCF",
+                "quote": "Buscamos cada oportunidad legal para construir su patrimonio.",
+                "company": "Union National Tax",
+                "imageAlt": "Jason Astwood - Agente Inscrito",
+                "initials": "JA"
+            },
+            "eaCard": {
+                "badge": "Máxima Credencial",
+                "title": "¿Qué es un",
+                "titleHighlight": "Agente Inscrito?",
+                "description": "Especialistas fiscales <highlight>licenciados federalmente</highlight> con derechos ilimitados para representarlo ante el IRS.",
+                "federalLicense": "Licencia Federal",
+                "allStates": "Representación Ilimitada",
+                "cta": "Más Información"
+            },
+            "industryFocusCard": {
+                "title": "Especializados en",
+                "titleHighlight": "Industrias de Alto Crecimiento.",
+                "description": "Entendemos los matices de los negocios digitales modernos, consultorías y servicios profesionales especializados.",
+                "cta": "Ver Lista Completa de Industrias"
+            }
+        },
+        "TestimonialsSection": {
+            "eyebrow": "Historias de Éxito de Clientes",
+            "title": "Confiado por Propietarios de Negocios de Alto Crecimiento",
+            "titleHighlight": "Propietarios de Negocios"
+        },
+        "StickyCTABar": {
+            "tooltip": "¿Ahorrar $20k+ en impuestos?",
+            "desktopButton": "Reservar Llamada de Estrategia",
+            "mobile": {
+                "eyebrow": "Consulta Gratuita",
+                "title": "Deje de Pagar Impuestos en Exceso",
+                "button": "Reservar Ahora"
+            }
+        },
+        "DifferentiationSection": {
+            "eyebrow": "Por Qué Somos Diferentes",
+            "title": "No Somos un Centro de Llamadas.",
+            "titleHighlight": "Centro de Llamadas.",
+            "subtitle": "Vea la diferencia entre las firmas nacionales de alivio fiscal y nuestra experiencia boutique.",
+            "competitorTitle": "Firmas Nacionales de Alivio Fiscal",
+            "competitorItems": {
+                "scriptedCalls": {
+                    "title": "Llamadas de Ventas Scriptadas",
+                    "description": "Usted habla con un vendedor, no con un experto fiscal."
+                },
+                "rotatingStaff": {
+                    "title": "Personal Rotativo",
+                    "description": "Nunca sabe quién está trabajando en su caso."
+                },
+                "callCenter": {
+                    "title": "Operaciones de Centro de Llamadas",
+                    "description": "Alto volumen, baja atención al detalle."
+                },
+                "genericAdvice": {
+                    "title": "Consejo Genérico",
+                    "description": "Soluciones de talla única que pierden ahorros."
+                }
+            },
+            "ourTitle": "Union National Tax",
+            "ourBadge": "El Estándar de la Bóveda Digital",
+            "ourItems": {
+                "personalized": {
+                    "title": "Consultas Personalizadas",
+                    "description": "Sesiones de estrategia profundas adaptadas a su negocio."
+                },
+                "sameAdvisor": {
+                    "title": "Mismo Asesor Siempre",
+                    "description": "Construya una relación con alguien que conoce su historial."
+                },
+                "boutique": {
+                    "title": "Enfoque de Firma Boutique",
+                    "description": "Bajo volumen, alto contacto, calidad de grado institucional."
+                },
+                "expertise": {
+                    "title": "Experiencia con Credencial de EA",
+                    "description": "Dirigido por Jason Astwood, EA - licenciado para representarlo."
+                }
+            },
+            "ctaText": "¿Listo para experimentar la diferencia? Programe una consulta gratuita con nuestro equipo.",
+            "ctaPrimary": "Programar Consulta Gratuita",
+            "ctaSecondary": "Conozca Nuestro Proceso"
+        },
+        "CTASection": {
+            "badge": "Aceptando Nuevos Clientes para la Temporada Fiscal {year}",
+            "fallbackTitle": "Deje de Pagar en Exceso. Empiece a Construir Patrimonio.",
+            "fallbackSubtitle": "Únase a más de 500 propietarios de negocios que ahorran un promedio de $40k/año. Reserve su llamada de estrategia gratuita de 15 minutos para desbloquear sus ahorros potenciales.",
+            "fallbackButtonText": "Reservar Llamada de Estrategia",
+            "secondaryButton": "Hablar con un Experto",
+            "footerText": "Sin compromiso. 100% Confidencial."
+        }
+    },
+    "AboutPage": {
+        "metadata": {
+            "title": "Nosotros | Union National Tax",
+            "description": "Conozca a los arquitectos de la riqueza moderna. Nuestra misión es cerrar la brecha entre las complejas regulaciones del IRS y las necesidades ágiles de las empresas modernas."
+        },
+        "hero": {
+            "fallbackTitle": "Los Arquitectos de la Riqueza Moderna.",
+            "fallbackSubtitle": "Union National Tax cierra la brecha entre las complejas regulaciones del IRS y las necesidades ágiles de consultores, creadores y agencias modernas."
+        },
+        "ValuesBento": {
+            "eyebrow": "Valores Fundamentales",
+            "title": "Los pilares culturales detrás de cada compromiso.",
+            "integrityBadge": "Integridad",
+            "integrityTitle": "Protegemos la relación con el IRS antes que nada.",
+            "integrityDescription": "La integridad es el ancla. Cada recomendación es verificada con documentación y exposición a largo plazo en mente.",
+            "values": {
+                "precision": {
+                    "title": "Precisión",
+                    "description": "Ejecutamos modelos de planificación hasta que los números se sientan inevitables."
+                },
+                "partnership": {
+                    "title": "Asociación",
+                    "description": "Cada plan se construye colaborativamente con el equipo directivo de su empresa."
+                },
+                "speed": {
+                    "title": "Velocidad",
+                    "description": "Entregamos decisiones rápidamente sin recortar esquinas en el cumplimiento."
+                }
+            }
+        },
+        "TrustVault": {
+            "eyebrow": "La Bóveda",
+            "title": "Seguridad de grado bancario con claridad regulatoria.",
+            "description": "Operamos como un escritorio de cumplimiento, no como una agencia boutique. Cada plan está diseñado para longevidad, auditabilidad y confianza total.",
+            "items": {
+                "irs": {
+                    "title": "Cumplimiento IRS",
+                    "description": "Las estrategias se mapean al código IRS verificado y respaldadas con documentación que puede auditar en cualquier momento."
+                },
+                "encryption": {
+                    "title": "Encriptación de 256-bit",
+                    "description": "Los datos financieros sensibles están protegidos con los mismos estándares de encriptación utilizados por bancos institucionales."
+                },
+                "strategists": {
+                    "title": "Estrategas Verificados",
+                    "description": "Cada asesor es evaluado, certificado y continuamente entrenado en las últimas actualizaciones regulatorias."
+                }
+            }
+        },
+        "FounderSection": {
+            "eyebrow": "Fundador",
+            "name": "Jason Astwood, EA, FSCP",
+            "quote1": "El código fiscal no fue escrito para castigarlo. Fue escrito para incentivarlo.",
+            "bio": "Jason combina dos décadas de experiencia con una mentalidad de estrategia primero para ayudar a los fundadores a conservar más de lo que ganan. Trata el negocio de cada cliente con la misma rigurosidad que una cartera institucional.",
+            "credentials": {
+                "ea": "Licenciado EA",
+                "mba": "MBA",
+                "fscp": "FSCP"
+            },
+            "watchVideo": "Ver Intro del Fundador",
+            "imageAlt": "Jason Astwood",
+            "quote2": "La planificación no es un evento de una vez al año. Es una asociación que se compone con el tiempo.",
+            "role": "Director y Estratega Jefe"
+        }
+    },
+    "ContactPage": {
+        "metadata": {
+            "title": "Contacto | Union National Tax",
+            "description": "Póngase en contacto con nuestro equipo de expertos fiscales. Programe una consulta o hable directamente con un estratega."
+        },
+        "TeamMemberCard": {
+            "fallbackName": "Jason Astwood",
+            "fallbackTitle": "Director",
+            "fallbackQuote": "Reviso personalmente cada consulta para asegurarme de que sea emparejado con el estratega adecuado para su situación específica.",
+            "fallbackCredentials": [
+                "Licenciado EA",
+                "Representación IRS",
+                "15+ Años Exp"
+            ],
+            "fallbackEmail": "hello@unionnationaltax.com",
+            "fallbackPhone": "(555) 123-4567",
+            "officeLabel": "Oficina",
+            "emailLabel": "Correo",
+            "phoneLabel": "Teléfono",
+            "defaultAddress": "Distrito Financiero, NYC",
+            "mapTitle": "Mapa de Ubicación de Oficina"
+        },
+        "MultiStepForm": {
+            "step1": {
+                "fallbackTitle": "¿Cuál es su objetivo principal?",
+                "fallbackSubtitle": "Seleccione la opción que mejor describa sus necesidades.",
+                "goals": {
+                    "taxReduction": "Reducir mi responsabilidad fiscal",
+                    "auditDefense": "Defender una auditoría del IRS",
+                    "restructure": "Reestructurar mi negocio",
+                    "partnership": "Explorar una asociación"
+                },
+                "continueButton": "Continuar",
+                "errorMessage": "Por favor seleccione un objetivo principal."
+            },
+            "step2": {
+                "title": "Algunos detalles sobre usted.",
+                "subtitle": "Usaremos esto para prepararnos para nuestra conversación.",
+                "backButton": "Atrás",
+                "clientTypes": {
+                    "business": "Negocio",
+                    "individual": "Individual"
+                },
+                "labels": {
+                    "firstName": "Nombre",
+                    "lastName": "Apellido",
+                    "email": "Correo de Trabajo",
+                    "phone": "Teléfono",
+                    "message": "Mensaje (Opcional)"
+                },
+                "placeholders": {
+                    "firstName": "María",
+                    "lastName": "García",
+                    "email": "maria@empresa.com",
+                    "message": "Cuéntenos un poco sobre su situación..."
+                },
+                "privacyText": "Acepto la {privacyLink} y doy mi consentimiento para ser contactado. Respetamos su privacidad y nunca compartimos datos.",
+                "privacyLink": "Política de Privacidad",
+                "submitButton": "Solicitar Consulta",
+                "sending": "Enviando..."
+            },
+            "validation": {
+                "firstNameRequired": "El nombre es requerido",
+                "lastNameRequired": "El apellido es requerido",
+                "emailInvalid": "Por favor ingrese un correo electrónico válido",
+                "privacyRequired": "Debe aceptar la política de privacidad"
+            }
+        }
+    },
+    "TeamPage": {
+        "metadata": {
+            "title": "Equipo | Union National Tax",
+            "description": "Conozca a nuestro equipo de CPAs, Agentes Inscritos y estrategas financieros dedicados a preservar el patrimonio para la economía moderna."
+        },
+        "fallbacks": {
+            "heroBadge": "Nuestra Gente",
+            "heroTitle": "Los expertos detrás de su estrategia.",
+            "heroSubtitle": "Somos un equipo de CPAs, Agentes Inscritos y estrategas financieros unidos por una sola misión: preservar el patrimonio para la economía moderna.",
+            "founderSectionTitle": "Fundador y Director",
+            "teamSectionTitle": "Nuestro Equipo",
+            "teamSectionSubtitle": "Profesionales dedicados administrando sus cuentas.",
+            "values": {
+                "precision": {
+                    "title": "Precisión",
+                    "description": "No tratamos con estimaciones o conjeturas. Cada estrategia se calcula al centavo y está respaldada por el código fiscal."
+                },
+                "integrity": {
+                    "title": "Integridad",
+                    "description": "Operamos con total transparencia. Nuestras estrategias son agresivas pero siempre cumplidoras, diseñadas para resistir el escrutinio."
+                },
+                "partnership": {
+                    "title": "Asociación",
+                    "description": "No solo somos sus contadores; somos sus co-pilotos financieros, proactivos durante todo el año en lugar de reactivos en la temporada de impuestos."
+                }
+            },
+            "hiringBadge": "Únase al equipo",
+            "hiringTitle": "¿Obsesionado con los detalles? Estamos contratando.",
+            "hiringDescription": "No contratamos contadores típicos. Contratamos solucionadores de problemas que aman el rompecabezas del código fiscal. Si cree en la precisión sobre la velocidad y la estrategia sobre el ingreso de datos, pertenece aquí.",
+            "hiringBenefits": [
+                "Cultura completamente remota",
+                "Salario competitivo y equidad",
+                "Estipendio de educación continua"
+            ],
+            "hiringCtaText": "Ver Posiciones Abiertas"
+        },
+        "ValuesSection": {
+            "eyebrow": "Nuestro Ethos",
+            "title": "Construido sobre tres pilares."
+        }
     }
 }

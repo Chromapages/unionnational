@@ -3,7 +3,6 @@ import { Footer } from "@/components/layout/Footer";
 import { ShopHero } from "@/components/shop/ShopHero";
 import { FeaturedProduct } from "@/components/shop/FeaturedProduct";
 import { ShopFAQ } from "@/components/shop/ShopFAQ";
-import { client } from "@/sanity/lib/client";
 import { ALL_PRODUCTS_QUERY, SHOP_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 import { ShopClient } from "@/components/shop/ShopClient";
 import { ShopTestimonialStrip } from "@/components/shop/ShopTestimonialStrip";
@@ -17,7 +16,7 @@ export const revalidate = 60; // Revalidate every minute
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const params = await props.params;
     const locale = params.locale;
-    const { data: shopSettings } = await sanityFetch({ query: SHOP_PAGE_QUERY });
+    const { data: shopSettings } = await sanityFetch({ query: SHOP_PAGE_QUERY, params: { locale } });
     const seo = shopSettings?.seo;
 
     if (!seo) {
@@ -63,11 +62,16 @@ type ShopProduct = {
 export default async function ShopPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    const [shopSettings, products, siteSettings, testimonials] = await Promise.all([
-        client.fetch(SHOP_PAGE_QUERY),
-        client.fetch(ALL_PRODUCTS_QUERY),
-        client.fetch(SITE_SETTINGS_QUERY),
-        client.fetch(TESTIMONIALS_QUERY),
+    const [
+        { data: shopSettings },
+        { data: products },
+        { data: siteSettings },
+        { data: testimonials }
+    ] = await Promise.all([
+        sanityFetch({ query: SHOP_PAGE_QUERY, params: { locale } }),
+        sanityFetch({ query: ALL_PRODUCTS_QUERY, params: { locale } }),
+        sanityFetch({ query: SITE_SETTINGS_QUERY }),
+        sanityFetch({ query: TESTIMONIALS_QUERY }),
     ]);
     const typedProducts: ShopProduct[] = products || [];
     const shopTestimonials = testimonials?.slice(0, 3) || [];

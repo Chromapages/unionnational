@@ -5,6 +5,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { Phone, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface CTASectionProps {
     data?: {
@@ -20,15 +21,18 @@ interface CTASectionProps {
 }
 
 export function CTASection({ data }: CTASectionProps) {
+    const t = useTranslations("HomePage.CTASection");
     const backgroundImageUrl = data?.ctaBackgroundImage?.asset
         ? urlFor(data.ctaBackgroundImage).width(2000).height(1200).url()
         : "/images/ctasection.jpg";
     const backgroundImageAlt = data?.ctaBackgroundImage?.alt || "Office Background";
 
-    // Fallbacks
-    const title = data?.ctaTitle || "Stop Overpaying. Start Building Wealth.";
-    const subtitle = data?.ctaSubtitle || "Join 500+ business owners who are saving an average of $40k/year. Book your free 15-minute strategy call to unlock your potential savings.";
-    const buttonText = data?.ctaButtonText || "Book Strategy Call";
+    const currentYear = new Date().getFullYear();
+
+    // Fallbacks with translations
+    const title = data?.ctaTitle || t("fallbackTitle");
+    const subtitle = data?.ctaSubtitle || t("fallbackSubtitle");
+    const buttonText = data?.ctaButtonText || t("fallbackButtonText");
     const buttonUrl = data?.ctaButtonUrl || "/contact";
 
     return (
@@ -50,7 +54,7 @@ export function CTASection({ data }: CTASectionProps) {
                     <RevealOnScroll>
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-500 text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-sm">
                             <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-                            Accepting New Clients for {new Date().getFullYear()} Tax Season
+                            {t("badge", { year: currentYear })}
                         </div>
 
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-8 font-heading leading-[1.1] whitespace-pre-line">
@@ -75,12 +79,12 @@ export function CTASection({ data }: CTASectionProps) {
                                 className="w-full sm:w-auto bg-white/5 backdrop-blur-sm border border-white/20 text-white px-8 py-5 rounded-xl text-lg font-bold hover:bg-white/10 hover:border-gold-500/50 hover:text-gold-500 transition-all duration-300 flex items-center justify-center gap-2 group font-heading tracking-wide"
                             >
                                 <Phone className="w-5 h-5 text-slate-400 group-hover:text-gold-500" />
-                                Talk to an Expert
+                                {t("secondaryButton")}
                             </Link>
                         </div>
 
                         <p className="mt-8 text-sm text-slate-500 font-sans">
-                            No obligation. 100% Confidential.
+                            {t("footerText")}
                         </p>
                     </RevealOnScroll>
                 </div>

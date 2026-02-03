@@ -14,7 +14,7 @@ export const blogPost = defineType({
         defineField({
             name: 'title',
             title: 'Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             validation: (Rule) => Rule.required(),
         }),
@@ -24,7 +24,7 @@ export const blogPost = defineType({
             type: 'slug',
             group: 'content',
             options: {
-                source: 'title',
+                source: 'title.en',
                 maxLength: 96,
             },
             validation: (Rule) => Rule.required(),
@@ -71,46 +71,16 @@ export const blogPost = defineType({
         defineField({
             name: 'excerpt',
             title: 'Excerpt',
-            type: 'text',
+            type: 'localizedText',
             group: 'content',
-            rows: 4,
             validation: (Rule) => Rule.max(200),
             description: 'Short summary for previews and SEO.',
         }),
         defineField({
             name: 'body',
             title: 'Body',
-            type: 'array',
+            type: 'localizedBlock',
             group: 'content',
-            of: [
-                {
-                    type: 'block',
-                    styles: [
-                        { title: 'Normal', value: 'normal' },
-                        { title: 'H1', value: 'h1' },
-                        { title: 'H2', value: 'h2' },
-                        { title: 'H3', value: 'h3' },
-                        { title: 'Quote', value: 'blockquote' },
-                    ],
-                },
-                {
-                    type: 'image',
-                    options: { hotspot: true },
-                    fields: [
-                        {
-                            name: 'caption',
-                            type: 'string',
-                            title: 'Caption',
-                        },
-                        {
-                            name: 'alt',
-                            type: 'string',
-                            title: 'Alternative Text',
-                            description: 'Important for SEO and accessibility.',
-                        },
-                    ],
-                },
-            ],
         }),
         defineField({
             name: 'readingTime',
@@ -139,8 +109,12 @@ export const blogPost = defineType({
             media: 'featuredImage',
         },
         prepare(selection) {
-            const { author } = selection
-            return { ...selection, subtitle: author && `by ${author}` }
+            const { author, title } = selection
+            return {
+                ...selection,
+                title: title?.en || "Untitled",
+                subtitle: author && `by ${author}`
+            }
         },
     },
-})
+});

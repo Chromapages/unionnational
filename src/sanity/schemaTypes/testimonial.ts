@@ -16,7 +16,7 @@ export const testimonial = defineType({
         defineField({
             name: "clientTitle",
             title: "Client Job Title",
-            type: "string",
+            type: "localizedString",
         }),
         defineField({
             name: "clientCompany",
@@ -26,8 +26,7 @@ export const testimonial = defineType({
         defineField({
             name: "quote",
             title: "Quote",
-            type: "text",
-            rows: 4,
+            type: "localizedText",
             validation: (Rule) => Rule.required(),
         }),
         defineField({

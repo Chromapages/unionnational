@@ -10,11 +10,23 @@ import { ValuesBento } from "@/components/about/ValuesBento";
 import { FounderSection } from "@/components/about/FounderSection";
 import { CompanyTimeline } from "@/components/about/CompanyTimeline";
 import { FAQSection } from "@/components/home/FAQSection";
+import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: "AboutPage.metadata" });
+    return {
+        title: t("title"),
+        description: t("description"),
+    };
+}
 
 export default async function AboutPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    const { data: page } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
+    const { data: page } = await sanityFetch({ query: ABOUT_PAGE_QUERY, params: { locale } });
+    const t = await getTranslations({ locale, namespace: "AboutPage.hero" });
 
     return (
         <div className="min-h-dvh bg-brand-900 flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
@@ -22,8 +34,8 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
 
             <main>
                 <AboutHero
-                    title={page?.heroTitle || "The Architects of Modern Wealth."}
-                    subtitle={page?.heroSubtitle || "Union National Tax bridges the gap between complex IRS regulations and the agile needs of modern consultants, creators, and agencies."}
+                    title={page?.heroTitle || t("fallbackTitle")}
+                    subtitle={page?.heroSubtitle || t("fallbackSubtitle")}
                     badge={page?.heroBadge}
                 />
 

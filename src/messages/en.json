@@ -34,5 +34,434 @@
         "learnMore": "Learn More",
         "getStarted": "Get Started",
         "viewAll": "View All"
+    },
+    "ServicesPage": {
+        "metadata": {
+            "title": "Services | Union National Tax",
+            "description": "Comprehensive tax strategy, bookkeeping, and CFO services for modern businesses."
+        },
+        "Hero": {
+            "title": "Eliminate tax anxiety. Build true wealth.",
+            "subtitle": "We replace reactive \"once-a-year\" filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.",
+            "ctaPrimary": "Schedule Consultation",
+            "ctaSecondary": "Browse Services"
+        },
+        "PricingSection": {
+            "eyebrow": "Strategic Partnership",
+            "title": "Choose Your Level of Support",
+            "subtitle": "Move beyond simple compliance. Select an advisory tier that matches the complexity of your business and your wealth goals.",
+            "comparisonTitle": "Complete Transparency",
+            "comparisonSubtitle": "Compare plans to find the right level of support for your business needs."
+        },
+        "ComparisonTable": {
+            "tierNames": {
+                "foundation": "Foundation",
+                "growth": "Growth",
+                "executive": "Executive"
+            },
+            "badge": {
+                "mostPopular": "Most Popular"
+            },
+            "features": {
+                "idealFor": "Ideal For",
+                "annualInvestment": "Annual Investment",
+                "taxPrepIncluded": "Tax Prep Included",
+                "strategicTaxPlanning": "Strategic Tax Planning",
+                "quarterlyReviews": "Quarterly Reviews",
+                "prioritySupport": "Priority Support",
+                "auditProtection": "3-Year Audit Protection",
+                "hotelIncentive": "Private Hotel Incentive"
+            },
+            "targetAudience": {
+                "businessOwners": "Business Owners",
+                "growingBusinesses": "Growing Businesses",
+                "highNetWorth": "High-Net-Worth"
+            },
+            "investmentTiers": {
+                "foundation": "$3,500+",
+                "growth": "$6,500+",
+                "executive": "$10,000+"
+            },
+            "hotelNights": "2-5 Nights"
+        },
+        "ExecutiveIncentive": {
+            "badge": "Qualified Revenue: {threshold}",
+            "title": "The Executive Retreat Incentive",
+            "description": "Move beyond simple tax savings. High-revenue partners unlock exclusive access to our annual luxury networking retreats and private wealth summits.",
+            "features": {
+                "privateRetreats": "Private Retreats",
+                "wealthStrategy": "Wealth Strategy",
+                "assetProtection": "Asset Protection"
+            },
+            "cta": "Apply for Partner Status",
+            "limitText": "Limited to 12 partners in {year}",
+            "exclusiveAccess": "Exclusive Access"
+        }
+    },
+    "HomePage": {
+        "VideoHero": {
+            "sectionAriaLabel": "Tax Strategy Video and Savings Calculator",
+            "titlePart1": "Stop Overpaying. <gold>Start Keeping.</gold>",
+            "eyebrow": "Your Tax Strategy",
+            "calculator": {
+                "title": "Estimate Your S-Corp Savings",
+                "confidential": "Confidential Calculation",
+                "placeholder": "Net Income (e.g. 150,000)",
+                "button": "Calculate",
+                "calculating": "Calculating..."
+            },
+            "mobileResult": {
+                "potentialSavings": "Potential Savings",
+                "estimatedReduction": "Estimated Annual Reduction",
+                "verifiedStrategy": "Verified Strategy"
+            },
+            "videoButton": {
+                "eyebrow": "See How It Works",
+                "label": "Watch Strategy Video",
+                "ariaLabel": "Play strategy video"
+            },
+            "dashboard": {
+                "advisorName": "Jason Astwood",
+                "advisorCompany": "Union National Tax",
+                "active": "Active",
+                "projectedSavings": "Projected Annual Savings",
+                "retainedEarnings": "+15.3% retained earnings vs Sole Prop",
+                "selfEmploymentTax": "Self-Employment Tax",
+                "newLiability": "New Liability",
+                "taxEfficiency": "Tax Efficiency Score",
+                "taxEfficiencyScore": "{score}%",
+                "viewAnalysis": "View Full Analysis"
+            },
+            "videoChapters": {
+                "intro": "Introduction",
+                "strategy": "The S-Corp Strategy",
+                "calculating": "Calculating Savings",
+                "implementation": "Implementation",
+                "nextSteps": "Next Steps",
+                "cta": {
+                    "bookCall": "Book Call",
+                    "tryCalculator": "Try Calculator",
+                    "getStarted": "Get Started"
+                }
+            },
+            "videoModal": {
+                "ariaLabel": "Video modal",
+                "closeAriaLabel": "Close modal"
+            }
+        },
+        "ServicesSection": {
+            "eyebrow": "Our Expertise",
+            "title": "Comprehensive Financial Solutions.",
+            "titleHighlight": "Financial Solutions.",
+            "subtitle": "Design a financial operating system that works for your business. From basic compliance to strategic growth tools.",
+            "learnMore": "Learn More"
+        },
+        "NationwideServiceSection": {
+            "badge": "Virtual First Service",
+            "title": "Serving Clients Nationwide Virtually.",
+            "titleHighlight": "Nationwide Virtually.",
+            "subtitle": "No location barriers. We provide expert tax strategy to business owners in all 50 states through our secure digital platform.",
+            "features": {
+                "video": {
+                    "title": "Video Consultations",
+                    "description": "Face-to-face strategy calls from the comfort of your office."
+                },
+                "portal": {
+                    "title": "Digital Portal",
+                    "description": "Securely upload documents and sign returns instantly."
+                },
+                "multistate": {
+                    "title": "Multi-State Expertise",
+                    "description": "Navigating complex nexus and filing requirements across state lines."
+                },
+                "advisor": {
+                    "title": "Consistent Advisor",
+                    "description": "Work with the same dedicated expert, regardless of where you move."
+                }
+            },
+            "mapLabel": "States",
+            "cta": "Book a Strategy Session"
+        },
+        "BentoGridSection": {
+            "section": {
+                "badge": "Strategic Advantage",
+                "title": "Where institutional expertise meets",
+                "titleHighlight": "entrepreneurial speed."
+            },
+            "taxSavingsCard": {
+                "badge": "Client Impact",
+                "title": "Generating wealth through strategic tax reduction.",
+                "defaultLabel": "Total Savings Identified"
+            },
+            "leadExpertCard": {
+                "badge": "Principal",
+                "name": "Jason Astwood",
+                "credentials": "EA, MBA, FSCP, LUTCF",
+                "quote": "We look for every legal opportunity to build your wealth.",
+                "company": "Union National Tax",
+                "imageAlt": "Jason Astwood - Enrolled Agent",
+                "initials": "JA"
+            },
+            "eaCard": {
+                "badge": "Highest Credential",
+                "title": "What is an",
+                "titleHighlight": "Enrolled Agent?",
+                "description": "<highlight>Federally licensed</highlight> tax specialists with unlimited rights to represent you before the IRS.",
+                "federalLicense": "Federal License",
+                "allStates": "Unlimited Representation",
+                "cta": "Learn More"
+            },
+            "industryFocusCard": {
+                "title": "Specialized in",
+                "titleHighlight": "High-Growth Industries.",
+                "description": "We understand the nuances of modern digital businesses, consultancies, and specialized professional services.",
+                "cta": "View Full Industry List"
+            }
+        },
+        "TestimonialsSection": {
+            "eyebrow": "Client Success Stories",
+            "title": "Trusted by High-Growth Business Owners",
+            "titleHighlight": "Business Owners"
+        },
+        "StickyCTABar": {
+            "tooltip": "Save $20k+ on taxes?",
+            "desktopButton": "Book Strategy Call",
+            "mobile": {
+                "eyebrow": "Free Consultation",
+                "title": "Stop Overpaying Taxes",
+                "button": "Book Now"
+            }
+        },
+        "DifferentiationSection": {
+            "eyebrow": "Why We Are Different",
+            "title": "We're Not a Call Center.",
+            "titleHighlight": "Call Center.",
+            "subtitle": "See the difference between national tax relief firms and our boutique expertise.",
+            "competitorTitle": "National Tax Relief Firms",
+            "competitorItems": {
+                "scriptedCalls": {
+                    "title": "Scripted Sales Calls",
+                    "description": "You talk to a salesperson, not a tax expert."
+                },
+                "rotatingStaff": {
+                    "title": "Rotating Staff",
+                    "description": "You never know who is working on your file."
+                },
+                "callCenter": {
+                    "title": "Call Center Operations",
+                    "description": "High volume, low attention to detail."
+                },
+                "genericAdvice": {
+                    "title": "Generic Advice",
+                    "description": "One-size-fits-all solutions that miss savings."
+                }
+            },
+            "ourTitle": "Union National Tax",
+            "ourBadge": "The Digital Vault Standard",
+            "ourItems": {
+                "personalized": {
+                    "title": "Personalized Consultations",
+                    "description": "Deep dive strategy sessions tailored to your business."
+                },
+                "sameAdvisor": {
+                    "title": "Same Advisor Every Time",
+                    "description": "Build a relationship with someone who knows your history."
+                },
+                "boutique": {
+                    "title": "Boutique Firm Approach",
+                    "description": "Low volume, high touch, institutional-grade quality."
+                },
+                "expertise": {
+                    "title": "EA-Credentialed Expertise",
+                    "description": "Led by Jason Astwood, EA - licensed to represent you."
+                }
+            },
+            "ctaText": "Ready to experience the difference? Schedule a free consultation with our team.",
+            "ctaPrimary": "Schedule Free Consultation",
+            "ctaSecondary": "Learn About Our Process"
+        },
+        "CTASection": {
+            "badge": "Accepting New Clients for {year} Tax Season",
+            "fallbackTitle": "Stop Overpaying. Start Building Wealth.",
+            "fallbackSubtitle": "Join 500+ business owners who are saving an average of $40k/year. Book your free 15-minute strategy call to unlock your potential savings.",
+            "fallbackButtonText": "Book Strategy Call",
+            "secondaryButton": "Talk to an Expert",
+            "footerText": "No obligation. 100% Confidential."
+        }
+    },
+    "AboutPage": {
+        "metadata": {
+            "title": "About | Union National Tax",
+            "description": "Meet the architects of modern wealth. Our mission is to bridge the gap between complex IRS regulations and the agile needs of modern businesses."
+        },
+        "hero": {
+            "fallbackTitle": "The Architects of Modern Wealth.",
+            "fallbackSubtitle": "Union National Tax bridges the gap between complex IRS regulations and the agile needs of modern consultants, creators, and agencies."
+        },
+        "ValuesBento": {
+            "eyebrow": "Core Values",
+            "title": "The cultural pillars behind every engagement.",
+            "integrityBadge": "Integrity",
+            "integrityTitle": "We protect the relationship with the IRS before anything else.",
+            "integrityDescription": "Integrity is the anchor. Every recommendation is vetted with documentation and long-term exposure in mind.",
+            "values": {
+                "precision": {
+                    "title": "Precision",
+                    "description": "We run planning models until the numbers feel inevitable."
+                },
+                "partnership": {
+                    "title": "Partnership",
+                    "description": "Every plan is built collaboratively with your leadership team."
+                },
+                "speed": {
+                    "title": "Speed",
+                    "description": "We deliver decisions quickly without cutting corners on compliance."
+                }
+            }
+        },
+        "TrustVault": {
+            "eyebrow": "The Vault",
+            "title": "Bank-grade security with regulatory clarity.",
+            "description": "We operate like a compliance desk, not a boutique agency. Every plan is designed for longevity, auditability, and total confidence.",
+            "items": {
+                "irs": {
+                    "title": "IRS Compliant",
+                    "description": "Strategies are mapped to verified IRS code and backed with documentation you can audit at any time."
+                },
+                "encryption": {
+                    "title": "256-bit Encryption",
+                    "description": "Sensitive financial data is protected with the same encryption standards used by institutional banks."
+                },
+                "strategists": {
+                    "title": "Vetted Strategists",
+                    "description": "Every advisor is screened, certified, and continuously trained on the latest regulatory updates."
+                }
+            }
+        },
+        "FounderSection": {
+            "eyebrow": "Founder",
+            "name": "Jason Astwood, EA, FSCP",
+            "quote1": "The tax code wasn't written to punish you. It was written to incentivize you.",
+            "bio": "Jason combines two decades of experience with a strategy-first mindset to help founders keep more of what they earn. He treats every client's business with the same rigor as an institutional portfolio.",
+            "credentials": {
+                "ea": "EA Licensed",
+                "mba": "MBA",
+                "fscp": "FSCP"
+            },
+            "watchVideo": "Watch Founder Intro",
+            "imageAlt": "Jason Astwood",
+            "quote2": "Planning isn't a once-a-year event. It's a partnership that compounds over time.",
+            "role": "Director & Chief Strategist"
+        }
+    },
+    "ContactPage": {
+        "metadata": {
+            "title": "Contact | Union National Tax",
+            "description": "Get in touch with our team of tax experts. Schedule a consultation or speak directly with a strategist."
+        },
+        "TeamMemberCard": {
+            "fallbackName": "Jason Astwood",
+            "fallbackTitle": "Director",
+            "fallbackQuote": "I personally review every inquiry to ensure you're matched with the right strategist for your specific situation.",
+            "fallbackCredentials": [
+                "EA Licensed",
+                "IRS Representation",
+                "15+ Years Exp"
+            ],
+            "fallbackEmail": "hello@unionnationaltax.com",
+            "fallbackPhone": "(555) 123-4567",
+            "officeLabel": "Office",
+            "emailLabel": "Email",
+            "phoneLabel": "Phone",
+            "defaultAddress": "Financial District, NYC",
+            "mapTitle": "Office Location Map"
+        },
+        "MultiStepForm": {
+            "step1": {
+                "fallbackTitle": "What's your primary goal?",
+                "fallbackSubtitle": "Select the option that best describes your needs.",
+                "goals": {
+                    "taxReduction": "Reduce my tax liability",
+                    "auditDefense": "Defend an IRS audit",
+                    "restructure": "Restructure my business",
+                    "partnership": "Explore a partnership"
+                },
+                "continueButton": "Continue",
+                "errorMessage": "Please select a primary goal."
+            },
+            "step2": {
+                "title": "A few details about you.",
+                "subtitle": "We'll use this to prepare for our conversation.",
+                "backButton": "Back",
+                "clientTypes": {
+                    "business": "Business",
+                    "individual": "Individual"
+                },
+                "labels": {
+                    "firstName": "First Name",
+                    "lastName": "Last Name",
+                    "email": "Work Email",
+                    "phone": "Phone",
+                    "message": "Message (Optional)"
+                },
+                "placeholders": {
+                    "firstName": "Jane",
+                    "lastName": "Doe",
+                    "email": "jane@company.com",
+                    "message": "Tell us a bit about your situation..."
+                },
+                "privacyText": "I agree to the {privacyLink} and consent to being contacted. We honor your privacy and never share data.",
+                "privacyLink": "Privacy Policy",
+                "submitButton": "Request Consultation",
+                "sending": "Sending..."
+            },
+            "validation": {
+                "firstNameRequired": "First name is required",
+                "lastNameRequired": "Last name is required",
+                "emailInvalid": "Please enter a valid email address",
+                "privacyRequired": "You must agree to the privacy policy"
+            }
+        }
+    },
+    "TeamPage": {
+        "metadata": {
+            "title": "Team | Union National Tax",
+            "description": "Meet our team of CPAs, Enrolled Agents, and financial strategists dedicated to preserving wealth for the modern economy."
+        },
+        "fallbacks": {
+            "heroBadge": "Our People",
+            "heroTitle": "The experts behind your strategy.",
+            "heroSubtitle": "We are a team of CPAs, Enrolled Agents, and financial strategists united by a single mission: preserving wealth for the modern economy.",
+            "founderSectionTitle": "Founder & Director",
+            "teamSectionTitle": "Our Team",
+            "teamSectionSubtitle": "Dedicated professionals managing your accounts.",
+            "values": {
+                "precision": {
+                    "title": "Precision",
+                    "description": "We don't deal in estimates or guesswork. Every strategy is calculated to the penny and backed by tax code."
+                },
+                "integrity": {
+                    "title": "Integrity",
+                    "description": "We operate with total transparency. Our strategies are aggressive but always compliant, designed to withstand scrutiny."
+                },
+                "partnership": {
+                    "title": "Partnership",
+                    "description": "We aren't just your accountants; we are your financial co-pilots, proactive year-round rather than reactive at tax time."
+                }
+            },
+            "hiringBadge": "Join the team",
+            "hiringTitle": "Obsessed with details? We're hiring.",
+            "hiringDescription": "We don't hire typical accountants. We hire problem solvers who love the puzzle of the tax code. If you believe in precision over speed and strategy over data entry, you belong here.",
+            "hiringBenefits": [
+                "Fully remote culture",
+                "Competitive salary & equity",
+                "Continuous education stipend"
+            ],
+            "hiringCtaText": "View Open Positions"
+        },
+        "ValuesSection": {
+            "eyebrow": "Our Ethos",
+            "title": "Built on three pillars."
+        }
     }
 }

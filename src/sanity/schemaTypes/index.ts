@@ -19,6 +19,9 @@ import { pricingTier } from './pricingTier'
 import { legalPage } from './legalPage'
 import { vslPage } from './vslPage'
 import { seo } from './seo'
+import { localizedString } from './localizedString'
+import { localizedText } from './localizedText'
+import { localizedBlock } from './localizedBlock'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -41,6 +44,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     caseStudy,
     pricingTier,
     legalPage,
-    vslPage
+    vslPage,
+    localizedString,
+    localizedText,
+    localizedBlock
   ],
 }

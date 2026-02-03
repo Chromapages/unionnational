@@ -26,7 +26,7 @@ const baseUrl = "https://unionnationaltax.com";
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const params = await props.params;
   const locale = params.locale;
-  const siteSettings = await getSiteSettings();
+  const siteSettings = await getSiteSettings(locale);
   const seo = siteSettings?.seo;
   const companyName = siteSettings?.companyName || "Union National Tax";
   const metaTitle = seo?.metaTitle || companyName;

@@ -5,10 +5,12 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { SITE_SETTINGS_QUERY, FOOTER_LEGAL_PAGES_QUERY } from "@/sanity/lib/queries";
 import { EABadge } from "@/components/ui/EABadge";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
+import { getLocale } from "next-intl/server";
 
 export async function Footer() {
-    const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
-    const { data: legalPages } = await sanityFetch({ query: FOOTER_LEGAL_PAGES_QUERY });
+    const locale = await getLocale();
+    const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
+    const { data: legalPages } = await sanityFetch({ query: FOOTER_LEGAL_PAGES_QUERY, params: { locale } });
 
     const formatAddress = (address: unknown): string | null => {
         if (!address) return null;

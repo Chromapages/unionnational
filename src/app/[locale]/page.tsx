@@ -20,7 +20,8 @@ import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { urlFor } from "@/sanity/lib/image";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY });
+  const { locale } = await props.params;
+  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY, params: { locale } });
   const seo = homePageData?.seo;
 
   if (!seo) {
@@ -52,10 +53,10 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function Home(props: { params: Promise<{ locale: string }> }) {
   const params = await props.params;
   const locale = params.locale;
-  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY });
-  const { data: services } = await sanityFetch({ query: SERVICES_QUERY });
-  const { data: testimonials } = await sanityFetch({ query: TESTIMONIALS_QUERY });
-  const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
+  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY, params: { locale } });
+  const { data: services } = await sanityFetch({ query: SERVICES_QUERY, params: { locale } });
+  const { data: testimonials } = await sanityFetch({ query: TESTIMONIALS_QUERY, params: { locale } });
+  const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
 
 
   return (

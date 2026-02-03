@@ -6,8 +6,25 @@ import {
   X, Check, ShieldCheck, PhoneOff, UserCheck,
   Users, Headphones, ArrowRight, ChevronRight
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function DifferentiationSection() {
+  const t = useTranslations("HomePage.DifferentiationSection");
+
+  const competitorItems = [
+    { icon: X, key: "scriptedCalls" },
+    { icon: Users, key: "rotatingStaff" },
+    { icon: PhoneOff, key: "callCenter" },
+    { icon: X, key: "genericAdvice" },
+  ];
+
+  const ourItems = [
+    { icon: Check, key: "personalized" },
+    { icon: UserCheck, key: "sameAdvisor" },
+    { icon: Check, key: "boutique" },
+    { icon: ShieldCheck, key: "expertise" },
+  ];
+
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -16,17 +33,17 @@ export function DifferentiationSection() {
         <RevealOnScroll className="mb-12 lg:mb-16 max-w-3xl">
           <div className="mb-4">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
-              Why We Are Different
+              {t("eyebrow")}
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1]">
-            We're Not a <br className="hidden sm:block" />
+            {t("title")} <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
-              Call Center.
+              {t("titleHighlight")}
             </span>
           </h2>
           <p className="text-slate-600 mt-6 max-w-2xl text-base md:text-lg lg:text-xl leading-relaxed font-sans">
-            See the difference between national tax relief firms and our boutique expertise.
+            {t("subtitle")}
           </p>
         </RevealOnScroll>
 
@@ -59,55 +76,24 @@ export function DifferentiationSection() {
                     <Headphones className="w-5 h-5 lg:w-6 lg:h-6" />
                   </div>
                   <h3 className="text-lg lg:text-xl font-bold text-slate-500 font-heading">
-                    National Tax Relief Firms
+                    {t("competitorTitle")}
                   </h3>
                 </div>
 
                 <ul className="space-y-5 lg:space-y-6">
-                  <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                    <X className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-slate-700 font-semibold text-sm md:text-base">
-                        Scripted Sales Calls
-                      </strong>
-                      <p className="text-sm md:text-base text-slate-500 mt-1 leading-relaxed">
-                        You talk to a salesperson, not a tax expert.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                    <Users className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-slate-700 font-semibold text-sm md:text-base">
-                        Rotating Staff
-                      </strong>
-                      <p className="text-sm md:text-base text-slate-500 mt-1 leading-relaxed">
-                        You never know who is working on your file.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                    <PhoneOff className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-slate-700 font-semibold text-sm md:text-base">
-                        Call Center Operations
-                      </strong>
-                      <p className="text-sm md:text-base text-slate-500 mt-1 leading-relaxed">
-                        High volume, low attention to detail.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                    <X className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="block text-slate-700 font-semibold text-sm md:text-base">
-                        Generic Advice
-                      </strong>
-                      <p className="text-sm md:text-base text-slate-500 mt-1 leading-relaxed">
-                        One-size-fits-all solutions that miss savings.
-                      </p>
-                    </div>
-                  </li>
+                  {competitorItems.map((item, index) => (
+                    <li key={index} className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
+                      <item.icon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                      <div>
+                        <strong className="block text-slate-700 font-semibold text-sm md:text-base">
+                          {t(`competitorItems.${item.key}.title`)}
+                        </strong>
+                        <p className="text-sm md:text-base text-slate-500 mt-1 leading-relaxed">
+                          {t(`competitorItems.${item.key}.description`)}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </RevealOnScroll>
@@ -135,67 +121,30 @@ export function DifferentiationSection() {
                     </div>
                     <div>
                       <h3 className="text-lg lg:text-xl font-bold text-white font-heading">
-                        Union National Tax
+                        {t("ourTitle")}
                       </h3>
                       <span className="text-xs font-bold text-gold-500 uppercase tracking-wider">
-                        The Digital Vault Standard
+                        {t("ourBadge")}
                       </span>
                     </div>
                   </div>
 
                   <ul className="space-y-5 lg:space-y-6">
-                    <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                      <div className="w-5 h-5 rounded-full bg-gold-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-gold-500" />
-                      </div>
-                      <div>
-                        <strong className="block text-white font-semibold text-sm md:text-base">
-                          Personalized Consultations
-                        </strong>
-                        <p className="text-sm md:text-base text-slate-300 mt-1 leading-relaxed">
-                          Deep dive strategy sessions tailored to your business.
-                        </p>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                      <div className="w-5 h-5 rounded-full bg-gold-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                        <UserCheck className="w-3 h-3 text-gold-500" />
-                      </div>
-                      <div>
-                        <strong className="block text-white font-semibold text-sm md:text-base">
-                          Same Advisor Every Time
-                        </strong>
-                        <p className="text-sm md:text-base text-slate-300 mt-1 leading-relaxed">
-                          Build a relationship with someone who knows your history.
-                        </p>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                      <div className="w-5 h-5 rounded-full bg-gold-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-gold-500" />
-                      </div>
-                      <div>
-                        <strong className="block text-white font-semibold text-sm md:text-base">
-                          Boutique Firm Approach
-                        </strong>
-                        <p className="text-sm md:text-base text-slate-300 mt-1 leading-relaxed">
-                          Low volume, high touch, institutional-grade quality.
-                        </p>
-                      </div>
-                    </li>
-                    <li className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
-                      <div className="w-5 h-5 rounded-full bg-gold-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                        <ShieldCheck className="w-3 h-3 text-gold-500" />
-                      </div>
-                      <div>
-                        <strong className="block text-white font-semibold text-sm md:text-base">
-                          EA-Credentialed Expertise
-                        </strong>
-                        <p className="text-sm md:text-base text-slate-300 mt-1 leading-relaxed">
-                          Led by Jason Astwood, EA - licensed to represent you.
-                        </p>
-                      </div>
-                    </li>
+                    {ourItems.map((item, index) => (
+                      <li key={index} className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
+                        <div className="w-5 h-5 rounded-full bg-gold-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                          <item.icon className="w-3 h-3 text-gold-500" />
+                        </div>
+                        <div>
+                          <strong className="block text-white font-semibold text-sm md:text-base">
+                            {t(`ourItems.${item.key}.title`)}
+                          </strong>
+                          <p className="text-sm md:text-base text-slate-300 mt-1 leading-relaxed">
+                            {t(`ourItems.${item.key}.description`)}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -209,13 +158,13 @@ export function DifferentiationSection() {
         <RevealOnScroll delay={300} className="mt-12 lg:mt-16 text-center">
           <div className="max-w-2xl mx-auto">
             <p className="text-slate-600 mb-6 text-base md:text-lg">
-              Ready to experience the difference? Schedule a free consultation with our team.
+              {t("ctaText")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 href="/contact"
-                aria-label="Schedule a free consultation"
+                aria-label={t("ctaPrimary")}
                 className={cn(
                   "inline-flex items-center justify-center gap-2",
                   "px-8 py-4 bg-gold-500 hover:bg-gold-600",
@@ -226,13 +175,13 @@ export function DifferentiationSection() {
                   "cursor-pointer"
                 )}
               >
-                Schedule Free Consultation
+                {t("ctaPrimary")}
                 <ArrowRight className="w-5 h-5" />
               </a>
 
               <a
                 href="/about"
-                aria-label="Learn about our process"
+                aria-label={t("ctaSecondary")}
                 className={cn(
                   "inline-flex items-center gap-2",
                   "text-brand-900 hover:text-gold-600",
@@ -240,7 +189,7 @@ export function DifferentiationSection() {
                   "text-base cursor-pointer"
                 )}
               >
-                Learn About Our Process
+                {t("ctaSecondary")}
                 <ChevronRight className="w-4 h-4" />
               </a>
             </div>

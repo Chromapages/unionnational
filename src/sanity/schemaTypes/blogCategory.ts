@@ -14,7 +14,7 @@ export const blogCategory = defineType({
         defineField({
             name: 'title',
             title: 'Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             validation: (Rule) => Rule.required(),
         }),
@@ -24,7 +24,7 @@ export const blogCategory = defineType({
             type: 'slug',
             group: 'content',
             options: {
-                source: 'title',
+                source: 'title.en',
                 maxLength: 96,
             },
             validation: (Rule) => Rule.required(),
@@ -32,9 +32,8 @@ export const blogCategory = defineType({
         defineField({
             name: 'description',
             title: 'Description',
-            type: 'text',
+            type: 'localizedText',
             group: 'content',
-            rows: 3,
         }),
         defineField({
             name: 'displayOrder',

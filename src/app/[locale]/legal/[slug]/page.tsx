@@ -26,7 +26,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const { slug, locale } = await props.params;
     const { data: page } = await sanityFetch({
         query: LEGAL_PAGE_QUERY,
-        params: { slug }
+        params: { slug, locale }
     });
 
     if (!page) return { title: 'Page Not Found' };
@@ -41,7 +41,7 @@ export default async function LegalPage(props: { params: Promise<{ locale: strin
     const { slug, locale } = await props.params;
     const { data: page } = await sanityFetch({
         query: LEGAL_PAGE_QUERY,
-        params: { slug }
+        params: { slug, locale }
     });
 
     if (!page) {

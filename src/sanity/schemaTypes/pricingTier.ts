@@ -12,7 +12,7 @@ export const pricingTier = defineType({
         defineField({
             name: 'name',
             title: 'Plan Name',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             validation: (rule) => rule.required(),
         }),
@@ -34,15 +34,14 @@ export const pricingTier = defineType({
         defineField({
             name: 'bestFor',
             title: 'Best For (Table Column)',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             description: 'Short description of who this plan is for (e.g., "W-2 / 1099 Filers")',
         }),
         defineField({
             name: 'includes',
             title: 'Included Items (Table Column)',
-            type: 'text',
-            rows: 3,
+            type: 'localizedText',
             group: 'content',
             description: 'List of specific items included (used for the comparison table)',
         }),
@@ -52,20 +51,20 @@ export const pricingTier = defineType({
             type: 'slug',
             group: 'content',
             options: {
-                source: 'name',
+                source: 'name.en',
                 maxLength: 96,
             },
         }),
         defineField({
             name: 'tagline',
             title: 'Tagline/Subtitle',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
         }),
         defineField({
             name: 'price',
             title: 'Price',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
         }),
         defineField({
@@ -81,7 +80,7 @@ export const pricingTier = defineType({
             name: 'features',
             title: 'Features List',
             type: 'array',
-            of: [{ type: 'string' }],
+            of: [{ type: 'localizedString' }],
             group: 'content',
         }),
         defineField({
@@ -100,9 +99,9 @@ export const pricingTier = defineType({
         defineField({
             name: 'ctaText',
             title: 'CTA Text',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
-            initialValue: 'Get Started',
+            initialValue: { en: 'Get Started' },
         }),
         defineField({
             name: 'ctaUrl',

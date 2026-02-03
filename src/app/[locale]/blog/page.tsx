@@ -1,5 +1,5 @@
-import { client } from "@/sanity/lib/client";
 import { BLOG_RECENT_POSTS_QUERY, BLOG_SETTINGS_QUERY, BLOG_CATEGORIES_QUERY, FEATURED_POSTS_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
 import { BlogHero } from "@/components/blog/BlogHero";
 import { BlogGrid } from "@/components/blog/BlogGrid";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
@@ -15,14 +15,20 @@ export const metadata: Metadata = {
     description: "Insights and strategies for tax optimization and wealth building from our expert team.",
 };
 
-export default async function BlogPage(props: { searchParams: Promise<{ page?: string }> }) {
+export default async function BlogPage(props: { params: Promise<{ locale: string }>, searchParams: Promise<{ page?: string }> }) {
+    const { locale } = await props.params;
     const searchParams = await props.searchParams;
     // Parallel data fetching
-    const [settings, categories, featuredPosts, recentPosts] = await Promise.all([
-        client.fetch(BLOG_SETTINGS_QUERY),
-        client.fetch(BLOG_CATEGORIES_QUERY),
-        client.fetch(FEATURED_POSTS_QUERY), // Separating featured posts
-        client.fetch(BLOG_RECENT_POSTS_QUERY, { limit: 100 }), // Fetch more and paginate on client/server effectively or implement true cursor pagination later
+    const [
+        { data: settings },
+        { data: categories },
+        { data: featuredPosts },
+        { data: recentPosts }
+    ] = await Promise.all([
+        sanityFetch({ query: BLOG_SETTINGS_QUERY, params: { locale } }),
+        sanityFetch({ query: BLOG_CATEGORIES_QUERY, params: { locale } }),
+        sanityFetch({ query: FEATURED_POSTS_QUERY, params: { locale } }),
+        sanityFetch({ query: BLOG_RECENT_POSTS_QUERY, params: { limit: 100, locale } }),
     ]);
 
     const page = Number(searchParams.page) || 1;

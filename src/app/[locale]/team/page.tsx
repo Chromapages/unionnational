@@ -13,6 +13,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
+import { getTranslations } from "next-intl/server";
 
 // Types
 interface TeamMember {
@@ -61,28 +62,25 @@ export const revalidate = 60; // Revalidate every 60 seconds
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const params = await props.params;
     const locale = params.locale;
-    const { data: pageSettings } = await sanityFetch({ query: TEAM_PAGE_QUERY });
+    const { data: pageSettings } = await sanityFetch({ query: TEAM_PAGE_QUERY, params: { locale } });
     const seo = pageSettings?.seo;
+    const t = await getTranslations({ locale, namespace: "TeamPage.metadata" });
 
-    if (!seo) {
-        return {};
-    }
-
-    const ogImage = seo.openGraphImage
+    const ogImage = seo?.openGraphImage
         ? urlFor(seo.openGraphImage).width(1200).height(630).url()
         : undefined;
 
     return {
-        title: seo.metaTitle,
-        description: seo.metaDescription,
+        title: seo?.metaTitle || t("title"),
+        description: seo?.metaDescription || t("description"),
         openGraph: {
-            ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
-            ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
+            ...(seo?.metaTitle || t("title") ? { title: seo?.metaTitle || t("title") } : {}),
+            ...(seo?.metaDescription || t("description") ? { description: seo?.metaDescription || t("description") } : {}),
             ...(ogImage ? { images: [ogImage] } : {}),
         },
         twitter: {
-            ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
-            ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
+            ...(seo?.metaTitle || t("title") ? { title: seo?.metaTitle || t("title") } : {}),
+            ...(seo?.metaDescription || t("description") ? { description: seo?.metaDescription || t("description") } : {}),
             ...(ogImage ? { images: [ogImage] } : {}),
         },
     };
@@ -91,48 +89,50 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function TeamPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
+    const t = await getTranslations({ locale, namespace: "TeamPage.fallbacks" });
     // Fetch data in parallel
-    const [pageSettings, founder, teamMembers, siteSettings] = await Promise.all([
-        client.fetch<TeamPageData>(TEAM_PAGE_QUERY),
-        client.fetch<TeamMember>(FOUNDER_QUERY),
-        client.fetch<TeamMember[]>(TEAM_MEMBERS_QUERY),
-        client.fetch(SITE_SETTINGS_QUERY),
+    const [
+        { data: pageSettings },
+        { data: founder },
+        { data: teamMembers },
+        { data: siteSettings }
+    ] = await Promise.all([
+        sanityFetch({ query: TEAM_PAGE_QUERY, params: { locale } }),
+        sanityFetch({ query: FOUNDER_QUERY, params: { locale } }),
+        sanityFetch({ query: TEAM_MEMBERS_QUERY, params: { locale } }),
+        sanityFetch({ query: SITE_SETTINGS_QUERY }),
     ]);
 
     // Fallbacks for page settings if not yet set in CMS
     const settings = {
-        heroBadge: pageSettings?.heroBadge || "Our People",
-        heroTitle: pageSettings?.heroTitle || "The experts behind your strategy.",
-        heroSubtitle: pageSettings?.heroSubtitle || "We are a team of CPAs, Enrolled Agents, and financial strategists united by a single mission: preserving wealth for the modern economy.",
-        founderSectionTitle: pageSettings?.founderSectionTitle || "Founder & Director",
-        teamSectionTitle: pageSettings?.teamSectionTitle || "Our Team",
-        teamSectionSubtitle: pageSettings?.teamSectionSubtitle || "Dedicated professionals managing your accounts.",
+        heroBadge: pageSettings?.heroBadge || t("heroBadge"),
+        heroTitle: pageSettings?.heroTitle || t("heroTitle"),
+        heroSubtitle: pageSettings?.heroSubtitle || t("heroSubtitle"),
+        founderSectionTitle: pageSettings?.founderSectionTitle || t("founderSectionTitle"),
+        teamSectionTitle: pageSettings?.teamSectionTitle || t("teamSectionTitle"),
+        teamSectionSubtitle: pageSettings?.teamSectionSubtitle || t("teamSectionSubtitle"),
         values: pageSettings?.values || [
             {
-                title: "Precision",
-                description: "We don't deal in estimates or guesswork. Every strategy is calculated to the penny and backed by tax code.",
+                title: t("values.precision.title"),
+                description: t("values.precision.description"),
                 iconName: "Scale",
             },
             {
-                title: "Integrity",
-                description: "We operate with total transparency. Our strategies are aggressive but always compliant, designed to withstand scrutiny.",
+                title: t("values.integrity.title"),
+                description: t("values.integrity.description"),
                 iconName: "ShieldCheck",
             },
             {
-                title: "Partnership",
-                description: "We aren't just your accountants; we are your financial co-pilots, proactive year-round rather than reactive at tax time.",
+                title: t("values.partnership.title"),
+                description: t("values.partnership.description"),
                 iconName: "Handshake",
             },
         ],
-        hiringBadge: pageSettings?.hiringBadge || "Join the team",
-        hiringTitle: pageSettings?.hiringTitle || "Obsessed with details? We're hiring.",
-        hiringDescription: pageSettings?.hiringDescription || "We don't hire typical accountants. We hire problem solvers who love the puzzle of the tax code. If you believe in precision over speed and strategy over data entry, you belong here.",
-        hiringBenefits: pageSettings?.hiringBenefits || [
-            "Fully remote culture",
-            "Competitive salary & equity",
-            "Continuous education stipend"
-        ],
-        hiringCtaText: pageSettings?.hiringCtaText || "View Open Positions",
+        hiringBadge: pageSettings?.hiringBadge || t("hiringBadge"),
+        hiringTitle: pageSettings?.hiringTitle || t("hiringTitle"),
+        hiringDescription: pageSettings?.hiringDescription || t("hiringDescription"),
+        hiringBenefits: pageSettings?.hiringBenefits || t.raw("hiringBenefits"),
+        hiringCtaText: pageSettings?.hiringCtaText || t("hiringCtaText"),
         hiringCtaUrl: pageSettings?.hiringCtaUrl || "#",
         hiringImage: pageSettings?.hiringImage,
         seo: pageSettings?.seo,

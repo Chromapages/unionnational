@@ -1,9 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { Map, Video, Shield, Laptop, CheckCircle2 } from "lucide-react";
+import { Map, Video, Shield, Laptop, CheckCircle2, ArrowRight } from "lucide-react";
 
 export function NationwideServiceSection() {
+    const t = useTranslations('HomePage.NationwideServiceSection');
+
     return (
         <section className="py-20 sm:py-24 bg-[#0d2e2b] relative overflow-hidden">
             {/* Background Map Pattern (SVG) */}
@@ -20,23 +23,23 @@ export function NationwideServiceSection() {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    
+
                     {/* Text Content */}
                     <RevealOnScroll>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold uppercase tracking-wider mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
-                            Virtual First Service
+                            {t('badge')}
                         </div>
-                        
+
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 font-heading tracking-tight leading-[1.1]">
-                            Serving Clients <br />
+                            {t('title')} <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">
-                                Nationwide Virtually.
+                                {t('titleHighlight')}
                             </span>
                         </h2>
-                        
+
                         <p className="text-slate-300 text-lg leading-relaxed mb-8 max-w-xl font-sans">
-                            No location barriers. We provide expert tax strategy to business owners in all 50 states through our secure digital platform.
+                            {t('subtitle')}
                         </p>
 
                         <div className="grid sm:grid-cols-2 gap-6">
@@ -45,8 +48,8 @@ export function NationwideServiceSection() {
                                     <Video className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">Video Consultations</h4>
-                                    <p className="text-slate-400 text-sm">Face-to-face strategy calls from the comfort of your office.</p>
+                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">{t('features.video.title')}</h4>
+                                    <p className="text-slate-400 text-sm">{t('features.video.description')}</p>
                                 </div>
                             </div>
 
@@ -55,8 +58,8 @@ export function NationwideServiceSection() {
                                     <Laptop className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">Digital Portal</h4>
-                                    <p className="text-slate-400 text-sm">Securely upload documents and sign returns instantly.</p>
+                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">{t('features.portal.title')}</h4>
+                                    <p className="text-slate-400 text-sm">{t('features.portal.description')}</p>
                                 </div>
                             </div>
 
@@ -65,8 +68,8 @@ export function NationwideServiceSection() {
                                     <Map className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">Multi-State Expertise</h4>
-                                    <p className="text-slate-400 text-sm">Navigating complex nexus and filing requirements across state lines.</p>
+                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">{t('features.multistate.title')}</h4>
+                                    <p className="text-slate-400 text-sm">{t('features.multistate.description')}</p>
                                 </div>
                             </div>
 
@@ -75,8 +78,8 @@ export function NationwideServiceSection() {
                                     <Shield className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">Consistent Advisor</h4>
-                                    <p className="text-slate-400 text-sm">Work with the same dedicated expert, regardless of where you move.</p>
+                                    <h4 className="text-white font-bold text-sm mb-1 font-heading">{t('features.advisor.title')}</h4>
+                                    <p className="text-slate-400 text-sm">{t('features.advisor.description')}</p>
                                 </div>
                             </div>
                         </div>
@@ -89,18 +92,18 @@ export function NationwideServiceSection() {
                             <div className="absolute inset-0 border border-white/10 rounded-full animate-[spin_60s_linear_infinite]"></div>
                             <div className="absolute inset-8 border border-white/5 rounded-full animate-[spin_40s_linear_infinite_reverse]"></div>
                             <div className="absolute inset-16 border border-gold-500/10 rounded-full animate-[spin_30s_linear_infinite]"></div>
-                            
+
                             {/* Central Hub */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-brand-800 rounded-full border border-gold-500/30 flex items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.1)] z-20">
                                 <div className="text-center">
                                     <div className="text-3xl font-bold text-white font-heading">50</div>
-                                    <div className="text-[10px] font-bold text-gold-500 uppercase tracking-widest">States</div>
+                                    <div className="text-[10px] font-bold text-gold-500 uppercase tracking-widest">{t('mapLabel')}</div>
                                 </div>
                             </div>
 
                             {/* Connection Nodes (Simulating clients across map) */}
                             {[...Array(8)].map((_, i) => (
-                                <div 
+                                <div
                                     key={i}
                                     className="absolute w-3 h-3 bg-gold-500 rounded-full shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"
                                     style={{
@@ -109,8 +112,8 @@ export function NationwideServiceSection() {
                                         animationDelay: `${i * 0.5}s`
                                     }}
                                 >
-                                    <div className="absolute top-1/2 left-1/2 w-24 h-[1px] bg-gradient-to-r from-gold-500/50 to-transparent origin-left -translate-y-1/2 rotate-[180deg]" 
-                                         style={{ transform: `rotate(${i * 45 + 180}deg) translateY(-50%)`, width: '100px', left: '50%', top: '50%', transformOrigin: '0 0' }}
+                                    <div className="absolute top-1/2 left-1/2 w-24 h-[1px] bg-gradient-to-r from-gold-500/50 to-transparent origin-left -translate-y-1/2 rotate-[180deg]"
+                                        style={{ transform: `rotate(${i * 45 + 180}deg) translateY(-50%)`, width: '100px', left: '50%', top: '50%', transformOrigin: '0 0' }}
                                     ></div>
                                 </div>
                             ))}

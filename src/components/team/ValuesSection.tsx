@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import {
     Scale,
@@ -34,14 +37,16 @@ interface ValuesSectionProps {
 }
 
 export function ValuesSection({ values = [] }: ValuesSectionProps) {
+    const t = useTranslations('TeamPage.ValuesSection');
+
     if (!values || values.length === 0) return null;
 
     return (
         <section className="max-w-7xl mx-auto px-6 mb-32">
              <RevealOnScroll className="text-center mb-16">
-                <h2 className="text-sm font-bold text-gold-600 uppercase tracking-widest mb-3 font-heading">Our Ethos</h2>
+                <h2 className="text-sm font-bold text-gold-600 uppercase tracking-widest mb-3 font-heading">{t('eyebrow')}</h2>
                 <h3 className="text-3xl md:text-4xl font-bold text-brand-900 tracking-tight font-heading">
-                    Built on three pillars.
+                    {t('title')}
                 </h3>
             </RevealOnScroll>
 

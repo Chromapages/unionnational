@@ -12,7 +12,7 @@ export const legalPage = defineType({
         defineField({
             name: 'title',
             title: 'Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             validation: (rule) => rule.required(),
         }),
@@ -22,7 +22,7 @@ export const legalPage = defineType({
             type: 'slug',
             group: 'content',
             options: {
-                source: 'title',
+                source: 'title.en',
                 maxLength: 96,
             },
             validation: (rule) => rule.required(),
@@ -44,9 +44,8 @@ export const legalPage = defineType({
         defineField({
             name: 'body',
             title: 'Content',
-            type: 'array',
+            type: 'localizedBlock',
             group: 'content',
-            of: [{ type: 'block' }],
         }),
         defineField({
             name: 'lastUpdated',

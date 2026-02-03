@@ -14,7 +14,7 @@ export const service = defineType({
         defineField({
             name: "title",
             title: "Title",
-            type: "string",
+            type: "localizedString",
             group: "content",
             validation: (Rule) => Rule.required(),
         }),
@@ -32,17 +32,15 @@ export const service = defineType({
         defineField({
             name: "shortDescription",
             title: "Short Description",
-            type: "text",
-            rows: 3,
+            type: "localizedText",
             group: "content",
             description: "Used in cards and previews.",
-            validation: (Rule) => Rule.required().max(160),
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "fullDescription",
             title: "Full Description",
-            type: "array",
-            of: [{ type: "block" }],
+            type: "localizedBlock",
             group: "content",
             description: "The main content for the service detail page.",
         }),
@@ -68,20 +66,20 @@ export const service = defineType({
             name: "features",
             title: "Key Features",
             type: "array",
-            of: [{ type: "string" }],
+            of: [{ type: "localizedString" }],
             group: "content",
         }),
         defineField({
             name: "impactGoal",
             title: "Impact Goal",
-            type: "string",
+            type: "localizedString",
             group: "content",
             description: "The 'Why' - e.g., 'Maximize your S-Corp tax savings.'",
         }),
         defineField({
             name: "badge",
             title: "Badge Text",
-            type: "string",
+            type: "localizedString",
             group: "content",
             description: "Optional badge like 'Most Popular' or 'Scale'.",
         }),
@@ -103,7 +101,7 @@ export const service = defineType({
         defineField({
             name: "startingPrice",
             title: "Starting Price",
-            type: "string",
+            type: "localizedString",
             group: "content",
             description: "e.g., 'From $500/mo' or 'Custom Quote'",
         }),
@@ -129,8 +127,8 @@ export const service = defineType({
                 {
                     type: "object",
                     fields: [
-                        { name: "question", type: "string", title: "Question" },
-                        { name: "answer", type: "text", title: "Answer" },
+                        { name: "question", type: "localizedString", title: "Question" },
+                        { name: "answer", type: "localizedText", title: "Answer" },
                     ],
                 },
             ],
@@ -144,7 +142,7 @@ export const service = defineType({
                 {
                     type: "object",
                     fields: [
-                        { name: "feature", type: "string", title: "Feature" },
+                        { name: "feature", type: "localizedString", title: "Feature" },
                         { name: "diy", type: "boolean", title: "DIY (Yes/No)" },
                         { name: "bigFirm", type: "boolean", title: "Big Firm (Yes/No)" },
                         { name: "unionNational", type: "boolean", title: "Union National (Yes/No)" },
@@ -181,8 +179,8 @@ export const service = defineType({
     ],
     preview: {
         select: {
-            title: "title",
-            subtitle: "shortDescription",
+            title: "title.en",
+            subtitle: "shortDescription.en",
         },
     },
 });

@@ -14,15 +14,14 @@ export const shopSettings = defineType({
         defineField({
             name: "heroTitle",
             title: "Hero Title",
-            type: "string",
+            type: "localizedString",
             group: "content",
-            initialValue: "Shop Our Resources",
+            initialValue: { en: "Shop Our Resources" },
         }),
         defineField({
             name: "heroSubtitle",
             title: "Hero Subtitle",
-            type: "text",
-            rows: 3,
+            type: "localizedText",
             group: "content",
         }),
         defineField({
@@ -49,8 +48,8 @@ export const shopSettings = defineType({
                 {
                     type: "object",
                     fields: [
-                        { name: "question", type: "string", title: "Question" },
-                        { name: "answer", type: "text", title: "Answer" },
+                        { name: "question", type: "localizedString", title: "Question" },
+                        { name: "answer", type: "localizedText", title: "Answer" },
                     ],
                 },
             ],
@@ -61,9 +60,9 @@ export const shopSettings = defineType({
             type: "object",
             group: "content",
             fields: [
-                defineField({ name: "title", type: "string", title: "Title" }),
-                defineField({ name: "subtitle", type: "text", title: "Subtitle" }),
-                defineField({ name: "buttonText", type: "string", title: "Button Text" }),
+                defineField({ name: "title", type: "localizedString", title: "Title" }),
+                defineField({ name: "subtitle", type: "localizedText", title: "Subtitle" }),
+                defineField({ name: "buttonText", type: "localizedString", title: "Button Text" }),
                 defineField({
                     name: "buttonUrl",
                     type: "url",
@@ -85,7 +84,7 @@ export const shopSettings = defineType({
         },
         prepare({ title }) {
             return {
-                title: title || "Shop Settings",
+                title: title?.en || "Shop Settings",
             };
         },
     },

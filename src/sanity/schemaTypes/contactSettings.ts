@@ -12,15 +12,14 @@ export const contactSettings = defineType({
         defineField({
             name: 'heroTitle',
             title: 'Hero Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
-            initialValue: 'Contact Us',
+            initialValue: { en: 'Contact Us' },
         }),
         defineField({
             name: 'heroSubtitle',
             title: 'Hero Subtitle',
-            type: 'text',
-            rows: 2,
+            type: 'localizedText',
             group: 'content',
         }),
         defineField({
@@ -43,8 +42,8 @@ export const contactSettings = defineType({
                 { name: 'name', type: 'string', title: 'Name' },
                 { name: 'title', type: 'string', title: 'Title' },
                 { name: 'image', type: 'image', title: 'Photo' },
-                { name: 'quote', type: 'text', title: 'Personal Quote' },
-                { name: 'credentials', type: 'array', of: [{ type: 'string' }], title: 'Credentials' },
+                { name: 'quote', type: 'localizedText', title: 'Personal Quote' },
+                { name: 'credentials', type: 'array', of: [{ type: 'localizedString' }], title: 'Credentials' },
             ],
         }),
         defineField({
@@ -99,21 +98,21 @@ export const contactSettings = defineType({
             type: 'object',
             group: 'content',
             fields: [
-                { name: 'title', type: 'string', title: 'Title' },
-                { name: 'subtitle', type: 'string', title: 'Subtitle' },
+                { name: 'title', type: 'localizedString', title: 'Title' },
+                { name: 'subtitle', type: 'localizedString', title: 'Subtitle' },
                 { name: 'phone', type: 'string', title: 'Override Phone Number' },
             ],
         }),
         defineField({
             name: 'formTitle',
             title: 'Contact Form Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
         }),
         defineField({
             name: 'formSubtitle',
             title: 'Contact Form Subtitle',
-            type: 'text',
+            type: 'localizedText',
             group: 'content',
         }),
         defineField({

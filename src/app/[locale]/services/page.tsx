@@ -8,27 +8,34 @@ import { client } from "@/sanity/lib/client";
 import { ServicesClient } from "@/components/services/ServicesClient";
 import { PartnerProgramsSection } from "@/components/services/PartnerProgramsSection";
 import { PricingSection } from "@/components/pricing/PricingSection";
-import { PricingTrustSection } from "@/components/pricing/PricingTrustSection";
 import { SERVICES_QUERY, PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
 import { Metadata } from "next";
 import { ProcessTimeline } from "@/components/services/ProcessTimeline";
 import { cn } from "@/lib/utils";
 import * as Icons from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-    title: "Services | Union National Tax",
-    description: "Comprehensive tax strategy, bookkeeping, and CFO services for modern businesses.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: "ServicesPage.metadata" });
+
+    return {
+        title: t("title"),
+        description: t("description"),
+    };
+}
 
 export const revalidate = 60;
 
 export default async function ServicesPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    const [services, pricingTiers, pageData] = await Promise.all([
-        client.fetch(SERVICES_QUERY),
-        client.fetch(PRICING_TIERS_QUERY),
-        client.fetch(SERVICES_PAGE_QUERY)
+    const t = await getTranslations({ locale, namespace: "ServicesPage" });
+    const [{ data: services }, { data: pricingTiers }, { data: pageData }] = await Promise.all([
+        sanityFetch({ query: SERVICES_QUERY, params: { locale } }),
+        sanityFetch({ query: PRICING_TIERS_QUERY, params: { locale } }),
+        sanityFetch({ query: SERVICES_PAGE_QUERY, params: { locale } })
     ]);
 
     // Schema.org Structured Data
@@ -63,30 +70,30 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
             <main id="main-content">
                 {/* Minimalist Hero Section - Midnight Forest Brand Theme */}
-                <section className="bg-brand-500 px-6 py-24 md:py-32 relative overflow-hidden">
+                <section className="bg-brand-500 px-6 py-16 md:py-20 relative overflow-hidden">
                     {/* Subtle Texture/Grain could go here if requested, but keeping it "Solid" as per Vault philosophy */}
 
                     <div className="max-w-7xl mx-auto">
                         <div className="max-w-3xl">
                             <RevealOnScroll>
                                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-8 leading-[1.05] font-heading font-black">
-                                    Eliminate tax anxiety. Build true wealth.
+                                    {t("Hero.title")}
                                 </h1>
                                 <p className="text-xl text-brand-50/80 mb-12 leading-relaxed font-sans max-w-xl">
-                                    We replace reactive &quot;once-a-year&quot; filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.
+                                    {t("Hero.subtitle")}
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row items-center gap-6">
                                     <Link
                                         href="/contact"
                                         className={cn(
-                                            "w-full sm:w-auto px-10 py-5 bg-gold-500 text-brand-900 font-bold text-lg rounded-md shadow-sm", // Rounded-md per design system
+                                            "w-full sm:w-auto px-10 py-5 bg-gold-500 text-brand-900 font-bold text-lg rounded-md shadow-sm",
                                             "hover:bg-gold-600 transition-all duration-300",
                                             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-500",
                                             "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
                                         )}
                                     >
-                                        Schedule Consultation
+                                        {t("Hero.ctaPrimary")}
                                         <ArrowRight className="w-5 h-5" />
                                     </Link>
                                     <a
@@ -98,7 +105,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                                             "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
                                         )}
                                     >
-                                        Browse Services
+                                        {t("Hero.ctaSecondary")}
                                     </a>
                                 </div>
                             </RevealOnScroll>
@@ -107,13 +114,22 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                 </section>
 
                 {/* Services Grid (Interactive) */}
-                <div id="services" className="scroll-mt-32">
+                <div id="services" className="scroll-mt-32 mt-16">
                     <ServicesClient services={services} />
                 </div>
 
-                {/* Pricing Section */}
                 <section className="pt-24 pb-12 bg-white/30">
-                    <PricingSection tiers={pricingTiers} hideTaxPrep={true} />
+                    <PricingSection
+                        tiers={pricingTiers}
+                        hideTaxPrep={true}
+                        translations={{
+                            eyebrow: t("PricingSection.eyebrow"),
+                            title: t("PricingSection.title"),
+                            subtitle: t("PricingSection.subtitle"),
+                            comparisonTitle: t("PricingSection.comparisonTitle"),
+                            comparisonSubtitle: t("PricingSection.comparisonSubtitle"),
+                        }}
+                    />
                 </section>
 
 
@@ -121,8 +137,6 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                 {/* Process Timeline */}
                 <ProcessTimeline />
 
-                {/* Pricing Trust Section (Philosophy) */}
-                <PricingTrustSection />
 
 
 
@@ -130,7 +144,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
 
 
-                <div className="max-w-5xl mx-auto px-6 pb-24">
+                <div className="max-w-7xl mx-auto px-6 pb-24">
                     <LuxuryTravelIncentive />
                 </div>
             </main>

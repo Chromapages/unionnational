@@ -18,18 +18,17 @@ export const homePage = defineType({
         defineField({
             name: "heroTitle",
             title: "Hero Title",
-            type: "string",
+            type: "localizedString",
             group: "hero",
             validation: (Rule) => Rule.required(),
-            initialValue: "Stop Overpaying the IRS. We build wealth.",
+            initialValue: { en: "Stop Overpaying the IRS. We build wealth." },
         }),
         defineField({
             name: "heroSubtitle",
             title: "Hero Subtitle",
-            type: "text",
-            rows: 3,
+            type: "localizedText",
             group: "hero",
-            initialValue: "Boutique S-Corp specialists and Fractional CFO services for contractors and business owners.",
+            initialValue: { en: "Boutique S-Corp specialists and Fractional CFO services for contractors and business owners." },
         }),
         defineField({
             name: "heroVideoUrl",
@@ -41,9 +40,9 @@ export const homePage = defineType({
         defineField({
             name: "heroCtaText",
             title: "Hero CTA Text",
-            type: "string",
+            type: "localizedString",
             group: "hero",
-            initialValue: "Watch 2 Min Intro",
+            initialValue: { en: "Watch 2 Min Intro" },
         }),
         defineField({
             name: "heroCtaUrl",
@@ -81,7 +80,7 @@ export const homePage = defineType({
                     type: "object",
                     fields: [
                         { name: "value", type: "string", title: "Value (e.g. $10M+)" },
-                        { name: "label", type: "string", title: "Label (e.g. Tax Saved)" },
+                        { name: "label", type: "localizedString", title: "Label (e.g. Tax Saved)" },
                     ],
                 },
             ],
@@ -105,23 +104,22 @@ export const homePage = defineType({
         defineField({
             name: "ctaTitle",
             title: "Bottom CTA Title",
-            type: "string",
+            type: "localizedString",
             group: "cta",
-            initialValue: "Ready to keep more of what you earn?",
+            initialValue: { en: "Ready to keep more of what you earn?" },
         }),
         defineField({
             name: "ctaSubtitle",
             title: "Bottom CTA Subtitle",
-            type: "text",
-            rows: 2,
+            type: "localizedText",
             group: "cta",
         }),
         defineField({
             name: "ctaButtonText",
             title: "Button Text",
-            type: "string",
+            type: "localizedString",
             group: "cta",
-            initialValue: "Book a Discovery Call",
+            initialValue: { en: "Book a Discovery Call" },
         }),
         defineField({
             name: "ctaButtonUrl",
@@ -158,7 +156,7 @@ export const homePage = defineType({
         prepare({ title }) {
             return {
                 title: "Home Page Settings",
-                subtitle: title,
+                subtitle: title?.en || "No Title",
             };
         },
     },

@@ -3,6 +3,7 @@
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FileCheck, Building2, BarChart3, LineChart, Notebook, Rocket, ArrowRight, Briefcase } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 // Map Sanity icon names to Lucide components
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -28,6 +29,8 @@ interface ServiceProps {
 }
 
 export function ServicesSection({ services = [] }: ServiceProps) {
+    const t = useTranslations('HomePage.ServicesSection');
+
     // If no services provided, return null or fallback
     if (!services || services.length === 0) return null;
 
@@ -46,17 +49,17 @@ export function ServicesSection({ services = [] }: ServiceProps) {
                     <div className="mb-12 lg:mb-16 max-w-3xl">
                         <div className="mb-4">
                             <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
-                                Our Expertise
+                                {t('eyebrow')}
                             </span>
                         </div>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-6">
-                            Comprehensive <br className="hidden md:block" />
+                            {t('title')} <br className="hidden md:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
-                                Financial Solutions.
+                                {t('titleHighlight')}
                             </span>
                         </h2>
                         <p className="text-slate-600 leading-relaxed font-sans text-base md:text-lg max-w-2xl">
-                            Design a financial operating system that works for your business. From basic compliance to strategic growth tools.
+                            {t('subtitle')}
                         </p>
                     </div>
                 </RevealOnScroll>
@@ -87,7 +90,7 @@ export function ServicesSection({ services = [] }: ServiceProps) {
                                                 href={`/services/${service.slug?.current || '#'}`}
                                                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-600 group-hover:gap-3 group-hover:text-gold-700 transition-all mt-auto shrink-0"
                                             >
-                                                Learn More <ArrowRight className="w-3.5 h-3.5" />
+                                                {t('learnMore')} <ArrowRight className="w-3.5 h-3.5" />
                                             </Link>
                                         </div>
                                     </div>

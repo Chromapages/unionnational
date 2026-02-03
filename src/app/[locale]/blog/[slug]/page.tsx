@@ -1,5 +1,6 @@
-import { client } from "@/sanity/lib/client";
 import { BLOG_POST_QUERY, RELATED_POSTS_QUERY, BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
+import { client } from "@/sanity/lib/client";
 import { BlogHeader } from "@/components/blog/BlogHeader";
 import { RichText } from "@/components/blog/RichText";
 import { TableOfContents } from "@/components/blog/TableOfContents";
@@ -16,10 +17,10 @@ import { NewsletterCta } from "@/components/blog/NewsletterCta";
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-    const posts = await client.fetch(BLOG_POSTS_QUERY, { limit: 100 });
+    const posts = await client.fetch(BLOG_POSTS_QUERY, { limit: 100, locale: 'en' });
     const locales = ["en", "es"];
 
-    return posts.flatMap((post: any) =>
+    return (posts as any[]).flatMap((post: any) =>
         locales.map((locale) => ({
             locale,
             slug: post.slug.current,
@@ -29,7 +30,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
     const { slug, locale } = await props.params;
-    const post = await client.fetch(BLOG_POST_QUERY, { slug });
+    const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, locale } });
     if (!post) return { title: "Post Not Found" };
 
     const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
@@ -68,7 +69,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function BlogPostPage(props: { params: Promise<{ locale: string; slug: string }> }) {
     const params = await props.params;
     const { slug, locale } = params;
-    const post = await client.fetch(BLOG_POST_QUERY, { slug });
+    const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, locale } });
 
     if (!post) {
         notFound();
@@ -76,9 +77,13 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
 
     // Fetch related posts based on categories
     const categorySlugs = post.categories?.map((c: any) => c.slug.current) || [];
-    const relatedPosts = await client.fetch(RELATED_POSTS_QUERY, {
-        currentId: post._id,
-        categorySlugs
+    const { data: relatedPosts } = await sanityFetch({
+        query: RELATED_POSTS_QUERY,
+        params: {
+            currentId: post._id,
+            categorySlugs,
+            locale
+        }
     });
 
     const headings = getPortableTextHeadings(post.body || []);

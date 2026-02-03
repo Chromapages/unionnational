@@ -1,26 +1,29 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { BadgeCheck, LockKeyhole, ShieldCheck } from "lucide-react";
 
-const vaultItems = [
-    {
-        title: "IRS Compliant",
-        description: "Strategies are mapped to verified IRS code and backed with documentation you can audit at any time.",
-        icon: ShieldCheck,
-    },
-    {
-        title: "256-bit Encryption",
-        description: "Sensitive financial data is protected with the same encryption standards used by institutional banks.",
-        icon: LockKeyhole,
-    },
-    {
-        title: "Vetted Strategists",
-        description: "Every advisor is screened, certified, and continuously trained on the latest regulatory updates.",
-        icon: BadgeCheck,
-    },
-];
-
 export function TrustVault() {
+    const t = useTranslations('AboutPage.TrustVault');
+
+    const vaultItems = [
+        {
+            title: t('items.irs.title'),
+            description: t('items.irs.description'),
+            icon: ShieldCheck,
+        },
+        {
+            title: t('items.encryption.title'),
+            description: t('items.encryption.description'),
+            icon: LockKeyhole,
+        },
+        {
+            title: t('items.strategists.title'),
+            description: t('items.strategists.description'),
+            icon: BadgeCheck,
+        },
+    ];
+
     return (
         <section className="relative bg-brand-900 py-24 text-white border-t border-white/5">
 
@@ -28,10 +31,10 @@ export function TrustVault() {
 
             <div className="relative mx-auto max-w-6xl px-6">
                 <div className="max-w-2xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-500">The Vault</p>
-                    <h2 className="mt-4 text-3xl font-semibold text-white font-heading">Bank-grade security with regulatory clarity.</h2>
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-500">{t('eyebrow')}</p>
+                    <h2 className="mt-4 text-3xl font-semibold text-white font-heading">{t('title')}</h2>
                     <p className="mt-4 text-base text-brand-100/70 max-w-lg">
-                        We operate like a compliance desk, not a boutique agency. Every plan is designed for longevity, auditability, and total confidence.
+                        {t('description')}
                     </p>
                 </div>
 

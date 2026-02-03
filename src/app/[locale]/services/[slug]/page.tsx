@@ -1,5 +1,6 @@
-import { client } from "@/sanity/lib/client";
 import { SERVICE_QUERY, SERVICES_QUERY, PRICING_TIERS_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
+import { client } from "@/sanity/lib/client";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
@@ -9,15 +10,20 @@ import ServiceDetailClient from "./ServiceDetailClient";
 export const revalidate = 60;
 
 export async function generateStaticParams() {
-    const services = await client.fetch(SERVICES_QUERY);
-    return services.map((service: any) => ({
-        slug: service.slug.current,
-    }));
+    const services = await client.fetch(SERVICES_QUERY, { locale: 'en' });
+    const locales = ["en", "es"];
+
+    return (services as any[]).flatMap((service: any) =>
+        locales.map((locale) => ({
+            locale,
+            slug: service.slug.current,
+        }))
+    );
 }
 
 export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
     const { slug, locale } = await props.params;
-    const service = await client.fetch(SERVICE_QUERY, { slug });
+    const { data: service } = await sanityFetch({ query: SERVICE_QUERY, params: { slug, locale } });
     if (!service) return { title: "Service Not Found" };
 
     const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
@@ -53,14 +59,19 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 
 export default async function ServicePage(props: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await props.params;
-    const service = await client.fetch(SERVICE_QUERY, { slug });
 
-    // Fetch all services for "Related Services" section
-    const allServices = await client.fetch(SERVICES_QUERY);
-    const relatedServices = allServices.filter((s: any) => s.slug.current !== slug).slice(0, 2);
+    // Fetch data in parallel
+    const [
+        { data: service },
+        { data: allServices },
+        { data: pricingTiers }
+    ] = await Promise.all([
+        sanityFetch({ query: SERVICE_QUERY, params: { slug, locale } }),
+        sanityFetch({ query: SERVICES_QUERY, params: { locale } }),
+        sanityFetch({ query: PRICING_TIERS_QUERY, params: { locale } })
+    ]);
 
-    // Fetch pricing tiers for Tax Filing service
-    const pricingTiers = await client.fetch(PRICING_TIERS_QUERY);
+    const relatedServices = (allServices as any[]).filter((s: any) => s.slug.current !== slug).slice(0, 2);
 
     if (!service) {
         notFound();

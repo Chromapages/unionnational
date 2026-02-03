@@ -21,7 +21,7 @@ export const siteSettings = defineType({
         defineField({
             name: "tagline",
             title: "Tagline",
-            type: "string",
+            type: "localizedString",
             group: "content",
         }),
         defineField({
@@ -101,9 +101,9 @@ export const siteSettings = defineType({
         defineField({
             name: "ctaButtonText",
             title: "Header CTA Text",
-            type: "string",
+            type: "localizedString",
             group: "content",
-            initialValue: "Book a Call",
+            initialValue: { en: "Book a Call" },
         }),
         defineField({
             name: "ctaButtonUrl",
@@ -139,10 +139,10 @@ export const siteSettings = defineType({
         defineField({
             name: "copyrightText",
             title: "Copyright Text",
-            type: "string",
+            type: "localizedString",
             group: "content",
             description: "Year will be added automatically.",
-            initialValue: "Union National Tax. All Rights Reserved.",
+            initialValue: { en: "Union National Tax. All Rights Reserved." },
         }),
     ],
 });

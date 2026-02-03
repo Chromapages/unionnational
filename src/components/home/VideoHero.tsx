@@ -54,7 +54,7 @@ interface VideoHeroProps {
 }
 
 export function VideoHero({ data }: VideoHeroProps) {
-    const t = useTranslations('Hero');
+    const t = useTranslations('HomePage.VideoHero');
     const [income, setIncome] = useState<string>("");
     const [isCalculating, setIsCalculating] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -166,7 +166,7 @@ export function VideoHero({ data }: VideoHeroProps) {
     return (
         <section
             className="relative w-full min-h-[100dvh] md:min-h-[90dvh] lg:min-h-[95dvh] flex items-center pt-20 md:pt-24 pb-safe overflow-hidden"
-            aria-label="Welcome to Union National Tax"
+            aria-label={t('sectionAriaLabel')}
         >
             {/* Video Background */}
             <div className="absolute inset-0 w-full h-full z-0 bg-brand-900">
@@ -197,7 +197,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                             <div className="flex items-center gap-3 mb-6 animate-in fade-in slide-in-from-left-4 duration-700 ease-out">
                                 <span className="h-px w-8 bg-gold-500/70"></span>
                                 <p className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-gold-400 font-heading">
-                                    Your Tax Strategy
+                                    {t('eyebrow')}
                                 </p>
                             </div>
 
@@ -213,11 +213,11 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     </>
                                 ) : (
                                     <>
-                                        {t('titlePart1')}
-                                        <br />
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600">
-                                            {t('titlePart2')}
-                                        </span>
+                                        {t.rich('titlePart1', {
+                                            gold: (chunks) => (
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600">{chunks}</span>
+                                            )
+                                        })}
                                     </>
                                 )}
                             </h1>
@@ -237,8 +237,8 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             htmlFor="hero-income-input"
                                             className="block text-xs font-bold text-brand-900 uppercase tracking-widest mb-3 font-heading flex items-center justify-between"
                                         >
-                                            <span>{t('calculatorTitle')}</span>
-                                            <span className="text-gold-600/60 hidden sm:inline-block text-[10px]">{t('confidential')}</span>
+                                            <span>{t('calculator.title')}</span>
+                                            <span className="text-gold-600/60 hidden sm:inline-block text-[10px]">{t('calculator.confidential')}</span>
                                         </label>
 
                                         <form
@@ -254,7 +254,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                                     autoComplete="off"
                                                     autoCorrect="off"
                                                     spellCheck="false"
-                                                    placeholder="Net Income (e.g. 150,000)"
+                                                    placeholder={t('calculator.placeholder')}
                                                     className="w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-base md:text-lg placeholder:text-slate-400 rounded-md border border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans min-h-[56px]"
                                                     value={income}
                                                     onChange={(e) => setIncome(e.target.value)}
@@ -268,11 +268,11 @@ export function VideoHero({ data }: VideoHeroProps) {
                                                 {isCalculating ? (
                                                     <span className="flex items-center gap-2">
                                                         <span className="w-4 h-4 border-2 border-brand-900/30 border-t-brand-900 rounded-full animate-spin"></span>
-                                                        {t('calculating')}
+                                                        {t('calculator.calculating')}
                                                     </span>
                                                 ) : (
                                                     <>
-                                                        {t('calculate')}
+                                                        {t('calculator.button')}
                                                         <Calculator className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                                                     </>
                                                 )}
@@ -291,7 +291,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             )}
 
                                             <div className="flex items-center justify-between mb-2">
-                                                <span className="text-xs font-bold uppercase tracking-wider text-gold-400 font-heading">{t('potentialSavings')}</span>
+                                                <span className="text-xs font-bold uppercase tracking-wider text-gold-400 font-heading">{t('mobileResult.potentialSavings')}</span>
                                                 <TrendingUp className="w-4 h-4 text-gold-500" />
                                             </div>
 
@@ -304,10 +304,10 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             )}
 
                                             <div className="mt-3 pt-3 border-t border-white/10 flex justify-between items-center">
-                                                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Estimated Annual Reduction</span>
+                                                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{t('mobileResult.estimatedReduction')}</span>
                                                 {!isCalculating && (
                                                     <span className="text-xs text-green-400 font-bold flex items-center gap-1">
-                                                        <CheckCircle2 className="w-3 h-3" /> Verified Strategy
+                                                        <CheckCircle2 className="w-3 h-3" /> {t('mobileResult.verifiedStrategy')}
                                                     </span>
                                                 )}
                                             </div>
@@ -319,15 +319,15 @@ export function VideoHero({ data }: VideoHeroProps) {
                                 <div className="flex flex-col sm:flex-row gap-4 mt-2">
                                     <button
                                         onClick={() => setIsVideoModalOpen(true)}
-                                        aria-label="Watch Strategy Video"
+                                        aria-label={t('videoButton.ariaLabel')}
                                         className="bg-brand-900/50 backdrop-blur-sm border border-white/20 text-white px-6 md:px-8 py-4 rounded-md text-sm font-bold hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center sm:justify-start gap-4 font-heading tracking-wide group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 w-full sm:w-auto min-h-[56px] touch-target-pref no-tap-highlight"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-gold-500/10 border border-gold-500/50 flex items-center justify-center text-gold-400 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                                             <Play className="w-4 h-4 fill-current ml-0.5" />
                                         </div>
                                         <div className="text-left">
-                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">See How It Works</span>
-                                            <span className="block text-sm sm:text-base">{data?.heroCtaText || "Watch Strategy Video"}</span>
+                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">{t('videoButton.eyebrow')}</span>
+                                            <span className="block text-sm sm:text-base">{data?.heroCtaText || t('videoButton.label')}</span>
                                         </div>
                                     </button>
                                 </div>
@@ -351,13 +351,13 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-white text-xs font-bold shadow-lg ring-2 ring-white">JA</div>
                                         <div>
-                                            <div className="text-sm font-bold text-brand-900 font-heading leading-tight">Jason Astwood</div>
-                                            <div className="text-xs text-slate-500 font-medium">Union National Tax</div>
+                                            <div className="text-sm font-bold text-brand-900 font-heading leading-tight">{t('dashboard.advisorName')}</div>
+                                            <div className="text-xs text-slate-500 font-medium">{t('dashboard.advisorCompany')}</div>
                                         </div>
                                     </div>
                                     <div className="bg-emerald-100/50 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-200/50 flex items-center gap-1.5">
                                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                        Active
+                                        {t('dashboard.active')}
                                     </div>
                                 </div>
 
@@ -369,7 +369,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         </div>
 
                                         <div className="text-xs text-brand-900/70 font-bold uppercase tracking-widest mb-2 flex items-center gap-2 font-heading">
-                                            Projected Annual Savings
+                                            {t('dashboard.projectedSavings')}
                                         </div>
 
                                         {isCalculating ? (
@@ -382,14 +382,14 @@ export function VideoHero({ data }: VideoHeroProps) {
 
                                         <div className="mt-4 flex items-center gap-2 text-xs font-medium text-emerald-600 bg-emerald-50 w-fit px-2 py-1 rounded border border-emerald-100/50">
                                             <TrendingUp className="w-3 h-3" />
-                                            <span>+15.3% retained earnings vs Sole Prop</span>
+                                            <span>{t('dashboard.retainedEarnings')}</span>
                                         </div>
                                     </div>
 
                                     {/* Detailed Breakdown */}
                                     <div className="space-y-5">
                                         <div className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                                            <span className="text-slate-500 font-medium text-sm">Self-Employment Tax</span>
+                                            <span className="text-slate-500 font-medium text-sm">{t('dashboard.selfEmploymentTax')}</span>
                                             {isCalculating ? (
                                                 <div className="h-4 w-20 bg-slate-200 animate-pulse rounded"></div>
                                             ) : (
@@ -402,7 +402,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         <div className="w-full h-px bg-slate-100"></div>
 
                                         <div className="flex items-center justify-between p-3 rounded-lg bg-gold-50/30 border border-gold-100/50">
-                                            <span className="text-brand-900 font-bold text-sm">New Liability</span>
+                                            <span className="text-brand-900 font-bold text-sm">{t('dashboard.newLiability')}</span>
                                             {isCalculating ? (
                                                 <div className="h-4 w-20 bg-slate-200 animate-pulse rounded"></div>
                                             ) : (
@@ -415,8 +415,8 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         {/* Progress Bar */}
                                         <div className="pt-2">
                                             <div className="flex justify-between text-[10px] uppercase font-bold text-slate-400 mb-1.5 tracking-wider">
-                                                <span>Tax Efficiency Score</span>
-                                                <span className={result ? "text-gold-600" : ""}>{result ? "92/100" : "0/100"}</span>
+                                                <span>{t('dashboard.taxEfficiency')}</span>
+                                                <span className={result ? "text-gold-600" : ""}>{result ? t('dashboard.taxEfficiencyScore', { score: 92 }) : t('dashboard.taxEfficiencyScore', { score: 0 })}</span>
                                             </div>
                                             <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden shadow-inner">
                                                 <div
@@ -430,7 +430,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     </div>
 
                                     <button className="w-full mt-8 py-4 rounded-lg font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2 bg-brand-900 text-white hover:bg-brand-800 hover:shadow-lg font-heading group ring-1 ring-white/10">
-                                        View Full Analysis
+                                        {t('dashboard.viewAnalysis')}
                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-gold-500" />
                                     </button>
                                 </div>
@@ -448,7 +448,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                         className="fixed inset-0 z-[100] bg-brand-950/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300"
                         role="dialog"
                         aria-modal="true"
-                        aria-label="Video Player"
+                        aria-label={t('videoModal.ariaLabel')}
                         onClick={() => setIsVideoModalOpen(false)}
                     >
                         <div
@@ -458,7 +458,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                             <button
                                 ref={closeButtonRef}
                                 onClick={() => setIsVideoModalOpen(false)}
-                                aria-label="Close video"
+                                aria-label={t('videoModal.closeAriaLabel')}
                                 className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-black/70 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
                             >
                                 <X className="w-6 h-6" />
@@ -468,11 +468,11 @@ export function VideoHero({ data }: VideoHeroProps) {
                                 autoPlay
                                 className="w-full h-full"
                                 chapters={[
-                                    { id: '1', title: 'Introduction', startTime: 0, cta: { text: 'Book a Strategy Call', url: '/contact' } },
-                                    { id: '2', title: 'The S-Corp Strategy', startTime: 15 },
-                                    { id: '3', title: 'Calculating Savings', startTime: 45, cta: { text: 'Try Our Calculator', url: '#calculator' } },
-                                    { id: '4', title: 'Implementation', startTime: 90 },
-                                    { id: '5', title: 'Next Steps', startTime: 120, cta: { text: 'Get Started Today', url: '/contact' } }
+                                    { id: '1', title: t('videoChapters.intro'), startTime: 0, cta: { text: t('videoChapters.cta.bookCall'), url: '/contact' } },
+                                    { id: '2', title: t('videoChapters.strategy'), startTime: 15 },
+                                    { id: '3', title: t('videoChapters.calculating'), startTime: 45, cta: { text: t('videoChapters.cta.tryCalculator'), url: '#calculator' } },
+                                    { id: '4', title: t('videoChapters.implementation'), startTime: 90 },
+                                    { id: '5', title: t('videoChapters.nextSteps'), startTime: 120, cta: { text: t('videoChapters.cta.getStarted'), url: '/contact' } }
                                 ]}
                             />
                         </div>

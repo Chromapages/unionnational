@@ -12,32 +12,33 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { ABOUT_PAGE_QUERY, CONTACT_SETTINGS_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import { urlFor } from "@/sanity/lib/image";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-    const params = await props.params;
-    const locale = params.locale;
-    const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY });
+    const { locale } = await props.params;
+    const t = await getTranslations({ locale, namespace: "ContactPage.metadata" });
+    const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY, params: { locale } });
     const seo = settings?.seo;
 
-    if (!seo) {
-        return {};
-    }
+    // Use Sanity SEO if available, otherwise fall back to translations
+    const title = seo?.metaTitle || t("title");
+    const description = seo?.metaDescription || t("description");
 
-    const ogImage = seo.openGraphImage
+    const ogImage = seo?.openGraphImage
         ? urlFor(seo.openGraphImage).width(1200).height(630).url()
         : undefined;
 
     return {
-        title: seo.metaTitle,
-        description: seo.metaDescription,
+        title,
+        description,
         openGraph: {
-            title: seo.metaTitle,
-            description: seo.metaDescription,
+            title,
+            description,
             ...(ogImage ? { images: [ogImage] } : {}),
         },
         twitter: {
-            title: seo.metaTitle,
-            description: seo.metaDescription,
+            title,
+            description,
             ...(ogImage ? { images: [ogImage] } : {}),
         },
     };
@@ -46,9 +47,10 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function ContactPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY });
-    const { data: aboutPage } = await sanityFetch({ query: ABOUT_PAGE_QUERY });
-    const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
+    const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY, params: { locale } });
+    const { data: aboutPage } = await sanityFetch({ query: ABOUT_PAGE_QUERY, params: { locale } });
+    const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
+    const t = await getTranslations({ locale, namespace: "ContactPage.TeamMemberCard" });
 
     return (
         <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
@@ -68,13 +70,13 @@ export default async function ContactPage(props: { params: Promise<{ locale: str
                         <div className="lg:col-span-5">
                             <RevealOnScroll delay={100}>
                                 <TeamMemberCard
-                                    name={settings?.founder?.name || "Jason Astwood"}
-                                    title={settings?.founder?.title || "Director"}
+                                    name={settings?.founder?.name || t("fallbackName")}
+                                    title={settings?.founder?.title || t("fallbackTitle")}
                                     image={settings?.founder?.imageUrl}
-                                    quote={settings?.founder?.quote || "I personally review every inquiry to ensure you're matched with the right strategist for your specific situation."}
-                                    credentials={settings?.founder?.credentials || ["EA Licensed", "IRS Representation", "15+ Years Exp"]}
-                                    email={settings?.contactEmail || "hello@unionnationaltax.com"}
-                                    phone={settings?.contactPhone || "(555) 123-4567"}
+                                    quote={settings?.founder?.quote || t("fallbackQuote")}
+                                    credentials={settings?.founder?.credentials || t.raw("fallbackCredentials")}
+                                    email={settings?.contactEmail || t("fallbackEmail")}
+                                    phone={settings?.contactPhone || t("fallbackPhone")}
                                     address={settings?.officeAddress}
                                     mapEmbedUrl={settings?.mapEmbedUrl}
                                 />
