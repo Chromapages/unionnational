@@ -62,43 +62,47 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
             <HeaderWrapper />
 
             <main id="main-content">
-                {/* Minimalist Hero Section - Refined with Design System */}
-                <section className="max-w-7xl mx-auto px-6 py-24 md:py-32 relative">
-                    <div className="max-w-3xl">
-                        <RevealOnScroll>
-                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-900 tracking-tighter mb-8 leading-[1.05] font-heading font-black">
-                                Eliminate tax anxiety. Build true wealth.
-                            </h1>
-                            <p className="text-xl text-brand-900/60 mb-12 leading-relaxed font-sans max-w-xl">
-                                We replace reactive &quot;once-a-year&quot; filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.
-                            </p>
+                {/* Minimalist Hero Section - Midnight Forest Brand Theme */}
+                <section className="bg-brand-500 px-6 py-24 md:py-32 relative overflow-hidden">
+                    {/* Subtle Texture/Grain could go here if requested, but keeping it "Solid" as per Vault philosophy */}
 
-                            <div className="flex flex-col sm:flex-row items-center gap-6">
-                                <Link
-                                    href="/contact"
-                                    className={cn(
-                                        "w-full sm:w-auto px-10 py-5 bg-brand-900 text-white font-bold text-lg rounded-2xl",
-                                        "hover:bg-gold-500 hover:text-brand-900 transition-all duration-500",
-                                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2",
-                                        "active:scale-95 shadow-xl shadow-brand-900/10 flex items-center justify-center gap-3 font-heading tracking-tight"
-                                    )}
-                                >
-                                    Schedule Consultation
-                                    <ArrowRight className="w-5 h-5" />
-                                </Link>
-                                <a
-                                    href="#services"
-                                    className={cn(
-                                        "w-full sm:w-auto px-10 py-5 bg-transparent text-brand-900 font-bold text-lg rounded-2xl",
-                                        "border-2 border-slate-200 hover:border-brand-900 transition-all duration-500",
-                                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-900 focus-visible:ring-offset-2",
-                                        "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
-                                    )}
-                                >
-                                    Browse Services
-                                </a>
-                            </div>
-                        </RevealOnScroll>
+                    <div className="max-w-7xl mx-auto">
+                        <div className="max-w-3xl">
+                            <RevealOnScroll>
+                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-8 leading-[1.05] font-heading font-black">
+                                    Eliminate tax anxiety. Build true wealth.
+                                </h1>
+                                <p className="text-xl text-brand-50/80 mb-12 leading-relaxed font-sans max-w-xl">
+                                    We replace reactive &quot;once-a-year&quot; filing with a proactive, year-round financial system designed for high-growth contractors and S-Corp owners.
+                                </p>
+
+                                <div className="flex flex-col sm:flex-row items-center gap-6">
+                                    <Link
+                                        href="/contact"
+                                        className={cn(
+                                            "w-full sm:w-auto px-10 py-5 bg-gold-500 text-brand-900 font-bold text-lg rounded-md shadow-sm", // Rounded-md per design system
+                                            "hover:bg-gold-600 transition-all duration-300",
+                                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-500",
+                                            "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
+                                        )}
+                                    >
+                                        Schedule Consultation
+                                        <ArrowRight className="w-5 h-5" />
+                                    </Link>
+                                    <a
+                                        href="#services"
+                                        className={cn(
+                                            "w-full sm:w-auto px-10 py-5 bg-transparent text-white font-bold text-lg rounded-md",
+                                            "border border-white/20 hover:bg-white/10 transition-all duration-300",
+                                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-500",
+                                            "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
+                                        )}
+                                    >
+                                        Browse Services
+                                    </a>
+                                </div>
+                            </RevealOnScroll>
+                        </div>
                     </div>
                 </section>
 
