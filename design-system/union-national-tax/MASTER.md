@@ -7,8 +7,8 @@
 ---
 
 **Project:** Union National Tax
-**Generated:** 2026-01-29 03:40:04
-**Category:** Luxury/Premium Brand
+**Generated:** 2026-02-04 13:48:34
+**Category:** Fintech/Crypto
 
 ---
 
@@ -18,13 +18,13 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#F59E0B` | `--color-primary` |
-| Secondary | `#FBBF24` | `--color-secondary` |
-| CTA/Accent | `#8B5CF6` | `--color-cta` |
-| Background | `#0F172A` | `--color-background` |
-| Text | `#F8FAFC` | `--color-text` |
+| Primary | `#7C3AED` | `--color-primary` |
+| Secondary | `#A78BFA` | `--color-secondary` |
+| CTA/Accent | `#F97316` | `--color-cta` |
+| Background | `#FAF5FF` | `--color-background` |
+| Text | `#4C1D95` | `--color-text` |
 
-**Color Notes:** Dark tech colors + trust + vibrant accents
+**Color Notes:** Event theme colors + Excitement accents
 
 ### Typography
 
@@ -68,7 +68,7 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #8B5CF6;
+  background: #F97316;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -85,8 +85,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #F59E0B;
-  border: 2px solid #F59E0B;
+  color: #7C3AED;
+  border: 2px solid #7C3AED;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -99,7 +99,7 @@
 
 ```css
 .card {
-  background: #0F172A;
+  background: #FAF5FF;
   border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -125,9 +125,9 @@
 }
 
 .input:focus {
-  border-color: #F59E0B;
+  border-color: #7C3AED;
   outline: none;
-  box-shadow: 0 0 0 3px #F59E0B20;
+  box-shadow: 0 0 0 3px #7C3AED20;
 }
 ```
 
@@ -153,28 +153,27 @@
 
 ## Style Guidelines
 
-**Style:** Liquid Glass
+**Style:** Dark Mode (OLED)
 
-**Keywords:** Flowing glass, morphing, smooth transitions, fluid effects, translucent, animated blur, iridescent, chromatic aberration
+**Keywords:** Dark theme, low light, high contrast, deep black, midnight blue, eye-friendly, OLED, night mode, power efficient
 
-**Best For:** Premium SaaS, high-end e-commerce, creative platforms, branding experiences, luxury portfolios
+**Best For:** Night-mode apps, coding platforms, entertainment, eye-strain prevention, OLED devices, low-light
 
-**Key Effects:** Morphing elements (SVG/CSS), fluid animations (400-600ms curves), dynamic blur (backdrop-filter), color transitions
+**Key Effects:** Minimal glow (text-shadow: 0 0 10px), dark-to-light transitions, low white emission, high readability, visible focus
 
 ### Page Pattern
 
-**Pattern Name:** Pricing-Focused Landing
+**Pattern Name:** Conversion-Optimized
 
-- **Conversion Strategy:** Annual discount 20-30%. Recommend mid-tier (most popular badge). Address objections in FAQ.
-- **CTA Placement:** Each pricing card + Sticky CTA in nav + Bottom
-- **Section Order:** 1. Hero (value proposition), 2. Pricing cards (3 tiers), 3. Feature comparison, 4. FAQ, 5. Final CTA
+- **CTA Placement:** Above fold
+- **Section Order:** Hero > Features > CTA
 
 ---
 
 ## Anti-Patterns (Do NOT Use)
 
-- ❌ Cheap visuals
-- ❌ Fast animations
+- ❌ Light backgrounds
+- ❌ No security indicators
 
 ### Additional Forbidden Patterns
 

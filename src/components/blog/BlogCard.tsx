@@ -26,7 +26,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
                 className
             )}
         >
-            <Link href={`/blog/${post.slug.current}`} className="relative aspect-[16/9] w-full overflow-hidden">
+            <Link href={`/blog/${post.slug}`} className="relative aspect-[16/9] w-full overflow-hidden">
                 {post.featuredImage ? (
                     <Image
                         src={urlFor(post.featuredImage).url()}
@@ -57,7 +57,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
                     )}
                 </div>
 
-                <Link href={`/blog/${post.slug.current}`} className="mt-4 block">
+                <Link href={`/blog/${post.slug}`} className="mt-4 block">
                     <h3 className="text-xl font-semibold text-brand-900 font-heading leading-tight transition-colors duration-300 group-hover:text-brand-700">
                         {post.title}
                     </h3>

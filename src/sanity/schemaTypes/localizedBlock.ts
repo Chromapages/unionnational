@@ -8,7 +8,6 @@ export const localizedBlock = defineType({
         {
             name: 'translations',
             title: 'Translations',
-            options: { collapsible: true, collapsed: false }
         }
     ],
     fields: [

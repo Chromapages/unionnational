@@ -34,7 +34,7 @@ export const blogPost = defineType({
             title: 'Author',
             type: 'reference',
             group: 'content',
-            to: { type: 'teamMember' },
+            to: [{ type: 'teamMember' }],
             validation: (Rule) => Rule.required(),
         }),
         defineField({
@@ -59,7 +59,7 @@ export const blogPost = defineType({
             title: 'Categories',
             type: 'array',
             group: 'content',
-            of: [{ type: 'reference', to: { type: 'blogCategory' } }],
+            of: [{ type: 'reference', to: [{ type: 'blogCategory' }] }],
         }),
         defineField({
             name: 'publishedAt',

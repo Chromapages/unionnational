@@ -118,7 +118,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                     <ServicesClient services={services} />
                 </div>
 
-                <section className="pt-24 pb-12 bg-white/30">
+                <section className="pb-12 bg-white/30">
                     <PricingSection
                         tiers={pricingTiers}
                         hideTaxPrep={true}
@@ -144,7 +144,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
 
 
-                <div className="max-w-7xl mx-auto px-6 pb-24">
+                <div>
                     <LuxuryTravelIncentive />
                 </div>
             </main>

@@ -28,7 +28,7 @@ function BlogHeroCard({ post, size = "small", className }: BlogHeroCardProps) {
 
     return (
         <Link
-            href={`/blog/${post.slug.current}`}
+            href={`/blog/${post.slug}`}
             className={cn(
                 "group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-brand-950/40 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-gold",
                 className

@@ -5,6 +5,8 @@ import { AdvisoryPricingCards } from "./AdvisoryPricingCards";
 import { TaxPrepGrid } from "./TaxPrepGrid";
 import { OptionalServices } from "./OptionalServices";
 import { ServiceComparisonTable } from "@/components/services/ServiceComparisonTable";
+import { TaxPrepPricingTables } from "./TaxPrepPricingTables";
+import { PricingCarousel } from "./PricingCarousel";
 
 // Re-using the same interface for consistency across files
 export interface PricingTier {
@@ -57,48 +59,34 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
     };
 
     return (
-        <section className="py-24 relative overflow-hidden">
+        <section className="py-12 relative overflow-hidden">
             <div className="space-y-16 lg:space-y-24">
 
-                {/* 1. Advisory Pricing (The Hero Cards) */}
-                <div className="relative">
-                    {/* Section Header */}
-                    <div className="text-center max-w-4xl mx-auto px-6 mb-16">
-                        <RevealOnScroll>
-                            <span className="text-gold-500 font-bold tracking-widest text-xs uppercase mb-4 block">{t.eyebrow}</span>
-                            <h2 className="text-4xl md:text-5xl font-bold text-brand-900 font-heading mb-6">{t.title}</h2>
-                            <p className="text-brand-900/60 font-sans text-lg max-w-2xl mx-auto leading-relaxed">
-                                {t.subtitle}
-                            </p>
-                        </RevealOnScroll>
-                    </div>
-
-                    <AdvisoryPricingCards tiers={advisoryTiers} />
+                {/* Section Header */}
+                <div className="text-center max-w-4xl mx-auto px-6 mb-16">
+                    <RevealOnScroll>
+                        <span className="text-gold-500 font-bold tracking-widest text-xs uppercase mb-4 block">{t.eyebrow}</span>
+                        <h2 className="text-4xl md:text-5xl font-bold text-brand-900 font-heading mb-6">{t.title}</h2>
+                        <p className="text-brand-900/60 font-sans text-lg max-w-2xl mx-auto leading-relaxed">
+                            {t.subtitle}
+                        </p>
+                    </RevealOnScroll>
                 </div>
 
-                {/* 2. Tax Compliance (The Clean Table) */}
-                {!hideTaxPrep && (
-                    <RevealOnScroll>
-                        <TaxPrepGrid tiers={tiers} />
-                    </RevealOnScroll>
-                )}
-
-                {/* 3. Service Tier Comparison Table (Complete Transparency) */}
+                {/* Unified Pricing Carousel */}
                 <RevealOnScroll>
                     <div className="max-w-7xl mx-auto px-6">
-                        <div className="text-center mb-10">
-                            <h2 className="text-2xl font-bold text-brand-900 font-heading mb-3">{t.comparisonTitle}</h2>
-                            <p className="text-brand-900/60 max-w-2xl mx-auto text-sm">
-                                {t.comparisonSubtitle}
-                            </p>
-                        </div>
-                        <ServiceComparisonTable />
+                        <PricingCarousel
+                            advisoryView={<AdvisoryPricingCards tiers={advisoryTiers} />}
+                            taxPrepView={<TaxPrepPricingTables />}
+                            comparisonView={
+                                <div className="space-y-16">
+                                    <ServiceComparisonTable />
+                                    <OptionalServices tiers={optionalTiers} />
+                                </div>
+                            }
+                        />
                     </div>
-                </RevealOnScroll>
-
-                {/* 4. Optional Services (The Grid) */}
-                <RevealOnScroll>
-                    <OptionalServices tiers={optionalTiers} />
                 </RevealOnScroll>
 
             </div>

@@ -85,7 +85,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
     };
 
     return (
-        <div className="relative min-h-screen pb-20">
+        <div className="relative">
             <div className="max-w-7xl mx-auto px-6">
 
                 {/* Mobile: Swipeable Carousel */}

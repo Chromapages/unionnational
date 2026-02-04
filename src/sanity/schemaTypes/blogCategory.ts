@@ -49,4 +49,10 @@ export const blogCategory = defineType({
             group: 'seo',
         }),
     ],
+    preview: {
+        select: {
+            title: 'title.en',
+            subtitle: 'slug.current',
+        },
+    },
 })

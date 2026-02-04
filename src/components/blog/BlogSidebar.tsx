@@ -6,7 +6,7 @@ import { Search, ArrowRight, Tag } from "lucide-react";
 interface Category {
     _id: string;
     title: string;
-    slug: { current: string };
+    slug: string;
 }
 
 interface BlogSidebarProps {
@@ -37,7 +37,7 @@ export function BlogSidebar({ categories, newsletterTitle, newsletterDescription
                     {categories.map((category) => (
                         <li key={category._id}>
                             <Link
-                                href={`/blog/category/${category.slug.current}`}
+                                href={`/blog/category/${category.slug}`}
                                 className="flex items-center justify-between py-2 text-sm text-brand-900/60 hover:text-gold-600 hover:pl-1 transition-all group font-sans"
                             >
                                 <div className="flex items-center gap-2">

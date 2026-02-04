@@ -35,11 +35,11 @@ export const LuxuryTravelIncentive = ({
 
     return (
         <RevealOnScroll className={`w-full ${className}`}>
-            {/* Main Container - Full width with max-width constraint */}
-            <div className="relative bg-brand-900 border border-slate-200 rounded-lg shadow-soft overflow-hidden">
+            {/* Main Container - Edge to Edge */}
+            <div className="relative bg-brand-900 border-y border-white/5 overflow-hidden">
 
-                {/* Two-Column Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                {/* Two-Column Layout - Re-injecting max-width for content inside */}
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0">
 
                     {/* Left Column - Content */}
                     <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">

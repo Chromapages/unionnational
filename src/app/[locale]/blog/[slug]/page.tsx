@@ -23,7 +23,7 @@ export async function generateStaticParams() {
     return (posts as any[]).flatMap((post: any) =>
         locales.map((locale) => ({
             locale,
-            slug: post.slug.current,
+            slug: post.slug,
         }))
     );
 }
@@ -76,7 +76,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
     }
 
     // Fetch related posts based on categories
-    const categorySlugs = post.categories?.map((c: any) => c.slug.current) || [];
+    const categorySlugs = post.categories?.map((c: any) => c.slug) || [];
     const { data: relatedPosts } = await sanityFetch({
         query: RELATED_POSTS_QUERY,
         params: {

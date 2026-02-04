@@ -29,7 +29,7 @@ export const seo = defineType({
             title: "Keywords",
             type: "array",
             of: [{ type: "string" }],
-            options: { layout: "tags" },
+            options: {},
         }),
     ],
 })
