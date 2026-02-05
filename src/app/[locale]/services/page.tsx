@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { LuxuryTravelIncentive } from "@/components/ui/LuxuryTravelIncentive";
+import { TravelIncentiveDisclaimer } from "@/components/ui/TravelIncentiveDisclaimer";
 import { client } from "@/sanity/lib/client";
 import { ServicesClient } from "@/components/services/ServicesClient";
 import { PartnerProgramsSection } from "@/components/services/PartnerProgramsSection";
@@ -144,7 +145,8 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
 
 
-                <div>
+                <div className="space-y-0">
+                    <TravelIncentiveDisclaimer />
                     <LuxuryTravelIncentive />
                 </div>
             </main>

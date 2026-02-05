@@ -30,7 +30,7 @@ export function RelatedNavigator({ posts }: RelatedNavigatorProps) {
             </div>
 
             <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => (
+                {posts.filter(Boolean).map((post) => (
                     <BlogCard key={post._id} post={post} />
                 ))}
             </div>

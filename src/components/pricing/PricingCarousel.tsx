@@ -9,15 +9,17 @@ interface PricingCarouselProps {
     advisoryView: React.ReactNode;
     taxPrepView: React.ReactNode;
     comparisonView: React.ReactNode;
+    optionalServicesView?: React.ReactNode;
 }
 
 const tabs = [
     { id: "advisory", label: "Advisory Plans", icon: CreditCard },
     { id: "taxprep", label: "Tax Preparation", icon: FileText },
-    { id: "comparison", label: "Full Comparison", icon: BarChart3 },
+    { id: "comparison", label: "Comparison", icon: BarChart3 },
+    { id: "optional", label: "Optional Services", icon: ChevronRight },
 ];
 
-export function PricingCarousel({ advisoryView, taxPrepView, comparisonView }: PricingCarouselProps) {
+export function PricingCarousel({ advisoryView, taxPrepView, comparisonView, optionalServicesView }: PricingCarouselProps) {
     const [activeTab, setActiveTab] = useState("advisory");
 
     const renderView = () => {
@@ -28,6 +30,8 @@ export function PricingCarousel({ advisoryView, taxPrepView, comparisonView }: P
                 return taxPrepView;
             case "comparison":
                 return comparisonView;
+            case "optional":
+                return optionalServicesView;
             default:
                 return advisoryView;
         }

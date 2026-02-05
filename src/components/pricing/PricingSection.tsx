@@ -7,6 +7,8 @@ import { OptionalServices } from "./OptionalServices";
 import { ServiceComparisonTable } from "@/components/services/ServiceComparisonTable";
 import { TaxPrepPricingTables } from "./TaxPrepPricingTables";
 import { PricingCarousel } from "./PricingCarousel";
+import { IncludedFeatures } from "./IncludedFeatures";
+import { OptionalServicesTable } from "./OptionalServicesTable";
 
 // Re-using the same interface for consistency across files
 export interface PricingTier {
@@ -79,6 +81,7 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
                         <PricingCarousel
                             advisoryView={<AdvisoryPricingCards tiers={advisoryTiers} />}
                             taxPrepView={<TaxPrepPricingTables />}
+                            optionalServicesView={<OptionalServicesTable />}
                             comparisonView={
                                 <div className="space-y-16">
                                     <ServiceComparisonTable />
@@ -88,6 +91,11 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
                         />
                     </div>
                 </RevealOnScroll>
+
+                {/* What's Included Section */}
+                <div className="mt-12 lg:mt-24">
+                    <IncludedFeatures />
+                </div>
 
             </div>
         </section>

@@ -20,7 +20,9 @@ export async function generateStaticParams() {
     const posts = await client.fetch(BLOG_POSTS_QUERY, { limit: 100, locale: 'en' });
     const locales = ["en", "es"];
 
-    return (posts as any[]).flatMap((post: any) =>
+    if (!posts || !Array.isArray(posts)) return [];
+
+    return posts.filter(post => post && post.slug).flatMap((post: any) =>
         locales.map((locale) => ({
             locale,
             slug: post.slug,
@@ -76,7 +78,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
     }
 
     // Fetch related posts based on categories
-    const categorySlugs = post.categories?.map((c: any) => c.slug) || [];
+    const categorySlugs = post.categories?.filter(Boolean).map((c: any) => c.slug).filter(Boolean) || [];
     const { data: relatedPosts } = await sanityFetch({
         query: RELATED_POSTS_QUERY,
         params: {
