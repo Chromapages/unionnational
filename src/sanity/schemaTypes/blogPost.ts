@@ -73,7 +73,6 @@ export const blogPost = defineType({
             title: 'Excerpt',
             type: 'localizedText',
             group: 'content',
-            validation: (Rule) => Rule.max(200),
             description: 'Short summary for previews and SEO.',
         }),
         defineField({

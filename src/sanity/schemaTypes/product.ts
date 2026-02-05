@@ -58,7 +58,7 @@ export const product = defineType({
             title: "Short Description",
             type: "localizedText",
             group: "content",
-            validation: (Rule) => Rule.required().max(200),
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "fullDescription",
