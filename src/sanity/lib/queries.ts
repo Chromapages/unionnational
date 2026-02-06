@@ -445,15 +445,20 @@ export const FAQ_QUERY = defineQuery(`
 
 export const ABOUT_PAGE_QUERY = defineQuery(`
   * [_type == "aboutPage"][0]{
-    "heroTitle": coalesce(heroTitle[$locale], heroTitle.en, heroTitle),
-    "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.en, heroSubtitle),
-    "heroBadge": coalesce(heroBadge[$locale], heroBadge.en, heroBadge),
-    "missionStatement": coalesce(missionStatement[$locale], missionStatement.en, missionStatement),
-    "storyContent": coalesce(storyContent[$locale], storyContent.en, storyContent),
+    "valuesEyebrow": coalesce(valuesEyebrow[$locale], valuesEyebrow.en, valuesEyebrow),
+    "valuesTitle": coalesce(valuesTitle[$locale], valuesTitle.en, valuesTitle),
     "values": values[]{
       "title": coalesce(title[$locale], title.en, title),
       "description": coalesce(description[$locale], description.en, description),
       iconName
+    },
+    "primaryValue": {
+      "badge": coalesce(primaryValue.badge[$locale], primaryValue.badge.en, primaryValue.badge),
+      "title": coalesce(primaryValue.title[$locale], primaryValue.title.en, primaryValue.title),
+      "description": coalesce(primaryValue.description[$locale], primaryValue.description.en, primaryValue.description),
+      "imageUrl": primaryValue.image.asset->url,
+      "videoUrl": primaryValue.videoUrl,
+      "videoFileUrl": primaryValue.videoFile.asset->url
     },
     certifications[]{
       name,
@@ -469,6 +474,7 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
       alt
     },
     founderVideoUrl,
+    "founderVideoFileUrl": founderVideoFile.asset->url,
     "ctaTitle": coalesce(ctaTitle[$locale], ctaTitle.en, ctaTitle),
     "ctaSubtitle": coalesce(ctaSubtitle[$locale], ctaSubtitle.en, ctaSubtitle),
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),

@@ -1,76 +1,76 @@
 "use client";
 
-import { Linkedin, Play } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Play, ShieldCheck } from "lucide-react";
 
 interface FounderSectionProps {
     videoUrl?: string;
+    videoFileUrl?: string;
 }
 
-export function FounderSection({ videoUrl }: FounderSectionProps) {
-    const t = useTranslations('AboutPage.FounderSection');
+export function FounderSection({ videoUrl, videoFileUrl }: FounderSectionProps) {
     return (
-        <section className="relative overflow-hidden py-24 bg-brand-900 border-t border-white/5">
-            {/* Background Effects */}
-            <div className="absolute inset-0 bg-brand-900" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,_rgba(255,255,255,0.02),_transparent_55%)]" />
+        <section className="py-24 bg-white relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-            <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-[0.9fr_1.1fr] items-center">
-                <div className="relative order-2 flex flex-col justify-center lg:order-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-500">{t('eyebrow')}</p>
-                    <h2 className="mt-4 text-3xl font-semibold text-white font-heading">
-                        {t('name')}
-                    </h2>
-                    <p className="mt-6 text-lg text-brand-100/70 leading-relaxed">
-                        {t('quote1')}
-                        <br /><br />
-                        {t('bio')}
-                    </p>
-                    <div className="mt-8 flex flex-wrap gap-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-gold-400">
-                        <span className="rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2">{t('credentials.ea')}</span>
-                        <span className="rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2">{t('credentials.mba')}</span>
-                        <span className="rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2">{t('credentials.fscp')}</span>
-                    </div>
-                    <div className="mt-10 flex items-center gap-4">
-                        {videoUrl && (
-                            <a
-                                href={videoUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-3 rounded-xl border border-gold-500 bg-gold-500 px-6 py-3 text-xs font-bold uppercase tracking-[0.15em] text-brand-950 transition-all hover:bg-gold-400 hover:scale-105 shadow-lg shadow-gold-500/20"
-                            >
-                                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-950 text-gold-500">
-                                    <Play className="h-3 w-3 fill-current" />
-                                </span>
-                                {t('watchVideo')}
-                            </a>
-                        )}
-                        <a
-                            href="https://www.linkedin.com/in/jasonastwood/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 transition-all hover:border-[#0077b5] hover:text-[#0077b5] hover:bg-white/10"
-                        >
-                            <Linkedin className="h-5 w-5" />
-                        </a>
-                    </div>
-                </div>
-
-                <div className="relative order-1 lg:order-2">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-white/10 shadow-2xl bg-brand-950">
-                        {/* Placeholder or Real Image - Using the provided one but with better object-position if needed */}
-                        <img
-                            src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_1200/u_https://assets.cdn.filesafe.space/N5KQjySifAxlxhrrvY8g/media/65cc3ecf190e877c7eed693d.png"
-                            alt={t('imageAlt')}
-                            className="h-full w-full object-cover grayscale-[20%] transition-all duration-700 hover:grayscale-0 hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 via-transparent to-transparent" />
-
-                        <div className="absolute bottom-8 left-8 right-8 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
-                            <p className="font-medium italic text-white/90 text-sm leading-relaxed">{t('quote2')}</p>
-                            <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.2em] text-gold-500">{t('role')}</p>
+                    {/* Content Column */}
+                    <RevealOnScroll>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-600 text-[10px] font-bold uppercase tracking-widest mb-6">
+                            Founder's Message
                         </div>
-                    </div>
+                        <h2 className="text-4xl lg:text-5xl font-bold text-brand-900 mb-6 font-heading leading-tight">
+                            Strategy Built on <br />
+                            <span className="text-gold-500">Uncompromising Precision.</span>
+                        </h2>
+                        <p className="text-lg text-slate-600 leading-relaxed font-sans mb-8">
+                            At Union National Tax, we believe tax preparation is just the baseline. True value lies in the strategy that happens before the filing. Our mission is to bridge the gap between complex tax code and the agile needs of modern business.
+                        </p>
+
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                                <div className="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-gold-500">
+                                    <ShieldCheck className="w-5 h-5" />
+                                </div>
+                                <span className="font-bold text-brand-900 font-sans text-sm tracking-wide uppercase">IRS Enrolled Agent Certified</span>
+                            </div>
+                        </div>
+                    </RevealOnScroll>
+
+                    {/* Video Column */}
+                    <RevealOnScroll delay={0.2}>
+                        <div className="relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group border-4 border-white">
+                            {videoFileUrl ? (
+                                <video
+                                    src={videoFileUrl}
+                                    className="w-full h-full object-cover"
+                                    controls
+                                    playsInline
+                                    poster="/vsl-placeholder.jpg"
+                                />
+                            ) : videoUrl ? (
+                                <iframe
+                                    src={videoUrl}
+                                    className="w-full h-full object-cover"
+                                    allow="autoplay; fullscreen; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            ) : (
+                                <div className="absolute inset-0 bg-brand-900 flex items-center justify-center">
+                                    <div className="relative">
+                                        <div className="absolute inset-0 bg-gold-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity" />
+                                        <button className="relative w-20 h-20 bg-gold-500 rounded-full flex items-center justify-center text-brand-950 shadow-xl transform transition-transform group-hover:scale-110">
+                                            <Play className="fill-current w-8 h-8 ml-1" />
+                                        </button>
+                                    </div>
+                                    <p className="absolute bottom-8 text-white/50 text-xs font-bold uppercase tracking-widest">
+                                        Watch Strategy Briefing
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </RevealOnScroll>
                 </div>
             </div>
         </section>

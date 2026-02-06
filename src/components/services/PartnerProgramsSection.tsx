@@ -6,7 +6,7 @@ import { PartnerProgramCard } from "@/components/services/PartnerProgramCard";
 
 export function PartnerProgramsSection() {
     return (
-        <section className="max-w-[90rem] mx-auto px-4 sm:px-6 mb-32">
+        <section className="max-w-[90rem] mx-auto px-4 sm:px-6 mb-12">
             <RevealOnScroll>
                 <h2 className="text-2xl font-bold text-brand-900 mb-8 font-heading px-2 sm:px-0">Specialized Partner Programs</h2>
 

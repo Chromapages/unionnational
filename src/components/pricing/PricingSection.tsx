@@ -61,7 +61,7 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
     };
 
     return (
-        <section className="py-12 relative overflow-hidden">
+        <section className="pt-12 pb-0 relative overflow-hidden">
             <div className="space-y-16 lg:space-y-24">
 
                 {/* Section Header */}

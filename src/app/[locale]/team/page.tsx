@@ -100,7 +100,7 @@ export default async function TeamPage(props: { params: Promise<{ locale: string
         sanityFetch({ query: TEAM_PAGE_QUERY, params: { locale } }),
         sanityFetch({ query: FOUNDER_QUERY, params: { locale } }),
         sanityFetch({ query: TEAM_MEMBERS_QUERY, params: { locale } }),
-        sanityFetch({ query: SITE_SETTINGS_QUERY }),
+        sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } }),
     ]);
 
     // Fallbacks for page settings if not yet set in CMS

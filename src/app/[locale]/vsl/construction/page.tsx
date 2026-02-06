@@ -18,7 +18,7 @@ export default async function ConstructionVSLPage(props: { params: Promise<{ loc
     const locale = params.locale;
     const response = await sanityFetch<any>({
         query: VSL_PAGE_QUERY,
-        params: { slug: "vsl/construction" },
+        params: { slug: "vsl/construction", locale },
     });
 
     // sanityFetch from defineLive wraps data in { data: ... }

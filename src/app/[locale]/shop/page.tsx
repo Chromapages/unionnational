@@ -70,8 +70,8 @@ export default async function ShopPage(props: { params: Promise<{ locale: string
     ] = await Promise.all([
         sanityFetch({ query: SHOP_PAGE_QUERY, params: { locale } }),
         sanityFetch({ query: ALL_PRODUCTS_QUERY, params: { locale } }),
-        sanityFetch({ query: SITE_SETTINGS_QUERY }),
-        sanityFetch({ query: TESTIMONIALS_QUERY }),
+        sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } }),
+        sanityFetch({ query: TESTIMONIALS_QUERY, params: { locale } }),
     ]);
     const typedProducts: ShopProduct[] = products || [];
     const shopTestimonials = testimonials?.slice(0, 3) || [];

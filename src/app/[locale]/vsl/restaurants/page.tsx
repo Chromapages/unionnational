@@ -18,7 +18,7 @@ export default async function RestaurantVSLPage(props: { params: Promise<{ local
     const locale = params.locale;
     const response = await sanityFetch<any>({
         query: VSL_PAGE_QUERY,
-        params: { slug: "vsl/restaurants" },
+        params: { slug: "vsl/restaurants", locale },
     });
 
     // sanityFetch from defineLive wraps data in { data: ... }

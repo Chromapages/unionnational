@@ -13,12 +13,12 @@ export function FounderSpotlight({ founder, title }: FounderSpotlightProps) {
 
     return (
         <section id="founder" className="max-w-7xl mx-auto px-6 mb-32 -mt-10 relative z-20">
-             <RevealOnScroll>
+            <RevealOnScroll>
                 <div className="bg-white rounded-[2.5rem] border border-slate-200 p-8 md:p-12 lg:p-16 shadow-2xl shadow-brand-900/5 flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-                    
+
                     {/* Image Column */}
                     <div className="w-full lg:w-5/12 relative">
-                         <div className="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-lg">
+                        <div className="aspect-[4/5] rounded-2xl overflow-hidden relative shadow-lg">
                             {founder.image && (
                                 <img
                                     src={urlFor(founder.image).width(800).url()}
@@ -26,7 +26,7 @@ export function FounderSpotlight({ founder, title }: FounderSpotlightProps) {
                                     className="w-full h-full object-cover"
                                 />
                             )}
-                            
+
                             {/* Overlay Badge */}
                             <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm p-4 rounded-xl border border-slate-200/50 shadow-lg">
                                 <div className="flex items-center gap-3">
@@ -50,15 +50,15 @@ export function FounderSpotlight({ founder, title }: FounderSpotlightProps) {
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-600 text-[10px] font-bold uppercase tracking-widest mb-6">
                             {title}
                         </div>
-                        
+
                         <h2 className="text-4xl lg:text-5xl font-bold text-brand-900 mb-2 font-heading">
                             {founder.name}
                         </h2>
                         <div className="text-gold-600 font-medium text-lg mb-8 font-sans flex items-center gap-2">
-                              {founder.role}
-                              <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                              <span className="text-slate-500">{founder.credentials}</span>
-                         </div>
+                            {founder.role}
+                            <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                            <span className="text-slate-500">{founder.credentials}</span>
+                        </div>
 
                         {/* Enrolled Agent Difference */}
                         <div className="mb-10 rounded-2xl border border-gold-500/25 bg-gold-500/5 p-6 shadow-sm">
@@ -81,10 +81,10 @@ export function FounderSpotlight({ founder, title }: FounderSpotlightProps) {
                         </div>
 
                         <div className="relative mb-8">
-                             <Quote className="absolute -top-4 -left-6 w-8 h-8 text-gold-500/20 transform -scale-x-100" />
-                             <p className="text-lg text-slate-600 leading-relaxed italic relative z-10 font-serif">
-                                 &quot;We don&apos;t just file taxes; we build financial fortresses. My mission is to give every business owner the same advanced strategies used by the ultra-wealthy, simplified and executed with precision.&quot;
-                             </p>
+                            <Quote className="absolute -top-4 -left-6 w-8 h-8 text-gold-500/20 transform -scale-x-100" />
+                            <p className="text-lg text-slate-600 leading-relaxed italic relative z-10 font-serif">
+                                &quot;We don&apos;t just file taxes; we build financial fortresses. My mission is to give every business owner the same advanced strategies used by the ultra-wealthy, simplified and executed with precision.&quot;
+                            </p>
                         </div>
 
                         {founder.description && (
@@ -102,10 +102,10 @@ export function FounderSpotlight({ founder, title }: FounderSpotlightProps) {
                         </div>
 
                         {founder.linkedinUrl && (
-                             <Link 
-                                href={founder.linkedinUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
+                            <Link
+                                href={founder.linkedinUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 text-brand-900 font-bold border-b-2 border-gold-500 hover:text-gold-600 hover:border-gold-600 transition-colors pb-1"
                             >
                                 <Linkedin className="w-4 h-4" />

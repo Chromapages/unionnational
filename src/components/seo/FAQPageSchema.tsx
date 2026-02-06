@@ -1,8 +1,10 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { FAQ_QUERY } from "@/sanity/lib/queries";
+import { getLocale } from "next-intl/server";
 
 export async function FAQPageSchema() {
-    const { data: faqs } = await sanityFetch({ query: FAQ_QUERY });
+    const locale = await getLocale();
+    const { data: faqs } = await sanityFetch({ query: FAQ_QUERY, params: { locale } });
 
     if (!faqs || faqs.length === 0) {
         return null;

@@ -14,8 +14,8 @@ export const metadata = {
 export default async function PricingPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    const { data: tiers } = await sanityFetch({ query: PRICING_TIERS_QUERY });
-    const { data: pageData } = await sanityFetch({ query: SERVICES_PAGE_QUERY });
+    const { data: tiers } = await sanityFetch({ query: PRICING_TIERS_QUERY, params: { locale } });
+    const { data: pageData } = await sanityFetch({ query: SERVICES_PAGE_QUERY, params: { locale } });
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">

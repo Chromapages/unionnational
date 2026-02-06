@@ -31,13 +31,13 @@ export function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProp
 
     return createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
-            <div 
-                className="absolute inset-0 bg-brand-900/60 backdrop-blur-sm transition-opacity" 
+            <div
+                className="absolute inset-0 bg-brand-900/60 backdrop-blur-sm transition-opacity"
                 onClick={onClose}
             />
-            
+
             <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
-                <button 
+                <button
                     onClick={onClose}
                     className="absolute top-4 right-4 z-10 p-2 bg-white/50 hover:bg-white rounded-full transition-colors"
                 >
@@ -75,11 +75,11 @@ export function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProp
                                 <p>{member.description}</p>
                             </div>
 
-                             <div className="flex items-center gap-4 mt-auto pt-6 border-t border-slate-100">
+                            <div className="flex items-center gap-4 mt-auto pt-6 border-t border-slate-100">
                                 {member.linkedinUrl && (
-                                    <a 
-                                        href={member.linkedinUrl} 
-                                        target="_blank" 
+                                    <a
+                                        href={member.linkedinUrl}
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-10 h-10 rounded-full bg-brand-50 hover:bg-brand-900 hover:text-white flex items-center justify-center transition-all text-brand-900"
                                         title="LinkedIn Profile"
@@ -87,7 +87,7 @@ export function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProp
                                         <Linkedin className="w-4 h-4" />
                                     </a>
                                 )}
-                                <a 
+                                <a
                                     href={`mailto:hello@unionnationaltax.com?subject=Inquiry for ${member.name}`}
                                     className="w-10 h-10 rounded-full bg-brand-50 hover:bg-brand-900 hover:text-white flex items-center justify-center transition-all text-brand-900"
                                     title="Contact"

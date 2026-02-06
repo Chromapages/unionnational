@@ -39,12 +39,20 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                     badge={page?.heroBadge}
                 />
 
-                <FounderSection videoUrl={page?.founderVideoUrl} />
+                <FounderSection
+                    videoUrl={page?.founderVideoUrl}
+                    videoFileUrl={page?.founderVideoFileUrl}
+                />
 
 
                 <CompanyTimeline />
 
-                <ValuesBento />
+                <ValuesBento
+                    eyebrow={page?.valuesEyebrow}
+                    title={page?.valuesTitle}
+                    values={page?.values}
+                    primaryValue={page?.primaryValue}
+                />
 
 
                 <TrustVault />

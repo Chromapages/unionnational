@@ -119,7 +119,11 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                     <ServicesClient services={services} />
                 </div>
 
-                <section className="pb-12 bg-white/30">
+                <div className="pt-12 pb-20">
+                    <PartnerProgramsSection />
+                </div>
+
+                <section className="bg-white/30">
                     <PricingSection
                         tiers={pricingTiers}
                         hideTaxPrep={true}
@@ -132,8 +136,6 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                         }}
                     />
                 </section>
-
-
 
                 {/* Process Timeline */}
                 <ProcessTimeline />
