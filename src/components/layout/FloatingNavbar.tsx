@@ -178,8 +178,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             <Box
                                 sx={{
                                     position: "relative",
-                                    width: { xs: 180, md: scrolled ? 220 : 260 },
-                                    height: { xs: 44, md: scrolled ? 52 : 60 },
+                                    width: { xs: 240, md: scrolled ? 300 : 400 },
+                                    height: { xs: 60, md: scrolled ? 72 : 96 },
                                     transition: "all 0.3s ease",
                                 }}
                             >

@@ -79,7 +79,7 @@ export async function Footer() {
 
                     {/* Column 1: Brand & Bio */}
                     <div className="space-y-6">
-                        <Link href="/" className="block relative h-16 w-64 mb-6">
+                        <Link href="/" className="block relative h-28 w-[400px] mb-6">
                             {siteSettings?.logo?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logo.asset.url}

@@ -55,7 +55,7 @@ export function Header({ siteSettings }: HeaderProps) {
                 <div className="max-w-[90rem] 2xl:max-w-[100rem] mx-auto px-6 h-16 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group relative z-50">
-                        <div className={`relative transition-all duration-300 ${scrolled ? 'w-40 h-10 sm:w-48 sm:h-12' : 'w-48 h-12 sm:w-56 sm:h-14'}`}>
+                        <div className={`relative transition-all duration-300 ${scrolled ? 'w-64 h-16 sm:w-72 sm:h-18' : 'w-72 h-18 sm:w-80 sm:h-20'}`}>
                             <Image
                                 src={logoUrl}
                                 alt={siteSettings?.companyName || "Union National Tax"}

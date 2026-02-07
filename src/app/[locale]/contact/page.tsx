@@ -95,9 +95,6 @@ export default async function ContactPage(props: { params: Promise<{ locale: str
                     </div>
                 </section>
 
-                <RevealOnScroll delay={300}>
-                    <ClientLogoStrip logos={aboutPage?.clientLogos} />
-                </RevealOnScroll>
 
                 <FAQSection />
 
