@@ -248,6 +248,8 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
     "question": coalesce(question[$locale], question.en, question),
     "answer": coalesce(answer[$locale], answer.en, answer)
   },
+  "whyChooseUsTitle": coalesce(whyChooseUsTitle[$locale], whyChooseUsTitle.en, whyChooseUsTitle),
+  "whyChooseUsDescription": coalesce(whyChooseUsDescription[$locale], whyChooseUsDescription.en, whyChooseUsDescription),
   "comparisonPoints": comparisonPoints[]{
     "feature": coalesce(feature[$locale], feature.en, feature),
     diy,
@@ -258,6 +260,14 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
   videoThumbnail {
     asset->,
     alt
+  },
+  seo {
+    metaTitle,
+    metaDescription,
+    openGraphImage {
+      asset->
+    },
+    keywords
   }
 }`;
 

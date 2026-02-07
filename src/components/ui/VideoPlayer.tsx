@@ -3,14 +3,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useVideoPlayer } from '@/hooks/useVideoPlayer';
 import { cn } from '@/lib/utils';
-import { 
-    Play, 
-    Pause, 
-    Volume2, 
-    VolumeX, 
-    Maximize, 
-    Minimize, 
-    SkipBack, 
+import {
+    Play,
+    Pause,
+    Volume2,
+    VolumeX,
+    Maximize,
+    Minimize,
+    SkipBack,
     SkipForward,
     Loader2,
     PictureInPicture,
@@ -42,23 +42,23 @@ interface VideoPlayerProps {
     chapters?: VideoChapter[];
 }
 
-export function VideoPlayer({ 
-    src, 
-    poster, 
-    autoPlay = false, 
-    muted = false, 
+export function VideoPlayer({
+    src,
+    poster,
+    autoPlay = false,
+    muted = false,
     loop = false,
     className = '',
     chapters = []
 }: VideoPlayerProps) {
     // Don't render if no src
     if (!src) return null;
-    
-    const { videoRef, containerRef, state, controls } = useVideoPlayer({ 
-        src, 
-        autoPlay, 
-        muted, 
-        loop 
+
+    const { videoRef, containerRef, state, controls } = useVideoPlayer({
+        src,
+        autoPlay,
+        muted,
+        loop
     });
 
     const [showControls, setShowControls] = useState(true);
@@ -83,7 +83,7 @@ export function VideoPlayer({
     const handleMouseMove = useCallback(() => {
         setShowControls(true);
         setIsHovering(true);
-        
+
         if (controlsTimeoutRef.current) {
             clearTimeout(controlsTimeoutRef.current);
         }
@@ -106,11 +106,11 @@ export function VideoPlayer({
     // Handle seeking via progress bar
     const handleSeek = useCallback((e: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
         if (!progressBarRef.current || !state.duration) return;
-        
+
         const rect = progressBarRef.current.getBoundingClientRect();
         const pos = (e.clientX - rect.left) / rect.width;
         const seekTime = Math.max(0, Math.min(pos * state.duration, state.duration));
-        
+
         controls.seek(seekTime);
     }, [state.duration, controls]);
 
@@ -148,7 +148,7 @@ export function VideoPlayer({
         const handleKeyDown = (e: KeyboardEvent) => {
             // Only handle if container is focused or fullscreen
             if (!containerRef.current?.contains(document.activeElement) && !state.isFullscreen) return;
-            
+
             // Prevent default scrolling for Space/Arrows
             if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
                 e.preventDefault();
@@ -177,7 +177,7 @@ export function VideoPlayer({
                     controls.toggleFullscreen();
                     break;
             }
-            
+
             // Show controls on keyboard interaction
             handleMouseMove();
         };
@@ -187,7 +187,7 @@ export function VideoPlayer({
     }, [controls, state.volume, state.isFullscreen, handleMouseMove]);
 
     return (
-        <div 
+        <div
             ref={containerRef}
             className={`relative group bg-brand-900 overflow-hidden outline-none ${className}`}
             onMouseMove={handleMouseMove}
@@ -214,7 +214,7 @@ export function VideoPlayer({
             )}
 
             {/* Center Play/Pause Overlay */}
-            <div 
+            <div
                 className={cn(
                     'absolute inset-0 flex items-center justify-center transition-opacity duration-200 pointer-events-none',
                     !state.isPlaying && !state.isBuffering ? 'opacity-100' : 'opacity-0'
@@ -237,7 +237,7 @@ export function VideoPlayer({
             </div>
 
             {/* Control Bar */}
-            <div 
+            <div
                 className={cn(
                     'absolute bottom-0 left-0 right-0 bg-gradient-to-t from-brand-900/95 to-transparent px-4 pb-4 pt-12',
                     'transition-opacity duration-300 flex flex-col gap-2',
@@ -245,15 +245,15 @@ export function VideoPlayer({
                 )}
             >
                 {/* Progress Bar */}
-                <div 
+                <div
                     className="relative h-1 hover:h-2 bg-brand-700 w-full cursor-pointer rounded-full transition-all duration-150 group/progress"
                     ref={progressBarRef}
                     onMouseDown={handleMouseDown}
                 >
                     {/* Buffered (optional, if we had buffer info) */}
-                    
+
                     {/* Played */}
-                    <div 
+                    <div
                         className="absolute top-0 left-0 h-full bg-gold-500 rounded-full relative"
                         style={{ width: `${state.progress}%` }}
                     >
@@ -266,7 +266,7 @@ export function VideoPlayer({
                 <div className="flex items-center justify-between mt-1">
                     <div className="flex items-center gap-4">
                         {/* Play/Pause */}
-                        <button 
+                        <button
                             onClick={controls.togglePlay}
                             className="text-white hover:text-gold-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded-lg p-1"
                             aria-label={state.isPlaying ? "Pause" : "Play"}
@@ -276,7 +276,7 @@ export function VideoPlayer({
 
                         {/* Volume */}
                         <div className="flex items-center gap-2 group/volume">
-                            <button 
+                            <button
                                 onClick={controls.toggleMute}
                                 className="text-white hover:text-gold-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded-lg p-1"
                                 aria-label={state.isMuted ? "Unmute" : "Mute"}
@@ -330,7 +330,7 @@ export function VideoPlayer({
                         </div>
 
                         {/* PiP (only if supported) */}
-                        {document.pictureInPictureEnabled && (
+                        {typeof document !== 'undefined' && document.pictureInPictureEnabled && (
                             <button
                                 onClick={controls.togglePip}
                                 className={`text-white hover:text-gold-400 transition-colors hidden sm:block p-1 ${state.isPip ? 'text-gold-500' : ''}`}
@@ -341,14 +341,14 @@ export function VideoPlayer({
                         )}
 
                         {/* Skip Buttons (optional, but good for UX) */}
-                        <button 
+                        <button
                             onClick={() => controls.seekRelative(-10)}
                             className="text-white hover:text-gold-400 transition-colors hidden sm:block p-1"
                             aria-label="Rewind 10 seconds"
                         >
                             <SkipBack className="w-5 h-5" />
                         </button>
-                        <button 
+                        <button
                             onClick={() => controls.seekRelative(10)}
                             className="text-white hover:text-gold-400 transition-colors hidden sm:block p-1"
                             aria-label="Forward 10 seconds"
@@ -357,7 +357,7 @@ export function VideoPlayer({
                         </button>
 
                         {/* Fullscreen */}
-                        <button 
+                        <button
                             onClick={controls.toggleFullscreen}
                             className="text-white hover:text-gold-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded-lg p-1"
                             aria-label={state.isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}

@@ -135,6 +135,20 @@ export const service = defineType({
             group: "content",
         }),
         defineField({
+            name: "whyChooseUsTitle",
+            title: "Why Choose Us Title",
+            type: "localizedString",
+            group: "content",
+            description: "Custom title for the comparison section (e.g., 'Why Choose Union National?').",
+        }),
+        defineField({
+            name: "whyChooseUsDescription",
+            title: "Why Choose Us Description",
+            type: "localizedText",
+            group: "content",
+            description: "Optional context text to display above the comparison table.",
+        }),
+        defineField({
             name: "comparisonPoints",
             title: "Comparison Points",
             type: "array",

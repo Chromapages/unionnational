@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import ServiceDetailClient from "./ServiceDetailClient";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 60;
 
@@ -26,22 +27,34 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const { data: service } = await sanityFetch({ query: SERVICE_QUERY, params: { slug, locale } });
     if (!service) return { title: "Service Not Found" };
 
-    const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
-    ogUrl.searchParams.set("title", service.title);
-    ogUrl.searchParams.set("subtitle", "Professional Tax Services");
-    ogUrl.searchParams.set("type", "service");
+    const { seo } = service;
+    const metaTitle = seo?.metaTitle || `${service.title} | Union National Tax`;
+    const metaDescription = seo?.metaDescription || service.shortDescription;
+
+    // Custom OG Image logic
+    let ogImageUrl = "";
+    if (seo?.openGraphImage?.asset) {
+        ogImageUrl = urlFor(seo.openGraphImage).width(1200).height(630).url();
+    } else {
+        const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
+        ogUrl.searchParams.set("title", service.title);
+        ogUrl.searchParams.set("subtitle", "Professional Tax Services");
+        ogUrl.searchParams.set("type", "service");
+        ogImageUrl = ogUrl.toString();
+    }
 
     return {
-        title: `${service.title} | Union National Tax`,
-        description: service.shortDescription,
+        title: metaTitle,
+        description: metaDescription,
+        keywords: seo?.keywords || [],
         openGraph: {
-            title: service.title,
-            description: service.shortDescription,
+            title: seo?.metaTitle || service.title,
+            description: metaDescription,
             type: "article",
             url: `https://unionnationaltax.com/services/${slug}`,
             images: [
                 {
-                    url: ogUrl.toString(),
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
                     alt: service.title,
@@ -50,9 +63,9 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
         },
         twitter: {
             card: "summary_large_image",
-            title: service.title,
-            description: service.shortDescription,
-            images: [ogUrl.toString()],
+            title: seo?.metaTitle || service.title,
+            description: metaDescription,
+            images: [ogImageUrl],
         },
     };
 }

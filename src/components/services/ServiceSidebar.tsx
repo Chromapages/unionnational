@@ -19,14 +19,33 @@ interface ServiceSidebarProps {
     startingPrice?: string;
     features: string[];
     className?: string;
+    hasOverview?: boolean;
+    hasComparison?: boolean;
+    hasFaq?: boolean;
 }
 
-export function ServiceSidebar({ title, icon, startingPrice, features, className }: ServiceSidebarProps) {
+export function ServiceSidebar({
+    title,
+    icon,
+    startingPrice,
+    features,
+    className,
+    hasOverview = true,
+    hasComparison = false,
+    hasFaq = false
+}: ServiceSidebarProps) {
     const [activeSection, setActiveSection] = useState("");
 
     useEffect(() => {
+        if (typeof window === "undefined") return;
+
         const handleScroll = () => {
-            const sections = ["overview", "comparison", "faq"];
+            if (typeof document === "undefined") return;
+            const sections = [];
+            if (hasOverview) sections.push("overview");
+            if (hasComparison) sections.push("comparison");
+            if (hasFaq) sections.push("faq");
+
             const current = sections.find(section => {
                 const element = document.getElementById(section);
                 if (element) {
@@ -39,10 +58,12 @@ export function ServiceSidebar({ title, icon, startingPrice, features, className
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll(); // Initial check
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [hasOverview, hasComparison, hasFaq]);
 
     const scrollToSection = (id: string) => {
+        if (typeof document === "undefined" || typeof window === "undefined") return;
         const element = document.getElementById(id);
         if (element) {
             const offset = 100; // Header offset
@@ -57,6 +78,12 @@ export function ServiceSidebar({ title, icon, startingPrice, features, className
             });
         }
     };
+
+    const navItems = [
+        { id: "overview", label: "Overview", show: hasOverview },
+        { id: "comparison", label: "Why Choose Us", show: hasComparison },
+        { id: "faq", label: "FAQ", show: hasFaq },
+    ].filter(item => item.show);
 
     return (
         <div className={cn("sticky top-24 space-y-8", className)}>
@@ -109,32 +136,30 @@ export function ServiceSidebar({ title, icon, startingPrice, features, className
             </div>
 
             {/* Navigation */}
-            <nav className="hidden lg:block">
-                <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-4 px-2">
-                    On this page
-                </p>
-                <ul className="space-y-1">
-                    {[
-                        { id: "overview", label: "Overview" },
-                        { id: "comparison", label: "Why Choose Us" },
-                        { id: "faq", label: "FAQ" },
-                    ].map((item) => (
-                        <li key={item.id}>
-                            <button
-                                onClick={() => scrollToSection(item.id)}
-                                className={cn(
-                                    "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
-                                    activeSection === item.id
-                                        ? "bg-brand-50 text-brand-900 font-medium"
-                                        : "text-zinc-600 hover:bg-zinc-50 hover:text-brand-900"
-                                )}
-                            >
-                                {item.label}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+            {navItems.length > 0 && (
+                <nav className="hidden lg:block">
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-4 px-2">
+                        On this page
+                    </p>
+                    <ul className="space-y-1">
+                        {navItems.map((item) => (
+                            <li key={item.id}>
+                                <button
+                                    onClick={() => scrollToSection(item.id)}
+                                    className={cn(
+                                        "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
+                                        activeSection === item.id
+                                            ? "bg-brand-50 text-brand-900 font-medium"
+                                            : "text-zinc-600 hover:bg-zinc-50 hover:text-brand-900"
+                                    )}
+                                >
+                                    {item.label}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            )}
         </div>
     );
 }

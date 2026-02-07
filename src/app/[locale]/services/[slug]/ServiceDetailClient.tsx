@@ -50,6 +50,8 @@ interface Service {
     icon: string;
     startingPrice?: string;
     comparisonPoints?: any[];
+    whyChooseUsTitle?: string;
+    whyChooseUsDescription?: string;
     faq?: any[];
     videoFileUrl?: string;
     videoThumbnail?: { asset?: unknown };
@@ -192,12 +194,19 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                         )}
 
                         {/* Comparison Table */}
-                        {service.comparisonPoints && service.comparisonPoints.length > 0 && (
+                        {(service.whyChooseUsTitle || service.whyChooseUsDescription || (service.comparisonPoints && service.comparisonPoints.length > 0)) && (
                             <section id="comparison" className="scroll-mt-24">
-                                <h2 className="text-3xl font-bold text-brand-900 mb-8 font-heading">
-                                    Why Choose Union National?
+                                <h2 className="text-3xl font-bold text-brand-900 mb-4 font-heading">
+                                    {service.whyChooseUsTitle || "Why Choose Union National?"}
                                 </h2>
-                                <ComparisonTable points={service.comparisonPoints} />
+                                {service.whyChooseUsDescription && (
+                                    <p className="text-lg text-zinc-600 leading-relaxed mb-8">
+                                        {service.whyChooseUsDescription}
+                                    </p>
+                                )}
+                                {service.comparisonPoints && service.comparisonPoints.length > 0 && (
+                                    <ComparisonTable points={service.comparisonPoints} />
+                                )}
                             </section>
                         )}
 
@@ -223,6 +232,9 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                             icon={service.icon}
                             startingPrice={service.startingPrice}
                             features={service.features || []}
+                            hasOverview={!!service.fullDescription || !!service.shortDescription}
+                            hasComparison={!!service.whyChooseUsTitle || !!service.whyChooseUsDescription || (!!service.comparisonPoints && service.comparisonPoints.length > 0)}
+                            hasFaq={!!service.faq && service.faq.length > 0}
                         />
                     </div>
 

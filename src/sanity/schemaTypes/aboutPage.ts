@@ -188,4 +188,16 @@ export const aboutPage = defineType({
             group: 'seo',
         }),
     ],
+    preview: {
+        select: {
+            title: 'heroTitle',
+            subtitle: 'heroSubtitle',
+        },
+        prepare({ title, subtitle }) {
+            return {
+                title: title?.en || 'About Page',
+                subtitle: subtitle?.en || '',
+            }
+        },
+    },
 })
