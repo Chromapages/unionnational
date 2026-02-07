@@ -2,6 +2,7 @@
 
 import { Check, Mail, Phone, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { urlFor } from "@/sanity/lib/image";
 
 interface TeamMemberCardProps {
     name: string;
@@ -39,10 +40,17 @@ export function TeamMemberCard({
                 {/* Photo Container */}
                 <div className="flex items-start gap-6 mb-8">
                     <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-gold-500/30 shrink-0 bg-slate-100">
-                        {/* Placeholder for now if no image provided */}
-                        <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs text-center px-1">
-                            {name}
-                        </div>
+                        {image ? (
+                            <img
+                                src={urlFor(image).width(256).height(256).url()}
+                                alt={name}
+                                className="w-full h-full object-cover object-[center_30%]"
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs text-center px-1">
+                                {name.charAt(0)}
+                            </div>
+                        )}
                     </div>
                     <div>
                         <h3 className="text-2xl font-bold text-brand-900 font-heading mb-1">{name}</h3>

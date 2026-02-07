@@ -43,7 +43,7 @@ export function Header({ siteSettings }: HeaderProps) {
         { name: "Team", href: "/team" },
     ];
 
-    const logoUrl = siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
+    const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
     const ctaText = siteSettings?.ctaButtonText || "Book a Call";
     const ctaUrl = siteSettings?.ctaButtonUrl || "/contact";
 

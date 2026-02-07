@@ -39,6 +39,7 @@ type NavLink = {
 
 type FloatingNavbarProps = {
     siteSettings?: {
+        logo?: { asset?: { url?: string } };
         logoAlt?: { asset?: { url?: string } };
         companyName?: string;
         ctaButtonText?: string;
@@ -119,7 +120,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const handleToggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
-    const logoUrl = siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
+    const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
     const ctaText = siteSettings?.ctaButtonText || "Book a Call";
     const ctaUrl = siteSettings?.ctaButtonUrl || "/contact";
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";

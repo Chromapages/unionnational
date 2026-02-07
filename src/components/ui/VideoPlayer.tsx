@@ -64,8 +64,13 @@ export function VideoPlayer({
     const [showControls, setShowControls] = useState(true);
     const [isHovering, setIsHovering] = useState(false);
     const [isScrubbing, setIsScrubbing] = useState(false);
+    const [isClient, setIsClient] = useState(false);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const progressBarRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     // Current Chapter & CTA Logic
     const currentChapter = chapters.slice().reverse().find(c => state.currentTime >= c.startTime);
@@ -330,7 +335,7 @@ export function VideoPlayer({
                         </div>
 
                         {/* PiP (only if supported) */}
-                        {typeof document !== 'undefined' && document.pictureInPictureEnabled && (
+                        {isClient && typeof document !== 'undefined' && document.pictureInPictureEnabled && (
                             <button
                                 onClick={controls.togglePip}
                                 className={`text-white hover:text-gold-400 transition-colors hidden sm:block p-1 ${state.isPip ? 'text-gold-500' : ''}`}

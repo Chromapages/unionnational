@@ -80,7 +80,14 @@ export async function Footer() {
                     {/* Column 1: Brand & Bio */}
                     <div className="space-y-6">
                         <Link href="/" className="block relative h-16 w-64 mb-6">
-                            {siteSettings?.logoAlt?.asset?.url ? (
+                            {siteSettings?.logo?.asset?.url ? (
+                                <Image
+                                    src={siteSettings.logo.asset.url}
+                                    alt={siteSettings.logo.alt || siteSettings.companyName || "Union National Tax"}
+                                    fill
+                                    className="object-contain object-left"
+                                />
+                            ) : siteSettings?.logoAlt?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logoAlt.asset.url}
                                     alt={siteSettings.logoAlt.alt || siteSettings.companyName || "Union National Tax"}
