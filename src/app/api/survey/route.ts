@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { checkRateLimit, getClientIdentifier } from '@/lib/security/rate-limiter';
 
 // GHL Webhook URL
 const GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/38c1c24e-ba10-44a7-a4b0-61be00786a16';
@@ -27,6 +28,16 @@ const getCategoryLabel = (category: Category): string => {
 };
 
 export async function POST(request: Request) {
+    const identifier = getClientIdentifier(request);
+    const rateLimitResult = checkRateLimit(identifier);
+
+    if (!rateLimitResult.success) {
+        return NextResponse.json(
+            { error: 'Too many requests. Please try again later.' },
+            { status: 429, headers: { 'Retry-After': String(Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)) } }
+        );
+    }
+
     try {
         const body = await request.json();
         const { email, firstName, lastName, phone, answers, score: clientScore } = body;

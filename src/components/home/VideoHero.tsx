@@ -75,9 +75,14 @@ export function VideoHero({ data }: VideoHeroProps) {
     const hlsUrl = data?.heroVideoUrl;
     const modalVideoUrl = data?.heroCtaUrl || hlsUrl;
 
+    // Default video URL if none provided from Sanity
+    // Using a subtle abstract background video from a free CDN
+    const defaultVideoUrl = "https://cdn.coverr.co/videos/coverr-abstract-dark-gradient-background-9611/1080p.mp4";
+    const backgroundVideoUrl = hlsUrl || defaultVideoUrl;
+
     // Background video hook
     const { videoRef: bgVideoRef } = useVideoPlayer({
-        src: hlsUrl,
+        src: backgroundVideoUrl,
         autoPlay: true,
         muted: true,
         loop: true
@@ -176,7 +181,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                     playsInline
                     muted
                     loop
-                    poster="/images/ctasection.jpg"
+                    autoPlay
                 />
                 {/* Overlay: 70% opacity for balanced contrast and video visibility
                     Base layer: 70% opaque bg-brand-900 (#020908 - near black) provides dark foundation

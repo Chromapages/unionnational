@@ -7,15 +7,26 @@
  * https://github.com/sanity-io/next-sanity
  */
 
-import { NextStudio } from 'next-sanity/studio'
-import config from '../../../../../sanity.config'
+import Studio from '../../../../components/studio/Studio'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 
-export { metadata, viewport } from 'next-sanity/studio'
+export const metadata = {
+  title: 'Sanity Studio',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export default async function StudioPage(props: { params: Promise<{ locale: string }> }) {
-  const params = await props.params;
-  const locale = params.locale;
-  return <NextStudio config={config} />
+  // We await params even if we don't use it to satisfy Next.js 15 requirements for sync/async params
+  await props.params;
+
+  return (
+    <div className="min-h-screen bg-[#050B18]">
+      <Studio />
+    </div>
+  )
 }

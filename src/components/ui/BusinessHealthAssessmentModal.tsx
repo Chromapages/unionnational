@@ -114,7 +114,6 @@ export const BusinessHealthAssessmentModal = ({
         setStatus("loading");
 
         // Mock API call - simulate submission
-        console.log("Business Health Assessment Data:", formData);
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         setStatus("success");

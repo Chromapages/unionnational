@@ -89,6 +89,23 @@ export const teamMember = defineType({
             type: 'array',
             of: [{ type: 'string' }],
         }),
+        defineField({
+            name: 'bioShort',
+            title: 'Short Bio',
+            type: 'text',
+            rows: 3,
+            description: 'Short biography for E-E-A-T authorship signals (160 chars recommended)',
+        }),
+        defineField({
+            name: 'socialHandles',
+            title: 'Social Media Handles',
+            type: 'object',
+            fields: [
+                { name: 'linkedin', title: 'LinkedIn', type: 'url' },
+                { name: 'twitter', title: 'Twitter/X', type: 'string' },
+                { name: 'youtube', title: 'YouTube', type: 'url' },
+            ],
+        }),
     ],
     preview: {
         select: {

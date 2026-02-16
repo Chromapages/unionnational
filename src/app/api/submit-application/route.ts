@@ -1,6 +1,17 @@
 import { NextResponse } from 'next/server';
+import { checkRateLimit, getClientIdentifier } from '@/lib/security/rate-limiter';
 
 export async function POST(request: Request) {
+    const identifier = getClientIdentifier(request);
+    const rateLimitResult = checkRateLimit(identifier);
+
+    if (!rateLimitResult.success) {
+        return NextResponse.json(
+            { error: 'Too many requests. Please try again later.' },
+            { status: 429, headers: { 'Retry-After': String(Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)) } }
+        );
+    }
+
     try {
         const data = await request.json();
 

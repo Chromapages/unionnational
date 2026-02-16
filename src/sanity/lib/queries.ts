@@ -607,3 +607,239 @@ export const FOOTER_LEGAL_PAGES_QUERY = defineQuery(`
       pageType
     }
   `);
+
+// PLAYBOOK QUERIES
+export const PLAYBOOKS_QUERY = defineQuery(`
+  *[_type == "playbook"] | order(displayOrder asc, isFeatured desc) {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.en, description),
+    coverImage {
+      asset->,
+      alt
+    },
+    isFeatured,
+    "chapterCount": count(chapters)
+  }
+`);
+
+export const PLAYBOOK_QUERY = defineQuery(`
+  *[_type == "playbook" && slug.current == $slug][0] {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.en, description),
+    coverImage {
+      asset->,
+      alt
+    },
+    isFeatured,
+    "gatedPdfUrl": gatedPdf.asset->url,
+    chapters[]->{
+      _id,
+      "title": coalesce(title[$locale], title.en, title),
+      "slug": slug.current,
+      chapterNumber,
+      isGated
+    },
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage
+    }
+  }
+`);
+
+export const PLAYBOOK_CHAPTERS_QUERY = defineQuery(`
+  *[_type == "playbookChapter"] | order(displayOrder asc, chapterNumber asc) {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    chapterNumber,
+    isGated,
+    keyTakeaways,
+    tools
+  }
+`);
+
+export const PLAYBOOK_CHAPTER_QUERY = defineQuery(`
+  *[_type == "playbookChapter" && slug.current == $slug][0] {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    chapterNumber,
+    videoEmbed,
+    videoThumbnail {
+      asset->,
+      alt
+    },
+    "content": coalesce(content[$locale], content.en, content),
+    keyTakeaways,
+    tools,
+    isGated,
+    "gatedContent": coalesce(gatedContent[$locale], gatedContent.en, gatedContent)
+  }
+`);
+
+export const FEATURED_PLAYBOOK_QUERY = defineQuery(`
+  *[_type == "playbook" && isFeatured == true][0] {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.en, description),
+    coverImage {
+      asset->,
+      alt
+    },
+    "chapterCount": count(chapters)
+  }
+`);
+
+// INDUSTRY VERTICAL QUERIES
+export const INDUSTRY_VERTICALS_QUERY = defineQuery(`
+  *[_type == "industryVertical" && isActive == true] | order(displayOrder asc) {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.en, description),
+    heroImage {
+      asset->,
+      alt
+    },
+    painPoints,
+    "testimonialCount": count(clientTestimonials)
+  }
+`);
+
+export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
+  *[_type == "industryVertical" && slug.current == $slug][0] {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.en, description),
+    heroImage {
+      asset->,
+      alt
+    },
+    heroVideo,
+    painPoints,
+    featuredPlaybookChapters[]->{
+      _id,
+      "title": coalesce(title[$locale], title.en, title),
+      "slug": slug.current,
+      chapterNumber
+    },
+    relatedPlaybooks[]->{
+      _id,
+      "title": coalesce(title[$locale], title.en, title),
+      "slug": slug.current,
+      coverImage {
+        asset->,
+        alt
+      }
+    },
+    clientTestimonials[]->{
+      _id,
+      clientName,
+      "clientTitle": coalesce(clientTitle[$locale], clientTitle.en, clientTitle),
+      "quote": coalesce(quote[$locale], quote.en, quote),
+      rating,
+      clientCompany
+    },
+    stats[]{
+      value,
+      "label": coalesce(label[$locale], label.en, label)
+    },
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage
+    }
+  }
+`);
+
+export const INDUSTRY_VERTICAL_SLUGS_QUERY = defineQuery(`
+  *[_type == "industryVertical" && isActive == true && defined(slug.current)] {
+    "slug": slug.current
+  }
+`);
+
+// COMPARISON TABLE QUERIES
+export const COMPARISON_TABLES_QUERY = defineQuery(`
+  *[_type == "comparisonTable" && isActive == true] | order(displayOrder asc) {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "subtitle": coalesce(subtitle[$locale], subtitle.en, subtitle),
+    comparisonType,
+    industry,
+    showUnionNational,
+    unionNationalLabel,
+    competitors,
+    "features": features[]{
+      "featureName": coalesce(featureName[$locale], featureName.en, featureName),
+      "unionValue": coalesce(unionValue[$locale], unionValue.en, unionValue),
+      unionHighlight,
+      competitorValues,
+      isCheckmark,
+      icon
+    },
+    "cta": cta{
+      "text": coalesce(text[$locale], text.en, text),
+      url
+    },
+    badge
+  }
+`);
+
+export const COMPARISON_TABLE_QUERY = defineQuery(`
+  *[_type == "comparisonTable" && _id == $id][0] {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "subtitle": coalesce(subtitle[$locale], subtitle.en, subtitle),
+    comparisonType,
+    industry,
+    showUnionNational,
+    unionNationalLabel,
+    competitors,
+    "features": features[]{
+      "featureName": coalesce(featureName[$locale], featureName.en, featureName),
+      "unionValue": coalesce(unionValue[$locale], unionValue.en, unionValue),
+      unionHighlight,
+      competitorValues,
+      isCheckmark,
+      icon
+    },
+    "cta": cta{
+      "text": coalesce(text[$locale], text.en, text),
+      url
+    },
+    badge
+  }
+`);
+
+export const DEFAULT_COMPARISON_QUERY = defineQuery(`
+  *[_type == "comparisonTable" && isActive == true && (comparisonType == "general" || comparisonType == "taxRelief")][0] {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "subtitle": coalesce(subtitle[$locale], subtitle.en, subtitle),
+    comparisonType,
+    industry,
+    showUnionNational,
+    unionNationalLabel,
+    competitors,
+    "features": features[]{
+      "featureName": coalesce(featureName[$locale], featureName.en, featureName),
+      "unionValue": coalesce(unionValue[$locale], unionValue.en, unionValue),
+      unionHighlight,
+      competitorValues,
+      isCheckmark,
+      icon
+    },
+    "cta": cta{
+      "text": coalesce(text[$locale], text.en, text),
+      url
+    },
+    badge
+  }
+`);

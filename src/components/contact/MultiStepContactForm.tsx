@@ -90,7 +90,6 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
     };
 
     const onSubmit = async (data: FormData) => {
-        console.log("Form Data:", data);
         await new Promise(resolve => setTimeout(resolve, 1500));
         alert("Message sent! (Simulated)");
     };

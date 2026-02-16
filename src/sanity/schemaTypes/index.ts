@@ -22,6 +22,10 @@ import { seo } from './seo'
 import { localizedString } from './localizedString'
 import { localizedText } from './localizedText'
 import { localizedBlock } from './localizedBlock'
+import { playbook } from './playbook'
+import { playbookChapter } from './playbookChapter'
+import { industryVertical } from './industryVertical'
+import { comparisonTable } from './comparisonTable'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -47,6 +51,10 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     vslPage,
     localizedString,
     localizedText,
-    localizedBlock
+    localizedBlock,
+    playbook,
+    playbookChapter,
+    industryVertical,
+    comparisonTable,
   ],
 }

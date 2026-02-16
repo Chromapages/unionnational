@@ -12,6 +12,19 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('pricingTier').title('Pricing Tiers'),
       S.divider(),
       S.listItem()
+        .title('Authority Hub')
+        .child(
+          S.list()
+            .title('Hub Content')
+            .items([
+              S.documentTypeListItem('playbook').title('Playbooks'),
+              S.documentTypeListItem('playbookChapter').title('Playbook Chapters'),
+              S.documentTypeListItem('industryVertical').title('Industry Verticals'),
+              S.documentTypeListItem('comparisonTable').title('Comparison Tables'),
+            ])
+        ),
+      S.divider(),
+      S.listItem()
         .title('Pages')
         .child(
           S.list()
@@ -111,6 +124,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('teamMember').title('Team Members'),
       S.divider(),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['teamPage', 'teamMember', 'blogPost', 'blogCategory', 'blogSettings', 'service', 'product', 'shopSettings', 'siteSettings', 'testimonial', 'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 'caseStudy', 'pricingTier', 'legalPage'].includes(item.getId()!)
+        (item) => item.getId() && !['teamPage', 'teamMember', 'blogPost', 'blogCategory', 'blogSettings', 'service', 'product', 'shopSettings', 'siteSettings', 'testimonial', 'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 'caseStudy', 'pricingTier', 'legalPage', 'playbook', 'playbookChapter', 'industryVertical', 'comparisonTable'].includes(item.getId()!)
       ),
     ])
