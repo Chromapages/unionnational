@@ -12,41 +12,42 @@ export const teamPage = defineType({
             name: 'heroBadge',
             title: 'Hero Badge Text',
             type: 'localizedString',
-            initialValue: { en: 'Our People' },
+            initialValue: { en: 'Construction-Exclusive Experts' },
             group: 'hero',
         }),
         defineField({
             name: 'heroTitle',
             title: 'Hero Title',
             type: 'localizedString',
-            initialValue: { en: 'The experts behind your strategy.' },
+            initialValue: { en: 'The Architects of Your Financial Infrastructure' },
             group: 'hero',
         }),
         defineField({
             name: 'heroSubtitle',
             title: 'Hero Subtitle',
             type: 'localizedText',
+            initialValue: { en: "Most accountants have never set foot on a job site. Our team specializes exclusively in construction accounting, meaning we don't just understand the numbers—we understand the trade." },
             group: 'hero',
         }),
         defineField({
             name: 'founderSectionTitle',
             title: 'Founder Section Title',
             type: 'localizedString',
-            initialValue: { en: 'Founder & Director' },
+            initialValue: { en: 'Built From The Ground Up' },
             group: 'founder',
         }),
         defineField({
             name: 'teamSectionTitle',
             title: 'Team Section Title',
             type: 'localizedString',
-            initialValue: { en: 'Our Team' },
+            initialValue: { en: 'Your Dedicated Crew' },
             group: 'team',
         }),
         defineField({
             name: 'teamSectionSubtitle',
             title: 'Team Section Subtitle',
             type: 'localizedString',
-            initialValue: { en: 'Dedicated professionals managing your accounts.' },
+            initialValue: { en: 'No call centers. No junior generalists. Just seasoned Enrolled Agents who know the difference between a sub-contractor and an employee.' },
             group: 'team',
         }),
         defineField({
@@ -64,25 +65,48 @@ export const teamPage = defineType({
                 },
             ],
             group: 'values',
+            initialValue: [
+                {
+                    title: { en: "On-Site Speed" },
+                    description: { en: "We answer fast. Payroll and deadlines don't wait, and neither do we." },
+                    iconName: "Zap"
+                },
+                {
+                    title: { en: "Laser-Level Accuracy" },
+                    description: { en: "Precision matters. We build tax returns with the same care you build houses." },
+                    iconName: "Crosshair"
+                },
+                {
+                    title: { en: "Audit Armor" },
+                    description: { en: "We don't just file; we defend. We stand between you and the IRS." },
+                    iconName: "Shield"
+                },
+                {
+                    title: { en: "Proactive Communication" },
+                    description: { en: "We call you with ideas before you call us with problems." },
+                    iconName: "MessageSquare"
+                }
+            ]
         }),
         defineField({
             name: 'hiringBadge',
             title: 'Hiring Badge Text',
             type: 'localizedString',
-            initialValue: { en: 'Join the team' },
+            initialValue: { en: 'Join the Elite' },
             group: 'hiring',
         }),
         defineField({
             name: 'hiringTitle',
             title: 'Hiring Title',
             type: 'localizedString',
-            initialValue: { en: "Obsessed with details? We're hiring." },
+            initialValue: { en: "We Don't Hire Generalists." },
             group: 'hiring',
         }),
         defineField({
             name: 'hiringDescription',
             title: 'Hiring Description',
             type: 'localizedText',
+            initialValue: { en: "We are building the premier financial team for the construction industry. If you want to specialize, stop grinding through 1040s and start building wealth for clients." },
             group: 'hiring',
         }),
         defineField({
@@ -91,6 +115,12 @@ export const teamPage = defineType({
             type: 'array',
             of: [{ type: 'localizedString' }],
             group: 'hiring',
+            initialValue: [
+                { en: "100% Remote Context" },
+                { en: "Above-Market Compensation" },
+                { en: "Specialized Training" },
+                { en: "Zero 'Busy Season' Burnout" }
+            ]
         }),
         defineField({
             name: 'hiringCtaText',
@@ -123,20 +153,21 @@ export const teamPage = defineType({
             title: "Bottom CTA Title",
             type: "localizedString",
             group: "hiring",
-            initialValue: { en: "Ready to join the standard of excellence?" },
+            initialValue: { en: "Ready to Upgrade Your Crew?" },
         }),
         defineField({
             name: "ctaSubtitle",
             title: "Bottom CTA Subtitle",
             type: "localizedText",
             group: "hiring",
+            initialValue: { en: "Your business deserves a financial team that works as hard as you do." },
         }),
         defineField({
             name: "ctaButtonText",
             title: "Button Text",
             type: "localizedString",
             group: "hiring",
-            initialValue: { en: "Contact Us" },
+            initialValue: { en: "Book a Strategy Call" },
         }),
         defineField({
             name: "ctaButtonUrl",

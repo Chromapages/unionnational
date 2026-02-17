@@ -398,6 +398,8 @@ export const HOME_PAGE_QUERY = defineQuery(`
     heroVideoUrl,
     "heroCtaText": coalesce(heroCtaText[$locale], heroCtaText.en, heroCtaText),
     heroCtaUrl,
+    "heroSecondaryCtaText": coalesce(heroSecondaryCtaText[$locale], heroSecondaryCtaText.en, heroSecondaryCtaText),
+    heroSecondaryCtaUrl,
     trustLogos[] {
       asset ->,
       alt
@@ -410,6 +412,25 @@ export const HOME_PAGE_QUERY = defineQuery(`
       asset->,
       alt
     },
+    "differentiationEyebrow": coalesce(differentiationEyebrow[$locale], differentiationEyebrow.en, differentiationEyebrow),
+    "differentiationTitle": coalesce(differentiationTitle[$locale], differentiationTitle.en, differentiationTitle),
+    "differentiationSubtitle": coalesce(differentiationSubtitle[$locale], differentiationSubtitle.en, differentiationSubtitle),
+    competitorFeatures,
+    unionFeatures,
+    "differentiationCtaText": coalesce(differentiationCtaText[$locale], differentiationCtaText.en, differentiationCtaText),
+    differentiationCtaUrl,
+    "nationwideBadge": coalesce(nationwideBadge[$locale], nationwideBadge.en, nationwideBadge),
+    "nationwideTitle": coalesce(nationwideTitle[$locale], nationwideTitle.en, nationwideTitle),
+    "nationwideSubtitle": coalesce(nationwideSubtitle[$locale], nationwideSubtitle.en, nationwideSubtitle),
+    nationwideFeatures[]{
+      icon,
+      "title": coalesce(title[$locale], title.en, title),
+      "description": coalesce(description[$locale], description.en, description)
+    },
+    "servicesEyebrow": coalesce(servicesEyebrow[$locale], servicesEyebrow.en, servicesEyebrow),
+    "servicesTitle": coalesce(servicesTitle[$locale], servicesTitle.en, servicesTitle),
+    "servicesSubtitle": coalesce(servicesSubtitle[$locale], servicesSubtitle.en, servicesSubtitle),
+    "servicesButtonText": coalesce(servicesButtonText[$locale], servicesButtonText.en, servicesButtonText),
     "ctaTitle": coalesce(ctaTitle[$locale], ctaTitle.en, ctaTitle),
     "ctaSubtitle": coalesce(ctaSubtitle[$locale], ctaSubtitle.en, ctaSubtitle),
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),

@@ -74,7 +74,7 @@ export const service = defineType({
             title: "Impact Goal",
             type: "localizedString",
             group: "content",
-            description: "The 'Why' - e.g., 'Maximize your S-Corp tax savings.'",
+            description: "The 'Why' - Focus on the financial RESULT (e.g., 'Slash S-Corp Tax Liability by 25%'), not the process.",
         }),
         defineField({
             name: "badge",
@@ -133,13 +133,20 @@ export const service = defineType({
                 },
             ],
             group: "content",
+            initialValue: [
+                {
+                    question: { en: "How is this different from my current CPA?" },
+                    answer: { en: "Most CPAs are generalists who react to your data once a year. We are construction specialists who proactively plan your strategy every month." }
+                }
+            ]
         }),
         defineField({
             name: "whyChooseUsTitle",
             title: "Why Choose Us Title",
             type: "localizedString",
             group: "content",
-            description: "Custom title for the comparison section (e.g., 'Why Choose Union National?').",
+            description: "Custom title for the comparison section.",
+            initialValue: { en: "Why Contractors Choose Union National" }
         }),
         defineField({
             name: "whyChooseUsDescription",
@@ -163,12 +170,38 @@ export const service = defineType({
                     ],
                     preview: {
                         select: {
-                            title: "feature",
+                            title: "feature.en",
                         },
                     },
                 },
             ],
             group: "content",
+            initialValue: [
+                {
+                    feature: { en: "Construction Specialization" },
+                    diy: false,
+                    bigFirm: false,
+                    unionNational: true
+                },
+                {
+                    feature: { en: "Proactive Strategy (Year-Round)" },
+                    diy: false,
+                    bigFirm: false,
+                    unionNational: true
+                },
+                {
+                    feature: { en: "Audit Defense Included" },
+                    diy: false,
+                    bigFirm: false,
+                    unionNational: true
+                },
+                {
+                    feature: { en: "Flat-Fee Transparency" },
+                    diy: true,
+                    bigFirm: false,
+                    unionNational: true
+                }
+            ]
         }),
         defineField({
             name: "videoFile",

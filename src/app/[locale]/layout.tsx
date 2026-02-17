@@ -69,10 +69,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
         "max-snippet": -1,
       },
     },
-    icons: {
-      icon: "/images/union national tax favicon.svg",
-      apple: "/images/apple-icon.png",
-    },
+
     alternates: {
       canonical: `https://unionnationaltax.com/${locale === "en" ? "" : locale}`,
       languages: {

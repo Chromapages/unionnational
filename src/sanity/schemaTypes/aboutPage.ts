@@ -17,25 +17,28 @@ export const aboutPage = defineType({
             type: 'localizedString',
             group: 'content',
             validation: (rule) => rule.required(),
+            initialValue: { en: "We Don't Just File Taxes. We Engineer Wealth for Contractors." },
         }),
         defineField({
             name: 'heroSubtitle',
             title: 'Hero Subtitle',
             type: 'localizedText',
             group: 'content',
+            initialValue: { en: "The only nationwide tax firm dedicated 100% to the construction industry. Combining aggressive S-Corp strategies with bulletproof IRS defense." },
         }),
         defineField({
             name: 'heroBadge',
             title: 'Hero Badge Text',
             type: 'localizedString',
             group: 'content',
-            initialValue: { en: 'About Us' },
+            initialValue: { en: 'Specialized for Builders' },
         }),
         defineField({
             name: 'missionStatement',
             title: 'Mission Statement',
             type: 'localizedText',
             group: 'content',
+            initialValue: { en: "The tax code is 70,000 pages long. For most, it's a liability. For us, it's a blueprint. Our mission is to arm American contractors with the same high-level tax strategies used by Fortune 500 construction firms." },
         }),
         defineField({
             name: 'storyContent',
@@ -48,14 +51,14 @@ export const aboutPage = defineType({
             title: 'Values Section Eyebrow',
             type: 'localizedString',
             group: 'content',
-            initialValue: { en: 'Core Values' },
+            initialValue: { en: 'Our Code' },
         }),
         defineField({
             name: 'valuesTitle',
             title: 'Values Section Title',
             type: 'localizedString',
             group: 'content',
-            initialValue: { en: 'The cultural pillars behind every engagement.' },
+            initialValue: { en: 'The Foundation We Build On' },
         }),
         defineField({
             name: 'values',
@@ -72,6 +75,28 @@ export const aboutPage = defineType({
                 },
             ],
             group: 'content',
+            initialValue: [
+                {
+                    title: { en: "Blue-Collar Work Ethic" },
+                    description: { en: "We work as hard as you do. No energetic disconnects. We answer the phone, hit deadlines, and get the job done." },
+                    iconName: "Hammer"
+                },
+                {
+                    title: { en: "Structural Integrity" },
+                    description: { en: "Aggressive savings, zero shortcuts. Our strategies are built to withstand the weight of an IRS audit." },
+                    iconName: "ShieldCheck"
+                },
+                {
+                    title: { en: "Proactive Blueprinting" },
+                    description: { en: "We plan your tax year in January, not December. Anticipation is better than reaction." },
+                    iconName: "ScanEye"
+                },
+                {
+                    title: { en: "Maximum Yield" },
+                    description: { en: "If there is a credit, we find it. If there is a deduction, we take it. We leave nothing on the table." },
+                    iconName: "TrendingUp"
+                }
+            ]
         }),
         defineField({
             name: 'primaryValue',
@@ -86,6 +111,11 @@ export const aboutPage = defineType({
                 defineField({ name: 'videoFile', title: 'Video File (Sanity Hosted)', type: 'file', options: { accept: 'video/*' } }),
             ],
             group: 'content',
+            initialValue: {
+                badge: { en: "Our Philosophy" },
+                title: { en: "Aggressive Savings. Conservative Compliance." },
+                description: { en: "We believe you shouldn't have to choose between saving money and staying out of jail. Our Enrolled Agents specialize in the 'grey areas' of the tax code—navigating them with precision to maximize your S-Corp benefits without triggering red flags." }
+            }
         }),
         defineField({
             name: 'certifications',
@@ -117,6 +147,28 @@ export const aboutPage = defineType({
                 },
             ],
             group: 'content',
+            initialValue: [
+                {
+                    year: "2018",
+                    title: { en: "The Broken Ground" },
+                    description: { en: "Founded by tax experts who saw hardworking contractors being underserved by generalist CPAs." }
+                },
+                {
+                    year: "2020",
+                    title: { en: "Nationwide Licensing" },
+                    description: { en: "Achieved Enrolled Agent status across all 50 states, allowing us to defend clients anywhere." }
+                },
+                {
+                    year: "2022",
+                    title: { en: "The $10M Milestone" },
+                    description: { en: "Surpassed $10 Million in tax savings generated for our construction clients." }
+                },
+                {
+                    year: "2024",
+                    title: { en: "Union National 2.0" },
+                    description: { en: "Launched the Virtual Executive Office for seamless, cloud-first compliance." }
+                }
+            ]
         }),
         defineField({
             name: 'clientLogos',
@@ -145,20 +197,21 @@ export const aboutPage = defineType({
             title: "Bottom CTA Title",
             type: "localizedString",
             group: 'content',
-            initialValue: { en: "Ready to keep more of what you earn?" },
+            initialValue: { en: "Is Your Current CPA 'Just Filing'?" },
         }),
         defineField({
             name: "ctaSubtitle",
             title: "Bottom CTA Subtitle",
             type: "localizedText",
             group: 'content',
+            initialValue: { en: "Switch to a strategic partner who builds wealth. Get a free analysis of your last 2 tax returns." },
         }),
         defineField({
             name: "ctaButtonText",
             title: "Button Text",
             type: "localizedString",
             group: 'content',
-            initialValue: { en: "Book a Discovery Call" },
+            initialValue: { en: "Get My Free Retro-Analysis" },
         }),
         defineField({
             name: "ctaButtonUrl",

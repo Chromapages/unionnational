@@ -1,119 +1,144 @@
-import { defineType, defineField } from 'sanity'
-import { FileText } from 'lucide-react'
+import { defineField, defineType } from 'sanity'
 
 export const blogPost = defineType({
     name: 'blogPost',
-    title: 'Blog Posts',
+    title: 'Blog Post',
     type: 'document',
-    icon: FileText,
-    groups: [
-        { name: 'content', title: 'Content' },
-        { name: 'seo', title: 'SEO' },
-    ],
     fields: [
+        // --- Identifiers ---
         defineField({
             name: 'title',
             title: 'Title',
-            type: 'localizedString',
-            group: 'content',
-            validation: (Rule) => Rule.required(),
+            type: 'object',
+            fields: [
+                { name: 'en', title: 'English', type: 'string' },
+                { name: 'es', title: 'Spanish', type: 'string' },
+            ],
         }),
         defineField({
             name: 'slug',
             title: 'Slug',
             type: 'slug',
-            group: 'content',
             options: {
                 source: 'title.en',
                 maxLength: 96,
             },
             validation: (Rule) => Rule.required(),
         }),
+        // --- References ---
         defineField({
             name: 'author',
             title: 'Author',
             type: 'reference',
-            group: 'content',
             to: [{ type: 'teamMember' }],
-            validation: (Rule) => Rule.required(),
-        }),
-        defineField({
-            name: 'featuredImage',
-            title: 'Featured Image',
-            type: 'image',
-            group: 'content',
-            options: {
-                hotspot: true,
-            },
-            fields: [
-                {
-                    name: 'alt',
-                    type: 'string',
-                    title: 'Alternative Text',
-                    description: 'Important for SEO and accessibility.',
-                },
-            ],
         }),
         defineField({
             name: 'categories',
             title: 'Categories',
             type: 'array',
-            group: 'content',
             of: [{ type: 'reference', to: [{ type: 'blogCategory' }] }],
+        }),
+        // --- Media ---
+        defineField({
+            name: 'featuredImage',
+            title: 'Featured Image',
+            type: 'image',
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                }
+            ]
+        }),
+        defineField({
+            name: 'coverImage',
+            title: 'Cover Image',
+            type: 'image',
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                }
+            ]
+        }),
+        defineField({
+            name: 'imageGallery',
+            title: 'Image Gallery',
+            type: 'array',
+            of: [{ type: 'image' }],
+        }),
+        // --- Content ---
+        defineField({
+            name: 'excerpt',
+            title: 'Excerpt',
+            type: 'object',
+            fields: [
+                { name: 'en', title: 'English', type: 'text', rows: 3 },
+                { name: 'es', title: 'Spanish', type: 'text', rows: 3 },
+            ],
+        }),
+        defineField({
+            name: 'body',
+            title: 'Body',
+            type: 'object',
+            fields: [
+                { name: 'en', title: 'English', type: 'array', of: [{ type: 'block' }] },
+                { name: 'es', title: 'Spanish', type: 'array', of: [{ type: 'block' }] },
+            ],
         }),
         defineField({
             name: 'publishedAt',
             title: 'Published at',
             type: 'datetime',
-            group: 'content',
-            validation: (Rule) => Rule.required(),
-        }),
-        defineField({
-            name: 'excerpt',
-            title: 'Excerpt',
-            type: 'localizedText',
-            group: 'content',
-            description: 'Short summary for previews and SEO.',
-        }),
-        defineField({
-            name: 'body',
-            title: 'Body',
-            type: 'localizedBlock',
-            group: 'content',
         }),
         defineField({
             name: 'readingTime',
             title: 'Reading Time (minutes)',
             type: 'number',
-            group: 'content',
         }),
         defineField({
-            name: 'isFeatured',
+            name: 'featuredPost',
             title: 'Featured Post',
             type: 'boolean',
-            group: 'content',
             initialValue: false,
         }),
+        // --- SEO ---
         defineField({
-            name: 'seo',
-            title: 'SEO Overrides',
-            type: 'seo',
-            group: 'seo',
+            name: 'metaTitle',
+            title: 'Meta Title',
+            type: 'string',
+        }),
+        defineField({
+            name: 'metaDescription',
+            title: 'Meta Description',
+            type: 'text',
+            rows: 2,
+        }),
+        defineField({
+            name: 'openGraphImage',
+            title: 'Open Graph Image',
+            type: 'image',
+        }),
+        defineField({
+            name: 'keywords',
+            title: 'Keywords',
+            type: 'array',
+            of: [{ type: 'string' }],
         }),
     ],
     preview: {
         select: {
-            title: 'title',
+            title: 'title.en',
             author: 'author.name',
             media: 'featuredImage',
         },
         prepare(selection) {
-            const { author, title } = selection
-            return {
-                ...selection,
-                title: title?.en || "Untitled",
-                subtitle: author && `by ${author}`
-            }
+            const { author } = selection
+            return { ...selection, subtitle: author && `by ${author}` }
         },
     },
-});
+})

@@ -1,103 +1,131 @@
 "use client";
 
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { FileCheck, Building2, BarChart3, LineChart, Notebook, Rocket, ArrowRight, Briefcase } from "lucide-react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { ArrowRight, ChevronRight, Zap, Target, TrendingUp, ShieldCheck, LucideIcon, PieChart } from "lucide-react";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
-// Map Sanity icon names to Lucide components
-const ICON_MAP: Record<string, React.ReactNode> = {
-    Notebook: <Notebook className="w-5 h-5" />,
-    BarChart3: <BarChart3 className="w-5 h-5" />,
-    Building2: <Building2 className="w-5 h-5" />,
-    LineChart: <LineChart className="w-5 h-5" />,
-    FileCheck: <FileCheck className="w-5 h-5" />,
-    Rocket: <Rocket className="w-5 h-5" />,
-    Briefcase: <Briefcase className="w-5 h-5" />,
+const ICON_MAP: Record<string, LucideIcon> = {
+    Zap,
+    Target,
+    TrendingUp,
+    ShieldCheck,
+    PieChart
 };
 
 interface Service {
     _id?: string;
-    title?: string;
-    slug?: { current?: string };
-    shortDescription?: string;
+    title: string;
+    shortDescription: string;
     icon?: string;
+    slug?: { current: string };
+    badge?: string;
 }
 
-interface ServiceProps {
+interface ServicesSectionProps {
     services: Service[];
+    data?: any;
 }
 
-export function ServicesSection({ services = [] }: ServiceProps) {
-    const t = useTranslations('HomePage.ServicesSection');
+export function ServicesSection({ services = [], data }: ServicesSectionProps) {
+    const t = useTranslations("HomePage.ServicesSection");
 
-    // If no services provided, return null or fallback
-    if (!services || services.length === 0) return null;
+    // Extract Sanity data with local fallbacks
+    const eyebrow = data?.servicesEyebrow || t('eyebrow');
+    const title = data?.servicesTitle || t('title');
+    const subtitle = data?.servicesSubtitle || t('subtitle');
+    const buttonText = data?.servicesButtonText || t('buttonText');
 
     return (
         <section
             id="services"
-            className="relative py-20 sm:py-24 lg:py-32 bg-slate-50 overflow-hidden"
+            className="relative py-20 sm:py-24 lg:py-32 bg-slate-50 overflow-hidden border-t border-slate-100"
         >
-            {/* Background Texture/Noise */}
-            <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-100/40 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
+            {/* Background elements */}
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <RevealOnScroll>
-                    <div className="mb-12 lg:mb-16 max-w-3xl">
+            <div className="container mx-auto px-4 sm:px-6 relative z-10">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16">
+                    <RevealOnScroll className="max-w-3xl">
                         <div className="mb-4">
                             <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
-                                {t('eyebrow')}
+                                {eyebrow}
                             </span>
                         </div>
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-6">
-                            {t('title')} <br className="hidden md:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
-                                {t('titleHighlight')}
-                            </span>
+                            {title}
                         </h2>
                         <p className="text-slate-600 leading-relaxed font-sans text-base md:text-lg max-w-2xl">
-                            {t('subtitle')}
+                            {subtitle}
                         </p>
-                    </div>
-                </RevealOnScroll>
+                    </RevealOnScroll>
 
-                {/* Mobile: Horizontal Scroll | Desktop: Grid */}
-                <div className="flex overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 space-x-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-8 md:space-x-0 md:pb-0 md:mx-0 md:px-0 no-scrollbar items-stretch">
-                    {services.map((service, index) => {
-                        const Icon = ICON_MAP[service.icon || ""] || ICON_MAP["Briefcase"];
-
-                        return (
-                            <div key={service._id || index} className="shrink-0 snap-center w-[280px] sm:w-[340px] md:w-auto h-auto">
-                                <RevealOnScroll delay={index * 100} className="h-full">
-                                    <div className="group relative h-full bg-white border border-slate-200 rounded-2xl p-6 hover:-translate-y-1 hover:shadow-xl hover:shadow-gold-500/10 hover:border-gold-500/30 transition-all duration-300 flex flex-col justify-between">
-                                        <div className="relative z-10 flex flex-col h-full">
-                                            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-brand-50 border border-brand-100 text-gold-600 group-hover:scale-110 group-hover:bg-brand-900 group-hover:text-gold-500 transition-all duration-300 shrink-0">
-                                                {Icon}
-                                            </div>
-
-                                            <h3 className="text-lg font-bold mb-3 text-brand-900 font-heading shrink-0 leading-tight">
-                                                {service.title}
-                                            </h3>
-
-                                            <p className="text-sm text-slate-600 leading-relaxed mb-5 font-sans border-t border-slate-100 pt-4 group-hover:border-slate-200 flex-grow">
-                                                {service.shortDescription}
-                                            </p>
-
-                                            <Link
-                                                href={`/services/${service.slug?.current || '#'}`}
-                                                className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-600 group-hover:gap-3 group-hover:text-gold-700 transition-all mt-auto shrink-0"
-                                            >
-                                                {t('learnMore')} <ArrowRight className="w-3.5 h-3.5" />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </RevealOnScroll>
+                    <RevealOnScroll delay={0.2}>
+                        <Link
+                            href="/services"
+                            className="inline-flex items-center gap-2 group text-brand-900 font-bold hover:text-gold-600 transition-colors"
+                        >
+                            {buttonText}
+                            <div className="w-8 h-8 rounded-full bg-brand-900 text-white flex items-center justify-center group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300">
+                                <ArrowRight className="w-4 h-4" />
                             </div>
-                        );
-                    })}
+                        </Link>
+                    </RevealOnScroll>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {services.length > 0 ? (
+                        services.map((service, index) => {
+                            const Icon = ICON_MAP[service.icon || ''] || Zap;
+                            return (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="group bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
+                                >
+                                    {/* Card decoration */}
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gold-400/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-gold-400/10 transition-colors" />
+
+                                    <div className="relative z-10">
+                                        <div className="mb-6 flex justify-between items-start">
+                                            <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-brand-900 group-hover:bg-brand-900 group-hover:text-white transition-all duration-300 shadow-inner">
+                                                <Icon className="w-7 h-7" />
+                                            </div>
+                                            {service.badge && (
+                                                <span className="px-3 py-1 bg-gold-500/10 text-gold-600 text-[10px] font-bold uppercase tracking-widest rounded-full border border-gold-500/20">
+                                                    {service.badge}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <h3 className="text-xl lg:text-2xl font-bold mb-4 text-brand-900 font-heading">
+                                            {service.title}
+                                        </h3>
+                                        <p className="text-slate-500 leading-relaxed mb-8 text-sm md:text-base">
+                                            {service.shortDescription}
+                                        </p>
+
+                                        <Link
+                                            href={`/services/${service.slug?.current || ''}`}
+                                            className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-900 group-hover:text-gold-600 transition-colors"
+                                        >
+                                            Learn More
+                                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                        </Link>
+                                    </div>
+                                </motion.div>
+                            );
+                        })
+                    ) : (
+                        <div className="col-span-full py-12 text-center text-slate-400 italic">
+                            No services found. Add services in Sanity.
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

@@ -73,11 +73,16 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           <TrustBar logos={homePageData?.trustLogos} />
         </ErrorBoundary>
 
-        <DifferentiationSection />
-        <NationwideServiceSection />
+        <ErrorBoundary name="Differentiation Section">
+          <DifferentiationSection data={homePageData} />
+        </ErrorBoundary>
+
+        <ErrorBoundary name="Nationwide Service Section">
+          <NationwideServiceSection data={homePageData} />
+        </ErrorBoundary>
 
         <ErrorBoundary name="Services Section">
-          <ServicesSection services={services} />
+          <ServicesSection services={services} data={homePageData} />
         </ErrorBoundary>
 
         <BentoGridSection
