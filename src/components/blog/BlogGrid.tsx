@@ -5,9 +5,10 @@ interface BlogGridProps {
     subtitle?: string;
     summary?: string;
     posts: any[];
+    locale: string;
 }
 
-export function BlogGrid({ title, subtitle, summary, posts }: BlogGridProps) {
+export function BlogGrid({ title, subtitle, summary, posts, locale }: BlogGridProps) {
     return (
         <section>
             <div className="flex flex-wrap items-end justify-between gap-4">
@@ -30,7 +31,7 @@ export function BlogGrid({ title, subtitle, summary, posts }: BlogGridProps) {
 
             <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {posts.map((post) => (
-                    <BlogCard key={post._id} post={post} />
+                    <BlogCard key={post._id} post={post} locale={locale} />
                 ))}
             </div>
         </section>

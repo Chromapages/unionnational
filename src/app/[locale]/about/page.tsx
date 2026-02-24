@@ -42,6 +42,8 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                 <FounderSection
                     videoUrl={page?.founderVideoUrl}
                     videoFileUrl={page?.founderVideoFileUrl}
+                    imageUrl={page?.founderImage?.asset?.url}
+                    imageAlt={page?.founderImage?.alt}
                 />
 
 

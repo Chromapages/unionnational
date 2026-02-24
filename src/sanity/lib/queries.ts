@@ -506,6 +506,10 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     },
     founderVideoUrl,
     "founderVideoFileUrl": founderVideoFile.asset->url,
+    founderImage {
+      asset->,
+      alt
+    },
     "ctaTitle": coalesce(ctaTitle[$locale], ctaTitle.en, ctaTitle),
     "ctaSubtitle": coalesce(ctaSubtitle[$locale], ctaSubtitle.en, ctaSubtitle),
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),
@@ -862,5 +866,78 @@ export const DEFAULT_COMPARISON_QUERY = defineQuery(`
       url
     },
     badge
+  }
+`);
+
+export const RESOURCES_PAGE_QUERY = defineQuery(`
+  *[_type == "resourcesPage"][0] {
+    "heroTitle": coalesce(heroTitle[$locale], heroTitle.en, heroTitle),
+    "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.en, heroSubtitle),
+    featuredResource->{
+      _type,
+      _id,
+      "title": coalesce(title[$locale], title.en, title),
+      "slug": slug.current,
+      "description": coalesce(description[$locale], description.en, description),
+      coverImage {
+        asset->,
+        alt
+      },
+      featuredImage {
+        asset->,
+        alt
+      },
+      isFeatured,
+      "chapterCount": count(chapters)
+    },
+    "categories": categories[]->{
+      _id,
+      "title": coalesce(title[$locale], title.en, title),
+      "slug": slug.current
+    },
+    showPlaybooks,
+    showBlogPosts,
+    showTools,
+    seo {
+      metaTitle,
+      metaDescription,
+      openGraphImage
+    }
+  }
+`);
+
+export const RESOURCES_PLAYBOOKS_QUERY = defineQuery(`
+  *[_type == "playbook"] | order(displayOrder asc, isFeatured desc) {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "description": coalesce(description[$locale], description.en, description),
+    coverImage {
+      asset->,
+      alt
+    },
+    isFeatured,
+    displayOrder,
+    "chapterCount": count(chapters)
+  }
+`);
+
+export const RESOURCES_BLOG_POSTS_QUERY = defineQuery(`
+  *[_type == "blogPost"] | order(publishedAt desc) {
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    "slug": slug.current,
+    "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt),
+    publishedAt,
+    readingTime,
+    isFeatured,
+    featuredImage {
+      asset->,
+      alt
+    },
+    categories[]->{
+      "title": coalesce(title[$locale], title.en, title),
+      "slug": slug.current
+    }
   }
 `);

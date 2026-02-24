@@ -138,11 +138,11 @@ export async function Footer() {
                     <div>
                         <h3 className="text-white font-bold mb-6 font-heading">Company</h3>
                         <ul className="space-y-3">
-                            {['About', 'Team', 'Blog', 'Contact', 'Shop']
+                            {['About', 'Team', 'Resources', 'Contact', 'Shop']
                                 .map((item) => (
                                     <li key={item}>
                                         <Link
-                                            href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                                            href={item === 'Home' ? '/' : item === 'Resources' ? '/resources' : `/${item.toLowerCase()}`}
                                             className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
                                         >
                                             {item}

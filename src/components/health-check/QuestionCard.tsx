@@ -62,7 +62,7 @@ export function QuestionCard({
                 transition={{ opacity: { duration: 0.2 }, x: { type: "spring", stiffness: 300, damping: 30 } }}
                 className="w-full max-w-2xl mx-auto"
             >
-                <div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] font-bold text-slate-400">
+                <div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] font-black text-slate-500">
                     <span>Question {step}</span>
                     <span className="h-3 w-px bg-slate-300"></span>
                     <span>{totalSteps} total</span>
@@ -84,19 +84,16 @@ export function QuestionCard({
                             <button
                                 key={`${option.label}-${idx}`}
                                 onClick={() => onSelect(option.value)}
-                                className={`group relative text-left rounded-2xl border-2 px-5 py-4 min-h-[60px] transition-all duration-200 bg-white ${
-                                    idx === options.length - 1 && options.length % 2 !== 0 ? "md:col-span-2" : ""
-                                } ${
-                                    isSelected
-                                        ? "border-gold-400 shadow-[0_0_30px_rgba(251,191,36,0.35)] ring-1 ring-gold-400/60"
-                                        : "border-slate-200 hover:border-gold-400 hover:shadow-xl hover:shadow-gold-400/10"
-                                }`}
+                                className={`group relative text-left rounded-2xl border-2 px-5 py-4 min-h-[60px] transition-all duration-200 bg-white ${idx === options.length - 1 && options.length % 2 !== 0 ? "md:col-span-2" : ""
+                                    } ${isSelected
+                                        ? "border-gold-500 shadow-xl shadow-gold-500/20 ring-1 ring-gold-500/40"
+                                        : "border-slate-100 hover:border-gold-400 hover:shadow-lg hover:shadow-gold-400/5"
+                                    }`}
                             >
                                 <div className="absolute right-4 top-4 h-3 w-3 rounded-full border border-slate-200 bg-white group-hover:border-gold-400">
                                     <div
-                                        className={`h-full w-full rounded-full bg-gold-400 transition-transform ${
-                                            isSelected ? "scale-100" : "scale-0"
-                                        }`}
+                                        className={`h-full w-full rounded-full bg-gold-400 transition-transform ${isSelected ? "scale-100" : "scale-0"
+                                            }`}
                                     ></div>
                                 </div>
                                 <span className="block text-lg font-bold text-brand-900 pr-6">
@@ -113,9 +110,8 @@ export function QuestionCard({
                 <div className="mt-10 flex justify-start">
                     <button
                         onClick={onBack}
-                        className={`flex items-center text-slate-400 hover:text-brand-900 transition-colors text-xs font-bold uppercase tracking-widest ${
-                            step === 1 ? "invisible" : ""
-                        }`}
+                        className={`flex items-center text-slate-500 hover:text-brand-900 transition-colors text-xs font-bold uppercase tracking-widest ${step === 1 ? "invisible" : ""
+                            }`}
                     >
                         <ArrowLeft className="w-4 h-4 mr-2" />
                         Previous Question

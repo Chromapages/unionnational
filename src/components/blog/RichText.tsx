@@ -2,16 +2,18 @@ import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { buildHeadingId, HeadingItem } from "./richTextUtils";
+import { extractString } from "@/lib/utils";
 
 interface RichTextProps {
     value: any;
     headings?: HeadingItem[];
+    locale: string;
 }
 
 const getPlainText = (value: any) =>
     value?.children?.map((child: any) => child.text).join("").trim() || "";
 
-export function RichText({ value, headings = [] }: RichTextProps) {
+export function RichText({ value, headings = [], locale }: RichTextProps) {
     let headingIndex = 0;
     const slugCounts = new Map<string, number>();
 
@@ -33,7 +35,7 @@ export function RichText({ value, headings = [] }: RichTextProps) {
                         </div>
                         {imageValue.caption && (
                             <figcaption className="mt-4 text-center text-sm text-brand-900/60 font-sans italic">
-                                {imageValue.caption}
+                                {extractString(imageValue.caption, locale)}
                             </figcaption>
                         )}
                     </figure>

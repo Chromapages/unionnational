@@ -9,6 +9,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { BookOpen, ArrowRight, Lock } from "lucide-react";
+import { extractString } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -28,8 +29,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     }
 
     return {
-        title: `${playbook.title} | Authority Hub`,
-        description: playbook.description,
+        title: `${extractString(playbook.title, locale)} | Authority Hub`,
+        description: extractString(playbook.description, locale),
     };
 }
 
@@ -57,7 +58,7 @@ export default async function PlaybookPage(props: PageProps) {
     return (
         <main className="bg-surface min-h-screen">
             <HeaderWrapper />
-            
+
             <section className="relative overflow-hidden bg-forest-gradient pt-32 pb-16 text-white">
                 <div className="absolute inset-0">
                     <div className="absolute -top-32 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-brand-500/20 blur-[140px]" />
@@ -71,11 +72,11 @@ export default async function PlaybookPage(props: PageProps) {
                                 Playbook
                             </div>
                             <h1 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl font-heading">
-                                {playbook.title}
+                                {extractString(playbook.title, locale)}
                             </h1>
                             {playbook.description && (
                                 <p className="max-w-2xl text-lg text-white/70 font-sans leading-relaxed">
-                                    {playbook.description}
+                                    {extractString(playbook.description, locale)}
                                 </p>
                             )}
                             <div className="flex flex-wrap items-center gap-6 pt-4">
@@ -95,7 +96,7 @@ export default async function PlaybookPage(props: PageProps) {
                                 <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-brand-950/40 shadow-2xl">
                                     <Image
                                         src={urlFor(playbook.coverImage).url()}
-                                        alt={playbook.coverImage.alt || playbook.title}
+                                        alt={playbook.coverImage.alt || extractString(playbook.title, locale)}
                                         fill
                                         className="object-cover"
                                     />
@@ -122,7 +123,7 @@ export default async function PlaybookPage(props: PageProps) {
                                     </span>
                                     <div className="flex-1">
                                         <h3 className="font-medium text-white group-hover:text-gold-200 transition-colors">
-                                            {chapter.title}
+                                            {extractString(chapter.title, locale)}
                                         </h3>
                                         {chapter.isGated && (
                                             <span className="flex items-center gap-1 text-xs text-white/50 mt-1">
@@ -140,8 +141,9 @@ export default async function PlaybookPage(props: PageProps) {
                     <div className="hidden lg:block">
                         <div className="sticky top-24">
                             <PlaybookNav
-                                playbookTitle={playbook.title}
+                                playbookTitle={extractString(playbook.title, locale)}
                                 chapters={chapters}
+                                locale={locale}
                             />
                         </div>
                     </div>

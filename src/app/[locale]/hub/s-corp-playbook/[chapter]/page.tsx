@@ -11,6 +11,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { Play, ArrowLeft } from "lucide-react";
+import { extractString } from "@/lib/utils";
 import Link from "next/link";
 
 export const revalidate = 60;
@@ -31,8 +32,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     }
 
     return {
-        title: `${chapterData.title} | S-Corp Playbook`,
-        description: `Chapter ${chapterData.chapterNumber}: ${chapterData.title}`,
+        title: `${extractString(chapterData.title, locale)} | S-Corp Playbook`,
+        description: `Chapter ${chapterData.chapterNumber}: ${extractString(chapterData.title, locale)}`,
     };
 }
 
@@ -56,7 +57,7 @@ export default async function ChapterPage(props: PageProps) {
     return (
         <main className="bg-surface min-h-screen">
             <HeaderWrapper />
-            
+
             <section className="relative overflow-hidden bg-forest-gradient pt-32 pb-8 text-white">
                 <div className="absolute inset-0">
                     <div className="absolute -top-32 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-brand-500/20 blur-[140px]" />
@@ -75,7 +76,7 @@ export default async function ChapterPage(props: PageProps) {
                             {chapter.chapterNumber}
                         </span>
                         <h1 className="text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl font-heading">
-                            {chapter.title}
+                            {extractString(chapter.title, locale)}
                         </h1>
                     </div>
                 </div>
@@ -99,7 +100,7 @@ export default async function ChapterPage(props: PageProps) {
                             <div className="relative aspect-video overflow-hidden rounded-2xl bg-brand-900">
                                 <Image
                                     src={urlFor(chapter.videoThumbnail).url()}
-                                    alt={chapter.videoThumbnail.alt || chapter.title}
+                                    alt={chapter.videoThumbnail.alt || extractString(chapter.title, locale)}
                                     fill
                                     className="object-cover"
                                 />
@@ -113,7 +114,7 @@ export default async function ChapterPage(props: PageProps) {
 
                         {chapter.content && (
                             <div className="prose prose-invert max-w-none">
-                                <RichText value={chapter.content} />
+                                <RichText value={chapter.content} locale={locale} />
                             </div>
                         )}
 
@@ -129,13 +130,13 @@ export default async function ChapterPage(props: PageProps) {
                                     description="Thanks for subscribing! Here are the advanced tactics for this chapter."
                                 />
                                 <div className="mt-8 prose prose-invert max-w-none">
-                                    <RichText value={chapter.gatedContent} />
+                                    <RichText value={chapter.gatedContent} locale={locale} />
                                 </div>
                             </div>
                         ) : null}
 
-                        <KeyTakeaways takeaways={chapter.keyTakeaways} />
-                        <ToolReferences tools={chapter.tools} />
+                        <KeyTakeaways takeaways={chapter.keyTakeaways?.map((t: any) => extractString(t, locale))} />
+                        <ToolReferences tools={chapter.tools?.map((t: any) => extractString(t, locale))} />
 
                         <div className="flex items-center justify-between border-t border-white/10 pt-8">
                             {prevChapter ? (
@@ -144,7 +145,7 @@ export default async function ChapterPage(props: PageProps) {
                                     className="group flex items-center gap-2 text-sm text-white/60 hover:text-gold-200 transition-colors"
                                 >
                                     <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                                    <span className="font-medium">Previous: {prevChapter.title}</span>
+                                    <span className="font-medium">Previous: {extractString(prevChapter.title, locale)}</span>
                                 </Link>
                             ) : (
                                 <div />
@@ -154,7 +155,7 @@ export default async function ChapterPage(props: PageProps) {
                                     href={`/hub/s-corp-playbook/${nextChapter.slug}`}
                                     className="group flex items-center gap-2 text-sm text-white/60 hover:text-gold-200 transition-colors"
                                 >
-                                    <span className="font-medium">Next: {nextChapter.title}</span>
+                                    <span className="font-medium">Next: {extractString(nextChapter.title, locale)}</span>
                                     <ArrowLeft className="h-4 w-4 rotate-180 transition-transform group-hover:translate-x-1" />
                                 </Link>
                             )}
@@ -164,9 +165,10 @@ export default async function ChapterPage(props: PageProps) {
                     <div className="hidden lg:block">
                         <div className="sticky top-24 space-y-6">
                             <PlaybookNav
-                                playbookTitle={playbook.title}
+                                playbookTitle={extractString(playbook.title, locale)}
                                 chapters={chapters}
                                 currentChapterSlug={chapterSlug}
+                                locale={locale}
                             />
                         </div>
                     </div>

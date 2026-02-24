@@ -4,9 +4,10 @@ import { BlogCard } from "./BlogCard";
 
 interface RelatedNavigatorProps {
     posts: any[];
+    locale: string;
 }
 
-export function RelatedNavigator({ posts }: RelatedNavigatorProps) {
+export function RelatedNavigator({ posts, locale }: RelatedNavigatorProps) {
     if (!posts || posts.length === 0) return null;
 
     return (
@@ -31,7 +32,7 @@ export function RelatedNavigator({ posts }: RelatedNavigatorProps) {
 
             <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {posts.filter(Boolean).map((post) => (
-                    <BlogCard key={post._id} post={post} />
+                    <BlogCard key={post._id} post={post} locale={locale} />
                 ))}
             </div>
 

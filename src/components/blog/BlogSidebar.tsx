@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Search, ArrowRight, Tag } from "lucide-react";
+import { extractString } from "@/lib/utils";
 
 interface Category {
     _id: string;
@@ -13,9 +14,10 @@ interface BlogSidebarProps {
     categories: Category[];
     newsletterTitle?: string;
     newsletterDescription?: string;
+    locale: string;
 }
 
-export function BlogSidebar({ categories, newsletterTitle, newsletterDescription }: BlogSidebarProps) {
+export function BlogSidebar({ categories, newsletterTitle, newsletterDescription, locale }: BlogSidebarProps) {
     return (
         <aside className="space-y-8 lg:sticky lg:top-24">
             {/* Search (Visual only for now) */}
@@ -42,7 +44,7 @@ export function BlogSidebar({ categories, newsletterTitle, newsletterDescription
                             >
                                 <div className="flex items-center gap-2">
                                     <Tag className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity" />
-                                    {category.title}
+                                    {extractString(category.title, locale)}
                                 </div>
                                 <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity transform -translate-x-2 group-hover:translate-x-0" />
                             </Link>
@@ -56,10 +58,10 @@ export function BlogSidebar({ categories, newsletterTitle, newsletterDescription
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
 
                 <h3 className="text-lg font-bold font-heading mb-2 relative z-10">
-                    {newsletterTitle || "Join the Inner Circle"}
+                    {extractString(newsletterTitle, locale, "Join the Inner Circle")}
                 </h3>
                 <p className="text-sm text-white/70 mb-6 font-sans relative z-10 leading-relaxed">
-                    {newsletterDescription || "Get strategic tax insights delivered to your inbox weekly."}
+                    {extractString(newsletterDescription, locale, "Get strategic tax insights delivered to your inbox weekly.")}
                 </p>
 
                 <form className="space-y-3 relative z-10" onSubmit={(e) => e.preventDefault()}>

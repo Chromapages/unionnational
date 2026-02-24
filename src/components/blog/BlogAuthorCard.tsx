@@ -3,11 +3,14 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { Linkedin } from "lucide-react";
 
+import { extractString } from "@/lib/utils";
+
 interface BlogAuthorCardProps {
     author: any;
+    locale: string;
 }
 
-export function BlogAuthorCard({ author }: BlogAuthorCardProps) {
+export function BlogAuthorCard({ author, locale }: BlogAuthorCardProps) {
     if (!author) return null;
 
     return (
@@ -29,7 +32,7 @@ export function BlogAuthorCard({ author }: BlogAuthorCardProps) {
                 <div className="flex items-center justify-between mb-2">
                     <div>
                         <h3 className="text-lg font-bold text-brand-900 font-heading">About the Author</h3>
-                        <p className="text-sm font-medium text-gold-600 font-sans">{author.name}, {author.role}</p>
+                        <p className="text-sm font-medium text-gold-600 font-sans">{author.name}, {extractString(author.role, locale)}</p>
                     </div>
                     {author.linkedinUrl && (
                         <Link href={author.linkedinUrl} target="_blank" rel="noopener noreferrer" className="p-2 text-brand-900/40 hover:text-brand-700 transition-colors">

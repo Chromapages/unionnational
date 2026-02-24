@@ -182,8 +182,8 @@ export function HealthCheckSurvey() {
                 answeredCounts.entity >= categoryTotals.entity
                     ? "complete"
                     : activeCategory === "entity"
-                      ? "active"
-                      : "idle",
+                        ? "active"
+                        : "idle",
         },
         {
             label: "Compliance",
@@ -191,8 +191,8 @@ export function HealthCheckSurvey() {
                 answeredCounts.compliance >= categoryTotals.compliance
                     ? "complete"
                     : activeCategory === "compliance"
-                      ? "active"
-                      : "idle",
+                        ? "active"
+                        : "idle",
         },
         {
             label: "Operations",
@@ -200,8 +200,8 @@ export function HealthCheckSurvey() {
                 answeredCounts.operations >= categoryTotals.operations
                     ? "complete"
                     : activeCategory === "operations"
-                      ? "active"
-                      : "idle",
+                        ? "active"
+                        : "idle",
         },
     ];
 
@@ -269,7 +269,7 @@ export function HealthCheckSurvey() {
         <div className="h-full w-full bg-slate-50 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center">
             <div className="max-w-xl mx-auto w-full">
                 <div className="bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-xl shadow-brand-900/5 border border-slate-100">
-                    <h3 className="text-xs uppercase tracking-[0.3em] text-slate-400 text-center">The Live Audit</h3>
+                    <h3 className="text-xs uppercase tracking-[0.3em] text-slate-500 text-center font-bold">The Live Audit</h3>
                     <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-brand-900 text-center">
                         Financial Diagnostic
                     </h1>
@@ -301,7 +301,7 @@ export function HealthCheckSurvey() {
                         Start Diagnostic
                         <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <p className="mt-4 text-center text-[10px] uppercase tracking-[0.3em] text-slate-400">
+                    <p className="mt-4 text-center text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">
                         No Credit Card Required
                     </p>
                 </div>

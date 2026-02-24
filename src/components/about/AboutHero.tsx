@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
+import Link from "next/link";
 
 interface AboutHeroProps {
     title: string;
@@ -42,12 +42,12 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
                         </p>
 
                         <div className="mt-10 flex flex-wrap gap-4">
-                            <button className="bg-gold-500 text-brand-950 px-8 py-4 rounded-lg font-bold hover:bg-gold-400 transition-colors shadow-[0_0_20px_-5px_rgba(212,175,55,0.3)]">
+                            <Link href="/contact" className="bg-gold-500 text-brand-950 px-8 py-4 rounded-lg font-bold hover:bg-gold-400 transition-colors shadow-[0_0_20px_-5px_rgba(212,175,55,0.3)]">
                                 Book Consultation
-                            </button>
-                            <button className="px-8 py-4 rounded-lg font-bold text-white border border-white/10 hover:bg-white/5 transition-colors">
+                            </Link>
+                            <Link href="/team" className="px-8 py-4 rounded-lg font-bold text-white border border-white/10 hover:bg-white/5 transition-colors">
                                 Explore Our Firm
-                            </button>
+                            </Link>
                         </div>
                     </motion.div>
 

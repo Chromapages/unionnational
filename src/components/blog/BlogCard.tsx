@@ -2,14 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { Calendar, Clock, User } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, extractString } from "@/lib/utils";
 
 interface BlogCardProps {
     post: any;
     className?: string;
+    locale: string;
 }
 
-export function BlogCard({ post, className }: BlogCardProps) {
+export function BlogCard({ post, className, locale }: BlogCardProps) {
     const publishedDate = post.publishedAt
         ? new Date(post.publishedAt).toLocaleDateString("en-US", {
             month: "short",
@@ -30,7 +31,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
                 {post.featuredImage ? (
                     <Image
                         src={urlFor(post.featuredImage).url()}
-                        alt={post.featuredImage.alt || post.title}
+                        alt={post.featuredImage.alt || extractString(post.title, locale)}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -46,7 +47,7 @@ export function BlogCard({ post, className }: BlogCardProps) {
                 <div className="flex flex-wrap items-center gap-3 text-[11px] text-brand-900/60 font-sans">
                     {primaryCategory && (
                         <span className="inline-flex items-center rounded-full border border-gold-200/60 bg-gold-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gold-700">
-                            {primaryCategory.title}
+                            {extractString(primaryCategory.title, locale)}
                         </span>
                     )}
                     {publishedDate && (
@@ -59,13 +60,13 @@ export function BlogCard({ post, className }: BlogCardProps) {
 
                 <Link href={`/blog/${post.slug}`} className="mt-4 block">
                     <h3 className="text-xl font-semibold text-brand-900 font-heading leading-tight transition-colors duration-300 group-hover:text-brand-700">
-                        {post.title}
+                        {extractString(post.title, locale)}
                     </h3>
                 </Link>
 
                 {post.excerpt && (
                     <p className="mt-3 text-sm text-brand-900/60 leading-relaxed font-sans line-clamp-3">
-                        {post.excerpt}
+                        {extractString(post.excerpt, locale)}
                     </p>
                 )}
 

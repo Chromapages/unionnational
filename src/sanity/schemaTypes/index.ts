@@ -26,6 +26,7 @@ import { playbook } from './playbook'
 import { playbookChapter } from './playbookChapter'
 import { industryVertical } from './industryVertical'
 import { comparisonTable } from './comparisonTable'
+import { resourcesPage } from './resourcesPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -56,5 +57,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     playbookChapter,
     industryVertical,
     comparisonTable,
+    resourcesPage,
   ],
 }

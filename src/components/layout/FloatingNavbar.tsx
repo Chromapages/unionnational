@@ -55,9 +55,9 @@ type FloatingNavbarProps = {
 const navLinks: NavLink[] = [
     { translationKey: "home", href: "/" },
     { translationKey: "shop", href: "/shop" },
-    { translationKey: "healthCheck", href: "/health-check" },
     { translationKey: "about", href: "/about" },
     { translationKey: "team", href: "/team" },
+    { translationKey: "resources", href: "/resources" },
 ];
 
 const fallbackServices: ServiceSummary[] = [

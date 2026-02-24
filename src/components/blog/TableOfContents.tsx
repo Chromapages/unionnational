@@ -2,14 +2,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { HeadingItem } from "./richTextUtils";
-import { cn } from "@/lib/utils";
+import { cn, extractString } from "@/lib/utils";
 
 interface TableOfContentsProps {
     headings: HeadingItem[];
     className?: string;
+    locale: string;
 }
 
-export function TableOfContents({ headings, className }: TableOfContentsProps) {
+export function TableOfContents({ headings, className, locale }: TableOfContentsProps) {
     const [activeId, setActiveId] = useState<string | null>(headings[0]?.id || null);
 
     const headingIds = useMemo(() => headings.map((heading) => heading.id), [headings]);
@@ -64,7 +65,7 @@ export function TableOfContents({ headings, className }: TableOfContentsProps) {
                                 : "text-brand-900/60 hover:text-brand-900"
                         )}
                     >
-                        {heading.text}
+                        {extractString(heading.text, locale)}
                     </a>
                 ))}
             </div>

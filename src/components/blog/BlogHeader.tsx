@@ -2,11 +2,14 @@ import Image from "next/image";
 import { Calendar, Clock, User } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 
+import { extractString } from "@/lib/utils";
+
 interface BlogHeaderProps {
     post: any;
+    locale: string;
 }
 
-export function BlogHeader({ post }: BlogHeaderProps) {
+export function BlogHeader({ post, locale }: BlogHeaderProps) {
     const publishedDate = post.publishedAt
         ? new Date(post.publishedAt).toLocaleDateString("en-US", {
             year: "numeric",
@@ -21,7 +24,7 @@ export function BlogHeader({ post }: BlogHeaderProps) {
             {post.featuredImage ? (
                 <Image
                     src={urlFor(post.featuredImage).url()}
-                    alt={post.featuredImage.alt || post.title}
+                    alt={post.featuredImage.alt || extractString(post.title, locale)}
                     fill
                     className="object-cover"
                     priority
@@ -38,7 +41,7 @@ export function BlogHeader({ post }: BlogHeaderProps) {
                     <div className="flex flex-wrap items-center gap-4 text-xs font-semibold uppercase tracking-[0.3em] text-gold-200 font-sans">
                         {primaryCategory && (
                             <span className="rounded-full border border-gold-300/40 bg-gold-500/10 px-3 py-1 text-gold-100">
-                                {primaryCategory.title}
+                                {extractString(primaryCategory.title, locale)}
                             </span>
                         )}
                         {publishedDate && (
@@ -56,11 +59,11 @@ export function BlogHeader({ post }: BlogHeaderProps) {
                     </div>
 
                     <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl font-heading">
-                        {post.title}
+                        {extractString(post.title, locale)}
                     </h1>
                     {post.excerpt && (
                         <p className="mt-6 text-lg text-white/80 font-sans leading-relaxed">
-                            {post.excerpt}
+                            {extractString(post.excerpt, locale)}
                         </p>
                     )}
 
@@ -86,7 +89,7 @@ export function BlogHeader({ post }: BlogHeaderProps) {
                                 </div>
                                 {post.author.role && (
                                     <div className="text-xs uppercase tracking-[0.2em] text-white/60 font-sans">
-                                        {post.author.role}
+                                        {extractString(post.author.role, locale)}
                                     </div>
                                 )}
                             </div>

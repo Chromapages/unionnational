@@ -66,7 +66,7 @@ export function ResultDashboard({ scores, tier, name }: ResultDashboardProps) {
             <div className="w-full max-w-3xl">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Financial Diagnostic Report</p>
+                        <p className="text-xs uppercase tracking-[0.3em] text-slate-500 font-bold">Financial Diagnostic Report</p>
                         <h2 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-brand-900">
                             Prepared for {name || "Your Business"}
                         </h2>
@@ -81,7 +81,7 @@ export function ResultDashboard({ scores, tier, name }: ResultDashboardProps) {
                     <div className={`rounded-3xl border ${content.border} ${content.bg} p-6 sm:p-7 shadow-sm`}>
                         <div className="flex items-start justify-between">
                             <div>
-                                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Diagnostic Tier</p>
+                                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">Diagnostic Tier</p>
                                 <h3 className={`mt-2 text-2xl font-bold font-heading ${content.color}`}>{content.title}</h3>
                                 <p className="mt-3 text-slate-600 text-base leading-relaxed">{content.desc}</p>
                             </div>
@@ -99,7 +99,7 @@ export function ResultDashboard({ scores, tier, name }: ResultDashboardProps) {
                     </div>
 
                     <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Recommended Service</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">Recommended Service</p>
                         <h4 className="mt-3 text-xl font-bold text-brand-900">{content.upsell}</h4>
                         <p className="mt-3 text-sm text-slate-500">
                             Priority service alignment based on live audit scoring.
@@ -124,10 +124,10 @@ export function ResultDashboard({ scores, tier, name }: ResultDashboardProps) {
                                 <div key={item.key} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                                     <div className="flex items-start justify-between">
                                         <div>
-                                            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{item.label}</p>
+                                            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">{item.label}</p>
                                             <p className="mt-2 text-2xl font-bold text-brand-900">
                                                 {value}
-                                                <span className="text-sm font-semibold text-slate-400">/{item.max}</span>
+                                                <span className="text-sm font-bold text-slate-500">/{item.max}</span>
                                             </p>
                                         </div>
                                         <div className="w-10 h-10 rounded-2xl bg-gold-400/15 text-gold-600 flex items-center justify-center">

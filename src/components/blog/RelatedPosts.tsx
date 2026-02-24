@@ -2,9 +2,10 @@ import { BlogCard } from "./BlogCard";
 
 interface RelatedPostsProps {
     posts: any[];
+    locale: string;
 }
 
-export function RelatedPosts({ posts }: RelatedPostsProps) {
+export function RelatedPosts({ posts, locale }: RelatedPostsProps) {
     if (!posts || posts.length === 0) return null;
 
     return (
@@ -12,7 +13,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
             <h2 className="text-2xl font-bold text-brand-900 font-heading mb-8">Related Articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {posts.map((post) => (
-                    <BlogCard key={post._id} post={post} />
+                    <BlogCard key={post._id} post={post} locale={locale} />
                 ))}
             </div>
         </section>

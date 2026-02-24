@@ -193,6 +193,20 @@ export const aboutPage = defineType({
             }
         }),
         defineField({
+            name: 'founderImage',
+            title: 'Founder Image',
+            type: 'image',
+            group: 'content',
+            options: { hotspot: true },
+            fields: [
+                {
+                    name: 'alt',
+                    title: 'Alternative Text',
+                    type: 'string',
+                },
+            ],
+        }),
+        defineField({
             name: "ctaTitle",
             title: "Bottom CTA Title",
             type: "localizedString",

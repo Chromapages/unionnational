@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import { NewsletterCta } from "@/components/blog/NewsletterCta";
+import { extractString } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -48,8 +49,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
         : [{ url: ogUrl.toString(), width: 1200, height: 630, alt: post.title }];
 
     return {
-        title: `${post.title} | Union National Tax`,
-        description: post.excerpt,
+        title: `${extractString(post.title, locale)} | Union National Tax`,
+        description: extractString(post.excerpt, locale),
         openGraph: {
             title: post.title,
             description: post.excerpt,
@@ -94,7 +95,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
     return (
         <main className="bg-slate-50 min-h-screen">
             <HeaderWrapper />
-            <BlogHeader post={post} />
+            <BlogHeader post={post} locale={locale} />
             <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-32 -mt-20">
                 <div className="grid gap-12 lg:grid-cols-12">
                     <article className="space-y-10 lg:col-span-8">
@@ -107,24 +108,24 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                                     {takeaways.map((item) => (
                                         <li key={item} className="flex items-start gap-3">
                                             <span className="mt-1 h-2 w-2 rounded-full bg-gold-500" />
-                                            <span>{item}</span>
+                                            <span>{extractString(item, locale)}</span>
                                         </li>
                                     ))}
                                 </ul>
                             ) : (
                                 <p className="mt-4 text-base text-brand-900/70 font-sans leading-relaxed">
-                                    {post.excerpt || "Actionable insights and structured guidance for smarter tax strategy."}
+                                    {extractString(post.excerpt, locale, "Actionable insights and structured guidance for smarter tax strategy.")}
                                 </p>
                             )}
                         </div>
 
-                        <RichText value={post.body} headings={headings} />
-                        <BlogAuthorCard author={post.author} />
+                        <RichText value={post.body} headings={headings} locale={locale} />
+                        <BlogAuthorCard author={post.author} locale={locale} />
                     </article>
 
                     <aside className="lg:col-span-4">
                         <div className="space-y-8 lg:sticky lg:top-36">
-                            <TableOfContents headings={headings} />
+                            <TableOfContents headings={headings} locale={locale} />
 
                             <NewsletterCta />
 
@@ -149,7 +150,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                     </aside>
                 </div>
 
-                <RelatedNavigator posts={relatedPosts} />
+                <RelatedNavigator posts={relatedPosts} locale={locale} />
             </div>
             <Footer />
         </main>

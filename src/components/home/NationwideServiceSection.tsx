@@ -156,15 +156,6 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
                 </div>
             </div>
 
-            <style jsx>{`
-                @keyframes scan {
-                    0% { transform: translateY(-100%); }
-                    100% { transform: translateY(500%); }
-                }
-                .animate-scan-slow {
-                    animation: scan 8s linear infinite;
-                }
-            `}</style>
         </section>
     );
 }

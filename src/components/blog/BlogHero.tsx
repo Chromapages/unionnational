@@ -3,21 +3,22 @@ import Image from "next/image";
 import { Calendar, Clock, ArrowUpRight } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { urlFor } from "@/sanity/lib/image";
-import { cn } from "@/lib/utils";
+import { cn, extractString } from "@/lib/utils";
 
 interface BlogHeroProps {
     title: string;
     subtitle: string;
     featuredPosts?: any[];
+    locale: string;
 }
-
 interface BlogHeroCardProps {
     post: any;
     size?: "large" | "small";
     className?: string;
+    locale: string;
 }
 
-function BlogHeroCard({ post, size = "small", className }: BlogHeroCardProps) {
+function BlogHeroCard({ post, size = "small", className, locale }: BlogHeroCardProps) {
     const publishedDate = post.publishedAt
         ? new Date(post.publishedAt).toLocaleDateString("en-US", {
             month: "short",
@@ -37,7 +38,7 @@ function BlogHeroCard({ post, size = "small", className }: BlogHeroCardProps) {
             {post.featuredImage ? (
                 <Image
                     src={urlFor(post.featuredImage).url()}
-                    alt={post.featuredImage.alt || post.title}
+                    alt={post.featuredImage.alt || extractString(post.title, locale)}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
@@ -48,7 +49,7 @@ function BlogHeroCard({ post, size = "small", className }: BlogHeroCardProps) {
 
             <div className="relative z-10 flex h-full flex-col justify-end p-6">
                 <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-gold-200">
-                    {primaryCategory && <span className="font-semibold">{primaryCategory.title}</span>}
+                    {primaryCategory && <span className="font-semibold">{extractString(primaryCategory.title, locale)}</span>}
                     {publishedDate && (
                         <span className="flex items-center gap-1 text-white/70">
                             <Calendar className="h-3.5 w-3.5" />
@@ -62,11 +63,11 @@ function BlogHeroCard({ post, size = "small", className }: BlogHeroCardProps) {
                         size === "large" ? "text-2xl md:text-3xl" : "text-xl"
                     )}
                 >
-                    {post.title}
+                    {extractString(post.title, locale)}
                 </h3>
                 {size === "large" && post.excerpt && (
                     <p className="mt-3 text-sm leading-relaxed text-white/70 line-clamp-3 font-sans">
-                        {post.excerpt}
+                        {extractString(post.excerpt, locale)}
                     </p>
                 )}
                 <div className="mt-5 flex items-center justify-between text-[11px] text-white/70">
@@ -86,7 +87,7 @@ function BlogHeroCard({ post, size = "small", className }: BlogHeroCardProps) {
     );
 }
 
-export function BlogHero({ title, subtitle, featuredPosts = [] }: BlogHeroProps) {
+export function BlogHero({ title, subtitle, featuredPosts = [], locale }: BlogHeroProps) {
     const heroPosts = featuredPosts.slice(0, 3);
 
     return (
@@ -122,6 +123,7 @@ export function BlogHero({ title, subtitle, featuredPosts = [] }: BlogHeroProps)
                                         key={post._id}
                                         post={post}
                                         size={index === 0 ? "large" : "small"}
+                                        locale={locale}
                                         className={
                                             index === 0
                                                 ? "min-h-[280px] md:col-span-2 lg:col-span-1 lg:row-span-2 lg:min-h-[420px]"

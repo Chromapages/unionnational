@@ -34,7 +34,6 @@ const navItems = [
     { id: "home", translationKey: "home", href: "/", icon: Home },
     { id: "services", translationKey: "services", href: "/services", icon: FileText },
     { id: "shop", translationKey: "shop", href: "/shop", icon: ShoppingBag },
-    { id: "healthCheck", translationKey: "healthCheck", href: "/health-check", icon: HeartPulse },
     { id: "about", translationKey: "about", href: "/about", icon: Users },
     { id: "team", translationKey: "team", href: "/team", icon: Users },
     { id: "blog", translationKey: "blog", href: "/blog", icon: FileText },

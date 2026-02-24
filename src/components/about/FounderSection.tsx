@@ -1,15 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { Play, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 interface FounderSectionProps {
     videoUrl?: string;
     videoFileUrl?: string;
+    imageUrl?: string;
+    imageAlt?: string;
 }
 
-export function FounderSection({ videoUrl, videoFileUrl }: FounderSectionProps) {
+export function FounderSection({ videoUrl, videoFileUrl, imageUrl, imageAlt }: FounderSectionProps) {
     return (
         <section className="py-24 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
@@ -38,37 +41,27 @@ export function FounderSection({ videoUrl, videoFileUrl }: FounderSectionProps) 
                         </div>
                     </RevealOnScroll>
 
-                    {/* Video Column */}
+                    {/* Image Column */}
                     <RevealOnScroll delay={0.2}>
-                        <div className="relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl group border-4 border-white">
-                            {videoFileUrl ? (
-                                <video
-                                    src={videoFileUrl}
-                                    className="w-full h-full object-cover"
-                                    controls
-                                    playsInline
-                                    poster="/vsl-placeholder.jpg"
-                                />
-                            ) : videoUrl ? (
-                                <iframe
-                                    src={videoUrl}
-                                    className="w-full h-full object-cover"
-                                    allow="autoplay; fullscreen; picture-in-picture"
-                                    allowFullScreen
+                        <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl group border-4 border-white">
+                            {imageUrl ? (
+                                <Image
+                                    src={imageUrl}
+                                    alt={imageAlt || "Founder"}
+                                    fill
+                                    className="object-cover"
                                 />
                             ) : (
                                 <div className="absolute inset-0 bg-brand-900 flex items-center justify-center">
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-gold-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity" />
-                                        <button className="relative w-20 h-20 bg-gold-500 rounded-full flex items-center justify-center text-brand-950 shadow-xl transform transition-transform group-hover:scale-110">
-                                            <Play className="fill-current w-8 h-8 ml-1" />
-                                        </button>
+                                    <div className="relative w-3/4 h-3/4">
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-gold-500/20 to-transparent rounded-3xl" />
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <span className="text-white/30 text-lg font-bold">Founder Photo</span>
+                                        </div>
                                     </div>
-                                    <p className="absolute bottom-8 text-white/50 text-xs font-bold uppercase tracking-widest">
-                                        Watch Strategy Briefing
-                                    </p>
                                 </div>
                             )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                     </RevealOnScroll>
                 </div>

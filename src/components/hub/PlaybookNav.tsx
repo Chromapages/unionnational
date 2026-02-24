@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronRight, Lock, BookOpen } from "lucide-react";
+import { extractString } from "@/lib/utils";
 
 interface Chapter {
     _id: string;
@@ -18,9 +19,10 @@ interface PlaybookNavProps {
     chapters: Chapter[];
     currentChapterSlug?: string;
     className?: string;
+    locale: string;
 }
 
-export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, className }: PlaybookNavProps) {
+export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, className, locale }: PlaybookNavProps) {
     const pathname = usePathname();
 
     return (
@@ -61,7 +63,7 @@ export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, class
                             >
                                 {chapter.chapterNumber}
                             </span>
-                            <span className="flex-1 line-clamp-1">{chapter.title}</span>
+                            <span className="flex-1 line-clamp-1">{extractString(chapter.title, locale)}</span>
                             {chapter.isGated ? (
                                 <Lock className="h-3.5 w-3.5 text-white/30" />
                             ) : (

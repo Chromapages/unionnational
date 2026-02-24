@@ -4,6 +4,7 @@ import { BlogHero } from "@/components/blog/BlogHero";
 import { BlogGrid } from "@/components/blog/BlogGrid";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
 import { BlogPagination } from "@/components/blog/BlogPagination";
+import { extractString } from "@/lib/utils";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { Metadata } from "next";
@@ -48,9 +49,10 @@ export default async function BlogPage(props: { params: Promise<{ locale: string
         <main className="bg-surface min-h-screen">
             <HeaderWrapper />
             <BlogHero
-                title={settings?.heroTitle || "Union National Blog"}
-                subtitle={settings?.heroSubtitle || "Expert insights on tax strategy, S-Corps, and wealth preservation."}
+                title={extractString(settings?.heroTitle, locale, "Union National Blog")}
+                subtitle={extractString(settings?.heroSubtitle, locale, "Expert insights on tax strategy, S-Corps, and wealth preservation.")}
                 featuredPosts={featuredPosts}
+                locale={locale}
             />
 
             <div className="max-w-7xl mx-auto px-6 py-20">
@@ -61,6 +63,7 @@ export default async function BlogPage(props: { params: Promise<{ locale: string
                             subtitle="Fresh perspectives on tax efficiency, entity structuring, and wealth protection strategies."
                             summary={summary}
                             posts={currentPosts}
+                            locale={locale}
                         />
                         <BlogPagination
                             currentPage={page}
@@ -74,6 +77,7 @@ export default async function BlogPage(props: { params: Promise<{ locale: string
                             categories={categories}
                             newsletterTitle={settings?.newsletterTitle}
                             newsletterDescription={settings?.newsletterDescription}
+                            locale={locale}
                         />
                     </div>
                 </div>
