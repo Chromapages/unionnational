@@ -35,7 +35,7 @@ interface ResourceHeroProps {
 export function ResourceHero({ title, subtitle, featuredResource }: ResourceHeroProps) {
     const locale = useLocale();
     const imageUrl = featuredResource?.coverImage?.asset?.url || featuredResource?.featuredImage?.asset?.url;
-    const imageAlt = featuredResource?.coverImage?.alt || featuredResource?.featuredImage?.alt || featuredResource?.title;
+    const imageAlt = featuredResource?.coverImage?.alt || featuredResource?.featuredImage?.alt || (featuredResource ? extractString(featuredResource.title, locale) : "");
     const isLeadMagnet = featuredResource?._type === "playbook";
 
     return (
@@ -52,10 +52,10 @@ export function ResourceHero({ title, subtitle, featuredResource }: ResourceHero
             <div className="relative w-full px-4 sm:px-6 py-20 lg:py-32">
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-heading">
-                        {title}
+                        {extractString(title, locale)}
                     </h1>
                     <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
-                        {subtitle}
+                        {extractString(subtitle, locale)}
                     </p>
                 </div>
 

@@ -221,7 +221,7 @@ export function ResourceGrid({
 
                                 {filteredResources.map(resource => {
                                     const imageUrl = resource.coverImage?.asset?.url || resource.featuredImage?.asset?.url;
-                                    const imageAlt = resource.coverImage?.alt || resource.featuredImage?.alt || resource.title;
+                                    const imageAlt = resource.coverImage?.alt || resource.featuredImage?.alt || extractString(resource.title, locale);
                                     const isLeadMagnet = resource._type === "playbook";
 
                                     return (
