@@ -1,9 +1,5 @@
-const config = {
-  plugins: {
-    "@tailwindcss/postcss": {
-      jsx: "react-jsx",
+export default {
+    plugins: {
+        '@tailwindcss/postcss': {},
     },
-  },
-};
-
-export default config;
+}
