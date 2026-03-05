@@ -13,6 +13,13 @@ import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 60; // Revalidate every minute
 
+// Generate static params for SSG
+export async function generateStaticParams() {
+    return [
+        { locale: 'en' },
+        { locale: 'es' },
+    ];
+}
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const params = await props.params;
     const locale = params.locale;

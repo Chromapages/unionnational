@@ -3,19 +3,39 @@ import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { LuxuryTravelIncentive } from "@/components/ui/LuxuryTravelIncentive";
-import { TravelIncentiveDisclaimer } from "@/components/ui/TravelIncentiveDisclaimer";
 import { client } from "@/sanity/lib/client";
-import { ServicesClient } from "@/components/services/ServicesClient";
-import { PartnerProgramsSection } from "@/components/services/PartnerProgramsSection";
-import { PricingSection } from "@/components/pricing/PricingSection";
 import { SERVICES_QUERY, PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { Metadata } from "next";
-import { ProcessTimeline } from "@/components/services/ProcessTimeline";
 import { cn } from "@/lib/utils";
-import * as Icons from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+// Lazy load below-the-fold components
+const ServicesClient = dynamic(() => import("@/components/services/ServicesClient").then(mod => ({ default: mod.ServicesClient })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const PartnerProgramsSection = dynamic(() => import("@/components/services/PartnerProgramsSection").then(mod => ({ default: mod.PartnerProgramsSection })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const PricingSection = dynamic(() => import("@/components/pricing/PricingSection").then(mod => ({ default: mod.PricingSection })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const ProcessTimeline = dynamic(() => import("@/components/services/ProcessTimeline").then(mod => ({ default: mod.ProcessTimeline })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const TravelIncentiveDisclaimer = dynamic(() => import("@/components/ui/TravelIncentiveDisclaimer").then(mod => ({ default: mod.TravelIncentiveDisclaimer })), {
+  loading: () => <div className="h-32 animate-pulse bg-slate-100" />,
+});
+
+const LuxuryTravelIncentive = dynamic(() => import("@/components/ui/LuxuryTravelIncentive").then(mod => ({ default: mod.LuxuryTravelIncentive })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -29,6 +49,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export const revalidate = 60;
 
+// Generate static params for SSG
+export async function generateStaticParams() {
+    return [
+        { locale: 'en' },
+        { locale: 'es' },
+    ];
+}
 export default async function ServicesPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
@@ -70,10 +97,8 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
             <HeaderWrapper />
 
             <main id="main-content">
-                {/* Minimalist Hero Section - Midnight Forest Brand Theme */}
+                {/* Minimalist Hero Section - Above the fold */}
                 <section className="bg-brand-500 px-6 py-16 md:py-20 relative overflow-hidden">
-                    {/* Subtle Texture/Grain could go here if requested, but keeping it "Solid" as per Vault philosophy */}
-
                     <div className="max-w-7xl mx-auto">
                         <div className="max-w-3xl">
                             <RevealOnScroll>
@@ -114,43 +139,48 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                     </div>
                 </section>
 
-                {/* Services Grid (Interactive) */}
-                <div id="services" className="scroll-mt-32 mt-16">
-                    <ServicesClient services={services} />
-                </div>
+                {/* Below the fold - lazy loaded */}
+                <Suspense fallback={<div className="h-96 animate-pulse bg-slate-100" />}>
+                    <div id="services" className="scroll-mt-32 mt-16">
+                        <ServicesClient services={services} />
+                    </div>
+                </Suspense>
 
-                <div className="pt-12 pb-20">
-                    <PartnerProgramsSection />
-                </div>
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <div className="pt-12 pb-20">
+                        <PartnerProgramsSection />
+                    </div>
+                </Suspense>
 
-                <section className="bg-white/30">
-                    <PricingSection
-                        tiers={pricingTiers}
-                        hideTaxPrep={true}
-                        translations={{
-                            eyebrow: t("PricingSection.eyebrow"),
-                            title: t("PricingSection.title"),
-                            subtitle: t("PricingSection.subtitle"),
-                            comparisonTitle: t("PricingSection.comparisonTitle"),
-                            comparisonSubtitle: t("PricingSection.comparisonSubtitle"),
-                        }}
-                    />
-                </section>
+                <Suspense fallback={<div className="h-96 animate-pulse bg-slate-100" />}>
+                    <section className="bg-white/30">
+                        <PricingSection
+                            tiers={pricingTiers}
+                            hideTaxPrep={true}
+                            translations={{
+                                eyebrow: t("PricingSection.eyebrow"),
+                                title: t("PricingSection.title"),
+                                subtitle: t("PricingSection.subtitle"),
+                                comparisonTitle: t("PricingSection.comparisonTitle"),
+                                comparisonSubtitle: t("PricingSection.comparisonSubtitle"),
+                            }}
+                        />
+                    </section>
+                </Suspense>
 
-                {/* Process Timeline */}
-                <ProcessTimeline />
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <ProcessTimeline />
+                </Suspense>
 
+                <Suspense fallback={<div className="h-32 animate-pulse bg-slate-100" />}>
+                    <div className="space-y-0">
+                        <TravelIncentiveDisclaimer />
+                    </div>
+                </Suspense>
 
-
-
-
-
-
-
-                <div className="space-y-0">
-                    <TravelIncentiveDisclaimer />
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
                     <LuxuryTravelIncentive />
-                </div>
+                </Suspense>
             </main>
 
             <Footer />

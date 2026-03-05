@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, Hammer, Utensils } from "lucide-react";
+import { ArrowRight, ChevronDown, Hammer, Utensils, Building2, ShieldAlert } from "lucide-react";
 import * as Icons from "lucide-react";
 
 export type ServiceSummary = {
@@ -249,6 +249,40 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Restaurants</div>
                     <div className="font-semibold text-slate-200 group-hover/card:text-white transition-colors">
                       Profit Recovery
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                href="/vsl/real-estate"
+                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-gold-500/80 shadow-sm group-hover/card:text-gold-400 group-hover/card:border-gold-500/30 transition-colors">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Real Estate</div>
+                    <div className="font-semibold text-slate-200 group-hover/card:text-white transition-colors">
+                      Investor Program
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                href="/vsl/tax-resolution"
+                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="mt-1 w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center text-gold-500/80 shadow-sm group-hover/card:text-gold-400 group-hover/card:border-gold-500/30 transition-colors">
+                    <ShieldAlert className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Tax Resolution</div>
+                    <div className="font-semibold text-slate-200 group-hover/card:text-white transition-colors">
+                      IRS Help
                     </div>
                   </div>
                 </div>

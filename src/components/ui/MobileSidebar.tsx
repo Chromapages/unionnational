@@ -244,7 +244,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                 >
                                     <div className="flex items-center gap-3 text-slate-400 mb-3">
                                         <Globe className="w-4 h-4" />
-                                        <span className="text-sm font-medium uppercase tracking-wider">
+                                        <span className="text-sm font-medium tracking-wider">
                                             {t("language")}
                                         </span>
                                     </div>

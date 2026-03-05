@@ -224,15 +224,6 @@
             "title": "Confiado por Propietarios de Negocios de Alto Crecimiento",
             "titleHighlight": "Propietarios de Negocios"
         },
-        "StickyCTABar": {
-            "tooltip": "¿Ahorrar $20k+ en impuestos?",
-            "desktopButton": "Reservar Llamada de Estrategia",
-            "mobile": {
-                "eyebrow": "Consulta Gratuita",
-                "title": "Deje de Pagar Impuestos en Exceso",
-                "button": "Reservar Ahora"
-            }
-        },
         "DifferentiationSection": {
             "eyebrow": "Por Qué Somos Diferentes",
             "title": "No Somos un Centro de Llamadas.",

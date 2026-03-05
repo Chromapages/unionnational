@@ -6,6 +6,16 @@ import { PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { PricingSection } from "@/components/pricing/PricingSection";
 import { CTASection } from "@/components/home/CTASection";
 
+export const revalidate = 60; // Revalidate every minute
+
+// Generate static params for SSG - pre-render at build time
+export async function generateStaticParams() {
+    return [
+        { locale: 'en' },
+        { locale: 'es' },
+    ];
+}
+
 export const metadata = {
     title: "Pricing | Union National Tax",
     description: "Transparent pricing for comprehensive tax strategies and fractional CFO services.",

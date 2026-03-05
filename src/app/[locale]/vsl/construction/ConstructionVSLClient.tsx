@@ -48,7 +48,8 @@ const ValuePropCard = ({ icon: Icon, title, description, delay = 0 }: ValuePropC
 );
 
 interface ConstructionVSLClientProps {
-    data: any; // We can improve typing later
+    data?: any; // We can improve typing later
+    locale?: string;
 }
 
 // Icon helper function

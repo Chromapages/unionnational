@@ -1,12 +1,16 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import ConstructionVSLClient from "./ConstructionVSLClient";
-import { sanityFetch } from "@/sanity/lib/live";
-import { VSL_PAGE_QUERY } from "@/sanity/lib/queries";
-import { notFound } from "next/navigation";
 
-// Force dynamic rendering since we are fetching data
-export const dynamic = "force-dynamic";
+// Generate static params for SSG
+export async function generateStaticParams() {
+    return [
+        { locale: 'en' },
+        { locale: 'es' },
+    ];
+}
+
+export const revalidate = 60;
 
 export const metadata = {
     title: "Construction Partner Program | Union National Tax",
@@ -16,26 +20,6 @@ export const metadata = {
 export default async function ConstructionVSLPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    const response = await sanityFetch<any>({
-        query: VSL_PAGE_QUERY,
-        params: { slug: "vsl/construction", locale },
-    });
-
-    // sanityFetch from defineLive wraps data in { data: ... }
-    const data = response?.data;
-
-    if (!data) {
-        // Optional: Handle missing data gracefully or fallback
-        // notFound(); 
-    }
-
-    return (
-        <div className="min-h-screen bg-brand-900 font-sans">
-            <HeaderWrapper />
-            <div className="pt-20"> {/* Add padding for fixed header */}
-                <ConstructionVSLClient data={data} />
-            </div>
-            <Footer />
-        </div>
-    );
+    
+    return <ConstructionVSLClient locale={locale} />;
 }

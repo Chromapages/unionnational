@@ -224,15 +224,6 @@
             "title": "Trusted by High-Growth Business Owners",
             "titleHighlight": "Business Owners"
         },
-        "StickyCTABar": {
-            "tooltip": "Save $20k+ on taxes?",
-            "desktopButton": "Book Strategy Call",
-            "mobile": {
-                "eyebrow": "Free Consultation",
-                "title": "Stop Overpaying Taxes",
-                "button": "Book Now"
-            }
-        },
         "DifferentiationSection": {
             "eyebrow": "Why We Are Different",
             "title": "We're Not a Call Center.",

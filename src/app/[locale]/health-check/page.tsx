@@ -2,6 +2,8 @@ import { HealthCheckSurvey } from "@/components/health-check/HealthCheckSurvey";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 
+export const revalidate = 60; // Revalidate every minute
+
 export const metadata = {
     title: "Business Financial Health Check | Union National Tax",
     description: "Get your Financial Health Score in 2 minutes. Discover if your business is thriving or needs attention with our free diagnostic tool.",

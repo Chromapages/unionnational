@@ -1,17 +1,36 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { CTASection } from "@/components/home/CTASection";
+import { AboutHero } from "@/components/about/AboutHero";
+import { FounderSection } from "@/components/about/FounderSection";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ABOUT_PAGE_QUERY } from "@/sanity/lib/queries";
-import { AboutHero } from "@/components/about/AboutHero";
-import { ClientLogosSection } from "@/components/about/ClientLogosSection";
-import { TrustVault } from "@/components/about/TrustVault";
-import { ValuesBento } from "@/components/about/ValuesBento";
-import { FounderSection } from "@/components/about/FounderSection";
-import { CompanyTimeline } from "@/components/about/CompanyTimeline";
-import { FAQSection } from "@/components/home/FAQSection";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+// Lazy load below-the-fold components
+const CompanyTimeline = dynamic(() => import("@/components/about/CompanyTimeline").then(mod => ({ default: mod.CompanyTimeline })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const ValuesBento = dynamic(() => import("@/components/about/ValuesBento").then(mod => ({ default: mod.ValuesBento })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const TrustVault = dynamic(() => import("@/components/about/TrustVault").then(mod => ({ default: mod.TrustVault })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const FAQSection = dynamic(() => import("@/components/home/FAQSection").then(mod => ({ default: mod.FAQSection })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const CTASection = dynamic(() => import("@/components/home/CTASection").then(mod => ({ default: mod.CTASection })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+export const revalidate = 60; // Revalidate every minute
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -33,6 +52,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
             <HeaderWrapper />
 
             <main>
+                {/* Above the fold - load immediately */}
                 <AboutHero
                     title={page?.heroTitle || t("fallbackTitle")}
                     subtitle={page?.heroSubtitle || t("fallbackSubtitle")}
@@ -46,24 +66,31 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
                     imageAlt={page?.founderImage?.alt}
                 />
 
+                {/* Below the fold - lazy loaded */}
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <CompanyTimeline />
+                </Suspense>
 
-                <CompanyTimeline />
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <ValuesBento
+                        eyebrow={page?.valuesEyebrow}
+                        title={page?.valuesTitle}
+                        values={page?.values}
+                        primaryValue={page?.primaryValue}
+                    />
+                </Suspense>
 
-                <ValuesBento
-                    eyebrow={page?.valuesEyebrow}
-                    title={page?.valuesTitle}
-                    values={page?.values}
-                    primaryValue={page?.primaryValue}
-                />
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <TrustVault />
+                </Suspense>
 
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-900" />}>
+                    <FAQSection variant="dark" />
+                </Suspense>
 
-                <TrustVault />
-
-                <FAQSection variant="dark" />
-
-                {/* <ClientLogosSection logos={page?.clientLogos} /> */}
-
-                <CTASection data={page} />
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <CTASection data={page} />
+                </Suspense>
             </main>
 
             <Footer />

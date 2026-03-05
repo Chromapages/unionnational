@@ -8,6 +8,14 @@ import { Metadata } from "next";
 
 export const revalidate = 60;
 
+// Generate static params for SSG
+export async function generateStaticParams() {
+    return [
+        { locale: 'en' },
+        { locale: 'es' },
+    ];
+}
+
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
 

@@ -1,64 +1,43 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { CTASection } from "@/components/home/CTASection";
 import { client } from "@/sanity/lib/client";
 import { FOUNDER_QUERY, SITE_SETTINGS_QUERY, TEAM_MEMBERS_QUERY, TEAM_PAGE_QUERY } from "@/sanity/lib/queries";
 import { TeamHero } from "@/components/team/TeamHero";
 import { FounderSpotlight } from "@/components/team/FounderSpotlight";
-import { TeamGrid } from "@/components/team/TeamGrid";
-import { ValuesSection } from "@/components/team/ValuesSection";
-import { FloatingStrategyButton } from "@/components/team/FloatingStrategyButton";
-import { HiringSection } from "@/components/team/HiringSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
-// Types
-interface TeamMember {
-    _id: string;
-    name: string;
-    role: string;
-    credentials?: string;
-    description: string;
-    image: any;
-    linkedinUrl?: string;
-    tags?: string[];
-}
+// Lazy load below-the-fold components
+const ValuesSection = dynamic(() => import("@/components/team/ValuesSection").then(mod => ({ default: mod.ValuesSection })), {
+    loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
 
-interface TeamPageData {
-    heroBadge: string;
-    heroTitle: string;
-    heroSubtitle: string;
-    founderSectionTitle: string;
-    teamSectionTitle: string;
-    teamSectionSubtitle: string;
-    values?: Array<{ title?: string; description?: string; iconName?: string }>;
-    hiringBadge: string;
-    hiringTitle: string;
-    hiringDescription: string;
-    hiringBenefits: string[];
-    hiringCtaText: string;
-    hiringCtaUrl: string;
-    hiringImage: any;
-    ctaTitle?: string;
-    ctaSubtitle?: string;
-    ctaButtonText?: string;
-    ctaButtonUrl?: string;
-    ctaBackgroundImage?: {
-        asset?: any;
-        alt?: string;
-    };
-    seo?: {
-        metaTitle?: string;
-        metaDescription?: string;
-        openGraphImage?: unknown;
-    };
-}
+const TeamGrid = dynamic(() => import("@/components/team/TeamGrid").then(mod => ({ default: mod.TeamGrid })), {
+    loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const HiringSection = dynamic(() => import("@/components/team/HiringSection").then(mod => ({ default: mod.HiringSection })), {
+    loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
+const CTASection = dynamic(() => import("@/components/home/CTASection").then(mod => ({ default: mod.CTASection })), {
+    loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
+// Generate static params for SSG
+export async function generateStaticParams() {
+    return [
+        { locale: 'en' },
+        { locale: 'es' },
+    ];
+}
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const params = await props.params;
     const locale = params.locale;
@@ -143,8 +122,8 @@ export default async function TeamPage(props: { params: Promise<{ locale: string
             <JsonLd siteSettings={siteSettings} teamPageData={pageSettings} />
             <HeaderWrapper />
 
-            <main className="pt-0"> {/* pt-0 because Hero has its own padding */}
-
+            <main className="pt-0">
+                {/* Above the fold - load immediately */}
                 <TeamHero
                     badge={settings.heroBadge}
                     title={settings.heroTitle}
@@ -159,23 +138,28 @@ export default async function TeamPage(props: { params: Promise<{ locale: string
                 {/* Sentinel: once this is above viewport, show floating CTA */}
                 <div id="after-founder" aria-hidden className="h-px" />
 
-                <FloatingStrategyButton afterSectionId="after-founder" href="/contact" />
-
-                {/* Standards Before Staff */}
-                <ValuesSection values={settings.values} />
+                {/* Below the fold - lazy loaded */}
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <ValuesSection values={settings.values} />
+                </Suspense>
 
                 {teamMembers && teamMembers.length > 0 && (
-                    <TeamGrid
-                        members={teamMembers}
-                        title={settings.teamSectionTitle}
-                        subtitle={settings.teamSectionSubtitle}
-                    />
+                    <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                        <TeamGrid
+                            members={teamMembers}
+                            title={settings.teamSectionTitle}
+                            subtitle={settings.teamSectionSubtitle}
+                        />
+                    </Suspense>
                 )}
 
-                <HiringSection settings={settings} />
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <HiringSection settings={settings} />
+                </Suspense>
 
-                <CTASection data={pageSettings} />
-
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <CTASection data={pageSettings} />
+                </Suspense>
             </main>
 
             <Footer />

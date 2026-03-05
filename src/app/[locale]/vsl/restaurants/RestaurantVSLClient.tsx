@@ -48,7 +48,8 @@ const ValuePropCard = ({ icon: Icon, title, description, delay = 0 }: ValuePropC
 );
 
 interface RestaurantVSLClientProps {
-    data: any; // Using looser typing for now to match construction pattern
+    data?: any; // Using looser typing for now to match construction pattern
+    locale?: string;
 }
 
 // Icon helper function

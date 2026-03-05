@@ -4,10 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { BookOpen, FileText, Calculator, ChevronDown, X, ChevronRight, Download } from "lucide-react";
+import { BookOpen, FileText, Calculator, ChevronDown, X, ChevronRight, Download, Activity } from "lucide-react";
 import { extractString } from "@/lib/utils";
 import { InteractiveToolsList } from "./InteractiveToolsList";
 import { ConstructionTaxChecklist } from "./lead-magnets/ConstructionTaxChecklist";
+import { SCorpSavingsCalculator } from "./lead-magnets/SCorpSavingsCalculator";
+import { SCorpElectionChecklist } from "./lead-magnets/SCorpElectionChecklist";
+import { SCorpAdvantageGuide } from "./lead-magnets/SCorpAdvantageGuide";
+import { TaxHealthScore } from "./lead-magnets/TaxHealthScore";
 
 interface Category {
     _id: string;
@@ -174,6 +178,10 @@ export function ResourceGrid({
                             </button>
                         </div>
                         {viewingLeadMagnet === "construction-tax-checklist" && <ConstructionTaxChecklist />}
+                        {viewingLeadMagnet === "s-corp-savings-calculator" && <SCorpSavingsCalculator />}
+                        {viewingLeadMagnet === "s-corp-election-checklist" && <SCorpElectionChecklist />}
+                        {viewingLeadMagnet === "s-corp-advantage-guide" && <SCorpAdvantageGuide />}
+                        {viewingLeadMagnet === "tax-health-score" && <TaxHealthScore />}
                     </div>
                 ) : activeFilter === "tools" ? (
                     <InteractiveToolsList embedded />
@@ -187,39 +195,182 @@ export function ResourceGrid({
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                                 {/* Internal Lead Magnets */}
                                 {activeFilter === "leadMagnets" && !activeCategory && (
-                                    <button
-                                        onClick={() => setViewingLeadMagnet("construction-tax-checklist")}
-                                        className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
-                                    >
-                                        <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
-                                            <div className="absolute inset-0 opacity-20">
-                                                <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                                                <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                    <>
+                                        {/* Construction Tax Checklist */}
+                                        <button
+                                            onClick={() => setViewingLeadMagnet("construction-tax-checklist")}
+                                            className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
+                                                <div className="absolute inset-0 opacity-20">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                                </div>
+                                                <Download className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        Lead Magnet
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <Download className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
-                                            <div className="absolute top-4 left-4">
-                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
-                                                    <BookOpen className="w-3.5 h-3.5" />
-                                                    Lead Magnet
-                                                </span>
+                                            <div className="p-6">
+                                                <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
+                                                    Construction Tax Deduction Checklist
+                                                </h3>
+                                                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                                                    Never miss a deduction again — print and keep this in your truck. Hand-vetted for 2025/2026.
+                                                </p>
+                                                <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
+                                                    <span>Full Checklist PDF</span>
+                                                    <span className="flex items-center gap-1 text-gold-600 font-bold">
+                                                        Free Access
+                                                        <ChevronRight className="w-3 h-3" />
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="p-6">
-                                            <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
-                                                Construction Tax Deduction Checklist
-                                            </h3>
-                                            <p className="text-slate-600 text-sm mb-4 line-clamp-2">
-                                                Never miss a deduction again — print and keep this in your truck. Hand-vetted for 2025/2026.
-                                            </p>
-                                            <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
-                                                <span>Full Checklist PDF</span>
-                                                <span className="flex items-center gap-1 text-gold-600 font-bold">
-                                                    Free Access
-                                                    <ChevronRight className="w-3 h-3" />
-                                                </span>
+                                        </button>
+
+                                        {/* S-Corp Savings Calculator */}
+                                        <button
+                                            onClick={() => setViewingLeadMagnet("s-corp-savings-calculator")}
+                                            className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
+                                                <div className="absolute inset-0 opacity-20">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-green-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                                </div>
+                                                <Calculator className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        Calculator
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </button>
+                                            <div className="p-6">
+                                                <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
+                                                    S-Corp Savings Calculator
+                                                </h3>
+                                                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                                                    Find out exactly how much you could save by electing S-Corp status.
+                                                </p>
+                                                <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
+                                                    <span>Instant PDF Report</span>
+                                                    <span className="flex items-center gap-1 text-gold-600 font-bold">
+                                                        Free Access
+                                                        <ChevronRight className="w-3 h-3" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </button>
+
+                                        {/* S-Corp Election Checklist */}
+                                        <button
+                                            onClick={() => setViewingLeadMagnet("s-corp-election-checklist")}
+                                            className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
+                                                <div className="absolute inset-0 opacity-20">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                                </div>
+                                                <Download className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        Checklist
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="p-6">
+                                                <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
+                                                    S-Corp Election Checklist
+                                                </h3>
+                                                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                                                    Don't miss a single step. Complete checklist for S-Corp election.
+                                                </p>
+                                                <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
+                                                    <span>Printable PDF</span>
+                                                    <span className="flex items-center gap-1 text-gold-600 font-bold">
+                                                        Free Access
+                                                        <ChevronRight className="w-3 h-3" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </button>
+
+                                        {/* S-Corp Advantage Guide */}
+                                        <button
+                                            onClick={() => setViewingLeadMagnet("s-corp-advantage-guide")}
+                                            className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
+                                                <div className="absolute inset-0 opacity-20">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                                </div>
+                                                <BookOpen className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        Guide
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="p-6">
+                                                <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
+                                                    The S-Corp Advantage
+                                                </h3>
+                                                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                                                    The complete guide to maximizing tax savings through S-Corp election.
+                                                </p>
+                                                <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
+                                                    <span>40+ Page PDF</span>
+                                                    <span className="flex items-center gap-1 text-gold-600 font-bold">
+                                                        Free Access
+                                                        <ChevronRight className="w-3 h-3" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </button>
+
+                                        {/* Tax Health Score */}
+                                        <button
+                                            onClick={() => setViewingLeadMagnet("tax-health-score")}
+                                            className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
+                                                <div className="absolute inset-0 opacity-20">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-brand-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                                </div>
+                                                <Activity className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        Assessment
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="p-6">
+                                                <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
+                                                    Business Tax Health Score
+                                                </h3>
+                                                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                                                    Find out where your business stands. Get a personalized score and action plan.
+                                                </p>
+                                                <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
+                                                    <span>5-Min Assessment</span>
+                                                    <span className="flex items-center gap-1 text-gold-600 font-bold">
+                                                        Free Access
+                                                        <ChevronRight className="w-3 h-3" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </>
                                 )}
 
                                 {filteredResources.map(resource => {

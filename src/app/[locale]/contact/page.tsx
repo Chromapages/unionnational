@@ -1,5 +1,8 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
+
+export const revalidate = 60; // Revalidate every minute
+
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ContactHero } from "@/components/contact/ContactHero";
 import { TeamMemberCard } from "@/components/contact/TeamMemberCard";

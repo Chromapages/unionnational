@@ -2,6 +2,9 @@ import { FAQSection } from "@/components/home/FAQSection";
 import { FAQPageSchema } from "@/components/seo/FAQPageSchema";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
+
+export const revalidate = 60; // Revalidate every minute
+
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 export const metadata = {
