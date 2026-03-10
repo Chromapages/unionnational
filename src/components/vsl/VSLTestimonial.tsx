@@ -2,8 +2,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
-import Image from "next/image";
 
 interface TestimonialData {
   quote: string;
@@ -13,7 +11,8 @@ interface TestimonialData {
   rating?: number;
   industryBadge?: string;
   beforeAfterMetric?: string;
-  authorImage?: { asset: { url: string } };
+  beforeVal?: string;
+  afterVal?: string;
 }
 
 interface VSLTestimonialProps {
@@ -22,76 +21,56 @@ interface VSLTestimonialProps {
 
 export function VSLTestimonial({ testimonial }: VSLTestimonialProps) {
   const defaultTestimonial: TestimonialData = {
-    quote: "Implementing this system changed my business overnight. We stopped guessing and started growing with complete visibility into our margins.",
-    name: "John D.",
-    company: "Standard Group",
+    quote: "I owed $210,000 to the IRS from my restaurant. Union National settled it for $18,400. I thought I'd lose everything — instead, I kept my business and my home. They're the real deal.",
+    name: "Marco R.",
+    company: "Restaurant Owner",
     rating: 5,
-    industryBadge: "Construction Partner",
-    beforeAfterMetric: "Saved $47k in 6 months",
+    industryBadge: "Miami, FL",
+    beforeVal: "$210,000",
+    afterVal: "$18,400",
   };
 
   const data = testimonial?.quote ? testimonial : defaultTestimonial;
   const authorName = data.name || data.author || "Client";
 
   return (
-    <section className="py-20 md:py-32 bg-white flex justify-center">
-      <div className="max-w-4xl mx-auto px-4">
+    <section className="py-16 md:py-20 bg-[#0D1526] border-t border-white/5 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="relative bg-slate-50 p-10 md:p-16 rounded-[40px] shadow-sm border border-slate-100"
+          className="flex flex-col items-center"
         >
-          {/* Quote Icon */}
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 rounded-2xl bg-brand-900 text-gold-500 flex items-center justify-center shadow-xl">
-            <Quote className="w-8 h-8 fill-current" />
+          {/* Quote */}
+          <blockquote className="text-xl md:text-3xl font-medium text-white mb-8 leading-relaxed italic tracking-tight">
+            &quot;{data.quote}&quot;
+          </blockquote>
+
+          {/* Author */}
+          <div className="flex flex-col items-center mb-6">
+            <div className="text-white font-bold text-base mb-1">{authorName}</div>
+            <div className="text-slate-500 text-sm font-medium">
+              {data.company} {data.industryBadge && `· ${data.industryBadge}`}
+            </div>
           </div>
 
-          <div className="flex flex-col items-center text-center">
-            {/* Stars */}
-            <div className="flex gap-1 mb-8">
-              {[...Array(data.rating || 5)].map((_, i) => (
-                <Star key={i} className="w-6 h-6 fill-gold-500 text-gold-500" />
-              ))}
-            </div>
-
-            {/* Quote */}
-            <blockquote className="text-2xl md:text-3xl font-bold text-brand-900 mb-10 leading-tight">
-              &quot;{data.quote}&quot;
-            </blockquote>
-
-            {/* Author / Info */}
-            <div className="flex flex-col md:flex-row items-center gap-6 pt-8 border-t border-slate-200">
-              {data.authorImage?.asset?.url && (
-                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-gold-500 shadow-md">
-                  <Image
-                    src={data.authorImage.asset.url}
-                    alt={authorName}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              )}
-
-              <div className="text-left">
-                <p className="text-xl font-black text-brand-900 font-heading">
-                  {authorName}
-                </p>
-                <p className="text-slate-500 font-medium">
-                  {data.company} {data.industryBadge && `— ${data.industryBadge}`}
-                </p>
+          {/* Before/After Pills */}
+          {(data.beforeVal || data.afterVal) && (
+            <div className="inline-flex rounded-full border border-white/10 overflow-hidden font-mono text-xs font-bold">
+              <div className="px-5 py-2 bg-red-500/10 text-red-400 border-r border-white/10 uppercase tracking-wider">
+                Before: {data.beforeVal}
               </div>
-
-              {data.beforeAfterMetric && (
-                <div className="px-5 py-2 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 font-bold text-sm flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                  {data.beforeAfterMetric}
-                </div>
-              )}
+              <div className="px-5 py-2 bg-emerald-500/10 text-emerald-400 uppercase tracking-wider">
+                After: {data.afterVal}
+              </div>
             </div>
-          </div>
+          )}
         </motion.div>
       </div>
+
+      {/* Background Accent */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-emerald-500/5 blur-[100px] pointer-events-none" />
     </section>
   );
 }

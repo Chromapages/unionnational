@@ -34,16 +34,13 @@ export const LuxuryTravelIncentive = ({
     const displayDescription = description || t("description");
 
     return (
-        <RevealOnScroll className={`w-full ${className}`}>
-            {/* Main Container - Edge to Edge */}
-            <div className="relative bg-brand-900 border-y border-white/5 overflow-hidden">
+        <div className={`w-full relative bg-brand-900 border-y border-white/5 overflow-hidden py-12 lg:py-0 ${className}`}>
+            {/* Main Container - Full Width */}
+            <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[450px] lg:min-h-[600px]">
 
-                {/* Two-Column Layout - Re-injecting max-width for content inside */}
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-0">
-
-                    {/* Left Column - Content */}
-                    <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
-
+                {/* Left Column - Content */}
+                <div className="p-8 md:p-16 lg:p-24 xl:p-32 flex flex-col justify-center relative z-20">
+                    <RevealOnScroll>
                         {/* Eyebrow Badge - Following Design System */}
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
@@ -56,69 +53,64 @@ export const LuxuryTravelIncentive = ({
                             </span>
                         </motion.div>
 
-                        {/* Title - Outfit font, tracking-tighter */}
-                        <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter mb-6 font-heading leading-[1.1]">
+                        {/* Title - Large for wide screens */}
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tighter mb-8 font-heading leading-[0.9] lg:max-w-[1.2em]">
                             {displayTitle}
                         </h2>
 
-                        {/* Description - Inter font */}
-                        <p className="text-lg text-slate-300 leading-relaxed mb-10 font-sans max-w-xl">
+                        {/* Description - Larger text */}
+                        <p className="text-xl md:text-2xl text-slate-300 leading-relaxed mb-12 font-sans max-w-4xl">
                             {displayDescription}
                         </p>
 
-                        {/* Feature Grid - Solid design */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+                        {/* Feature Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
                             {features.map((item, i) => (
                                 <div
                                     key={i}
-                                    className="flex flex-col items-center gap-3 p-5 bg-white/5 border border-white/10 rounded-lg hover:border-gold-500/40 transition-colors"
+                                    className="flex flex-col items-center gap-3 p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-gold-500/40 transition-colors group"
                                 >
-                                    <item.icon className="w-6 h-6 text-gold-500" />
-                                    <span className="text-xs font-bold text-white/80 uppercase tracking-wider font-sans text-center">
+                                    <item.icon className="w-8 h-8 text-gold-500 group-hover:scale-110 transition-transform" />
+                                    <span className="text-sm font-bold text-white/80 uppercase tracking-widest font-sans text-center">
                                         {item.label}
                                     </span>
                                 </div>
                             ))}
                         </div>
 
-                        {/* CTA Button - Gold Standard Button per Design System */}
+                        {/* CTA Button */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                             <Link
                                 href="/contact?type=high-revenue"
-                                className="group inline-flex items-center gap-3 px-8 py-4 bg-gold-500 text-brand-900 font-bold text-lg rounded-md shadow-sm hover:bg-gold-600 active:scale-95 transition-all font-heading"
+                                className="group inline-flex items-center gap-3 px-8 py-4 bg-gold-500 text-brand-900 font-bold text-xl rounded-md shadow-2xl shadow-gold-500/20 hover:bg-gold-600 active:scale-95 transition-all font-heading"
                             >
                                 {t("cta")}
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                             </Link>
 
-                            <p className="text-slate-400 text-sm font-sans flex items-center gap-2">
-                                <Map className="w-4 h-4 text-slate-500" />
+                            <p className="text-slate-400 text-base font-sans flex items-center gap-3">
+                                <Map className="w-5 h-5 text-slate-500" />
                                 {t("limitText", { year: currentYear })}
                             </p>
                         </div>
-                    </div>
+                    </RevealOnScroll>
+                </div>
 
-                    {/* Right Column - Visual Accent */}
-                    <div className="relative bg-brand-500/30 min-h-[300px] lg:min-h-full flex items-center justify-center p-8">
-                        {/* Decorative Elements */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-brand-500/20 to-transparent" />
+                {/* Right Column - Visual Accent */}
+                <div className="relative min-h-[375px] lg:min-h-full flex items-center justify-center overflow-hidden">
+                    {/* High-Fidelity Image Background */}
+                    <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
+                        style={{ backgroundImage: "url('/images/incentives/executive_retreat_luxury.png')" }}
+                    />
 
-                        {/* Central Icon/Graphic */}
-                        <div className="relative z-10 text-center">
-                            <div className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 rounded-full bg-gold-500/10 border-2 border-gold-500/30 flex items-center justify-center">
-                                <Plane className="w-16 h-16 md:w-20 md:h-20 text-gold-500" />
-                            </div>
-                            <p className="text-white/60 text-sm font-sans uppercase tracking-widest">
-                                {t("exclusiveAccess")}
-                            </p>
-                        </div>
+                    {/* Overlay Gradients - Enhanced for larger container */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-brand-900 via-brand-900/60 to-transparent lg:block hidden" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-900 via-transparent to-transparent lg:hidden block" />
+                    <div className="absolute inset-0 bg-brand-900/10" />
 
-                        {/* Corner Accents */}
-                        <div className="absolute top-6 right-6 w-3 h-3 bg-gold-500 rounded-full" />
-                        <div className="absolute bottom-6 left-6 w-3 h-3 bg-gold-500 rounded-full" />
-                    </div>
                 </div>
             </div>
-        </RevealOnScroll>
+        </div>
     );
 };

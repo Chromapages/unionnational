@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { VSLAnnouncementBar } from "./VSLAnnouncementBar";
 import { VSLHero } from "./VSLHero";
-import { VSLTrustBar } from "./VSLTrustBar";
-import { VSLPainPoints } from "./VSLPainPoints";
+import { VSLMetricsBar } from "./VSLMetricsBar";
+import { VSLProblemStatement } from "./VSLProblemStatement";
 import { VSLHowItWorks } from "./VSLHowItWorks";
-import { VSLResults } from "./VSLResults";
+import { VSLClientResults } from "./VSLClientResults";
 import { VSLTestimonial } from "./VSLTestimonial";
 import { VSLFaq } from "./VSLFaq";
 import { VSLFinalCta } from "./VSLFinalCta";
@@ -35,6 +34,8 @@ export interface VSLTemplateData {
     rating?: number;
     industryBadge?: string;
     beforeAfterMetric?: string;
+    beforeVal?: string;
+    afterVal?: string;
     authorImage?: { asset: { url: string } };
   };
   faqs?: { question: string; answer: string }[];
@@ -58,10 +59,7 @@ export function UnifiedVSLTemplate({ data, industry }: UnifiedVSLTemplateProps) 
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      {/* 0. Announcement Bar */}
-      <VSLAnnouncementBar text={data?.announcementText} month={currentMonth} />
-
+    <div className="flex flex-col min-h-screen bg-[#050A14]">
       {/* 1. Hero Section */}
       <VSLHero
         badge={data?.heroBadge || data?.badge}
@@ -73,17 +71,17 @@ export function UnifiedVSLTemplate({ data, industry }: UnifiedVSLTemplateProps) 
         month={currentMonth}
       />
 
-      {/* 2. Trust Bar */}
-      <VSLTrustBar stats={data?.trustStats} />
+      {/* 2. Metrics / Trust Bar */}
+      <VSLMetricsBar stats={data?.trustStats} />
 
-      {/* 3. Pain Points */}
-      <VSLPainPoints items={data?.painPoints} industry={industry} />
+      {/* 3. Problem / Pain Points */}
+      <VSLProblemStatement industry={industry} />
 
       {/* 4. How It Works */}
       <VSLHowItWorks steps={data?.howItWorks} />
 
-      {/* 5. Results Section */}
-      <VSLResults stats={data?.results} title={data?.resultsTitle} subheadline={data?.resultsSubheadline} />
+      {/* 5. Proven Results Grid */}
+      <VSLClientResults />
 
       {/* 6. Featured Testimonial */}
       <VSLTestimonial testimonial={data?.testimonial} />
@@ -98,8 +96,8 @@ export function UnifiedVSLTemplate({ data, industry }: UnifiedVSLTemplateProps) 
         industry={industry}
       />
 
-      {/* 10. (Section 9 in plan) Footer is handled by layout, but we add Mobile Sticky CTA */}
-      <VSLMobileStickyBar ctaText={data?.heroCtaText || "Get Started"} ctaUrl={data?.heroCtaUrl || "#"} />
+      {/* 10. Footer Mobile Sticky CTA */}
+      <VSLMobileStickyBar ctaText={data?.heroCtaText || "Get Started"} ctaUrl={data?.heroCtaUrl || "/apply"} />
     </div>
   );
 }

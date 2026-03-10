@@ -16,13 +16,26 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
 
     if (!videoUrl) return null;
 
-    // Determine if it's a Sanity-hosted file (direct URL) or an embed URL
+    // Debug logging in development
+    if (process.env.NODE_ENV === "development") {
+        console.log("[VideoEmbed] videoUrl:", videoUrl);
+    }
+
     const videoUrlPath = videoUrl.split("?")[0].toLowerCase();
-    const isSanityVideo = videoUrl.includes("cdn.sanity.io") ||
+    const isExternalEmbed =
+        videoUrl.includes("youtube.com") ||
+        videoUrl.includes("youtu.be") ||
+        videoUrl.includes("vimeo.com");
+    const isNativeVideo =
         videoUrlPath.endsWith(".mp4") ||
         videoUrlPath.endsWith(".webm") ||
-        videoUrlPath.endsWith(".mov") ||
-        videoUrlPath.endsWith(".m4v");
+        videoUrlPath.endsWith(".m4v") ||
+        videoUrlPath.endsWith(".ogg") ||
+        videoUrlPath.endsWith(".ogv") ||
+        videoUrlPath.endsWith(".m3u8") ||
+        // Sanity CDN file URLs — treat as native video unless known unsupported format
+        (videoUrl.includes("cdn.sanity.io/files") && !videoUrlPath.endsWith(".mov"));
+    const isUnsupportedDirectVideo = !isExternalEmbed && !isNativeVideo;
 
     const handlePlay = () => {
         setIsPlaying(true);
@@ -30,8 +43,8 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
 
     return (
         <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border-4 border-slate-800">
-            {/* Video Player - Native HTML5 for Sanity uploads */}
-            {isSanityVideo && (
+            {/* Video Player - Native HTML5 for web-safe formats */}
+            {isNativeVideo && (
                 <>
                     <VideoPlayer
                         src={videoUrl}
@@ -67,7 +80,7 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
             )}
 
             {/* Video Player - Iframe for YouTube/Vimeo */}
-            {!isSanityVideo && (
+            {isExternalEmbed && (
                 <>
                     {(isPlaying || !posterImage) && (
                         <iframe
@@ -100,6 +113,27 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
                             </div>
                         </div>
                     )}
+                </>
+            )}
+
+            {/* Fallback for unsupported direct files like .mov */}
+            {isUnsupportedDirectVideo && (
+                <>
+                    {posterImage ? (
+                        <Image
+                            src={posterImage}
+                            alt="Video Thumbnail"
+                            fill
+                            className="object-cover"
+                        />
+                    ) : (
+                        <div className="absolute inset-0 bg-slate-900" />
+                    )}
+                    <div className="absolute inset-0 bg-black/55 flex items-center justify-center p-6 text-center">
+                        <p className="max-w-md text-sm md:text-base text-white/85">
+                            This video file format is not supported in the browser. Upload an `mp4` or `webm` file to display it here.
+                        </p>
+                    </div>
                 </>
             )}
         </div>

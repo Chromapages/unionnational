@@ -1,0 +1,402 @@
+# Unified VSL Template — Implementation Plan
+
+A complete redesign of all 4 VSL pages (Construction, Restaurant, Real Estate, Tax Resolution) into a cohesive, conversion-optimized template system.
+
+---
+
+## Research Summary
+
+### UX Research & Design Artifacts
+
+#### Desktop + Mobile Wireframe
+![Full page wireframe with all labeled sections and mobile side-by-side](/Users/king-lewie/.gemini/antigravity/brain/0945db10-0380-4328-b71e-d9e8674b6c6f/vsl_wireframe_desktop_mobile_1773153479287.png)
+
+#### Heatmap & Attention Analysis
+![VSL heatmap with scroll depth data and touchpoint mapping](/Users/king-lewie/.gemini/antigravity/brain/0945db10-0380-4328-b71e-d9e8674b6c6f/vsl_heatmap_attention_1773153513445.png)
+
+**Key data points:**
+- 90% of visitors reach the trust bar
+- 75% reach pain points
+- 60% reach How It Works
+- 45% reach testimonials
+- 30% reach FAQ
+- 20% reach the final CTA
+
+**Implication:** Place the most persuasive content high (before 60% scroll). Strategic placement of 3 CTA moments: after hero, after results, after FAQ.
+
+#### Service Blueprint
+![User journey from acquisition through follow-up with emotional arc](/Users/king-lewie/.gemini/antigravity/brain/0945db10-0380-4328-b71e-d9e8674b6c6f/vsl_service_blueprint_1773153528477.png)
+
+**Emotional arc:** Curious → Engaged → Interested → Convinced → Committed → Relieved
+
+#### Dedicated Mobile Wireframe
+![Mobile-first detailed wireframe with thumb zones and sticky CTA bar](/Users/king-lewie/.gemini/antigravity/brain/0945db10-0380-4328-b71e-d9e8674b6c6f/vsl_mobile_wireframe_1773153557953.png)
+
+---
+
+## Problem Statement
+
+The 4 VSL pages have inconsistent:
+- Color palettes (some pages use custom colors not in the brand system)
+- Section structures (pages are missing pain points, results, or FAQ)
+- Typography hierarchies
+- CTA placement and copy
+- Mobile layouts
+
+This creates a fragmented experience that breaks the impression of being a "suite of services" from one trusted firm.
+
+---
+
+## Psychology Models Applied (PLFS)
+
+| Model | PLFS | Application |
+|---|---|---|
+| **Authority Bias** | +13 | Badge + years experience + IRS credentials |
+| **Loss Aversion** | +12 | Pain points ("Does this sound like you?") |
+| **Social Proof** | +14 | Testimonials + stats + client logos |
+| **Risk Reversal** | +11 | Guarantee + FAQ objection handling |
+| **Paradox of Choice** | +12 | Single CTA focus, no nav distractions |
+
+---
+
+## Design System (Brand-Enforced)
+
+All 4 VSL pages use **identical** brand tokens — industry differentiation comes from **content only**, never from colors.
+
+```
+Background:  bg-slate-950 (hero zone)  /  bg-white (content sections)
+Primary:     brand-900 (#0F2339) — deep navy
+Accent:      gold-500 (#D4A017) — gold highlights & CTAs
+Text:        slate-900 (body) / white (on dark)
+Success:     emerald-500 (results, checks)
+Danger:      red-500 (urgency dot, announcement bar)
+```
+
+**Typography:**
+- H1: `font-heading`, 4xl–6xl, bold, tight tracking
+- H2: `font-heading`, 2xl–3xl, semibold
+- Body: `font-sans` (Inter), base-lg, slate-600
+- Numbers/Stats: `font-mono` or `font-heading`, 5xl–6xl, gold-500
+
+---
+
+## Unified Page Architecture (10 Sections)
+
+All 4 VSL pages will share this exact section order:
+
+| # | Section | Purpose | CTA? |
+|---|---|---|---|
+| 0 | **Announcement Bar** | Scarcity / urgency | — |
+| 1 | **Hero** | Hook + video + primary CTA | ✅ Primary |
+| 2 | **Trust Bar** | Proof numbers + logos | — |
+| 3 | **Pain Points** | Agitation / identification | — |
+| 4 | **How It Works** | 3-step process | — |
+| 5 | **Results** | Specific metrics | ✅ Secondary |
+| 6 | **Testimonial** | Featured social proof | — |
+| 7 | **FAQ** | Objection handling | — |
+| 8 | **Final CTA** | Conversion moment | ✅ Final |
+| 9 | **Footer** | Trust + nav | — |
+
+> **Mobile addition:** Sticky CTA bar at bottom of viewport (fixed position), visible at all scroll positions.
+
+---
+
+## Section-by-Section Specification
+
+### Section 0: Announcement Bar
+```
+Height: 36px
+Background: red-500
+Content: "⚡ [Month] Partner Cohort — Only [N] Spots Available"
+Text: white, sm, centered
+Mobile: same, text slightly smaller
+```
+
+### Section 1: Hero
+```
+Background: radial gradient from brand-900 to slate-950
+Layout: max-w-4xl centered, padding-x 6
+
+Badge: small chip, gold-100 bg, gold-700 text, border gold-300
+  → Industry-specific: "Construction Tax Partner" / "Restaurant CFO" etc.
+
+H1: 4xl–6xl, white, bold, font-heading, 2–3 lines max
+  → Pull from Sanity: heroHeadline
+
+Subheadline: lg, slate-300, max-w-2xl centered
+  → Pull from Sanity: heroSubheadline
+
+Video: aspect-video, rounded-2xl, shadow-2xl, max-w-4xl
+  → VideoEmbed component (existing)
+
+CTA Row: two buttons
+  → Primary: gold-500 bg, brand-900 text, "Book Free Strategy Call →"
+  → Secondary: transparent, white border, white text, phone icon
+
+Urgency: pulsing red dot + "Only [N] spots — [Month]"
+```
+
+### Section 2: Trust Bar
+```
+Background: white, border-b border-slate-100
+Layout: flex, 5 stats spaced-evenly
+
+Stat format: large number (gold-500) + label (slate-500, sm)
+  → "$10M+ Resolved" / "500+ Clients" / "20+ Years" / "98% Success" / "IRS Certified"
+
+Mobile: 2-column grid, 2+3 or 3+2 layout
+```
+
+### Section 3: Pain Points
+```
+Background: slate-50
+Title: H2 "Does This Sound Like You?" centered
+
+Items: 6 pain points (2-col grid desktop, 1-col mobile)
+Each item:
+  → Icon: alert-circle, red-500
+  → Text: slate-700, font-medium
+  → Subtle left border: red-200
+
+Industry-specific content pulled from Sanity: painPoints[]
+```
+
+### Section 4: How It Works
+```
+Background: white
+Title: H2 "Our Simple 3-Step Process"
+
+3 cards horizontal (vertical stack mobile):
+  → Number badge: brand-900 circle with white number
+  → Icon: lucide icon, gold-500
+  → Title: H3, bold, brand-900
+  → Description: slate-600
+  → Connector arrow between cards (desktop only)
+
+Content from Sanity: howItWorks[] with title + description + icon
+```
+
+### Section 5: Results
+```
+Background: brand-900 (dark, for contrast)
+Title: H2 white "Real Outcomes. Documented Results."
+
+4-stat grid:
+  → Large number: gold-500, 5xl, font-heading
+  → Label: white/slate-300, sm
+
+Secondary CTA below stats: outlined white button
+Content from Sanity: results[] with stat + label
+```
+
+### Section 6: Testimonial
+```
+Background: white
+Layout: max-w-3xl centered
+
+Featured card:
+  → 5 gold stars
+  → Large blockquote: xl, slate-700, italic
+  → Avatar + Name + Company + Industry badge
+  → Optional: before/after metric (e.g. "Saved $47k in 6 months")
+
+Content from Sanity: testimonial object
+```
+
+### Section 7: FAQ
+```
+Background: slate-50
+Title: H2 "Frequently Asked Questions"
+
+3 accordion items, industry-specific objections:
+  - "How much does this cost?"
+  - "How long does the process take?"
+  - "What if I have unpaid taxes/penalties?"
+
+Content from Sanity: faqs[] with question + answer
+```
+
+### Section 8: Final CTA
+```
+Background: gradient brand-900 → brand-800
+
+H2: white, "Ready to Stop Struggling With [Industry Problem]?"
+Sub: gold-300 text, specific outcome promise  
+CTA Button: gold-500, large, full-width on mobile
+  → "Book Your Free [Industry] Strategy Call →"
+Trust signals: "Free. No obligation. 15-minute call."
+```
+
+### Mobile Sticky CTA Bar
+```
+Position: fixed bottom-0, full-width, z-50
+Background: brand-900
+Content: Phone icon + "Book Free Call" gold button
+Visible: all times on mobile (hidden on desktop)
+Padding: safe-area-inset for iOS
+```
+
+---
+
+## Component Strategy
+
+### New: `UnifiedVSLTemplate.tsx`
+A shared wrapper component that all 4 VSL pages will use:
+
+```tsx
+// Usage pattern
+<UnifiedVSLTemplate data={sanitizedData} industry="construction" />
+```
+
+**Props interface:**
+```tsx
+interface VSLTemplateData {
+  badge: string;
+  heroHeadline: string;
+  heroSubheadline: string;
+  heroCtaText: string;
+  heroCtaUrl: string;
+  videoUrl: string;
+  trustStats: { value: string; label: string }[];
+  painPoints: { text: string }[];
+  howItWorks: { title: string; description: string; icon: string }[];
+  results: { value: string; label: string }[];
+  testimonial: { quote: string; name: string; company: string; rating: number };
+  faqs: { question: string; answer: string }[];
+  finalCtaHeadline: string;
+  finalCtaSubtext: string;
+  announcementText: string;
+}
+```
+
+### Existing Components Retained
+- [VideoEmbed](file:///Volumes/MiDRIVE/WORK/U-Z/UNION%20NATIONAL%20TAX/unionnational/src/components/ui/VideoEmbed.tsx#14-108) — unchanged
+- [FloatingNavbar](file:///Volumes/MiDRIVE/WORK/U-Z/UNION%20NATIONAL%20TAX/unionnational/src/components/layout/FloatingNavbar.tsx#40-52) (via VSL layout) — unchanged
+- `Footer` (via VSL layout) — unchanged
+- `LuxuryTravelIncentive` — optional, placed in Final CTA section
+
+---
+
+## File Changes
+
+### New Files
+
+#### [NEW] `UnifiedVSLTemplate.tsx`
+`src/components/vsl/UnifiedVSLTemplate.tsx`
+The shared template component. All industry content injected via props.
+
+#### [NEW] `VSLAnnouncementBar.tsx`
+`src/components/vsl/VSLAnnouncementBar.tsx`
+Urgency bar, reads from Sanity or defaults to dynamic month.
+
+#### [NEW] `VSLTrustBar.tsx`
+`src/components/vsl/VSLTrustBar.tsx`
+5-stat proof bar, pulled from Sanity.
+
+#### [NEW] `VSLPainPoints.tsx`
+`src/components/vsl/VSLPainPoints.tsx`
+Pain point grid with alert icon items.
+
+#### [NEW] `VSLHowItWorks.tsx`
+`src/components/vsl/VSLHowItWorks.tsx`
+3-step process with connector arrows.
+
+#### [NEW] `VSLResults.tsx` 
+`src/components/vsl/VSLResults.tsx`
+Dark background stat grid + secondary CTA.
+
+#### [NEW] `VSLTestimonial.tsx`
+`src/components/vsl/VSLTestimonial.tsx`
+Featured testimonial card.
+
+#### [NEW] `VSLFaq.tsx`
+`src/components/vsl/VSLFaq.tsx`
+Accordion FAQ component.
+
+#### [NEW] `VSLFinalCta.tsx`
+`src/components/vsl/VSLFinalCta.tsx`
+Dark gradient CTA section.
+
+#### [NEW] `VSLMobileStickyBar.tsx`
+`src/components/vsl/VSLMobileStickyBar.tsx`
+Fixed bottom CTA bar for mobile.
+
+### Modified Files
+
+#### [MODIFY] [ConstructionVSLClient.tsx](file:///Volumes/MiDRIVE/WORK/U-Z/UNION%20NATIONAL%20TAX/unionnational/src/app/%5Blocale%5D/vsl/construction/ConstructionVSLClient.tsx)
+Replace bespoke layout with `<UnifiedVSLTemplate data={data} />`.
+
+#### [MODIFY] [RestaurantVSLClient.tsx](file:///Volumes/MiDRIVE/WORK/U-Z/UNION%20NATIONAL%20TAX/unionnational/src/app/%5Blocale%5D/vsl/restaurants/RestaurantVSLClient.tsx)
+Replace with `<UnifiedVSLTemplate data={data} />`.
+
+#### [MODIFY] [RealEstateVSLClient.tsx](file:///Volumes/MiDRIVE/WORK/U-Z/UNION%20NATIONAL%20TAX/unionnational/src/app/%5Blocale%5D/vsl/real-estate/RealEstateVSLClient.tsx)
+Replace with `<UnifiedVSLTemplate data={data} />`.
+
+#### [MODIFY] [TaxResolutionClient.tsx](file:///Volumes/MiDRIVE/WORK/U-Z/UNION%20NATIONAL%20TAX/unionnational/src/app/%5Blocale%5D/vsl/tax-resolution/TaxResolutionClient.tsx)
+Replace with `<UnifiedVSLTemplate data={data} />`.
+
+#### [MODIFY] Sanity VSL Schema
+Add missing fields: `announcementText`, `trustStats[]`, `painPoints[]`, `howItWorks[]`, `faqs[]`, `finalCtaHeadline`, `finalCtaSubtext`.
+
+---
+
+## Sanity Schema Additions
+
+All 4 VSL documents will get these new fields:
+
+```js
+// New fields to add to each VSL schema
+{ name: 'announcementText', type: 'string' },
+{ name: 'trustStats', type: 'array', of: [{ type: 'object', fields: [
+  { name: 'value', type: 'string' },
+  { name: 'label', type: 'string' },
+]}]},
+{ name: 'painPoints', type: 'array', of: [{ type: 'object', fields: [
+  { name: 'text', type: 'string' },
+]}]},
+{ name: 'howItWorks', type: 'array', of: [{ type: 'object', fields: [
+  { name: 'title', type: 'string' },
+  { name: 'description', type: 'text' },
+  { name: 'icon', type: 'string' },
+]}]},
+{ name: 'faqs', type: 'array', of: [{ type: 'object', fields: [
+  { name: 'question', type: 'string' },
+  { name: 'answer', type: 'text' },
+]}]},
+{ name: 'finalCtaHeadline', type: 'string' },
+{ name: 'finalCtaSubtext', type: 'string' },
+```
+
+---
+
+## Verification Plan
+
+### Automated
+- `npm run build` — no TypeScript errors
+- `npm run dev` — all 4 VSL pages render without crashes
+
+### Manual Visual Checks
+- [ ] All 4 pages render the same section order
+- [ ] Brand colors (gold-500, brand-900) consistent across all pages
+- [ ] Videos play on all pages
+- [ ] Navbar and footer present on all pages
+- [ ] Mobile sticky CTA bar appears below 768px
+- [ ] Announcement bar renders on all pages
+- [ ] Testimonial section visible (previously missing on some pages)
+- [ ] FAQ section operational
+
+### Responsive Checks
+- [ ] Desktop (1440px) — 10 sections render side-by-side where appropriate
+- [ ] Tablet (768px) — grid collapses to 2-col
+- [ ] Mobile (390px) — full single-column, sticky bar visible
+
+---
+
+## Implementation Order
+
+1. Create `UnifiedVSLTemplate.tsx` with all sub-sections
+2. Create all `VSL*.tsx` sub-components
+3. Update Sanity schemas with new fields
+4. Refactor all 4 `*Client.tsx` files to use template
+5. Verify all pages in dev server
+6. Write walkthrough

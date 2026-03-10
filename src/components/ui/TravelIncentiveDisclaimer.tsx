@@ -22,7 +22,7 @@ export function TravelIncentiveDisclaimer() {
 
     return (
         <div className="w-full bg-brand-950 py-12 md:py-16 border-y border-white/10 shadow-2xl relative z-10">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="w-full mx-auto px-6 md:px-16 lg:px-24">
                 <RevealOnScroll>
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-8 text-center md:text-left">
                         <div className="mt-1 flex-shrink-0">

@@ -68,6 +68,23 @@ export function VideoPlayer({
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const progressBarRef = useRef<HTMLDivElement>(null);
 
+    const getMediaErrorMessage = (error: MediaError | null) => {
+        if (!error) return "Unknown media error";
+
+        switch (error.code) {
+            case MediaError.MEDIA_ERR_ABORTED:
+                return "Media playback was aborted.";
+            case MediaError.MEDIA_ERR_NETWORK:
+                return "A network error interrupted media playback.";
+            case MediaError.MEDIA_ERR_DECODE:
+                return "The video could not be decoded by the browser.";
+            case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                return "The video source format is not supported by the browser.";
+            default:
+                return error.message || "Unknown media error";
+        }
+    };
+
     useEffect(() => {
         setIsClient(true);
     }, []);
@@ -206,15 +223,15 @@ export function VideoPlayer({
                 className="w-full h-full object-contain"
                 poster={poster}
                 playsInline
-                crossOrigin="anonymous"
                 onClick={controls.togglePlay}
                 muted={muted}
                 loop={loop}
                 onError={isClient ? (e) => {
                     const videoElement = e.currentTarget;
-                    console.error("Video element error:", {
-                        error: videoElement.error,
-                        src: videoElement.src,
+                    console.warn("Video element error:", {
+                        message: getMediaErrorMessage(videoElement.error),
+                        code: videoElement.error?.code,
+                        src: videoElement.currentSrc || videoElement.src,
                         networkState: videoElement.networkState,
                         readyState: videoElement.readyState
                     });
