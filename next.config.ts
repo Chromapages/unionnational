@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   reactCompiler: true,
-  
+
   // Enable experimental optimizations
   experimental: {
     optimizePackageImports: ['lucide-react', '@mui/material', '@mui/icons-material'],
@@ -42,7 +42,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://widgets.leadconnectorhq.com https://services.leadconnectorhq.com https://stcdn.leadconnectorhq.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.sanity.io https://registry.npmjs.org https://www.google-analytics.com https://analytics.google.com https://services.leadconnectorhq.com https://widgets.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://content.apisystem.tech; media-src 'self' data: blob: https://content.apisystem.tech; frame-src https://www.youtube.com https://player.vimeo.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://widgets.leadconnectorhq.com https://services.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://connect.facebook.net https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai; img-src 'self' data: https: blob:; connect-src 'self' https://*.sanity.io https://registry.npmjs.org https://www.google-analytics.com https://analytics.google.com https://services.leadconnectorhq.com https://widgets.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://content.apisystem.tech https://services.msgsndr.com; media-src 'self' data: blob: https://content.apisystem.tech https://cdn.sanity.io; frame-src https://www.youtube.com https://player.vimeo.com;",
           },
           {
             key: "X-Content-Type-Options",

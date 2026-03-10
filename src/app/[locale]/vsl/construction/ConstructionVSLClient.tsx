@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { motion } from "framer-motion";
 import { HardHat, TrendingUp, ShieldCheck, Play, ChevronRight, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -59,10 +60,15 @@ const getIcon = (iconName: string) => {
 };
 
 export default function ConstructionVSLClient({ data }: ConstructionVSLClientProps) {
-    // Get current month dynamically
-    const currentMonth = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+    // Get current month dynamically (safely for hydration)
+    const [currentMonth, setCurrentMonth] = React.useState("This Month");
+
+    React.useEffect(() => {
+        setCurrentMonth(new Date().toLocaleString('default', { month: 'long', year: 'numeric' }));
+    }, []);
 
     // Sanity Data Fallbacks
+    // Sanity Data Fallbacks & Testimonials
     const heroHeadline = data?.heroHeadline || "Stop Bleeding Cash on Job Costing & Labor.";
     const heroSubheadline = data?.heroSubheadline || "The \"Hybrid CFO + COO\" Model used by elite construction firms to fix margins and automate operations.";
     const heroBadge = data?.heroBadge || "Limited Partner Program";
@@ -70,22 +76,33 @@ export default function ConstructionVSLClient({ data }: ConstructionVSLClientPro
     const heroCtaText = data?.heroCtaText || "Apply for Partner Program";
     const heroCtaUrl = data?.heroCtaUrl || "/construction/apply";
 
-    const valueProps = data?.valuePropositions || [
-        { icon: "HardHat", title: "Construction Focused", description: "Standard CPAs stick you in the \"generic business\" box. We know WIP schedules, 1099 compliance, and job costing." },
-        { icon: "TrendingUp", title: "Profit First", description: "Cash flow isn't profit. We implement strict profit-taking systems so you actually keep the money you make." },
-        { icon: "ShieldCheck", title: "Audit Proof", description: "Aggressive tax strategies that are fully documented and defensible. Sleep soundly knowing you're protected." }
+    // Use fallback if data.testimonial is missing or empty object
+    const testimonial = (data?.testimonial && data.testimonial.quote) ? data.testimonial : {
+        quote: "Union National helped us fix our margins and get our WIP reporting under control. We're now more profitable than ever.",
+        author: "James R.",
+        role: "General Contractor",
+        company: "BuildRight Construction"
+    };
+
+    const benefitsTitle = data?.benefitsTitle || "The Complete Financial Command Center";
+    const benefitsList = data?.benefitsList || [
+        "Construction Focused: Standard CPAs stick you in the \"generic business\" box. We know WIP schedules, 1099 compliance, and job costing.",
+        "Profit First: Cash flow isn't profit. We implement strict profit-taking systems so you actually keep the money you make.",
+        "Audit Proof: Aggressive tax strategies that are fully documented and defensible. Sleep soundly knowing you're protected."
     ];
 
-    const testimonial = data?.testimonial || {
-        quote: "Before Union National, I was grossing $2M but keeping $100k. Now I'm keeping $400k+ and I have clear financials.",
-        author: "Mike R.",
-        role: "Owner",
-        company: "Ridge&Build"
-    };
+    const resultsTitle = data?.resultsTitle || "Average Client Results";
+    const resultsList = data?.resultsList || [
+        "Keep 15-25% more of your job profit",
+        "Automated WIP and job-cost reporting",
+        "Strategic entity structuring for liability",
+        "Legacy building and succession planning"
+    ];
 
     const ctaHeadline = data?.ctaHeadline || "Ready to fix your margins?";
     const ctaButtonText = data?.ctaButtonText || "Book Your Discovery Call";
     const urgencyText = data?.urgencyText || `Limited spots for ${currentMonth}`;
+
 
     return (
         <>
@@ -141,6 +158,7 @@ export default function ConstructionVSLClient({ data }: ConstructionVSLClientPro
                         <VideoEmbed
                             videoUrl={videoUrl}
                             posterImage={data?.videoPoster?.asset?.url} // Pass optional poster from Sanity
+                            autoPlay={true}
                         />
                     ) : (
                         <div className="aspect-video bg-black/50 rounded-xl flex items-center justify-center border border-white/10 text-white/50">
@@ -181,9 +199,11 @@ export default function ConstructionVSLClient({ data }: ConstructionVSLClientPro
                         className="text-center mb-16"
                     >
                         <span className="text-gold-600 font-bold text-sm uppercase tracking-widest mb-4 block">What You Get</span>
+
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-900 font-heading">
-                            The Complete Financial Command Center
+                            {benefitsTitle}
                         </h2>
+
                     </motion.div>
 
                     <motion.div
@@ -193,20 +213,62 @@ export default function ConstructionVSLClient({ data }: ConstructionVSLClientPro
                         variants={staggerContainer}
                         className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
                     >
-                        {valueProps.map((prop: any, index: number) => (
-                            <ValuePropCard
-                                key={index}
-                                icon={getIcon(prop.icon)}
-                                title={prop.title}
-                                description={prop.description}
-                                delay={0.2 * index}
-                            />
+
+                        {benefitsList.map((item: string, i: number) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="flex items-start gap-4 bg-white/70 backdrop-blur-md border border-slate-200/50 rounded-2xl p-6 shadow-lg"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-gold-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <Check className="w-5 h-5 text-gold-600" />
+                                </div>
+                                <p className="text-slate-700 font-medium leading-relaxed">{item}</p>
+                            </motion.div>
                         ))}
+
                     </motion.div>
                 </div>
             </section>
 
-            {/* ===== TESTIMONIAL SECTION ===== */}
+
+            {/* ===== RESULTS SECTION ===== */}
+            <section className="bg-brand-900 py-20 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-3xl" />
+                </div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white font-heading">
+                            {resultsTitle}
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                        {resultsList.map((result: string, i: number) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-6 text-center"
+                            >
+                                <p className="text-gold-400 font-bold text-lg">{result}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <section className="py-20 bg-slate-50 relative">
                 <div className="container mx-auto px-6">
                     <motion.div

@@ -1,3 +1,5 @@
+import { sanityFetch } from "@/sanity/lib/live";
+import { VSL_PAGE_QUERY } from "@/sanity/lib/queries";
 import TaxResolutionClient from "./TaxResolutionClient";
 
 // Static params for SSG
@@ -17,5 +19,12 @@ export const metadata = {
 
 export default async function TaxResolutionPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
-    return <TaxResolutionClient locale={params.locale} />;
+    const locale = params.locale;
+
+    const { data } = await sanityFetch({
+        query: VSL_PAGE_QUERY,
+        params: { slug: "vsl/tax-resolution", locale },
+    });
+
+    return <TaxResolutionClient data={data} locale={locale} />;
 }

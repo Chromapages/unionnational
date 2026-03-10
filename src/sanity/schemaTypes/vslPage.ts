@@ -40,34 +40,64 @@ export const vslPage = defineType({
             group: "hero",
             options: {
                 list: [
-                    { title: "Construction", value: "Construction" },
-                    { title: "Restaurants", value: "Restaurants" },
-                    { title: "General", value: "General" },
+                    { title: "Construction", value: "construction" },
+                    { title: "Restaurants", value: "restaurants" },
+                    { title: "Real Estate", value: "real-estate" },
+                    { title: "Tax Resolution", value: "tax-resolution" },
+                    { title: "General", value: "general" },
                 ],
+                layout: "radio",
             },
             validation: (Rule) => Rule.required(),
+        }),
+
+        defineField({
+            name: "benefitsTitle",
+            title: "Benefits/Problems Section Title",
+            type: "localizedString",
+            description: "e.g., 'Who This Is For' or 'Problems We Solve'",
+            group: "valueProps",
+        }),
+        defineField({
+            name: "benefitsList",
+            title: "Benefits/Problems List",
+            type: "array",
+            of: [{ type: "localizedString" }],
+            group: "valueProps",
+        }),
+        defineField({
+            name: "resultsTitle",
+            title: "Results Section Title",
+            type: "localizedString",
+            description: "e.g., 'Average Client Results'",
+            group: "valueProps",
+        }),
+        defineField({
+            name: "resultsList",
+            title: "Results List",
+            type: "array",
+            of: [{ type: "localizedString" }],
+            group: "valueProps",
         }),
 
         // Hero Section
         defineField({
             name: "heroBadge",
             title: "Hero Badge Text",
-            type: "string",
+            type: "localizedString",
             group: "hero",
-            initialValue: "Limited Partner Slots Available for Q3 2024",
         }),
         defineField({
             name: "heroHeadline",
             title: "Hero Headline",
-            type: "string",
+            type: "localizedString",
             group: "hero",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "heroSubheadline",
             title: "Hero Subheadline",
-            type: "text",
-            rows: 3,
+            type: "localizedText",
             group: "hero",
         }),
         defineField({
@@ -91,9 +121,8 @@ export const vslPage = defineType({
         defineField({
             name: "heroCtaText",
             title: "Hero CTA Text",
-            type: "string",
+            type: "localizedString",
             group: "hero",
-            initialValue: "Apply for Partner Program",
         }),
         defineField({
             name: "heroCtaUrl",
@@ -114,8 +143,8 @@ export const vslPage = defineType({
                     type: "object",
                     fields: [
                         { name: "icon", type: "string", title: "Icon Name (from Lucide)", initialValue: "Check" },
-                        { name: "title", type: "string", title: "Title" },
-                        { name: "description", type: "text", rows: 3, title: "Description" },
+                        { name: "title", type: "localizedString", title: "Title" },
+                        { name: "description", type: "localizedText", title: "Description" },
                     ],
                 },
             ],
@@ -128,10 +157,10 @@ export const vslPage = defineType({
             type: "object",
             group: "testimonial",
             fields: [
-                { name: "quote", type: "text", rows: 3, title: "Quote" },
-                { name: "author", type: "string", title: "Author Name" },
-                { name: "role", type: "string", title: "Author Role" },
-                { name: "company", type: "string", title: "Company" },
+                { name: "quote", type: "localizedText", title: "Quote" },
+                { name: "author", type: "localizedString", title: "Author Name" },
+                { name: "role", type: "localizedString", title: "Author Role" },
+                { name: "company", type: "localizedString", title: "Company" },
                 { name: "authorImage", type: "image", title: "Author Image", options: { hotspot: true } },
             ],
         }),
@@ -140,25 +169,25 @@ export const vslPage = defineType({
         defineField({
             name: "ctaHeadline",
             title: "Final CTA Headline",
-            type: "string",
+            type: "localizedString",
             group: "cta",
         }),
         defineField({
             name: "ctaSubheadline",
             title: "Final CTA Subheadline",
-            type: "text",
+            type: "localizedText",
             group: "cta",
         }),
         defineField({
             name: "ctaButtonText",
             title: "Final Button Text",
-            type: "string",
+            type: "localizedString",
             group: "cta",
         }),
         defineField({
             name: "urgencyText",
             title: "Urgency / Bottom Text",
-            type: "string",
+            type: "localizedString",
             group: "cta",
         }),
         defineField({
@@ -167,6 +196,7 @@ export const vslPage = defineType({
             type: "seo",
             group: "seo",
         }),
+
     ],
     preview: {
         select: {
@@ -174,10 +204,18 @@ export const vslPage = defineType({
             industry: "industry",
         },
         prepare({ title, industry }) {
+            const industryLabels: Record<string, string> = {
+                "construction": "Construction",
+                "restaurants": "Restaurants",
+                "real-estate": "Real Estate",
+                "tax-resolution": "Tax Resolution",
+                "general": "General",
+            };
             return {
                 title: title,
-                subtitle: `VSL Page (${industry})`,
+                subtitle: `VSL Page (${industryLabels[industry] || industry})`,
             };
         },
+
     },
 });

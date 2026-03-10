@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { motion } from "framer-motion";
 import { Building2, TrendingUp, DollarSign, Shield, Play, ChevronRight, ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
@@ -49,12 +49,67 @@ interface RealEstateVSLClientProps {
     locale?: string;
 }
 
+import * as LucideIcons from "lucide-react";
+
+// Icon helper function
+const getIcon = (iconName: string) => {
+    // @ts-ignore - Lucide icon indexing
+    return LucideIcons[iconName] || LucideIcons.Check;
+};
+
 export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClientProps = {}) {
-    const valueProps = [
-        { icon: DollarSign, title: "Maximize Deductions", description: "Depreciation, interest, repairs, and more — capture every legitimate deduction for your rental properties." },
-        { icon: Building2, title: "Entity Structure Optimization", description: "LLC, S-Corp, or holding company — we find the best structure for your portfolio." },
-        { icon: TrendingUp, title: "1031 Exchange Strategy", description: "Defer capital gains and build your portfolio tax-efficiently through strategic property exchanges." }
+    // Get current month dynamically (safely for hydration)
+    const [currentMonth, setCurrentMonth] = React.useState("This Month");
+
+    React.useEffect(() => {
+        setCurrentMonth(new Date().toLocaleString('default', { month: 'long', year: 'numeric' }));
+    }, []);
+
+    // Sanity Data Fallbacks & Testimonial
+    const heroHeadline = data?.heroHeadline || "Stop Leaving Money on the Table";
+    const heroSubheadline = data?.heroSubheadline || "Most real estate investors are overpaying in taxes. Our strategic tax program helps you keep more of what you earn.";
+    const heroBadge = data?.heroBadge || "Real Estate Investor Program";
+    const videoUrl = data?.videoFile?.asset?.url;
+    const heroCtaText = data?.heroCtaText || "Get Your Free Analysis";
+    const heroCtaUrl = data?.heroCtaUrl || "/contact";
+
+    const valueProps = data?.valuePropositions || [
+        { icon: "DollarSign", title: "Maximize Deductions", description: "Depreciation, interest, repairs, and more — capture every legitimate deduction for your rental properties." },
+        { icon: "Building2", title: "Entity Structure Optimization", description: "LLC, S-Corp, or holding company — we find the best structure for your portfolio." },
+        { icon: "TrendingUp", title: "1031 Exchange Strategy", description: "Defer capital gains and build your portfolio tax-efficiently through strategic property exchanges." }
     ];
+
+    // Use fallback if data.testimonial is missing or empty object
+    const testimonial = (data?.testimonial && data.testimonial.quote) ? data.testimonial : {
+        quote: "Union National helped me restructure my portfolio. I'm now saving over $40k a year in taxes while growing my property count.",
+        author: "David L.",
+        role: "Real Estate Investor",
+        company: "Vanguard Properties"
+    };
+
+
+    const benefitsTitle = data?.benefitsTitle || "Who This Is For";
+    const benefitsList = data?.benefitsList || [
+        "Landlords with 1+ rental properties",
+        "Real estate investors building portfolios",
+        "Property developers",
+        "House flippers",
+        "BRRRR investors",
+        "High-net-worth property owners"
+    ];
+
+    const resultsTitle = data?.resultsTitle || "Average Client Results";
+    const resultsList = data?.resultsList || [
+        "$15,000+ average annual tax savings",
+        "4-6 hours saved on tax planning",
+        "Full IRS audit protection",
+        "Passive income optimization"
+    ];
+
+    const ctaHeadline = data?.ctaHeadline || "Ready to Optimize Your Portfolio?";
+    const ctaButtonText = data?.ctaButtonText || "Get Started Now";
+    const urgencyText = data?.urgencyText || `Limited spots available for ${currentMonth}`;
+
 
     return (
         <>
@@ -74,7 +129,7 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                 >
                     <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-sm font-bold uppercase tracking-widest">
                         <span className="w-2 h-2 bg-gold-400 rounded-full animate-pulse" />
-                        Real Estate Investor Program
+                        {heroBadge}
                     </span>
                 </motion.div>
 
@@ -89,13 +144,13 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                         variants={fadeInUp}
                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4 font-heading"
                     >
-                        Stop Leaving Money on the Table
+                        {heroHeadline}
                     </motion.h1>
                     <motion.p
                         variants={fadeInUp}
                         className="text-lg sm:text-xl md:text-2xl text-brand-100/70 max-w-3xl mx-auto leading-relaxed"
                     >
-                        Most real estate investors are overpaying in taxes. Our strategic tax program helps you keep more of what you earn.
+                        {heroSubheadline}
                     </motion.p>
                 </motion.div>
 
@@ -106,14 +161,17 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                     transition={{ delay: 0.4, duration: 0.6 }}
                     className="relative z-10 w-full max-w-4xl mx-auto mb-12"
                 >
-                    <div className="aspect-video bg-black/50 rounded-xl flex items-center justify-center border border-white/10">
-                        <div className="text-center">
-                            <div className="w-20 h-20 rounded-full bg-gold-500/20 flex items-center justify-center mx-auto mb-4 cursor-pointer hover:bg-gold-500/30 transition-colors">
-                                <Play className="w-8 h-8 text-gold-400 ml-1" />
-                            </div>
-                            <p className="text-white/50">Video Placeholder</p>
+                    {videoUrl ? (
+                        <VideoEmbed
+                            videoUrl={videoUrl}
+                            posterImage={data?.videoPoster?.asset?.url}
+                            autoPlay={true}
+                        />
+                    ) : (
+                        <div className="aspect-video bg-black/50 rounded-xl flex items-center justify-center border border-white/10 text-white/50">
+                            Video Placeholder (Add URL in Sanity)
                         </div>
-                    </div>
+                    )}
                 </motion.div>
 
                 {/* Primary CTA */}
@@ -124,15 +182,15 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                     className="relative z-10 flex flex-col items-center"
                 >
                     <Link
-                        href="/contact"
+                        href={heroCtaUrl}
                         className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gold-500 text-brand-900 font-bold text-lg hover:bg-gold-400 transition-all shadow-lg shadow-gold-500/20 group"
                     >
-                        Get Your Free Analysis
+                        {heroCtaText}
                         <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <div className="mt-4 flex items-center justify-center gap-2 text-gold-400/80 text-sm font-medium">
                         <div className="w-2 h-2 rounded-full bg-gold-400 animate-pulse" />
-                        Limited spots available
+                        {urgencyText}
                     </div>
                 </motion.div>
             </section>
@@ -161,12 +219,13 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                         variants={staggerContainer}
                         className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
                     >
-                        {valueProps.map((prop, index) => (
+                        {valueProps.map((prop: any, index: number) => (
                             <ValuePropCard
                                 key={index}
-                                icon={prop.icon}
+                                icon={getIcon(prop.icon)}
                                 title={prop.title}
                                 description={prop.description}
+                                delay={0.2 * index}
                             />
                         ))}
                     </motion.div>
@@ -185,20 +244,17 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
+
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white font-heading">
-                            Who This Is For
+                            {benefitsTitle}
                         </h2>
+
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                        {[
-                            "Landlords with 1+ rental properties",
-                            "Real estate investors building portfolios",
-                            "Property developers",
-                            "House flippers",
-                            "BRRRR investors",
-                            "High-net-worth property owners"
-                        ].map((item, i) => (
+
+                        {benefitsList.map((item: string, i: number) => (
+
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
@@ -226,18 +282,17 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                         viewport={{ once: true }}
                         className="text-center mb-12"
                     >
+
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-900 font-heading">
-                            Average Client Results
+                            {resultsTitle}
                         </h2>
+
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-                        {[
-                            "$15,000+ average annual tax savings",
-                            "4-6 hours saved on tax planning",
-                            "Full IRS audit protection",
-                            "Passive income optimization"
-                        ].map((result, i) => (
+
+                        {resultsList.map((result: string, i: number) => (
+
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, scale: 0.9 }}
@@ -250,6 +305,89 @@ export default function RealEstateVSLClient({ data, locale }: RealEstateVSLClien
                             </motion.div>
                         ))}
                     </div>
+                </div>
+            </section>
+
+            <section className="py-20 bg-slate-50 relative">
+                <div className="container mx-auto px-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7 }}
+                        className="max-w-5xl mx-auto relative"
+                    >
+                        {/* Executive Card */}
+                        <div className="bg-gradient-to-br from-brand-900 to-brand-800 rounded-3xl p-8 md:p-12 lg:p-16 shadow-2xl shadow-brand-900/20 relative overflow-hidden">
+                            {/* Decorative Quote Mark Watermark */}
+                            <div className="absolute top-0 left-0 text-[200px] md:text-[300px] font-serif text-white/5 leading-none select-none pointer-events-none">
+                                "
+                            </div>
+
+                            {/* Stars */}
+                            <div className="relative z-10 mb-6 flex justify-center md:justify-start text-gold-400 gap-1">
+                                {[...Array(5)].map((_, i) => (
+                                    <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                    </svg>
+                                ))}
+                            </div>
+
+                            {/* Content Grid */}
+                            <div className="relative z-10 grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-center">
+                                {/* Quote */}
+                                <div>
+                                    <blockquote className="text-xl md:text-2xl lg:text-3xl text-white font-heading leading-tight mb-6">
+                                        "{testimonial.quote}"
+                                    </blockquote>
+
+                                    {/* Author Info - Mobile/Desktop */}
+                                    <div className="flex items-center gap-4 md:hidden">
+                                        {data?.testimonial?.authorImage?.asset?.url ? (
+                                            <img
+                                                src={data.testimonial.authorImage.asset.url}
+                                                alt={testimonial.author}
+                                                className="w-14 h-14 rounded-full object-cover border-2 border-gold-400/30"
+                                            />
+                                        ) : (
+                                            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center border-2 border-gold-400/30">
+                                                <span className="text-brand-900 font-bold text-xl">
+                                                    {testimonial?.author?.charAt(0) || 'R'}
+                                                </span>
+                                            </div>
+                                        )}
+                                        <div>
+                                            <p className="font-bold text-white text-lg">{testimonial.author}</p>
+                                            <p className="text-sm text-gold-200">{testimonial.role}</p>
+                                            <p className="text-xs text-brand-100/60">{testimonial.company}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Author Avatar - Desktop Only */}
+                                <div className="hidden md:flex flex-col items-center gap-4">
+                                    {data?.testimonial?.authorImage?.asset?.url ? (
+                                        <img
+                                            src={data.testimonial.authorImage.asset.url}
+                                            alt={testimonial.author}
+                                            className="w-24 h-24 lg:w-28 lg:h-28 rounded-full object-cover border-4 border-gold-400/30 shadow-xl"
+                                        />
+                                    ) : (
+                                        <div className="w-24 h-24 lg:w-28 lg:h-28 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center border-4 border-gold-400/30 shadow-xl">
+                                            <span className="text-brand-900 font-bold text-4xl">
+                                                {testimonial?.author?.charAt(0) || 'R'}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <div className="text-center">
+                                        <p className="font-bold text-white text-lg">{testimonial.author}</p>
+                                        <p className="text-sm text-gold-200">{testimonial.role}</p>
+                                        <p className="text-xs text-brand-100/60">{testimonial.company}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 

@@ -43,8 +43,16 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
         const video = videoRef.current;
         if (!video || !src) return;
 
+        // Special case: if src hasn't changed, don't re-initialize
+        // This prevents NotSupportedError when autoPlay/muted/loop changes
+        if (video.getAttribute('data-src') === src) {
+            return;
+        }
+
         let hls: Hls | null = null;
         const isHls = src.includes('.m3u8') || src.includes('application/vnd.apple.mpegurl');
+
+        video.setAttribute('data-src', src);
 
         if (isHls && Hls.isSupported()) {
             hls = new Hls({
@@ -67,34 +75,26 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
                 if (autoPlay) {
                     video.play().catch(() => { });
                 }
-            });
+            }, { once: true });
         } else {
             // Regular video file (MP4, WebM, etc.)
             video.src = src;
             video.muted = muted;
             video.loop = loop;
+            video.load(); // Explicitly trigger load after setting src
 
             const handleLoadedMetadata = () => {
                 if (autoPlay) {
-                    video.play().catch(() => {
-                        // Autoplay prevented
+                    video.play().catch((err) => {
+                        console.warn("Autoplay prevented:", err);
                         setState(s => ({ ...s, isPlaying: false }));
                     });
                 }
             };
 
-            const handleEnded = () => {
-                if (loop) {
-                    video.play().catch(() => { });
-                }
-            };
+            video.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
 
-            video.addEventListener('loadedmetadata', handleLoadedMetadata);
-            if (loop) {
-                video.addEventListener('ended', handleEnded);
-            }
-
-            // If metadata is already loaded, try to play immediately
+            // If metadata is already loaded or partially loaded, try to play
             if (video.readyState >= 1 && autoPlay) {
                 video.play().catch(() => {
                     setState(s => ({ ...s, isPlaying: false }));
@@ -103,7 +103,6 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
 
             return () => {
                 video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-                video.removeEventListener('ended', handleEnded);
             };
         }
 
@@ -178,7 +177,9 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
     const togglePlay = useCallback(() => {
         if (!videoRef.current) return;
         if (videoRef.current.paused) {
-            videoRef.current.play();
+            videoRef.current.play().catch(err => {
+                console.warn("Play prevented in togglePlay:", err);
+            });
         } else {
             videoRef.current.pause();
         }

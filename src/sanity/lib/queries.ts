@@ -604,6 +604,34 @@ export const LEGAL_PAGE_QUERY = defineQuery(`
 export const VSL_PAGE_QUERY = defineQuery(`
     *[_type == "vslPage" && slug.current == $slug][0] {
       ...,
+      "benefitsTitle": coalesce(benefitsTitle[$locale], benefitsTitle.en, benefitsTitle),
+      "benefitsList": benefitsList[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+      "resultsTitle": coalesce(resultsTitle[$locale], resultsTitle.en, resultsTitle),
+      "resultsList": resultsList[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+      "heroBadge": coalesce(heroBadge[$locale], heroBadge.en, heroBadge),
+      "heroHeadline": coalesce(heroHeadline[$locale], heroHeadline.en, heroHeadline),
+      "heroSubheadline": coalesce(heroSubheadline[$locale], heroSubheadline.en, heroSubheadline),
+      "heroCtaText": coalesce(heroCtaText[$locale], heroCtaText.en, heroCtaText),
+      "valuePropositions": valuePropositions[]{
+        icon,
+        "title": coalesce(title[$locale], title.en, title),
+        "description": coalesce(description[$locale], description.en, description)
+      },
+      "testimonial": {
+        "quote": coalesce(testimonial.quote[$locale], testimonial.quote.en, testimonial.quote),
+        "author": coalesce(testimonial.author[$locale], testimonial.author.en, testimonial.author),
+        "role": coalesce(testimonial.role[$locale], testimonial.role.en, testimonial.role),
+        "company": coalesce(testimonial.company[$locale], testimonial.company.en, testimonial.company),
+        authorImage {
+          asset-> {
+            url
+          }
+        }
+      },
+      "ctaHeadline": coalesce(ctaHeadline[$locale], ctaHeadline.en, ctaHeadline),
+      "ctaSubheadline": coalesce(ctaSubheadline[$locale], ctaSubheadline.en, ctaSubheadline),
+      "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),
+      "urgencyText": coalesce(urgencyText[$locale], urgencyText.en, urgencyText),
       videoFile {
         asset-> {
           url
@@ -613,17 +641,10 @@ export const VSL_PAGE_QUERY = defineQuery(`
         asset-> {
           url
         }
-      },
-      testimonial {
-        ...,
-        authorImage {
-          asset-> {
-            url
-          }
-        }
       }
     }
   `)
+
 
 export const FOOTER_LEGAL_PAGES_QUERY = defineQuery(`
     *[_type == "legalPage" && isPublished == true] | order(title asc) {

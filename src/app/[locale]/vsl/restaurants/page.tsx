@@ -1,5 +1,5 @@
-import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
-import { Footer } from "@/components/layout/Footer";
+import { sanityFetch } from "@/sanity/lib/live";
+import { VSL_PAGE_QUERY } from "@/sanity/lib/queries";
 import RestaurantsVSLClient from "./RestaurantVSLClient";
 
 // Generate static params for SSG
@@ -21,5 +21,10 @@ export default async function RestaurantsVSLPage(props: { params: Promise<{ loca
     const params = await props.params;
     const locale = params.locale;
 
-    return <RestaurantsVSLClient locale={locale} />;
+    const { data } = await sanityFetch({
+        query: VSL_PAGE_QUERY,
+        params: { slug: "vsl/restaurants", locale },
+    });
+
+    return <RestaurantsVSLClient data={data} locale={locale} />;
 }

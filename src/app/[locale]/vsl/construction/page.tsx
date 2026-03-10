@@ -1,5 +1,5 @@
-import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
-import { Footer } from "@/components/layout/Footer";
+import { sanityFetch } from "@/sanity/lib/live";
+import { VSL_PAGE_QUERY } from "@/sanity/lib/queries";
 import ConstructionVSLClient from "./ConstructionVSLClient";
 
 // Generate static params for SSG
@@ -20,6 +20,11 @@ export const metadata = {
 export default async function ConstructionVSLPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
-    
-    return <ConstructionVSLClient locale={locale} />;
+
+    const { data } = await sanityFetch({
+        query: VSL_PAGE_QUERY,
+        params: { slug: "vsl/construction", locale },
+    });
+
+    return <ConstructionVSLClient data={data} locale={locale} />;
 }

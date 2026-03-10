@@ -17,7 +17,12 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
     if (!videoUrl) return null;
 
     // Determine if it's a Sanity-hosted file (direct URL) or an embed URL
-    const isSanityVideo = videoUrl.includes("cdn.sanity.io") || videoUrl.endsWith(".mp4") || videoUrl.endsWith(".webm") || videoUrl.endsWith(".mov");
+    const videoUrlPath = videoUrl.split("?")[0].toLowerCase();
+    const isSanityVideo = videoUrl.includes("cdn.sanity.io") ||
+        videoUrlPath.endsWith(".mp4") ||
+        videoUrlPath.endsWith(".webm") ||
+        videoUrlPath.endsWith(".mov") ||
+        videoUrlPath.endsWith(".m4v");
 
     const handlePlay = () => {
         setIsPlaying(true);
@@ -31,6 +36,7 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
                     <VideoPlayer
                         src={videoUrl}
                         autoPlay={isPlaying}
+                        muted={isPlaying} // Mute initially for autoplay to work in browsers
                         poster={posterImage}
                         className="w-full h-full"
                     />

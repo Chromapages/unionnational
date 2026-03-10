@@ -1,3 +1,5 @@
+import { sanityFetch } from "@/sanity/lib/live";
+import { VSL_PAGE_QUERY } from "@/sanity/lib/queries";
 import RealEstateVSLClient from "./RealEstateVSLClient";
 
 // Static params for SSG
@@ -17,5 +19,12 @@ export const metadata = {
 
 export default async function RealEstateVSLPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
-    return <RealEstateVSLClient locale={params.locale} />;
+    const locale = params.locale;
+
+    const { data } = await sanityFetch({
+        query: VSL_PAGE_QUERY,
+        params: { slug: "vsl/real-estate", locale },
+    });
+
+    return <RealEstateVSLClient data={data} locale={locale} />;
 }

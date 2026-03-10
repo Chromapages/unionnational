@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { motion } from "framer-motion";
 import { UtensilsCrossed, Users, BarChart3, Play, ChevronRight, TrendingUp, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -59,10 +60,15 @@ const getIcon = (iconName: string) => {
 };
 
 export default function RestaurantVSLClient({ data }: RestaurantVSLClientProps) {
-    // Get current month dynamically
-    const currentMonth = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+    // Get current month dynamically (safely for hydration)
+    const [currentMonth, setCurrentMonth] = React.useState("This Month");
+
+    React.useEffect(() => {
+        setCurrentMonth(new Date().toLocaleString('default', { month: 'long', year: 'numeric' }));
+    }, []);
 
     // Sanity Data Fallbacks
+    // Sanity Data Fallbacks & Testimonial
     const heroHeadline = data?.heroHeadline || "Stop Leaking Profit on Food Cost & Labor.";
     const heroSubheadline = data?.heroSubheadline || "The \"Kitchen Command Center\" System used by profitable multi-unit groups to standardize operations.";
     const heroBadge = data?.heroBadge || "Restaurant Partner Program";
@@ -70,22 +76,32 @@ export default function RestaurantVSLClient({ data }: RestaurantVSLClientProps) 
     const heroCtaText = data?.heroCtaText || "See If Your Restaurant Qualifies";
     const heroCtaUrl = data?.heroCtaUrl || "/restaurants/apply";
 
-    const valueProps = data?.valuePropositions || [
-        { icon: "UtensilsCrossed", title: "Food Cost Controls", description: "Granular tracking of COGS, variance, and waste. Real-time insights into what's actually driving plate cost." },
-        { icon: "Users", title: "Labor Optimization", description: "Smart scheduling models that align with revenue curves. Cut overtime and dead hours without sacrificing service." },
-        { icon: "BarChart3", title: "Multi-Unit Reporting", description: "One dashboard to rule them all. Compare location performance instantly and spot outliers before they bleed cash." }
+    const testimonial = (data?.testimonial && data.testimonial.quote) ? data.testimonial : {
+        quote: "Partnering with Union National was the best decision we made for our group. They helped us standardize prime cost tracking across 4 locations.",
+        author: "Sarah M.",
+        role: "Operator",
+        company: "Heirloom Hospitality"
+    };
+
+    const benefitsTitle = data?.benefitsTitle || "Recipe for Financial Success";
+    const benefitsList = data?.benefitsList || [
+        "Food Cost Controls: Granular tracking of COGS, variance, and waste. Real-time insights into what's actually driving plate cost.",
+        "Labor Optimization: Smart scheduling models that align with revenue curves. Cut overtime and dead hours without sacrificing service.",
+        "Multi-Unit Reporting: One dashboard to rule them all. Compare location performance instantly and spot outliers before they bleed cash."
     ];
 
-    const testimonial = data?.testimonial || {
-        quote: "We were flying blind with 3 locations. Union National gave us the visibility to cut 8% off our prime costs in 4 months.",
-        author: "Sarah J.",
-        role: "Owner",
-        company: "Urban Table Group"
-    };
+    const resultsTitle = data?.resultsTitle || "What Our Partners Achieve";
+    const resultsList = data?.resultsList || [
+        "Average prime cost reduction of 4-7%",
+        "10+ hours saved per month on bookkeeping",
+        "Streamlined inventory and prep workflows",
+        "Clear exit path and valuation growth"
+    ];
 
     const ctaHeadline = data?.ctaHeadline || "Ready to run a tight ship?";
     const ctaButtonText = data?.ctaButtonText || "Book Your Discovery Call";
     const urgencyText = data?.urgencyText || `Limited spots for ${currentMonth}`;
+
 
     return (
         <>
@@ -141,6 +157,7 @@ export default function RestaurantVSLClient({ data }: RestaurantVSLClientProps) 
                         <VideoEmbed
                             videoUrl={videoUrl}
                             posterImage={data?.videoPoster?.asset?.url} // Pass optional poster from Sanity
+                            autoPlay={true}
                         />
                     ) : (
                         <div className="aspect-video bg-black/50 rounded-xl flex items-center justify-center border border-white/10 text-white/50">
@@ -182,9 +199,11 @@ export default function RestaurantVSLClient({ data }: RestaurantVSLClientProps) 
                         className="text-center mb-16"
                     >
                         <span className="text-gold-600 font-bold text-sm uppercase tracking-widest mb-4 block">What You Get</span>
+
                         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brand-900 font-heading">
-                            Recipe for Financial Success
+                            {benefitsTitle}
                         </h2>
+
                     </motion.div>
 
                     <motion.div
@@ -194,20 +213,62 @@ export default function RestaurantVSLClient({ data }: RestaurantVSLClientProps) 
                         variants={staggerContainer}
                         className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
                     >
-                        {valueProps.map((prop: any, index: number) => (
-                            <ValuePropCard
-                                key={index}
-                                icon={getIcon(prop.icon)}
-                                title={prop.title}
-                                description={prop.description}
-                                delay={0.2 * index}
-                            />
+
+                        {benefitsList.map((item: string, i: number) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="flex items-start gap-4 bg-white/70 backdrop-blur-md border border-slate-200/50 rounded-2xl p-6 shadow-lg"
+                            >
+                                <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <Check className="w-5 h-5 text-orange-600" />
+                                </div>
+                                <p className="text-slate-700 font-medium leading-relaxed">{item}</p>
+                            </motion.div>
                         ))}
+
                     </motion.div>
                 </div>
             </section>
 
-            {/* ===== TESTIMONIAL SECTION ===== */}
+
+            {/* ===== RESULTS SECTION ===== */}
+            <section className="bg-brand-900 py-20 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500 rounded-full blur-3xl" />
+                </div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white font-heading">
+                            {resultsTitle}
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                        {resultsList.map((result: string, i: number) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-6 text-center"
+                            >
+                                <p className="text-orange-400 font-bold text-lg">{result}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             <section className="py-20 bg-slate-50 relative">
                 <div className="container mx-auto px-6">
                     <motion.div

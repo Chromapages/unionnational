@@ -206,9 +206,19 @@ export function VideoPlayer({
                 className="w-full h-full object-contain"
                 poster={poster}
                 playsInline
+                crossOrigin="anonymous"
                 onClick={controls.togglePlay}
-                muted={muted} // Initial muted state
+                muted={muted}
                 loop={loop}
+                onError={isClient ? (e) => {
+                    const videoElement = e.currentTarget;
+                    console.error("Video element error:", {
+                        error: videoElement.error,
+                        src: videoElement.src,
+                        networkState: videoElement.networkState,
+                        readyState: videoElement.readyState
+                    });
+                } : undefined}
             />
 
             {/* Loading Spinner */}
