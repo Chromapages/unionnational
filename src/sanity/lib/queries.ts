@@ -604,6 +604,29 @@ export const LEGAL_PAGE_QUERY = defineQuery(`
 export const VSL_PAGE_QUERY = defineQuery(`
     *[_type == "vslPage" && slug.current == $slug][0] {
       ...,
+      "announcementText": coalesce(announcementText[$locale], announcementText.en, announcementText),
+      "trustStats": trustStats[]{
+        "value": coalesce(value[$locale], value.en, value),
+        "label": coalesce(label[$locale], label.en, label)
+      },
+      "painPoints": painPoints[]{
+        "text": coalesce(text[$locale], text.en, text)
+      },
+      "howItWorks": howItWorks[]{
+        "title": coalesce(title[$locale], title.en, title),
+        "description": coalesce(description[$locale], description.en, description),
+        icon
+      },
+      "results": results[]{
+        "value": coalesce(value[$locale], value.en, value),
+        "label": coalesce(label[$locale], label.en, label)
+      },
+      "faqs": faqs[]{
+        "question": coalesce(question[$locale], question.en, question),
+        "answer": coalesce(answer[$locale], answer.en, answer)
+      },
+      "finalCtaHeadline": coalesce(finalCtaHeadline[$locale], finalCtaHeadline.en, finalCtaHeadline),
+      "finalCtaSubtext": coalesce(finalCtaSubtext[$locale], finalCtaSubtext.en, finalCtaSubtext),
       "benefitsTitle": coalesce(benefitsTitle[$locale], benefitsTitle.en, benefitsTitle),
       "benefitsList": benefitsList[]{ "text": coalesce(@[$locale], @.en, @) }.text,
       "resultsTitle": coalesce(resultsTitle[$locale], resultsTitle.en, resultsTitle),
@@ -619,9 +642,13 @@ export const VSL_PAGE_QUERY = defineQuery(`
       },
       "testimonial": {
         "quote": coalesce(testimonial.quote[$locale], testimonial.quote.en, testimonial.quote),
+        "name": coalesce(testimonial.name[$locale], testimonial.name.en, testimonial.name),
         "author": coalesce(testimonial.author[$locale], testimonial.author.en, testimonial.author),
         "role": coalesce(testimonial.role[$locale], testimonial.role.en, testimonial.role),
         "company": coalesce(testimonial.company[$locale], testimonial.company.en, testimonial.company),
+        "rating": testimonial.rating,
+        "industryBadge": coalesce(testimonial.industryBadge[$locale], testimonial.industryBadge.en, testimonial.industryBadge),
+        "beforeAfterMetric": coalesce(testimonial.beforeAfterMetric[$locale], testimonial.beforeAfterMetric.en, testimonial.beforeAfterMetric),
         authorImage {
           asset-> {
             url

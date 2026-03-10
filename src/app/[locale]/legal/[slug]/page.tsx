@@ -2,11 +2,12 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { sanityFetch } from "@/sanity/lib/live";
 import { LEGAL_PAGE_QUERY } from "@/sanity/lib/queries";
-import { PortableText } from "next-sanity";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { client } from "@/sanity/lib/client";
+import { LegalContentClient } from "@/components/legal/LegalContentClient";
+import { PRIVACY_POLICY_DATA } from "@/data/privacy-policy-content";
 
 const LEGAL_SLUGS_QUERY = `*[_type == "legalPage"]{ "slug": slug.current }`;
 
@@ -14,20 +15,29 @@ export async function generateStaticParams() {
     const pages = await client.fetch(LEGAL_SLUGS_QUERY);
     const locales = ["en", "es"];
 
-    return pages.flatMap((page: any) =>
+    // Add default privacy-policy to static params if not already there
+    const slugs = pages.map((p: any) => p.slug);
+    if (!slugs.includes("privacy-policy")) slugs.push("privacy-policy");
+
+    return slugs.flatMap((slug: string) =>
         locales.map((locale) => ({
             locale,
-            slug: page.slug,
+            slug,
         }))
     );
 }
 
 export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await props.params;
-    const { data: page } = await sanityFetch({
+    let { data: page } = await sanityFetch({
         query: LEGAL_PAGE_QUERY,
         params: { slug, locale }
     });
+
+    // Fallback metadata for privacy policy
+    if (!page && slug === "privacy-policy") {
+        page = PRIVACY_POLICY_DATA;
+    }
 
     if (!page) return { title: 'Page Not Found' };
 
@@ -39,10 +49,15 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 
 export default async function LegalPage(props: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await props.params;
-    const { data: page } = await sanityFetch({
+    let { data: page } = await sanityFetch({
         query: LEGAL_PAGE_QUERY,
         params: { slug, locale }
     });
+
+    // Fallback content for privacy policy if not in Sanity
+    if (!page && slug === "privacy-policy") {
+        page = PRIVACY_POLICY_DATA;
+    }
 
     if (!page) {
         notFound();
@@ -52,26 +67,27 @@ export default async function LegalPage(props: { params: Promise<{ locale: strin
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased overflow-x-hidden">
             <HeaderWrapper />
 
-            <main className="pt-12 pb-20 flex-grow">
-                <article className="max-w-3xl mx-auto px-6 mb-24">
+            <main className="pt-20 pb-24 flex-grow">
+                <div className="max-w-6xl mx-auto px-6">
                     <RevealOnScroll>
-                        <header className="mb-12 border-b border-slate-200 pb-8">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-semibold uppercase tracking-widest mb-6 font-sans">
-                                Legal
+                        <header className="mb-16 border-b border-slate-200 pb-12 max-w-3xl">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-8 font-sans">
+                                Legal Documentation
                             </div>
-                            <h1 className="text-3xl sm:text-4xl font-bold text-brand-900 tracking-tight mb-4 font-heading">{page.title}</h1>
+                            <h1 className="text-4xl sm:text-5xl font-bold text-brand-900 tracking-tight mb-6 font-heading leading-[1.1]">
+                                {page.title}
+                            </h1>
                             {page.lastUpdated && (
-                                <p className="text-sm text-brand-900/60 font-sans">
-                                    Last Updated: {format(new Date(page.lastUpdated), 'MMMM d, yyyy')}
-                                </p>
+                                <div className="flex items-center gap-4 text-sm text-brand-900/50 font-sans">
+                                    <span className="w-8 h-px bg-slate-200" />
+                                    <span>Last Updated: {format(new Date(page.lastUpdated), 'MMMM d, yyyy')}</span>
+                                </div>
                             )}
                         </header>
 
-                        <div className="prose prose-slate max-w-none text-brand-900/80 font-sans ProseMirror">
-                            <PortableText value={page.body} />
-                        </div>
+                        <LegalContentClient body={page.body} title={page.title} />
                     </RevealOnScroll>
-                </article>
+                </div>
             </main>
 
             <Footer />

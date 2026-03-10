@@ -214,15 +214,21 @@ export async function Footer() {
                     </div>
 
                     <div className="flex gap-6 text-xs text-zinc-500">
-                        {legalPages?.map((page: any) => (
-                            <Link
-                                key={page.slug}
-                                href={`/legal/${page.slug}`}
-                                className="hover:text-gold-500 transition-colors"
-                            >
-                                {page.title}
-                            </Link>
-                        ))}
+                        {(() => {
+                            const pages = [...(legalPages || [])];
+                            if (!pages.some(p => p.slug === 'privacy-policy')) {
+                                pages.push({ title: 'Privacy Policy', slug: 'privacy-policy' });
+                            }
+                            return pages.map((page: any) => (
+                                <Link
+                                    key={page.slug}
+                                    href={`/legal/${page.slug}`}
+                                    className="hover:text-gold-500 transition-colors"
+                                >
+                                    {page.title}
+                                </Link>
+                            ));
+                        })()}
                     </div>
                 </div>
             </div>

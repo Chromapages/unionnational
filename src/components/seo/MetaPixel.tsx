@@ -4,7 +4,7 @@ import Script from "next/script";
 
 // TODO: Replace with your actual Meta Pixel ID from Facebook Events Manager
 // Go to https://www.facebook.com/events_manager to get your pixel ID
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "YOUR_PIXEL_ID_HERE";
+const META_PIXEL_ID = "1320632069943065";
 
 interface MetaPixelProps {
   event?: string;
@@ -33,7 +33,18 @@ export function MetaPixel({ event, customData }: MetaPixelProps) {
           `,
         }}
       />
-      
+
+      {/* Noscript fallback for Meta Pixel */}
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+          alt=""
+        />
+      </noscript>
+
       {/* Custom Event - ViewContent */}
       {event === "ViewContent" && (
         <Script

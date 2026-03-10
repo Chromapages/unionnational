@@ -8,6 +8,7 @@ export const vslPage = defineType({
     icon: Play,
     groups: [
         { name: "hero", title: "Hero Section" },
+        { name: "structure", title: "Unified Sections" },
         { name: "valueProps", title: "Value Props" },
         { name: "testimonial", title: "Testimonial" },
         { name: "cta", title: "Final CTA" },
@@ -49,6 +50,87 @@ export const vslPage = defineType({
                 layout: "radio",
             },
             validation: (Rule) => Rule.required(),
+        }),
+
+        defineField({
+            name: "announcementText",
+            title: "Announcement Bar Text",
+            type: "localizedString",
+            group: "structure",
+            description: "Urgency text shown in the top announcement bar.",
+        }),
+        defineField({
+            name: "trustStats",
+            title: "Trust Stats",
+            type: "array",
+            group: "structure",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "value", type: "localizedString", title: "Value" },
+                        { name: "label", type: "localizedString", title: "Label" },
+                    ],
+                },
+            ],
+        }),
+        defineField({
+            name: "painPoints",
+            title: "Pain Points",
+            type: "array",
+            group: "structure",
+            of: [
+                {
+                    type: "object",
+                    fields: [{ name: "text", type: "localizedString", title: "Text" }],
+                },
+            ],
+        }),
+        defineField({
+            name: "howItWorks",
+            title: "How It Works Steps",
+            type: "array",
+            group: "structure",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "title", type: "localizedString", title: "Title" },
+                        { name: "description", type: "localizedText", title: "Description" },
+                        { name: "icon", type: "string", title: "Icon Name (Lucide)", initialValue: "CheckCircle2" },
+                    ],
+                },
+            ],
+        }),
+        defineField({
+            name: "results",
+            title: "Results Stats",
+            type: "array",
+            group: "structure",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "value", type: "localizedString", title: "Value" },
+                        { name: "label", type: "localizedString", title: "Label" },
+                    ],
+                },
+            ],
+        }),
+        defineField({
+            name: "faqs",
+            title: "FAQs",
+            type: "array",
+            group: "structure",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "question", type: "localizedString", title: "Question" },
+                        { name: "answer", type: "localizedText", title: "Answer" },
+                    ],
+                },
+            ],
         }),
 
         defineField({
@@ -158,9 +240,13 @@ export const vslPage = defineType({
             group: "testimonial",
             fields: [
                 { name: "quote", type: "localizedText", title: "Quote" },
+                { name: "name", type: "localizedString", title: "Client Name" },
                 { name: "author", type: "localizedString", title: "Author Name" },
                 { name: "role", type: "localizedString", title: "Author Role" },
                 { name: "company", type: "localizedString", title: "Company" },
+                { name: "rating", type: "number", title: "Rating", initialValue: 5 },
+                { name: "industryBadge", type: "localizedString", title: "Industry Badge" },
+                { name: "beforeAfterMetric", type: "localizedString", title: "Before/After Metric" },
                 { name: "authorImage", type: "image", title: "Author Image", options: { hotspot: true } },
             ],
         }),
@@ -188,6 +274,18 @@ export const vslPage = defineType({
             name: "urgencyText",
             title: "Urgency / Bottom Text",
             type: "localizedString",
+            group: "cta",
+        }),
+        defineField({
+            name: "finalCtaHeadline",
+            title: "Unified Final CTA Headline",
+            type: "localizedString",
+            group: "cta",
+        }),
+        defineField({
+            name: "finalCtaSubtext",
+            title: "Unified Final CTA Subtext",
+            type: "localizedText",
             group: "cta",
         }),
         defineField({
