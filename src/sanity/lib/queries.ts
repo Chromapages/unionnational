@@ -346,6 +346,30 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     "badge": coalesce(badge[$locale], badge.en, badge),
     category,
     rating,
+    "samplePages": samplePages[].asset->url,
+    "learningObjectives": learningObjectives[]{
+      "title": coalesce(title[$locale], title.en, title),
+      "description": coalesce(description[$locale], description.en, description)
+    },
+    author-> {
+      name,
+      "role": coalesce(role[$locale], role.en, role),
+      "credentials": credentials[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+      "imageUrl": image.asset->url
+    },
+    "featuredTestimonials": featuredTestimonials[]-> {
+        _id,
+        clientName,
+        "clientTitle": coalesce(clientTitle[$locale], clientTitle.en, clientTitle),
+        clientCompany,
+        "quote": coalesce(quote[$locale], quote.en, quote),
+        rating,
+        "imageUrl": image.asset->url
+    },
+    pageCount,
+    publisher,
+    publishDate,
+    isbn,
     seo {
       metaTitle,
       metaDescription,

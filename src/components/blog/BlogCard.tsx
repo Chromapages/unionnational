@@ -59,7 +59,7 @@ export function BlogCard({ post, className, locale }: BlogCardProps) {
                 </div>
 
                 <Link href={`/blog/${post.slug}`} className="mt-4 block">
-                    <h3 className="text-xl font-semibold text-brand-900 font-heading leading-tight transition-colors duration-300 group-hover:text-brand-700">
+                    <h3 className="text-xl font-bold text-brand-900 font-heading leading-tight transition-colors duration-300 group-hover:text-brand-700">
                         {extractString(post.title, locale)}
                     </h3>
                 </Link>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
@@ -8,15 +9,16 @@ interface CategoryFilterProps {
     onCategoryChange: (category: string) => void;
 }
 
-const categories = [
-    { id: "all", label: "All Resources" },
-    { id: "tax-plans", label: "Tax Plans" },
-    { id: "templates", label: "Templates" },
-    { id: "ebooks", label: "Guides & eBooks" },
-    { id: "courses", label: "Video Courses" },
-];
-
 export function CategoryFilter({ activeCategory, onCategoryChange }: CategoryFilterProps) {
+    const t = useTranslations("Shop.Filter");
+
+    const categories = [
+        { id: "all", label: t("all") },
+        { id: "ebook", label: t("ebook") },
+        { id: "template", label: t("template") },
+        { id: "course", label: t("course") },
+    ];
+
     return (
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 md:pb-0">
             {categories.map((category) => (

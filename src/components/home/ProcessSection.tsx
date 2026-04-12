@@ -35,7 +35,7 @@ export function ProcessSection() {
             <div style={{ maxWidth: '80rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
                 <RevealOnScroll className="mb-24 text-center max-w-3xl mx-auto">
                     <span className="text-xs font-semibold uppercase tracking-widest mb-3 block text-blue-200">Our Process</span>
-                    <h2 className="text-3xl lg:text-5xl font-semibold text-white tracking-tight leading-tight mb-6">
+                    <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-6">
                         The Road to <span className="text-white">Tax Clarity.</span>
                     </h2>
                     <p className="text-blue-100 text-lg">

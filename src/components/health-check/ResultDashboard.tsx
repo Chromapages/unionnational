@@ -91,7 +91,7 @@ export function ResultDashboard({ scores, tier, name }: ResultDashboardProps) {
                         </div>
                         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
                             {content.highlights.map((item) => (
-                                <div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm">
+                                <div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-bold text-slate-700 shadow-sm">
                                     {item}
                                 </div>
                             ))}

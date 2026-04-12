@@ -40,7 +40,13 @@ export default function GlobalError({
                     </p>
                     <div className="pt-4">
                         <button
-                            onClick={() => reset()}
+                            onClick={() => {
+                                if (typeof reset === 'function') {
+                                    reset();
+                                } else {
+                                    window.location.reload();
+                                }
+                            }}
                             className="px-8 py-3 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-lg transition-all shadow-lg shadow-gold-500/20 active:scale-95"
                         >
                             Try again

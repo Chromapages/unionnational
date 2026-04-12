@@ -102,7 +102,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                     <div className="max-w-7xl mx-auto">
                         <div className="max-w-3xl">
                             <RevealOnScroll>
-                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-8 leading-[1.05] font-heading font-black">
+                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-8 leading-[0.9] font-heading">
                                     {t("Hero.title")}
                                 </h1>
                                 <p className="text-xl text-brand-50/80 mb-12 leading-relaxed font-sans max-w-xl">

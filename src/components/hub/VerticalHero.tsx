@@ -97,7 +97,7 @@ export function VerticalHero({
                             <Building2 className="h-3.5 w-3.5" />
                             Industry Guide
                         </div>
-                        <h1 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl font-heading">
+                        <h1 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl font-heading leading-[0.9]">
                             {title}
                         </h1>
                         {description && (
@@ -127,7 +127,7 @@ export function VerticalHero({
                 {painPoints.length > 0 && (
                     <RevealOnScroll>
                         <div className="mt-12">
-                            <h2 className="mb-6 text-xl font-semibold text-white font-heading">Common Challenges</h2>
+                            <h2 className="mb-6 text-xl font-bold text-white font-heading tracking-tighter leading-[1.1]">Common Challenges</h2>
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 {painPoints.map((point, index) => (
                                     <div
@@ -146,7 +146,7 @@ export function VerticalHero({
                 {testimonials.length > 0 && (
                     <RevealOnScroll>
                         <div className="mt-16">
-                            <h2 className="mb-6 text-xl font-semibold text-white font-heading">Client Success Stories</h2>
+                            <h2 className="mb-6 text-xl font-bold text-white font-heading tracking-tighter leading-[1.1]">Client Success Stories</h2>
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {testimonials.map((testimonial) => (
                                     <TestimonialCard key={testimonial._id} testimonial={testimonial} />

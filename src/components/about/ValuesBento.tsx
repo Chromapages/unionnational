@@ -1,10 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Gauge, Handshake, Target } from "lucide-react";
+import { Gauge, Handshake, Target as TargetIcon } from "lucide-react";
 
 const icons = {
-    precision: Target,
+    precision: TargetIcon,
     partnership: Handshake,
     speed: Gauge,
 };
@@ -56,15 +56,15 @@ export function ValuesBento({ eyebrow, title, primaryValue, values: sanityValues
     ]).map((v: any, i) => ({
         ...v,
         id: v._key || v.key || `value-${i}`,
-        icon: icons[v.iconName as keyof typeof icons] || Target
+        icon: icons[v.iconName as keyof typeof icons] || TargetIcon
     }));
 
     return (
         <section className="py-24 bg-slate-50">
             <div className="mx-auto max-w-6xl px-6">
                 <div className="max-w-2xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-600">{eyebrow || t('eyebrow')}</p>
-                    <h2 className="mt-4 text-3xl font-semibold text-brand-900 font-heading">{title || t('title')}</h2>
+                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-600">{eyebrow || t('eyebrow')}</p>
+                    <h2 className="mt-4 text-3xl font-bold text-brand-900 font-heading tracking-tighter leading-[1.1]">{title || t('title')}</h2>
                 </div>
 
                 <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-4 md:grid-rows-2">
@@ -111,7 +111,7 @@ export function ValuesBento({ eyebrow, title, primaryValue, values: sanityValues
                             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-400">
                                 {primaryValue?.badge || t('integrityBadge')}
                             </p>
-                            <h3 className="mt-3 text-2xl font-semibold font-heading">
+                            <h3 className="mt-3 text-2xl font-bold font-heading">
                                 {primaryValue?.title || t('integrityTitle')}
                             </h3>
                             <p className="mt-3 text-sm text-brand-100/80 leading-relaxed max-w-sm">
@@ -130,7 +130,7 @@ export function ValuesBento({ eyebrow, title, primaryValue, values: sanityValues
                             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-50 text-brand-900 mb-6">
                                 <value.icon className="h-6 w-6" />
                             </div>
-                            <h3 className="text-lg font-semibold text-brand-900 font-heading">{value.title}</h3>
+                            <h3 className="text-lg font-bold text-brand-900 font-heading">{value.title}</h3>
                             <p className="mt-2 text-sm text-slate-600 leading-relaxed font-sans">{value.description}</p>
                         </div>
                     ))}

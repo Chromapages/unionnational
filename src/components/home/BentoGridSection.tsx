@@ -174,9 +174,9 @@ export function BentoGridSection({ stats, backgroundImage }: BentoGridProps) {
                             {t('section.badge')}
                         </span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1]">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter text-brand-900 font-heading leading-[1.1]">
                         {t('section.title')} <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700">
+                        <span className="text-gold-600 italic">
                             {t('section.titleHighlight')}
                         </span>
                     </h2>

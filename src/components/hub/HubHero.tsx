@@ -48,7 +48,7 @@ function PlaybookCard({ playbook, className }: PlaybookCardProps) {
                         Featured
                     </span>
                 )}
-                <h3 className="font-heading text-xl font-semibold text-white transition-colors duration-300 group-hover:text-gold-200">
+                <h3 className="font-heading text-xl font-bold text-white transition-colors duration-300 group-hover:text-gold-200">
                     {playbook.title}
                 </h3>
                 {playbook.description && (
@@ -96,7 +96,7 @@ function IndustryCard({ industry, className }: IndustryCardProps) {
                         <Building2 className="h-8 w-8 text-gold-400" />
                     </div>
                 )}
-                <h3 className="font-heading text-xl font-semibold text-white transition-colors duration-300 group-hover:text-gold-200">
+                <h3 className="font-heading text-xl font-bold text-white transition-colors duration-300 group-hover:text-gold-200">
                     {industry.title}
                 </h3>
                 {industry.description && (
@@ -136,7 +136,7 @@ export function HubHero({ title, subtitle, featuredPlaybooks = [], industryVerti
                             <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
                             Authority Hub
                         </div>
-                        <h1 className="text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl font-heading">
+                        <h1 className="text-4xl font-bold tracking-tighter text-white md:text-5xl lg:text-6xl font-heading leading-[0.9]">
                             {title}
                         </h1>
                         <p className="max-w-xl text-lg text-white/70 font-sans leading-relaxed">
@@ -165,7 +165,7 @@ export function HubHero({ title, subtitle, featuredPlaybooks = [], industryVerti
                     <RevealOnScroll>
                         <div className="mt-16">
                             <div className="mb-6 flex items-center justify-between">
-                                <h2 className="text-2xl font-semibold text-white font-heading">Featured Playbooks</h2>
+                                <h2 className="text-2xl font-bold text-white font-heading tracking-tighter leading-[1.1]">Featured Playbooks</h2>
                                 <Link
                                     href="/hub/s-corp-playbook"
                                     className="flex items-center gap-1 text-sm font-medium text-gold-200 hover:underline"
@@ -187,7 +187,7 @@ export function HubHero({ title, subtitle, featuredPlaybooks = [], industryVerti
                     <RevealOnScroll>
                         <div className="mt-16">
                             <div className="mb-6 flex items-center justify-between">
-                                <h2 className="text-2xl font-semibold text-white font-heading">Industry Guides</h2>
+                                <h2 className="text-2xl font-bold text-white font-heading tracking-tighter leading-[1.1]">Industry Guides</h2>
                                 <Link
                                     href="/hub/industries"
                                     className="flex items-center gap-1 text-sm font-medium text-gold-200 hover:underline"

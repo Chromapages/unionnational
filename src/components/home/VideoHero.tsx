@@ -6,6 +6,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, Play, X, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useVideoPlayer } from "@/hooks/useVideoPlayer";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import Link from "next/link";
 
 // Custom hook for counting numbers with ease-out
 const useCounter = (end: number, duration: number = 1000, start: boolean = false) => {
@@ -207,12 +208,12 @@ export function VideoHero({ data }: VideoHeroProps) {
                             </div>
 
                             {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] font-bold font-heading tracking-tight mb-6 text-white drop-shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-forwards">
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] font-bold font-heading tracking-tighter mb-6 text-white drop-shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-forwards">
                                 {data?.heroTitle ? (
                                     <>
                                         {data.heroTitle.split('.')[0]}.
                                         <br />
-                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600">
+                                        <span className="text-gold-500 italic">
                                             {data.heroTitle.split('.').slice(1).join('.')}
                                         </span>
                                     </>
@@ -220,7 +221,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     <>
                                         {t.rich('titlePart1', {
                                             gold: (chunks) => (
-                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600">{chunks}</span>
+                                                <span className="text-gold-500 italic">{chunks}</span>
                                             )
                                         })}
                                     </>
@@ -321,20 +322,28 @@ export function VideoHero({ data }: VideoHeroProps) {
                                 )}
 
                                 {/* CTAs Row */}
-                                <div className="flex flex-col sm:flex-row gap-4 mt-2">
+                                <div className="flex flex-col sm:flex-row gap-5 mt-2">
                                     <button
                                         onClick={() => setIsVideoModalOpen(true)}
                                         aria-label={t('videoButton.ariaLabel')}
-                                        className="bg-brand-900/50 backdrop-blur-sm border border-white/20 text-white px-6 md:px-8 py-4 rounded-md text-sm font-bold hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center sm:justify-start gap-4 font-heading tracking-wide group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 w-full sm:w-auto min-h-[56px] touch-target-pref no-tap-highlight"
+                                        className="bg-brand-900/50 backdrop-blur-sm border border-white/20 text-white px-8 py-5 rounded-xl text-sm font-bold hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center sm:justify-start gap-4 font-heading tracking-wide group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 w-full sm:w-auto min-h-[64px] touch-target-pref no-tap-highlight"
                                     >
                                         <div className="w-10 h-10 rounded-full bg-gold-500/10 border border-gold-500/50 flex items-center justify-center text-gold-400 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
                                             <Play className="w-4 h-4 fill-current ml-0.5" />
                                         </div>
                                         <div className="text-left">
-                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">{t('videoButton.eyebrow')}</span>
-                                            <span className="block text-sm sm:text-base">{data?.heroCtaText || t('videoButton.label')}</span>
+                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">Confidential Briefing</span>
+                                            <span className="block text-base">Watch Our Strategy Video</span>
                                         </div>
                                     </button>
+
+                                    <Link 
+                                        href="/book"
+                                        className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-gold-500 text-brand-900 font-black rounded-xl hover:bg-gold-400 transition-all text-lg shadow-xl shadow-gold-500/20 active:scale-[0.98] group"
+                                    >
+                                        Book Strategy Call
+                                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                    </Link>
                                 </div>
 
                             </div>
@@ -434,10 +443,13 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         </div>
                                     </div>
 
-                                    <button className="w-full mt-8 py-4 rounded-lg font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2 bg-brand-900 text-white hover:bg-brand-800 hover:shadow-lg font-heading group ring-1 ring-white/10">
+                                    <Link 
+                                        href="/intake"
+                                        className="w-full mt-8 py-4 rounded-lg font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2 bg-brand-900 text-white hover:bg-brand-800 hover:shadow-lg font-heading group ring-1 ring-white/10"
+                                    >
                                         {t('dashboard.viewAnalysis')}
                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-gold-500" />
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </RevealOnScroll>
@@ -473,11 +485,11 @@ export function VideoHero({ data }: VideoHeroProps) {
                                 autoPlay
                                 className="w-full h-full"
                                 chapters={[
-                                    { id: '1', title: t('videoChapters.intro'), startTime: 0, cta: { text: t('videoChapters.cta.bookCall'), url: '/contact' } },
+                                        { id: '1', title: t('videoChapters.intro'), startTime: 0, cta: { text: t('videoChapters.cta.bookCall'), url: '/book' } },
                                     { id: '2', title: t('videoChapters.strategy'), startTime: 15 },
-                                    { id: '3', title: t('videoChapters.calculating'), startTime: 45, cta: { text: t('videoChapters.cta.tryCalculator'), url: '#calculator' } },
+                                    { id: '3', title: t('videoChapters.calculating'), startTime: 45, cta: { text: t('videoChapters.cta.tryCalculator'), url: '/intake' } },
                                     { id: '4', title: t('videoChapters.implementation'), startTime: 90 },
-                                    { id: '5', title: t('videoChapters.nextSteps'), startTime: 120, cta: { text: t('videoChapters.cta.getStarted'), url: '/contact' } }
+                                    { id: '5', title: t('videoChapters.nextSteps'), startTime: 120, cta: { text: t('videoChapters.cta.getStarted'), url: '/book' } }
                                 ]}
                             />
                         </div>

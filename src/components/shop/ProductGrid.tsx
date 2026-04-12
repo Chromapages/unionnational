@@ -31,7 +31,6 @@ export function ProductGrid({ products }: ProductGridProps) {
                         compareAtPrice={product.compareAtPrice}
                         shortDescription={product.shortDescription}
                         format={product.format}
-                        buyLink={product.buyLink}
                         badge={product.badge}
                         rating={product.rating}
                         category={product.category}

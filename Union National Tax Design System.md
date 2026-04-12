@@ -59,18 +59,13 @@ We reject the ephemeral "startup" look (glassmorphism, gradients, blur). We embr
 ### **Type Scale**
 
 | **Element** | **Font** | **Size** | **Weight** | **Tracking** | **Usage** |
-
-| **H1** | Outfit | text-5xl | Bold (700) | \-0.03em | Landing Page Hero |
-
-| **H2** | Outfit | text-3xl | SemiBold (600) | \-0.015em | Section Headers |
-
-| **H3** | Outfit | text-xl | Medium (500) | 0 | Card Titles |
-
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **H1** | Outfit | text-5xl | Bold (700) | -0.05em | Landing Page Hero |
+| **H2** | Outfit | text-3xl | Bold (700) | -0.03em | Section Headers |
+| **H3** | Outfit | text-xl | Bold (700) | -0.015em | Card Titles |
 | **Body** | Inter | text-base | Regular (400) | 0 | Standard Reading |
-
 | **Label** | Inter | text-xs | Bold (700) | 0.15em | "Eyebrow" Labels |
-
-| **Data** | Inter | text-sm | Medium (500) | 0 | Pricing tables |
+| **Data** | Inter | text-sm | Bold (700) | 0 | Pricing tables |
 
 ## **4\. Components (Material/Tactile)**
 

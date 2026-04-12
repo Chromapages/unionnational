@@ -54,10 +54,10 @@ type FloatingNavbarProps = {
 // translationKey references Header.{key} in message files
 const navLinks: NavLink[] = [
     { translationKey: "home", href: "/" },
+    { translationKey: "industries", href: "/industries" },
     { translationKey: "shop", href: "/shop" },
     { translationKey: "about", href: "/about" },
-    { translationKey: "team", href: "/team" },
-    { translationKey: "resources", href: "/resources" },
+    { translationKey: "faq", href: "/faq" },
 ];
 
 const fallbackServices: ServiceSummary[] = [
@@ -86,11 +86,17 @@ const getIcon = (iconName?: string) => {
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
     const t = useTranslations('Header');
+    const [mounted, setMounted] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isHealthAssessmentOpen, setIsHealthAssessmentOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
+
+    // Set mounted on client
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
 
     // Check for reduced motion preference
@@ -121,8 +127,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
     const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
-    const ctaText = siteSettings?.ctaButtonText || "Book a Call";
-    const ctaUrl = siteSettings?.ctaButtonUrl || "/contact";
+    const ctaText = "Book a Strategy Call";
+    const ctaUrl = siteSettings?.ctaButtonUrl || "/book";
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, '')}`;
 
@@ -130,6 +136,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         <>
             <AppBar
                 position="fixed"
+                elevation={mounted && scrolled ? 4 : 0}
                 sx={{
                     top: 0,
                     left: 0,
@@ -170,8 +177,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             <Box
                                 sx={{
                                     position: "relative",
-                                    width: { xs: 240, md: scrolled ? 300 : 400 },
-                                    height: { xs: 60, md: scrolled ? 72 : 96 },
+                                    width: { xs: 200, md: scrolled ? 220 : 240, lg: scrolled ? 280 : 360 },
+                                    height: { xs: 50, md: scrolled ? 54 : 64, lg: scrolled ? 68 : 86 },
                                     transition: "all 0.3s ease",
                                 }}
                             >
@@ -190,9 +197,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             component="nav"
                             aria-label="Main navigation"
                             sx={{
-                                display: { xs: "none", lg: "flex" },
+                                display: { xs: "none", md: "flex" },
                                 alignItems: "center",
-                                gap: 1,
+                                gap: { md: 0.25, lg: 1 },
                             }}
                         >
                             {/* Home Link */}
@@ -204,7 +211,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     fontSize: "0.9375rem",
                                     fontWeight: isLinkActive("/") ? 600 : 500,
                                     letterSpacing: "0.02em",
-                                    px: 2.5,
+                                    px: { md: 1.5, lg: 2.5 },
                                     py: 1,
                                     borderRadius: 1,
                                     position: "relative",
@@ -271,7 +278,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                             fontSize: "0.9375rem",
                                             fontWeight: isActive ? 600 : 500,
                                             letterSpacing: "0.02em",
-                                            px: 2.5,
+                                            px: { md: 1.5, lg: 2.5 },
                                             py: 1,
                                             borderRadius: 1,
                                             position: "relative",
@@ -342,12 +349,12 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 component={Link}
                                 href={phoneHref}
                                 sx={{
-                                    display: { xs: "none", lg: "flex" },
+                                    display: { xs: "none", md: "flex" },
                                     alignItems: "center",
                                     gap: 1,
                                     mr: 1,
-                                    pr: 2,
-                                    borderRight: "1px solid rgba(255, 255, 255, 0.15)",
+                                    pr: { md: 1, lg: 2 },
+                                    borderRight: { md: "none", lg: "1px solid rgba(255, 255, 255, 0.15)" },
                                     color: "rgba(255, 255, 255, 0.8)",
                                     textDecoration: "none",
                                     transition: "color 0.2s ease",
@@ -360,6 +367,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 <Typography
                                     component="span"
                                     sx={{
+                                        display: { md: "none", lg: "inline" },
                                         fontSize: "0.875rem",
                                         fontWeight: 500,
                                         fontFamily: 'var(--font-inter), "Inter", sans-serif',
@@ -385,9 +393,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 variant="contained"
                                 color="primary"
                                 sx={{
-                                    display: { xs: "none", lg: "flex" },
+                                    display: { xs: "none", md: "flex" },
                                     fontWeight: 600,
-                                    px: 4,
+                                    px: { md: 2, lg: 4 },
                                     py: 1.5,
                                     position: "relative",
                                     overflow: "hidden",
@@ -428,7 +436,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         {/* Mobile Menu Toggle */}
                         <Box
                             sx={{
-                                display: { xs: "flex", lg: "none" },
+                                display: { xs: "flex", md: "none" },
                                 alignItems: "center",
                             }}
                         >

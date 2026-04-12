@@ -5,11 +5,14 @@ import { ArrowRight, Check, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useCartStore } from "@/store/useCartStore";
+
 interface FeaturedProductProps {
     product: any; // Sanity product
 }
 
 export function FeaturedProduct({ product }: FeaturedProductProps) {
+    const { addItem, toggleCart } = useCartStore();
     if (!product) return null;
 
     return (
@@ -50,23 +53,22 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                         )}
 
                         <div className="flex flex-col sm:flex-row items-center gap-6">
-                            {product.buyLink ? (
-                                <a
-                                    href={product.buyLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-4 rounded-xl text-sm font-bold hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 font-sans"
-                                >
-                                    Get It For ${product.price} <ArrowRight className="w-4 h-4" />
-                                </a>
-                            ) : (
-                                <Link
-                                    href={`/shop/${product.slug}`}
-                                    className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-4 rounded-xl text-sm font-bold hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 font-sans"
-                                >
-                                    View Details <ArrowRight className="w-4 h-4" />
-                                </Link>
-                            )}
+                            <button
+                                onClick={() => {
+                                    addItem({
+                                        id: product._id,
+                                        slug: product.slug,
+                                        title: product.title,
+                                        image: product.imageUrl,
+                                        format: product.format,
+                                        price: product.price
+                                    });
+                                    toggleCart();
+                                }}
+                                className="w-full sm:w-auto bg-gold-500 text-brand-900 px-8 py-4 rounded-xl text-sm font-bold hover:bg-gold-400 transition-colors shadow-lg shadow-gold-500/20 flex items-center justify-center gap-2 font-sans"
+                            >
+                                Get It For ${product.price} <ArrowRight className="w-4 h-4" />
+                            </button>
 
                             {product.compareAtPrice && (
                                 <div className="text-white/50 text-sm font-sans">

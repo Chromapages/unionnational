@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Check, Mail, ArrowRight, ArrowLeft, Send, Zap, Target, Award, Building2, TrendingUp, Shield } from "lucide-react";
+import { BookOpen, Check, Mail, ArrowRight, ArrowLeft, Send, Zap, Target as TargetIcon, Award, Building2, TrendingUp, Shield } from "lucide-react";
 
 interface Answer {
     questionId: number;
@@ -67,7 +67,7 @@ const BENEFITS = [
     { icon: TrendingUp, title: "Save $8,000-$20,000+ Annually", description: "Most S-Corp owners see this level of savings" },
     { icon: Shield, title: "Reduce SE Tax by 50%", description: "Only pay SE tax on salary, not distributions" },
     { icon: Building2, title: "Separate Business Identity", description: "Stronger legal protection between personal and business" },
-    { icon: Target, title: "Tax Planning Flexibility", description: "More strategies available for optimization" },
+    { icon: TargetIcon, title: "Tax Planning Flexibility", description: "More strategies available for optimization" },
 ];
 
 export function SCorpAdvantageGuide() {

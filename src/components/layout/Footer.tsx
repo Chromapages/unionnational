@@ -113,13 +113,19 @@ export async function Footer() {
                     <div>
                         <h3 className="text-white font-bold mb-6 font-heading">Services</h3>
                         <ul className="space-y-3">
-                            {['Tax Planning', 'Tax Preparation', 'IRS Resolution', 'Bookkeeping'].map((item) => (
-                                <li key={item}>
+                            {[
+                                { name: 'S-Corp Tax Advantage', slug: 's-corp-tax-advantage' },
+                                { name: 'Fractional CFO', slug: 'fractional-cfo' },
+                                { name: 'Tax Planning', slug: 'tax-planning' },
+                                { name: 'Bookkeeping', slug: 'strategic-bookkeeping' },
+                                { name: 'Tax Filing & Prep', slug: 'tax-filing-preparation' },
+                            ].map((item) => (
+                                <li key={item.slug}>
                                     <Link
-                                        href={`/services/${item.toLowerCase().replace(' ', '-')}`}
+                                        href={`/services/${item.slug}`}
                                         className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
                                     >
-                                        {item}
+                                        {item.name}
                                     </Link>
                                 </li>
                             ))}
@@ -138,7 +144,7 @@ export async function Footer() {
                     <div>
                         <h3 className="text-white font-bold mb-6 font-heading">Company</h3>
                         <ul className="space-y-3">
-                            {['About', 'Team', 'Resources', 'Contact', 'Shop']
+                            {['About', 'Team', 'Resources', 'FAQ', 'Contact', 'Shop']
                                 .map((item) => (
                                     <li key={item}>
                                         <Link

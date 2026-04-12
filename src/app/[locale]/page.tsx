@@ -16,6 +16,8 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
 
+import ProblemSection from "@/components/home/ProblemSection";
+
 // Lazy load below-the-fold components
 const NationwideServiceSection = dynamic(() => import("@/components/home/NationwideServiceSection").then(mod => ({ default: mod.NationwideServiceSection })), {
   loading: () => <div className="h-96 animate-pulse bg-slate-100" />,
@@ -107,7 +109,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           <ErrorBoundary name="Health Check Survey">
             <section className="py-16 bg-gradient-to-b from-white to-slate-50">
               <div className="max-w-4xl mx-auto px-4 text-center">
-                <h2 className="text-3xl md:text-4xl font-black text-brand-900 mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-4 tracking-tighter leading-[1.1]">
                   Get Your Free Tax Health Score
                 </h2>
                 <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
@@ -121,6 +123,10 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
                 </a>
               </div>
             </section>
+          </ErrorBoundary>
+
+          <ErrorBoundary name="Problem Framing">
+            <ProblemSection />
           </ErrorBoundary>
 
           <ErrorBoundary name="Differentiation Section">

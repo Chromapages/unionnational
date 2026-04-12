@@ -65,21 +65,21 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
                                     <div className="flex items-start gap-4">
                                         <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">1</div>
                                         <div>
-                                            <h3 className="text-white font-heading font-semibold text-lg">Entity Structure</h3>
+                                            <h3 className="text-white font-heading font-bold text-lg">Entity Structure</h3>
                                             <p className="text-sm text-brand-100/60 mt-1">Optimized for liability and tax efficiency.</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-4">
                                         <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">2</div>
                                         <div>
-                                            <h3 className="text-white font-heading font-semibold text-lg">Strategic Planning</h3>
+                                            <h3 className="text-white font-heading font-bold text-lg">Strategic Planning</h3>
                                             <p className="text-sm text-brand-100/60 mt-1">Quarterly projections to eliminate surprises.</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-4">
                                         <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">3</div>
                                         <div>
-                                            <h3 className="text-white font-heading font-semibold text-lg">Compliance & Defense</h3>
+                                            <h3 className="text-white font-heading font-bold text-lg">Compliance & Defense</h3>
                                             <p className="text-sm text-brand-100/60 mt-1">Audit-proof documentation and support.</p>
                                         </div>
                                     </div>

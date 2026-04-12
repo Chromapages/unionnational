@@ -115,7 +115,7 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                                 </span>
                                 {tier.billingPeriod && (
                                     <span className={cn(
-                                        "text-xs font-semibold uppercase tracking-widest opacity-40",
+                                        "text-xs font-bold uppercase tracking-widest opacity-40",
                                         isExecutive ? "text-slate-400" : "text-brand-500"
                                     )}>
                                         /{tier.billingPeriod}

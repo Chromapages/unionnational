@@ -16,6 +16,8 @@ import {
     ChevronRight,
     Calendar,
     Globe,
+    Briefcase,
+    CircleHelp,
 } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
@@ -33,10 +35,10 @@ interface MobileSidebarProps {
 const navItems = [
     { id: "home", translationKey: "home", href: "/", icon: Home },
     { id: "services", translationKey: "services", href: "/services", icon: FileText },
+    { id: "industries", translationKey: "industries", href: "/industries", icon: Briefcase },
     { id: "shop", translationKey: "shop", href: "/shop", icon: ShoppingBag },
     { id: "about", translationKey: "about", href: "/about", icon: Users },
-    { id: "team", translationKey: "team", href: "/team", icon: Users },
-    { id: "blog", translationKey: "blog", href: "/blog", icon: FileText },
+    { id: "faq", translationKey: "faq", href: "/faq", icon: CircleHelp },
     { id: "contact", translationKey: "contact", href: "/contact", icon: Phone },
 ];
 
@@ -90,7 +92,7 @@ const itemVariants = {
 export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarProps) {
     const t = useTranslations("Header");
     const pathname = usePathname();
-    const ctaText = siteSettings?.ctaButtonText || "Book a Call";
+    const ctaText = "Book a Strategy Call";
     const ctaUrl = siteSettings?.ctaButtonUrl || "/contact";
     const phoneNumber = siteSettings?.phone || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;

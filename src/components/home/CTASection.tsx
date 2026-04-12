@@ -30,10 +30,10 @@ export function CTASection({ data }: CTASectionProps) {
     const currentYear = new Date().getFullYear();
 
     // Fallbacks with translations
-    const title = data?.ctaTitle || t("fallbackTitle");
-    const subtitle = data?.ctaSubtitle || t("fallbackSubtitle");
-    const buttonText = data?.ctaButtonText || t("fallbackButtonText");
-    const buttonUrl = data?.ctaButtonUrl || "/contact";
+    const title = data?.ctaTitle || "Ready to Switch to a \nStrategy-First Partner?";
+    const subtitle = data?.ctaSubtitle || "Join the elite business owners who treat their financial leadership as a growth engine, not a compliance burden.";
+    const buttonText = data?.ctaButtonText || "Book Your Strategy Session";
+    const buttonUrl = data?.ctaButtonUrl || "/book";
 
     return (
         <section id="contact" className="relative py-20 lg:py-28 overflow-hidden">
@@ -57,7 +57,7 @@ export function CTASection({ data }: CTASectionProps) {
                             {t("badge", { year: currentYear })}
                         </div>
 
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-8 font-heading leading-[1.1] whitespace-pre-line">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tighter mb-8 font-heading leading-[1.1] whitespace-pre-line">
                             {title}
                         </h2>
 

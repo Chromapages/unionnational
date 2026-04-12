@@ -3,6 +3,7 @@
 import type { ElementType } from "react";
 import { Clock, Download, FileText, ShieldCheck, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 interface FeatureBentoProps {
@@ -24,6 +25,7 @@ const categoryImpactMap: Record<string, string> = {
 };
 
 export function FeatureBento({ format, category }: FeatureBentoProps) {
+    const t = useTranslations("Shop.FeatureBento");
     const normalizedFormat = format?.toLowerCase() || "";
     const formatConfig = formatMap[normalizedFormat] || { label: format || "Resource", icon: FileText };
     const impact = categoryImpactMap[category?.toLowerCase() || ""] || "Strategic Savings";
@@ -31,30 +33,43 @@ export function FeatureBento({ format, category }: FeatureBentoProps) {
 
     const cells = [
         {
-            title: "Format",
+            title: t("format.title"),
             value: formatConfig.label,
             icon: FormatIcon,
             accent: "bg-slate-50",
         },
         {
-            title: "Delivery",
-            value: "Instant Access",
+            title: t("delivery.title"),
+            value: t("delivery.value"),
             icon: Download,
             accent: "bg-gold-50",
         },
         {
-            title: "Execution Time",
-            value: "Under 2 hours",
+            title: t("execution.title"),
+            value: t("execution.value"),
             icon: Clock,
             accent: "bg-sky-50",
         },
         {
-            title: "Impact Zone",
+            title: t("impact.title"),
             value: impact,
             icon: ShieldCheck,
             accent: "bg-emerald-50",
+            description: t("impact.description")
         },
     ];
+
+    const getFormatDescription = (title: string, value: string) => {
+        if (title === t("format.title")) {
+            if (value.includes("PDF")) return t("format.pdf");
+            if (value.includes("Template")) return t("format.template");
+            if (value.includes("Video")) return t("format.video");
+        }
+        if (title === t("delivery.title")) return t("delivery.description");
+        if (title === t("execution.title")) return t("execution.description");
+        if (title === t("impact.title")) return t("impact.description");
+        return t("defaultDescription");
+    };
 
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -87,7 +102,7 @@ export function FeatureBento({ format, category }: FeatureBentoProps) {
                                 {cell.value}
                             </div>
                             <p className="mt-1 text-[11px] font-medium text-slate-400 group-hover:text-brand-900/60 transition-colors">
-                                Optimized for implementation.
+                                {getFormatDescription(cell.title, cell.value)}
                             </p>
                         </div>
                     </motion.div>

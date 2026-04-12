@@ -35,7 +35,7 @@ export function PricingPreview() {
                                     </div>
                                 </div>
 
-                                <h3 className="text-3xl font-semibold mb-4 text-brand-900 font-heading">Tax Compliance</h3>
+                                <h3 className="text-3xl font-bold mb-4 text-brand-900 font-heading">Tax Compliance</h3>
                                 <p className="text-brand-900 mb-8 max-w-sm font-sans">
                                     Perfect for small businesses needing accurate, worry-free tax preparation and filings.
                                 </p>
@@ -83,7 +83,7 @@ export function PricingPreview() {
                                     </div>
                                 </div>
 
-                                <h3 className="text-3xl font-semibold text-white mb-4 font-heading">Fractional CFO</h3>
+                                <h3 className="text-3xl font-bold text-white mb-4 font-heading">Fractional CFO</h3>
                                 <p className="text-brand-900/60 mb-8 max-w-sm font-sans">
                                     Full-service strategic financial leadership to maximize cash flow and minimize tax liability.
                                 </p>

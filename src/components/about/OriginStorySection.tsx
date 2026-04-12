@@ -19,7 +19,7 @@ export function OriginStorySection({ title, signature, imageUrl, children }: Ori
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <RevealOnScroll className="order-2 lg:order-1">
-                        <h2 className="text-[var(--color-primary)] font-semibold uppercase tracking-[0.3em] text-xs mb-4">{title}</h2>
+                        <h2 className="text-[var(--color-primary)] font-bold uppercase tracking-[0.3em] text-xs mb-4">{title}</h2>
 
                         <div className="space-y-6 text-white/75 leading-relaxed font-sans text-lg">
                             {children}

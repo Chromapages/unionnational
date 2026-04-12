@@ -2,6 +2,7 @@
     "Header": {
         "home": "Inicio",
         "services": "Servicios",
+        "industries": "Industrias",
         "about": "Nosotros",
         "team": "Equipo",
         "contact": "Contacto",
@@ -454,6 +455,75 @@
         "ValuesSection": {
             "eyebrow": "Nuestro Ethos",
             "title": "Construido sobre tres pilares."
+        }
+    },
+    "Shop": {
+        "Cart": {
+            "title": "Carrito de Compras",
+            "empty": "Su carrito está vacío",
+            "continueShopping": "Continuar Comprando",
+            "subtotal": "Subtotal",
+            "shipping": "Envío",
+            "free": "GRATIS",
+            "total": "Total",
+            "checkout": "Proceder al Pago",
+            "secureNote": "Pago Seguro en la Nube"
+        },
+        "Hero": {
+            "resourceCenter": "Centro de Recursos",
+            "browseResources": "Explorar Recursos",
+            "secureCheckout": "Pago Seguro",
+            "instantAccess": "Acceso Instantáneo",
+            "expertVerified": "Verificado por Expertos"
+        },
+        "Filter": {
+            "all": "Todos los Recursos",
+            "taxPlan": "Planes Fiscales",
+            "template": "Plantillas",
+            "ebook": "Guías y eBooks",
+            "course": "Cursos en Video"
+        },
+        "ProductCard": {
+            "quickView": "Vista Rápida",
+            "formatLabels": {
+                "ebook": "PDF",
+                "template": "Plantilla",
+                "course": "Video",
+                "bundle": "Paquete"
+            }
+        },
+        "TransactionCard": {
+            "strategicAsset": "Activo Estratégico",
+            "secureCheckout": "Pago Seguro",
+            "lifetimeAccess": "Acceso de por Vida",
+            "includedMaterials": "Materiales Incluidos",
+            "securePurchase": "Compra Segura",
+            "comingSoon": "Próximamente",
+            "instantDelivery": "Entrega Digital Instantánea",
+            "save": "Ahorre"
+        },
+        "FeatureBento": {
+            "format": {
+                "title": "Formato",
+                "pdf": "Lea en cualquier dispositivo, en cualquier lugar.",
+                "template": "Listo para usar inmediatamente.",
+                "video": "Vea y aprenda a su ritmo."
+            },
+            "delivery": {
+                "title": "Entrega",
+                "value": "Acceso Instantáneo",
+                "description": "Obtenga sus recursos inmediatamente."
+            },
+            "execution": {
+                "title": "Tiempo de Ejecución",
+                "value": "Menos de 2 horas",
+                "description": "Acelere su implementación."
+            },
+            "impact": {
+                "title": "Zona de Impacto",
+                "description": "Optimizado fiscalmente para cumplimiento."
+            },
+            "defaultDescription": "Optimizado para la implementación."
         }
     }
 }

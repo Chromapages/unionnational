@@ -22,7 +22,7 @@ export function MissionStatement({ mission, vision }: MissionStatementProps) {
                 <Quote className="w-16 h-16 text-[var(--color-primary)]/10 absolute -top-8 -left-8 md:-left-16" />
                 <Quote className="w-16 h-16 text-[var(--color-primary)]/10 absolute -bottom-8 -right-8 md:-right-16" />
 
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[var(--color-text)] leading-tight mb-8 font-heading relative z-10">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--color-text)] leading-[1.1] mb-8 font-heading tracking-tighter relative z-10">
                     {mission}
                 </h2>
 

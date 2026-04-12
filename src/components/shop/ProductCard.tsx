@@ -8,6 +8,9 @@ import { motion } from "framer-motion";
 import { StarRating } from "@/components/ui/StarRating";
 import { cn } from "@/lib/utils";
 
+import { useTranslations } from "next-intl";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
+
 export interface ProductCardProps {
     title: string;
     coverImage: any;
@@ -19,17 +22,9 @@ export interface ProductCardProps {
     category?: string;
     badge?: string; // 'bestseller', 'new', 'limited'
     rating?: number;
-    buyLink?: string;
 }
 
 type BadgeType = 'bestseller' | 'new' | 'limited';
-
-const formatLabels: Record<string, string> = {
-    ebook: "PDF",
-    template: "Template",
-    course: "Video",
-    bundle: "Bundle",
-};
 
 const formatBadgeStyles: Record<string, string> = {
     ebook: "bg-sky-50 text-sky-700 border-sky-200",
@@ -38,14 +33,12 @@ const formatBadgeStyles: Record<string, string> = {
     bundle: "bg-amber-50 text-amber-700 border-amber-200",
 };
 
-// Map badge styles
 const badgeStyles: Record<BadgeType, string> = {
     bestseller: "bg-gold-500/10 text-gold-600 border-gold-500/20",
     new: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
     limited: "bg-red-500/10 text-red-600 border-red-500/20",
 };
 
-// Map format to icon
 const formatIcons: Record<string, any> = {
     ebook: BookOpen,
     template: FileText,
@@ -53,7 +46,6 @@ const formatIcons: Record<string, any> = {
     bundle: BookOpen,
 };
 
-// Helper for currency
 const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -72,9 +64,16 @@ export function ProductCard({
     format = 'ebook',
     badge,
     rating = 5,
-    buyLink
 }: ProductCardProps) {
+    const t = useTranslations("Shop.ProductCard");
     const [isHovered, setIsHovered] = useState(false);
+
+    const formatLabels: Record<string, string> = {
+        ebook: t("formatLabels.ebook"),
+        template: t("formatLabels.template"),
+        course: t("formatLabels.course"),
+        bundle: t("formatLabels.bundle"),
+    };
 
     const FormatIcon = formatIcons[format.toLowerCase()] || FileText;
     const badgeClass = badge ? badgeStyles[badge.toLowerCase() as BadgeType] || "" : "";
@@ -92,9 +91,13 @@ export function ProductCard({
                 "absolute inset-x-0 bottom-32 z-30 flex justify-center opacity-0 transition-opacity duration-300 pointer-events-none",
                 isHovered && "opacity-100 pointer-events-auto"
             )}>
-                <Link href={`/shop/${slug}`} className="bg-white text-brand-900 px-6 py-3 rounded-full shadow-lg border border-slate-200 font-bold text-sm flex items-center gap-2 hover:bg-gold-500 hover:text-white hover:border-gold-500 transition-colors">
+                <Link 
+                    href={`/shop/${slug}`} 
+                    onClick={() => trackMetaEvent("SelectContent", { content_type: "product", content_id: slug, name: title })}
+                    className="bg-white text-brand-900 px-6 py-3 rounded-full shadow-lg border border-slate-200 font-bold text-sm flex items-center gap-2 hover:bg-gold-500 hover:text-white hover:border-gold-500 transition-colors"
+                >
                     <Eye className="w-4 h-4" />
-                    Quick View
+                    {t("quickView")}
                 </Link>
             </div>
 

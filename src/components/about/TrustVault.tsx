@@ -31,8 +31,8 @@ export function TrustVault() {
 
             <div className="relative mx-auto max-w-6xl px-6">
                 <div className="max-w-2xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-500">{t('eyebrow')}</p>
-                    <h2 className="mt-4 text-3xl font-semibold text-white font-heading">{t('title')}</h2>
+                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-500">{t('eyebrow')}</p>
+                    <h2 className="mt-4 text-3xl font-bold text-white font-heading tracking-tighter leading-[1.1]">{t('title')}</h2>
                     <p className="mt-4 text-base text-brand-100/70 max-w-lg">
                         {t('description')}
                     </p>
@@ -47,7 +47,7 @@ export function TrustVault() {
                             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gold-500/10 text-gold-500 border border-gold-500/20">
                                 <item.icon className="h-5 w-5" />
                             </div>
-                            <h3 className="mt-6 text-lg font-semibold font-heading text-white">{item.title}</h3>
+                            <h3 className="mt-6 text-lg font-bold font-heading text-white">{item.title}</h3>
                             <p className="mt-3 text-sm text-brand-100/60 leading-relaxed font-sans">{item.description}</p>
                         </div>
                     ))}

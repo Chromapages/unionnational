@@ -1,6 +1,8 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ShieldCheck, Zap, Award } from "lucide-react";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 interface ShopHeroProps {
     title: string;
@@ -8,6 +10,8 @@ interface ShopHeroProps {
 }
 
 export function ShopHero({ title, subtitle }: ShopHeroProps) {
+    const t = useTranslations("Shop.Hero");
+
     return (
         <section className="relative bg-slate-50 py-24 overflow-hidden border-b border-slate-200">
             {/* Abstract Background Gradient - Light Mode */}
@@ -20,7 +24,7 @@ export function ShopHero({ title, subtitle }: ShopHeroProps) {
 
             <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-gold-600 text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm">
-                    Resource Center
+                    {t("resourceCenter")}
                 </div>
 
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-900 tracking-tight mb-6 font-heading">
@@ -31,25 +35,36 @@ export function ShopHero({ title, subtitle }: ShopHeroProps) {
                     {subtitle}
                 </p>
 
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                    <a
+                        href="#browse"
+                        onClick={() => trackMetaEvent("NavigateToShop", { section: "hero_cta" })}
+                        className="group relative flex items-center gap-2 rounded-full bg-brand-900 px-8 py-4 text-sm font-bold uppercase tracking-widest text-gold-400 shadow-xl shadow-brand-900/20 transition-all hover:bg-brand-800 hover:shadow-brand-900/40"
+                    >
+                        {t("browseResources")}
+                        <Zap className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    </a>
+                </div>
+
                 {/* Trust Badges - Minimal Row */}
                 <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-bold uppercase tracking-wider text-slate-500">
                     <div className="flex items-center gap-2">
                         <div className="bg-green-100 p-1 rounded-full">
                             <ShieldCheck className="w-3.5 h-3.5 text-green-700" />
                         </div>
-                        Secure Checkout
+                        {t("secureCheckout")}
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="bg-gold-100 p-1 rounded-full">
                             <Zap className="w-3.5 h-3.5 text-gold-700" />
                         </div>
-                        Instant Access
+                        {t("instantAccess")}
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="bg-brand-100 p-1 rounded-full">
                             <Award className="w-3.5 h-3.5 text-brand-700" />
                         </div>
-                        Expert Verified
+                        {t("expertVerified")}
                     </div>
                 </div>
             </div>

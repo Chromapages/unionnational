@@ -54,7 +54,7 @@ export function IncludedFeatures() {
 
                                     <feature.icon className="w-10 h-10 md:w-12 md:h-12 text-gold-500 transition-all duration-300 group-hover:scale-110 group-hover:text-gold-400" strokeWidth={1.5} />
                                 </div>
-                                <span className="text-white/80 font-sans text-xs md:text-sm font-semibold tracking-wide leading-tight px-4 transition-colors duration-300 group-hover:text-white">
+                                <span className="text-white/80 font-sans text-xs md:text-sm font-bold tracking-wide leading-tight px-4 transition-colors duration-300 group-hover:text-white">
                                     {feature.title}
                                 </span>
                             </motion.div>

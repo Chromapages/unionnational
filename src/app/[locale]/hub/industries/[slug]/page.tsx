@@ -64,7 +64,7 @@ export default async function IndustryPage(props: PageProps) {
 
             {featuredChapters.length > 0 && (
                 <section className="mx-auto max-w-7xl px-6 py-16">
-                    <h2 className="mb-8 text-2xl font-semibold text-white font-heading">Relevant Chapters</h2>
+                    <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Relevant Chapters</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {featuredChapters.map((chapter: any) => (
                             <Link
@@ -93,7 +93,7 @@ export default async function IndustryPage(props: PageProps) {
 
             {relatedPlaybooks.length > 0 && (
                 <section className="mx-auto max-w-7xl px-6 py-16">
-                    <h2 className="mb-8 text-2xl font-semibold text-white font-heading">Related Playbooks</h2>
+                    <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Related Playbooks</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {relatedPlaybooks.map((playbook: any) => (
                             <Link
@@ -115,7 +115,7 @@ export default async function IndustryPage(props: PageProps) {
                                     <div className="h-48 bg-brand-900/60" />
                                 )}
                                 <div className="flex flex-1 flex-col p-6">
-                                    <h3 className="font-heading text-xl font-semibold text-white transition-colors duration-300 group-hover:text-gold-200">
+                                    <h3 className="font-heading text-xl font-bold text-white transition-colors duration-300 group-hover:text-gold-200">
                                         {playbook.title}
                                     </h3>
                                     <span className="mt-auto flex items-center gap-2 pt-4 text-sm font-medium text-gold-200">

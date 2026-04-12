@@ -20,47 +20,47 @@ export type ServiceSummary = {
 
 const fallbackServices: ServiceSummary[] = [
   {
-    title: "Strategic Bookkeeping",
-    slug: { current: "bookkeeping" },
-    icon: "Calculator",
-    shortDescription: "Detailed records for cash flow & decisions",
-    category: "Tax",
-  },
-  {
     title: "S-Corp Tax Advantage",
-    slug: { current: "s-corp" },
+    slug: { current: "s-corp-tax-advantage" },
     icon: "TrendingUp",
-    shortDescription: "Save up to $15,000/year in taxes",
-    category: "Tax",
+    shortDescription: "Evaluate whether an S-Corp election could reduce your tax burden",
+    category: "Advisory",
     isPopular: true,
   },
   {
-    title: "Tax Filing & Preparation",
-    slug: { current: "tax-filing-and-preparation-services" },
-    icon: "FileText",
-    shortDescription: "Accurate, compliant, optimized filing",
-    category: "Tax",
-  },
-  {
     title: "Fractional CFO",
-    slug: { current: "cfo" },
+    slug: { current: "fractional-cfo" },
     icon: "Briefcase",
     shortDescription: "High-level financial leadership",
-    category: "Business",
+    category: "Advisory",
   },
   {
     title: "Tax Planning Consulting",
     slug: { current: "tax-planning" },
     icon: "Target",
     shortDescription: "Personalized tax-saving strategies",
-    category: "Business",
+    category: "Advisory",
+  },
+  {
+    title: "Strategic Bookkeeping",
+    slug: { current: "strategic-bookkeeping" },
+    icon: "Calculator",
+    shortDescription: "Detailed records for cash flow & decisions",
+    category: "Support",
+  },
+  {
+    title: "Tax Filing & Preparation",
+    slug: { current: "tax-filing-preparation" },
+    icon: "FileText",
+    shortDescription: "Accurate, compliant, optimized filing",
+    category: "Support",
   },
   {
     title: "New Business Formation",
-    slug: { current: "formation" },
+    slug: { current: "new-business-formation" },
     icon: "Building2",
     shortDescription: "Smart entity structure guidance",
-    category: "Business",
+    category: "Support",
   },
 ];
 
@@ -93,10 +93,9 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
   const pathname = usePathname();
   const isServicesActive = pathname.startsWith("/services");
   const serviceData = services?.length ? services : fallbackServices;
-  // Split services into two columns locally for display
-  const halfLength = Math.ceil(serviceData.length / 2);
-  const leftColumnServices = serviceData.slice(0, halfLength);
-  const rightColumnServices = serviceData.slice(halfLength);
+  const advisoryServices = serviceData.filter(s => s.category === "Advisory");
+  const supportServices = serviceData.filter(s => s.category === "Support" || !s.category || s.category === "Business" || s.category === "Tax"); // Fallback for unmatched categories
+  
   return (
     <div
       className="relative"
@@ -106,7 +105,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
       {/* Trigger Button - Enhanced hover effect */}
       <button
         className={cn(
-          "group relative flex items-center gap-1.5 px-3 py-2 text-[0.9375rem] font-medium",
+          "group relative flex items-center gap-1.5 px-1.5 lg:px-3 py-2 text-[0.9375rem] font-medium",
           "rounded transition-all duration-300 ease-out",
           isServicesActive ? "text-gold-500" : "text-white",
           "hover:text-gold-500"
@@ -162,10 +161,10 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
               {/* Left Column */}
               <div className="p-4">
                 <h3 className="px-3 text-[10px] font-bold text-gold-500/80 uppercase tracking-widest mb-2 flex items-center gap-2">
-                  Tax Services
+                  Advisory Services
                 </h3>
                 <div className="space-y-0.5">
-                  {leftColumnServices.map((service) => {
+                  {advisoryServices.map((service) => {
                     const ServiceIcon = getIcon(service.icon);
                     const serviceTitle = service.title || "Service";
                     const serviceKey = service._id || service.slug?.current || serviceTitle;
@@ -190,11 +189,11 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
 
               {/* Right Column */}
               <div className="p-4">
-                <h3 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2 opacity-0">
-                  &nbsp;
+                <h3 className="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                  Support & Compliance
                 </h3>
                 <div className="space-y-0.5">
-                  {rightColumnServices.map((service) => {
+                  {supportServices.map((service) => {
                     const ServiceIcon = getIcon(service.icon);
                     const serviceTitle = service.title || "Service";
                     const serviceKey = service._id || service.slug?.current || serviceTitle;
@@ -221,7 +220,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
             {/* VSL Industry Cards Footer */}
             <div className="grid grid-cols-2 gap-px bg-white/5 border-t border-white/10">
               <Link
-                href="/vsl/construction"
+                href="/industries/construction"
                 className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10"
               >
                 <div className="flex items-start gap-4">
@@ -236,9 +235,8 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
                   </div>
                 </div>
               </Link>
-
               <Link
-                href="/vsl/restaurants"
+                href="/industries/restaurants"
                 className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10"
               >
                 <div className="flex items-start gap-4">

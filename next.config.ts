@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(intake|hq|api/submit-application|api/submit-restaurant-application|api/survey|/)/:path*",
+        source: "/(intake|book|hq|api/submit-application|api/submit-restaurant-application|api/survey|/)/:path*",
         headers: [
           {
             key: "Cache-Control",
@@ -120,6 +120,56 @@ const nextConfig: NextConfig = {
             value: "public, max-age=31536000, immutable",
           },
         ],
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: '/construction',
+        destination: '/industries/construction',
+        permanent: true,
+      },
+      {
+        source: '/restaurants',
+        destination: '/industries/restaurants',
+        permanent: true,
+      },
+      {
+        source: '/services/tax-filing-and-preparation-services',
+        destination: '/services/tax-filing-preparation',
+        permanent: true,
+      },
+      // Locale-aware redirects
+      {
+        source: '/en/construction',
+        destination: '/en/industries/construction',
+        permanent: true,
+      },
+      {
+        source: '/es/construction',
+        destination: '/es/industries/construction',
+        permanent: true,
+      },
+      {
+        source: '/en/restaurants',
+        destination: '/en/industries/restaurants',
+        permanent: true,
+      },
+      {
+        source: '/es/restaurants',
+        destination: '/es/industries/restaurants',
+        permanent: true,
+      },
+      {
+        source: '/en/services/tax-filing-and-preparation-services',
+        destination: '/en/services/tax-filing-preparation',
+        permanent: true,
+      },
+      {
+        source: '/es/services/tax-filing-and-preparation-services',
+        destination: '/es/services/tax-filing-preparation',
+        permanent: true,
       },
     ];
   },

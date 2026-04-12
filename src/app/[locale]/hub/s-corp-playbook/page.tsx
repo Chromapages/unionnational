@@ -71,7 +71,7 @@ export default async function PlaybookPage(props: PageProps) {
                                 <BookOpen className="h-3.5 w-3.5" />
                                 Playbook
                             </div>
-                            <h1 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl font-heading">
+                            <h1 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl font-heading leading-[0.9]">
                                 {extractString(playbook.title, locale)}
                             </h1>
                             {playbook.description && (
@@ -110,7 +110,7 @@ export default async function PlaybookPage(props: PageProps) {
             <section className="mx-auto max-w-7xl px-6 py-16">
                 <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_340px]">
                     <div>
-                        <h2 className="mb-8 text-2xl font-semibold text-white font-heading">Table of Contents</h2>
+                        <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Table of Contents</h2>
                         <div className="space-y-4">
                             {chapters.map((chapter: any, index: number) => (
                                 <a

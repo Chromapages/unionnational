@@ -13,25 +13,25 @@ interface DifferentiationSectionProps {
 }
 
 const defaultData = {
-    eyebrow: "Stop Losing Money to the IRS",
-    title: "Why Contractors Overpay (And How We Fix It)",
+    eyebrow: "Elite Strategy. Personalized Leadership.",
+    title: "The Advisory Advantage.",
     titleHighlight: "",
-    subtitle: "Most CPAs exemplify 'reactive filing'. We practice 'proactive tax reduction' specifically for the construction industry.",
+    subtitle: "Most CPAs are 'reactive filers' reporting on the past. We are 'proactive advisors' architecting your financial future.",
     competitorItems: [
-        { title: "Reactive Filing", description: "Only hears from them at tax time when it's too late to save" },
-        { title: "Generic Generalists", description: "Treats a construction business like a flower shop" },
-        { title: "Hidden Hourly Fees", description: "Surprise charges for every 5-minute phone call" },
-        { title: "Template Advice", description: "Missing contractor-specific credits like Section 199A" },
+        { title: "Reactive Filing", description: "Only hear from them in April when it's already too late to save" },
+        { title: "Generic Generalists", description: "Treats a high-growth business like a standard retail shop" },
+        { title: "Transactional Service", description: "Call center support with no deep understanding of your goals" },
+        { title: "Compliance Only", description: "Checking boxes without looking for strategic tax advantages" },
     ],
     ourItems: [
-        { title: "Proactive Strategy", description: "Monthly planning to identify savings before you pay" },
-        { title: "Industry Specialists", description: "Deep expertise in construction & real estate tax law" },
-        { title: "Flat-Fee Investment", description: "Clear, transparent pricing with no surprise bills" },
-        { title: "S-Corp Optimization", description: "Maximize your qualified business income deduction" },
+        { title: "Proactive Strategy", description: "Monthly checkpoints to execute savings before the year ends" },
+        { title: "Boutique Advisory", description: "Personalized leadership and direct access to your strategist" },
+        { title: "S-Corp Tax Advantage", description: "Proprietary system to optimize payroll and tax liability" },
+        { title: "Full Visibility", description: "Digital vault access to all your documents and real-time KPIs" },
     ],
-    ctaText: "Ready to switch to a proactive partner?",
-    ctaPrimary: "Get My Free Analysis",
-    ctaSecondary: "See Services",
+    ctaText: "Ready for a partner that actually plans?",
+    ctaPrimary: "Book Strategy Call",
+    ctaSecondary: "Meet the Team",
     ctaUrl: "/contact",
 };
 
@@ -114,7 +114,7 @@ export function DifferentiationSection({ data }: DifferentiationSectionProps) {
                                         <li key={index} className="flex items-start gap-4 transition-transform duration-200 lg:hover:translate-x-1">
                                             <item.icon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                                             <div>
-                                                <strong className="block text-slate-700 font-semibold text-sm md:text-base">
+                                                <strong className="block text-slate-700 font-bold text-sm md:text-base">
                                                     {item.title}
                                                 </strong>
                                                 <p className="text-sm md:text-base text-slate-500 mt-1 leading-relaxed">
@@ -164,7 +164,7 @@ export function DifferentiationSection({ data }: DifferentiationSectionProps) {
                                                     <item.icon className="w-3 h-3 text-gold-500" />
                                                 </div>
                                                 <div>
-                                                    <strong className="block text-white font-semibold text-sm md:text-base">
+                                                    <strong className="block text-white font-bold text-sm md:text-base">
                                                         {item.title}
                                                     </strong>
                                                     <p className="text-sm md:text-base text-slate-300 mt-1 leading-relaxed">

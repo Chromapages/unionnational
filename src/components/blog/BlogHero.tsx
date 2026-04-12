@@ -49,7 +49,7 @@ function BlogHeroCard({ post, size = "small", className, locale }: BlogHeroCardP
 
             <div className="relative z-10 flex h-full flex-col justify-end p-6">
                 <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.2em] text-gold-200">
-                    {primaryCategory && <span className="font-semibold">{extractString(primaryCategory.title, locale)}</span>}
+                    {primaryCategory && <span className="font-bold">{extractString(primaryCategory.title, locale)}</span>}
                     {publishedDate && (
                         <span className="flex items-center gap-1 text-white/70">
                             <Calendar className="h-3.5 w-3.5" />
@@ -59,7 +59,7 @@ function BlogHeroCard({ post, size = "small", className, locale }: BlogHeroCardP
                 </div>
                 <h3
                     className={cn(
-                        "mt-3 font-heading font-semibold leading-tight text-white transition-colors duration-300 group-hover:text-gold-200",
+                        "mt-3 font-heading font-bold leading-tight text-white transition-colors duration-300 group-hover:text-gold-200",
                         size === "large" ? "text-2xl md:text-3xl" : "text-xl"
                     )}
                 >
@@ -106,7 +106,7 @@ export function BlogHero({ title, subtitle, featuredPosts = [], locale }: BlogHe
                                 <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
                                 Forest Bento Hub
                             </div>
-                            <h1 className="text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl font-heading">
+                            <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl font-heading">
                                 {title}
                             </h1>
                             <p className="max-w-xl text-lg text-white/70 font-sans leading-relaxed">

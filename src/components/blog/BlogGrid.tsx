@@ -13,7 +13,7 @@ export function BlogGrid({ title, subtitle, summary, posts, locale }: BlogGridPr
         <section>
             <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-semibold text-brand-900 font-heading md:text-3xl">
+                    <h2 className="text-2xl font-bold text-brand-900 font-heading md:text-3xl tracking-tighter leading-[1.1]">
                         {title}
                     </h2>
                     {subtitle && (
