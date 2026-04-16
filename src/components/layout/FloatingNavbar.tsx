@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,30 +9,17 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import {
-    Menu as MenuIcon,
-    X as CloseIcon,
-    HeartPulse,
-    Phone,
-    Check,
-    ChevronDown
-} from "lucide-react";
-import * as Icons from "lucide-react";
+import { Menu as MenuIcon, HeartPulse, Phone } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
 import { BusinessHealthAssessmentModal } from "@/components/ui/BusinessHealthAssessmentModal";
-import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
-import type { ServiceSummary } from "./ServicesDropdown";
+import { Link, usePathname } from "@/i18n/navigation";
+import type { ServiceSummary } from "./navigationData";
 
 type NavLink = {
     translationKey: string;
     href: string;
-    hasDropdown?: boolean;
 };
 
 type FloatingNavbarProps = {
@@ -50,8 +35,6 @@ type FloatingNavbarProps = {
     services?: ServiceSummary[];
 };
 
-// Nav links without Services (handled separately via dropdown)
-// translationKey references Header.{key} in message files
 const navLinks: NavLink[] = [
     { translationKey: "home", href: "/" },
     { translationKey: "industries", href: "/industries" },
@@ -60,53 +43,25 @@ const navLinks: NavLink[] = [
     { translationKey: "faq", href: "/faq" },
 ];
 
-const fallbackServices: ServiceSummary[] = [
-    { title: "Strategic Bookkeeping", slug: { current: "bookkeeping" }, icon: "Calculator" },
-    { title: "S-Corp Tax Advantage", slug: { current: "s-corp" }, icon: "TrendingUp" },
-    { title: "Tax Filing & Preparation", slug: { current: "tax-filing-and-preparation-services" }, icon: "FileText" },
-    { title: "Fractional CFO", slug: { current: "cfo" }, icon: "Briefcase" },
-    { title: "Tax Planning Consulting", slug: { current: "tax-planning" }, icon: "Target" },
-    { title: "New Business Formation", slug: { current: "formation" }, icon: "Building2" },
-];
-
-const getServiceHref = (service: ServiceSummary) => {
-    if (service.slug?.current) {
-        return `/services/${service.slug.current}`;
-    }
-    return "/services";
-};
-
-const getIcon = (iconName?: string) => {
-    if (!iconName) {
-        return Icons.Briefcase;
-    }
-    // @ts-expect-error - Lucide exports aren't typed for dynamic access
-    return Icons[iconName] || Icons.Briefcase;
-};
-
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
-    const t = useTranslations('Header');
-    const [mounted, setMounted] = useState(false);
+    const t = useTranslations("Header");
     const [scrolled, setScrolled] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isHealthAssessmentOpen, setIsHealthAssessmentOpen] = useState(false);
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+        typeof window !== "undefined"
+            ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            : false
+    );
     const pathname = usePathname();
 
-    // Set mounted on client
     useEffect(() => {
-        setMounted(true);
-    }, []);
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+        const handler = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+        mediaQuery.addEventListener("change", handler);
 
-    // Check for reduced motion preference
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener('change', handler);
-        return () => mediaQuery.removeEventListener('change', handler);
+        return () => mediaQuery.removeEventListener("change", handler);
     }, []);
 
     useEffect(() => {
@@ -115,36 +70,31 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Helper function to check active state
     const isLinkActive = (href: string) => {
         if (href === "/") return pathname === "/";
         return pathname.startsWith(href);
     };
 
-    const isServicesActive = pathname.startsWith("/services");
-
-    const handleToggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
+    const handleToggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
     const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
-    const ctaText = "Book a Strategy Call";
+    const ctaText = siteSettings?.ctaButtonText || t("bookCall");
     const ctaUrl = siteSettings?.ctaButtonUrl || "/book";
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
-    const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, '')}`;
+    const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
 
     return (
         <>
             <AppBar
                 position="fixed"
-                elevation={mounted && scrolled ? 4 : 0}
+                elevation={scrolled ? 4 : 0}
                 sx={{
                     top: 0,
                     left: 0,
                     right: 0,
                     borderRadius: 0,
                     zIndex: 1200,
-                    // Executive theme: deep green anchor + higher opacity
-                    // Keep a consistent tone; only adjust border/shadow on scroll
                     backgroundColor: "rgba(13, 46, 43, 0.98)",
                     backgroundImage: "none",
                     backdropFilter: "blur(20px) saturate(1.5)",
@@ -153,7 +103,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                     borderColor: scrolled
                         ? "rgba(212, 175, 55, 0.2)"
                         : "rgba(255, 255, 255, 0.05)",
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    transition: "border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                     boxShadow: scrolled
                         ? "0 4px 20px -5px rgba(2, 9, 8, 0.3)"
                         : "none",
@@ -168,7 +118,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             justifyContent: "space-between",
                         }}
                     >
-                        {/* Logo */}
                         <Link
                             href="/"
                             aria-label={siteSettings?.companyName || "Union National Tax - Home"}
@@ -179,7 +128,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     position: "relative",
                                     width: { xs: 200, md: scrolled ? 220 : 240, lg: scrolled ? 280 : 360 },
                                     height: { xs: 50, md: scrolled ? 54 : 64, lg: scrolled ? 68 : 86 },
-                                    transition: "all 0.3s ease",
+                                    transition: "width 0.3s ease, height 0.3s ease",
                                 }}
                             >
                                 <Image
@@ -192,7 +141,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             </Box>
                         </Link>
 
-                        {/* Desktop Navigation */}
                         <Box
                             component="nav"
                             aria-label="Main navigation"
@@ -202,7 +150,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 gap: { md: 0.25, lg: 1 },
                             }}
                         >
-                            {/* Home Link */}
                             <Button
                                 component={Link}
                                 href="/"
@@ -216,8 +163,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     borderRadius: 1,
                                     position: "relative",
                                     overflow: "hidden",
-                                    transition: prefersReducedMotion ? "none" : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                    // Subtle ring on active/hover
+                                    transition: prefersReducedMotion ? "none" : "color 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                     "&::before": {
                                         content: '""',
                                         position: "absolute",
@@ -228,7 +174,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         border: "1px solid rgba(212, 175, 55, 0.2)",
                                         transition: prefersReducedMotion ? "none" : "opacity 0.3s ease",
                                     },
-                                    // Gold underline indicator
                                     "&::after": {
                                         content: '""',
                                         position: "absolute",
@@ -259,14 +204,12 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     },
                                 }}
                             >
-                                Home
+                                {t("home")}
                             </Button>
 
-                            {/* Services Dropdown */}
                             <ServicesDropdown services={services} />
 
-                            {/* Other Nav Links */}
-                            {navLinks.filter(link => link.translationKey !== "home").map((link) => {
+                            {navLinks.filter((link) => link.translationKey !== "home").map((link) => {
                                 const isActive = isLinkActive(link.href);
                                 return (
                                     <Button
@@ -283,8 +226,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                             borderRadius: 1,
                                             position: "relative",
                                             overflow: "hidden",
-                                            transition: prefersReducedMotion ? "none" : "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                            // Subtle ring on active/hover
+                                            transition: prefersReducedMotion ? "none" : "color 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                             "&::before": {
                                                 content: '""',
                                                 position: "absolute",
@@ -295,7 +237,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                                 border: "1px solid rgba(212, 175, 55, 0.2)",
                                                 transition: prefersReducedMotion ? "none" : "opacity 0.3s ease",
                                             },
-                                            // Gold underline indicator
                                             "&::after": {
                                                 content: '""',
                                                 position: "absolute",
@@ -332,7 +273,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             })}
                         </Box>
 
-                        {/* Desktop CTA */}
                         <Box
                             sx={{
                                 display: { xs: "none", md: "flex" },
@@ -340,14 +280,10 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 gap: 2,
                             }}
                         >
-                            {/* <Box sx={{ display: { xs: "none", lg: "block" } }}>
-                                <LanguageSwitcher />
-                            </Box> */}
-
-                            {/* Phone Number */}
                             <Box
                                 component={Link}
                                 href={phoneHref}
+                                aria-label={phoneNumber}
                                 sx={{
                                     display: { xs: "none", md: "flex" },
                                     alignItems: "center",
@@ -361,9 +297,13 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     "&:hover": {
                                         color: "primary.main",
                                     },
+                                    "&:focus-visible": {
+                                        outline: "2px solid white",
+                                        outlineOffset: 2,
+                                    },
                                 }}
                             >
-                                <Phone size={16} />
+                                <Phone size={16} aria-hidden="true" />
                                 <Typography
                                     component="span"
                                     sx={{
@@ -400,8 +340,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     position: "relative",
                                     overflow: "hidden",
                                     boxShadow: "0 4px 14px -3px rgba(212, 175, 55, 0.4)",
-                                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                    // Shimmer effect overlay
+                                    transition: "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                     "&::before": {
                                         content: '""',
                                         position: "absolute",
@@ -433,7 +372,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             </Button>
                         </Box>
 
-                        {/* Mobile Menu Toggle */}
                         <Box
                             sx={{
                                 display: { xs: "flex", md: "none" },
@@ -442,7 +380,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         >
                             <IconButton
                                 onClick={handleToggleSidebar}
-                                aria-label="Toggle menu"
+                                aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+                                aria-expanded={sidebarOpen}
+                                aria-controls="mobile-navigation"
                                 sx={{
                                     color: "white",
                                     backgroundColor: "rgba(212, 175, 55, 0.1)",
@@ -451,16 +391,19 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     "&:hover": {
                                         backgroundColor: "rgba(212, 175, 55, 0.2)",
                                     },
+                                    "&:focus-visible": {
+                                        outline: "2px solid white",
+                                        outlineOffset: 2,
+                                    },
                                 }}
                             >
-                                <MenuIcon size={24} />
+                                <MenuIcon size={24} aria-hidden="true" />
                             </IconButton>
                         </Box>
                     </Toolbar>
                 </Container>
             </AppBar>
 
-            {/* Spacer to offset fixed AppBar height */}
             <Toolbar
                 aria-hidden
                 disableGutters
@@ -470,7 +413,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                 }}
             />
 
-            {/* Mobile Sidebar Navigation */}
             <MobileSidebar
                 isOpen={sidebarOpen}
                 onClose={handleCloseSidebar}
@@ -478,7 +420,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             />
 
             <BusinessHealthAssessmentModal isOpen={isHealthAssessmentOpen} onClose={() => setIsHealthAssessmentOpen(false)} />
-
         </>
     );
 };

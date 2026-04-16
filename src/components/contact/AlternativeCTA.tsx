@@ -1,25 +1,23 @@
 "use client";
 
 import { Phone, CalendarCheck } from "lucide-react";
-import { GHLScheduler } from "./GHLScheduler";
+import { BookingCalendar } from "@/components/booking/BookingCalendar";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 interface AlternativeCTAProps {
     title?: string;
     subtitle?: string;
-    calendarUrl?: string;
     phone?: string;
 }
 
 export function AlternativeCTA({
     title = "Prefer to schedule directly?",
     subtitle = "Skip the back-and-forth email tag. Book a free 15-minute strategy call with our team.",
-    calendarUrl,
-    phone = "(555) 123-4567"
+    phone = "(385) 425-5410"
 }: AlternativeCTAProps) {
     return (
         <section className="bg-slate-50 py-24 border-t border-slate-200">
-            <div className="max-w-4xl mx-auto px-6">
+            <div className="max-w-6xl mx-auto px-6">
                 <RevealOnScroll className="text-center mb-12">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-brand-900 text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm font-sans text-opacity-60">
                         <CalendarCheck className="w-3 h-3 text-gold-500" />
@@ -34,15 +32,12 @@ export function AlternativeCTA({
                 </RevealOnScroll>
 
                 <RevealOnScroll delay={100}>
-                    {/* Calendar Embed */}
-                    {calendarUrl ? (
-                        <GHLScheduler calendarUrl={calendarUrl} />
-                    ) : (
-                        <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center text-slate-400">
-                            <p>GoHighLevel Calendar URL not configured in CMS.</p>
-                        </div>
-                    )}
+                    {/* Integrated Booking Calendar */}
+                    <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden min-h-[600px]">
+                        <BookingCalendar />
+                    </div>
                 </RevealOnScroll>
+
 
                 <RevealOnScroll delay={200} className="mt-12 text-center">
                     <p className="text-sm font-bold text-brand-900/40 uppercase tracking-widest mb-4 font-sans">

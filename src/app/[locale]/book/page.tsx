@@ -2,6 +2,7 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { CheckCircle2, XCircle, ArrowRight, ShieldCheck, Zap, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BookingCalendar } from "@/components/booking/BookingCalendar";
 
 export const metadata = {
     title: "Book Your Tax Strategy Call | Union National Tax",
@@ -13,7 +14,7 @@ export default async function BookPage(props: { params: Promise<{ locale: string
     const locale = params.locale;
 
     return (
-        <main className="min-h-screen bg-white selection:bg-gold-500/30">
+        <main id="main-content" className="min-h-screen bg-white selection:bg-gold-500/30">
             <HeaderWrapper />
 
             {/* Hero Header */}
@@ -105,8 +106,8 @@ export default async function BookPage(props: { params: Promise<{ locale: string
                             </div>
                         </div>
 
-                        {/* Right Column: Booking Widget Placeholder */}
-                        <div className="lg:col-span-7 bg-white rounded-2xl border-2 border-brand-900 shadow-2xl relative">
+                        {/* Right Column: Booking Widget */}
+                        <div className="lg:col-span-7 bg-white rounded-2xl border-2 border-brand-900 shadow-2xl relative overflow-hidden">
                             {/* Decorative Elements */}
                             <div className="absolute -top-6 -right-6 w-12 h-12 bg-gold-500 rounded-full flex items-center justify-center shadow-lg z-20">
                                 <TrendingUp className="text-brand-900 w-6 h-6" />
@@ -115,8 +116,8 @@ export default async function BookPage(props: { params: Promise<{ locale: string
                             <div className="p-1 min-h-[600px] flex flex-col">
                                 <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-xl">
                                     <div>
-                                        <h3 className="font-bold text-brand-900">Select a Date & Time</h3>
-                                        <p className="text-xs text-brand-900/50">Complimentary 15-Min Strategy Diagnostic</p>
+                                        <h3 className="font-bold text-brand-900 leading-none">Select a Date & Time</h3>
+                                        <p className="text-xs text-brand-900/50 mt-1">Complimentary 15-Min Strategy Diagnostic</p>
                                     </div>
                                     <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-900 text-white rounded-lg text-xs font-bold tracking-tight">
                                         <span className="relative flex h-2 w-2">
@@ -127,22 +128,12 @@ export default async function BookPage(props: { params: Promise<{ locale: string
                                     </div>
                                 </div>
 
-                                <div className="flex-1 flex items-center justify-center p-8 text-center bg-[url('/images/noise.png')]">
-                                    <div className="max-w-md">
-                                        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                            <Zap className="w-10 h-10 text-slate-300" />
-                                        </div>
-                                        <h4 className="text-xl font-bold text-brand-900 mb-4">Integrate Calendar Widget Here</h4>
-                                        <p className="text-brand-900/60 mb-8 leading-relaxed">
-                                            Please embed your Cal.com, Calendly, or GoHighLevel booking widget in this section.
-                                        </p>
-                                        <div className="p-4 rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-700 text-sm font-medium">
-                                            Waiting for widget configuration ID from user.
-                                        </div>
-                                    </div>
+                                <div className="flex-1">
+                                    <BookingCalendar />
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>

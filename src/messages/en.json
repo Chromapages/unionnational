@@ -28,6 +28,18 @@
         "potentialSavings": "Potential Savings"
     },
     "Footer": {
+        "brandBio": "Specialized tax strategies for construction, real estate, and service-based businesses. Keep more of what you earn with proactive planning.",
+        "servicesTitle": "Services",
+        "companyTitle": "Company",
+        "contactTitle": "Contact Us",
+        "viewAllServices": "View All Services",
+        "team": "Team",
+        "newsletterTitle": "Get Tax Tips & Updates",
+        "newsletterUnavailable": "Newsletter signup is not available yet. Email us directly and we will keep you informed.",
+        "newsletterEmailUs": "Email us about updates",
+        "disclaimerLabel": "Disclaimer:",
+        "disclaimerBody": "The information on this website is for general informational purposes only and does not constitute tax, legal, accounting, or financial advice. Use of this site does not create a professional relationship. Please consult a qualified professional for advice specific to your situation.",
+        "followOn": "Follow us on {platform}",
         "copyright": "© 2026 Union National Tax. All rights reserved.",
         "privacy": "Privacy Policy",
         "terms": "Terms of Service"
@@ -105,6 +117,7 @@
             "sectionAriaLabel": "Tax Strategy Video and Savings Calculator",
             "titlePart1": "Stop Overpaying. <gold>Start Keeping.</gold>",
             "eyebrow": "Your Tax Strategy",
+            "subtitle": "Union National Tax helps business owners reduce taxes legally, optimize entity structure, and gain clearer financial control year-round, not just at filing time.",
             "calculator": {
                 "title": "Estimate Your S-Corp Savings",
                 "confidential": "Confidential Calculation",
@@ -151,12 +164,78 @@
                 "closeAriaLabel": "Close modal"
             }
         },
+        "TrustBar": {
+            "eyebrow": "Trusted by businesses featured in respected industry outlets",
+            "defaultAlt": "Featured publication logo",
+            "fallbackBadges": [
+                {
+                    "label": "Enrolled Agent",
+                    "sublabel": "Highest IRS Credential"
+                },
+                {
+                    "label": "MBA",
+                    "sublabel": "Business Strategy"
+                },
+                {
+                    "label": "FSCP",
+                    "sublabel": "Financial Services"
+                },
+                {
+                    "label": "LUTCF",
+                    "sublabel": "Planning Discipline"
+                },
+                {
+                    "label": "Tax Court",
+                    "sublabel": "Authorized Practitioner"
+                }
+            ]
+        },
+        "HealthCheckSection": {
+            "title": "Get a clear read on your tax position.",
+            "subtitle": "Take the quick health check to see where cash leaks, entity issues, and planning gaps may be costing you money.",
+            "cta": "Start Your Tax Health Check"
+        },
+        "ProblemSection": {
+            "badge": "Reactive tax help creates expensive blind spots",
+            "title": "Most owners are making",
+            "titleAccent": "big decisions",
+            "titleEnd": "with incomplete numbers.",
+            "subtitle": "When your tax strategy only shows up at filing time, you lose visibility, flexibility, and cash you could have kept working in the business.",
+            "cta": "See the strategy gap",
+            "items": {
+                "flyingBlind": {
+                    "title": "You are flying blind on real cash flow",
+                    "description": "Important entity and compensation decisions get made without a reliable forward-looking tax picture."
+                },
+                "taxSurprises": {
+                    "title": "Quarterly surprises keep disrupting momentum",
+                    "description": "Tax bills show up late, forcing rushed decisions instead of steady planning."
+                },
+                "complianceDrag": {
+                    "title": "Compliance work crowds out strategy",
+                    "description": "You pay for filing mechanics while higher-value planning opportunities get missed."
+                }
+            }
+        },
         "ServicesSection": {
             "eyebrow": "Our Expertise",
             "title": "Comprehensive Financial Solutions.",
             "titleHighlight": "Financial Solutions.",
             "subtitle": "Design a financial operating system that works for your business. From basic compliance to strategic growth tools.",
-            "learnMore": "Learn More"
+            "learnMore": "Learn More",
+            "pillarBadge": "Advisory Pillar",
+            "serviceCta": "Explore Strategy",
+            "viewAllCta": "View All Services",
+            "industries": {
+                "construction": {
+                    "title": "Construction",
+                    "description": "Entity, payroll, and cash-flow strategy for operators with moving parts."
+                },
+                "restaurants": {
+                    "title": "Restaurants",
+                    "description": "Tax planning support for tight-margin hospitality businesses that need better visibility."
+                }
+            }
         },
         "NationwideServiceSection": {
             "badge": "Virtual First Service",
@@ -182,7 +261,14 @@
                 }
             },
             "mapLabel": "States",
-            "cta": "Book a Strategy Session"
+            "cta": "Book a Strategy Session",
+            "visual": {
+                "title": "Built for owners",
+                "titleAccent": "across all 50 states.",
+                "description": "Secure collaboration, advisory continuity, and strategic tax support without geography slowing things down.",
+                "statOne": "States Served",
+                "statTwo": "Virtual Delivery"
+            }
         },
         "BentoGridSection": {
             "section": {
@@ -224,6 +310,27 @@
             "eyebrow": "Client Success Stories",
             "title": "Trusted by High-Growth Business Owners",
             "titleHighlight": "Business Owners"
+        },
+        "ExitIntentModal": {
+            "title": "Before you go, check your tax blind spots.",
+            "subtitle": "A quick health check can surface missed savings opportunities and planning gaps in minutes.",
+            "cta": "Take the Health Check",
+            "dismiss": "No thanks",
+            "close": "Close health check prompt"
+        },
+        "FloatingTaxButton": {
+            "buttonAria": "Open tax health check panel",
+            "buttonLabel": "Tax Health Check",
+            "title": "Tax Health Check",
+            "subtitle": "Fast strategic review",
+            "description": "See where entity setup, compensation, and planning gaps may be costing you money before the next filing deadline.",
+            "benefits": {
+                "instant": "Fast self-assessment for immediate clarity",
+                "personalized": "Recommendations tailored to your current setup",
+                "confidential": "Private review you can complete on your own time"
+            },
+            "cta": "Start the Health Check",
+            "close": "Close tax health check panel"
         },
         "DifferentiationSection": {
             "eyebrow": "Filing isn't a Strategy. Planning is.",

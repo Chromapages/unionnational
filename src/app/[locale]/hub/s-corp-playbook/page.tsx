@@ -56,7 +56,7 @@ export default async function PlaybookPage(props: PageProps) {
     const chapters: Chapter[] = playbook.chapters || [];
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
 
             <section className="relative overflow-hidden bg-forest-gradient pt-32 pb-16 text-white">

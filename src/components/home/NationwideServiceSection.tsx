@@ -6,7 +6,6 @@ import {
     Globe, ShieldCheck, HardHat, Zap, Cloud,
     CheckCircle2, LucideIcon
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -24,7 +23,12 @@ interface Feature {
 }
 
 interface NationwideServiceSectionProps {
-    data?: any;
+    data?: {
+        nationwideBadge?: string;
+        nationwideTitle?: string;
+        nationwideSubtitle?: string;
+        nationwideFeatures?: Feature[];
+    };
 }
 
 export function NationwideServiceSection({ data }: NationwideServiceSectionProps) {
@@ -34,7 +38,14 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
     const badge = data?.nationwideBadge || t('badge');
     const title = data?.nationwideTitle || t('title');
     const subtitle = data?.nationwideSubtitle || t('subtitle');
-    const features = data?.nationwideFeatures || [];
+    const features = data?.nationwideFeatures?.length
+        ? data.nationwideFeatures
+        : [
+            { icon: "Globe", title: t("features.video.title"), description: t("features.video.description") },
+            { icon: "Cloud", title: t("features.portal.title"), description: t("features.portal.description") },
+            { icon: "ShieldCheck", title: t("features.multistate.title"), description: t("features.multistate.description") },
+            { icon: "CheckCircle2", title: t("features.advisor.title"), description: t("features.advisor.description") },
+        ];
 
     return (
         <section className="py-20 sm:py-24 lg:py-32 bg-[#0d2e2b] relative overflow-hidden">
@@ -64,35 +75,31 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
                             </p>
 
                             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10">
-                                {features.length > 0 ? (
-                                    features.map((feature: Feature, index: number) => {
-                                        const Icon = ICON_MAP[feature.icon] || CheckCircle2;
-                                        return (
-                                            <motion.div
-                                                key={index}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: index * 0.1 }}
-                                                viewport={{ once: true }}
-                                                className="group"
-                                            >
-                                                <div className="flex items-center gap-4 mb-3">
-                                                    <div className="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                                                        <Icon className="w-5 h-5" />
-                                                    </div>
-                                                    <h4 className="text-white font-bold text-lg font-heading group-hover:text-gold-400 transition-colors">
-                                                        {feature.title}
-                                                    </h4>
+                                {features.map((feature: Feature, index: number) => {
+                                    const Icon = ICON_MAP[feature.icon] || CheckCircle2;
+                                    return (
+                                        <motion.div
+                                            key={`${feature.title}-${index}`}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: index * 0.1 }}
+                                            viewport={{ once: true }}
+                                            className="group"
+                                        >
+                                            <div className="flex items-center gap-4 mb-3">
+                                                <div className="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                                                    <Icon className="w-5 h-5" aria-hidden="true" />
                                                 </div>
-                                                <p className="text-slate-400 text-sm leading-relaxed pl-14">
-                                                    {feature.description}
-                                                </p>
-                                            </motion.div>
-                                        );
-                                    })
-                                ) : (
-                                    <div className="text-slate-500 italic">Configure features in Sanity Studio</div>
-                                )}
+                                                <h4 className="text-white font-bold text-lg font-heading group-hover:text-gold-400 transition-colors">
+                                                    {feature.title}
+                                                </h4>
+                                            </div>
+                                            <p className="text-slate-400 text-sm leading-relaxed pl-14">
+                                                {feature.description}
+                                            </p>
+                                        </motion.div>
+                                    );
+                                })}
                             </div>
                         </RevealOnScroll>
                     </div>
@@ -115,13 +122,13 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
                                                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                                                 className="w-24 h-24 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-gold-500/20"
                                             >
-                                                <Globe className="w-12 h-12 text-gold-500" />
+                                                <Globe className="w-12 h-12 text-gold-500" aria-hidden="true" />
                                             </motion.div>
                                             <h3 className="text-white font-bold text-2xl mb-4 font-heading">
-                                                Federal & State <br /> Authority
+                                                {t("visual.title")} <br /> {t("visual.titleAccent")}
                                             </h3>
                                             <p className="text-slate-400 font-medium leading-relaxed max-w-[240px] mx-auto text-sm">
-                                                Handling multi-state complexity <br /> for contractors in every zip code.
+                                                {t("visual.description")}
                                             </p>
                                         </div>
                                     </div>
@@ -138,7 +145,7 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
                                     className="absolute -top-6 -right-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl z-20"
                                 >
                                     <div className="text-gold-500 font-bold text-3xl mb-1">50</div>
-                                    <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">States Licensed</div>
+                                    <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">{t("visual.statOne")}</div>
                                 </motion.div>
 
                                 <motion.div
@@ -148,7 +155,7 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
                                     className="absolute -bottom-6 -left-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl z-20"
                                 >
                                     <div className="text-gold-500 font-bold text-3xl mb-1">100%</div>
-                                    <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">IRS Authorized</div>
+                                    <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">{t("visual.statTwo")}</div>
                                 </motion.div>
                             </div>
                         </RevealOnScroll>

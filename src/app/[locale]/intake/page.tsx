@@ -15,7 +15,7 @@ export default async function IntakePage(props: { params: Promise<{ locale: stri
     const locale = params.locale;
     
     return (
-        <main className="min-h-screen bg-slate-50 relative overflow-hidden">
+        <main id="main-content" className="min-h-screen bg-slate-50 relative overflow-hidden">
             <HeaderWrapper />
 
             {/* Background Decorative Elements */}

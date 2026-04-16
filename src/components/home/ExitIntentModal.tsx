@@ -3,19 +3,30 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Calculator } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface ExitIntentModalProps {
   children?: React.ReactNode;
 }
 
 export function ExitIntentModal({ children }: ExitIntentModalProps) {
+  const t = useTranslations("HomePage.ExitIntentModal");
   const [isVisible, setIsVisible] = useState(false);
   const [hasShown, setHasShown] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     // Check if already shown this session
     if (sessionStorage.getItem("exitIntentShown")) {
+      return;
+    }
+
+    const pointerQuery = window.matchMedia("(pointer: fine)");
+    if (!pointerQuery.matches) {
       return;
     }
 
@@ -39,6 +50,24 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
     setIsVisible(false);
   };
 
+  useEffect(() => {
+    if (!isVisible) {
+      return;
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsVisible(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isVisible]);
+
   return (
     <>
       {children}
@@ -61,22 +90,23 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
             >
               <button
                 onClick={handleClose}
+                aria-label={t("close")}
                 className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
 
               <div className="text-center">
                 <div className="w-16 h-16 rounded-2xl bg-gold-100 flex items-center justify-center mx-auto mb-6">
-                  <Calculator className="w-8 h-8 text-gold-600" />
+                  <Calculator className="w-8 h-8 text-gold-600" aria-hidden="true" />
                 </div>
 
                 <h2 className="text-2xl font-black text-brand-900 mb-3">
-                  Wait! Before You Go...
+                  {t("title")}
                 </h2>
                 
                 <p className="text-slate-600 mb-6">
-                  Get your free tax health score in just 2 minutes. Discover if your business is leaving money on the table.
+                  {t("subtitle")}
                 </p>
 
                 <Link
@@ -84,14 +114,14 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
                   onClick={handleClose}
                   className="inline-flex items-center gap-2 w-full justify-center px-6 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all"
                 >
-                  Get My Free Tax Health Score <ArrowRight className="w-5 h-5" />
+                  {t("cta")} <ArrowRight className="w-5 h-5" aria-hidden="true" />
                 </Link>
 
                 <button
                   onClick={handleClose}
                   className="mt-4 text-slate-400 hover:text-slate-600 text-sm"
                 >
-                  No thanks, I'll pass
+                  {t("dismiss")}
                 </button>
               </div>
             </motion.div>

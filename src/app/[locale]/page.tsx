@@ -15,6 +15,8 @@ import { urlFor } from "@/sanity/lib/image";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 
 import ProblemSection from "@/components/home/ProblemSection";
 
@@ -74,6 +76,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function Home(props: { params: Promise<{ locale: string }> }) {
   const params = await props.params;
   const locale = params.locale;
+  const t = await getTranslations({ locale, namespace: "HomePage.HealthCheckSection" });
 
   // Fetch critical data in parallel
   const [homePageData, services, testimonials, siteSettings] = await Promise.all([
@@ -92,7 +95,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
   return (
     <ExitIntentModal>
       <FloatingTaxButton />
-      <main className="min-h-dvh w-full bg-surface flex flex-col">
+      <main id="main-content" className="min-h-dvh w-full bg-surface flex flex-col">
         <JsonLd siteSettings={siteSettingsData} homePageData={homeData} />
         <HeaderWrapper />
         <div className="flex-1">
@@ -110,17 +113,17 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
             <section className="py-16 bg-gradient-to-b from-white to-slate-50">
               <div className="max-w-4xl mx-auto px-4 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-4 tracking-tighter leading-[1.1]">
-                  Get Your Free Tax Health Score
+                  {t("title")}
                 </h2>
                 <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-                  Take our 2-minute assessment to discover if your business is thriving or needs attention.
+                  {t("subtitle")}
                 </p>
-                <a
+                <Link
                   href="/health-check"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all text-lg"
                 >
-                  Start Free Assessment <ArrowRight className="w-5 h-5" />
-                </a>
+                  {t("cta")} <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                </Link>
               </div>
             </section>
           </ErrorBoundary>

@@ -55,7 +55,7 @@ export default async function ChapterPage(props: PageProps) {
     const nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
 
             <section className="relative overflow-hidden bg-forest-gradient pt-32 pb-8 text-white">

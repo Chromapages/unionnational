@@ -7,7 +7,6 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ContactHero } from "@/components/contact/ContactHero";
 import { TeamMemberCard } from "@/components/contact/TeamMemberCard";
 import { MultiStepContactForm } from "@/components/contact/MultiStepContactForm";
-import { ClientLogoStrip } from "@/components/contact/ClientLogoStrip";
 import { AlternativeCTA } from "@/components/contact/AlternativeCTA";
 import { FAQSection } from "@/components/home/FAQSection";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -51,7 +50,6 @@ export default async function ContactPage(props: { params: Promise<{ locale: str
     const params = await props.params;
     const locale = params.locale;
     const { data: settings } = await sanityFetch({ query: CONTACT_SETTINGS_QUERY, params: { locale } });
-    const { data: aboutPage } = await sanityFetch({ query: ABOUT_PAGE_QUERY, params: { locale } });
     const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
     const t = await getTranslations({ locale, namespace: "ContactPage.TeamMemberCard" });
 
@@ -60,7 +58,7 @@ export default async function ContactPage(props: { params: Promise<{ locale: str
             <JsonLd siteSettings={siteSettings} contactSettings={settings} />
             <HeaderWrapper />
 
-            <main>
+            <main id="main-content">
                 <ContactHero
                     title={settings?.heroTitle}
                     subtitle={settings?.heroSubtitle}
@@ -98,13 +96,11 @@ export default async function ContactPage(props: { params: Promise<{ locale: str
                     </div>
                 </section>
 
-
                 <FAQSection />
 
                 <AlternativeCTA
                     title={settings?.alternativeCTA?.title}
                     subtitle={settings?.alternativeCTA?.subtitle}
-                    calendarUrl={settings?.ghlCalendarUrl}
                     phone={settings?.alternativeCTA?.phone || settings?.contactPhone}
                 />
             </main>

@@ -2,7 +2,7 @@
 
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { VaultNavbar } from "./FloatingNavbar";
-import type { ServiceSummary } from "./ServicesDropdown";
+import type { ServiceSummary } from "./navigationData";
 
 type HeaderLayoutProps = {
     siteSettings?: {

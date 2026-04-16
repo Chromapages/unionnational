@@ -51,7 +51,7 @@ export default async function AboutPage(props: { params: Promise<{ locale: strin
         <div className="min-h-dvh bg-brand-900 flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
 
-            <main>
+            <main id="main-content">
                 {/* Above the fold - load immediately */}
                 <AboutHero
                     title={page?.heroTitle || t("fallbackTitle")}

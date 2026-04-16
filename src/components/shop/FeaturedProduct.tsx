@@ -86,7 +86,7 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                             <div className="absolute inset-0 bg-gold-500/20 blur-2xl -z-10 rounded-3xl transform translate-y-4"></div>
   
                             <img
-                                src={product.imageUrl}
+                                src={product.imageUrl || undefined}
                                 alt={product.title}
                                 className="w-full h-full object-contain bg-white rounded-2xl shadow-2xl border border-white/10"
                             />

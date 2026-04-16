@@ -346,6 +346,12 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     "badge": coalesce(badge[$locale], badge.en, badge),
     category,
     rating,
+    editions[] {
+      name,
+      price,
+      format,
+      description
+    },
     "samplePages": samplePages[].asset->url,
     "learningObjectives": learningObjectives[]{
       "title": coalesce(title[$locale], title.en, title),
@@ -355,7 +361,8 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       name,
       "role": coalesce(role[$locale], role.en, role),
       "credentials": credentials[]{ "text": coalesce(@[$locale], @.en, @) }.text,
-      "imageUrl": image.asset->url
+      "imageUrl": image.asset->url,
+      bioShort
     },
     "featuredTestimonials": featuredTestimonials[]-> {
         _id,
@@ -388,7 +395,23 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       "badge": coalesce(badge[$locale], badge.en, badge),
       category,
       rating
-    }
+    },
+    "relatedServices": select(
+      count(relatedServices) > 0 => relatedServices[]-> {
+        _id,
+        "title": coalesce(title[$locale], title.en, title),
+        "slug": slug,
+        "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
+        icon
+      },
+      *[_type == "service" && !(_id in path("drafts.**"))] | order(isPopular desc)[0...3] {
+        _id,
+        "title": coalesce(title[$locale], title.en, title),
+        "slug": slug,
+        "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
+        icon
+      }
+    )
   }
 `);
 

@@ -42,7 +42,16 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://widgets.leadconnectorhq.com https://services.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://connect.facebook.net https://www.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai; img-src 'self' data: https: blob:; connect-src 'self' https://*.sanity.io https://registry.npmjs.org https://www.google-analytics.com https://analytics.google.com https://services.leadconnectorhq.com https://widgets.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://content.apisystem.tech https://services.msgsndr.com; media-src 'self' data: blob: https://content.apisystem.tech https://cdn.sanity.io; frame-src https://www.youtube.com https://player.vimeo.com;",
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sanity.io https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://widgets.leadconnectorhq.com https://services.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://connect.facebook.net https://www.google.com https://link.agent-crm.com https://*.agent-crm.com;
+              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+              font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai;
+              img-src 'self' data: https: blob:;
+              connect-src 'self' ws: wss: https://*.sanity.io https://api.sanity.io https://v3.api.sanity.io https://cdn.sanity.io https://sanity-cdn.com https://sanity-cdn.work https://registry.npmjs.org https://registry.npmjs.com https://*.npmjs.org https://*.npmjs.com https://www.google-analytics.com https://analytics.google.com https://services.leadconnectorhq.com https://widgets.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://content.apisystem.tech https://services.msgsndr.com https://*.agent-crm.com;
+              media-src 'self' data: blob: https://content.apisystem.tech https://cdn.sanity.io;
+              frame-src 'self' https://*.sanity.io https://www.youtube.com https://player.vimeo.com https://link.agent-crm.com https://*.agent-crm.com https://*.msgsndr.com;
+            `.replace(/\s+/g, ' ').trim(),
           },
           {
             key: "X-Content-Type-Options",

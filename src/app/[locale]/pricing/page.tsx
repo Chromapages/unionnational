@@ -31,7 +31,7 @@ export default async function PricingPage(props: { params: Promise<{ locale: str
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
 
-            <main className="pt-12">
+            <main id="main-content" className="pt-12">
                 {/* Hero */}
                 <section className="max-w-4xl mx-auto px-6 mb-24 text-center">
                     <RevealOnScroll>

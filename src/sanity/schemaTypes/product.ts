@@ -68,7 +68,7 @@ export const product = defineType({
         }),
         defineField({
             name: "format",
-            title: "Format",
+            title: "Default Format",
             type: "string",
             group: "content",
             options: {
@@ -80,6 +80,24 @@ export const product = defineType({
                 ],
             },
             initialValue: "digital",
+        }),
+        defineField({
+            name: "editions",
+            title: "Product Editions",
+            type: "array",
+            group: "content",
+            description: "Add different formats (e.g. Hardcover, Digital PDF) and their specific prices.",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "name", title: "Edition Name", type: "string", validation: (Rule) => Rule.required() },
+                        { name: "price", title: "Price", type: "number", validation: (Rule) => Rule.required().min(0) },
+                        { name: "format", title: "Format Type", type: "string" },
+                        { name: "description", title: "Short Description", type: "string" },
+                    ],
+                },
+            ],
         }),
         defineField({
             name: "buyLink",
@@ -138,6 +156,14 @@ export const product = defineType({
             type: "array",
             group: "content",
             of: [{ type: "reference", to: [{ type: "product" }] }],
+        }),
+        defineField({
+            name: "relatedServices",
+            title: "Related Services",
+            type: "array",
+            description: "Professional services to cross-sell on this product page.",
+            group: "content",
+            of: [{ type: "reference", to: [{ type: "service" }] }],
         }),
         defineField({
             name: "samplePages",

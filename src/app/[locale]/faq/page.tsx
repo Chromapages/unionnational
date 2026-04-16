@@ -16,7 +16,7 @@ export default async function FAQPage(props: { params: Promise<{ locale: string 
     const params = await props.params;
     const locale = params.locale;
     return (
-        <main className="min-h-screen w-full bg-surface flex flex-col">
+        <main id="main-content" className="min-h-screen w-full bg-surface flex flex-col">
             <FAQPageSchema />
             <HeaderWrapper />
 

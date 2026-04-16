@@ -1,69 +1,52 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export const NewsletterForm = () => {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    
-    setStatus("loading");
-    // TODO: Integrate with email service (Mailchimp, ConvertKit, etc.)
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setStatus("success");
-    setEmail("");
-  };
-
-  if (status === "success") {
-    return (
-      <div className="flex items-center gap-2 text-emerald-400 text-sm">
-        <CheckCircle2 className="w-4 h-4" />
-        <span>Thanks! Check your inbox.</span>
-      </div>
-    );
-  }
+  const t = useTranslations("Footer");
+  const mailtoHref = "mailto:hello@unionnationaltax.com";
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <form
+      className="flex flex-col gap-2"
+      aria-describedby="footer-newsletter-status"
+      onSubmit={(event) => event.preventDefault()}
+    >
       <label htmlFor="footer-email" className="text-sm font-medium text-zinc-300">
-        Get Tax Tips & Updates
+        {t("newsletterTitle")}
       </label>
       <div className="flex">
         <input
           id="footer-email"
+          name="email"
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="your@email.com"
+          inputMode="email"
+          autoComplete="email"
+          spellCheck={false}
+          placeholder="name@example.com…"
           className={cn(
-            "flex-1 px-3 py-2 text-sm bg-brand-800 border border-brand-700 rounded-l-lg",
-            "text-white placeholder:text-zinc-500 focus:outline-none focus:border-gold-500",
-            "transition-colors"
+            "flex-1 rounded-l-lg border border-brand-700 bg-brand-800 px-3 py-2 text-sm text-white placeholder:text-zinc-500",
+            "transition-colors focus:border-gold-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-70"
           )}
-          required
+          disabled
+          aria-disabled="true"
         />
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          aria-label="Subscribe to newsletter"
+        <a
+          href={mailtoHref}
+          aria-label={t("newsletterEmailUs")}
           className={cn(
-            "px-4 py-2 bg-gold-500 text-brand-900 rounded-r-lg font-semibold text-sm",
-            "hover:bg-gold-400 disabled:opacity-50 transition-colors cursor-pointer",
-            "flex items-center justify-center"
+            "flex items-center justify-center rounded-r-lg bg-gold-500 px-4 py-2 text-sm font-semibold text-brand-900",
+            "cursor-pointer transition-colors hover:bg-gold-400"
           )}
         >
-          {status === "loading" ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <ArrowRight className="w-4 h-4" />
-          )}
-        </button>
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </a>
       </div>
+      <p id="footer-newsletter-status" aria-live="polite" className="text-xs text-zinc-400">
+        {t("newsletterUnavailable")}
+      </p>
     </form>
   );
 };

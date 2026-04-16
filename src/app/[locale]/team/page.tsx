@@ -122,7 +122,7 @@ export default async function TeamPage(props: { params: Promise<{ locale: string
             <JsonLd siteSettings={siteSettings} teamPageData={pageSettings} />
             <HeaderWrapper />
 
-            <main className="pt-0">
+            <main id="main-content" className="pt-0">
                 {/* Above the fold - load immediately */}
                 <TeamHero
                     badge={settings.heroBadge}

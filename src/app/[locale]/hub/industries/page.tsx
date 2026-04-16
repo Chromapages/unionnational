@@ -23,7 +23,7 @@ export default async function IndustriesPage(props: { params: Promise<{ locale: 
     const featuredPlaybooks: { title: string }[] = [];
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
             <HubHero
                 title="Industry Guides"

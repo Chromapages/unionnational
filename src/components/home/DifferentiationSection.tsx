@@ -6,10 +6,21 @@ import {
     X, Check, ShieldCheck, PhoneOff, UserCheck,
     Users, Headphones, ArrowRight, ChevronRight
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface DifferentiationSectionProps {
-    data?: any;
+    data?: {
+        eyebrow?: string;
+        title?: string;
+        titleHighlight?: string;
+        subtitle?: string;
+        competitorItems?: Array<{ title?: string; description?: string }>;
+        ourItems?: Array<{ title?: string; description?: string }>;
+        ctaText?: string;
+        ctaPrimary?: string;
+        ctaSecondary?: string;
+        ctaUrl?: string;
+    };
 }
 
 const defaultData = {

@@ -17,7 +17,7 @@ export default async function ContractorsTaxAnalysisPage() {
         <div className="min-h-screen bg-brand-950 font-sans flex flex-col antialiased selection:bg-gold-500 selection:text-white">
             <HeaderWrapper />
 
-            <main className="flex-grow">
+            <main id="main-content" className="flex-grow">
                 {/* Hero Section */}
                 <LandingHero
                     badge="Free Analysis — Utah Contractors"

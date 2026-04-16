@@ -93,7 +93,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
     const takeaways = headings.slice(0, 3).map((heading) => heading.text);
 
     return (
-        <main className="bg-slate-50 min-h-screen">
+        <main id="main-content" className="bg-slate-50 min-h-screen">
             <HeaderWrapper />
             <BlogHeader post={post} locale={locale} />
             <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-32 -mt-20">

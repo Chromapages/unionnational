@@ -17,7 +17,7 @@ export default async function TaxPlanningPage(props: { params: Promise<{ locale:
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
-            <main>
+            <main id="main-content">
                 <TaxPlanningClient locale={locale} />
             </main>
             <Footer />

@@ -24,7 +24,7 @@ export default async function HubPage(props: { params: Promise<{ locale: string 
     const displayIndustries = industries || [];
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
             <HubHero
                 title="Authority Hub"

@@ -9,7 +9,7 @@ export default function VSLLayout({
     return (
         <div className="flex flex-col min-h-screen">
             <HeaderWrapper />
-            <main className="flex-1">
+            <main id="main-content" className="flex-1">
                 {children}
             </main>
             <Footer />

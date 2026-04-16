@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Star, ShoppingCart, Zap, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Heart, Star, ShoppingCart, Zap, ChevronRight, CheckCircle2, ChevronUp, ChevronDown } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import { cn } from "@/lib/utils";
@@ -36,12 +36,14 @@ interface ProductHeroProps {
     publisher?: string;
     publishDate?: string;
     isbn?: string;
+    editions?: ProductEdition[];
 }
 
 export function ProductHero({
     id, slug, title, subtitle, defaultPrice, compareAtPrice,
     image, samplePages = [], format, category, badge, rating = 5,
     author, pageCount, publisher, publishDate, isbn,
+    editions: initialEditions = [],
 }: ProductHeroProps) {
     const addItem = useCartStore((state) => state.addItem);
     const toggleCart = useCartStore((state) => state.toggleCart);
@@ -49,29 +51,47 @@ export function ProductHero({
     const isWishlisted = useWishlistStore((state) => state.isWishlisted);
     const wishlisted = isWishlisted(id);
 
-    // Build editions from format and price
-    const editions: ProductEdition[] = [
-        {
-            id: `${id}-digital`,
-            name: "Digital PDF",
-            price: defaultPrice,
-            format: "Digital PDF",
-            description: "Instant download. Read anywhere.",
-        },
-        {
-            id: `${id}-hardcover`,
-            name: "Hardcover",
-            price: defaultPrice + 56,
-            format: "Physical Book",
-            description: "Premium hardbound edition.",
-        },
-    ];
+    // Build editions from props, with a fallback for backwards compatibility
+    const editions: ProductEdition[] = (initialEditions && initialEditions.length > 0)
+        ? initialEditions.map(ed => ({ ...ed, id: ed.id || `${id}-${ed.name.toLowerCase().replace(/\s+/g, '-')}` }))
+        : [
+            {
+                id: `${id}-digital`,
+                name: "Digital PDF",
+                price: defaultPrice,
+                format: "Digital PDF",
+                description: "Instant download. Read anywhere.",
+            },
+            {
+                id: `${id}-hardcover`,
+                name: "Hardcover",
+                price: defaultPrice + 56, // Temporary fallback until Sanity is populated
+                format: "Physical Book",
+                description: "Premium hardbound edition.",
+            },
+        ];
 
     const [selectedEdition, setSelectedEdition] = useState<ProductEdition>(editions[0]);
     const [mainImage, setMainImage] = useState(image);
+    const thumbnailRef = useCallback((node: HTMLDivElement | null) => {
+        if (node !== null) {
+            // Potential for future intersection observer or scroll logic if needed
+        }
+    }, []);
 
-    // Build thumbnail list: cover image + sample pages (up to 4)
-    const allImages = [image, ...samplePages.filter(Boolean)].slice(0, 5);
+    const scrollThumbnails = (direction: "up" | "down") => {
+        const container = document.getElementById("thumbnail-scroll-container");
+        if (container) {
+            const scrollAmount = 100;
+            container.scrollBy({
+                top: direction === "up" ? -scrollAmount : scrollAmount,
+                behavior: "smooth"
+            });
+        }
+    };
+
+    // Build thumbnail list: cover image + sample pages (up to 8 for the scroll test)
+    const allImages = [image, ...(samplePages?.filter(Boolean) || [])].slice(0, 8);
 
     const handleAddToCart = useCallback(() => {
         addItem({
@@ -104,86 +124,122 @@ export function ProductHero({
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 items-start">
 
                     {/* ─── LEFT COLUMN: Image Gallery ─────────────────────── */}
-                    <div className="w-full lg:w-[42%] flex gap-3 lg:gap-4 lg:sticky lg:top-24">
+                    <div className="w-full lg:w-[45%] flex gap-4 lg:gap-6 lg:sticky lg:top-24 items-start">
 
-                        {/* Thumbnail Strip */}
+                        {/* Thumbnail Strip (Bookstore Standard) */}
                         {allImages.length > 1 && (
-                            <div className="hidden sm:flex flex-col gap-2 w-[72px] shrink-0">
-                                {allImages.map((src, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => setMainImage(src)}
-                                        aria-label={`View image ${i + 1}`}
-                                        className={cn(
-                                            "w-full aspect-[2/3] rounded-md overflow-hidden border-2 transition-all duration-200 bg-slate-50",
-                                            mainImage === src
-                                                ? "border-brand-900 shadow-md"
-                                                : "border-slate-200 hover:border-slate-400 opacity-60 hover:opacity-100"
-                                        )}
-                                    >
-                                        <img src={src} alt={`Product image ${i + 1}`} className="w-full h-full object-cover" />
-                                    </button>
-                                ))}
+                            <div className="hidden sm:flex flex-col items-center gap-2 shrink-0">
+                                <button 
+                                    onClick={() => scrollThumbnails("up")}
+                                    className="p-1 text-slate-400 hover:text-brand-900 transition-colors"
+                                    aria-label="Scroll thumbnails up"
+                                >
+                                    <ChevronUp className="w-5 h-5" />
+                                </button>
+                                
+                                <div 
+                                    id="thumbnail-scroll-container"
+                                    className="flex flex-col gap-2 w-[72px] max-h-[400px] overflow-y-auto no-scrollbar scroll-smooth py-1"
+                                >
+                                    {allImages.map((src, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => setMainImage(src)}
+                                            aria-label={`View image ${i + 1}`}
+                                            className={cn(
+                                                "w-full aspect-[2/3] shrink-0 rounded-sm overflow-hidden border transition-all duration-200 bg-slate-50",
+                                                mainImage === src
+                                                    ? "border-brand-900 ring-1 ring-brand-900 shadow-sm"
+                                                    : "border-slate-200 hover:border-slate-400 opacity-60 hover:opacity-100"
+                                            )}
+                                        >
+                                            <img 
+                                                src={src || undefined} 
+                                                alt={`Thumbnail ${i + 1}`} 
+                                                className="w-full h-full object-cover" 
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <button 
+                                    onClick={() => scrollThumbnails("down")}
+                                    className="p-1 text-slate-400 hover:text-brand-900 transition-colors"
+                                    aria-label="Scroll thumbnails down"
+                                >
+                                    <ChevronDown className="w-5 h-5" />
+                                </button>
                             </div>
                         )}
 
-                        {/* Main Image */}
-                        <div className="flex-1 flex flex-col items-center gap-4">
-                            {badge && (
-                                <div className="self-start">
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-900 text-gold-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-sm">
-                                        {badge}
-                                    </span>
+                        {/* Main Image Container */}
+                        <div className="flex-1 flex flex-col items-center gap-6">
+                            <div className="w-full">
+                                {badge && (
+                                    <div className="mb-4">
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-900 text-gold-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-sm">
+                                            {badge}
+                                        </span>
+                                    </div>
+                                )}
+
+                                <div className="relative group">
+                                    <AnimatePresence mode="wait">
+                                        <motion.div
+                                            key={mainImage}
+                                            initial={{ opacity: 0, x: 10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -10 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="w-full aspect-[2/3] max-w-sm mx-auto rounded-lg overflow-hidden shadow-[0_12px_50px_rgba(0,0,0,0.12)] border border-slate-100 bg-slate-50"
+                                        >
+                                            <img
+                                                src={mainImage || undefined}
+                                                alt={title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </motion.div>
+                                    </AnimatePresence>
+                                    
+                                    {/* Zoom Prompt Overlay (Conceptual) */}
+                                    <div className="absolute inset-x-0 bottom-4 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <span className="px-3 py-1.5 bg-white/90 backdrop-blur rounded-full text-[10px] font-bold uppercase tracking-widest text-brand-900 shadow-xl border border-slate-200">
+                                            Click to Enlarge
+                                        </span>
+                                    </div>
                                 </div>
-                            )}
+                            </div>
 
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={mainImage}
-                                    initial={{ opacity: 0, scale: 0.98 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="w-full aspect-[2/3] max-w-xs mx-auto rounded-lg overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.14)] border border-slate-100 bg-slate-50"
-                                >
-                                    <img
-                                        src={mainImage}
-                                        alt={title}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </motion.div>
-                            </AnimatePresence>
-
-                            {/* Wishlist + mobile thumbnail strip */}
-                            <div className="w-full max-w-xs mx-auto">
+                            {/* Actions + mobile thumbnail strip */}
+                            <div className="w-full max-w-sm mx-auto">
                                 <button
                                     onClick={handleWishlist}
                                     aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
                                     className={cn(
-                                        "flex items-center gap-2 text-sm font-medium mx-auto transition-colors duration-200",
-                                        wishlisted ? "text-red-500" : "text-slate-500 hover:text-brand-900"
+                                        "flex items-center gap-2 text-sm font-semibold mx-auto transition-all duration-200 py-2 px-4 rounded-full border border-transparent",
+                                        wishlisted ? "text-red-600 bg-red-50 border-red-100" : "text-slate-500 hover:text-brand-900 hover:bg-slate-50"
                                     )}
                                 >
                                     <Heart
-                                        className={cn("w-4 h-4 transition-all", wishlisted && "fill-red-500")}
+                                        className={cn("w-4 h-4 transition-all", wishlisted && "fill-red-600")}
                                     />
                                     {wishlisted ? "Saved to Wishlist" : "Add to Wishlist"}
                                 </button>
 
                                 {/* Mobile: horizontal thumbnails */}
                                 {allImages.length > 1 && (
-                                    <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-2">
+                                    <div className="flex sm:hidden gap-3 mt-6 overflow-x-auto no-scrollbar scroll-smooth pb-2">
                                         {allImages.map((src, i) => (
                                             <button
                                                 key={i}
                                                 onClick={() => setMainImage(src)}
                                                 aria-label={`View image ${i + 1}`}
                                                 className={cn(
-                                                    "w-12 h-16 rounded overflow-hidden border-2 shrink-0 transition-all bg-slate-50",
+                                                    "w-16 h-24 rounded-md overflow-hidden border-2 shrink-0 transition-all bg-slate-50",
                                                     mainImage === src ? "border-brand-900" : "border-slate-200 opacity-60"
                                                 )}
                                             >
-                                                <img src={src} alt="" className="w-full h-full object-cover" />
+                                                <img src={src || undefined} alt="" className="w-full h-full object-cover" />
                                             </button>
                                         ))}
                                     </div>
@@ -282,19 +338,6 @@ export function ProductHero({
                                 </button>
                             </div>
 
-                            {/* Member Benefit Banner */}
-                            <div className="mt-4 flex items-start gap-3 rounded-lg bg-gold-50 border border-gold-200/50 px-4 py-3">
-                                <div className="w-5 h-5 rounded-full bg-gold-500 flex-shrink-0 flex items-center justify-center mt-0.5">
-                                    <span className="text-white text-[9px] font-black">$</span>
-                                </div>
-                                <p className="text-xs text-slate-700 leading-relaxed">
-                                    <span className="font-bold">Premium Members</span> get an additional{" "}
-                                    <span className="font-bold text-brand-900">10% off</span> AND collect stamps to save with{" "}
-                                    <span className="font-bold">Rewards.</span>{" "}
-                                    10 stamps = $5 reward.{" "}
-                                    <a href="/about" className="text-brand-700 underline underline-offset-2 hover:text-gold-600 font-semibold">Learn more</a>
-                                </p>
-                            </div>
                         </div>
 
                         {/* Fulfillment Blocks */}

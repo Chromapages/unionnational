@@ -49,7 +49,7 @@ export default async function IndustryPage(props: PageProps) {
     const relatedPlaybooks = industry.relatedPlaybooks || [];
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
             
             <VerticalHero

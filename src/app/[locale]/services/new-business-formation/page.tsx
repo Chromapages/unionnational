@@ -17,7 +17,7 @@ export default async function BusinessFormationPage() {
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
             
-            <main className="flex-1">
+            <main id="main-content" className="flex-1">
                 {/* Hero */}
                 <section className="bg-brand-900 px-6 py-20 lg:py-28 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gold-500/5 opacity-30" />

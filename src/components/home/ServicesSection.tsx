@@ -3,9 +3,7 @@
 import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight, ChevronRight, Zap, Target as TargetIcon, TrendingUp, ShieldCheck, LucideIcon, PieChart } from "lucide-react";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import { Link } from "@/i18n/navigation";
 
 const ICON_MAP: Record<string, LucideIcon> = {
     Zap,
@@ -26,22 +24,30 @@ interface Service {
 
 interface ServicesSectionProps {
     services: Service[];
-    data?: any;
+    data?: {
+        servicesEyebrow?: string;
+        servicesTitle?: string;
+        servicesSubtitle?: string;
+        servicesButtonText?: string;
+    };
 }
 
 export function ServicesSection({ services = [], data }: ServicesSectionProps) {
     const t = useTranslations("HomePage.ServicesSection");
 
     // Extract Sanity data with local fallbacks
-    const eyebrow = data?.servicesEyebrow || "Boutique Advisory Pillars";
-    const title = data?.servicesTitle || "Strategic Solutions.";
-    const subtitle = data?.servicesSubtitle || "We go beyond filing. We build the financial infrastructure your business needs to scale safely.";
-    const buttonText = data?.servicesButtonText || "View All Services";
+    const eyebrow = data?.servicesEyebrow || t("eyebrow");
+    const title = data?.servicesTitle || t("title");
+    const subtitle = data?.servicesSubtitle || t("subtitle");
+    const buttonText = data?.servicesButtonText || t("viewAllCta");
 
     // Priority Services mapping
     const prioritySlugs = ['s-corp-tax-advantage', 'fractional-cfo', 'tax-planning'];
     const priorityServices = services.filter(s => prioritySlugs.includes(s.slug?.current || ''));
-    const otherServices = services.filter(s => !prioritySlugs.includes(s.slug?.current || ''));
+    const industryCards = [
+        { title: t("industries.construction.title"), icon: ShieldCheck, slug: "construction", desc: t("industries.construction.description") },
+        { title: t("industries.restaurants.title"), icon: TrendingUp, slug: "restaurants", desc: t("industries.restaurants.description") }
+    ];
 
     return (
         <section
@@ -74,10 +80,10 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                                     
                                     <div className="flex justify-between items-start mb-10">
                                         <div className="w-16 h-16 rounded-2xl bg-gold-500 flex items-center justify-center text-brand-900 shadow-lg shadow-gold-500/20 group-hover:scale-110 transition-transform">
-                                            <Icon size={32} />
+                                            <Icon size={32} aria-hidden="true" />
                                         </div>
                                         <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest text-gold-400">
-                                            Advisory Pillar
+                                            {t("pillarBadge")}
                                         </div>
                                     </div>
 
@@ -92,8 +98,8 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                                         href={`/services/${service.slug?.current || ''}`}
                                         className="inline-flex items-center gap-3 text-lg font-black text-gold-500 hover:text-gold-400 transition-colors mt-auto group/link"
                                     >
-                                        Explore Strategy
-                                        <ArrowRight size={24} className="group-hover/link:translate-x-2 transition-transform" />
+                                        {t("serviceCta")}
+                                        <ArrowRight size={24} aria-hidden="true" className="group-hover/link:translate-x-2 transition-transform" />
                                     </Link>
                                 </div>
                             </RevealOnScroll>
@@ -103,22 +109,19 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
 
                 {/* Industry Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {[
-                        { title: "Construction CFO", icon: ShieldCheck, slug: "construction", desc: "Protecting margins and job costing for elite contractors." },
-                        { title: "Restaurant CFO", icon: TrendingUp, slug: "restaurants", desc: "Optimizing unit economics and tip compliance for high-volume groups." }
-                    ].map((industry, i) => (
+                    {industryCards.map((industry, i) => (
                         <RevealOnScroll key={i} delay={i * 200}>
                             <Link href={`/industries/${industry.slug}`} className="group block">
                                 <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-200 flex items-center gap-8 hover:bg-white hover:border-gold-500/20 hover:shadow-xl transition-all h-full">
                                     <div className="w-14 h-14 shrink-0 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-gold-600 shadow-sm group-hover:bg-brand-950 group-hover:text-gold-500 group-hover:border-brand-950 transition-all">
-                                        <industry.icon size={28} />
+                                        <industry.icon size={28} aria-hidden="true" />
                                     </div>
                                     <div>
                                         <h4 className="text-xl font-black text-brand-900 font-heading mb-1">{industry.title}</h4>
                                         <p className="text-sm text-slate-500 font-medium">{industry.desc}</p>
                                     </div>
                                     <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <ArrowRight size={24} className="text-gold-500" />
+                                        <ArrowRight size={24} aria-hidden="true" className="text-gold-500" />
                                     </div>
                                 </div>
                             </Link>
@@ -131,7 +134,7 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                         href="/services"
                         className="inline-flex items-center gap-2 text-brand-900 font-black uppercase tracking-widest text-sm hover:text-gold-600 transition-colors group"
                     >
-                        {buttonText} <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        {buttonText} <ChevronRight size={18} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </div>
             </div>

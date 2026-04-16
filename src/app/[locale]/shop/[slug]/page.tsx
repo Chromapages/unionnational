@@ -15,6 +15,7 @@ import { LearningObjectives } from "@/components/shop/LearningObjectives";
 import { AuthorBio } from "@/components/shop/AuthorBio";
 import { TestimonialWall } from "@/components/shop/TestimonialWall";
 import { BookOverview } from "@/components/shop/BookOverview";
+import { RelatedServices } from "@/components/services/RelatedServices";
 
 export const revalidate = 60;
 
@@ -100,7 +101,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
             />
             <HeaderWrapper />
 
-            <main>
+            <main id="main-content">
                 {/* Breadcrumb */}
                 <div className="container mx-auto max-w-7xl px-4 sm:px-6">
                     <div className="py-4">
@@ -129,6 +130,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                     publisher={product.publisher}
                     publishDate={product.publishDate}
                     isbn={product.isbn}
+                    editions={product.editions}
                 />
 
                 {/* Sticky Tab Navigation */}
@@ -174,6 +176,21 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                 <TestimonialWall
                     testimonials={product.featuredTestimonials}
                 />
+
+                {/* Section 6: Related Services — Professional Support */}
+                {product.relatedServices && product.relatedServices.length > 0 && (
+                    <section className="py-16 bg-white border-t border-slate-100">
+                        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+                            <div className="mb-10 text-center md:text-left">
+                                <h2 className="text-2xl font-bold font-heading tracking-tight text-brand-900">Professional Strategy & Support</h2>
+                                <p className="text-slate-500 mt-2 text-sm max-w-2xl">
+                                    Take your tax strategy a step further with high-touch advisory. We help you implement these concepts with precision.
+                                </p>
+                            </div>
+                            <RelatedServices services={product.relatedServices} />
+                        </div>
+                    </section>
+                )}
 
                 {/* Related Strategy Assets */}
                 {product.relatedProducts && product.relatedProducts.length > 0 && (

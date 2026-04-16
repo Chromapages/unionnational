@@ -46,7 +46,7 @@ export default async function BlogPage(props: { params: Promise<{ locale: string
         : undefined;
 
     return (
-        <main className="bg-surface min-h-screen">
+        <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
             <BlogHero
                 title={extractString(settings?.heroTitle, locale, "Union National Blog")}

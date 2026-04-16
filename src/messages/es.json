@@ -28,6 +28,18 @@
         "potentialSavings": "Ahorros Potenciales"
     },
     "Footer": {
+        "brandBio": "Estrategias fiscales especializadas para construcciÃ³n, bienes raÃ­ces y negocios de servicios. Conserve mÃ¡s de lo que gana con una planificaciÃ³n proactiva.",
+        "servicesTitle": "Servicios",
+        "companyTitle": "Empresa",
+        "contactTitle": "ContÃ¡ctenos",
+        "viewAllServices": "Ver Todos los Servicios",
+        "team": "Equipo",
+        "newsletterTitle": "Reciba Consejos y Actualizaciones Fiscales",
+        "newsletterUnavailable": "La suscripciÃ³n al boletÃ­n aÃºn no estÃ¡ disponible. EscrÃ­banos directamente y le mantendremos informado.",
+        "newsletterEmailUs": "EscrÃ­banos sobre actualizaciones",
+        "disclaimerLabel": "Aviso:",
+        "disclaimerBody": "La informaciÃ³n de este sitio web es solo para fines informativos generales y no constituye asesorÃ­a fiscal, legal, contable ni financiera. El uso de este sitio no crea una relaciÃ³n profesional. Consulte a un profesional calificado para recibir orientaciÃ³n especÃ­fica para su situaciÃ³n.",
+        "followOn": "SÃ­ganos en {platform}",
         "copyright": "© 2026 Union National Tax. Todos los derechos reservados.",
         "privacy": "Política de Privacidad",
         "terms": "Términos de Servicio"
@@ -105,6 +117,7 @@
             "sectionAriaLabel": "Video de Estrategia Fiscal y Calculadora de Ahorros",
             "titlePart1": "Deje de Pagar en Exceso. <gold>Empiece a Ahorrar.</gold>",
             "eyebrow": "Su Estrategia Fiscal",
+            "subtitle": "Union National Tax ayuda a propietarios de negocios a reducir impuestos legalmente, optimizar la estructura de su entidad y tener mayor control financiero durante todo el año, no solo al presentar impuestos.",
             "calculator": {
                 "title": "Estime Sus Ahorros de S-Corp",
                 "confidential": "Cálculo Confidencial",
@@ -151,12 +164,78 @@
                 "closeAriaLabel": "Cerrar modal"
             }
         },
+        "TrustBar": {
+            "eyebrow": "Con la confianza de negocios destacados en medios del sector",
+            "defaultAlt": "Logotipo de medio destacado",
+            "fallbackBadges": [
+                {
+                    "label": "Agente Inscrito",
+                    "sublabel": "Máxima credencial ante el IRS"
+                },
+                {
+                    "label": "MBA",
+                    "sublabel": "Estrategia de negocios"
+                },
+                {
+                    "label": "FSCP",
+                    "sublabel": "Servicios financieros"
+                },
+                {
+                    "label": "LUTCF",
+                    "sublabel": "Disciplina de planificación"
+                },
+                {
+                    "label": "Tribunal Fiscal",
+                    "sublabel": "Profesional autorizado"
+                }
+            ]
+        },
+        "HealthCheckSection": {
+            "title": "Obtenga una lectura clara de su posición fiscal.",
+            "subtitle": "Realice la evaluación rápida para detectar fugas de efectivo, problemas de entidad y vacíos de planificación que podrían estar costándole dinero.",
+            "cta": "Iniciar revisión fiscal"
+        },
+        "ProblemSection": {
+            "badge": "La ayuda fiscal reactiva crea puntos ciegos costosos",
+            "title": "La mayoría de los dueños toman",
+            "titleAccent": "decisiones grandes",
+            "titleEnd": "con números incompletos.",
+            "subtitle": "Cuando su estrategia fiscal solo aparece en temporada de presentación, pierde visibilidad, flexibilidad y efectivo que podría seguir trabajando dentro del negocio.",
+            "cta": "Vea la brecha estratégica",
+            "items": {
+                "flyingBlind": {
+                    "title": "Está operando sin visibilidad real de su efectivo",
+                    "description": "Las decisiones sobre entidad y compensación se toman sin una proyección fiscal confiable hacia adelante."
+                },
+                "taxSurprises": {
+                    "title": "Las sorpresas trimestrales frenan el impulso",
+                    "description": "Las facturas de impuestos llegan tarde y obligan a reaccionar en vez de planificar con calma."
+                },
+                "complianceDrag": {
+                    "title": "El cumplimiento desplaza la estrategia",
+                    "description": "Paga por la mecánica de presentar impuestos mientras se pierden oportunidades de mayor valor."
+                }
+            }
+        },
         "ServicesSection": {
             "eyebrow": "Nuestra Experiencia",
             "title": "Soluciones Financieras Integrales.",
             "titleHighlight": "Financieras Integrales.",
             "subtitle": "Diseñe un sistema financiero que funcione para su negocio. Desde cumplimiento básico hasta herramientas de crecimiento estratégico.",
-            "learnMore": "Más Información"
+            "learnMore": "Más Información",
+            "pillarBadge": "Pilar de Asesoría",
+            "serviceCta": "Explorar estrategia",
+            "viewAllCta": "Ver todos los servicios",
+            "industries": {
+                "construction": {
+                    "title": "Construcción",
+                    "description": "Estrategia de entidad, nómina y flujo de caja para operadores con muchas variables."
+                },
+                "restaurants": {
+                    "title": "Restaurantes",
+                    "description": "Apoyo fiscal para negocios de hospitalidad con márgenes ajustados que necesitan mayor visibilidad."
+                }
+            }
         },
         "NationwideServiceSection": {
             "badge": "Servicio Virtual Primero",
@@ -182,7 +261,14 @@
                 }
             },
             "mapLabel": "Estados",
-            "cta": "Reservar Sesión de Estrategia"
+            "cta": "Reservar Sesión de Estrategia",
+            "visual": {
+                "title": "Diseñado para dueños",
+                "titleAccent": "en los 50 estados.",
+                "description": "Colaboración segura, continuidad con su asesor y estrategia fiscal sin que la geografía lo limite.",
+                "statOne": "Estados atendidos",
+                "statTwo": "Entrega virtual"
+            }
         },
         "BentoGridSection": {
             "section": {
@@ -224,6 +310,27 @@
             "eyebrow": "Historias de Éxito de Clientes",
             "title": "Confiado por Propietarios de Negocios de Alto Crecimiento",
             "titleHighlight": "Propietarios de Negocios"
+        },
+        "ExitIntentModal": {
+            "title": "Antes de irse, revise sus puntos ciegos fiscales.",
+            "subtitle": "Una evaluación rápida puede revelar oportunidades de ahorro y vacíos de planificación en minutos.",
+            "cta": "Hacer la revisión",
+            "dismiss": "No por ahora",
+            "close": "Cerrar aviso de revisión fiscal"
+        },
+        "FloatingTaxButton": {
+            "buttonAria": "Abrir panel de revisión fiscal",
+            "buttonLabel": "Revisión fiscal",
+            "title": "Revisión fiscal",
+            "subtitle": "Análisis estratégico rápido",
+            "description": "Detecte dónde la entidad, la compensación y la planificación podrían estar costándole dinero antes del próximo vencimiento.",
+            "benefits": {
+                "instant": "Autoevaluación rápida para obtener claridad inmediata",
+                "personalized": "Recomendaciones adaptadas a su estructura actual",
+                "confidential": "Revisión privada que puede completar a su propio ritmo"
+            },
+            "cta": "Comenzar la revisión",
+            "close": "Cerrar panel de revisión fiscal"
         },
         "DifferentiationSection": {
             "eyebrow": "Por Qué Somos Diferentes",

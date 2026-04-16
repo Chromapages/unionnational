@@ -67,7 +67,7 @@ export default async function LegalPage(props: { params: Promise<{ locale: strin
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased overflow-x-hidden">
             <HeaderWrapper />
 
-            <main className="pt-20 pb-24 flex-grow">
+            <main id="main-content" className="pt-20 pb-24 flex-grow">
                 <div className="max-w-6xl mx-auto px-6">
                     <RevealOnScroll>
                         <header className="mb-16 border-b border-slate-200 pb-12 max-w-3xl">

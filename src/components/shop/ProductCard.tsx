@@ -57,6 +57,7 @@ const formatPrice = (price: number) => {
 export function ProductCard({
     title,
     coverImage,
+    imageUrl, // Supporting both prop names for flexibility between query results and manual usage
     price,
     compareAtPrice,
     shortDescription,
@@ -64,9 +65,13 @@ export function ProductCard({
     format = 'ebook',
     badge,
     rating = 5,
-}: ProductCardProps) {
+}: ProductCardProps & { imageUrl?: string }) {
     const t = useTranslations("Shop.ProductCard");
     const [isHovered, setIsHovered] = useState(false);
+
+    // Resolve the final display image from available props
+    const finalImage = imageUrl || coverImage;
+    const imageSrc = typeof finalImage === 'string' && finalImage.trim() !== '' ? finalImage : undefined;
 
     const formatLabels: Record<string, string> = {
         ebook: t("formatLabels.ebook"),
@@ -115,7 +120,7 @@ export function ProductCard({
                     )}
 
                     <img
-                        src={typeof coverImage === 'string' ? coverImage : ''}
+                        src={imageSrc}
                         alt={title}
                         className="w-full h-full object-contain p-8 transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
                     />

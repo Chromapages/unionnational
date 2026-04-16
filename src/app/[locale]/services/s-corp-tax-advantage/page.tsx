@@ -19,7 +19,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
-            <main>
+            <main id="main-content">
                 <SCorpAdvantageClient locale={locale} />
             </main>
             <Footer />

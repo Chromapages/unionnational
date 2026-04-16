@@ -1,16 +1,20 @@
-import Link from "next/link";
-import { Linkedin, Facebook, Youtube, Instagram, Twitter, Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
-import { sanityFetch } from "@/sanity/lib/live";
-import { SITE_SETTINGS_QUERY, FOOTER_LEGAL_PAGES_QUERY } from "@/sanity/lib/queries";
-import { EABadge } from "@/components/ui/EABadge";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
 import { NewsletterForm } from "@/components/ui/NewsletterForm";
-import { getLocale } from "next-intl/server";
+import { EABadge } from "@/components/ui/EABadge";
+import { Link } from "@/i18n/navigation";
+import { sanityFetch } from "@/sanity/lib/live";
+import { FOOTER_LEGAL_PAGES_QUERY, SERVICES_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { fallbackServices, getServiceHref, type ServiceSummary } from "./navigationData";
 
 export async function Footer() {
     const locale = await getLocale();
+    const tFooter = await getTranslations({ locale, namespace: "Footer" });
+    const tHeader = await getTranslations({ locale, namespace: "Header" });
     const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
     const { data: legalPages } = await sanityFetch({ query: FOOTER_LEGAL_PAGES_QUERY, params: { locale } });
+    const { data: services } = await sanityFetch({ query: SERVICES_QUERY, params: { locale } });
 
     const formatAddress = (address: unknown): string | null => {
         if (!address) return null;
@@ -21,17 +25,15 @@ export async function Footer() {
 
         if (typeof address !== "object") return null;
 
-        const a = address as Partial<Record<"street" | "city" | "state" | "zip", unknown>>;
-        const street = typeof a.street === "string" ? a.street.trim() : "";
-        const city = typeof a.city === "string" ? a.city.trim() : "";
-        const state = typeof a.state === "string" ? a.state.trim() : "";
-        const zip = typeof a.zip === "string" ? a.zip.trim() : "";
-
-        const line1 = street;
+        const value = address as Partial<Record<"street" | "city" | "state" | "zip", unknown>>;
+        const street = typeof value.street === "string" ? value.street.trim() : "";
+        const city = typeof value.city === "string" ? value.city.trim() : "";
+        const state = typeof value.state === "string" ? value.state.trim() : "";
+        const zip = typeof value.zip === "string" ? value.zip.trim() : "";
         const cityState = [city, state].filter(Boolean).join(", ");
         const line2 = [cityState, zip].filter(Boolean).join(cityState && zip ? " " : "");
+        const joined = [street, line2].filter(Boolean).join(", ");
 
-        const joined = [line1, line2].filter(Boolean).join(", ");
         return joined.length ? joined : null;
     };
 
@@ -55,31 +57,45 @@ export async function Footer() {
     const phoneHref = formatTelHref(siteSettings?.phone) || formatTelHref(phoneText) || "tel:+18015550123";
     const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || "hello@unionnationaltax.com";
     const emailHref = formatMailtoHref(siteSettings?.email) || formatMailtoHref(emailText) || "mailto:hello@unionnationaltax.com";
+    const serviceLinks = (services?.length ? (services as ServiceSummary[]) : fallbackServices).slice(0, 5);
+    const companyLinks = [
+        { label: tHeader("about"), href: "/about" },
+        { label: tFooter("team"), href: "/team" },
+        { label: tHeader("resources"), href: "/resources" },
+        { label: tHeader("faq"), href: "/faq" },
+        { label: tHeader("contact"), href: "/contact" },
+        { label: tHeader("shop"), href: "/shop" },
+    ];
 
     const socialLinks = [
-        { icon: Linkedin, href: siteSettings?.socialLinks?.linkedin },
-        { icon: Facebook, href: siteSettings?.socialLinks?.facebook },
-        { icon: Youtube, href: siteSettings?.socialLinks?.youtube },
-        { icon: Instagram, href: siteSettings?.socialLinks?.instagram },
-        { icon: Twitter, href: siteSettings?.socialLinks?.twitter },
-    ].filter(link => link.href);
+        { icon: Linkedin, href: siteSettings?.socialLinks?.linkedin, label: "LinkedIn" },
+        { icon: Facebook, href: siteSettings?.socialLinks?.facebook, label: "Facebook" },
+        { icon: Youtube, href: siteSettings?.socialLinks?.youtube, label: "YouTube" },
+        { icon: Instagram, href: siteSettings?.socialLinks?.instagram, label: "Instagram" },
+        { icon: Twitter, href: siteSettings?.socialLinks?.twitter, label: "Twitter" },
+    ].filter((link) => link.href);
 
-    // Fallback if no social links are set in CMS
     if (socialLinks.length === 0) {
-        if (!siteSettings?.socialLinks?.linkedin) socialLinks.push({ icon: Linkedin, href: "https://www.linkedin.com/in/jason-astwood-ea-lutcf-fscp-8337a476/" });
-        if (!siteSettings?.socialLinks?.facebook) socialLinks.push({ icon: Facebook, href: "https://www.facebook.com/UnionNationalTax" });
-        if (!siteSettings?.socialLinks?.youtube) socialLinks.push({ icon: Youtube, href: "https://www.youtube.com/@JasonAstwood" });
-        if (!siteSettings?.socialLinks?.instagram) socialLinks.push({ icon: Instagram, href: "https://www.instagram.com/unionnationaltax/?hl=en" });
+        if (!siteSettings?.socialLinks?.linkedin) {
+            socialLinks.push({ icon: Linkedin, href: "https://www.linkedin.com/in/jason-astwood-ea-lutcf-fscp-8337a476/", label: "LinkedIn" });
+        }
+        if (!siteSettings?.socialLinks?.facebook) {
+            socialLinks.push({ icon: Facebook, href: "https://www.facebook.com/UnionNationalTax", label: "Facebook" });
+        }
+        if (!siteSettings?.socialLinks?.youtube) {
+            socialLinks.push({ icon: Youtube, href: "https://www.youtube.com/@JasonAstwood", label: "YouTube" });
+        }
+        if (!siteSettings?.socialLinks?.instagram) {
+            socialLinks.push({ icon: Instagram, href: "https://www.instagram.com/unionnationaltax/?hl=en", label: "Instagram" });
+        }
     }
 
     return (
         <footer className="bg-brand-900 border-t border-brand-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
-
-                    {/* Column 1: Brand & Bio */}
                     <div className="space-y-6">
-                        <Link href="/" className="block relative h-28 w-[400px] mb-6">
+                        <Link href="/" className="block relative h-28 w-[400px] max-w-full mb-6">
                             {siteSettings?.logo?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logo.asset.url}
@@ -103,81 +119,72 @@ export async function Footer() {
                                 />
                             )}
                         </Link>
-                        <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">
-                            Specialized tax strategies for construction, real estate, and service-based businesses. Keep more of what you earn with proactive planning.
+                        <p className="max-w-xs text-sm leading-relaxed text-zinc-400">
+                            {tFooter("brandBio")}
                         </p>
                         <EABadge />
                     </div>
 
-                    {/* Column 2: Quick Links */}
                     <div>
-                        <h3 className="text-white font-bold mb-6 font-heading">Services</h3>
+                        <h3 className="mb-6 font-heading font-bold text-white">{tFooter("servicesTitle")}</h3>
                         <ul className="space-y-3">
-                            {[
-                                { name: 'S-Corp Tax Advantage', slug: 's-corp-tax-advantage' },
-                                { name: 'Fractional CFO', slug: 'fractional-cfo' },
-                                { name: 'Tax Planning', slug: 'tax-planning' },
-                                { name: 'Bookkeeping', slug: 'strategic-bookkeeping' },
-                                { name: 'Tax Filing & Prep', slug: 'tax-filing-preparation' },
-                            ].map((item) => (
-                                <li key={item.slug}>
-                                    <Link
-                                        href={`/services/${item.slug}`}
-                                        className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                </li>
-                            ))}
+                            {serviceLinks.map((service: ServiceSummary) => {
+                                const serviceKey = service._id || service.slug?.current || service.title || "service";
+                                return (
+                                    <li key={serviceKey}>
+                                        <Link
+                                            href={getServiceHref(service)}
+                                            className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
+                                        >
+                                            {service.title}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                             <li>
                                 <Link
                                     href="/services"
-                                    className="text-gold-500 hover:text-gold-400 text-sm font-medium transition-colors inline-flex items-center gap-1"
+                                    className="inline-flex items-center gap-1 text-sm font-medium text-gold-500 transition-colors hover:text-gold-400"
                                 >
-                                    View All Services
+                                    {tFooter("viewAllServices")}
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
-                    {/* Column 3: Company */}
                     <div>
-                        <h3 className="text-white font-bold mb-6 font-heading">Company</h3>
+                        <h3 className="mb-6 font-heading font-bold text-white">{tFooter("companyTitle")}</h3>
                         <ul className="space-y-3">
-                            {['About', 'Team', 'Resources', 'FAQ', 'Contact', 'Shop']
-                                .map((item) => (
-                                    <li key={item}>
-                                        <Link
-                                            href={item === 'Home' ? '/' : item === 'Resources' ? '/resources' : `/${item.toLowerCase()}`}
-                                            className="text-zinc-400 hover:text-gold-500 text-sm transition-colors"
-                                        >
-                                            {item}
-                                        </Link>
-                                    </li>
-                                ))}
+                            {companyLinks.map((item) => (
+                                <li key={item.href}>
+                                    <Link
+                                        href={item.href}
+                                        className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Column 4: Contact & Newsletter */}
                     <div className="space-y-8">
                         <div>
-                            <h3 className="text-white font-bold mb-6 font-heading">Contact Us</h3>
+                            <h3 className="mb-6 font-heading font-bold text-white">{tFooter("contactTitle")}</h3>
                             <ul className="space-y-4">
-                                <li className="flex items-start gap-3 text-zinc-400 text-sm group">
-                                    <MapPin className="w-4 h-4 mt-1 text-gold-500 shrink-0 group-hover:text-gold-400" />
-                                    <span>
-                                        {addressText}
-                                    </span>
+                                <li className="group flex items-start gap-3 text-sm text-zinc-400">
+                                    <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />
+                                    <span>{addressText}</span>
                                 </li>
-                                <li className="flex items-center gap-3 text-zinc-400 text-sm group">
-                                    <Phone className="w-4 h-4 text-gold-500 shrink-0 group-hover:text-gold-400" />
-                                    <a href={phoneHref} className="hover:text-white transition-colors">
+                                <li className="group flex items-center gap-3 text-sm text-zinc-400">
+                                    <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />
+                                    <a href={phoneHref} className="transition-colors hover:text-white">
                                         {phoneText}
                                     </a>
                                 </li>
-                                <li className="flex items-center gap-3 text-zinc-400 text-sm group">
-                                    <Mail className="w-4 h-4 text-gold-500 shrink-0 group-hover:text-gold-400" />
-                                    <a href={emailHref} className="hover:text-white transition-colors">
+                                <li className="group flex items-center gap-3 text-sm text-zinc-400">
+                                    <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />
+                                    <a href={emailHref} className="transition-colors hover:text-white">
                                         {emailText}
                                     </a>
                                 </li>
@@ -190,31 +197,29 @@ export async function Footer() {
                     </div>
                 </div>
 
-                {/* Disclaimer */}
                 <div className="pt-8 border-t border-brand-800">
-                    <p className="text-zinc-500 text-xs text-center leading-relaxed max-w-4xl mx-auto">
-                        <span className="font-semibold text-zinc-400">Disclaimer:</span> The information on this website is for general informational purposes only and does not constitute tax, legal, accounting, or financial advice. Use of this site does not create a professional relationship. Please consult a qualified professional for advice specific to your situation.
+                    <p className="mx-auto max-w-4xl text-center text-xs leading-relaxed text-zinc-500">
+                        <span className="font-semibold text-zinc-400">{tFooter("disclaimerLabel")}</span>{" "}
+                        {tFooter("disclaimerBody")}
                     </p>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="pt-8 mt-8 border-t border-brand-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-zinc-500 text-xs text-center md:text-left">
+                <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-brand-800 pt-8 md:flex-row">
+                    <p className="text-center text-xs text-zinc-500 md:text-left">
                         {siteSettings?.copyrightText || `© ${new Date().getFullYear()} Union National Tax. All Rights Reserved.`}
                     </p>
 
-                    {/* Social Icons */}
                     <div className="flex gap-3">
-                        {socialLinks.map((social, i) => (
+                        {socialLinks.map((social, index) => (
                             <a
-                                key={i}
+                                key={`${social.label}-${index}`}
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-8 h-8 rounded-full bg-brand-800 border border-brand-700 flex items-center justify-center text-zinc-400 hover:bg-gold-500 hover:text-brand-900 hover:border-gold-500 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                                aria-label={`Follow us on ${social.icon.displayName || 'social media'}`}
+                                className="flex h-8 w-8 items-center justify-center rounded-full border border-brand-700 bg-brand-800 text-zinc-400 shadow-sm transition-all hover:-translate-y-0.5 hover:border-gold-500 hover:bg-gold-500 hover:text-brand-900 hover:shadow-md"
+                                aria-label={tFooter("followOn", { platform: social.label })}
                             >
-                                <social.icon className="w-4 h-4" />
+                                <social.icon aria-hidden="true" className="h-4 w-4" />
                             </a>
                         ))}
                     </div>
@@ -222,14 +227,15 @@ export async function Footer() {
                     <div className="flex gap-6 text-xs text-zinc-500">
                         {(() => {
                             const pages = [...(legalPages || [])];
-                            if (!pages.some(p => p.slug === 'privacy-policy')) {
-                                pages.push({ title: 'Privacy Policy', slug: 'privacy-policy' });
+                            if (!pages.some((page: { slug?: string }) => page.slug === "privacy-policy")) {
+                                pages.push({ title: tFooter("privacy"), slug: "privacy-policy" });
                             }
-                            return pages.map((page: any) => (
+
+                            return pages.map((page: { title: string; slug: string }) => (
                                 <Link
                                     key={page.slug}
                                     href={`/legal/${page.slug}`}
-                                    className="hover:text-gold-500 transition-colors"
+                                    className="transition-colors hover:text-gold-500"
                                 >
                                     {page.title}
                                 </Link>

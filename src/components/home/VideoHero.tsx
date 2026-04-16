@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, Play, X, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useVideoPlayer } from "@/hooks/useVideoPlayer";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 // Custom hook for counting numbers with ease-out
 const useCounter = (end: number, duration: number = 1000, start: boolean = false) => {
@@ -14,7 +14,6 @@ const useCounter = (end: number, duration: number = 1000, start: boolean = false
 
     useEffect(() => {
         if (!start) {
-            setCount(0);
             return;
         }
 
@@ -56,6 +55,7 @@ interface VideoHeroProps {
 
 export function VideoHero({ data }: VideoHeroProps) {
     const t = useTranslations('HomePage.VideoHero');
+    const locale = useLocale();
     const [income, setIncome] = useState<string>("");
     const [isCalculating, setIsCalculating] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -65,16 +65,16 @@ export function VideoHero({ data }: VideoHeroProps) {
         newTax: number;
     } | null>(null);
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-    const [mounted, setMounted] = useState(false);
 
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
+    const calculationTimeoutRef = useRef<number | null>(null);
 
     // Animated savings value
     const animatedSavings = useCounter(result?.savings || 0, 1500, showResult);
 
     const hlsUrl = data?.heroVideoUrl;
-    const modalVideoUrl = data?.heroCtaUrl || hlsUrl;
+    const primaryCtaUrl = data?.heroCtaUrl || "/book";
 
     // Default video URL if none provided from Sanity
     // Using a subtle abstract background video from a free CDN
@@ -90,7 +90,11 @@ export function VideoHero({ data }: VideoHeroProps) {
     });
 
     useEffect(() => {
-        setMounted(true);
+        return () => {
+            if (calculationTimeoutRef.current) {
+                window.clearTimeout(calculationTimeoutRef.current);
+            }
+        };
     }, []);
 
     // Accessibility: Focus Management for Modal
@@ -133,7 +137,11 @@ export function VideoHero({ data }: VideoHeroProps) {
         setShowResult(false); // Reset to trigger animation restart if needed
 
         // Simulate calculation delay for UX
-        setTimeout(() => {
+        if (calculationTimeoutRef.current) {
+            window.clearTimeout(calculationTimeoutRef.current);
+        }
+
+        calculationTimeoutRef.current = window.setTimeout(() => {
             const netIncome = parseFloat(income.replace(/,/g, "")) || 0;
 
             // Simplified S-Corp Logic for Demo
@@ -152,21 +160,16 @@ export function VideoHero({ data }: VideoHeroProps) {
             });
             setIsCalculating(false);
             setShowResult(true);
+            calculationTimeoutRef.current = null;
         }, 800);
     };
 
     const formatCurrency = (val: number) => {
-        return new Intl.NumberFormat('en-US', {
+        return new Intl.NumberFormat(locale === "es" ? "es-US" : "en-US", {
             style: 'currency',
             currency: 'USD',
             maximumFractionDigits: 0
         }).format(val);
-    };
-
-    // Staggered animation delays
-    const getDelayClass = (index: number) => {
-        // Only apply delays on initial mount
-        return mounted ? "" : `delay-[${index * 150}ms]`;
     };
 
     return (
@@ -332,17 +335,17 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             <Play className="w-4 h-4 fill-current ml-0.5" />
                                         </div>
                                         <div className="text-left">
-                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">Confidential Briefing</span>
-                                            <span className="block text-base">Watch Our Strategy Video</span>
+                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">{t('videoButton.eyebrow')}</span>
+                                            <span className="block text-base">{t('videoButton.label')}</span>
                                         </div>
                                     </button>
 
                                     <Link 
-                                        href="/book"
+                                        href={primaryCtaUrl}
                                         className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-gold-500 text-brand-900 font-black rounded-xl hover:bg-gold-400 transition-all text-lg shadow-xl shadow-gold-500/20 active:scale-[0.98] group"
                                     >
-                                        Book Strategy Call
-                                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                        {data?.heroCtaText || t('videoChapters.cta.bookCall')}
+                                        <ArrowRight size={20} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
 
@@ -478,10 +481,10 @@ export function VideoHero({ data }: VideoHeroProps) {
                                 aria-label={t('videoModal.closeAriaLabel')}
                                 className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-black/70 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-6 h-6" aria-hidden="true" />
                             </button>
                             <VideoPlayer
-                                src={modalVideoUrl || ""}
+                                src={hlsUrl || defaultVideoUrl}
                                 autoPlay
                                 className="w-full h-full"
                                 chapters={[

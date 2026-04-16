@@ -124,7 +124,7 @@ export default async function ServicePage(props: { params: Promise<{ locale: str
             />
             <HeaderWrapper />
 
-            <main>
+            <main id="main-content">
                 <ServiceDetailClient service={service} relatedServices={relatedServices} tiers={pricingTiers} />
             </main>
 
