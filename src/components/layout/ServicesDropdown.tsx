@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, Hammer, Utensils, Building2, ShieldAlert } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import * as Icons from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { fallbackServices, getServiceHref, type ServiceSummary } from "./navigationData";
+import { fallbackServices, getServiceHref, mapCategory, type ServiceSummary } from "./navigationData";
 
 const getIcon = (iconName?: string) => {
   if (!iconName) {
@@ -21,6 +22,7 @@ type ServicesDropdownProps = {
 };
 
 export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
+  const t = useTranslations("Header");
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
@@ -30,21 +32,19 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
   const buttonId = useId();
   const isServicesActive = pathname.startsWith("/services");
   const serviceData = services?.length ? services : fallbackServices;
-  const advisoryServices = serviceData.filter((service) => service.category === "Advisory");
-  const supportServices = serviceData.filter(
-    (service) =>
-      service.category === "Support" ||
-      !service.category ||
-      service.category === "Business" ||
-      service.category === "Tax"
-  );
+  
+  const taxStrategy = serviceData.filter((s) => mapCategory(s.category) === "Tax Strategy");
+  const financialControl = serviceData.filter((s) => mapCategory(s.category) === "Financial Control");
+  const specializedAdvisory = serviceData.filter((s) => mapCategory(s.category) === "Specialized Advisory");
+  const complianceSupport = serviceData.filter((s) => mapCategory(s.category) === "Compliance Support");
+
+  const featuredService = serviceData.find((service) => service.isPopular) || serviceData[0];
+
   const firstServiceKey =
-    advisoryServices[0]?._id ||
-    advisoryServices[0]?.slug?.current ||
-    advisoryServices[0]?.title ||
-    supportServices[0]?._id ||
-    supportServices[0]?.slug?.current ||
-    supportServices[0]?.title;
+    featuredService?._id ||
+    featuredService?.slug?.current ||
+    featuredService?.title ||
+    serviceData[0]?._id;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -103,7 +103,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
 
   const renderServiceLink = (service: ServiceSummary) => {
     const ServiceIcon = getIcon(service.icon);
-    const serviceTitle = service.title || "Service";
+    const serviceTitle = service.title || t("servicesDropdownFallbackServiceTitle");
     const serviceKey = service._id || service.slug?.current || serviceTitle;
 
     return (
@@ -112,14 +112,12 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
         ref={serviceKey === firstServiceKey ? firstLinkRef : undefined}
         href={getServiceHref(service)}
         onClick={handleClose}
-        className="group/item flex items-center gap-3 rounded-lg p-3 transition-colors duration-200 hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
+        className="group/item flex items-center gap-3 py-2 px-2 rounded-xl transition-all duration-200 hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
       >
-        <ServiceIcon
-          size={18}
-          aria-hidden="true"
-          className="text-slate-400 transition-colors duration-200 group-hover/item:text-gold-500"
-        />
-        <span className="font-medium text-[0.9375rem] text-slate-200 transition-colors duration-200 group-hover/item:text-white">
+        <div className="flex shrink-0 items-center justify-center h-9 w-9 rounded-lg border border-gold-500/30 bg-gold-500/10 text-gold-500 transition-all group-hover/item:bg-gold-500/20 group-hover/item:scale-105">
+          <ServiceIcon size={18} aria-hidden="true" strokeWidth={1.5} />
+        </div>
+        <span className="font-medium text-white text-[0.9375rem] transition-colors group-hover/item:text-gold-400">
           {serviceTitle}
         </span>
       </Link>
@@ -132,7 +130,6 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
       className="relative"
       onMouseEnter={handleOpen}
       onMouseLeave={handleClose}
-      onFocusCapture={handleOpen}
       onBlurCapture={handleContainerBlur}
     >
       <button
@@ -141,13 +138,13 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
         id={buttonId}
         className={cn(
           "group relative flex items-center gap-1.5 rounded px-1.5 py-2 text-[0.9375rem] font-medium transition-all duration-300 ease-out lg:px-3",
-          isServicesActive ? "text-gold-500" : "text-white",
+          isServicesActive || isOpen ? "text-gold-500" : "text-white",
           "hover:text-gold-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
         )}
         onClick={handleToggle}
         onKeyDown={handleButtonKeyDown}
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="dialog"
         aria-controls={menuId}
       >
         <span
@@ -159,7 +156,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
         />
 
         <span className="relative z-10 group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]">
-          Services
+          {t("services")}
         </span>
         <ChevronDown
           size={16}
@@ -176,123 +173,46 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
         />
       </button>
 
-      {isOpen && (
+      {isOpen ? (
         <div
           id={menuId}
+          role="dialog"
           aria-labelledby={buttonId}
+          aria-label={t("servicesDropdownAriaLabel")}
           onKeyDown={handleMenuKeyDown}
-          className="absolute top-full left-1/2 visible -translate-x-1/2 translate-y-0 pt-4 opacity-100 transition-all duration-300 ease-out"
+          className="absolute left-1/2 top-full z-30 w-[min(36rem,calc(100vw-2rem))] -translate-x-1/2 pt-4"
         >
-          <div className="absolute top-2 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-white/10 bg-[#0D2E2B]" />
+          {/* Arrow */}
+          <div className="absolute left-1/2 top-[10px] h-4 w-4 -translate-x-1/2 rotate-45 bg-brand-500 border-t border-l border-gold-500/20 shadow-[-2px_-2px_2px_rgba(0,0,0,0.1)]" />
 
-          <div className="relative w-[680px] overflow-hidden rounded-xl border border-white/10 bg-[#0D2E2B] shadow-2xl shadow-black/50 backdrop-blur-xl">
-            <div className="grid grid-cols-2 gap-0 divide-x divide-white/5 p-2">
-              <div className="p-4">
-                <h3 className="mb-2 flex items-center gap-2 px-3 text-[10px] font-bold uppercase tracking-widest text-gold-500/80">
-                  Advisory Services
+          <div className="overflow-hidden rounded-[2rem] border border-gold-500/50 bg-brand-500 shadow-2xl shadow-black/80 ring-1 ring-white/5">
+            <div className="px-8 py-8">
+              <div className="border-b border-white/10 pb-6 mb-6">
+                <h3 className="font-heading text-[1.75rem] font-bold tracking-tight text-white uppercase opacity-80 leading-none">
+                  BROWSE OUR SERVICES
                 </h3>
-                <div className="space-y-0.5">
-                  {advisoryServices.map(renderServiceLink)}
-                </div>
+                <p className="mt-3 text-[1rem] text-zinc-400 font-medium">
+                  Quick access to core solutions.
+                </p>
               </div>
 
-              <div className="p-4">
-                <h3 className="mb-2 flex items-center gap-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                  Support & Compliance
-                </h3>
-                <div className="space-y-0.5">
-                  {supportServices.map(renderServiceLink)}
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2">
+                {serviceData.slice(0, 8).map((service) => renderServiceLink(service))}
               </div>
-            </div>
 
-            <div className="grid grid-cols-2 gap-px border-t border-white/10 bg-white/5">
-              <Link
-                href="/industries/construction"
-                onClick={handleClose}
-                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-gold-500/80 shadow-sm transition-colors group-hover/card:border-gold-500/30 group-hover/card:text-gold-400">
-                    <Hammer className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">Construction</div>
-                    <div className="font-semibold text-slate-200 transition-colors group-hover/card:text-white">
-                      Tax Strategy
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              <Link
-                href="/industries/restaurants"
-                onClick={handleClose}
-                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-gold-500/80 shadow-sm transition-colors group-hover/card:border-gold-500/30 group-hover/card:text-gold-400">
-                    <Utensils className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">Restaurants</div>
-                    <div className="font-semibold text-slate-200 transition-colors group-hover/card:text-white">
-                      Profit Recovery
-                    </div>
-                  </div>
-                </div>
-              </Link>
-
-              <Link
-                href="/vsl/real-estate"
-                onClick={handleClose}
-                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-gold-500/80 shadow-sm transition-colors group-hover/card:border-gold-500/30 group-hover/card:text-gold-400">
-                    <Building2 className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">Real Estate</div>
-                    <div className="font-semibold text-slate-200 transition-colors group-hover/card:text-white">
-                      Investor Program
-                    </div>
-                  </div>
-                </div>
-              </Link>
-
-              <Link
-                href="/vsl/tax-resolution"
-                onClick={handleClose}
-                className="group/card relative bg-white/5 p-6 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/10 text-gold-500/80 shadow-sm transition-colors group-hover/card:border-gold-500/30 group-hover/card:text-gold-400">
-                    <ShieldAlert className="h-4 w-4" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">Tax Resolution</div>
-                    <div className="font-semibold text-slate-200 transition-colors group-hover/card:text-white">
-                      IRS Help
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            <div className="border-t border-white/10 bg-[#0b2926] py-3 text-center">
-              <Link
-                href="/services"
-                onClick={handleClose}
-                className="group/all inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 transition-colors hover:text-gold-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
-                id="view-all-services-link"
-              >
-                <span>View All Services</span>
-                <ArrowRight size={12} aria-hidden="true" className="transition-transform group-hover/all:translate-x-0.5" />
-              </Link>
+              <div className="mt-10 flex justify-center">
+                <Link
+                  href="/services"
+                  onClick={handleClose}
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-gold-500 px-8 text-[0.8125rem] font-bold uppercase tracking-widest text-brand-900 transition-all hover:bg-gold-400 hover:scale-105"
+                >
+                  VIEW ALL SERVICES
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

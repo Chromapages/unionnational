@@ -4,7 +4,6 @@ import { PRODUCT_DETAIL_QUERY, PRODUCT_SLUGS_QUERY } from "@/sanity/lib/queries"
 import { client } from "@/sanity/lib/client";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
@@ -16,14 +15,34 @@ import { AuthorBio } from "@/components/shop/AuthorBio";
 import { TestimonialWall } from "@/components/shop/TestimonialWall";
 import { BookOverview } from "@/components/shop/BookOverview";
 import { RelatedServices } from "@/components/services/RelatedServices";
+import { ShopViewContent } from "@/components/seo/ShopViewContent";
+import { Link } from "@/i18n/navigation";
 
 export const revalidate = 60;
 
+interface ProductSlugRecord {
+    slug: string;
+}
+
+interface RelatedProductCardData {
+    _id: string;
+    title: string;
+    slug: string;
+    imageUrl?: string;
+    price: number;
+    compareAtPrice?: number;
+    shortDescription: string;
+    format: string;
+    badge?: string;
+    category?: string;
+    rating?: number;
+}
+
 export async function generateStaticParams() {
-    const slugs = await client.fetch(PRODUCT_SLUGS_QUERY);
+    const slugs = await client.fetch<ProductSlugRecord[]>(PRODUCT_SLUGS_QUERY);
     const locales = ["en", "es"];
 
-    return (slugs as any[]).flatMap((slug: any) =>
+    return slugs.flatMap((slug) =>
         locales.map((locale) => ({
             locale,
             slug: slug.slug,
@@ -100,6 +119,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
             />
             <HeaderWrapper />
+            <ShopViewContent productName={product.title} productId={product._id} price={product.price} />
 
             <main id="main-content">
                 {/* Breadcrumb */}
@@ -120,6 +140,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                     image={product.imageUrl}
                     samplePages={product.samplePages || []}
                     format={product.format}
+                    buyLink={product.buyLink}
                     defaultPrice={product.price}
                     compareAtPrice={product.compareAtPrice}
                     category={product.category || "Boutique Financial Literature"}
@@ -205,7 +226,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {product.relatedProducts.map((related: any) => (
+                                {product.relatedProducts.map((related: RelatedProductCardData) => (
                                     <ProductCard
                                         key={related._id}
                                         {...related}
@@ -217,14 +238,15 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                 )}
             </main>
 
-            <StickyBuyBar
-                id={product._id}
-                slug={product.slug}
-                title={product.title}
-                image={product.imageUrl}
-                format={product.format}
-                price={product.price}
-            />
+                <StickyBuyBar
+                    id={product._id}
+                    slug={product.slug}
+                    title={product.title}
+                    image={product.imageUrl}
+                    format={product.format}
+                    price={product.price}
+                    buyLink={product.buyLink}
+                />
 
             <Footer />
         </div>

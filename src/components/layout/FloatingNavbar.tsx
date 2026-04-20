@@ -36,11 +36,9 @@ type FloatingNavbarProps = {
 };
 
 const navLinks: NavLink[] = [
-    { translationKey: "home", href: "/" },
     { translationKey: "industries", href: "/industries" },
-    { translationKey: "shop", href: "/shop" },
+    { translationKey: "resources", href: "/resources" },
     { translationKey: "about", href: "/about" },
-    { translationKey: "faq", href: "/faq" },
 ];
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {

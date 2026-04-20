@@ -4,24 +4,14 @@ import { useCartStore } from "@/store/useCartStore";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export function CartIcon() {
     const pathname = usePathname();
     const totalItems = useCartStore((state) => state.totalItems);
     const toggleCart = useCartStore((state) => state.toggleCart);
+    const isVisible = pathname.includes("/shop");
 
-    // Local state to handle hydration and visibility
-    const [mounted, setMounted] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-        // Only show cart icon on shop route and sub-routes
-        setIsVisible(pathname.includes("/shop"));
-    }, [pathname]);
-
-    if (!mounted || !isVisible) return null;
+    if (!isVisible) return null;
 
     return (
         <AnimatePresence>
@@ -32,6 +22,7 @@ export function CartIcon() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleCart}
+                aria-label={`Open shopping cart${totalItems > 0 ? ` with ${totalItems} item${totalItems === 1 ? "" : "s"}` : ""}`}
                 className="fixed bottom-8 left-8 z-[90] flex h-16 w-16 items-center justify-center rounded-full bg-brand-900 text-gold-400 shadow-2xl shadow-brand-900/40 border border-gold-500/20 backdrop-blur-xl group transition-all hover:bg-brand-800"
             >
                 <ShoppingBag className="w-7 h-7" />

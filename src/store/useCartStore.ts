@@ -1,28 +1,24 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export interface CartItem {
-    id: string;
-    slug: string;
-    title: string;
-    price: number;
-    image: string;
-    format: string;
-    quantity: number;
-}
+import type { CartLineItem } from "@/lib/shop/types";
 
 interface CartStore {
-    items: CartItem[];
+    items: CartLineItem[];
     isOpen: boolean;
     totalItems: number;
     totalPrice: number;
-    addItem: (item: Omit<CartItem, "quantity">) => void;
+    addItem: (item: Omit<CartLineItem, "quantity">) => void;
     removeItem: (id: string) => void;
     updateQuantity: (id: string, quantity: number) => void;
     clearCart: () => void;
     setIsOpen: (isOpen: boolean) => void;
     toggleCart: () => void;
 }
+
+const calculateCartTotals = (items: CartLineItem[]) => ({
+    totalItems: items.reduce((acc, item) => acc + item.quantity, 0),
+    totalPrice: items.reduce((acc, item) => acc + item.price * item.quantity, 0),
+});
 
 export const useCartStore = create<CartStore>()(
     persist(
@@ -45,19 +41,17 @@ export const useCartStore = create<CartStore>()(
                     newItems = [...currentItems, { ...item, quantity: 1 }];
                 }
 
-                set({ 
+                set({
                     items: newItems,
-                    totalItems: newItems.reduce((acc, i) => acc + i.quantity, 0),
-                    totalPrice: newItems.reduce((acc, i) => acc + i.price * i.quantity, 0)
+                    ...calculateCartTotals(newItems),
                 });
             },
 
             removeItem: (id) => {
                 const newItems = get().items.filter((i) => i.id !== id);
-                set({ 
+                set({
                     items: newItems,
-                    totalItems: newItems.reduce((acc, i) => acc + i.quantity, 0),
-                    totalPrice: newItems.reduce((acc, i) => acc + i.price * i.quantity, 0)
+                    ...calculateCartTotals(newItems),
                 });
             },
 
@@ -69,10 +63,9 @@ export const useCartStore = create<CartStore>()(
                 const newItems = get().items.map((i) =>
                     i.id === id ? { ...i, quantity } : i
                 );
-                set({ 
+                set({
                     items: newItems,
-                    totalItems: newItems.reduce((acc, i) => acc + i.quantity, 0),
-                    totalPrice: newItems.reduce((acc, i) => acc + i.price * i.quantity, 0)
+                    ...calculateCartTotals(newItems),
                 });
             },
 

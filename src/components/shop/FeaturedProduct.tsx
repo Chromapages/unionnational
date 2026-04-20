@@ -2,13 +2,24 @@
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight, Check, Star } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 import { useCartStore } from "@/store/useCartStore";
+import { buildCartItemKey } from "@/lib/shop/types";
 
 interface FeaturedProductProps {
-    product: any; // Sanity product
+    product: {
+        _id: string;
+        title: string;
+        slug: string;
+        imageUrl: string;
+        format: string;
+        price: number;
+        compareAtPrice?: number;
+        shortDescription: string;
+        features?: string[];
+        buyLink?: string;
+    };
 }
 
 export function FeaturedProduct({ product }: FeaturedProductProps) {
@@ -56,12 +67,14 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
                             <button
                                 onClick={() => {
                                     addItem({
-                                        id: product._id,
+                                        id: buildCartItemKey(product._id),
+                                        productId: product._id,
                                         slug: product.slug,
                                         title: product.title,
                                         image: product.imageUrl,
                                         format: product.format,
-                                        price: product.price
+                                        price: product.price,
+                                        buyLink: product.buyLink,
                                     });
                                     toggleCart();
                                 }}

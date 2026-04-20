@@ -9,13 +9,41 @@
         "shop": "Shop",
         "healthCheck": "Health Check",
         "resources": "Resources",
-        "bookCall": "Book a Strategy Call",
+        "bookCall": "Book Your Discovery Evaluation",
         "calculator": "Calc",
         "more": "More",
         "moreOptions": "More Options",
         "blog": "Blog",
         "newsletter": "Newsletter",
-        "language": "Language"
+        "language": "Language",
+        "servicesDropdownAriaLabel": "Services navigation menu",
+        "servicesDropdownEyebrow": "Advisory-led navigation",
+        "servicesDropdownTitle": "Choose the right service path.",
+        "servicesDropdownDescription": "Start with a recommended strategy path, then browse the key service options.",
+        "servicesDropdownBadge": "Built for owners",
+        "servicesDropdownPrimaryLabel": "Recommended path",
+        "servicesDropdownPrimaryCta": "Explore",
+        "servicesDropdownViewAll": "Explore all services",
+        "servicesDropdownTaxStrategyLabel": "Tax Strategy",
+        "servicesDropdownFinancialControlLabel": "Financial Control",
+        "servicesDropdownSpecializedAdvisoryLabel": "Specialized Advisory",
+        "servicesDropdownComplianceSupportLabel": "Compliance Support",
+        "servicesDropdownQuickPathsLabel": "Quick industry paths",
+        "servicesDropdownPopular": "Popular",
+        "servicesDropdownFallbackServiceTitle": "Service",
+        "servicesDropdownFallbackServiceDescription": "Tailored support for business owners.",
+        "servicesDropdownQuickConstructionTitle": "Construction",
+        "servicesDropdownQuickConstructionSubtitle": "Tax strategy for contractors",
+        "servicesDropdownQuickRestaurantTitle": "Restaurants",
+        "servicesDropdownQuickRestaurantSubtitle": "Profit recovery systems",
+        "servicesDropdownQuickRealEstateTitle": "Real Estate",
+        "servicesDropdownQuickRealEstateSubtitle": "Investor tax planning",
+        "servicesDropdownQuickResolutionTitle": "Tax Resolution",
+        "servicesDropdownQuickResolutionSubtitle": "IRS problem support",
+        "categoryTaxStrategy": "Tax Strategy",
+        "categoryFinancialControl": "Financial Control",
+        "categorySpecializedAdvisory": "Specialized Advisory",
+        "categoryComplianceSupport": "Compliance Support"
     },
     "Hero": {
         "titlePart1": "Stop Overpaying.",
@@ -29,7 +57,7 @@
     },
     "Footer": {
         "brandBio": "Specialized tax strategies for construction, real estate, and service-based businesses. Keep more of what you earn with proactive planning.",
-        "servicesTitle": "Services",
+        "complianceTitle": "Compliance & Implementation",
         "companyTitle": "Company",
         "contactTitle": "Contact Us",
         "viewAllServices": "View All Services",
@@ -115,9 +143,9 @@
     "HomePage": {
         "VideoHero": {
             "sectionAriaLabel": "Tax Strategy Video and Savings Calculator",
-            "titlePart1": "Stop Overpaying. <gold>Start Keeping.</gold>",
+            "titlePart1": "Stop overpaying the IRS. <gold>Build a smarter business.</gold>",
             "eyebrow": "Your Tax Strategy",
-            "subtitle": "Union National Tax helps business owners reduce taxes legally, optimize entity structure, and gain clearer financial control year-round, not just at filing time.",
+            "subtitle": "Proactive tax strategy and fractional CFO leadership for owners who want more than just a tax preparer.",
             "calculator": {
                 "title": "Estimate Your S-Corp Savings",
                 "confidential": "Confidential Calculation",
@@ -192,8 +220,31 @@
         },
         "HealthCheckSection": {
             "title": "Get a clear read on your tax position.",
-            "subtitle": "Take the quick health check to see where cash leaks, entity issues, and planning gaps may be costing you money.",
-            "cta": "Start Your Tax Health Check"
+            "subtitle": "Take the Proactive CFO Assessment to see where cash leaks, entity issues, and planning gaps may be costing you money.",
+            "cta": "Take the Proactive CFO Assessment"
+        },
+        "ThreeCorePaths": {
+            "eyebrow": "Your Path to Growth",
+            "title": "Choose your primary objective.",
+            "subtitle": "Select a path that matches your current business stage and financial goals.",
+            "path1": {
+                "title": "Reduce My Tax Bill",
+                "description": "Institutional-grade tax strategy, S-Corp optimization, and long-term planning for high earners.",
+                "cta": "Book Discovery Evaluation",
+                "items": ["S-Corp Optimization", "Pre-Tax Investing", "Entity Restructuring"]
+            },
+            "path2": {
+                "title": "Gain Financial Control",
+                "description": "Fractional CFO leadership and strategic bookkeeping to turn your numbers into actionable insight.",
+                "cta": "Take the CFO Assessment",
+                "items": ["Cash Flow Visibility", "Operating Reserves", "Profit Architecture"]
+            },
+            "path3": {
+                "title": "Specialized Guidance",
+                "description": "Deep expertise tailored to your industry’s specific regulatory and operational challenges.",
+                "cta": "Explore Industries",
+                "items": ["Construction", "Restaurants", "Real Estate"]
+            }
         },
         "ProblemSection": {
             "badge": "Reactive tax help creates expensive blind spots",

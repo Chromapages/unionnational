@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import * as Icons from "lucide-react";
+import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
+import { mapCategory } from "@/components/layout/navigationData";
 
 // Helper to resolve icon string to component
 const getIcon = (iconName: string) => {
@@ -32,7 +34,14 @@ interface ServicesClientProps {
 }
 
 export function ServicesClient({ services }: ServicesClientProps) {
-    const filteredServices = services;
+    const t = useTranslations("Header");
+
+    const categories = [
+        { id: "Tax Strategy", labelKey: "servicesDropdownTaxStrategyLabel" },
+        { id: "Financial Control", labelKey: "servicesDropdownFinancialControlLabel" },
+        { id: "Specialized Advisory", labelKey: "servicesDropdownSpecializedAdvisoryLabel" },
+        { id: "Compliance Support", labelKey: "servicesDropdownComplianceSupportLabel" }
+    ];
 
     // Internal Card Component for reuse
     const ServiceCard = ({ service, className }: { service: Service; className?: string }) => {
@@ -75,7 +84,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
 
                 <Link
                     href={`/services/${service.slug.current}`}
-                    className="mt-auto w-full py-3 rounded-xl border border-brand-200 text-brand-900 font-semibold flex items-center justify-center gap-2 group-hover:bg-brand-900 group-hover:text-white group-hover:border-brand-900 transition-all"
+                    className="mt-auto w-full py-3 rounded-xl border border-brand-200 text-brand-900 font-semibold flex items-center justify-center gap-2 group-hover:bg-brand-900 group-hover:text-white group-hover:border-brand-900 transition-all font-heading tracking-tight"
                 >
                     View Details
                     <ArrowRight className="w-4 h-4" />
@@ -87,44 +96,64 @@ export function ServicesClient({ services }: ServicesClientProps) {
     return (
         <div className="relative">
             <div className="max-w-7xl mx-auto px-6">
+                <div className="space-y-24">
+                    {categories.map((category) => {
+                        const categoryServices = services.filter(s => mapCategory(s.category) === category.id);
+                        if (categoryServices.length === 0) return null;
 
-                {/* Mobile: Swipeable Carousel */}
-                <div className="md:hidden">
-                    <SwipeableCarousel
-                        showDots={true}
-                        showArrows={false}
-                        gap={16}
-                        slideClassName="w-[320px] max-w-[85vw]"
-                    >
-                        {filteredServices.map((service) => (
-                            <div key={service._id} className="h-full">
-                                <ServiceCard service={service} className="h-full" />
+                        return (
+                            <div key={category.id} className="scroll-mt-32">
+                                <div className="mb-12">
+                                    <div className="inline-block px-4 py-1.5 mb-4 text-[0.7rem] font-bold tracking-[0.2em] uppercase text-gold-600 bg-gold-50 rounded-full border border-gold-200">
+                                        {t(category.labelKey)}
+                                    </div>
+                                    <h2 className="text-3xl md:text-4xl font-bold text-brand-900 tracking-tight font-heading">
+                                        {t(category.labelKey)}
+                                    </h2>
+                                    <div className="h-1 w-20 bg-gold-400 mt-4 rounded-full" />
+                                </div>
+
+                                {/* Mobile: Swipeable Carousel */}
+                                <div className="md:hidden">
+                                    <SwipeableCarousel
+                                        showDots={true}
+                                        showArrows={false}
+                                        gap={16}
+                                        slideClassName="w-[320px] max-w-[85vw]"
+                                    >
+                                        {categoryServices.map((service) => (
+                                            <div key={service._id} className="h-full">
+                                                <ServiceCard service={service} className="h-full" />
+                                            </div>
+                                        ))}
+                                    </SwipeableCarousel>
+                                </div>
+
+                                {/* Desktop: Grid Layout */}
+                                <motion.div
+                                    layout
+                                    className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                                >
+                                    <AnimatePresence mode="popLayout">
+                                        {categoryServices.map((service) => (
+                                            <motion.div
+                                                layout
+                                                initial={{ opacity: 0, scale: 0.95 }}
+                                                whileInView={{ opacity: 1, scale: 1 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.3 }}
+                                                key={service._id}
+                                                className="h-full"
+                                            >
+                                                <ServiceCard service={service} className="h-full" />
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
+                                </motion.div>
                             </div>
-                        ))}
-                    </SwipeableCarousel>
+                        );
+                    })}
                 </div>
-
-                {/* Desktop: Grid Layout */}
-                <motion.div
-                    layout
-                    className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
-                    <AnimatePresence mode="popLayout">
-                        {filteredServices.map((service) => (
-                            <motion.div
-                                layout
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.2 }}
-                                key={service._id}
-                                className="h-full"
-                            >
-                                <ServiceCard service={service} className="h-full" />
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </motion.div>
             </div>
         </div>
     );

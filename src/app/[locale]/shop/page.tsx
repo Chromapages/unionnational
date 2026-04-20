@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
+import { Link } from "@/i18n/navigation";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -112,6 +113,28 @@ export default async function ShopPage(props: { params: Promise<{ locale: string
                     </div>
 
                     {shopSettings?.faq && <ShopFAQ items={shopSettings.faq} />}
+
+                    {shopSettings?.recoveryCTA?.buttonUrl && (
+                        <section className="mx-auto mb-24 max-w-4xl px-6">
+                            <div className="rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center shadow-sm">
+                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-600">
+                                    Need a different path?
+                                </p>
+                                <h2 className="mt-4 text-3xl font-bold tracking-tight text-brand-900">
+                                    {shopSettings.recoveryCTA.title}
+                                </h2>
+                                <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
+                                    {shopSettings.recoveryCTA.subtitle}
+                                </p>
+                                <Link
+                                    href={shopSettings.recoveryCTA.buttonUrl}
+                                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-6 py-3 text-sm font-bold uppercase tracking-[0.16em] text-gold-400 transition-colors hover:bg-brand-800"
+                                >
+                                    {shopSettings.recoveryCTA.buttonText}
+                                </Link>
+                            </div>
+                        </section>
+                    )}
 
                 </div>
 

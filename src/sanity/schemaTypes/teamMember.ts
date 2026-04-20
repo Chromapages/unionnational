@@ -106,6 +106,32 @@ export const teamMember = defineType({
                 { name: 'youtube', title: 'YouTube', type: 'url' },
             ],
         }),
+        defineField({
+            name: "certifications",
+            title: "Professional Certifications",
+            type: "array",
+            of: [{ type: "string" }],
+            description: "List of formal licenses and certifications (e.g. IRS Enrolled Agent, CPA, EA).",
+        }),
+        defineField({
+            name: "irsLicenseNumber",
+            title: "IRS License / PTIN",
+            type: "string",
+            description: "Internal trust signal (not always displayed, but useful for Person schema).",
+        }),
+        defineField({
+            name: "yearsExperience",
+            title: "Years of Experience",
+            type: "number",
+            description: "Total years in the tax/financial industry.",
+        }),
+        defineField({
+            name: "speakingEngagements",
+            title: "Expert Appearances / Bio",
+            type: "text",
+            rows: 4,
+            description: "Mention any conferences, webinars, or publications to boost topical authority.",
+        }),
     ],
     preview: {
         select: {

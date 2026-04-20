@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight, Lock } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
+
+import { beginCheckout } from "@/lib/shop/checkout-client";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 const overlayVariants = {
     hidden: { opacity: 0 },
@@ -43,7 +46,6 @@ const itemVariants = {
 };
 
 export function CartSidebar() {
-    const t_shop = useTranslations("Shop");
     const t_cart = useTranslations("Shop.Cart");
     const items = useCartStore((state) => state.items);
     const isOpen = useCartStore((state) => state.isOpen);
@@ -51,8 +53,9 @@ export function CartSidebar() {
     const removeItem = useCartStore((state) => state.removeItem);
     const updateQuantityByAmount = useCartStore((state) => state.updateQuantity);
     const totalPrice = useCartStore((state) => state.totalPrice);
-
-    const cartRef = useRef<HTMLDivElement>(null);
+    const clearCart = useCartStore((state) => state.clearCart);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
 
     // Lock body scroll when open
     useEffect(() => {
@@ -82,9 +85,31 @@ export function CartSidebar() {
     };
 
     const handleCheckout = () => {
-        // Placeholder for Stripe Redirect
-        console.log("Redirecting to Stripe with items:", items);
-        alert("Redirecting to Stripe Checkout... (API integration pending)");
+        void (async () => {
+            setCheckoutMessage(null);
+            setIsSubmitting(true);
+
+            try {
+                trackMetaEvent("InitiateCheckout", {
+                    value: totalPrice,
+                    currency: "USD",
+                    num_items: items.length,
+                });
+
+                const result = await beginCheckout(items);
+                if (result.ok && result.redirectUrl) {
+                    clearCart();
+                    window.location.assign(result.redirectUrl);
+                    return;
+                }
+
+                setCheckoutMessage(result.message || "Unable to start checkout.");
+            } catch {
+                setCheckoutMessage("Unable to start checkout right now. Please try again.");
+            } finally {
+                setIsSubmitting(false);
+            }
+        })();
     };
 
     return (
@@ -109,6 +134,9 @@ export function CartSidebar() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="cart-sidebar-title"
                         className="fixed top-0 right-0 bottom-0 z-[110] w-full max-w-md bg-white shadow-2xl flex flex-col"
                     >
                         {/* Header */}
@@ -117,12 +145,13 @@ export function CartSidebar() {
                                 <div className="p-2 bg-gold-50 rounded-xl text-gold-600">
                                     <ShoppingBag className="w-5 h-5" />
                                 </div>
-                                <h2 className="text-xl font-bold text-brand-900 font-heading">
+                                <h2 id="cart-sidebar-title" className="text-xl font-bold text-brand-900 font-heading">
                                     {t_cart("title") || "Shopping Cart"}
                                 </h2>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
+                                aria-label="Close shopping cart"
                                 className="p-2 text-slate-400 hover:text-brand-900 hover:bg-slate-50 rounded-xl transition-all"
                             >
                                 <X className="w-6 h-6" />
@@ -230,11 +259,25 @@ export function CartSidebar() {
                                         <span>{formatPrice(totalPrice)}</span>
                                     </div>
                                 </div>
+                                {checkoutMessage && (
+                                    <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                                        {checkoutMessage}
+                                    </div>
+                                )}
+                                <Link
+                                    href="/shop/cart"
+                                    onClick={() => setIsOpen(false)}
+                                    className="mb-3 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white py-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-900 transition-colors hover:bg-slate-50"
+                                >
+                                    Review Cart
+                                    <ArrowRight className="h-4 w-4" />
+                                </Link>
                                 <button
                                     onClick={handleCheckout}
+                                    disabled={isSubmitting}
                                     className="w-full py-4 bg-brand-900 text-gold-400 font-black uppercase tracking-[0.2em] rounded-xl shadow-xl shadow-brand-900/20 hover:bg-brand-800 hover:shadow-brand-900/40 transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
                                 >
-                                    {t_cart("checkout") || "Proceed to Checkout"}
+                                    {isSubmitting ? "Starting checkout..." : t_cart("checkout") || "Proceed to Checkout"}
                                     <Lock className="w-4 h-4" />
                                 </button>
                                 <p className="mt-4 text-center text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center justify-center gap-2">

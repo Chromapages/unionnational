@@ -25,6 +25,34 @@ export const seo = defineType({
             options: { hotspot: true },
         }),
         defineField({
+            name: "canonicalUrl",
+            title: "Canonical URL",
+            type: "url",
+            description: "The preferred URL for this page (helps prevent duplicate content).",
+        }),
+        defineField({
+            name: "noIndex",
+            title: "No-Index",
+            type: "boolean",
+            description: "Hide this page from search engines (e.g. thank-you pages).",
+            initialValue: false,
+        }),
+        defineField({
+            name: "structuredDataType",
+            title: "Structured Data Type",
+            type: "string",
+            description: "Hint for what type of schema to generate for this page.",
+            options: {
+                list: [
+                    { title: "AccountingService", value: "AccountingService" },
+                    { title: "Service", value: "Service" },
+                    { title: "FAQPage", value: "FAQPage" },
+                    { title: "Article", value: "Article" },
+                    { title: "Person", value: "Person" },
+                ],
+            },
+        }),
+        defineField({
             name: "keywords",
             title: "Keywords",
             type: "array",

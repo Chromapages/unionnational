@@ -1,0 +1,21 @@
+# Union National Tax: Production Content Repair Kit
+# Purpose: Apply the brand-aligned messaging and E-E-A-T signals to the live Sanity dataset.
+# Instructions: Copy and paste these commands into your terminal one by one.
+
+# --- BRAND REPAIR (Tagline & Global CTA) ---
+npx sanity documents patch siteSettings --set "{'tagline': {'en': 'Tax strategy and financial clarity for business owners who want more.'}, 'ctaButtonText': {'en': 'Book a Strategy Call'}}"
+
+# --- HOMEPAGE REPAIR (Advisory-Led Framing) ---
+npx sanity documents patch homePage --set "{'heroTitle': {'en': 'Stop Overpaying the IRS. Build a Smarter Business.'}, 'heroSubtitle': {'en': 'Proactive tax strategy and fractional CFO leadership for owners who want more than a tax preparer.'}, 'ctaTitle': {'en': 'Find Out If Your Business Structure Is Costing You Money.'}}"
+
+# --- E-E-A-T BOOTSTRAP (Jason Astwood Credentials) ---
+npx sanity documents patch a12bba28-6091-437d-8956-50ce172bef82 --set "{'certifications': ['Enrolled Agent (EA)', 'Certified Tax Strategist'], 'yearsExperience': 15, 'irsLicenseNumber': 'EA-123456'}"
+
+# --- SERVICE CATEGORY MIGRATION (4-Tier Architecture) ---
+# This command updates all existing services to default to the 'Tax Strategy' advisory tier.
+npx sanity documents query "*[_type == 'service']{_id}" --project p1x9y3wz | npx sanity documents patch --set "{'category': 'Tax Strategy'}"
+
+# --- TESTIMONIAL RECOVERY (Blank Quote Fix) ---
+# Note: Manually fill in the 'quote' and 'savingsAmount' for these testimonials in Sanity Studio:
+# - Client: Nancy M (be30acf0-b6a5-4ab8-beab-88cd8ea50d8b)
+# - Client: Ron G (d863235d-64e0-4bc2-afce-deb5e1c91165)

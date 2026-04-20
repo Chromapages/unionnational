@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
 import { useCartStore } from "@/store/useCartStore";
 import { useState } from "react";
+import { buildCartItemKey } from "@/lib/shop/types";
 
 interface TransactionCardProps {
     id?: string;
@@ -96,12 +97,14 @@ export function TransactionCard({
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
                         addItem({
-                            id: id || slug,
+                            id: buildCartItemKey(id || slug),
+                            productId: id || slug,
                             slug,
                             title,
                             image,
                             format,
-                            price
+                            price,
+                            buyLink,
                         });
                         setIsAdded(true);
                         trackMetaEvent("AddToCart", { 

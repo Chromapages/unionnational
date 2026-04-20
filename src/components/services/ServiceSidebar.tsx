@@ -19,6 +19,8 @@ interface ServiceSidebarProps {
     startingPrice?: string;
     features: string[];
     className?: string;
+    targetAudience?: string;
+    keyBenefit?: string;
     hasOverview?: boolean;
     hasComparison?: boolean;
     hasFaq?: boolean;
@@ -30,6 +32,8 @@ export function ServiceSidebar({
     startingPrice,
     features,
     className,
+    targetAudience,
+    keyBenefit,
     hasOverview = true,
     hasComparison = false,
     hasFaq = false
@@ -110,6 +114,23 @@ export function ServiceSidebar({
                 </Link>
 
                 <div className="space-y-3 mb-6">
+                    {targetAudience && (
+                        <div className="p-3 rounded-xl bg-brand-50 border border-brand-100 mb-4">
+                            <p className="text-[10px] font-bold text-brand-400 uppercase tracking-widest mb-1">Built For</p>
+                            <p className="text-sm font-bold text-brand-900">
+                                {typeof targetAudience === 'string' ? targetAudience : (targetAudience as any)?.en || ''}
+                            </p>
+                        </div>
+                    )}
+                    {keyBenefit && (
+                                <div className="p-3 rounded-xl bg-gold-50 border border-gold-100 mb-4">
+                                    <p className="text-[10px] font-bold text-gold-600 uppercase tracking-widest mb-1">Primary Advantage</p>
+                                    <p className="text-sm font-bold text-brand-900 italic">
+                                        {typeof keyBenefit === 'string' ? keyBenefit : (keyBenefit as any)?.en || ''}
+                                    </p>
+                                </div>
+                            )}
+
                     {features?.slice(0, 4).map((feature, i) => (
                         <div key={i} className="flex items-start gap-2 text-sm text-zinc-600">
                             <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />

@@ -6,6 +6,8 @@ import { Heart, Star, ShoppingCart, Zap, ChevronRight, CheckCircle2, ChevronUp, 
 import { useCartStore } from "@/store/useCartStore";
 import { useWishlistStore } from "@/store/useWishlistStore";
 import { cn } from "@/lib/utils";
+import { buildCartItemKey } from "@/lib/shop/types";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 export interface ProductEdition {
     id: string;
@@ -23,6 +25,7 @@ interface ProductHeroProps {
     defaultPrice: number;
     compareAtPrice?: number;
     image: string;
+    buyLink?: string;
     samplePages?: string[];
     format: string;
     category?: string;
@@ -41,7 +44,7 @@ interface ProductHeroProps {
 
 export function ProductHero({
     id, slug, title, subtitle, defaultPrice, compareAtPrice,
-    image, samplePages = [], format, category, badge, rating = 5,
+    image, buyLink, samplePages = [], format, category, badge, rating = 5,
     author, pageCount, publisher, publishDate, isbn,
     editions: initialEditions = [],
 }: ProductHeroProps) {
@@ -95,19 +98,28 @@ export function ProductHero({
 
     const handleAddToCart = useCallback(() => {
         addItem({
-            id: selectedEdition.id,
+            id: buildCartItemKey(id, selectedEdition.id),
+            productId: id,
+            editionId: selectedEdition.id,
             slug,
             title: `${title} — ${selectedEdition.name}`,
             price: selectedEdition.price,
             image,
             format: selectedEdition.format,
+            buyLink,
+        });
+        trackMetaEvent("AddToCart", {
+            content_id: slug,
+            content_type: "product",
+            value: selectedEdition.price,
+            currency: "USD",
         });
         toggleCart();
-    }, [selectedEdition, slug, title, image, addItem, toggleCart]);
+    }, [selectedEdition, id, slug, title, image, buyLink, addItem, toggleCart]);
 
     const handleWishlist = useCallback(() => {
         toggleItem({ id, slug, title, price: selectedEdition.price, image, format: selectedEdition.format });
-    }, [id, slug, title, image, selectedEdition, format, toggleItem]);
+    }, [id, slug, title, image, selectedEdition, toggleItem]);
 
     const discountPct = compareAtPrice && compareAtPrice > selectedEdition.price
         ? Math.round(((compareAtPrice - selectedEdition.price) / compareAtPrice) * 100)

@@ -1,7 +1,7 @@
 "use client";
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { FAQAccordion } from "@/components/home/FAQAccordion";
 
 interface FAQItem {

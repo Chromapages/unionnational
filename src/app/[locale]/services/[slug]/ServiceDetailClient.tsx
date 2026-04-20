@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ServiceSidebar } from "@/components/services/ServiceSidebar";
 import { ComparisonTable } from "@/components/services/ComparisonTable";
@@ -55,6 +55,10 @@ interface Service {
     faq?: any[];
     videoFileUrl?: string;
     videoThumbnail?: { asset?: unknown };
+    impactGoal?: string;
+    targetAudience?: string;
+    keyBenefit?: string;
+    eligibility?: string;
 }
 
 interface RelatedService {
@@ -89,20 +93,18 @@ interface ServiceDetailClientProps {
 export default function ServiceDetailClient({ service, relatedServices, tiers }: ServiceDetailClientProps) {
     return (
         <>
-            {/* ===== HERO SECTION (Shorter) ===== */}
-            <section className="relative min-h-[60vh] flex flex-col items-center justify-center px-6 py-24 bg-brand-900 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-b from-brand-900 via-brand-900 to-brand-800" />
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gold-500/5 rounded-full blur-3xl pointer-events-none" />
+            {/* ===== HERO SECTION (Standard Detail) ===== */}
+            <section className="relative pt-32 pb-20 px-6 bg-zinc-50 border-b border-zinc-200 overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gold-400/5 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
+                <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center">
                     {service.badge && (
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="mb-8 flex justify-center"
+                            className="mb-6"
                         >
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-sm font-bold uppercase tracking-widest">
-                                <span className="w-2 h-2 bg-gold-400 rounded-full animate-pulse" />
+                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-600 text-xs font-bold uppercase tracking-widest">
                                 {service.badge}
                             </span>
                         </motion.div>
@@ -111,18 +113,32 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight mb-6 font-heading"
+                        className="text-4xl md:text-6xl font-bold text-brand-900 leading-tight mb-6 font-heading tracking-tight"
                     >
-                        {service.title}
+                        {String(service.title)}
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-lg sm:text-xl text-brand-100/70 max-w-2xl mx-auto leading-relaxed"
+                        className="text-xl text-zinc-600 max-w-3xl mx-auto leading-relaxed mb-8"
                     >
-                        {service.shortDescription}
+                        {String(service.shortDescription)}
                     </motion.p>
+
+                    {service.keyBenefit && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white border border-gold-200 shadow-sm"
+                                >
+                                    <div className="w-2 h-2 bg-gold-500 rounded-full" />
+                                    <p className="text-lg font-bold text-brand-900 font-heading italic">
+                                        &quot;{typeof service.keyBenefit === 'string' ? service.keyBenefit : (service as any).keyBenefit?.en || ''}&quot;
+                                    </p>
+                                </motion.div>
+                            )}
                 </div>
             </section>
 
@@ -133,7 +149,30 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                     <div className="lg:col-span-8 space-y-24">
 
                         {/* Overview / Description */}
-                        <section id="overview">
+                        <section id="overview" className="scroll-mt-24">
+                            {service.impactGoal && (
+                                <div className="mb-12 p-8 rounded-3xl bg-gold-50/50 border border-gold-200/50 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                        <CheckCircle2 className="w-24 h-24 text-gold-500" />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <p className="text-sm font-bold text-gold-600 uppercase tracking-widest mb-2">The Goal</p>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-brand-900 font-heading leading-tight">
+                                            {typeof service.impactGoal === 'string' ? service.impactGoal : (service as any).impactGoal?.en || ''}
+                                        </h3>
+                                    </div>
+                                </div>
+                            )}
+
+                            {service.eligibility && (
+                                <div className="mb-12 space-y-4">
+                                    <h3 className="text-xl font-bold text-brand-900 font-heading">Is this right for you?</h3>
+                                    <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-200 text-zinc-600 leading-relaxed italic">
+                                        &quot;{typeof service.eligibility === 'string' ? service.eligibility : (service as any).eligibility?.en || ''}&quot;
+                                    </div>
+                                </div>
+                            )}
+
                             {service.fullDescription ? (
                                 <div className="prose prose-lg max-w-none text-zinc-600 prose-headings:text-brand-900 prose-a:text-gold-600 hover:prose-a:text-gold-500">
                                     <PortableText value={service.fullDescription} components={ptComponents} />
@@ -232,6 +271,8 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                             icon={service.icon}
                             startingPrice={service.startingPrice}
                             features={service.features || []}
+                            targetAudience={service.targetAudience}
+                            keyBenefit={service.keyBenefit}
                             hasOverview={!!service.fullDescription || !!service.shortDescription}
                             hasComparison={!!service.whyChooseUsTitle || !!service.whyChooseUsDescription || (!!service.comparisonPoints && service.comparisonPoints.length > 0)}
                             hasFaq={!!service.faq && service.faq.length > 0}
@@ -241,24 +282,6 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                 </div>
             </div>
 
-            {/* Testimonial Section */}
-            <section className="py-24 bg-zinc-50 border-t border-zinc-200 text-center px-6">
-                <RevealOnScroll className="max-w-4xl mx-auto">
-                    <Quote className="w-12 h-12 text-gold-500/20 mx-auto mb-6" />
-                    <blockquote className="text-2xl md:text-3xl font-bold text-brand-900 leading-tight mb-8 font-heading">
-                        &quot;This service completely transformed our financial operations. We finally have clarity and confidence in our numbers.&quot;
-                    </blockquote>
-                    <div className="flex items-center justify-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-brand-900 flex items-center justify-center text-white font-bold text-sm">
-                            UN
-                        </div>
-                        <div className="text-left">
-                            <div className="font-bold text-brand-900">Trusted Client</div>
-                            <div className="text-sm text-zinc-500">Business Owner</div>
-                        </div>
-                    </div>
-                </RevealOnScroll>
-            </section>
         </>
     );
 }

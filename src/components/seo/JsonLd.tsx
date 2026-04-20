@@ -20,6 +20,10 @@ type SiteSettings = {
         zip?: string;
     };
     socialLinks?: SocialLinks;
+    priceRange?: string;
+    foundingYear?: number;
+    areaServed?: string[];
+    sameAs?: string[];
 };
 
 type HomePageData = {
@@ -86,12 +90,16 @@ export function JsonLd({
         siteSettings?.tagline;
 
     const socialLinks = siteSettings.socialLinks || {};
+    const siteSameAs = siteSettings.sameAs || [];
     const sameAs = [
-        socialLinks.linkedin,
-        socialLinks.facebook,
-        socialLinks.youtube,
-        socialLinks.instagram,
-        socialLinks.twitter,
+        ...new Set([
+            socialLinks.linkedin,
+            socialLinks.facebook,
+            socialLinks.youtube,
+            socialLinks.instagram,
+            socialLinks.twitter,
+            ...siteSameAs,
+        ]),
     ].filter(Boolean);
 
     const logoUrl = siteSettings.logo ? urlFor(siteSettings.logo).width(400).height(400).url() : undefined;
@@ -101,12 +109,15 @@ export function JsonLd({
 
     const schema = {
         "@context": "https://schema.org",
-        "@type": "FinancialService",
+        "@type": "AccountingService",
         name: siteSettings.companyName || "Union National Tax",
         description,
         url: "https://unionnationaltax.com",
         telephone: contactSettings?.contactPhone || siteSettings.phone,
         image: logoUrl,
+        priceRange: siteSettings.priceRange,
+        foundingDate: siteSettings.foundingYear ? `${siteSettings.foundingYear}` : undefined,
+        areaServed: siteSettings.areaServed,
         address: hasAddress
             ? {
                   "@type": "PostalAddress",

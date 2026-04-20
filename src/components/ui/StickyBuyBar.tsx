@@ -2,9 +2,10 @@
 
 import { useCartStore } from "@/store/useCartStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Lock, CheckCircle2 } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { buildCartItemKey } from "@/lib/shop/types";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 interface StickyBuyBarProps {
     id: string;
@@ -13,9 +14,10 @@ interface StickyBuyBarProps {
     price: number;
     image: string;
     format: string;
+    buyLink?: string;
 }
 
-export function StickyBuyBar({ id, slug, title, price, image, format }: StickyBuyBarProps) {
+export function StickyBuyBar({ id, slug, title, price, image, format, buyLink }: StickyBuyBarProps) {
     const [isVisible, setIsVisible] = useState(false);
     const addItem = useCartStore((state) => state.addItem);
     const toggleCart = useCartStore((state) => state.toggleCart);
@@ -31,7 +33,22 @@ export function StickyBuyBar({ id, slug, title, price, image, format }: StickyBu
     }, []);
 
     const handleAddToCart = () => {
-        addItem({ id, slug, title, price, image, format });
+        addItem({
+            id: buildCartItemKey(id),
+            productId: id,
+            slug,
+            title,
+            price,
+            image,
+            format,
+            buyLink,
+        });
+        trackMetaEvent("AddToCart", {
+            content_id: slug,
+            content_type: "product",
+            value: price,
+            currency: "USD",
+        });
         toggleCart();
     };
 

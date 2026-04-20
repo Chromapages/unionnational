@@ -19,6 +19,7 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
 import ProblemSection from "@/components/home/ProblemSection";
+import { ThreeCorePaths } from "@/components/home/ThreeCorePaths";
 
 // Lazy load below-the-fold components
 const NationwideServiceSection = dynamic(() => import("@/components/home/NationwideServiceSection").then(mod => ({ default: mod.NationwideServiceSection })), {
@@ -76,7 +77,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function Home(props: { params: Promise<{ locale: string }> }) {
   const params = await props.params;
   const locale = params.locale;
-  const t = await getTranslations({ locale, namespace: "HomePage.HealthCheckSection" });
 
   // Fetch critical data in parallel
   const [homePageData, services, testimonials, siteSettings] = await Promise.all([
@@ -108,24 +108,8 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
             <TrustBar logos={homeData?.trustLogos} />
           </ErrorBoundary>
 
-          {/* Tax Health Check Section - Under Trust Bar */}
-          <ErrorBoundary name="Health Check Survey">
-            <section className="py-16 bg-gradient-to-b from-white to-slate-50">
-              <div className="max-w-4xl mx-auto px-4 text-center">
-                <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-4 tracking-tighter leading-[1.1]">
-                  {t("title")}
-                </h2>
-                <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-                  {t("subtitle")}
-                </p>
-                <Link
-                  href="/health-check"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all text-lg"
-                >
-                  {t("cta")} <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                </Link>
-              </div>
-            </section>
+          <ErrorBoundary name="Three Core Paths">
+            <ThreeCorePaths />
           </ErrorBoundary>
 
           <ErrorBoundary name="Problem Framing">
@@ -162,7 +146,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
             </ErrorBoundary>
           </Suspense>
 
-          <CTASection data={homeData} />
+          <CTASection data={homeData} variant="homepageWireframe" />
         </div>
         <Footer />
       </main>

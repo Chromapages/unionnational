@@ -91,30 +91,48 @@ export default async function ServicePage(props: { params: Promise<{ locale: str
     }
 
     // Schema.org Structured Data
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": service.title,
-        "description": service.shortDescription,
-        "provider": {
-            "@type": "AccountingService",
-            "name": "Union National Tax",
-            "url": "https://unionnationaltax.com"
-        },
-        "areaServed": "USA",
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Tax Services",
-            "itemListElement": service.features?.map((feature: string, index: number) => ({
-                "@type": "Offer",
-                "itemOffered": {
-                    "@type": "Service",
-                    "name": feature
-                },
-                "position": index + 1
-            }))
+    const jsonLd: any = [
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": typeof service.title === 'string' ? service.title : (service as any).title?.en || '',
+            "description": typeof service.shortDescription === 'string' ? service.shortDescription : (service as any).shortDescription?.en || '',
+            "provider": {
+                "@type": "AccountingService",
+                "name": "Union National Tax",
+                "url": "https://unionnationaltax.com"
+            },
+            "areaServed": "USA",
+            "serviceType": "Tax Planning & Strategy",
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Tax Services",
+                "itemListElement": service.features?.map((feature: string, index: number) => ({
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": feature
+                    },
+                    "position": index + 1
+                }))
+            }
         }
-    };
+    ];
+
+    if (service.schema_faq && service.schema_faq.length > 0) {
+        jsonLd.push({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": service.schema_faq.map((item: any) => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.answer
+                }
+            }))
+        });
+    }
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">

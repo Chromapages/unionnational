@@ -57,14 +57,18 @@ export async function Footer() {
     const phoneHref = formatTelHref(siteSettings?.phone) || formatTelHref(phoneText) || "tel:+18015550123";
     const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || "hello@unionnationaltax.com";
     const emailHref = formatMailtoHref(siteSettings?.email) || formatMailtoHref(emailText) || "mailto:hello@unionnationaltax.com";
-    const serviceLinks = (services?.length ? (services as ServiceSummary[]) : fallbackServices).slice(0, 5);
+    const complianceLinks = [
+        { label: "Tax Filing & Preparation", href: "/services/tax-filing-and-preparation-services" },
+        { label: "New Business Formation", href: "/services/new-business-formation" },
+    ];
+
     const companyLinks = [
         { label: tHeader("about"), href: "/about" },
         { label: tFooter("team"), href: "/team" },
-        { label: tHeader("resources"), href: "/resources" },
         { label: tHeader("faq"), href: "/faq" },
         { label: tHeader("contact"), href: "/contact" },
-        { label: tHeader("shop"), href: "/shop" },
+        { label: tFooter("privacy"), href: "/legal/privacy-policy" },
+        { label: tFooter("terms"), href: "/legal/terms-of-service" },
     ];
 
     const socialLinks = [
@@ -126,21 +130,18 @@ export async function Footer() {
                     </div>
 
                     <div>
-                        <h3 className="mb-6 font-heading font-bold text-white">{tFooter("servicesTitle")}</h3>
+                        <h3 className="mb-6 font-heading font-bold text-white uppercase tracking-wider text-xs">{tFooter("complianceTitle")}</h3>
                         <ul className="space-y-3">
-                            {serviceLinks.map((service: ServiceSummary) => {
-                                const serviceKey = service._id || service.slug?.current || service.title || "service";
-                                return (
-                                    <li key={serviceKey}>
-                                        <Link
-                                            href={getServiceHref(service)}
-                                            className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
-                                        >
-                                            {service.title}
-                                        </Link>
-                                    </li>
-                                );
-                            })}
+                            {complianceLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                             <li>
                                 <Link
                                     href="/services"
@@ -153,7 +154,7 @@ export async function Footer() {
                     </div>
 
                     <div>
-                        <h3 className="mb-6 font-heading font-bold text-white">{tFooter("companyTitle")}</h3>
+                        <h3 className="mb-6 font-heading font-bold text-white uppercase tracking-wider text-xs">{tFooter("companyTitle")}</h3>
                         <ul className="space-y-3">
                             {companyLinks.map((item) => (
                                 <li key={item.href}>
@@ -170,7 +171,7 @@ export async function Footer() {
 
                     <div className="space-y-8">
                         <div>
-                            <h3 className="mb-6 font-heading font-bold text-white">{tFooter("contactTitle")}</h3>
+                            <h3 className="mb-6 font-heading font-bold text-white uppercase tracking-wider text-xs">{tFooter("contactTitle")}</h3>
                             <ul className="space-y-4">
                                 <li className="group flex items-start gap-3 text-sm text-zinc-400">
                                     <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />

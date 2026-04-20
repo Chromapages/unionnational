@@ -106,28 +106,38 @@ export const blogPost = defineType({
             type: 'boolean',
             initialValue: false,
         }),
+        defineField({
+            name: 'targetKeyword',
+            title: 'Primary Target Keyword',
+            type: 'string',
+            description: 'The main keyword this post is optimized for.',
+        }),
+        defineField({
+            name: 'lastReviewedAt',
+            title: 'Last Reviewed/Updated',
+            type: 'datetime',
+            description: 'GEO freshness signal. Update this when content is verified for accuracy.',
+        }),
+        defineField({
+            name: "faqItems",
+            title: "Post-Specific FAQs (for Rich Snippets)",
+            type: "array",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "question", type: "string", title: "Question" },
+                        { name: "answer", type: "text", title: "Answer", rows: 3 },
+                    ],
+                },
+            ],
+            description: "Add 3-5 specific questions answered in this post to qualify for FAQ rich snippets.",
+        }),
         // --- SEO ---
         defineField({
-            name: 'metaTitle',
-            title: 'Meta Title',
-            type: 'string',
-        }),
-        defineField({
-            name: 'metaDescription',
-            title: 'Meta Description',
-            type: 'text',
-            rows: 2,
-        }),
-        defineField({
-            name: 'openGraphImage',
-            title: 'Open Graph Image',
-            type: 'image',
-        }),
-        defineField({
-            name: 'keywords',
-            title: 'Keywords',
-            type: 'array',
-            of: [{ type: 'string' }],
+            name: 'seo',
+            title: 'SEO & Metadata',
+            type: 'seo',
         }),
     ],
     preview: {

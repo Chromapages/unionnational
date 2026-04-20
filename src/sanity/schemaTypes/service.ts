@@ -75,6 +75,7 @@ export const service = defineType({
             type: "localizedString",
             group: "content",
             description: "The 'Why' - Focus on the financial RESULT (e.g., 'Slash S-Corp Tax Liability by 25%'), not the process.",
+            initialValue: { en: "Stop overpaying. Keep more of what you earn." },
         }),
         defineField({
             name: "badge",
@@ -90,13 +91,13 @@ export const service = defineType({
             group: "content",
             options: {
                 list: [
-                    { title: "Tax Services", value: "Tax" },
-                    { title: "Bookkeeping", value: "Bookkeeping" },
-                    { title: "CFO & Advisory", value: "CFO" },
-                    { title: "Business Formation", value: "Formation" },
+                    { title: "Tax Strategy", value: "Tax Strategy" },
+                    { title: "Financial Control", value: "Financial Control" },
+                    { title: "Specialized Advisory", value: "Specialized Advisory" },
+                    { title: "Compliance Support", value: "Compliance Support" },
                 ],
             },
-            initialValue: "Tax",
+            initialValue: "Tax Strategy",
         }),
         defineField({
             name: "startingPrice",
@@ -146,7 +147,7 @@ export const service = defineType({
             type: "localizedString",
             group: "content",
             description: "Custom title for the comparison section.",
-            initialValue: { en: "Why Contractors Choose Union National" }
+            initialValue: { en: "Why Growth-Minded Owners Choose Union National" }
         }),
         defineField({
             name: "whyChooseUsDescription",
@@ -216,6 +217,50 @@ export const service = defineType({
             type: "image",
             group: "content",
             options: { hotspot: true },
+        }),
+        defineField({
+            name: "targetKeyword",
+            title: "Service Target Keyword",
+            type: "string",
+            description: "Primary keyword for this service landing page.",
+            group: "seo",
+        }),
+        defineField({
+            name: "targetAudience",
+            title: "Primary Audience",
+            type: "string",
+            description: "e.g. 'Residential Contractors', 'HVAC Business Owners'.",
+            group: "content",
+        }),
+        defineField({
+            name: "keyBenefit",
+            title: "Single Core Benefit",
+            type: "localizedString",
+            description: "The #1 outcome: e.g. 'Save $23,000 yearly by switching to S-Corp'.",
+            group: "content",
+        }),
+        defineField({
+            name: "eligibility",
+            title: "Who Is This For? (Snippet Ready)",
+            type: "localizedText",
+            description: "Briefly define who qualifies. Great for 'How to' or 'Who needs' snippets.",
+            group: "content",
+        }),
+        defineField({
+            name: "schema_faq",
+            title: "Featured Snippet FAQs",
+            type: "array",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "question", type: "string", title: "Question" },
+                        { name: "answer", type: "text", title: "Answer", rows: 3 },
+                    ],
+                },
+            ],
+            description: "3-5 high-volume questions specifically for the FAQPage schema. Distinct from the display FAQs.",
+            group: "content",
         }),
         defineField({
             name: "seo",

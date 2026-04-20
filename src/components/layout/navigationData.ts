@@ -15,7 +15,7 @@ export const fallbackServices: ServiceSummary[] = [
     slug: { current: "s-corp-tax-advantage" },
     icon: "TrendingUp",
     shortDescription: "Evaluate whether an S-Corp election could reduce your tax burden",
-    category: "Advisory",
+    category: "Tax Strategy",
     isPopular: true,
   },
   {
@@ -23,35 +23,49 @@ export const fallbackServices: ServiceSummary[] = [
     slug: { current: "fractional-cfo" },
     icon: "Briefcase",
     shortDescription: "High-level financial leadership",
-    category: "Advisory",
+    category: "Financial Control",
   },
   {
     title: "Tax Planning Consulting",
     slug: { current: "tax-planning" },
     icon: "Target",
     shortDescription: "Personalized tax-saving strategies",
-    category: "Advisory",
+    category: "Tax Strategy",
   },
   {
     title: "Strategic Bookkeeping",
     slug: { current: "strategic-bookkeeping" },
     icon: "Calculator",
     shortDescription: "Detailed records for cash flow & decisions",
-    category: "Support",
+    category: "Financial Control",
   },
   {
     title: "Tax Filing & Preparation",
     slug: { current: "tax-filing-and-preparation-services" },
     icon: "FileText",
     shortDescription: "Accurate, compliant, optimized filing",
-    category: "Support",
+    category: "Compliance Support",
   },
   {
     title: "New Business Formation",
     slug: { current: "new-business-formation" },
     icon: "Building2",
     shortDescription: "Smart entity structure guidance",
-    category: "Support",
+    category: "Tax Strategy",
+  },
+  {
+    title: "Construction CFO Partnership",
+    slug: { current: "construction" },
+    icon: "HardHat",
+    shortDescription: "Specialized financial control for contractors",
+    category: "Specialized Advisory",
+  },
+  {
+    title: "Restaurant CFO Partnership",
+    slug: { current: "restaurants" },
+    icon: "Utensils",
+    shortDescription: "Profit recovery systems for hospitality",
+    category: "Specialized Advisory",
   },
 ];
 
@@ -61,4 +75,33 @@ export const getServiceHref = (service: ServiceSummary) => {
   }
 
   return "/services";
+};
+
+/**
+ * Maps legacy Sanity category values to the new 4-tier advisory architecture.
+ * This ensures backwards compatibility with existing content.
+ */
+export const mapCategory = (category?: string): string => {
+  if (!category) return "Compliance Support";
+
+  const cat = category.trim();
+
+  // New accurate categories (return as is)
+  if (["Tax Strategy", "Financial Control", "Specialized Advisory", "Compliance Support"].includes(cat)) {
+    return cat;
+  }
+
+  // Map legacy values
+  switch (cat) {
+    case "Tax":
+      return "Tax Strategy";
+    case "Bookkeeping":
+      return "Financial Control";
+    case "CFO":
+      return "Specialized Advisory";
+    case "Formation":
+      return "Tax Strategy";
+    default:
+      return "Compliance Support";
+  }
 };

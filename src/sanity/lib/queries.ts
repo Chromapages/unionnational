@@ -205,7 +205,7 @@ export const RELATED_POSTS_QUERY = defineQuery(`
     }
   }
 `);
-export const SERVICES_QUERY = `*[_type == "service"] | order(isPopular desc) {
+export const SERVICES_QUERY = defineQuery(`*[_type == "service"] | order(isPopular desc) {
   _id,
   "title": coalesce(title[$locale], title.en, title),
   slug,
@@ -218,19 +218,18 @@ export const SERVICES_QUERY = `*[_type == "service"] | order(isPopular desc) {
   "startingPrice": coalesce(startingPrice[$locale], startingPrice.en, startingPrice),
   isPopular,
   accentColor,
+  targetKeyword,
+  targetAudience,
+  "keyBenefit": coalesce(keyBenefit[$locale], keyBenefit.en, keyBenefit),
+  "eligibility": coalesce(eligibility[$locale], eligibility.en, eligibility),
   "faq": faq[]{
     "question": coalesce(question[$locale], question.en, question),
     "answer": coalesce(answer[$locale], answer.en, answer)
   },
-  "comparisonPoints": comparisonPoints[]{
-    "feature": coalesce(feature[$locale], feature.en, feature),
-    diy,
-    bigFirm,
-    unionNational
-  }
-}`;
+  schema_faq
+}`);
 
-export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] {
+export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current == $slug][0] {
   _id,
   "title": coalesce(title[$locale], title.en, title),
   slug,
@@ -244,6 +243,10 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
   "startingPrice": coalesce(startingPrice[$locale], startingPrice.en, startingPrice),
   isPopular,
   accentColor,
+  targetKeyword,
+  targetAudience,
+  "keyBenefit": coalesce(keyBenefit[$locale], keyBenefit.en, keyBenefit),
+  "eligibility": coalesce(eligibility[$locale], eligibility.en, eligibility),
   "faq": faq[]{
     "question": coalesce(question[$locale], question.en, question),
     "answer": coalesce(answer[$locale], answer.en, answer)
@@ -261,6 +264,7 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
     asset->,
     alt
   },
+  schema_faq,
   seo {
     metaTitle,
     metaDescription,
@@ -269,7 +273,7 @@ export const SERVICE_QUERY = `*[_type == "service" && slug.current == $slug][0] 
     },
     keywords
   }
-}`;
+}`);
 
 // SHOP QUERIES
 // Shop page content/settings (hero, featured product, faq)

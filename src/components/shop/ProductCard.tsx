@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { useState, type ComponentType } from "react";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight, Eye, FileText, PlayCircle, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { StarRating } from "@/components/ui/StarRating";
@@ -13,7 +12,7 @@ import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 export interface ProductCardProps {
     title: string;
-    coverImage: any;
+    coverImage?: string | null;
     price: number;
     compareAtPrice?: number;
     shortDescription: string;
@@ -26,20 +25,13 @@ export interface ProductCardProps {
 
 type BadgeType = 'bestseller' | 'new' | 'limited';
 
-const formatBadgeStyles: Record<string, string> = {
-    ebook: "bg-sky-50 text-sky-700 border-sky-200",
-    template: "bg-violet-50 text-violet-700 border-violet-200",
-    course: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    bundle: "bg-amber-50 text-amber-700 border-amber-200",
-};
-
 const badgeStyles: Record<BadgeType, string> = {
     bestseller: "bg-gold-500/10 text-gold-600 border-gold-500/20",
     new: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
     limited: "bg-red-500/10 text-red-600 border-red-500/20",
 };
 
-const formatIcons: Record<string, any> = {
+const formatIcons: Record<string, ComponentType<{ className?: string }>> = {
     ebook: BookOpen,
     template: FileText,
     course: PlayCircle,
@@ -72,13 +64,6 @@ export function ProductCard({
     // Resolve the final display image from available props
     const finalImage = imageUrl || coverImage;
     const imageSrc = typeof finalImage === 'string' && finalImage.trim() !== '' ? finalImage : undefined;
-
-    const formatLabels: Record<string, string> = {
-        ebook: t("formatLabels.ebook"),
-        template: t("formatLabels.template"),
-        course: t("formatLabels.course"),
-        bundle: t("formatLabels.bundle"),
-    };
 
     const FormatIcon = formatIcons[format.toLowerCase()] || FileText;
     const badgeClass = badge ? badgeStyles[badge.toLowerCase() as BadgeType] || "" : "";

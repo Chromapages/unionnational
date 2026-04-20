@@ -61,6 +61,40 @@ export const testimonial = defineType({
             initialValue: true,
         }),
         defineField({
+            name: "savingsAmount",
+            title: "Tax Savings (if applicable)",
+            type: "string",
+            description: "e.g. '$12,400' - powerful social proof metric.",
+        }),
+        defineField({
+            name: "industry",
+            title: "Client Industry",
+            type: "string",
+            description: "Used to group testimonials for segment-specific landing pages.",
+            options: {
+                list: [
+                    { title: "Construction", value: "Construction" },
+                    { title: "Real Estate", value: "Real Estate" },
+                    { title: "E-commerce", value: "E-commerce" },
+                    { title: "Professional Services", value: "Professional Services" },
+                    { title: "Other", value: "Other" },
+                ],
+            },
+        }),
+        defineField({
+            name: "verifiedClient",
+            title: "Verified Client?",
+            type: "boolean",
+            description: "Toggle on to show 'Verified Client' badge for trust.",
+            initialValue: true,
+        }),
+        defineField({
+            name: "outcome",
+            title: "Succinct Outcome",
+            type: "localizedString",
+            description: "e.g. 'Saved $23k via S-Corp election'. Short and scannable.",
+        }),
+        defineField({
             name: "displayOrder",
             title: "Display Order",
             type: "number",

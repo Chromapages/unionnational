@@ -25,14 +25,40 @@ export const faq = defineType({
             type: "string",
             options: {
                 list: [
+                    { title: "Tax Strategy", value: "Tax Strategy" },
+                    { title: "Financial Control", value: "Financial Control" },
+                    { title: "Specialized Advisory", value: "Specialized Advisory" },
+                    { title: "Compliance Support", value: "Compliance Support" },
                     { title: "General", value: "General" },
-                    { title: "Tax Filing", value: "Tax Filing" },
-                    { title: "S-Corp Formation", value: "S-Corp Formation" },
-                    { title: "Bookkeeping", value: "Bookkeeping" },
-                    { title: "IRS Issues", value: "IRS Issues" },
                 ],
             },
-            initialValue: "General",
+            initialValue: "Tax Strategy",
+        }),
+        defineField({
+            name: "targetedQuery",
+            title: "Targeted Search Query",
+            type: "string",
+            description: "The exact long-tail query this FAQ is trying to answer (e.g. 'How much does an S-Corp save in taxes?').",
+        }),
+        defineField({
+            name: "serpIntent",
+            title: "SERP Intent",
+            type: "string",
+            options: {
+                list: [
+                    { title: "Informational (Learning)", value: "Informational" },
+                    { title: "Commercial (Comparison)", value: "Commercial" },
+                    { title: "Navigational (Finding)", value: "Navigational" },
+                    { title: "Transactional (Buying)", value: "Transactional" },
+                ],
+            },
+            description: "Used to ensure content satisfies the user's search goal.",
+        }),
+        defineField({
+            name: "lastReviewedAt",
+            title: "Last Reviewed At",
+            type: "datetime",
+            description: "Update this to ensure search engines see the answer as 'Fresh'.",
         }),
         defineField({
             name: "relatedService",

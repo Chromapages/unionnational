@@ -83,10 +83,33 @@ export const caseStudy = defineType({
             group: 'content',
         }),
         defineField({
+            name: 'taxSavingsAmount',
+            title: 'Verified Tax Savings',
+            type: 'string',
+            description: 'e.g. "$23,400 per year" or "38% overall reduction".',
+            group: 'content',
+        }),
+        defineField({
+            name: 'timeframe',
+            title: 'Savings Timeframe',
+            type: 'string',
+            description: 'e.g. "First 12 months" or "Ongoing annual savings".',
+            group: 'content',
+        }),
+        defineField({
             name: 'relatedService',
             title: 'Related Service',
             type: 'reference',
             to: [{ type: 'service' }],
+            group: 'content',
+        }),
+        defineField({
+            name: 'legalDisclaimer',
+            title: 'Legal / Results Disclaimer',
+            type: 'text',
+            rows: 2,
+            description: 'Required for YMYL. e.g. "Results may vary. Past performance does not guarantee future tax outcomes."',
+            initialValue: 'Past performance is not a guarantee of future results. All tax savings are based on individual business circumstances and current IRS regulations.',
             group: 'content',
         }),
         defineField({

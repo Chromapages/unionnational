@@ -2,15 +2,29 @@
 
 import { ProductCard } from "./ProductCard";
 
+interface ProductGridItem {
+    _id: string;
+    title: string;
+    slug: string;
+    imageUrl?: string;
+    price: number;
+    compareAtPrice?: number;
+    shortDescription: string;
+    format: string;
+    badge?: string;
+    rating?: number;
+    category?: string;
+}
+
 interface ProductGridProps {
-    products: any[];
+    products: ProductGridItem[];
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
     if (!products || products.length === 0) return null;
 
     return (
-        <section id="browse" className="max-w-7xl mx-auto px-6 mb-32">
+        <section className="max-w-7xl mx-auto px-6 mb-32">
             <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold text-brand-900 tracking-tight font-heading">
                     MasterClass Resources

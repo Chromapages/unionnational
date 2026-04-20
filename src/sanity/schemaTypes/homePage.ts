@@ -24,14 +24,14 @@ export const homePage = defineType({
             type: "localizedString",
             group: "hero",
             validation: (Rule) => Rule.required(),
-            initialValue: { en: "Contractors: Stop Overpaying Taxes with S Corp Strategies" },
+            initialValue: { en: "Stop Overpaying the IRS. Build a Smarter Business." },
         }),
         defineField({
             name: "heroSubtitle",
             title: "Hero Subtitle",
             type: "localizedText",
             group: "hero",
-            initialValue: { en: "IRS Enrolled Agents helping contractors save an average of $23,420 annually through strategic S Corp tax planning." },
+            initialValue: { en: "Proactive tax strategy and fractional CFO leadership for owners who want more than a tax preparer." },
         }),
         defineField({
             name: "heroVideoUrl",
@@ -45,7 +45,7 @@ export const homePage = defineType({
             title: "Hero Primary CTA Text",
             type: "localizedString",
             group: "hero",
-            initialValue: { en: "See How S Corps Save $20k+" },
+            initialValue: { en: "See If You're Overpaying" },
         }),
         defineField({
             name: "heroCtaUrl",
@@ -60,7 +60,7 @@ export const homePage = defineType({
             title: "Hero Secondary CTA Text",
             type: "localizedString",
             group: "hero",
-            initialValue: { en: "Get My Free S Corp Analysis" },
+            initialValue: { en: "Book a Discovery Evaluation" },
         }),
         defineField({
             name: "heroSecondaryCtaUrl",
@@ -130,7 +130,7 @@ export const homePage = defineType({
             title: "Differentiation Title",
             type: "localizedString",
             group: "differentiation",
-            initialValue: { en: "Why Contractors Overpay (And How We Fix It)" },
+            initialValue: { en: "Why Businesses Overpay (And How We Fix It)" },
         }),
         defineField({
             name: "differentiationSubtitle",
@@ -195,7 +195,7 @@ export const homePage = defineType({
             title: "Nationwide Title",
             type: "localizedString",
             group: "nationwide",
-            initialValue: { en: "Tax Strategy for Contractors, Wherever You Build" },
+            initialValue: { en: "Tax Strategy for Business Owners, Wherever You Grow" },
         }),
         defineField({
             name: "nationwideSubtitle",
@@ -254,21 +254,21 @@ export const homePage = defineType({
             title: "Services Eyebrow",
             type: "localizedString",
             group: "services",
-            initialValue: { en: "Comprehensive S Corp Solutions" },
+            initialValue: { en: "Advisory-Led Tax Strategy" },
         }),
         defineField({
             name: "servicesTitle",
             title: "Services Title",
             type: "localizedString",
             group: "services",
-            initialValue: { en: "Everything You Need to Lower Your Tax Bill" },
+            initialValue: { en: "A Complete Financial System for Business Owners" },
         }),
         defineField({
             name: "servicesSubtitle",
             title: "Services Subtitle",
             type: "localizedText",
             group: "services",
-            initialValue: { en: "From S Corp election to reasonable compensation, we handle the complex IRS requirements so you don't have to." },
+            initialValue: { en: "Proactive planning, S-Corp strategy, and financial advisory support — built for business owners who want more than annual filing." },
         }),
         defineField({
             name: "servicesButtonText",
@@ -284,7 +284,7 @@ export const homePage = defineType({
             title: "Bottom CTA Title",
             type: "localizedString",
             group: "cta",
-            initialValue: { en: "Ready to Save $20k+ Per Year?" },
+            initialValue: { en: "Find Out If Your Business Structure Is Costing You Money." },
         }),
         defineField({
             name: "ctaSubtitle",
@@ -297,7 +297,7 @@ export const homePage = defineType({
             title: "Button Text",
             type: "localizedString",
             group: "cta",
-            initialValue: { en: "Get My Free S Corp Analysis" },
+            initialValue: { en: "Book a Discovery Evaluation" },
         }),
         defineField({
             name: "ctaButtonUrl",
