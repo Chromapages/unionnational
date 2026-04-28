@@ -1,104 +1,79 @@
+"use client";
+
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { ArrowRight, Calendar, User } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image";
-import { Calendar, Clock, User } from "lucide-react";
-import { cn, extractString } from "@/lib/utils";
+import type { GhlBlogPost } from "@/lib/ghl/blogs";
+import { format } from "date-fns";
 
 interface BlogCardProps {
-    post: any;
-    className?: string;
-    locale: string;
+    post: GhlBlogPost;
+    index?: number;
+    locale?: string;
 }
 
-export function BlogCard({ post, className, locale }: BlogCardProps) {
-    const publishedDate = post.publishedAt
-        ? new Date(post.publishedAt).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-        })
-        : null;
-    const primaryCategory = post.categories?.[0];
+export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
+    // Ensure we have a valid date for formatting
+    const publishDate = post.publishedDate ? new Date(post.publishedDate) : new Date();
 
     return (
-        <article
-            className={cn(
-                "group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-100/60 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-gold",
-                className
-            )}
-        >
-            <Link href={`/blog/${post.slug}`} className="relative aspect-[16/9] w-full overflow-hidden">
-                {post.featuredImage ? (
-                    <Image
-                        src={urlFor(post.featuredImage).url()}
-                        alt={post.featuredImage.alt || extractString(post.title, locale)}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-400">
-                        No Image
-                    </div>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-950/40 via-transparent to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-60" />
-            </Link>
-
-            <div className="flex flex-1 flex-col p-6">
-                <div className="flex flex-wrap items-center gap-3 text-[11px] text-brand-900/60 font-sans">
-                    {primaryCategory && (
-                        <span className="inline-flex items-center rounded-full border border-gold-200/60 bg-gold-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gold-700">
-                            {extractString(primaryCategory.title, locale)}
-                        </span>
-                    )}
-                    {publishedDate && (
-                        <span className="flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5" />
-                            {publishedDate}
-                        </span>
-                    )}
-                </div>
-
-                <Link href={`/blog/${post.slug}`} className="mt-4 block">
-                    <h3 className="text-xl font-bold text-brand-900 font-heading leading-tight transition-colors duration-300 group-hover:text-brand-700">
-                        {extractString(post.title, locale)}
-                    </h3>
-                </Link>
-
-                {post.excerpt && (
-                    <p className="mt-3 text-sm text-brand-900/60 leading-relaxed font-sans line-clamp-3">
-                        {extractString(post.excerpt, locale)}
-                    </p>
-                )}
-
-                <div className="mt-auto flex items-center justify-between gap-3 pt-6 text-xs text-brand-900/70">
-                    {post.author && (
-                        <div className="flex items-center gap-2">
-                            {post.author.image ? (
-                                <div className="relative h-7 w-7 overflow-hidden rounded-full border border-white">
-                                    <Image
-                                        src={urlFor(post.author.image).url()}
-                                        alt={post.author.name}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                            ) : (
-                                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">
-                                    <User className="h-3.5 w-3.5 text-brand-900/40" />
-                                </div>
-                            )}
-                            <span className="font-medium text-brand-900 font-sans">{post.author.name}</span>
+        <RevealOnScroll delay={index * 100}>
+            <Link 
+                href={`/blog/${post.slug}`}
+                className="group flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-gold-500/50 hover:shadow-2xl hover:shadow-gold-500/10 transition-all duration-300 h-full"
+            >
+                {/* Image Container */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                    {post.featuredImage ? (
+                        <img 
+                            src={post.featuredImage} 
+                            alt={post.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                    ) : (
+                        <div className="w-full h-full bg-brand-500 flex items-center justify-center p-8">
+                            <span className="text-gold-500 font-heading font-black text-4xl opacity-20">UNT</span>
                         </div>
                     )}
-
-                    {post.readingTime && (
-                        <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-brand-900/40">
-                            <Clock className="h-3 w-3" />
-                            {post.readingTime} Min Read
-                        </span>
+                    
+                    {/* Category Badges */}
+                    {post.categories && post.categories.length > 0 && (
+                        <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                            {post.categories.slice(0, 2).map((cat) => (
+                                <span key={cat} className="px-3 py-1 bg-white/90 backdrop-blur-sm text-brand-900 text-[10px] font-bold uppercase tracking-widest rounded-full border border-slate-100 shadow-sm">
+                                    {cat}
+                                </span>
+                            ))}
+                        </div>
                     )}
                 </div>
-            </div>
-        </article>
+
+                {/* Content */}
+                <div className="p-8 flex flex-col flex-1">
+                    <div className="flex items-center gap-4 text-slate-400 text-xs mb-6 font-medium">
+                        <span className="flex items-center gap-1.5">
+                            <Calendar size={14} className="text-gold-600" />
+                            {format(publishDate, "MMM dd, yyyy")}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                            <User size={14} className="text-gold-600" />
+                            {post.authorName || "Union National Team"}
+                        </span>
+                    </div>
+
+                    <h3 className="text-2xl font-bold mb-4 font-heading text-brand-900 group-hover:text-gold-600 transition-colors leading-tight">
+                        {post.title}
+                    </h3>
+
+                    <p className="text-slate-600 mb-8 line-clamp-3 leading-relaxed flex-1 font-sans text-base">
+                        {post.excerpt}
+                    </p>
+
+                    <div className="inline-flex items-center gap-2 text-gold-600 font-bold group-hover:gap-4 transition-all uppercase tracking-widest text-xs">
+                        Read Full Article <ArrowRight size={18} />
+                    </div>
+                </div>
+            </Link>
+        </RevealOnScroll>
     );
-}
+};

@@ -91,17 +91,7 @@ export default async function RootLayout(props: {
   const params = await props.params;
   const locale = params.locale;
 
-  console.log('>>> [LAYOUT] Rendering with locale:', locale);
-
-  let messages;
-  try {
-    // Explicitly pass locale to ensure correct messages are loaded
-    messages = await getMessages({ locale });
-    console.log('>>> [LAYOUT] Messages fetched successfully');
-  } catch (err) {
-    console.error('>>> [LAYOUT] Failed to get messages:', err);
-    // Fallback or rethrow
-  }
+  const messages = await getMessages();
 
   return (
     <html lang={locale} className="scroll-smooth" suppressHydrationWarning>

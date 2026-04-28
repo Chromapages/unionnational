@@ -15,9 +15,11 @@ interface StickyBuyBarProps {
     image: string;
     format: string;
     buyLink?: string;
+    stripeProductId?: string;
+    stripePriceId?: string;
 }
 
-export function StickyBuyBar({ id, slug, title, price, image, format, buyLink }: StickyBuyBarProps) {
+export function StickyBuyBar({ id, slug, title, price, image, format, buyLink, stripeProductId, stripePriceId }: StickyBuyBarProps) {
     const [isVisible, setIsVisible] = useState(false);
     const addItem = useCartStore((state) => state.addItem);
     const toggleCart = useCartStore((state) => state.toggleCart);
@@ -42,6 +44,8 @@ export function StickyBuyBar({ id, slug, title, price, image, format, buyLink }:
             image,
             format,
             buyLink,
+            stripeProductId,
+            stripePriceId,
         });
         trackMetaEvent("AddToCart", {
             content_id: slug,

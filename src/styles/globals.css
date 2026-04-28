@@ -9,9 +9,9 @@
     --color-brand-500: #0D2E2B;
     --color-brand-600: #0A2522;
     --color-brand-700: #071C1A;
-    --color-brand-800: #041211;
-    --color-brand-900: #020908;
-    --color-brand-950: #010504;
+    --color-brand-800: #082421;
+    --color-brand-900: #051A18;
+    --color-brand-950: #03100E;
 
     --color-gold-50: #FBF8EA;
     --color-gold-100: #F5ECCB;
@@ -68,15 +68,28 @@
     --background-image-gold-sheen: linear-gradient(45deg, #D4AF37 0%, #F5ECCB 50%, #D4AF37 100%);
 
     --animate-scan-slow: scan 8s linear infinite;
+    --animate-fade-in: fade-in 0.6s ease-out forwards;
+    --animate-fade-in-up: fade-in-up 0.8s ease-out forwards;
+    --animate-scale-in: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
     @keyframes scan {
-        0% {
-            transform: translateY(-100%);
-        }
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(500%); }
+    }
 
-        100% {
-            transform: translateY(500%);
-        }
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scale-in {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
     }
 }
 
@@ -99,6 +112,9 @@
 }
 
 @layer base {
+    html {
+        scroll-behavior: smooth;
+    }
     body {
         @apply bg-white text-brand-900 antialiased;
     }
@@ -179,44 +195,53 @@
         padding-bottom: max(env(safe-area-inset-bottom), 12px);
     }
 
-    /* Premium Landing Utilities */
-    .glass-premium {
-        @apply bg-white/[0.03] backdrop-blur-3xl border border-white/10 shadow-premium;
+    /* Custom Blog Prose for GHL Content */
+    .unt-blog-prose {
+        @apply max-w-none font-sans text-lg text-slate-600 leading-relaxed;
     }
 
-    .shine-effect {
-        position: relative;
-        overflow: hidden;
+    .unt-blog-prose h2 {
+        @apply text-3xl md:text-4xl font-bold font-heading text-brand-900 mt-12 mb-6 tracking-tight;
     }
 
-    .shine-effect::after {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(
-            45deg,
-            transparent 45%,
-            rgba(255, 255, 255, 0.1) 50%,
-            transparent 55%
-        );
-        transform: rotate(45deg);
-        transition: all 0.7s;
-        opacity: 0;
+    .unt-blog-prose h3 {
+        @apply text-2xl md:text-3xl font-bold font-heading text-brand-900 mt-10 mb-4 tracking-tight;
     }
 
-    .shine-effect:hover::after {
-        left: 100%;
-        top: 100%;
-        opacity: 1;
+    .unt-blog-prose p {
+        @apply mb-6;
     }
 
-    .text-display {
-        @apply font-display font-bold tracking-tighter;
-        font-size: clamp(2.5rem, 8vw, 6rem);
-        line-height: 0.9;
+    .unt-blog-prose ul {
+        @apply list-disc list-outside ml-6 mb-8 space-y-3;
+    }
+
+    .unt-blog-prose ol {
+        @apply list-decimal list-outside ml-6 mb-8 space-y-3;
+    }
+
+    .unt-blog-prose li {
+        @apply pl-2;
+    }
+
+    .unt-blog-prose strong {
+        @apply text-brand-900 font-bold;
+    }
+
+    .unt-blog-prose a {
+        @apply text-gold-600 font-bold underline decoration-gold-500/30 underline-offset-4 hover:text-gold-500 transition-colors;
+    }
+
+    .unt-blog-prose blockquote {
+        @apply border-l-4 border-gold-500 bg-gold-50/30 p-8 my-10 italic rounded-r-2xl text-brand-900;
+    }
+
+    .unt-blog-prose img {
+        @apply rounded-3xl my-12 shadow-2xl;
+    }
+
+    .unt-blog-prose code {
+        @apply bg-slate-100 px-2 py-0.5 rounded text-sm font-mono text-brand-400;
     }
 }
 

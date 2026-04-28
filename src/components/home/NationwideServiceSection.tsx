@@ -48,118 +48,112 @@ export function NationwideServiceSection({ data }: NationwideServiceSectionProps
         ];
 
     return (
-        <section className="py-20 sm:py-24 lg:py-32 bg-[#0d2e2b] relative overflow-hidden">
-            {/* Background Decorations */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
-            {/* Subtle Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/grid.svg')] bg-center [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]" />
+        <section className="relative overflow-hidden border-y border-slate-100 bg-white py-24 sm:py-28">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.06)_0,_transparent_50%)] pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/20 to-transparent" />
 
             <div className="container mx-auto px-4 sm:px-6 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                    {/* Text Content */}
-                    <div className="order-2 lg:order-1">
-                        <RevealOnScroll>
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-bold uppercase tracking-widest mb-6">
-                                <span className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
+                <div className="mx-auto max-w-4xl">
+                    <RevealOnScroll>
+                        <div className="mb-10">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/15 bg-gold-500/5 px-3 py-1 text-xs font-bold uppercase tracking-widest text-gold-700">
+                                <span className="h-1.5 w-1.5 rounded-full bg-gold-500 animate-pulse" />
                                 {badge}
                             </div>
 
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 font-heading tracking-tight leading-[1.1]">
+                            <h2 className="mt-6 text-3xl font-bold tracking-tight text-brand-950 md:text-5xl lg:text-6xl font-heading leading-[1.05]">
                                 {title}
                             </h2>
 
-                            <p className="text-slate-300 text-lg leading-relaxed mb-12 max-w-xl font-sans">
+                            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-slate-600 md:text-xl">
                                 {subtitle}
                             </p>
+                        </div>
+                    </RevealOnScroll>
 
-                            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10">
-                                {features.map((feature: Feature, index: number) => {
-                                    const Icon = ICON_MAP[feature.icon] || CheckCircle2;
-                                    return (
-                                        <motion.div
-                                            key={`${feature.title}-${index}`}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            viewport={{ once: true }}
-                                            className="group"
-                                        >
-                                            <div className="flex items-center gap-4 mb-3">
-                                                <div className="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/20 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                                                    <Icon className="w-5 h-5" aria-hidden="true" />
-                                                </div>
-                                                <h4 className="text-white font-bold text-lg font-heading group-hover:text-gold-400 transition-colors">
-                                                    {feature.title}
-                                                </h4>
-                                            </div>
-                                            <p className="text-slate-400 text-sm leading-relaxed pl-14">
-                                                {feature.description}
-                                            </p>
-                                        </motion.div>
-                                    );
-                                })}
+                    <RevealOnScroll delay={150}>
+                        <div className="mb-10 grid grid-cols-1 gap-4 rounded-[2rem] border border-slate-200 bg-slate-50 p-6 sm:grid-cols-2">
+                            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                                <div className="text-3xl font-bold text-brand-950 font-heading">50</div>
+                                <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                                    {t("visual.statOne")}
+                                </div>
                             </div>
-                        </RevealOnScroll>
-                    </div>
+                            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                                <div className="text-3xl font-bold text-brand-950 font-heading">100%</div>
+                                <div className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                                    {t("visual.statTwo")}
+                                </div>
+                            </div>
+                        </div>
+                    </RevealOnScroll>
 
-                    {/* Visual content */}
-                    <div className="order-1 lg:order-2">
-                        <RevealOnScroll delay={0.2} className="relative">
-                            <div className="relative aspect-square max-w-[500px] mx-auto">
-                                {/* Decorative US Map background or similar */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 to-transparent rounded-[2.5rem] border border-white/5 backdrop-blur-[2px] overflow-hidden group">
-                                    <div className="absolute inset-0 opacity-10 pointer-events-none transition-opacity group-hover:opacity-20 duration-700">
-                                        {/* Fallback pattern if map SVG is missing */}
-                                        <div className="w-full h-full bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:20px_20px]" />
-                                    </div>
+                    <div className="space-y-4">
+                        {features.map((feature: Feature, index: number) => {
+                            const Icon = ICON_MAP[feature.icon] || CheckCircle2;
 
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="text-center p-8">
-                                            <motion.div
-                                                animate={{ rotate: 360 }}
-                                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                                className="w-24 h-24 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-gold-500/20"
-                                            >
-                                                <Globe className="w-12 h-12 text-gold-500" aria-hidden="true" />
-                                            </motion.div>
-                                            <h3 className="text-white font-bold text-2xl mb-4 font-heading">
-                                                {t("visual.title")} <br /> {t("visual.titleAccent")}
-                                            </h3>
-                                            <p className="text-slate-400 font-medium leading-relaxed max-w-[240px] mx-auto text-sm">
-                                                {t("visual.description")}
+                            return (
+                                <motion.div
+                                    key={`${feature.title}-${index}`}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: index * 0.08 }}
+                                    viewport={{ once: true }}
+                                    className="group rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-gold-500/25 hover:shadow-[0_20px_70px_rgba(212,175,55,0.12)]"
+                                >
+                                    <div className="flex items-start gap-5">
+                                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-gold-500/15 bg-gold-500/10 text-gold-600 transition-transform duration-300 group-hover:scale-105 group-hover:bg-gold-500 group-hover:text-brand-950">
+                                            <Icon className="h-5 w-5" aria-hidden="true" />
+                                        </div>
+
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="text-lg font-bold text-brand-950 font-heading group-hover:text-gold-700 transition-colors">
+                                                {feature.title}
+                                            </h4>
+                                            <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                                                {feature.description}
                                             </p>
                                         </div>
                                     </div>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
 
-                                    {/* Scan Line effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold-500/5 to-transparent h-24 -translate-y-full animate-scan-slow pointer-events-none" />
+                    <RevealOnScroll delay={300}>
+                        <div className="mt-10 rounded-[2rem] border border-brand-900/10 bg-brand-950 p-6 text-white shadow-2xl">
+                            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                                <div className="max-w-2xl">
+                                    <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-400">
+                                        {t("visual.title")}
+                                    </div>
+                                    <h3 className="mt-3 text-2xl font-bold font-heading">
+                                        {t("visual.titleAccent")}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-relaxed text-slate-300">
+                                        {t("visual.description")}
+                                    </p>
                                 </div>
 
-                                {/* Floating Stats */}
-                                <motion.div
-                                    initial={{ x: 20, opacity: 0 }}
-                                    whileInView={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.5 }}
-                                    className="absolute -top-6 -right-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl z-20"
-                                >
-                                    <div className="text-gold-500 font-bold text-3xl mb-1">50</div>
-                                    <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">{t("visual.statOne")}</div>
-                                </motion.div>
+                                <div className="flex items-center gap-4">
+                                    <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                        className="flex h-16 w-16 items-center justify-center rounded-full border border-gold-500/20 bg-gold-500/10 text-gold-500"
+                                    >
+                                        <Globe className="h-8 w-8" aria-hidden="true" />
+                                    </motion.div>
 
-                                <motion.div
-                                    initial={{ x: -20, opacity: 0 }}
-                                    whileInView={{ x: 0, opacity: 1 }}
-                                    transition={{ delay: 0.7 }}
-                                    className="absolute -bottom-6 -left-6 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl z-20"
-                                >
-                                    <div className="text-gold-500 font-bold text-3xl mb-1">100%</div>
-                                    <div className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">{t("visual.statTwo")}</div>
-                                </motion.div>
+                                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-right">
+                                        <div className="text-gold-400 text-2xl font-bold font-heading">Live</div>
+                                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                                            Nationwide Delivery
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </RevealOnScroll>
-                    </div>
+                        </div>
+                    </RevealOnScroll>
                 </div>
             </div>
 

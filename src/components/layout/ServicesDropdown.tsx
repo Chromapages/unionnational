@@ -197,7 +197,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2">
-                {serviceData.slice(0, 8).map((service) => renderServiceLink(service))}
+                {serviceData.slice(0, 12).map((service) => renderServiceLink(service))}
               </div>
 
               <div className="mt-10 flex justify-center">

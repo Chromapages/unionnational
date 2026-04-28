@@ -1,7 +1,8 @@
 import { BlogCard } from "./BlogCard";
+import type { GhlBlogPost } from "@/lib/ghl/blogs";
 
 interface RelatedPostsProps {
-    posts: any[];
+    posts: GhlBlogPost[];
     locale: string;
 }
 
@@ -13,7 +14,7 @@ export function RelatedPosts({ posts, locale }: RelatedPostsProps) {
             <h2 className="text-2xl font-bold text-brand-900 font-heading mb-8">Related Articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {posts.map((post) => (
-                    <BlogCard key={post._id} post={post} locale={locale} />
+                    <BlogCard key={post.id} post={post} locale={locale} />
                 ))}
             </div>
         </section>

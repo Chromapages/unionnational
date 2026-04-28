@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { BlogCard } from "./BlogCard";
+import type { GhlBlogPost } from "@/lib/ghl/blogs";
 
 interface RelatedNavigatorProps {
-    posts: any[];
+    posts: GhlBlogPost[];
     locale: string;
 }
 
@@ -32,7 +33,7 @@ export function RelatedNavigator({ posts, locale }: RelatedNavigatorProps) {
 
             <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {posts.filter(Boolean).map((post) => (
-                    <BlogCard key={post._id} post={post} locale={locale} />
+                    <BlogCard key={post.id} post={post} locale={locale} />
                 ))}
             </div>
 

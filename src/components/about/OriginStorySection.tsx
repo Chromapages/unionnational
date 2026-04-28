@@ -1,5 +1,3 @@
-"use client";
-
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 interface OriginStorySectionProps {
