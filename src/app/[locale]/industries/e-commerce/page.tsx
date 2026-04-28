@@ -1,19 +1,19 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import ConstructionIndustryClient from "./ConstructionIndustryClient";
+import EcommerceIndustryClient from "./EcommerceIndustryClient";
 import { Metadata } from "next";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
     const baseUrl = "https://unionnationaltax.com";
-    const path = "/industries/construction";
+    const path = "/industries/e-commerce";
     const canonicalUrl = locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
 
     return {
-        title: "Construction CFO Partnership | Union National Tax",
-        description: "Specialized financial leadership and tax strategy for growth-minded construction firms. Stop bleeding cash on job costing and labor.",
+        title: "E-commerce Growth CFO | Union National Tax",
+        description: "Specialized tax strategy and financial leadership for high-growth e-commerce brands. Manage sales tax nexus and inventory valuation with certainty.",
         openGraph: {
-            images: [`${baseUrl}/images/og-construction.png`],
+            images: [`${baseUrl}/images/og-ecommerce.png`],
         },
         alternates: {
             canonical: canonicalUrl,
@@ -25,7 +25,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     };
 }
 
-export default async function ConstructionIndustryPage(props: { params: Promise<{ locale: string }> }) {
+export default async function EcommerceIndustryPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
 
@@ -33,7 +33,7 @@ export default async function ConstructionIndustryPage(props: { params: Promise<
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
             <main id="main-content">
-                <ConstructionIndustryClient locale={locale} />
+                <EcommerceIndustryClient locale={locale} />
             </main>
             <Footer />
         </div>

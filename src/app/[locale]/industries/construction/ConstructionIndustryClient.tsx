@@ -21,7 +21,8 @@ import {
     Target as TargetIcon
 } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -92,6 +93,12 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
                 
                 <div className="max-w-7xl mx-auto relative z-10">
+                    <Breadcrumbs 
+                        items={[
+                            { label: "Industries", href: "/industries" },
+                            { label: "Construction", href: "/industries/construction" }
+                        ]} 
+                    />
                     <div className="max-w-4xl">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -188,14 +195,18 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                                         { icon: Zap, text: "Mystery cash-flow issues despite high revenue" },
                                         { icon: Coins, text: "Uncalculated labor burden eating your overhead" },
                                         { icon: ShieldCheck, text: "Surprise year-end tax debt with no cash to pay it" }
-                                    ].map((item, i) => (
+                                    ].map((item, i) => {
+                                        const ItemIcon = item.icon;
+
+                                        return (
                                         <div key={i} className="flex items-center gap-5 text-brand-900 font-bold group">
                                             <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-gold-500/10 transition-all">
-                                                <item.icon size={20} className="text-gold-600" />
+                                                <ItemIcon size={20} className="text-gold-600" />
                                             </div>
                                             {item.text}
                                         </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </RevealOnScroll>
@@ -252,18 +263,22 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        {CONSTRUCTION_PILLARS.map((pillar, idx) => (
+                        {CONSTRUCTION_PILLARS.map((pillar, idx) => {
+                            const PillarIcon = pillar.icon;
+
+                            return (
                             <RevealOnScroll key={idx} delay={idx * 150}>
                                 <div className="h-full bg-white p-12 rounded-3xl border border-slate-200 hover:border-gold-500 transition-all group shadow-sm text-center">
                                     <div className="w-16 h-16 bg-brand-950 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform mx-auto">
-                                        <pillar.icon size={28} className="text-gold-500" />
+                                        <PillarIcon size={28} className="text-gold-500" />
                                     </div>
                                     <span className="inline-block text-[10px] font-black uppercase tracking-[0.2em] text-gold-600 mb-4 bg-gold-500/5 px-3 py-1 rounded-full">{pillar.category}</span>
                                     <h3 className="text-2xl font-bold text-brand-950 mb-6 font-heading tracking-tighter not-italic">{pillar.title}</h3>
                                     <p className="text-slate-500 leading-relaxed text-lg font-light not-italic">{pillar.description}</p>
                                 </div>
                             </RevealOnScroll>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </section>
