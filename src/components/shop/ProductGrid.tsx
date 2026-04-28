@@ -7,6 +7,7 @@ interface ProductGridItem {
     title: string;
     slug: string;
     imageUrl?: string;
+    imageMetadata?: { lqip?: string } | null;
     price: number;
     compareAtPrice?: number;
     shortDescription: string;
@@ -24,8 +25,8 @@ export function ProductGrid({ products }: ProductGridProps) {
     if (!products || products.length === 0) return null;
 
     return (
-        <section className="max-w-7xl mx-auto px-6 mb-32">
-            <div className="text-center mb-16">
+        <div className="max-w-7xl mx-auto px-6 mb-32">
+            <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-brand-900 tracking-tight font-heading">
                     MasterClass Resources
                 </h2>
@@ -40,7 +41,8 @@ export function ProductGrid({ products }: ProductGridProps) {
                         key={product._id}
                         title={product.title}
                         slug={product.slug}
-                        coverImage={product.imageUrl}
+                        imageUrl={product.imageUrl}
+                        imageMetadata={product.imageMetadata}
                         price={product.price}
                         compareAtPrice={product.compareAtPrice}
                         shortDescription={product.shortDescription}
@@ -51,6 +53,6 @@ export function ProductGrid({ products }: ProductGridProps) {
                     />
                 ))}
             </div>
-        </section>
+        </div>
     );
 }

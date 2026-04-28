@@ -123,7 +123,18 @@ export const structure: StructureResolver = (S) =>
         ),
       S.documentTypeListItem('teamMember').title('Team Members'),
       S.divider(),
-      ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !['teamPage', 'teamMember', 'blogPost', 'blogCategory', 'blogSettings', 'service', 'product', 'shopSettings', 'siteSettings', 'testimonial', 'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 'caseStudy', 'pricingTier', 'legalPage', 'playbook', 'playbookChapter', 'industryVertical', 'comparisonTable'].includes(item.getId()!)
-      ),
+      ...S.documentTypeListItems().filter((item) => {
+        const id = item.getId();
+        if (!id) return false;
+        
+        const hiddenTypes = [
+          'teamPage', 'teamMember', 'blogPost', 'blogCategory', 'blogSettings', 
+          'service', 'product', 'shopSettings', 'siteSettings', 'testimonial', 
+          'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 
+          'caseStudy', 'pricingTier', 'legalPage', 'playbook', 'playbookChapter', 
+          'industryVertical', 'comparisonTable'
+        ];
+        
+        return !hiddenTypes.includes(id);
+      }),
     ])

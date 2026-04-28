@@ -4,9 +4,15 @@ import { useTranslations } from "next-intl";
 import { ArrowRight, CircleDollarSign, LineChart, Factory, CheckCircle2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export const ThreeCorePaths = () => {
     const t = useTranslations("HomePage.ThreeCorePaths");
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const paths = [
         {
@@ -32,15 +38,27 @@ export const ThreeCorePaths = () => {
         }
     ];
 
+    // Prevent hydration mismatch by returning a stable structure during initial client render
+    if (!isMounted) {
+        return (
+            <section className="relative overflow-hidden border-y border-slate-100 bg-white py-24">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="h-[600px] animate-pulse bg-slate-50/50 rounded-[2.5rem]" />
+                </div>
+            </section>
+        );
+    }
+
     return (
-        <section className="py-24 bg-brand-900 overflow-hidden">
+        <section suppressHydrationWarning className="relative overflow-hidden border-y border-slate-100 bg-white py-24">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.05)_0,_transparent_45%)] pointer-events-none" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <motion.span 
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-[0.2em] uppercase text-gold-500 bg-gold-500/10 rounded-full border border-gold-500/20"
+                        className="inline-block rounded-full border border-gold-500/15 bg-gold-500/5 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-gold-700"
                     >
                         {t("eyebrow")}
                     </motion.span>
@@ -49,7 +67,7 @@ export const ThreeCorePaths = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-6 tracking-tight"
+                        className="mb-6 text-4xl font-bold tracking-tight text-brand-950 md:text-5xl lg:text-6xl font-heading"
                     >
                         {t("title")}
                     </motion.h2>
@@ -58,7 +76,7 @@ export const ThreeCorePaths = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-xl text-slate-400 max-w-2xl mx-auto font-light"
+                        className="mx-auto max-w-2xl text-xl font-light text-slate-600"
                     >
                         {t("subtitle")}
                     </motion.p>
@@ -72,24 +90,24 @@ export const ThreeCorePaths = () => {
                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 + 0.3 }}
-                            className="group relative flex flex-col h-full p-8 rounded-[2rem] border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent hover:border-gold-500/30 hover:from-gold-500/10 transition-all duration-500"
+                            className="group relative flex h-full flex-col rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_18px_60px_rgba(15,23,42,0.06)] transition-all duration-500 hover:-translate-y-1 hover:border-gold-500/30 hover:shadow-[0_24px_80px_rgba(212,175,55,0.12)]"
                         >
-                            <div className="mb-8 w-14 h-14 rounded-2xl bg-gold-500/10 flex items-center justify-center text-gold-500 border border-gold-500/20 group-hover:scale-110 transition-transform duration-500">
-                                <path.icon size={28} />
+                            <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl border border-gold-500/15 bg-gold-500/10 text-gold-600 transition-transform duration-500 group-hover:scale-110">
+                                <path.icon size={28} aria-hidden="true" />
                             </div>
 
-                            <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-gold-500 transition-colors">
+                            <h3 className="mb-4 text-2xl font-bold text-brand-950 transition-colors group-hover:text-gold-700">
                                 {t(`${path.key}.title`)}
                             </h3>
 
-                            <p className="text-slate-400 mb-8 flex-grow leading-relaxed">
+                            <p className="mb-8 flex-grow leading-relaxed text-slate-600">
                                 {t(`${path.key}.description`)}
                             </p>
 
                             <div className="space-y-3 mb-8">
                                 {[0, 1, 2].map((itemIdx) => (
-                                    <div key={itemIdx} className="flex items-center gap-3 text-sm text-slate-300">
-                                        <CheckCircle2 size={16} className="text-gold-500/60" />
+                                    <div key={itemIdx} className="flex items-start gap-3 text-sm text-slate-700">
+                                        <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-gold-600" aria-hidden="true" />
                                         <span>{t(`${path.key}.items.${itemIdx}`)}</span>
                                     </div>
                                 ))}
@@ -97,7 +115,7 @@ export const ThreeCorePaths = () => {
 
                             <Link
                                 href={path.href}
-                                className="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl border border-gold-500/30 text-gold-500 font-bold hover:bg-gold-500 hover:text-brand-900 transition-all duration-300"
+                                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand-900/10 px-4 py-4 font-bold text-brand-950 transition-all duration-300 hover:border-gold-500/30 hover:bg-gold-500 hover:text-brand-950"
                             >
                                 {t(`${path.key}.cta`)}
                                 <ArrowRight size={18} />
@@ -109,3 +127,4 @@ export const ThreeCorePaths = () => {
         </section>
     );
 };
+

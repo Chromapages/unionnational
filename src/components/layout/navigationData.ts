@@ -67,11 +67,50 @@ export const fallbackServices: ServiceSummary[] = [
     shortDescription: "Profit recovery systems for hospitality",
     category: "Specialized Advisory",
   },
+  {
+    title: "Real Estate Wealth Architect",
+    slug: { current: "real-estate" },
+    icon: "Building2",
+    shortDescription: "Portfolio tax shields & 1031 oversight",
+    category: "Specialized Advisory",
+  },
+  {
+    title: "E-commerce Growth CFO",
+    slug: { current: "e-commerce" },
+    icon: "ShoppingBag",
+    shortDescription: "Multi-state nexus & margin protection",
+    category: "Specialized Advisory",
+  },
 ];
 
 export const getServiceHref = (service: ServiceSummary) => {
   if (service.slug?.current) {
-    return `/services/${service.slug.current}`;
+    const slug = service.slug.current;
+    
+    // Industry Pages
+    if (["construction", "restaurants", "real-estate", "e-commerce"].includes(slug)) {
+        return `/industries/${slug}`;
+    }
+
+    // Root-level High Performance Service Pages
+    const rootRoutes = [
+        "fractional-cfo",
+        "tax-planning",
+        "strategic-bookkeeping",
+        "new-business-formation",
+        "s-corp-tax-advantage"
+    ];
+
+    if (rootRoutes.includes(slug)) {
+        return `/${slug}`;
+    }
+
+    // Special case for Tax Filing
+    if (slug === "tax-filing-and-preparation-services") {
+        return "/tax-preparation-and-filing";
+    }
+
+    return `/services/${slug}`;
   }
 
   return "/services";

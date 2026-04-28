@@ -6,6 +6,8 @@ import { ArrowRight, Eye, FileText, PlayCircle, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { StarRating } from "@/components/ui/StarRating";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Skeleton } from "@/components/ui/Skeleton";
 
 import { useTranslations } from "next-intl";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
@@ -13,6 +15,8 @@ import { trackMetaEvent } from "@/components/seo/MetaPixel";
 export interface ProductCardProps {
     title: string;
     coverImage?: string | null;
+    imageUrl?: string | null;
+    imageMetadata?: { lqip?: string } | null;
     price: number;
     compareAtPrice?: number;
     shortDescription: string;
@@ -49,7 +53,8 @@ const formatPrice = (price: number) => {
 export function ProductCard({
     title,
     coverImage,
-    imageUrl, // Supporting both prop names for flexibility between query results and manual usage
+    imageUrl,
+    imageMetadata,
     price,
     compareAtPrice,
     shortDescription,
@@ -57,9 +62,10 @@ export function ProductCard({
     format = 'ebook',
     badge,
     rating = 5,
-}: ProductCardProps & { imageUrl?: string }) {
+}: ProductCardProps) {
     const t = useTranslations("Shop.ProductCard");
     const [isHovered, setIsHovered] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     // Resolve the final display image from available props
     const finalImage = imageUrl || coverImage;
@@ -104,11 +110,29 @@ export function ProductCard({
                         </div>
                     )}
 
-                    <img
-                        src={imageSrc}
-                        alt={title}
-                        className="w-full h-full object-contain p-8 transition-transform duration-700 group-hover:scale-105 mix-blend-multiply"
-                    />
+                    {!imageLoaded && (
+                        <Skeleton className="absolute inset-0 z-10 p-8" />
+                    )}
+
+                    {imageSrc ? (
+                        <Image
+                            src={imageSrc}
+                            alt={title}
+                            fill
+                            className={cn(
+                                "object-contain p-8 transition-all duration-700 group-hover:scale-105 mix-blend-multiply",
+                                imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-lg"
+                            )}
+                            onLoadingComplete={() => setImageLoaded(true)}
+                            placeholder={imageMetadata?.lqip ? "blur" : "empty"}
+                            blurDataURL={imageMetadata?.lqip}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-slate-100">
+                            <BookOpen className="w-12 h-12 text-slate-300" />
+                        </div>
+                    )}
                 </div>
 
                 {/* Content Section */}

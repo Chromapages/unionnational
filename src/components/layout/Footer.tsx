@@ -64,6 +64,7 @@ export async function Footer() {
 
     const companyLinks = [
         { label: tHeader("about"), href: "/about" },
+        { label: tHeader("shop"), href: "/shop" },
         { label: tFooter("team"), href: "/team" },
         { label: tHeader("faq"), href: "/faq" },
         { label: tHeader("contact"), href: "/contact" },

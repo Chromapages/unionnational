@@ -17,6 +17,8 @@ export interface CartLineItem {
     format: string;
     quantity: number;
     buyLink?: string;
+    stripeProductId?: string;
+    stripePriceId?: string;
 }
 
 export interface CheckoutCartItemPayload {
@@ -24,6 +26,7 @@ export interface CheckoutCartItemPayload {
     editionId?: string;
     slug: string;
     quantity: number;
+    stripePriceId?: string;
 }
 
 export function buildCartItemKey(productId: string, editionId?: string) {

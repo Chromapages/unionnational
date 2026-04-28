@@ -12,27 +12,12 @@ interface LearningObjectivesProps {
     objectives?: Objective[];
 }
 
-const defaultObjectives = [
-    {
-        title: "Capital Efficiency",
-        description: "Advanced strategies for minimizing leakage across international equity and debt portfolios.",
-    },
-    {
-        title: "Estate Architecture",
-        description: "Foundational structures for multi-generational wealth transfer and liability protection.",
-    },
-    {
-        title: "Jurisdictional Pivot",
-        description: "Mapping the world's most favorable tax regimes for the modern digital nomad & remote pioneer.",
-    },
-    {
-        title: "Regulatory Foresight",
-        description: "In-pioneering policy state before they impact your net worth. Defensive tax positioning.",
-    }
-];
-
 export function LearningObjectives({ objectives: propObjectives }: LearningObjectivesProps) {
-    const displayObjectives = propObjectives && propObjectives.length > 0 ? propObjectives : defaultObjectives;
+    const displayObjectives = propObjectives?.filter((objective) => objective.title && objective.description) || [];
+
+    if (displayObjectives.length === 0) {
+        return null;
+    }
 
     return (
         <section id="what-youll-learn" className="scroll-mt-24 py-12 bg-white border-b border-slate-100">
@@ -41,7 +26,7 @@ export function LearningObjectives({ objectives: propObjectives }: LearningObjec
                     What You&#39;ll Learn
                 </h2>
                 <p className="text-sm text-slate-500 font-sans mb-8">
-                    A tactical roadmap for high-net-worth individuals navigating modern global markets.
+                    Practical strategy points pulled directly from this Union National Tax resource.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">

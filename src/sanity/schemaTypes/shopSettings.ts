@@ -25,6 +25,22 @@ export const shopSettings = defineType({
             group: "content",
         }),
         defineField({
+            name: "heroSlides",
+            title: "Hero Slideshow Images",
+            type: "array",
+            group: "content",
+            description: "Upload images for the hero background slideshow.",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "image", type: "image", title: "Image", options: { hotspot: true } },
+                        { name: "alt", type: "string", title: "Alt Text" },
+                    ],
+                },
+            ],
+        }),
+        defineField({
             name: "heroVideo",
             title: "Hero Background Video URL",
             type: "url",

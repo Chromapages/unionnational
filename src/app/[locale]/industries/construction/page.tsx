@@ -3,10 +3,25 @@ import { Footer } from "@/components/layout/Footer";
 import ConstructionIndustryClient from "./ConstructionIndustryClient";
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await props.params;
+    const baseUrl = "https://unionnationaltax.com";
+    const path = "/industries/construction";
+    const canonicalUrl = locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
+
     return {
         title: "Construction CFO Partnership | Union National Tax",
         description: "Specialized financial leadership and tax strategy for growth-minded construction firms. Stop bleeding cash on job costing and labor.",
+        openGraph: {
+            images: [`${baseUrl}/images/og-construction.png`],
+        },
+        alternates: {
+            canonical: canonicalUrl,
+            languages: {
+                en: `${baseUrl}${path}`,
+                es: `${baseUrl}/es${path}`,
+            },
+        },
     };
 }
 

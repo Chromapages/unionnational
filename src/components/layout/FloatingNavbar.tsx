@@ -16,6 +16,7 @@ import { BusinessHealthAssessmentModal } from "@/components/ui/BusinessHealthAss
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ServiceSummary } from "./navigationData";
+import { ContactModal } from "@/components/ui/ContactModal";
 
 type NavLink = {
     translationKey: string;
@@ -37,6 +38,7 @@ type FloatingNavbarProps = {
 
 const navLinks: NavLink[] = [
     { translationKey: "industries", href: "/industries" },
+    { translationKey: "shop", href: "/shop" },
     { translationKey: "resources", href: "/resources" },
     { translationKey: "about", href: "/about" },
 ];
@@ -46,6 +48,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const [scrolled, setScrolled] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isHealthAssessmentOpen, setIsHealthAssessmentOpen] = useState(false);
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
         typeof window !== "undefined"
             ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -279,41 +282,26 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             }}
                         >
                             <Box
-                                component={Link}
-                                href={phoneHref}
-                                aria-label={phoneNumber}
+                                sx={{
+                                    display: { xs: "none", lg: "block" },
+                                    height: 20,
+                                    width: "1px",
+                                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                                    ml: 1,
+                                    mr: 0.5,
+                                }}
+                            />
+                            <IconButton
+                                onClick={() => setIsContactModalOpen(true)}
+                                aria-label="View Contact Information"
                                 sx={{
                                     display: { xs: "none", md: "flex" },
-                                    alignItems: "center",
-                                    gap: 1,
-                                    mr: 1,
-                                    pr: { md: 1, lg: 2 },
-                                    borderRight: { md: "none", lg: "1px solid rgba(255, 255, 255, 0.15)" },
-                                    color: "rgba(255, 255, 255, 0.8)",
-                                    textDecoration: "none",
-                                    transition: "color 0.2s ease",
-                                    "&:hover": {
-                                        color: "primary.main",
-                                    },
-                                    "&:focus-visible": {
-                                        outline: "2px solid white",
-                                        outlineOffset: 2,
-                                    },
+                                    color: "rgba(255, 255, 255, 0.7)",
+                                    "&:hover": { color: "primary.main" },
                                 }}
                             >
-                                <Phone size={16} aria-hidden="true" />
-                                <Typography
-                                    component="span"
-                                    sx={{
-                                        display: { md: "none", lg: "inline" },
-                                        fontSize: "0.875rem",
-                                        fontWeight: 500,
-                                        fontFamily: 'var(--font-inter), "Inter", sans-serif',
-                                    }}
-                                >
-                                    {phoneNumber}
-                                </Typography>
-                            </Box>
+                                <Phone size={20} />
+                            </IconButton>
                             <IconButton
                                 aria-label="Business Health Assessment"
                                 onClick={() => setIsHealthAssessmentOpen(true)}
@@ -418,6 +406,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             />
 
             <BusinessHealthAssessmentModal isOpen={isHealthAssessmentOpen} onClose={() => setIsHealthAssessmentOpen(false)} />
+            <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} phoneNumber={phoneNumber} phoneHref={phoneHref} />
         </>
     );
 };

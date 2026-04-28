@@ -58,13 +58,24 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     ? urlFor(seo.openGraphImage).width(1200).height(630).url()
     : undefined;
 
+  const baseUrl = "https://unionnationaltax.com";
+  const canonicalUrl = locale === "en" ? baseUrl : `${baseUrl}/${locale}`;
+
   return {
     title: seo.metaTitle,
     description: seo.metaDescription,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: baseUrl,
+        es: `${baseUrl}/es`,
+      },
+    },
     openGraph: {
       ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
       ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
       ...(ogImage ? { images: [ogImage] } : {}),
+      url: canonicalUrl,
     },
     twitter: {
       ...(seo.metaTitle ? { title: seo.metaTitle } : {}),

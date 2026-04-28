@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { ShopHero } from "@/components/shop/ShopHero";
@@ -56,6 +57,7 @@ type ShopProduct = {
     title: string;
     slug: string;
     imageUrl: string;
+    imageMetadata?: { lqip?: string } | null;
     price: number;
     compareAtPrice?: number;
     shortDescription: string;
@@ -97,6 +99,7 @@ export default async function ShopPage(props: { params: Promise<{ locale: string
                 <ShopHero
                     title={shopSettings?.heroTitle || "Shop Our Resources"}
                     subtitle={shopSettings?.heroSubtitle || "Expert strategy to optimize your taxes and wealth."}
+                    slides={shopSettings?.heroSlides}
                 />
 
                 <div className="relative z-10">
@@ -105,7 +108,11 @@ export default async function ShopPage(props: { params: Promise<{ locale: string
                     )}
 
                     <div className="pt-12">
-                        <ShopClient products={gridProducts} />
+                        <Suspense fallback={<div className="min-h-[400px] flex items-center justify-center">
+                            <div className="w-8 h-8 border-4 border-gold-500 border-t-transparent rounded-full animate-spin" />
+                        </div>}>
+                            <ShopClient products={gridProducts} />
+                        </Suspense>
                     </div>
 
                     <div className="mb-24">

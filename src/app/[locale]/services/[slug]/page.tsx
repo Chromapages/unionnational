@@ -90,6 +90,25 @@ export default async function ServicePage(props: { params: Promise<{ locale: str
         notFound();
     }
 
+    // Redirect to high-performance root routes if they exist
+    const rootRoutes = [
+        "fractional-cfo",
+        "tax-planning",
+        "strategic-bookkeeping",
+        "new-business-formation",
+        "s-corp-tax-advantage"
+    ];
+
+    if (rootRoutes.includes(slug)) {
+        const { redirect } = await import("next/navigation");
+        redirect(`/${slug}`);
+    }
+
+    if (slug === "tax-filing-and-preparation-services") {
+        const { redirect } = await import("next/navigation");
+        redirect("/tax-preparation-and-filing");
+    }
+
     // Schema.org Structured Data
     const jsonLd: any = [
         {

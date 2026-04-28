@@ -30,11 +30,16 @@ function useMediaQuery(query: string): boolean {
 }
 
 export function RevealOnScroll({ children, className, delay = 0, ...props }: RevealOnScrollProps) {
+    const [mounted, setMounted] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
     useEffect(() => {
-        if (prefersReducedMotion || !ref.current) return;
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted || prefersReducedMotion || !ref.current) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -57,16 +62,21 @@ export function RevealOnScroll({ children, className, delay = 0, ...props }: Rev
         observer.observe(ref.current);
 
         return () => observer.disconnect();
-    }, [delay, prefersReducedMotion]);
+    }, [delay, prefersReducedMotion, mounted]);
 
-    // If reduced motion is preferred, render without the 'reveal' class so it's always visible (assuming base styles handle non-reveal state correctly or we override)
-    // Actually, usually 'reveal' class sets opacity: 0. We should probably just add 'active' immediately or not use 'reveal' class.
-    // Let's assume 'reveal' sets initial hidden state. We'll simply NOT apply 'reveal' if reduced motion.
-
+    // During hydration and initial render, we want to match the server output.
+    // On the server, prefersReducedMotion (from useState(false)) is false.
+    // So we render "reveal" on server and initial client render.
+    // Once mounted and effect runs, if prefersReducedMotion is true, we'd remove it.
+    // But usually we just want it to NOT animate.
+    
     return (
         <div
             ref={ref}
-            className={cn(prefersReducedMotion ? "" : "reveal", className)}
+            className={cn(
+                (!mounted || !prefersReducedMotion) ? "reveal" : "", 
+                className
+            )}
             {...props}
         >
             {children}

@@ -205,6 +205,63 @@ export const service = defineType({
             ]
         }),
         defineField({
+            name: "roadmap",
+            title: "Process Roadmap",
+            type: "array",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        { name: "stepNumber", type: "string", title: "Step Number (e.g. 01)" },
+                        { name: "title", type: "localizedString", title: "Step Title" },
+                        { name: "description", type: "localizedText", title: "Step Description" },
+                    ],
+                    preview: {
+                        select: {
+                            title: "title.en",
+                            subtitle: "stepNumber",
+                        },
+                    },
+                },
+            ],
+            group: "content",
+            description: "Step-by-step installation process for this service.",
+        }),
+        defineField({
+            name: "eligibilityPros",
+            title: "Who Is This For? (Pros)",
+            type: "array",
+            of: [{ type: "localizedString" }],
+            group: "content",
+            description: "List of criteria for ideal candidates.",
+        }),
+        defineField({
+            name: "eligibilityCons",
+            title: "Who Is This Not For? (Cons)",
+            type: "array",
+            of: [{ type: "localizedString" }],
+            group: "content",
+            description: "List of criteria for non-ideal candidates.",
+        }),
+        defineField({
+            name: "trustSignals",
+            title: "Trust Strip / Value Props",
+            type: "array",
+            of: [{ type: "localizedString" }],
+            group: "content",
+            description: "Short signals like 'IRS Enrolled Agent Prepared'.",
+        }),
+        defineField({
+            name: "problemAgitation",
+            title: "Problem Agitation Section",
+            type: "object",
+            fields: [
+                { name: "title", type: "localizedString", title: "Section Title" },
+                { name: "description", type: "localizedText", title: "Section Description" },
+            ],
+            group: "content",
+        }),
+        defineField({
             name: "videoFile",
             title: "Strategy Video File",
             type: "file",

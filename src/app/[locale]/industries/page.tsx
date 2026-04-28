@@ -1,8 +1,8 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { ArrowRight, Hammer, Utensils, Building2, ShoppingBag } from "lucide-react";
-import Link from "next/link";
+import { ArrowRight, Hammer, Utensils, Building2, ShoppingBag, type LucideIcon } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
@@ -17,7 +17,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
-const industries = [
+type Industry = {
+    id: string;
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    href: string;
+    color?: string;
+    comingSoon?: boolean;
+};
+
+const industries: Industry[] = [
     {
         id: "construction",
         title: "Construction & Real Estate",
@@ -36,19 +46,17 @@ const industries = [
     },
     {
         id: "real-estate",
-        title: "Real Estate Investors",
-        description: "Strategic tax planning for portfolio management, asset protection, and 1031 exchange optimization.",
+        title: "Real Estate Wealth Architect",
+        description: "Strategic tax planning for high-net-worth portfolios, 1031 exchanges, and accelerated depreciation (Cost Segregation).",
         icon: Building2,
         href: "/industries/real-estate",
-        comingSoon: true,
     },
     {
         id: "ecommerce",
-        title: "E-commerce & Digital",
-        description: "Modern tax solutions for the digital economy. Sales tax nexus, inventory management, and profit optimization.",
+        title: "E-commerce Growth CFO",
+        description: "Modern tax solutions for the digital economy. Sales tax nexus (Wayfair), inventory tax, and multi-channel scale.",
         icon: ShoppingBag,
-        href: "/industries/ecommerce",
-        comingSoon: true,
+        href: "/industries/e-commerce",
     }
 ];
 
@@ -90,7 +98,10 @@ export default async function IndustriesHubPage(props: { params: Promise<{ local
                 <section className="py-20 px-6 bg-white">
                     <div className="max-w-7xl mx-auto">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-                            {industries.map((industry, index) => (
+                            {industries.map((industry, index) => {
+                                const IndustryIcon = industry.icon;
+
+                                return (
                                 <RevealOnScroll key={industry.id} delay={index * 100}>
                                     <div className={cn(
                                         "group relative h-full flex flex-col p-8 lg:p-10 rounded-2xl border transition-all duration-300",
@@ -102,7 +113,7 @@ export default async function IndustriesHubPage(props: { params: Promise<{ local
                                             "w-14 h-14 rounded-xl flex items-center justify-center mb-8 transition-colors duration-300",
                                             industry.comingSoon ? "bg-slate-200 text-slate-400" : "bg-gold-500/10 text-gold-600 group-hover:bg-gold-500 group-hover:text-brand-900"
                                         )}>
-                                            <industry.icon size={28} />
+                                            <IndustryIcon size={28} />
                                         </div>
 
                                         <h2 className="text-2xl lg:text-3xl font-bold mb-4 font-heading text-brand-900 leading-tight">
@@ -127,7 +138,8 @@ export default async function IndustriesHubPage(props: { params: Promise<{ local
                                         )}
                                     </div>
                                 </RevealOnScroll>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </section>

@@ -322,6 +322,7 @@ export const ALL_PRODUCTS_QUERY = defineQuery(`
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
     "imageUrl": coverImage.asset->url,
+    "imageMetadata": coverImage.asset->metadata { lqip },
     price,
     compareAtPrice,
     "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
@@ -340,6 +341,7 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
     "imageUrl": coverImage.asset->url,
+    "imageMetadata": coverImage.asset->metadata { lqip },
     price,
     compareAtPrice,
     "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
@@ -356,7 +358,10 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       format,
       description
     },
-    "samplePages": samplePages[].asset->url,
+    "samplePages": samplePages[] {
+      "url": asset->url,
+      "metadata": asset->metadata { lqip }
+    },
     "learningObjectives": learningObjectives[]{
       "title": coalesce(title[$locale], title.en, title),
       "description": coalesce(description[$locale], description.en, description)
@@ -386,32 +391,50 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       metaDescription,
       openGraphImage
     },
-    relatedProducts[]-> {
-      _id,
-      "title": coalesce(title[$locale], title.en, title),
-      "slug": slug.current,
-      "imageUrl": coverImage.asset->url,
-      price,
-      compareAtPrice,
-      "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
-      format,
-      buyLink,
-      "badge": coalesce(badge[$locale], badge.en, badge),
-      category,
-      rating
-    },
+    "relatedProducts": select(
+      count(relatedProducts) > 0 => relatedProducts[]-> {
+        _id,
+        "title": coalesce(title[$locale], title.en, title),
+        "slug": slug.current,
+        "imageUrl": coverImage.asset->url,
+        "imageMetadata": coverImage.asset->metadata { lqip },
+        price,
+        compareAtPrice,
+        "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
+        format,
+        buyLink,
+        "badge": coalesce(badge[$locale], badge.en, badge),
+        category,
+        rating
+      },
+      *[_type == "product" && slug.current != $slug && !(_id in path("drafts.**"))] | order(rating desc, isFeatured desc)[0...3] {
+        _id,
+        "title": coalesce(title[$locale], title.en, title),
+        "slug": slug.current,
+        "imageUrl": coverImage.asset->url,
+        "imageMetadata": coverImage.asset->metadata { lqip },
+        price,
+        compareAtPrice,
+        "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
+        format,
+        buyLink,
+        "badge": coalesce(badge[$locale], badge.en, badge),
+        category,
+        rating
+      }
+    ),
     "relatedServices": select(
       count(relatedServices) > 0 => relatedServices[]-> {
         _id,
         "title": coalesce(title[$locale], title.en, title),
-        "slug": slug,
+        "slug": slug.current,
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         icon
       },
       *[_type == "service" && !(_id in path("drafts.**"))] | order(isPopular desc)[0...3] {
         _id,
         "title": coalesce(title[$locale], title.en, title),
-        "slug": slug,
+        "slug": slug.current,
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         icon
       }

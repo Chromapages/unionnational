@@ -1,7 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface AboutHeroProps {
     title: string;
@@ -23,11 +21,7 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
 
             <div className="relative z-10 mx-auto max-w-7xl px-6">
                 <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1.1fr_0.9fr] items-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
+                    <div className="animate-fade-in-up">
                         <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-gold-400">
                             <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
                             {badge || "EST. 2015"}
@@ -49,18 +43,13 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
                                 Explore Our Firm
                             </Link>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
-                        className="relative hidden lg:block"
-                    >
+                    <div className="relative hidden lg:block animate-fade-in [animation-delay:200ms]">
                         {/* Abstract Visual - The Secure Vault */}
                         <div className="relative aspect-square max-w-md mx-auto">
                             <div className="absolute inset-0 bg-gradient-to-tr from-gold-500/20 to-transparent rounded-3xl rotate-6 blur-2xl" />
-                            <div className="relative h-full w-full rounded-3xl border border-white/10 bg-brand-950/50 backdrop-blur-sm p-8 flex flex-col justify-center border-l-gold-500/50 border-l-4 shadow-2xl">
+                            <div className="relative h-full w-full rounded-3xl border border-white/20 bg-brand-950/50 backdrop-blur-sm p-8 flex flex-col justify-center border-l-gold-500/50 border-l-4 shadow-2xl">
                                 <div className="space-y-8">
                                     <div className="flex items-start gap-4">
                                         <div className="h-10 w-10 rounded-full bg-gold-500/10 flex items-center justify-center border border-gold-500/20 text-gold-500 font-bold">1</div>
@@ -86,7 +75,7 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

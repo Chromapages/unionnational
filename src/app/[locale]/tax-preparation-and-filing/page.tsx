@@ -5,10 +5,22 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import Link from "next/link";
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await props.params;
+    const baseUrl = "https://unionnationaltax.com";
+    const path = "/tax-preparation-and-filing";
+    const canonicalUrl = locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
+
     return {
         title: "Tax Filing & Preparation | Union National Tax",
         description: "Professional, accurate, and optimized tax filing for businesses and high-income earners. We ensure you're compliant while capturing every strategic advantage.",
+        alternates: {
+            canonical: canonicalUrl,
+            languages: {
+                en: `${baseUrl}${path}`,
+                es: `${baseUrl}/es${path}`,
+            },
+        },
     };
 }
 

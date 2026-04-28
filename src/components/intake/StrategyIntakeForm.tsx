@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { normalizeIndustry, normalizeRevenue } from "@/lib/ghl/contract";
 
 // --- Form Schema (Funnel Map 07 & CRM Pipeline 08 Optimized) ---
 const intakeSchema = z.object({
@@ -114,18 +115,48 @@ export const StrategyIntakeForm = () => {
     };
 
     const onSubmit = async (data: IntakeData) => {
+        const payload = {
+            event_type: "GENERAL_INQUIRY_SUBMITTED",
+            contact: {
+                first_name: data.firstName,
+                last_name: data.lastName,
+                email: data.email,
+                phone: data.phone
+            },
+            business: {
+                business_name: data.companyName,
+                industry: normalizeIndustry(data.industry),
+                annual_revenue_band: normalizeRevenue(data.revenueRange),
+                entity_type: data.entityType.toUpperCase().replace(/\s+/g, "_") as any,
+            },
+            intent: {
+                primary_service_interest: "FRACTIONAL_CFO", // Default for intake
+                lead_magnet_type: "STRATEGY_INTAKE",
+                urgency: data.urgency.includes("Immediate") ? "IMMEDIATE" : "THIS_QUARTER",
+                pain_points: [data.primaryPainPoint],
+                services_of_interest: data.servicesOfInterest,
+            },
+            meta: {
+                version: "1.0",
+                submitted_at: new Date().toISOString()
+            },
+            results: {
+                investment_readiness: data.investmentWillingness,
+                books_status: data.booksStatus
+            }
+        };
+
         try {
-            const response = await fetch("/api/intake", {
+            const response = await fetch("/api/ghl/intake", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
+                body: JSON.stringify(payload),
             });
             
             const result = await response.json();
             
-            // Smart Routing logic is handled by the API, but client handles the handoff
-            if (result.success && result.redirect) {
-                router.push(result.redirect);
+            if (result.success && data.preferredNextStep === 'Book Strategy Call Now') {
+                router.push("/book");
             } else {
                 setIsComplete(true);
             }

@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { Book, Tag } from "lucide-react";
+import { Book } from "lucide-react";
 
 export const product = defineType({
     name: "product",
@@ -30,6 +30,24 @@ export const product = defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
+            name: "testimonialBackgroundImage",
+            title: "Testimonial Background Image",
+            type: "image",
+            group: "content",
+            description: "Optional product-specific background image for the testimonial section.",
+            options: {
+                hotspot: true,
+            },
+            fields: [
+                defineField({
+                    name: "alt",
+                    title: "Alt Text",
+                    type: "string",
+                    description: "Describe the testimonial section background for accessibility.",
+                }),
+            ],
+        }),
+        defineField({
             name: "coverImage",
             title: "Cover Image",
             type: "image",
@@ -38,6 +56,38 @@ export const product = defineType({
                 hotspot: true,
             },
             validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: "videoFile",
+            title: "Product Video File",
+            type: "file",
+            group: "content",
+            description: "Optional. Upload an MP4 or similar file for a native product walkthrough.",
+        }),
+        defineField({
+            name: "videoUrl",
+            title: "External Product Video URL",
+            type: "url",
+            group: "content",
+            description: "Optional. Use for YouTube, Vimeo, Loom, or another hosted product walkthrough.",
+        }),
+        defineField({
+            name: "videoThumbnail",
+            title: "Product Video Thumbnail",
+            type: "image",
+            group: "content",
+            description: "Optional poster image shown before the product video plays.",
+            options: {
+                hotspot: true,
+            },
+            fields: [
+                defineField({
+                    name: "alt",
+                    title: "Alt Text",
+                    type: "string",
+                    description: "Describe the video thumbnail for accessibility.",
+                }),
+            ],
         }),
         defineField({
             name: "price",
@@ -82,6 +132,20 @@ export const product = defineType({
             initialValue: "digital",
         }),
         defineField({
+            name: "stripeProductId",
+            title: "Stripe Product ID",
+            type: "string",
+            group: "content",
+            description: "Optional. Top-level Stripe Product ID if this product doesn't have multiple editions.",
+        }),
+        defineField({
+            name: "stripePriceId",
+            title: "Stripe Price ID",
+            type: "string",
+            group: "content",
+            description: "Optional. Top-level Stripe Price ID if this product doesn't have multiple editions.",
+        }),
+        defineField({
             name: "editions",
             title: "Product Editions",
             type: "array",
@@ -94,6 +158,7 @@ export const product = defineType({
                         { name: "name", title: "Edition Name", type: "string", validation: (Rule) => Rule.required() },
                         { name: "price", title: "Price", type: "number", validation: (Rule) => Rule.required().min(0) },
                         { name: "format", title: "Format Type", type: "string" },
+                        { name: "stripePriceId", title: "Stripe Price ID", type: "string" },
                         { name: "description", title: "Short Description", type: "string" },
                     ],
                 },

@@ -40,10 +40,20 @@ const LuxuryTravelIncentive = dynamic(() => import("@/components/ui/LuxuryTravel
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
     const t = await getTranslations({ locale, namespace: "ServicesPage.metadata" });
+    
+    const baseUrl = "https://unionnationaltax.com";
+    const canonicalUrl = locale === "en" ? `${baseUrl}/services` : `${baseUrl}/${locale}/services`;
 
     return {
         title: t("title"),
         description: t("description"),
+        alternates: {
+            canonical: canonicalUrl,
+            languages: {
+                en: `${baseUrl}/services`,
+                es: `${baseUrl}/es/services`,
+            },
+        },
     };
 }
 
@@ -72,7 +82,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
         "@type": "AccountingService",
         "name": "Union National Tax",
         "description": "Modern tax strategy and financial services for the digital economy.",
-        "url": "https://unionnationaltax.com/services",
+        "url": `https://unionnationaltax.com${locale === 'en' ? '' : `/${locale}`}/services`,
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Tax & Financial Services",
@@ -111,7 +121,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
                                 <div className="flex flex-col sm:flex-row items-center gap-6">
                                     <Link
-                                        href="/contact"
+                                        href="/intake"
                                         className={cn(
                                             "w-full sm:w-auto px-10 py-5 bg-gold-500 text-brand-900 font-bold text-lg rounded-md shadow-sm",
                                             "hover:bg-gold-600 transition-all duration-300",

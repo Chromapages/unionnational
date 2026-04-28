@@ -19,16 +19,19 @@ import {
     X,
     Check
 } from "lucide-react";
+import { ScorpEstimatorShell } from "@/components/scorp/ScorpEstimatorShell";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useRef } from "react";
 
 interface SCorpAdvantageClientProps {
     locale: string;
+    service?: any;
 }
 
-// ─── FAQ Accordion ───────────────────────────────────────────────────────────
-const faqs = [
+// ─── FALLBACK DATA (Used if Sanity content is missing) ──────────────────────
+const FALLBACK_FAQS = [
     {
         q: "How do I know if an S-Corp is right for me?",
         a: "The right answer depends on your business profit, the role you play in the company, how you pay yourself, and how the business is currently structured. That is why review comes first — before any assumptions or recommendations."
@@ -53,6 +56,41 @@ const faqs = [
         q: "Can this connect to bookkeeping or CFO support later?",
         a: "Yes. For many businesses, S-Corp strategy is the starting point that leads into stronger planning, cleaner reporting, and more ongoing financial support."
     }
+];
+
+const FALLBACK_ROADMAP = [
+    { stepNumber: "01", title: "Evaluate", description: "We review your profit picture and role to determine S-Corp potential." },
+    { stepNumber: "02", title: "Recommend", description: "If the numbers support it, we build a customized transition roadmap." },
+    { stepNumber: "03", title: "Election", description: "We guide the filing path and handle the critical election process." },
+    { stepNumber: "04", title: "Support", description: "Ongoing leadership to ensure the strategy works long-term." }
+];
+
+const FALLBACK_CRITERIA_PROS = [
+    "Self-employed business owners with healthy profit",
+    "Single-owner or owner-operated businesses",
+    "Sole proprietors looking for better efficiency",
+    "Owners who want proactive tax strategy",
+    "Businesses seeking cleaner compensation structure"
+];
+
+const FALLBACK_CRITERIA_CONS = [
+    "If you are looking for a shortcut without compliance discipline, or if the business isn't yet at the right profit level—we aren't the right fit.",
+    "We specialize in businesses ready to integrate professional structure as part of a bigger business strategy."
+];
+
+const FALLBACK_COMPARISON = [
+    { feature: "Business Structure", diy: "Reactive filing", unionNational: "Structure-First Review" },
+    { feature: "Relationship", diy: "Seasonal/Transactional", unionNational: "Ongoing Strategy" },
+    { feature: "Optimization", diy: "Minimal attention", unionNational: "Core Decision Point" },
+    { feature: "Audit Defense", diy: "General support", unionNational: "Specialized Guard" },
+    { feature: "Decision Making", diy: "Compliance only", unionNational: "Advisory-Led" }
+];
+
+const FALLBACK_TRUST_SIGNALS = [
+    "IRS Enrolled Agent Prepared",
+    "Strategy-First Guidance",
+    "Audit Protection Built-in",
+    "High-Value Implementation",
 ];
 
 const FAQItem = ({ q, a }: { q: string; a: string }) => {
@@ -86,180 +124,261 @@ const FAQItem = ({ q, a }: { q: string; a: string }) => {
     );
 };
 
-export default function SCorpAdvantageClient({ locale }: SCorpAdvantageClientProps) {
+export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantageClientProps) {
+    const estimatorRef = useRef<HTMLDivElement>(null);
+
+    // ─── Resolve Dynamic Data ────────────────────────────────────────────────
+    // We use a robust merging strategy to ensure hydration stability and high-fidelity content
+    const faqs = (service?.faq?.length > 0 ? service.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
+        q: item.q || item.question || FALLBACK_FAQS[i]?.q,
+        a: item.a || item.answer || FALLBACK_FAQS[i]?.a
+    }));
+
+    const roadmap = (service?.roadmap?.length > 0 ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
+        stepNumber: step.stepNumber || FALLBACK_ROADMAP[i]?.stepNumber || (i + 1).toString().padStart(2, '0'),
+        title: step.title || FALLBACK_ROADMAP[i]?.title,
+        description: step.description || FALLBACK_ROADMAP[i]?.description
+    }));
+
+    const criteriaPros = service?.eligibilityPros?.length > 0 ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
+    const criteriaCons = service?.eligibilityCons?.length > 0 ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
+    
+    const comparisonPoints = (service?.comparisonPoints?.length > 0 ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
+        ...FALLBACK_COMPARISON[i],
+        ...item
+    }));
+
+    const trustSignals = service?.trustSignals?.length > 0 ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
+
+    const heroTitle = service?.title || "Stop Overpaying Yourself Into Higher Taxes.";
+    const heroDescription = service?.shortDescription || "The S-Corp Tax Advantage Program helps qualified business owners evaluate whether an S-Corp election could lower tax burden, improve compensation structure, and support smarter long-term growth.";
+    const impactGoal = service?.impactGoal || "Strategic Tax Optimization";
+
+    const agitationTitle = (service?.problemAgitation?.title) || "Why your current setup is costing you money.";
+    const agitationDesc = (service?.problemAgitation?.description) || "A lot of self-employed professionals and growing small business owners start as sole proprietors or single-member LLCs — and stay there far too long.";
+
+    const scrollToEstimator = () => {
+        estimatorRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
     return (
-        <div className="bg-white">
+        <div className="bg-white overflow-hidden">
+            {/* ─── 1. HERO SECTION ───────────────────────────────────────────── */}
+            <section className="relative min-h-[90dvh] pt-20 flex items-center bg-brand-900 border-b border-white/5 overflow-hidden">
+                {/* Background Effects */}
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
+                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold-600/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
+                    <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-[0.03]" />
+                </div>
 
-            {/* ─── 1. HERO ─────────────────────────────────────────────────────── */}
-            <section className="relative px-6 py-28 lg:py-48 bg-brand-900 overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,175,55,0.08)_0%,_transparent_60%)]" />
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold-500/5 rounded-full blur-[120px]" />
-
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="max-w-4xl">
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[10px] font-bold uppercase tracking-widest mb-10"
-                        >
-                            <span className="w-2 h-2 bg-gold-400 rounded-full animate-pulse" />
-                            S-Corp Tax Strategy for Self-Employed Business Owners
-                        </motion.div>
-
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="text-6xl lg:text-9xl font-bold font-heading text-white leading-[0.85] tracking-tighter mb-10"
-                        >
-                            Stop Overpaying <br />
-                            Yourself <span className="text-gold-500 italic">Into Higher Taxes.</span>
-                        </motion.h1>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="text-xl sm:text-2xl text-brand-50/75 mb-14 leading-relaxed max-w-3xl font-body"
-                        >
-                            The S-Corp Tax Advantage Program helps qualified business owners evaluate whether an S-Corp election could lower tax burden, improve compensation structure, and support smarter long-term growth.
-                        </motion.p>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="flex flex-col sm:flex-row gap-6"
-                        >
-                            <Link
-                                href="/intake"
-                                className="px-12 py-6 bg-gold-500 text-brand-900 font-bold rounded-2xl hover:bg-gold-400 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl shadow-gold-500/30 text-2xl flex items-center justify-center gap-4 group"
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20 lg:py-0">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                        <div className="lg:col-span-7">
+                            <motion.div
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8"
                             >
-                                See If You Qualify
-                                <ArrowRight size={28} className="group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                            <Link
-                                href="/book"
-                                className="px-12 py-6 bg-transparent border-2 border-white/20 text-white font-bold rounded-2xl hover:bg-white/5 transition-all text-2xl flex items-center justify-center"
-                            >
-                                Strategy Call
-                            </Link>
-                        </motion.div>
+                                <span className="flex h-2 w-2 relative">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-gold-500"></span>
+                                </span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-gold-400">
+                                    {impactGoal}
+                                </span>
+                            </motion.div>
 
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                            className="mt-10 text-[10px] font-bold uppercase tracking-widest text-brand-50/40"
-                        >
-                            Built for business owners who want more than generic filing — and want a clearer structure behind the numbers.
-                        </motion.p>
+                            <motion.h1
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-heading text-white leading-[1.1] mb-8 tracking-tighter"
+                            >
+                                {heroTitle.split("Into").length > 1 ? (
+                                    <>
+                                        {heroTitle.split("Into")[0]} <br />
+                                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic">Into {heroTitle.split("Into")[1]}</span>
+                                    </>
+                                ) : heroTitle}
+                            </motion.h1>
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="text-lg md:text-xl text-slate-400 mb-10 leading-relaxed max-w-2xl font-light"
+                            >
+                                {heroDescription}
+                            </motion.p>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="flex flex-col sm:flex-row gap-5"
+                            >
+                                <button
+                                    onClick={scrollToEstimator}
+                                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl shadow-lg shadow-gold-500/20 transition-all group"
+                                >
+                                    See If You Qualify
+                                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                                <Link
+                                    href="/book"
+                                    className="inline-flex items-center justify-center px-8 py-4 border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all"
+                                >
+                                    Strategy Call
+                                </Link>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.5 }}
+                                className="mt-12 flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500"
+                            >
+                                <div className="h-px w-8 bg-gold-500/30" />
+                                Built for Growth-Minded Owners
+                            </motion.div>
+                        </div>
+
+                        <div className="lg:col-span-5 relative hidden lg:block">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                                animate={{ opacity: 1, scale: 1, x: 0 }}
+                                transition={{ delay: 0.4 }}
+                                className="relative rounded-[2.5rem] bg-brand-900 border border-gold-500/30 p-1 shadow-premium overflow-hidden group"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-transparent opacity-50" />
+                                <div className="relative bg-brand-950 rounded-[2.2rem] p-8 lg:p-10">
+                                    <div className="flex items-center justify-between mb-8">
+                                        <div className="w-12 h-12 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-500">
+                                            <TrendingDown size={24} />
+                                        </div>
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Industry Standard Estimate</span>
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-white mb-2 font-heading tracking-tight">Tax Drag Reduction</h3>
+                                    <p className="text-slate-400 text-sm mb-8 font-light">Typical high-profit owner potential</p>
+                                    
+                                    <div className="space-y-6">
+                                        <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 group-hover:border-gold-500/30 transition-all">
+                                            <div className="flex justify-between items-end mb-2">
+                                                <span className="text-xs text-slate-500 uppercase tracking-widest font-bold font-heading">Estimated Savings</span>
+                                                <span className="text-2xl font-bold text-gold-500 font-heading">$12,000+</span>
+                                            </div>
+                                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                                <motion.div 
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: "75%" }}
+                                                    transition={{ delay: 1, duration: 1.5 }}
+                                                    className="h-full bg-gold-500 rounded-full shadow-[0_0_10px_rgba(212,175,55,0.5)]"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3 text-xs text-slate-400 px-2 font-light">
+                                            <CheckCircle2 size={14} className="text-gold-500" />
+                                            <span>Institutional Grade Structure</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* ─── TRUST STRIP ──────────────────────────────────────────────────── */}
-            <div className="bg-slate-50 border-y border-slate-100 py-12 px-6">
-                <div className="max-w-7xl mx-auto flex flex-wrap justify-center lg:justify-between gap-12 text-slate-400 font-bold uppercase tracking-widest text-[10px]">
-                    {[
-                        "IRS Enrolled Agent Prepared",
-                        "Strategy-First Tax Guidance",
-                        "Audit Protection Available",
-                        "Built for Growth-Minded Owners",
-                    ].map((item) => (
-                        <div key={item} className="flex items-center gap-3">
-                            <ShieldCheck size={18} className="text-gold-500/50" />
-                            {item}
-                        </div>
-                    ))}
+            <div className="bg-white border-y border-slate-100 py-10 relative z-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                        {trustSignals.map((item: string, idx: number) => (
+                            <div key={idx} className="flex items-center justify-center gap-3 group">
+                                <div className="w-8 h-8 rounded-lg bg-gold-500/5 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300">
+                                    <ShieldCheck size={16} />
+                                </div>
+                                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 group-hover:text-brand-900 transition-colors">
+                                    {item}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
             {/* ─── 2. PROBLEM / AGITATION ───────────────────────────────────────── */}
-            <section className="py-32 px-6 bg-white border-y border-slate-100">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                        <RevealOnScroll>
-                            <div className="space-y-10">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-gold-600 block mb-4">The Structure Problem</span>
-                                <h2 className="text-4xl lg:text-7xl font-bold text-brand-900 font-heading leading-[0.9] tracking-tighter">
-                                    Why your current setup is <br /><span className="italic text-gold-600">costing you money.</span>
+            <section className="py-20 lg:py-24 bg-surface relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                        <div className="lg:col-span-6">
+                            <RevealOnScroll>
+                                <div className="mb-6">
+                                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                        The Structure Problem
+                                    </span>
+                                </div>
+                                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
+                                    {agitationTitle.split("costing").length > 1 ? (
+                                        <>
+                                            {agitationTitle.split("costing")[0]} <br />
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-500 to-gold-700 italic">costing {agitationTitle.split("costing")[1]}</span>
+                                        </>
+                                    ) : agitationTitle}
                                 </h2>
-                                <div className="space-y-6 text-2xl text-slate-600 leading-relaxed font-body font-light">
+                                <div className="space-y-6 text-lg text-slate-600 leading-relaxed font-sans font-light">
                                     <p>
-                                        A lot of self-employed professionals and growing small business owners start as sole proprietors or single-member LLCs — and stay there far too long.
+                                        {agitationDesc}
                                     </p>
-                                    <p>
-                                        As profit grows, the wrong structure can quietly create avoidable tax drag. You may be working hard, generating solid income, and still losing more to self-employment tax than necessary.
-                                    </p>
+                                    {service?.fullDescription && (
+                                        <div className="prose prose-slate max-w-none prose-p:leading-relaxed prose-p:font-light prose-p:text-slate-600 font-sans">
+                                            {/* We'd use a PortableText component here if using full rich text */}
+                                            {/* For now, just showing how it integrates */}
+                                        </div>
+                                    )}
                                     <p className="font-bold text-brand-900">
                                         The right S-Corp setup can create meaningful tax efficiency for the right business.
                                     </p>
                                 </div>
-                            </div>
-                        </RevealOnScroll>
+                            </RevealOnScroll>
+                        </div>
 
-                        <RevealOnScroll delay={200}>
-                            <div className="relative group p-1 bg-gradient-to-tr from-gold-500/20 to-transparent rounded-[2.5rem]">
-                                <div className="relative bg-brand-900 p-10 lg:p-20 rounded-[2.5rem] border border-white/5 shadow-2xl overflow-hidden flex flex-col justify-center">
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold-400/5 rounded-full blur-3xl pointer-events-none" />
-                                    <div className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">Illustrative Scenario</div>
-                                    <h3 className="text-4xl font-bold text-white font-heading tracking-tight mb-12">How structure affects <br />your tax bill</h3>
-                                    <div className="space-y-6">
-                                        <div className="flex justify-between items-center p-6 rounded-2xl bg-white/5 border border-white/10">
-                                            <span className="text-slate-300 font-medium">Business Profit</span>
-                                            <span className="font-bold text-white font-heading text-2xl">$120,000</span>
-                                        </div>
-                                        <div className="flex justify-between items-center p-6 rounded-2xl bg-red-500/10 border border-red-500/20">
-                                            <div>
-                                                <div className="text-red-400 font-bold text-base">Sole Prop / LLC (15.3% SE Tax)</div>
-                                                <div className="text-red-500/60 text-xs mt-1">Applied to full profit</div>
-                                            </div>
-                                            <span className="font-bold text-red-400 font-heading text-2xl">$18,360</span>
-                                        </div>
-                                        <div className="flex justify-between items-center p-6 rounded-2xl bg-green-500/10 border border-green-500/20">
-                                            <div>
-                                                <div className="text-green-400 font-bold text-base italic">S-Corp Structure (Optimized)</div>
-                                                <div className="text-green-500/60 text-xs mt-1">SE tax applied to salary only</div>
-                                            </div>
-                                            <span className="font-bold text-green-400 font-heading text-2xl">$7,650</span>
-                                        </div>
-                                        <div className="pt-10 border-t border-white/10 text-center">
-                                            <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Potential Reduction</div>
-                                            <div className="text-7xl font-bold text-gold-500 font-heading tracking-tighter leading-none">$10,710+</div>
-                                            <div className="text-[10px] text-slate-500 mt-6 leading-relaxed uppercase tracking-widest font-bold">
-                                                *Illustrative only. Assumes Reasonable Salary. Actual results vary.
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div className="lg:col-span-6 relative" ref={estimatorRef}>
+                            <RevealOnScroll delay={200}>
+                                <div className="relative rounded-3xl bg-white border border-slate-200 shadow-xl overflow-hidden p-1">
+                                    <ScorpEstimatorShell />
                                 </div>
-                            </div>
-                        </RevealOnScroll>
+                            </RevealOnScroll>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* ─── 3. WHAT THE PROGRAM IS ───────────────────────────────────────── */}
-            <section className="py-32 px-6 bg-slate-50 italic">
-                <div className="max-w-7xl mx-auto">
-                    <RevealOnScroll>
-                        <div className="text-center max-w-3xl mx-auto mb-24">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-gold-600 font-heading block mb-6">Vertical Focus</span>
-                            <h2 className="text-4xl md:text-6xl font-bold text-brand-900 font-heading tracking-tighter leading-[1.1] mb-8 not-italic">
-                                Strategic <span className="italic text-gold-500 underline decoration-gold-500/30">Advantage.</span>
+            <section className="py-20 lg:py-24 bg-white relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+                        <RevealOnScroll>
+                            <div className="mb-6">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                    Vertical Focus
+                                </span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
+                                Strategic <span className="italic text-gold-500">Advantage.</span>
                             </h2>
-                            <p className="text-xl text-slate-500 font-light not-italic leading-relaxed font-body">
-                                This is not a one-size-fits-all filing service. It is a structured advisory process designed to determine whether an S-Corp election makes sense for your business — and then help you implement and support it correctly.
+                            <p className="text-lg text-slate-500 font-light leading-relaxed font-sans">
+                                This is not a one-size-fits-all filing service. It is a structured advisory process designed to determine whether an S-Corp election makes sense for your business.
                             </p>
-                        </div>
-                    </RevealOnScroll>
+                        </RevealOnScroll>
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
                         {[
                             {
                                 icon: Search,
                                 title: "Strategic Evaluation",
-                                category: "Audit",
+                                category: "Tax Audit",
                                 body: "We review your business structure, income profile, and owner compensation picture to assess whether an S-Corp election is likely to create real value."
                             },
                             {
@@ -271,25 +390,25 @@ export default function SCorpAdvantageClient({ locale }: SCorpAdvantageClientPro
                             {
                                 icon: Layers,
                                 title: "Ongoing Tax Alignment",
-                                category: "Strategy",
+                                category: "Long-term Strategy",
                                 body: "An S-Corp is not just a form. It affects compensation, planning, and compliance. We help make sure the structure supports the bigger strategy."
                             },
                             {
                                 icon: BarChart3,
                                 title: "Financial Decision-Making",
-                                category: "Leadership",
+                                category: "Executive Leadership",
                                 body: "The goal is not only tax savings. It is a cleaner, smarter financial setup that gives the owner more control over how the business runs and grows."
                             }
                         ].map((item, idx) => (
-                            <RevealOnScroll key={idx} delay={idx * 150}>
-                                <div className="h-full bg-white p-12 rounded-3xl border border-slate-200 hover:border-gold-500 transition-all group shadow-sm flex flex-col md:flex-row gap-8 items-start not-italic">
-                                    <div className="w-16 h-16 bg-brand-900 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                        <item.icon size={28} className="text-gold-500" />
+                            <RevealOnScroll key={idx} delay={idx * 100}>
+                                <div className="h-full bg-white p-8 lg:p-10 rounded-2xl border border-slate-200 hover:border-gold-500/40 hover:shadow-soft transition-all group flex gap-6 lg:gap-8 items-start">
+                                    <div className="w-12 lg:w-14 h-12 lg:h-14 rounded-xl bg-gold-500/10 flex items-center justify-center shrink-0 text-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300">
+                                        <item.icon size={24} />
                                     </div>
                                     <div>
-                                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-gold-600 mb-4 bg-gold-500/5 px-3 py-1 rounded-full">{item.category}</span>
-                                        <h3 className="text-2xl font-bold text-brand-900 mb-4 font-heading tracking-tighter">{item.title}</h3>
-                                        <p className="text-slate-500 leading-relaxed text-lg font-light font-body">{item.body}</p>
+                                        <span className="block text-[10px] font-bold uppercase tracking-widest text-gold-600 mb-2">{item.category}</span>
+                                        <h3 className="text-xl font-bold text-brand-900 mb-3 font-heading tracking-tight">{item.title}</h3>
+                                        <p className="text-slate-500 leading-relaxed text-base font-light font-sans">{item.body}</p>
                                     </div>
                                 </div>
                             </RevealOnScroll>
@@ -299,41 +418,40 @@ export default function SCorpAdvantageClient({ locale }: SCorpAdvantageClientPro
             </section>
 
             {/* ─── 4. WHO IT'S FOR / NOT FOR ───────────────────────────────────── */}
-            <section className="py-32 px-6 bg-white">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-slate-50 rounded-[3rem] overflow-hidden border border-slate-100 p-1 lg:p-4 shadow-sm">
-                        <div className="p-10 lg:p-20 space-y-12">
-                            <h3 className="text-4xl font-bold text-brand-900 font-heading tracking-tighter underline decoration-gold-500/30 underline-offset-[12px]">Elite Strategy Fit</h3>
-                            <ul className="space-y-6">
-                                {[
-                                    "Self-employed business owners with healthy profit",
-                                    "Single-owner or owner-operated businesses",
-                                    "Sole proprietors looking for better efficiency",
-                                    "Owners who want proactive tax strategy",
-                                    "Businesses seeking cleaner compensation structure"
-                                ].map((item, i) => (
-                                    <li key={i} className="flex gap-4 text-slate-600 font-light leading-relaxed font-body text-xl">
-                                        <CheckCircle2 size={24} className="text-gold-500 shrink-0 mt-1" />
-                                        {item}
+            <section className="py-20 lg:py-24 bg-surface">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
+                        <div className="p-8 lg:p-16 space-y-10">
+                            <div className="space-y-4">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">Candidate Criteria</span>
+                                <h3 className="text-3xl font-bold text-brand-900 font-heading tracking-tight">Elite Strategy Fit</h3>
+                            </div>
+                            <ul className="space-y-5">
+                                {criteriaPros.map((item: string, i: number) => (
+                                    <li key={i} className="flex gap-4 text-slate-600 font-light leading-relaxed font-sans">
+                                        <CheckCircle2 size={20} className="text-gold-500 shrink-0 mt-1" />
+                                        <span>{item}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                        <div className="bg-brand-900 p-10 lg:p-20 text-white space-y-10 flex flex-col justify-center">
-                            <h3 className="text-4xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
-                            <p className="text-slate-300 font-light leading-relaxed text-2xl font-body">
-                                If you are looking for a shortcut without compliance discipline, or if the business isn't yet at the right profit level—we aren't the right fit.
-                            </p>
-                            <p className="text-slate-400 font-light leading-relaxed text-lg font-body">
-                                We specialize in businesses ready to integrate structure as part of a bigger business strategy.
-                            </p>
-                            <div className="pt-6">
-                                <Link 
-                                    href="/services" 
-                                    className="text-gold-500 hover:text-gold-400 font-bold flex items-center gap-2 group tracking-widest text-[10px] uppercase underline decoration-gold-500/30 underline-offset-8"
-                                >
-                                    View Basic Filing Services <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                </Link>
+                        <div className="bg-brand-900 p-8 lg:p-16 text-white relative overflow-hidden flex flex-col justify-center">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-[80px]" />
+                            <div className="relative space-y-8">
+                                <h3 className="text-3xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                                {criteriaCons.map((item: string, idx: number) => (
+                                    <p key={idx} className="text-slate-400 font-light leading-relaxed text-lg font-sans">
+                                        {item}
+                                    </p>
+                                ))}
+                                <div className="pt-4">
+                                    <Link 
+                                        href="/services" 
+                                        className="inline-flex items-center gap-2 text-gold-500 hover:text-gold-400 font-bold transition-all text-sm uppercase tracking-widest font-heading"
+                                    >
+                                        View Basic Filing Services <ArrowRight size={16} />
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -341,107 +459,161 @@ export default function SCorpAdvantageClient({ locale }: SCorpAdvantageClientPro
             </section>
 
             {/* ─── 5. PROCESS SECTION ───────────────────────────────────────────── */}
-            <section className="py-32 px-6 bg-slate-50 italic">
-                <div className="max-w-7xl mx-auto text-center mb-24">
-                    <h2 className="text-4xl lg:text-7xl font-bold text-brand-900 font-heading mb-6 tracking-tighter not-italic">Phase-Based Installation.</h2>
-                    <p className="text-2xl text-slate-500 font-light not-italic font-body">Strategy deployed in four institutional phases.</p>
-                </div>
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-                    <div className="absolute top-1/2 left-0 w-full h-px bg-slate-200 hidden lg:block -translate-y-1/2" />
-                    {[
-                        { step: "01", title: "Evaluate", desc: "We review your profit picture and role to determine S-Corp potential." },
-                        { step: "02", title: "Recommend", desc: "If the numbers support it, we build a customized transition roadmap." },
-                        { step: "03", title: "Election", desc: "We guide the filing path and handle the critical election process." },
-                        { step: "04", title: "Support", desc: "Ongoing leadership to ensure the strategy works long-term." }
-                    ].map((step, i) => (
-                        <div key={i} className="relative z-10 bg-white p-10 rounded-3xl border border-slate-200 shadow-sm text-center group hover:border-gold-500 transition-all flex flex-col items-center">
-                            <div className="w-14 h-14 rounded-full bg-brand-900 text-gold-500 flex items-center justify-center font-black mb-8 text-xl group-hover:scale-110 transition-transform">{step.step}</div>
-                            <h3 className="text-2xl font-bold text-brand-900 mb-4 font-heading tracking-tight not-italic">{step.title}</h3>
-                            <p className="text-slate-500 text-sm not-italic leading-relaxed font-light font-body">{step.desc}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            <section className="py-20 lg:py-24 bg-white relative">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16 lg:mb-20">
+                        <RevealOnScroll>
+                            <div className="mb-6">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">The Roadmap</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
+                                Phase-Based <span className="italic text-gold-500">Installation.</span>
+                            </h2>
+                            <p className="text-lg text-slate-500 font-light font-sans max-w-2xl mx-auto">
+                                Strategy deployed in four institutional phases, ensuring every component of your new structure is optimized.
+                            </p>
+                        </RevealOnScroll>
+                    </div>
 
-            {/* ─── 6. COMPARISON TABLE ─────────────────────────────────────────── */}
-            <section className="py-32 px-6 bg-white">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-24">
-                        <h2 className="text-4xl lg:text-7xl font-bold text-brand-900 font-heading mb-10 tracking-tighter leading-[0.9]">
-                            Strategic Guidance <br /> vs. <span className="italic text-slate-300">Generic Prep.</span>
-                        </h2>
-                    </div>
-                    
-                    <div className="border border-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl max-w-5xl mx-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-brand-900 text-white">
-                                    <th className="p-8 lg:p-12 text-lg font-heading tracking-tight uppercase tracking-widest text-[10px]">Area of Focus</th>
-                                    <th className="p-8 lg:p-12 text-lg font-heading tracking-tight text-slate-400">Generic Tax Prep</th>
-                                    <th className="p-8 lg:p-12 text-lg font-heading tracking-tight text-gold-500 font-black">S-Corp strategy</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100">
-                                {[
-                                    { f: "Business Structure", g: "Reactive filing", u: "Structure-First Review" },
-                                    { f: "Relationship", g: "Seasonal/Transactional", u: "Ongoing Strategy" },
-                                    { f: "Optimization", g: "Minimal attention", u: "Core Decision Point" },
-                                    { f: "Audit Defense", g: "General support", u: "Specialized Guard" },
-                                    { f: "Decision Making", g: "Compliance only", u: "Advisory-Led" }
-                                ].map((row, i) => (
-                                    <tr key={i} className="hover:bg-slate-50 transition-colors">
-                                        <td className="p-8 lg:px-12 font-bold text-brand-900 italic font-body text-lg border-r border-slate-50">{row.f}</td>
-                                        <td className="p-8 lg:px-12 text-slate-500 font-light font-body">{row.g}</td>
-                                        <td className="p-8 lg:px-12 font-bold text-brand-900 bg-gold-500/5 font-body">{row.u}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            {/* ─── 7. FAQ SECTION ──────────────────────────────────────────────── */}
-            <section className="py-32 px-6 bg-slate-50 italic">
-                <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-24 max-w-2xl mx-auto">
-                        <h2 className="text-4xl lg:text-7xl font-bold text-brand-900 font-heading mb-6 tracking-tighter not-italic">
-                            Honest <span className="italic text-gold-500 underline decoration-gold-500/30">Answers.</span>
-                        </h2>
-                        <p className="text-xl text-slate-500 font-light not-italic font-body">The decision should be based on conditions, not hype.</p>
-                    </div>
-                    <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm px-10 py-4 not-italic">
-                        {faqs.map((faq, i) => (
-                            <FAQItem key={i} q={faq.q} a={faq.a} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                        {/* Desktop Connector Line */}
+                        <div className="absolute top-[45px] left-8 right-8 h-px bg-slate-100 hidden lg:block" />
+                        
+                        {roadmap.map((step: any, i: number) => (
+                            <RevealOnScroll key={i} delay={i * 100}>
+                                <div className="relative z-10 bg-white p-8 lg:p-10 rounded-2xl border border-slate-200 shadow-sm text-center group hover:border-gold-500/40 transition-all flex flex-col items-center">
+                                    <div className="w-10 h-10 rounded-full bg-brand-900 border border-gold-500/30 text-gold-500 flex items-center justify-center font-bold mb-6 text-sm group-hover:scale-110 transition-transform duration-300">
+                                        {step.stepNumber}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-brand-900 mb-3 font-heading tracking-tight">{step.title}</h3>
+                                    <p className="text-slate-500 text-sm leading-relaxed font-light font-sans">{step.description}</p>
+                                </div>
+                            </RevealOnScroll>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* ─── 8. FINAL CTA ────────────────────────────────────────────────── */}
-            <section className="py-36 px-6 relative bg-brand-900 overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-[0.03] pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
-                
-                <div className="max-w-5xl mx-auto text-center relative z-10">
+            {/* ─── 6. COMPARISON TABLE ─────────────────────────────────────────── */}
+            <section className="py-20 lg:py-24 bg-surface">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16 lg:mb-20">
+                        <RevealOnScroll>
+                            <div className="mb-6">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">Comparison</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
+                                Institutional Strategy <br />
+                                <span className="text-slate-400 italic">vs. Generic Prep.</span>
+                            </h2>
+                        </RevealOnScroll>
+                    </div>
+                    
                     <RevealOnScroll>
-                        <h2 className="text-6xl md:text-9xl font-bold text-white font-heading mb-12 tracking-tighter leading-[0.85]">
-                            Manage <br />Your <span className="italic text-gold-500 underline decoration-white/10 decoration-wavy underline-offset-[20px]">Outcome.</span>
-                        </h2>
-                        <p className="text-2xl md:text-3xl text-brand-50/70 mb-20 leading-relaxed font-light mx-auto max-w-3xl font-body">
-                            If profit has increased but your structure has not changed, it is time to review whether an S-Corp strategy makes sense.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-8 justify-center">
-                            <Link 
-                                href="/intake"
-                                className="px-16 py-8 bg-gold-500 text-brand-900 font-bold rounded-2xl hover:bg-gold-400 hover:scale-[1.05] active:scale-[0.98] transition-all shadow-2xl text-3xl group flex items-center justify-center gap-6"
-                            >
-                                Get S-Corp Review <ArrowRight size={38} className="group-hover:translate-x-2 transition-transform" />
-                            </Link>
+                        <div className="bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="bg-brand-900 text-white">
+                                            <th className="p-6 lg:p-10 text-xs font-bold font-heading uppercase tracking-[0.2em] text-slate-400 border-r border-white/5">Focus Area</th>
+                                            <th className="p-6 lg:p-10 text-xs font-bold font-heading uppercase tracking-[0.2em] text-slate-400 border-r border-white/5">Generic Tax Prep</th>
+                                            <th className="p-6 lg:p-10 text-xs font-bold font-heading uppercase tracking-[0.2em] text-gold-500">S-Corp strategy</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100">
+                                        {comparisonPoints.map((row: any, i: number) => (
+                                            <tr key={i} className="hover:bg-slate-50 transition-colors group">
+                                                <td className="p-6 lg:p-10 font-bold text-brand-900 font-heading text-sm sm:text-base border-r border-slate-100">{row.feature}</td>
+                                                <td className="p-6 lg:p-10 text-slate-500 font-light text-sm sm:text-base border-r border-slate-100">{row.diy || row.bigFirm ? "Generic Prep" : "Reactive filing"}</td>
+                                                <td className="p-6 lg:p-10 text-brand-900 font-medium bg-gold-500/[0.03] text-sm sm:text-base group-hover:bg-gold-500/5 transition-colors">
+                                                    <div className="flex items-center gap-3 font-heading font-bold">
+                                                        <Check size={18} className="text-gold-500 shrink-0" />
+                                                        {row.unionNational || "S-Corp strategy"}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <p className="mt-16 text-[10px] font-bold uppercase tracking-widest text-brand-50/40">
-                            No Generic Pitch • Strategy Review • Institutional Grade
-                        </p>
+                    </RevealOnScroll>
+                </div>
+            </section>
+
+            {/* ─── 7. FAQ SECTION ──────────────────────────────────────────────── */}
+            <section className="py-20 lg:py-24 bg-white relative">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16 lg:mb-20">
+                        <RevealOnScroll>
+                            <div className="mb-6">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">F.A.Q.</span>
+                            </div>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
+                                Honest <span className="italic text-gold-500">Answers.</span>
+                            </h2>
+                            <p className="text-lg text-slate-500 font-light font-sans max-w-2xl mx-auto">
+                                The decision should be based on actual business conditions, not marketing hype.
+                            </p>
+                        </RevealOnScroll>
+                    </div>
+
+                    <RevealOnScroll delay={200}>
+                        <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm px-6 lg:px-10">
+                            {faqs.map((faq: any, i: number) => (
+                                <FAQItem key={i} q={faq.q || faq.question} a={faq.a || faq.answer} />
+                            ))}
+                        </div>
+                    </RevealOnScroll>
+                </div>
+            </section>
+
+            {/* ─── 8. FINAL CTA SECTION ───────────────────────────────────────── */}
+            <section className="py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+                <div className="max-w-7xl mx-auto relative">
+                    <RevealOnScroll>
+                        <div className="relative rounded-[2.5rem] bg-brand-950 px-6 py-20 lg:py-28 text-center overflow-hidden">
+                            {/* Decorative Blobs */}
+                            <div className="absolute top-0 left-0 w-96 h-96 bg-gold-600/5 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2" />
+                            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold-500/10 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2" />
+                            <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-[0.03]" />
+
+                            <div className="relative z-10 max-w-4xl mx-auto">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-500">
+                                        Take Control of Your Strategy
+                                    </span>
+                                </div>
+                                <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white font-heading tracking-tight leading-[1.1] mb-10">
+                                    Manage Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic">Outcome.</span>
+                                </h2>
+                                <p className="text-xl md:text-2xl text-slate-400 font-light leading-relaxed mb-14 max-w-2xl mx-auto">
+                                    If profit has increased but your structure has not changed, it is time to review whether an S-Corp strategy makes sense.
+                                </p>
+                                
+                                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                                    <Link 
+                                        href="/intake"
+                                        className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl shadow-lg shadow-gold-500/20 transition-all text-xl"
+                                    >
+                                        Get S-Corp Review
+                                        <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                                    </Link>
+                                    <Link
+                                        href="/book"
+                                        className="inline-flex items-center justify-center gap-2 px-10 py-5 border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all text-xl"
+                                    >
+                                        Strategy Call
+                                    </Link>
+                                </div>
+
+                                <div className="mt-16 flex items-center justify-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                                    <div className="h-px w-8 bg-gold-500/30" />
+                                    <span>Institutional Grade • Advisory-Led</span>
+                                    <div className="h-px w-8 bg-gold-500/30" />
+                                </div>
+                            </div>
+                        </div>
                     </RevealOnScroll>
                 </div>
             </section>
