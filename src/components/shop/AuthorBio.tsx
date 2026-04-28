@@ -1,8 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { User } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 interface Author {
     name: string;
@@ -16,18 +13,12 @@ interface AuthorBioProps {
     author?: Author;
 }
 
-const defaultAuthor: Author = {
-    name: "Marcus Thorne, CPA, LL.M",
-    role: "Founder & Principal Strategist",
-    credentials: [
-        "Marcus Thorne is the Principal Architect at Sovereign Tax & Advisory. With over two decades of experience in bespoke financial structuring, he has advised ultra-high-net-worth families across four continents.",
-        "His methodology focuses on jurisdictional agility and capital preservation in an increasingly volatile regulatory landscape."
-    ],
-    imageUrl: "" // Placeholder
-};
-
 export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
-    const displayAuthor = propAuthor || defaultAuthor;
+    if (!propAuthor) {
+        return null;
+    }
+
+    const displayAuthor = propAuthor;
 
     return (
         <section id="about-author" className="scroll-mt-24 py-16 sm:py-24 bg-white border-b border-slate-100 px-4 sm:px-6">
@@ -39,12 +30,7 @@ export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
                     <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         
                         {/* Left: Bio Text */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="flex flex-col"
-                        >
+                        <RevealOnScroll className="flex flex-col">
                             <h2 className="text-3xl sm:text-4xl font-bold text-white font-heading tracking-tight mb-8">
                                 About the Author
                             </h2>
@@ -54,15 +40,15 @@ export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
                                     displayAuthor.bioShort.split('\n').filter(Boolean).map((paragraph, idx) => (
                                         <p key={idx}>{paragraph}</p>
                                     ))
-                                ) : (
-                                    (displayAuthor.credentials || []).map((paragraph, idx) => (
-                                        <p key={idx}>{paragraph}</p>
-                                    ))
-                                )}
+                                    ) : displayAuthor.credentials?.length ? (
+                                        (displayAuthor.credentials || []).map((paragraph, idx) => (
+                                            <p key={idx}>{paragraph}</p>
+                                        ))
+                                    ) : null}
                             </div>
                             
                             <div className="mt-10 flex items-center gap-6">
-                                <div className="h-0.5 w-12 bg-emerald-500/40" />
+                                <div className="h-0.5 w-12 bg-gold-500/40" />
                                 <div className="flex flex-col">
                                     <p className="font-black text-white font-heading text-sm sm:text-base uppercase tracking-[0.2em]">
                                         {displayAuthor.name}
@@ -72,18 +58,15 @@ export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
                                     </p>
                                 </div>
                             </div>
-                        </motion.div>
+                        </RevealOnScroll>
 
                         {/* Right: Author Image (Tilted Card Style) */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95, rotate: 0 }}
-                            whileInView={{ opacity: 1, scale: 1, rotate: 3 }}
-                            viewport={{ once: true }}
-                            className="relative w-full max-w-sm mx-auto lg:ml-auto"
+                        <RevealOnScroll
+                            className="relative w-full max-w-sm mx-auto lg:ml-auto lg:rotate-3"
                         >
                             <div className="aspect-[4/5] sm:aspect-square relative group">
                                 {/* Back Glow */}
-                                <div className="absolute -inset-4 bg-emerald-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="absolute -inset-4 bg-gold-500/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 
                                 <div className="relative h-full w-full rounded-2xl overflow-hidden border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-slate-800 transition-all duration-500 group-hover:scale-[1.02]">
                                     {displayAuthor.imageUrl ? (
@@ -103,7 +86,7 @@ export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
                                     <div className="absolute inset-0 bg-gradient-to-t from-brand-950/40 via-transparent to-transparent pointer-events-none" />
                                 </div>
                             </div>
-                        </motion.div>
+                        </RevealOnScroll>
 
                     </div>
                 </div>

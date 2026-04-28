@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { ProductGrid } from "./ProductGrid";
+import { motion, AnimatePresence } from "framer-motion";
 import { CategoryFilter } from "./CategoryFilter";
 import { SearchBar } from "./SearchBar";
-import { ProductGrid } from "./ProductGrid";
-import { motion } from "framer-motion";
 
 interface ShopClientProduct {
     _id: string;
@@ -19,6 +20,7 @@ interface ShopClientProduct {
     isFeatured?: boolean;
     compareAtPrice?: number;
     imageUrl?: string;
+    imageMetadata?: { lqip?: string } | null;
     badge?: string;
 }
 
@@ -31,39 +33,50 @@ export function ShopClient({ products }: ShopClientProps) {
     const pathname = usePathname();
     const router = useRouter();
 
-    const [activeCategory, setActiveCategory] = useState(searchParams.get("category") || "all");
-    const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
-    const [sortOrder, setSortOrder] = useState(searchParams.get("sort") || "featured");
+    // Local state for immediate UI feedback (debounce-like)
+    const [isMounted, setIsMounted] = useState(false);
+    
+    // Source of truth from URL
+    const activeCategory = searchParams.get("category") || "all";
+    const searchQuery = searchParams.get("q") || "";
+    const sortOrder = searchParams.get("sort") || "featured";
 
     useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    const updateQueryParams = useCallback((updates: Record<string, string | null>) => {
         const nextParams = new URLSearchParams(searchParams.toString());
-
-        if (activeCategory === "all") {
-            nextParams.delete("category");
-        } else {
-            nextParams.set("category", activeCategory);
-        }
-
-        if (searchQuery.trim()) {
-            nextParams.set("q", searchQuery.trim());
-        } else {
-            nextParams.delete("q");
-        }
-
-        if (sortOrder === "featured") {
-            nextParams.delete("sort");
-        } else {
-            nextParams.set("sort", sortOrder);
-        }
+        
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value === null || value === "all" || (key === "sort" && value === "featured")) {
+                nextParams.delete(key);
+            } else {
+                nextParams.set(key, value);
+            }
+        });
 
         const queryString = nextParams.toString();
         router.replace(queryString ? `${pathname}?${queryString}` : pathname, { scroll: false });
-    }, [activeCategory, pathname, router, searchParams, searchQuery, sortOrder]);
+    }, [pathname, router, searchParams]);
+
+    const handleCategoryChange = (category: string) => {
+        updateQueryParams({ category, q: searchQuery }); // Keep search, change category
+    };
+
+    const handleSearchChange = (q: string) => {
+        updateQueryParams({ q });
+    };
+
+    const handleSortChange = (sort: string) => {
+        updateQueryParams({ sort });
+    };
 
     const filteredProducts = useMemo(() => {
         const visibleProducts = products.filter((product) => {
             const matchesCategory = activeCategory === "all" || product.category === activeCategory;
-            const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            const matchesSearch = !searchQuery || 
+                product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 product.shortDescription.toLowerCase().includes(searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         });
@@ -85,58 +98,73 @@ export function ShopClient({ products }: ShopClientProps) {
         });
     }, [products, activeCategory, searchQuery, sortOrder]);
 
+    if (!isMounted) {
+        return (
+            <div className="max-w-7xl mx-auto px-6 mb-32 min-h-[600px]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-white/50 backdrop-blur-md p-6 rounded-3xl border border-slate-200">
+                    <div className="h-10 w-64 bg-slate-100 animate-pulse rounded-xl" />
+                    <div className="h-10 w-48 bg-slate-100 animate-pulse rounded-xl" />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="h-96 bg-slate-50 animate-pulse rounded-2xl border border-slate-200" />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <section id="browse" className="max-w-7xl mx-auto px-6 mb-32 relative z-10">
-            <div className="flex flex-col gap-4 mb-12 sticky top-24 bg-white/80 backdrop-blur-xl p-4 rounded-2xl border border-slate-200 shadow-lg z-30 transition-all duration-300">
-                <CategoryFilter
-                    activeCategory={activeCategory}
-                    onCategoryChange={setActiveCategory}
+            {/* Filters Bar */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-white/50 backdrop-blur-md p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <CategoryFilter 
+                    activeCategory={activeCategory} 
+                    onCategoryChange={handleCategoryChange} 
                 />
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                    <SearchBar
-                        value={searchQuery}
-                        onChange={setSearchQuery}
+                <div className="flex items-center gap-4">
+                    <SearchBar 
+                        value={searchQuery} 
+                        onChange={handleSearchChange} 
                     />
-                    <div className="flex items-center gap-3 text-sm">
-                        <label htmlFor="shop-sort" className="font-semibold text-slate-600">
-                            Sort
-                        </label>
-                        <select
-                            id="shop-sort"
-                            value={sortOrder}
-                            onChange={(event) => setSortOrder(event.target.value)}
-                            className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-brand-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-gold-500/20"
-                        >
-                            <option value="featured">Featured</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                            <option value="rating">Top Rated</option>
-                            <option value="title">Alphabetical</option>
-                        </select>
-                    </div>
+                    <select
+                        value={sortOrder}
+                        onChange={(e) => handleSortChange(e.target.value)}
+                        className="bg-white border border-brand-100 rounded-xl px-4 py-2.5 text-sm text-brand-900 focus:outline-none focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 transition-all cursor-pointer shadow-sm"
+                    >
+                        <option value="featured">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="rating">Top Rated</option>
+                        <option value="title">A-Z</option>
+                    </select>
                 </div>
             </div>
 
-            <motion.div layout>
-                <div className="text-center mb-12">
-                    <p className="text-sm font-medium text-slate-500">
-                        {filteredProducts.length} resource{filteredProducts.length === 1 ? "" : "s"} found
-                    </p>
-                </div>
+            <motion.div layout className="min-h-[400px]">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={`${activeCategory}-${searchQuery}-${sortOrder}`}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <ProductGrid products={filteredProducts} />
 
-                <ProductGrid products={filteredProducts} />
-
-                {filteredProducts.length === 0 && (
-                    <div className="text-center py-20 text-slate-400">
-                        <p className="text-lg">No products found matching your criteria.</p>
-                        <button
-                            onClick={() => { setActiveCategory("all"); setSearchQuery(""); }}
-                            className="mt-4 text-gold-600 hover:text-gold-500 font-bold underline underline-offset-4"
-                        >
-                            Clear Filters
-                        </button>
-                    </div>
-                )}
+                        {filteredProducts.length === 0 && (
+                            <div className="text-center py-20 text-slate-400 bg-white/30 rounded-3xl border border-dashed border-slate-200">
+                                <p className="text-lg font-medium">No products found matching your criteria.</p>
+                                <button 
+                                    onClick={() => updateQueryParams({ category: "all", q: "" })}
+                                    className="mt-4 text-gold-600 font-bold hover:text-gold-700 transition-colors"
+                                >
+                                    Clear all filters
+                                </button>
+                            </div>
+                        )}
+                    </motion.div>
+                </AnimatePresence>
             </motion.div>
         </section>
     );

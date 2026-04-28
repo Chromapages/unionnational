@@ -1,13 +1,25 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Star, ShoppingCart, Zap, ChevronRight, CheckCircle2, ChevronUp, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { useCallback, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+    CheckCircle2,
+    ChevronDown,
+    ChevronRight,
+    ChevronUp,
+    Heart,
+    ShoppingCart,
+    Star,
+    Zap,
+} from "lucide-react";
+
+import { Skeleton } from "@/components/ui/Skeleton";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
+import { buildCartItemKey } from "@/lib/shop/types";
+import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/useCartStore";
 import { useWishlistStore } from "@/store/useWishlistStore";
-import { cn } from "@/lib/utils";
-import { buildCartItemKey } from "@/lib/shop/types";
-import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 export interface ProductEdition {
     id: string;
@@ -15,6 +27,7 @@ export interface ProductEdition {
     price: number;
     format: string;
     description?: string;
+    stripePriceId?: string;
 }
 
 interface ProductHeroProps {
@@ -25,8 +38,11 @@ interface ProductHeroProps {
     defaultPrice: number;
     compareAtPrice?: number;
     image: string;
+    imageMetadata?: { lqip?: string } | null;
     buyLink?: string;
-    samplePages?: string[];
+    stripeProductId?: string;
+    stripePriceId?: string;
+    samplePages?: { url: string; metadata?: { lqip?: string } }[];
     format: string;
     category?: string;
     badge?: string;
@@ -40,13 +56,20 @@ interface ProductHeroProps {
     publishDate?: string;
     isbn?: string;
     editions?: ProductEdition[];
+    videoUrl?: string;
+    videoFileUrl?: string;
+    videoThumbnail?: {
+        url?: string;
+        alt?: string;
+    };
 }
 
 export function ProductHero({
     id, slug, title, subtitle, defaultPrice, compareAtPrice,
-    image, buyLink, samplePages = [], format, category, badge, rating = 5,
+    image, imageMetadata, buyLink, stripeProductId, stripePriceId, samplePages = [], format, category, badge, rating = 5,
     author, pageCount, publisher, publishDate, isbn,
     editions: initialEditions = [],
+    videoUrl, videoFileUrl, videoThumbnail,
 }: ProductHeroProps) {
     const addItem = useCartStore((state) => state.addItem);
     const toggleCart = useCartStore((state) => state.toggleCart);
@@ -75,12 +98,13 @@ export function ProductHero({
         ];
 
     const [selectedEdition, setSelectedEdition] = useState<ProductEdition>(editions[0]);
-    const [mainImage, setMainImage] = useState(image);
-    const thumbnailRef = useCallback((node: HTMLDivElement | null) => {
-        if (node !== null) {
-            // Potential for future intersection observer or scroll logic if needed
-        }
-    }, []);
+    const [mainContent, setMainContent] = useState<{ type: 'image' | 'video', url: string, metadata?: { lqip?: string } }>({ 
+        type: 'image', 
+        url: image,
+        metadata: imageMetadata || undefined
+    });
+    
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const scrollThumbnails = (direction: "up" | "down") => {
         const container = document.getElementById("thumbnail-scroll-container");
@@ -93,8 +117,13 @@ export function ProductHero({
         }
     };
 
-    // Build thumbnail list: cover image + sample pages (up to 8 for the scroll test)
-    const allImages = [image, ...(samplePages?.filter(Boolean) || [])].slice(0, 8);
+    // Build thumbnail list: video (if exists) + cover image + sample pages
+    const effectiveVideo = videoFileUrl || videoUrl;
+    const allMedia = [
+        ...(effectiveVideo ? [{ type: 'video' as const, url: effectiveVideo }] : []),
+        { type: 'image' as const, url: image, metadata: imageMetadata || undefined },
+        ...(samplePages?.filter(p => p && p.url).map(p => ({ type: 'image' as const, url: p.url, metadata: p.metadata })) || [])
+    ].slice(0, 9);
 
     const handleAddToCart = useCallback(() => {
         addItem({
@@ -107,6 +136,8 @@ export function ProductHero({
             image,
             format: selectedEdition.format,
             buyLink,
+            stripeProductId: stripeProductId || undefined,
+            stripePriceId: selectedEdition.stripePriceId || stripePriceId || undefined,
         });
         trackMetaEvent("AddToCart", {
             content_id: slug,
@@ -115,7 +146,7 @@ export function ProductHero({
             currency: "USD",
         });
         toggleCart();
-    }, [selectedEdition, id, slug, title, image, buyLink, addItem, toggleCart]);
+    }, [selectedEdition, id, slug, title, image, buyLink, stripeProductId, stripePriceId, addItem, toggleCart]);
 
     const handleWishlist = useCallback(() => {
         toggleItem({ id, slug, title, price: selectedEdition.price, image, format: selectedEdition.format });
@@ -139,7 +170,7 @@ export function ProductHero({
                     <div className="w-full lg:w-[45%] flex gap-4 lg:gap-6 lg:sticky lg:top-24 items-start">
 
                         {/* Thumbnail Strip (Bookstore Standard) */}
-                        {allImages.length > 1 && (
+                        {allMedia.length > 1 && (
                             <div className="hidden sm:flex flex-col items-center gap-2 shrink-0">
                                 <button 
                                     onClick={() => scrollThumbnails("up")}
@@ -153,23 +184,39 @@ export function ProductHero({
                                     id="thumbnail-scroll-container"
                                     className="flex flex-col gap-2 w-[72px] max-h-[400px] overflow-y-auto no-scrollbar scroll-smooth py-1"
                                 >
-                                    {allImages.map((src, i) => (
+                                    {allMedia.map((media, i) => (
                                         <button
                                             key={i}
-                                            onClick={() => setMainImage(src)}
-                                            aria-label={`View image ${i + 1}`}
+                                            onClick={() => {
+                                                setImageLoaded(false);
+                                                setMainContent({ 
+                                                    type: media.type, 
+                                                    url: media.url, 
+                                                    metadata: 'metadata' in media ? media.metadata : undefined 
+                                                });
+                                            }}
+                                            aria-label={`View ${media.type} ${i + 1}`}
                                             className={cn(
-                                                "w-full aspect-[2/3] shrink-0 rounded-sm overflow-hidden border transition-all duration-200 bg-slate-50",
-                                                mainImage === src
+                                                "w-full aspect-[2/3] shrink-0 rounded-sm overflow-hidden border transition-all duration-200 bg-slate-50 relative",
+                                                mainContent.url === media.url
                                                     ? "border-brand-900 ring-1 ring-brand-900 shadow-sm"
                                                     : "border-slate-200 hover:border-slate-400 opacity-60 hover:opacity-100"
                                             )}
                                         >
-                                            <img 
-                                                src={src || undefined} 
-                                                alt={`Thumbnail ${i + 1}`} 
-                                                className="w-full h-full object-cover" 
-                                            />
+                                            {media.type === 'video' ? (
+                                                <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                                                    <Zap className="w-6 h-6 text-gold-400 fill-gold-400" />
+                                                    <div className="absolute inset-0 bg-black/20" />
+                                                </div>
+                                            ) : (
+                                                <Image 
+                                                    src={media.url} 
+                                                    alt={`Thumbnail ${i + 1}`} 
+                                                    fill
+                                                    className="object-cover"
+                                                    sizes="72px"
+                                                />
+                                            )}
                                         </button>
                                     ))}
                                 </div>
@@ -198,22 +245,60 @@ export function ProductHero({
                                 <div className="relative group">
                                     <AnimatePresence mode="wait">
                                         <motion.div
-                                            key={mainImage}
+                                            key={mainContent.url}
                                             initial={{ opacity: 0, x: 10 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -10 }}
                                             transition={{ duration: 0.2 }}
-                                            className="w-full aspect-[2/3] max-w-sm mx-auto rounded-lg overflow-hidden shadow-[0_12px_50px_rgba(0,0,0,0.12)] border border-slate-100 bg-slate-50"
+                                            className="w-full aspect-[2/3] max-w-sm mx-auto rounded-lg overflow-hidden shadow-[0_12px_50px_rgba(0,0,0,0.12)] border border-slate-100 bg-slate-50 relative"
                                         >
-                                            <img
-                                                src={mainImage || undefined}
-                                                alt={title}
-                                                className="w-full h-full object-cover"
-                                            />
+                                            {mainContent.type === 'video' ? (
+                                                <div className="w-full h-full bg-black">
+                                                    {mainContent.url.includes('cdn.sanity.io/files') || mainContent.url.endsWith('.mp4') ? (
+                                                        <video
+                                                            src={mainContent.url}
+                                                            className="w-full h-full object-contain"
+                                                            controls
+                                                            autoPlay
+                                                            poster={videoThumbnail?.url}
+                                                        />
+                                                    ) : (
+                                                        <iframe
+                                                            src={mainContent.url.includes('youtube.com') || mainContent.url.includes('youtu.be') 
+                                                                ? `https://www.youtube.com/embed/${mainContent.url.split('v=')[1]?.split('&')[0] || mainContent.url.split('/').pop()}?autoplay=1&rel=0`
+                                                                : mainContent.url
+                                                            }
+                                                            className="w-full h-full"
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                            allowFullScreen
+                                                        />
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {!imageLoaded && (
+                                                        <Skeleton className="absolute inset-0 z-10" />
+                                                    )}
+                                                    <Image
+                                                        src={mainContent.url}
+                                                        alt={title}
+                                                        fill
+                                                        className={cn(
+                                                            "object-cover transition-all duration-500",
+                                                            imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+                                                        )}
+                                                        onLoadingComplete={() => setImageLoaded(true)}
+                                                        placeholder={mainContent.metadata?.lqip ? "blur" : "empty"}
+                                                        blurDataURL={mainContent.metadata?.lqip}
+                                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                                                        priority
+                                                    />
+                                                </>
+                                            )}
                                         </motion.div>
                                     </AnimatePresence>
                                     
-                                    {/* Zoom Prompt Overlay (Conceptual) */}
+                                    {/* Zoom Prompt Overlay */}
                                     <div className="absolute inset-x-0 bottom-4 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                         <span className="px-3 py-1.5 bg-white/90 backdrop-blur rounded-full text-[10px] font-bold uppercase tracking-widest text-brand-900 shadow-xl border border-slate-200">
                                             Click to Enlarge
@@ -239,19 +324,25 @@ export function ProductHero({
                                 </button>
 
                                 {/* Mobile: horizontal thumbnails */}
-                                {allImages.length > 1 && (
+                                {allMedia.length > 1 && (
                                     <div className="flex sm:hidden gap-3 mt-6 overflow-x-auto no-scrollbar scroll-smooth pb-2">
-                                        {allImages.map((src, i) => (
+                                        {allMedia.map((media, i) => (
                                             <button
                                                 key={i}
-                                                onClick={() => setMainImage(src)}
-                                                aria-label={`View image ${i + 1}`}
+                                                onClick={() => setMainContent({ type: media.type, url: media.url, metadata: 'metadata' in media ? media.metadata : undefined })}
+                                                aria-label={`View ${media.type} ${i + 1}`}
                                                 className={cn(
-                                                    "w-16 h-24 rounded-md overflow-hidden border-2 shrink-0 transition-all bg-slate-50",
-                                                    mainImage === src ? "border-brand-900" : "border-slate-200 opacity-60"
+                                                    "w-16 h-24 rounded-md overflow-hidden border-2 shrink-0 transition-all bg-slate-50 relative",
+                                                    mainContent.url === media.url ? "border-brand-900" : "border-slate-200 opacity-60"
                                                 )}
                                             >
-                                                <img src={src || undefined} alt="" className="w-full h-full object-cover" />
+                                                {media.type === 'video' ? (
+                                                    <div className="w-full h-full bg-slate-900 flex items-center justify-center">
+                                                        <Zap className="w-4 h-4 text-gold-400 fill-gold-400" />
+                                                    </div>
+                                                ) : (
+                                                    <Image src={media.url} alt="" fill className="object-cover" sizes="64px" />
+                                                )}
                                             </button>
                                         ))}
                                     </div>
@@ -271,6 +362,11 @@ export function ProductHero({
                             <h1 className="text-3xl md:text-4xl font-bold text-brand-900 font-heading leading-tight tracking-tight mb-2">
                                 {title}
                             </h1>
+                            {subtitle && (
+                                <p className="text-base leading-relaxed text-slate-600 mb-3">
+                                    {subtitle}
+                                </p>
+                            )}
                             {author?.name && (
                                 <p className="text-base text-slate-600 mb-1">
                                     By <span className="text-brand-900 font-semibold hover:text-gold-600 cursor-pointer transition-colors">{author.name}</span>
