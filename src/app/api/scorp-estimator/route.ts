@@ -10,7 +10,7 @@ import { mapToGhlPayload } from "@/lib/scorp/mapToGhlPayload";
  * Performs score calculations and relays precise payloads to GHL.
  */
 
-const GHL_WEBHOOK_URL = process.env.GHL_SCORP_ESTIMATOR_WEBHOOK_URL || "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/fuFRCBqmiYGcnpXSuhHA";
+const GHL_WEBHOOK_URL = process.env.GHL_SCORP_ESTIMATOR_WEBHOOK_URL || "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/oTTK7ye73Rp6corJiSCE";
 
 export async function POST(request: Request) {
     try {

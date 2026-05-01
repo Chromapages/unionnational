@@ -24,6 +24,7 @@ export const ScorpHeroActions = ({ estimatorId }: ScorpHeroActionsProps) => {
             className="flex flex-col sm:flex-row gap-5"
         >
             <button
+                id="hero-estimator-btn"
                 onClick={scrollToEstimator}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl shadow-lg shadow-gold-500/20 transition-all group"
             >
@@ -31,6 +32,7 @@ export const ScorpHeroActions = ({ estimatorId }: ScorpHeroActionsProps) => {
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <Link
+                id="hero-strategy-call-btn"
                 href="/book"
                 className="inline-flex items-center justify-center px-8 py-4 border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all"
             >

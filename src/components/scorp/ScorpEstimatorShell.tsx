@@ -1,6 +1,9 @@
 "use client";
+// Sync hydration
 
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScorpEstimatorInput, ScorpEstimatorInputSchema, ScorpFitLevel } from "@/lib/scorp/schema";
@@ -13,6 +16,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 const STEPS = [
     "Contact & Business",
@@ -22,6 +26,7 @@ const STEPS = [
 ];
 
 export const ScorpEstimatorShell = () => {
+    const searchParams = useSearchParams();
     const isMobile = useMediaQuery("(max-width: 640px)");
     const [step, setStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +52,26 @@ export const ScorpEstimatorShell = () => {
         }
     });
 
-    const { trigger, handleSubmit } = methods;
+    const { trigger, handleSubmit, setValue } = methods;
+
+    // ─── UTM Tracking Capture ────────────────────────────────────────────────
+    useEffect(() => {
+        const utms = {
+            utm_source: searchParams.get("utm_source"),
+            utm_medium: searchParams.get("utm_medium"),
+            utm_campaign: searchParams.get("utm_campaign"),
+            utm_content: searchParams.get("utm_content"),
+            utm_term: searchParams.get("utm_term"),
+        };
+
+        Object.entries(utms).forEach(([key, value]) => {
+            if (value) setValue(key as any, value);
+        });
+
+        if (typeof document !== "undefined" && document.referrer) {
+            setValue("referrer_url", document.referrer);
+        }
+    }, [searchParams, setValue]);
 
     // ─── Phase-Based Tracking ────────────────────────────────────────────────
     const trackEvent = (eventName: string, properties: any = {}) => {
@@ -58,6 +82,12 @@ export const ScorpEstimatorShell = () => {
                 timestamp: new Date().toISOString()
             });
         }
+        
+        // Meta Pixel tracking
+        if (eventName === "estimator_step_completed") {
+            trackMetaEvent("CustomEvent", { step: properties.step, category: "SCorpEstimator" });
+        }
+        
         console.log(`[Analytics] ${eventName}:`, properties);
     };
 
@@ -121,6 +151,14 @@ export const ScorpEstimatorShell = () => {
                 high_intent: resultData.high_intent_flag
             });
 
+            // Meta Pixel Lead tracking
+            trackMetaEvent("Lead", {
+                content_category: "SCorpAdvantage",
+                content_name: "Estimator Submission",
+                value: resultData.scorp_fit_level === "HIGH" ? 500 : 100, // Weighted value
+                currency: "USD"
+            });
+
             setStep(3); // Go to result screen
         } catch (err: any) {
             setSubmitError(err.message || "An unexpected error occurred. Please try again.");
@@ -133,7 +171,7 @@ export const ScorpEstimatorShell = () => {
 
     return (
         <FormProvider {...methods}>
-            <div className="w-full max-w-4xl mx-auto bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-brand-900/5 border border-slate-100 p-6 md:p-14 overflow-hidden relative">
+            <div className="w-full max-w-4xl mx-auto bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl shadow-brand-900/5 border border-slate-100 p-6 md:p-10 overflow-hidden relative">
                 {step < 3 && (
                     <ScorpEstimatorProgress 
                         currentStep={step} 
@@ -142,7 +180,7 @@ export const ScorpEstimatorShell = () => {
                     />
                 )}
 
-                <div className="min-h-[400px] flex flex-col justify-center">
+                <div className="min-h-[300px] flex flex-col">
                     <AnimatePresence mode="wait">
                         {step === 0 && <ScorpEstimatorStepContact key="s0" />}
                         {step === 1 && <ScorpEstimatorStepStructure key="s1" />}

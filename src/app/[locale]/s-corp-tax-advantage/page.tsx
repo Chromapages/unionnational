@@ -24,6 +24,7 @@ import { ScorpEstimatorShell } from "@/components/scorp/ScorpEstimatorShell";
 import { ScorpFAQSection } from "@/components/scorp/ScorpFAQSection";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { ShopViewContent } from "@/components/seo/ShopViewContent";
 import {
     FALLBACK_FAQS,
     FALLBACK_ROADMAP,
@@ -34,6 +35,8 @@ import {
 } from "./fallbackData";
 
 const SLUG = "s-corp-tax-advantage";
+// Force refresh for hydration sync
+
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -124,6 +127,11 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+            <ShopViewContent 
+                productName={heroTitle}
+                productId={SLUG}
+                price={0}
+            />
             <HeaderWrapper />
             <main id="main-content" className="bg-white overflow-hidden">
                 {/* 1. HERO SECTION */}
@@ -238,7 +246,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                             <div className="lg:col-span-6">
                                 <RevealOnScroll>
                                     <div className="mb-6">
-                                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-600">
                                             The Structure Problem
                                         </span>
                                     </div>
@@ -276,7 +284,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                         <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
                             <RevealOnScroll>
                                 <div className="mb-6">
-                                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-600">
                                         Vertical Focus
                                     </span>
                                 </div>
@@ -339,7 +347,9 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
                             <div className="p-8 lg:p-16 space-y-10">
                                 <div className="space-y-4">
-                                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">Candidate Criteria</span>
+                                <div className="mb-4">
+                                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-600">Candidate Criteria</span>
+                                </div>
                                     <h3 className="text-3xl font-bold text-brand-900 font-heading tracking-tight">Elite Strategy Fit</h3>
                                 </div>
                                 <ul className="space-y-5">
@@ -380,7 +390,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                         <div className="text-center mb-16 lg:mb-20">
                             <RevealOnScroll>
                                 <div className="mb-6">
-                                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">The Roadmap</span>
+                                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-600">The Roadmap</span>
                                 </div>
                                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
                                     Phase-Based <span className="italic text-gold-500">Installation.</span>
@@ -438,7 +448,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                                             {comparisonPoints.map((row: any, i: number) => (
                                                 <tr key={i} className="hover:bg-slate-50 transition-colors group">
                                                     <td className="p-6 lg:p-10 font-bold text-brand-900 font-heading text-sm sm:text-base border-r border-slate-100">{row.feature}</td>
-                                                    <td className="p-6 lg:p-10 text-slate-500 font-light text-sm sm:text-base border-r border-slate-100">{row.diy || row.bigFirm ? "Generic Prep" : "Reactive filing"}</td>
+                                                    <td className="p-6 lg:p-10 text-brand-900/70 font-normal text-sm sm:text-base border-r border-slate-100">{row.diy || row.bigFirm ? "Generic Prep" : "Reactive filing"}</td>
                                                     <td className="p-6 lg:p-10 text-brand-900 font-medium bg-gold-500/[0.03] text-sm sm:text-base group-hover:bg-gold-500/5 transition-colors">
                                                         <div className="flex items-center gap-3 font-heading font-bold">
                                                             <Check size={18} className="text-gold-500 shrink-0" />
@@ -482,13 +492,15 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                                     
                                     <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                                         <Link 
-                                            href="/intake"
+                                            id="final-scorp-playbook-btn"
+                                            href="/shop/the-s-corp-playbook"
                                             className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl shadow-lg shadow-gold-500/20 transition-all text-xl"
                                         >
-                                            Get S-Corp Review
+                                            Get The Playbook
                                             <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
                                         </Link>
                                         <Link
+                                            id="final-strategy-call-btn"
                                             href="/book"
                                             className="inline-flex items-center justify-center gap-2 px-10 py-5 border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all text-xl"
                                         >

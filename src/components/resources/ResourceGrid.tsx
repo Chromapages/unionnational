@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import { BookOpen, FileText, Calculator, ChevronDown, X, ChevronRight, Download, Activity } from "lucide-react";
@@ -10,7 +10,7 @@ import { InteractiveToolsList } from "./InteractiveToolsList";
 import { ConstructionTaxChecklist } from "./lead-magnets/ConstructionTaxChecklist";
 import { SCorpSavingsCalculator } from "./lead-magnets/SCorpSavingsCalculator";
 import { SCorpElectionChecklist } from "./lead-magnets/SCorpElectionChecklist";
-import { SCorpAdvantageGuide } from "./lead-magnets/SCorpAdvantageGuide";
+
 import { TaxHealthScore } from "./lead-magnets/TaxHealthScore";
 
 interface Category {
@@ -180,7 +180,7 @@ export function ResourceGrid({
                         {viewingLeadMagnet === "construction-tax-checklist" && <ConstructionTaxChecklist />}
                         {viewingLeadMagnet === "s-corp-savings-calculator" && <SCorpSavingsCalculator />}
                         {viewingLeadMagnet === "s-corp-election-checklist" && <SCorpElectionChecklist />}
-                        {viewingLeadMagnet === "s-corp-advantage-guide" && <SCorpAdvantageGuide />}
+
                         {viewingLeadMagnet === "tax-health-score" && <TaxHealthScore />}
                     </div>
                 ) : activeFilter === "tools" ? (
@@ -301,9 +301,9 @@ export function ResourceGrid({
                                             </div>
                                         </button>
 
-                                        {/* S-Corp Advantage Guide */}
-                                        <button
-                                            onClick={() => setViewingLeadMagnet("s-corp-advantage-guide")}
+                                        {/* S-Corp Tax Advantage Program */}
+                                        <Link
+                                            href="/s-corp-tax-advantage"
                                             className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
                                         >
                                             <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
@@ -314,8 +314,8 @@ export function ResourceGrid({
                                                 <BookOpen className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
                                                 <div className="absolute top-4 left-4">
                                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
-                                                        <BookOpen className="w-3.5 h-3.5" />
-                                                        Guide
+                                                        <Activity className="w-3.5 h-3.5" />
+                                                        Elite Program
                                                     </span>
                                                 </div>
                                             </div>
@@ -327,14 +327,14 @@ export function ResourceGrid({
                                                     The complete guide to maximizing tax savings through S-Corp election.
                                                 </p>
                                                 <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
-                                                    <span>40+ Page PDF</span>
+                                                    <span>Full Program Overview</span>
                                                     <span className="flex items-center gap-1 text-gold-600 font-bold">
-                                                        Free Access
+                                                        View Program
                                                         <ChevronRight className="w-3 h-3" />
                                                     </span>
                                                 </div>
                                             </div>
-                                        </button>
+                                        </Link>
 
                                         {/* Tax Health Score */}
                                         <button

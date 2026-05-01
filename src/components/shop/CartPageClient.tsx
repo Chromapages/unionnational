@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { ArrowRight, Minus, Plus, ShoppingBag, Trash2, Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 
@@ -220,9 +220,22 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                             </div>
                         </div>
 
-                        <p className="mt-5 text-sm leading-relaxed text-slate-600">
-                            Checkout currently supports one resource at a time and will redirect to the secure purchase link configured for that resource.
-                        </p>
+                        <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                            <div className="flex items-center gap-3 mb-2">
+                                <Lock className="w-4 h-4 text-emerald-600" />
+                                <span className="text-xs font-bold uppercase tracking-widest text-brand-900">Secure Checkout</span>
+                            </div>
+                            <p className="text-xs leading-relaxed text-slate-500">
+                                Your payment is encrypted and processed securely via Stripe. We do not store your credit card information.
+                            </p>
+                            <div className="mt-4 pt-4 border-t border-slate-200/60 flex items-center justify-between">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Powered by Stripe</span>
+                                <div className="flex gap-2">
+                                    <div className="w-8 h-5 bg-slate-200 rounded-sm" /> {/* Placeholder for card icons if needed */}
+                                    <div className="w-8 h-5 bg-slate-200 rounded-sm" />
+                                </div>
+                            </div>
+                        </div>
 
                         {checkoutMessage && (
                             <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">

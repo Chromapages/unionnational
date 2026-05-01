@@ -56,7 +56,7 @@ export const ScorpFAQSection = ({ faqs }: ScorpFAQSectionProps) => {
                 <div className="text-center mb-16 lg:mb-20">
                     <RevealOnScroll>
                         <div className="mb-6">
-                            <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">F.A.Q.</span>
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-600">F.A.Q.</span>
                         </div>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
                             Honest <span className="italic text-gold-500">Answers.</span>
