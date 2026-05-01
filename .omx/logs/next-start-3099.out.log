@@ -1,0 +1,10 @@
+
+> union-national-tax@0.1.0 start
+> next start --port 3099
+
+▲ Next.js 16.1.6
+- Local:         http://localhost:3099
+- Network:       http://192.168.86.35:3099
+
+✓ Starting...
+✓ Ready in 1000ms

@@ -17,13 +17,13 @@ export const ScorpEstimatorProgress = ({
     const progress = (currentStep / (totalSteps - 1)) * 100;
 
     return (
-        <div className="w-full mb-12">
+        <div className="w-full mb-8">
             <div className="flex justify-between items-end mb-4">
                 <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gold-600 block mb-1">
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gold-600 block mb-1">
                         Step {currentStep + 1} of {totalSteps - 1}
                     </span>
-                    <h3 className="text-xl font-bold text-brand-500 font-heading tracking-tight">
+                    <h3 className="text-xl font-semibold text-brand-500 font-heading tracking-tight">
                         {stepTitles[currentStep]}
                     </h3>
                 </div>

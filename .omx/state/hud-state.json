@@ -1,6 +1,6 @@
 {
-  "last_turn_at": "2026-04-19T20:47:29.752Z",
-  "turn_count": 26,
-  "last_progress_at": "2026-04-19T20:47:29.752Z",
-  "last_agent_output": "Implemented the core storefront fixes behind the audit plan: the cart is now normalized across entry"
+  "last_turn_at": "2026-04-26T23:34:24.469Z",
+  "turn_count": 47,
+  "last_progress_at": "2026-04-26T23:34:24.469Z",
+  "last_agent_output": "Fixed the `/shop` 404.\n\nRoot cause: Next 16 wants `proxy.ts` now, and the old `src/middleware.ts` lo"
 }

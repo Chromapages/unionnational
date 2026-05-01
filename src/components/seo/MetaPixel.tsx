@@ -8,7 +8,7 @@ const META_PIXEL_ID = "1320632069943065";
 
 interface MetaPixelProps {
   event?: string;
-  customData?: Record<string, string | number>;
+  customData?: Record<string, string | number | string[] | number[]>;
 }
 
 export function MetaPixel({ event, customData }: MetaPixelProps) {
@@ -114,7 +114,7 @@ export function MetaPixel({ event, customData }: MetaPixelProps) {
 }
 
 // Helper function to track custom events
-export function trackMetaEvent(eventName: string, data?: Record<string, string | number>) {
+export function trackMetaEvent(eventName: string, data?: Record<string, string | number | string[] | number[]>) {
   if (typeof window !== "undefined" && (window as any).fbq) {
     (window as any).fbq("track", eventName, data || {});
   }
