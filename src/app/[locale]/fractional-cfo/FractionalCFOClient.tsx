@@ -6,7 +6,6 @@ import {
     TrendingUp, 
     ShieldCheck, 
     ArrowRight, 
-    Lightbulb, 
     Eye,
     Zap,
     Scale,
@@ -18,19 +17,16 @@ import {
     Target as TargetIcon,
     Compass
 } from "lucide-react";
+import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-interface FractionalCFOClientProps {
-    locale: string;
-}
-
 const FAQ_ITEMS = [
     {
         question: "When does a business typically need a Fractional CFO?",
-        answer: "Most businesses reach out to us when they hit the $1M-$2M revenue mark. At this stage, complex issues like job costing, multi-state growth, and cash-flow management become too risky to handle based on 'gut feel' alone."
+        answer: "Most businesses reach out to us when they hit the $1M-$2M revenue mark. At this stage, complex issues like job costing, multi-state growth, and cash-flow management become too risky to handle based on &apos;gut feel&apos; alone."
     },
     {
         question: "How is this different from my current bookkeeper or CPA?",
@@ -54,7 +50,7 @@ const FAQ_ITEMS = [
     }
 ];
 
-export default function FractionalCFOClient({ locale }: FractionalCFOClientProps) {
+export default function FractionalCFOClient() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const toggleFaq = (index: number) => {
@@ -229,7 +225,7 @@ export default function FractionalCFOClient({ locale }: FractionalCFOClientProps
                             The Advisory OS.
                         </h2>
                         <p className="text-xl text-slate-500 font-light not-italic leading-relaxed">
-                            We don't just report numbers; we install a financial operating system designed for aggressive, stable growth.
+                            We don&apos;t just report numbers; we install a financial operating system designed for aggressive, stable growth.
                         </p>
                     </div>
 
@@ -243,7 +239,7 @@ export default function FractionalCFOClient({ locale }: FractionalCFOClientProps
                             },
                             {
                                 title: "Strategy",
-                                description: "Deep modeling, forecasting, and 'what-if' scenario planning for the major pivots of scaling.",
+                                description: "Deep modeling, forecasting, and &apos;what-if&apos; scenario planning for the major pivots of scaling.",
                                 icon: Compass,
                                 bullet: "Forward Modeling"
                             },
@@ -280,7 +276,7 @@ export default function FractionalCFOClient({ locale }: FractionalCFOClientProps
                                     Predictable <br /><span className="text-gold-400">Performance.</span>
                                 </h2>
                                 <p className="text-xl text-slate-300 leading-relaxed font-light">
-                                    When you have board-level financial leadership, the anxiety of 'not knowing' is replaced by the speed of 'calculated action.'
+                                    When you have board-level financial leadership, the anxiety of &apos;not knowing&apos; is replaced by the speed of &apos;calculated action.&apos;
                                 </p>
                                 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
@@ -304,9 +300,11 @@ export default function FractionalCFOClient({ locale }: FractionalCFOClientProps
 
                         <div className="relative group grayscale hover:grayscale-0 transition-all duration-1000">
                             <div className="absolute -inset-4 bg-gold-500/10 rounded-[2.5rem] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity" />
-                            <img 
+                            <Image 
                                 src="/images/fractional-cfo-dashboard.jpg" 
                                 alt="CFO Strategic Overview"
+                                width={1200}
+                                height={900}
                                 className="relative rounded-[2rem] border border-white/10 shadow-2xl object-cover aspect-[4/3]"
                             />
                         </div>
@@ -323,7 +321,7 @@ export default function FractionalCFOClient({ locale }: FractionalCFOClientProps
                             <ul className="space-y-6">
                                 {[
                                     "Growth-stage businesses doing $1M-$10M in annual revenue",
-                                    "Owners who feel like they've outgrown their current tax person",
+                                    "Owners who feel like they&apos;ve outgrown their current tax person",
                                     "Industries with high complexity (Construction, Real Estate, Prof. Services)",
                                     "Founders planning for a major expansion or exit in 2-3 years",
                                     "Teams that value data-driven clarity over gut-based decisions"
@@ -336,9 +334,9 @@ export default function FractionalCFOClient({ locale }: FractionalCFOClientProps
                             </ul>
                         </div>
                         <div className="bg-brand-950 p-10 lg:p-20 text-white space-y-8 flex flex-col justify-center">
-                            <h3 className="text-3xl font-bold font-heading tracking-tighter">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                            <h3 className="text-3xl font-bold font-heading tracking-tighter">Who It&apos;s <span className="text-gold-500 italic">Not</span> For</h3>
                             <p className="text-slate-400 font-light leading-relaxed text-lg">
-                                If you are a brand new startup with no revenue yet, or if you are looking for basic, one-time tax filing without any ongoing strategy—we aren’t the right fit.
+                                If you are a brand new startup with no revenue yet, or if you are looking for basic, one-time tax filing without any ongoing strategy—we aren&apos;t the right fit.
                             </p>
                             <p className="text-slate-400 font-light leading-relaxed mb-8">
                                 We are built for established operators who are ready to invest in serious financial leadership to reach the next tier of their business.

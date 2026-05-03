@@ -9,7 +9,7 @@ interface FounderSectionProps {
     imageAlt?: string;
 }
 
-export function FounderSection({ videoUrl, videoFileUrl, imageUrl, imageAlt }: FounderSectionProps) {
+export function FounderSection({ imageUrl, imageAlt }: FounderSectionProps) {
     return (
         <section className="py-24 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
@@ -18,7 +18,7 @@ export function FounderSection({ videoUrl, videoFileUrl, imageUrl, imageAlt }: F
                     {/* Content Column */}
                     <RevealOnScroll>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-600 text-[10px] font-bold uppercase tracking-widest mb-6">
-                            Founder's Message
+                            Founder&apos;s Message
                         </div>
                         <h2 className="text-4xl lg:text-5xl font-bold text-brand-900 mb-6 font-heading leading-tight">
                             Strategy Built on <br />

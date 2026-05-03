@@ -188,8 +188,6 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                             {[
                                 { label: "Overview", href: "#overview" },
                                 { label: "What You'll Learn", href: "#what-youll-learn" },
-                                { label: "About the Author", href: "#about-author" },
-                                { label: "Reviews", href: "#reviews" },
                             ].map((tab) => (
                                 <a
                                     key={tab.href}
@@ -208,6 +206,9 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                     fullDescription={product.fullDescription}
                     features={product.features}
                     shortDescription={product.shortDescription}
+                    videoUrl={product.videoUrl}
+                    videoFileUrl={product.videoFileUrl}
+                    videoThumbnail={product.videoThumbnail}
                 />
 
                 {/* Section 3: What You'll Learn */}
@@ -215,16 +216,9 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                     objectives={product.learningObjectives}
                 />
 
-                {/* Section 4: About the Author */}
-                <AuthorBio
-                    author={product.author}
-                />
 
-                {/* Section 5: Reviews — Cinematic Testimonial */}
-                <TestimonialWall
-                    testimonials={product.featuredTestimonials}
-                    backgroundImage={product.testimonialBackgroundImage}
-                />
+
+
 
                 {/* Section 6: Related Services — Professional Support */}
                 {product.relatedServices && product.relatedServices.length > 0 && (
@@ -276,6 +270,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ local
                     buyLink={product.buyLink}
                     stripeProductId={product.stripeProductId}
                     stripePriceId={product.stripePriceId}
+                    requiresFormatSelection={true}
                 />
 
             <Footer />

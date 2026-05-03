@@ -43,8 +43,8 @@ export const ScorpEstimatorStepStructure = () => {
         name: "income_subject_to_se_tax"
     });
 
-    const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: any) => {
-        setValue(fieldName, value, { 
+    const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: string) => {
+        setValue(fieldName, value as any, { 
             shouldValidate: true,
             shouldDirty: true,
             shouldTouch: true

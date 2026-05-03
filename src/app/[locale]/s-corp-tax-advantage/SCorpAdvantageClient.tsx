@@ -7,27 +7,39 @@ import {
     TrendingDown,
     ShieldCheck,
     ArrowRight,
-    Target as TargetIcon,
     Layers,
     BarChart3,
     Search,
     FileCheck,
-    Handshake,
     ChevronDown,
     ChevronUp,
-    ExternalLink,
-    X,
     Check
 } from "lucide-react";
 import { ScorpEstimatorShell } from "@/components/scorp/ScorpEstimatorShell";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { useRef } from "react";
+
+import { type SanityBlock } from "@/types/sanity";
 
 interface SCorpAdvantageClientProps {
     locale: string;
-    service?: any;
+    service?: {
+        title?: string;
+        shortDescription?: string;
+        impactGoal?: string;
+        fullDescription?: SanityBlock[];
+        problemAgitation?: {
+            title?: string;
+            description?: string;
+        };
+        faq?: Array<{ q?: string; question?: string; a?: string; answer?: string }>;
+        roadmap?: Array<{ stepNumber?: string; title?: string; description?: string }>;
+        eligibilityPros?: string[];
+        eligibilityCons?: string[];
+        comparisonPoints?: Array<{ feature: string; diy?: string; bigFirm?: string; unionNational?: string }>;
+        trustSignals?: string[];
+    };
 }
 
 // ─── FALLBACK DATA (Used if Sanity content is missing) ──────────────────────
@@ -74,7 +86,7 @@ const FALLBACK_CRITERIA_PROS = [
 ];
 
 const FALLBACK_CRITERIA_CONS = [
-    "If you are looking for a shortcut without compliance discipline, or if the business isn't yet at the right profit level—we aren't the right fit.",
+    "If you are looking for a shortcut without compliance discipline, or if the business isn&apos;t yet at the right profit level—we aren&apos;t the right fit.",
     "We specialize in businesses ready to integrate professional structure as part of a bigger business strategy."
 ];
 
@@ -124,31 +136,31 @@ const FAQItem = ({ q, a }: { q: string; a: string }) => {
     );
 };
 
-export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantageClientProps) {
+export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientProps) {
     const estimatorRef = useRef<HTMLDivElement>(null);
 
     // ─── Resolve Dynamic Data ────────────────────────────────────────────────
     // We use a robust merging strategy to ensure hydration stability and high-fidelity content
-    const faqs = (service?.faq?.length > 0 ? service.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
+    const faqs = (service?.faq?.length ? service.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
         q: item.q || item.question || FALLBACK_FAQS[i]?.q,
         a: item.a || item.answer || FALLBACK_FAQS[i]?.a
     }));
 
-    const roadmap = (service?.roadmap?.length > 0 ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
+    const roadmap = (service?.roadmap?.length ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
         stepNumber: step.stepNumber || FALLBACK_ROADMAP[i]?.stepNumber || (i + 1).toString().padStart(2, '0'),
         title: step.title || FALLBACK_ROADMAP[i]?.title,
         description: step.description || FALLBACK_ROADMAP[i]?.description
     }));
 
-    const criteriaPros = service?.eligibilityPros?.length > 0 ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
-    const criteriaCons = service?.eligibilityCons?.length > 0 ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
+    const criteriaPros = (service?.eligibilityPros && service.eligibilityPros.length > 0) ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
+    const criteriaCons = (service?.eligibilityCons && service.eligibilityCons.length > 0) ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
     
-    const comparisonPoints = (service?.comparisonPoints?.length > 0 ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
+    const comparisonPoints = (service?.comparisonPoints?.length ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
         ...FALLBACK_COMPARISON[i],
         ...item
     }));
 
-    const trustSignals = service?.trustSignals?.length > 0 ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
+    const trustSignals = (service?.trustSignals && service.trustSignals.length > 0) ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
 
     const heroTitle = service?.title || "Stop Overpaying Yourself Into Higher Taxes.";
     const heroDescription = service?.shortDescription || "The S-Corp Tax Advantage Program helps qualified business owners evaluate whether an S-Corp election could lower tax burden, improve compensation structure, and support smarter long-term growth.";
@@ -438,7 +450,7 @@ export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantage
                         <div className="bg-brand-900 p-8 lg:p-16 text-white relative overflow-hidden flex flex-col justify-center">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-[80px]" />
                             <div className="relative space-y-8">
-                                <h3 className="text-3xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                                <h3 className="text-3xl font-bold font-heading tracking-tight">Who It&apos;s <span className="text-gold-500 italic">Not</span> For</h3>
                                 {criteriaCons.map((item: string, idx: number) => (
                                     <p key={idx} className="text-slate-400 font-light leading-relaxed text-lg font-sans">
                                         {item}
@@ -560,8 +572,8 @@ export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantage
 
                     <RevealOnScroll delay={200}>
                         <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm px-6 lg:px-10">
-                            {faqs.map((faq: any, i: number) => (
-                                <FAQItem key={i} q={faq.q || faq.question} a={faq.a || faq.answer} />
+                            {faqs.map((faq: { q?: string, question?: string, a?: string, answer?: string }, i: number) => (
+                                <FAQItem key={i} q={faq.q || faq.question || ""} a={faq.a || faq.answer || ""} />
                             ))}
                         </div>
                     </RevealOnScroll>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calculator, Check, Mail, ArrowRight, Send, TrendingUp, DollarSign, Percent } from "lucide-react";
+import Link from "next/link";
 
 export function SCorpSavingsCalculator() {
     const [step, setStep] = useState(1);
@@ -91,9 +92,9 @@ export function SCorpSavingsCalculator() {
                         </div>
                     </div>
 
-                    <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all">
+                    <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all">
                         Lock In These Savings <ArrowRight className="w-5 h-5" />
-                    </a>
+                    </Link>
                 </div>
             </section>
         );
@@ -149,9 +150,9 @@ export function SCorpSavingsCalculator() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-semibold text-slate-300 mb-2">
+                                     <label className="block text-sm font-semibold text-slate-300 mb-2">
                                         <DollarSign className="w-4 h-4 inline mr-1" />
-                                        Your "Reasonable Salary" (if S-Corp)
+                                        Your &quot;Reasonable Salary&quot; (if S-Corp)
                                     </label>
                                     <input
                                         type="number"
@@ -160,7 +161,7 @@ export function SCorpSavingsCalculator() {
                                         className="w-full px-4 py-4 rounded-xl border border-brand-600 bg-brand-800 text-white placeholder-slate-500 focus:border-gold-500 focus:ring-4 focus:ring-gold-500/10 outline-none text-lg"
                                         placeholder="60000"
                                     />
-                                    <p className="text-slate-500 text-sm mt-2">This is what you'd pay yourself as a salary if you switched to S-Corp.</p>
+                                     <p className="text-slate-500 text-sm mt-2">This is what you&apos;d pay yourself as a salary if you switched to S-Corp.</p>
                                 </div>
 
                                 <button

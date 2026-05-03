@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+// GHL AUTH UTILITY
 
 const GHL_API_BASE = "https://services.leadconnectorhq.com";
 

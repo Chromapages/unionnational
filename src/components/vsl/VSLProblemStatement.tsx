@@ -15,7 +15,7 @@ interface VSLProblemStatementProps {
     industry: "construction" | "restaurants" | "real-estate" | "tax-resolution";
 }
 
-export function VSLProblemStatement({ headline, painPoints, industry }: VSLProblemStatementProps) {
+export function VSLProblemStatement({ headline, painPoints, industry: _industry }: VSLProblemStatementProps) {
     const defaultPainPoints: PainPoint[] = [
         {
             title: "Wage Garnishments & Levies",

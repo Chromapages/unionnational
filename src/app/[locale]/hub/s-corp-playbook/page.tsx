@@ -10,6 +10,8 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { BookOpen, ArrowRight, Lock } from "lucide-react";
 import { extractString } from "@/lib/utils";
+import { Playbook, PlaybookChapter } from "@/types/sanity";
+import Link from "next/link";
 
 export const revalidate = 60;
 
@@ -24,22 +26,16 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         params: { slug: "s-corp-playbook", locale },
     });
 
-    if (!playbook) {
+    const typedPlaybook = playbook as Playbook | null;
+
+    if (!typedPlaybook) {
         return { title: "Playbook Not Found" };
     }
 
     return {
-        title: `${extractString(playbook.title, locale)} | Authority Hub`,
-        description: extractString(playbook.description, locale),
+        title: `${extractString(typedPlaybook.title, locale)} | Authority Hub`,
+        description: extractString(typedPlaybook.description, locale),
     };
-}
-
-interface Chapter {
-    _id: string;
-    title: string;
-    slug: string;
-    chapterNumber: number;
-    isGated?: boolean;
 }
 
 export default async function PlaybookPage(props: PageProps) {
@@ -49,11 +45,16 @@ export default async function PlaybookPage(props: PageProps) {
         sanityFetch({ query: PLAYBOOK_QUERY, params: { slug: "s-corp-playbook", locale } }),
     ]);
 
-    if (!playbook) {
+    const typedPlaybook = playbook as Playbook | null;
+
+    if (!typedPlaybook) {
         notFound();
     }
 
-    const chapters: Chapter[] = playbook.chapters || [];
+    const chapters = (typedPlaybook.chapters || []).map((c: any) => ({
+        ...c,
+        slug: typeof c.slug === 'string' ? c.slug : c.slug.current
+    }));
 
     return (
         <main id="main-content" className="bg-surface min-h-screen">
@@ -72,11 +73,11 @@ export default async function PlaybookPage(props: PageProps) {
                                 Playbook
                             </div>
                             <h1 className="text-4xl font-bold tracking-tighter md:text-5xl lg:text-6xl font-heading leading-[0.9]">
-                                {extractString(playbook.title, locale)}
+                                {extractString(typedPlaybook.title, locale)}
                             </h1>
-                            {playbook.description && (
+                            {typedPlaybook.description && (
                                 <p className="max-w-2xl text-lg text-white/70 font-sans leading-relaxed">
-                                    {extractString(playbook.description, locale)}
+                                    {extractString(typedPlaybook.description, locale)}
                                 </p>
                             )}
                             <div className="flex flex-wrap items-center gap-6 pt-4">
@@ -85,18 +86,18 @@ export default async function PlaybookPage(props: PageProps) {
                                         {chapters.length} Chapters
                                     </span>
                                 </div>
-                                {playbook.gatedPdfUrl && (
-                                    <GatedPdfButton pdfUrl={playbook.gatedPdfUrl} />
+                                {typedPlaybook.gatedPdfUrl && (
+                                    <GatedPdfButton pdfUrl={typedPlaybook.gatedPdfUrl} />
                                 )}
                             </div>
                         </div>
 
-                        {playbook.coverImage && (
+                        {typedPlaybook.coverImage && (
                             <div className="relative hidden lg:block">
                                 <div className="aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 bg-brand-950/40 shadow-2xl">
                                     <Image
-                                        src={urlFor(playbook.coverImage).url()}
-                                        alt={playbook.coverImage.alt || extractString(playbook.title, locale)}
+                                        src={urlFor(typedPlaybook.coverImage).url()}
+                                        alt={typedPlaybook.coverImage.alt || extractString(typedPlaybook.title, locale)}
                                         fill
                                         className="object-cover"
                                     />
@@ -112,8 +113,8 @@ export default async function PlaybookPage(props: PageProps) {
                     <div>
                         <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Table of Contents</h2>
                         <div className="space-y-4">
-                            {chapters.map((chapter: any, index: number) => (
-                                <a
+                            {chapters.map((chapter: any) => (
+                                <Link
                                     key={chapter._id}
                                     href={`/hub/s-corp-playbook/${chapter.slug}`}
                                     className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 transition-all hover:bg-white/10 hover:border-gold-500/30"
@@ -133,7 +134,7 @@ export default async function PlaybookPage(props: PageProps) {
                                         )}
                                     </div>
                                     <ArrowRight className="h-4 w-4 text-white/30 group-hover:translate-x-1 group-hover:text-gold-300 transition-all" />
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -141,7 +142,7 @@ export default async function PlaybookPage(props: PageProps) {
                     <div className="hidden lg:block">
                         <div className="sticky top-24">
                             <PlaybookNav
-                                playbookTitle={extractString(playbook.title, locale)}
+                                playbookTitle={extractString(typedPlaybook.title, locale)}
                                 chapters={chapters}
                                 locale={locale}
                             />

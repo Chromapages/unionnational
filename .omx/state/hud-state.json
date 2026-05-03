@@ -1,6 +1,6 @@
 {
-  "last_turn_at": "2026-04-26T23:34:24.469Z",
-  "turn_count": 47,
-  "last_progress_at": "2026-04-26T23:34:24.469Z",
-  "last_agent_output": "Fixed the `/shop` 404.\n\nRoot cause: Next 16 wants `proxy.ts` now, and the old `src/middleware.ts` lo"
+  "last_turn_at": "2026-05-02T16:15:46.901Z",
+  "turn_count": 51,
+  "last_progress_at": "2026-05-02T16:15:46.901Z",
+  "last_agent_output": "Implemented the shop production-hardening pass.\n\nChanged core flow:\n- Added shared commerce classifi"
 }

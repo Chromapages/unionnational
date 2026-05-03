@@ -7,15 +7,39 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { urlFor } from "@/sanity/lib/image";
 import { cn } from "@/lib/utils";
 
+interface Playbook {
+    _id: string;
+    title: string;
+    description?: string;
+    coverImage?: {
+        asset: any;
+        alt?: string;
+    };
+    isFeatured?: boolean;
+    chapterCount?: number;
+}
+
+interface Industry {
+    _id: string;
+    slug: string;
+    title: string;
+    description?: string;
+    heroImage?: {
+        asset: any;
+        alt?: string;
+    };
+    painPoints?: string[];
+}
+
 interface HubHeroProps {
     title: string;
     subtitle: string;
-    featuredPlaybooks?: any[];
-    industryVerticals?: any[];
+    featuredPlaybooks?: Playbook[];
+    industryVerticals?: Industry[];
 }
 
 interface PlaybookCardProps {
-    playbook: any;
+    playbook: Playbook;
     className?: string;
 }
 
@@ -67,7 +91,7 @@ function PlaybookCard({ playbook, className }: PlaybookCardProps) {
 }
 
 interface IndustryCardProps {
-    industry: any;
+    industry: Industry;
     className?: string;
 }
 

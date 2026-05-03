@@ -1,8 +1,10 @@
 import { urlFor } from "@/sanity/lib/image";
 import { Plus } from "lucide-react";
 
+import { type TeamMember } from "@/types/sanity";
+
 interface TeamMemberCardProps {
-    member: any;
+    member: TeamMember;
     onClick: () => void;
 }
 

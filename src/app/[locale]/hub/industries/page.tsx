@@ -20,7 +20,7 @@ export default async function IndustriesPage(props: { params: Promise<{ locale: 
         params: { locale },
     });
 
-    const featuredPlaybooks: { title: string }[] = [];
+    const featuredPlaybooks: any[] = [];
 
     return (
         <main id="main-content" className="bg-surface min-h-screen">

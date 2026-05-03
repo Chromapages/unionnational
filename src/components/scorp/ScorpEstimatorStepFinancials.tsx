@@ -46,8 +46,8 @@ export const ScorpEstimatorStepFinancials = () => {
     const currentReadiness = useWatch({ control, name: "tax_payroll_readiness" });
     const currentPain = useWatch({ control, name: "primary_pain_point" });
 
-    const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: any) => {
-        setValue(fieldName, value, { 
+    const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: string) => {
+        setValue(fieldName, value as any, { 
             shouldValidate: true,
             shouldDirty: true,
             shouldTouch: true
@@ -62,10 +62,11 @@ export const ScorpEstimatorStepFinancials = () => {
     }: { 
         label: string, 
         options: { value: string, label: string }[], 
-        currentValue: any, 
+        currentValue: string | undefined, 
         fieldName: keyof ScorpEstimatorInput 
     }) => {
         const labelId = `${fieldName}_label`;
+        const error = errors[fieldName];
         return (
             <div className="space-y-4" role="radiogroup" aria-labelledby={labelId}>
                 <label id={labelId} className="text-sm font-bold text-brand-500 uppercase tracking-wider block">{label}</label>
@@ -88,7 +89,7 @@ export const ScorpEstimatorStepFinancials = () => {
                         </button>
                     ))}
                 </div>
-                {errors[fieldName] && <p id={`${fieldName}_error`} className="text-red-500 text-xs font-medium">{(errors[fieldName] as any).message}</p>}
+                {error && <p id={`${fieldName}_error`} className="text-red-500 text-xs font-medium">{error.message}</p>}
             </div>
         );
     };

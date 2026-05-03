@@ -61,7 +61,7 @@ export default async function TaxFilingPage() {
                                 <RevealOnScroll>
                                     <h2 className="text-3xl font-bold font-heading text-brand-900 mb-6 tracking-tighter">Audit-Ready Accuracy</h2>
                                     <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                                        We don't just "plug and play" numbers. Every return is reviewed for consistency, compliance, and strategic alignment. We represent you before the IRS, meaning we stand behind every number we file.
+                                    We don&apos;t just &quot;plug and play&quot; numbers. Every return is reviewed for consistency, compliance, and strategic alignment. We represent you before the IRS, meaning we stand behind every number we file.
                                     </p>
                                     
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

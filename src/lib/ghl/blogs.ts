@@ -19,6 +19,24 @@ export interface GhlBlogResponse {
     total: number;
 }
 
+interface GhlRawPost {
+    id: string;
+    title: string;
+    slug: string;
+    description?: string;
+    excerpt?: string;
+    body?: string;
+    content?: string;
+    imageUrl?: string;
+    featuredImage?: string;
+    publishedAt?: string;
+    createdAt?: string;
+    author?: {
+        name: string;
+    };
+    categories?: (string | { name: string })[];
+}
+
 /**
  * GHL BLOG CLIENT
  * High-performance data fetching for GHL Blogs.
@@ -53,7 +71,7 @@ export const getGhlPosts = async (blogId: string, limit = 10, offset = 0): Promi
         }
 
         // Map GHL raw structure to our canonical GhlBlogPost interface
-        const posts: GhlBlogPost[] = (data.posts || []).map((p: any) => ({
+        const posts: GhlBlogPost[] = (data.posts || []).map((p: GhlRawPost) => ({
             id: p.id,
             title: p.title,
             slug: p.slug,
@@ -62,7 +80,7 @@ export const getGhlPosts = async (blogId: string, limit = 10, offset = 0): Promi
             featuredImage: p.imageUrl || p.featuredImage || "",
             publishedDate: p.publishedAt || p.createdAt || new Date().toISOString(),
             authorName: p.author?.name || "Union National Team",
-            categories: (p.categories || []).map((c: any) => c.name || c),
+            categories: (p.categories || []).map((c) => (typeof c === 'string' ? c : c.name)),
         }));
 
         return {

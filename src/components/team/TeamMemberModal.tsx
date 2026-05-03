@@ -3,8 +3,10 @@ import { urlFor } from "@/sanity/lib/image";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
+import { type TeamMember } from "@/types/sanity";
+
 interface TeamMemberModalProps {
-    member: any;
+    member: TeamMember | null;
     isOpen: boolean;
     onClose: () => void;
 }

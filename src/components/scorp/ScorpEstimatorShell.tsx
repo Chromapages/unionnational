@@ -12,7 +12,7 @@ import { ScorpEstimatorStepContact } from "./ScorpEstimatorStepContact";
 import { ScorpEstimatorStepStructure } from "./ScorpEstimatorStepStructure";
 import { ScorpEstimatorStepFinancials } from "./ScorpEstimatorStepFinancials";
 import { ScorpEstimatorResult } from "./ScorpEstimatorResult";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -27,7 +27,6 @@ const STEPS = [
 
 export const ScorpEstimatorShell = () => {
     const searchParams = useSearchParams();
-    const isMobile = useMediaQuery("(max-width: 640px)");
     const [step, setStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
@@ -65,7 +64,7 @@ export const ScorpEstimatorShell = () => {
         };
 
         Object.entries(utms).forEach(([key, value]) => {
-            if (value) setValue(key as any, value);
+            if (value) setValue(key as keyof ScorpEstimatorInput, value);
         });
 
         if (typeof document !== "undefined" && document.referrer) {
@@ -74,9 +73,10 @@ export const ScorpEstimatorShell = () => {
     }, [searchParams, setValue]);
 
     // ─── Phase-Based Tracking ────────────────────────────────────────────────
-    const trackEvent = (eventName: string, properties: any = {}) => {
-        if (typeof window !== "undefined" && (window as any).dataLayer) {
-            (window as any).dataLayer.push({
+    const trackEvent = (eventName: string, properties: Record<string, unknown> = {}) => {
+        const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
+        if (typeof window !== "undefined" && win.dataLayer) {
+            win.dataLayer.push({
                 event: eventName,
                 ...properties,
                 timestamp: new Date().toISOString()
@@ -85,7 +85,7 @@ export const ScorpEstimatorShell = () => {
         
         // Meta Pixel tracking
         if (eventName === "estimator_step_completed") {
-            trackMetaEvent("CustomEvent", { step: properties.step, category: "SCorpEstimator" });
+            trackMetaEvent("CustomEvent", { step: properties.step as string | number, category: "SCorpEstimator" });
         }
         
         console.log(`[Analytics] ${eventName}:`, properties);
@@ -160,10 +160,11 @@ export const ScorpEstimatorShell = () => {
             });
 
             setStep(3); // Go to result screen
-        } catch (err: any) {
-            setSubmitError(err.message || "An unexpected error occurred. Please try again.");
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred. Please try again.";
+            setSubmitError(errorMessage);
             console.error("Submission Error:", err);
-            trackEvent("estimator_submission_failed", { error: err.message });
+            trackEvent("estimator_submission_failed", { error: errorMessage });
         } finally {
             setIsSubmitting(false);
         }

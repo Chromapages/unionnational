@@ -20,6 +20,18 @@ const calculateCartTotals = (items: CartLineItem[]) => ({
     totalPrice: items.reduce((acc, item) => acc + item.price * item.quantity, 0),
 });
 
+const isValidPersistedCartItem = (item: Partial<CartLineItem>): item is CartLineItem =>
+    typeof item.id === "string" &&
+    typeof item.productId === "string" &&
+    typeof item.slug === "string" &&
+    typeof item.title === "string" &&
+    typeof item.price === "number" &&
+    typeof item.image === "string" &&
+    typeof item.format === "string" &&
+    typeof item.quantity === "number" &&
+    Number.isInteger(item.quantity) &&
+    item.quantity > 0;
+
 export const useCartStore = create<CartStore>()(
     persist(
         (set, get) => ({
@@ -77,6 +89,24 @@ export const useCartStore = create<CartStore>()(
         }),
         {
             name: "union-national-cart",
+            version: 2,
+            migrate: (persistedState) => {
+                if (!persistedState || typeof persistedState !== "object") {
+                    return persistedState;
+                }
+
+                const state = persistedState as Partial<CartStore>;
+                const items = Array.isArray(state.items)
+                    ? state.items.filter(isValidPersistedCartItem)
+                    : [];
+
+                return {
+                    ...state,
+                    items,
+                    ...calculateCartTotals(items),
+                    isOpen: false,
+                };
+            },
         }
     )
 );

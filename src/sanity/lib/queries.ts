@@ -291,7 +291,17 @@ export const SHOP_PAGE_QUERY = defineQuery(`
       compareAtPrice,
       "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
       format,
+      stripeProductId,
+      stripePriceId,
       buyLink,
+      editions[] {
+        _key,
+        name,
+        price,
+        format,
+        stripePriceId,
+        description
+      },
       "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
       "badge": coalesce(badge[$locale], badge.en, badge),
       category,
@@ -347,15 +357,19 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
     "fullDescription": coalesce(fullDescription[$locale], fullDescription.en, fullDescription),
     format,
+    stripeProductId,
+    stripePriceId,
     buyLink,
     "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     "badge": coalesce(badge[$locale], badge.en, badge),
     category,
     rating,
     editions[] {
+      _key,
       name,
       price,
       format,
+      stripePriceId,
       description
     },
     "samplePages": samplePages[] {
@@ -386,6 +400,22 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     publisher,
     publishDate,
     isbn,
+    videoUrl,
+    "videoFileUrl": videoFile.asset->url,
+    videoThumbnail {
+      asset->,
+      alt
+    },
+    stripeProductId,
+    stripePriceId,
+    editions[] {
+      name,
+      price,
+      format,
+      stripePriceId,
+      stripeProductId,
+      description
+    },
     seo {
       metaTitle,
       metaDescription,

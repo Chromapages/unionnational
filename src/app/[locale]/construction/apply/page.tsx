@@ -1,5 +1,3 @@
-import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
-import { Footer } from "@/components/layout/Footer";
 import ApplicationForm from "./ApplicationForm";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -11,8 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ConstructionApplicationPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+    await props.params;
     return (
         <div className="min-h-screen bg-brand-900 font-sans selection:bg-emerald-500 selection:text-white flex flex-col">
 

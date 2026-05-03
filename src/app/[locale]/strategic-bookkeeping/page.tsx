@@ -8,7 +8,7 @@ import { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
     return {
         title: "Strategic Bookkeeping | Union National Tax",
-        description: "Accurate, IRS-compliant bookkeeping designed for financial visibility. We don't just record numbers; we organize them for better business decisions.",
+        description: "Accurate, IRS-compliant bookkeeping designed for financial visibility. We don&apos;t just record numbers; we organize them for better business decisions.",
     };
 }
 
@@ -50,7 +50,7 @@ export default async function StrategicBookkeepingPage() {
                                 <RevealOnScroll>
                                     <h2 className="text-3xl font-bold font-heading text-brand-900 mb-6 tracking-tighter">Why "Compliance-Only" Bookkeeping Fails</h2>
                                     <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                                        If your books are only updated once a year, you're flying blind. You can't track margins, you can't forecast cash flow, and you definitely can't plan for taxes. Our strategic approach ensures your data is a tool, not a burden.
+                                        If your books are only updated once a year, you&apos;re flying blind. You can&apos;t track margins, you can&apos;t forecast cash flow, and you definitely can&apos;t plan for taxes. Our strategic approach ensures your data is a tool, not a burden.
                                     </p>
                                     
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -74,7 +74,7 @@ export default async function StrategicBookkeepingPage() {
                                 <RevealOnScroll>
                                     <h2 className="text-3xl font-bold font-heading text-brand-900 mb-6 tracking-tighter">The Union National Standard</h2>
                                     <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                                        We integrate your bookkeeping directly with your tax strategy. This means we aren't just recording what happened; we're flagging opportunities to save as they occur.
+                                        We integrate your bookkeeping directly with your tax strategy. This means we aren&apos;t just recording what happened; we&apos;re flagging opportunities to save as they occur.
                                     </p>
                                     <ul className="space-y-4">
                                         {[
@@ -99,7 +99,7 @@ export default async function StrategicBookkeepingPage() {
                                 <div className="sticky top-28 bg-brand-950 p-8 rounded-3xl border border-gold-500/20 shadow-2xl">
                                     <h3 className="text-2xl font-bold text-white mb-6 font-heading tracking-tighter">Start with Strategy</h3>
                                     <p className="text-slate-300 mb-8 text-sm leading-relaxed">
-                                        Bookkeeping is the foundation of every major tax-saving move. Let's get yours right.
+                                        Bookkeeping is the foundation of every major tax-saving move. Let&apos;s get yours right.
                                     </p>
                                     <Link 
                                         href="/contact"

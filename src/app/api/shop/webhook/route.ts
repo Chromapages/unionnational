@@ -5,6 +5,30 @@ import Stripe from "stripe";
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+interface OrderMetadataItem {
+    p?: string;
+    s?: string;
+    e?: string;
+    n?: string;
+    f?: string;
+    t?: string;
+    sh?: boolean;
+    pr?: string;
+    q?: number;
+}
+
+function parseOrderItems(metadata: Stripe.Metadata | null): OrderMetadataItem[] {
+    if (!metadata?.items) return [];
+
+    try {
+        const parsed = JSON.parse(metadata.items);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.error("Unable to parse shop order metadata items:", error);
+        return [];
+    }
+}
+
 export async function POST(req: NextRequest) {
     const body = await req.text();
     const sig = req.headers.get("stripe-signature");
@@ -32,7 +56,6 @@ export async function POST(req: NextRequest) {
             // ─── FULFILLMENT LOGIC ───────────────────────────────────────
             // 1. Get customer info
             const customerEmail = session.customer_details?.email;
-            const customerName = session.customer_details?.name;
             const metadata = session.metadata;
             
             console.log(`🔔 Payment received for ${customerEmail}!`, {
@@ -45,7 +68,7 @@ export async function POST(req: NextRequest) {
             // In a real production environment, you would call your fulfillment 
             // service here (e.g., GHL webhook, Postmark email, etc.)
             try {
-                await fulfillOrder(session);
+                await fulfillOrder(stripe, session);
             } catch (fulfillmentError) {
                 console.error("Fulfillment Error:", fulfillmentError);
                 // Note: We don't necessarily want to return a 400 here because 
@@ -61,17 +84,30 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
 }
 
-async function fulfillOrder(session: Stripe.Checkout.Session) {
+async function fulfillOrder(stripe: Stripe, session: Stripe.Checkout.Session) {
     const metadata = session.metadata || {};
-    const items = metadata.items ? JSON.parse(metadata.items) : [];
+    const items = parseOrderItems(metadata);
     const email = session.customer_details?.email;
+
+    if (metadata.fulfillment_status === "fulfilled") {
+        console.log(`Order fulfillment already ${metadata.fulfillment_status} for ${session.id}`);
+        return;
+    }
+
+    await stripe.checkout.sessions.update(session.id, {
+        metadata: {
+            ...metadata,
+            fulfillment_status: "processing",
+        },
+    });
     
-    // Placeholder for GHL/Email delivery logic
-    // Example: Forward to a specific GHL trigger for "Bookstore Purchase"
+    // Forward the normalized paid order to the configured fulfillment automation.
     const GHL_SHOP_PURCHASE_WEBHOOK = process.env.GHL_SHOP_PURCHASE_WEBHOOK_URL;
+    const hasDigital = items.some((item) => item.t === "digital" || item.t === "audio" || item.t === "bundle");
+    const hasPhysical = items.some((item) => item.sh === true || item.t === "physical" || item.t === "bundle");
     
     if (GHL_SHOP_PURCHASE_WEBHOOK) {
-        await fetch(GHL_SHOP_PURCHASE_WEBHOOK, {
+        const response = await fetch(GHL_SHOP_PURCHASE_WEBHOOK, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -79,10 +115,33 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
                 email,
                 name: session.customer_details?.name,
                 items,
+                hasDigital,
+                hasPhysical,
                 total: session.amount_total,
+                currency: session.currency,
                 sessionId: session.id
             })
         });
+
+        if (!response.ok) {
+            throw new Error(`Shop fulfillment webhook failed with ${response.status}`);
+        }
+
+        await stripe.checkout.sessions.update(session.id, {
+            metadata: {
+                ...metadata,
+                fulfillment_status: "fulfilled",
+                fulfilled_at: new Date().toISOString(),
+            },
+        });
+    } else {
+        await stripe.checkout.sessions.update(session.id, {
+            metadata: {
+                ...metadata,
+                fulfillment_status: "pending_manual",
+            },
+        });
+        console.warn(`No GHL_SHOP_PURCHASE_WEBHOOK_URL configured. Manual fulfillment required for ${session.id}.`);
     }
     
     // Log success

@@ -1,0 +1,266 @@
+[
+  {
+    "_id": "038a9b49-ee53-4e6a-9897-e9fe51693396",
+    "editions": [
+      {
+        "_key": "qmhcu1dgv",
+        "description": "Hardcover book + Digital PDF + Bonuses.",
+        "format": "bundle",
+        "name": "Bundle (Digital + Print)",
+        "price": 59,
+        "stripePriceId": "price_1TOlSoBBqB7ETKuVtDfASqwk",
+        "stripeProductId": "prod_UNRJ66222da3Bv"
+      },
+      {
+        "_key": "0yojp28zt",
+        "description": "Premium hardcover edition.",
+        "format": "physical",
+        "name": "Hardcover",
+        "price": 39,
+        "stripePriceId": "price_1T2cpuBBqB7ETKuVPA63LBVd",
+        "stripeProductId": "prod_U0I59FqHVgmIKe"
+      },
+      {
+        "_key": "5htyhz1qd",
+        "description": "Instant digital download.",
+        "format": "digital",
+        "name": "Digital PDF",
+        "price": 29,
+        "stripePriceId": "price_1TOlYSBBqB7ETKuVhVlOdPk8",
+        "stripeProductId": "prod_UNAG4gj0lRYIGj"
+      },
+      {
+        "_key": "ur4qbl6u0",
+        "description": "Full audiobook edition.",
+        "format": "audio",
+        "name": "Audiobook",
+        "price": 27,
+        "stripePriceId": "price_1T2dAkBBqB7ETKuVZCP3OsnA",
+        "stripeProductId": "prod_U0I8eAAAHeCBBA"
+      }
+    ],
+    "slug": "the-money-making-blueprint-for-construction-companies",
+    "title": "The Money‑Making Blueprint for Construction Companies"
+  },
+  {
+    "_id": "158d4dbe-a86c-4eaf-abe1-7d8574057cf0",
+    "editions": null,
+    "slug": "the-retirement-crisis-in-america",
+    "title": "The Retirement Crisis in America"
+  },
+  {
+    "_id": "25aef3d9-6147-44be-812a-451b655ffe92",
+    "editions": [
+      {
+        "_key": "fbwq4or3r",
+        "description": "Hardcover book + Digital PDF + Bonuses.",
+        "format": "bundle",
+        "name": "Bundle (Digital + Print)",
+        "price": 59,
+        "stripePriceId": "price_1T2eUuBBqB7ETKuVwVpzqIjj",
+        "stripeProductId": "prod_PDfDAfBryQ3f8Q"
+      },
+      {
+        "_key": "jqs8p80we",
+        "description": "Premium hardcover edition.",
+        "format": "physical",
+        "name": "Hardcover",
+        "price": 39,
+        "stripePriceId": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+        "stripeProductId": "prod_UNR9UWANshQiLI"
+      },
+      {
+        "_key": "jsnveln51",
+        "description": "Instant digital download.",
+        "format": "digital",
+        "name": "Digital PDF",
+        "price": 29,
+        "stripePriceId": "price_1TOlaABBqB7ETKuVEsvwS7ce",
+        "stripeProductId": "prod_UNA6Ea65NHlAcQ"
+      },
+      {
+        "_key": "kp9had3jr",
+        "description": "Full audiobook edition.",
+        "format": "audio",
+        "name": "Audiobook",
+        "price": 27,
+        "stripePriceId": "price_1T2eTHBBqB7ETKuVe8Q9fuyw",
+        "stripeProductId": "prod_QpCAhI2VbFIJ2Y"
+      }
+    ],
+    "slug": "the-s-corp-playbook",
+    "title": "The S-Corp Playbook"
+  },
+  {
+    "_id": "NjFKn5TWxAiAPiVihBdhlh",
+    "editions": [
+      {
+        "_key": "i3znj3yjb",
+        "description": "Hardcover book + Digital PDF + Bonuses.",
+        "format": "bundle",
+        "name": "Bundle (Digital + Print)",
+        "price": 59,
+        "stripePriceId": "price_1T2dlZBBqB7ETKuV8vKizDIQ",
+        "stripeProductId": "prod_U0Hya51fC8YPfQ"
+      },
+      {
+        "_key": "oc37eb8bv",
+        "description": "Premium hardcover edition.",
+        "format": "physical",
+        "name": "Hardcover",
+        "price": 39,
+        "stripePriceId": "price_1TOl9gBBqB7ETKuVLq7ehU51",
+        "stripeProductId": "prod_UNSwEGaexybXSx"
+      },
+      {
+        "_key": "9ui9h6yl4",
+        "description": "Instant digital download.",
+        "format": "digital",
+        "name": "Digital PDF",
+        "price": 29,
+        "stripePriceId": "price_1TOlCYBBqB7ETKuVVclSsUaO",
+        "stripeProductId": "prod_UNSY4CRvsxj25H"
+      },
+      {
+        "_key": "e66ov5oaz",
+        "description": "Full audiobook edition.",
+        "format": "audio",
+        "name": "Audiobook",
+        "price": 27,
+        "stripePriceId": "price_1T2deuBBqB7ETKuV0nU8wjzq",
+        "stripeProductId": "prod_U0I0KrzrZzBc1K"
+      }
+    ],
+    "slug": "why-the-rich-dont-pay-taxes",
+    "title": "Why the Rich Don’t Pay Taxes And Why Real Estate Is the Reason"
+  },
+  {
+    "_id": "ac1ae1d7-7efd-436f-9ac7-1940da6a4580",
+    "editions": [
+      {
+        "_key": "9718yfuy9",
+        "description": "Hardcover book + Digital PDF + Bonuses.",
+        "format": "bundle",
+        "name": "Bundle (Digital + Print)",
+        "price": 59,
+        "stripePriceId": "price_1TOlKJBBqB7ETKuVlo3eefBK",
+        "stripeProductId": "prod_UNSA6kl0euO5Ai"
+      },
+      {
+        "_key": "2s8ovkk5o",
+        "description": "Premium hardcover edition.",
+        "format": "physical",
+        "name": "Hardcover",
+        "price": 39,
+        "stripePriceId": "price_1T2e5lBBqB7ETKuVIuDEEQAN",
+        "stripeProductId": "prod_U0HdtEzQy1lS5g"
+      },
+      {
+        "_key": "wskymxtzm",
+        "description": "Instant digital download.",
+        "format": "digital",
+        "name": "Digital PDF",
+        "price": 29,
+        "stripePriceId": "price_1TOlRkBBqB7ETKuVW6m7Nc30",
+        "stripeProductId": "prod_UNRi4QzpJAHM7r"
+      },
+      {
+        "_key": "2ai3do6ib",
+        "description": "Full audiobook edition.",
+        "format": "audio",
+        "name": "Audiobook",
+        "price": 27,
+        "stripePriceId": "price_1T2dt6BBqB7ETKuVTGALpDEc",
+        "stripeProductId": "prod_U0HdtEzQy1lS5g"
+      }
+    ],
+    "slug": "the-3m-s-to-freedom",
+    "title": "The 3M’s to Freedom"
+  },
+  {
+    "_id": "c019a1fd-342e-4fbb-bc6c-57e58505715f",
+    "editions": [
+      {
+        "_key": "qwms4s9mb",
+        "description": "Hardcover book + Digital PDF + Bonuses.",
+        "format": "bundle",
+        "name": "Bundle (Digital + Print)",
+        "price": 59,
+        "stripePriceId": "price_1TOlMfBBqB7ETKuVLnrLGW1F",
+        "stripeProductId": "prod_UNS6HQVBAr7sp4"
+      },
+      {
+        "_key": "8zg53ulxx",
+        "description": "Premium hardcover edition.",
+        "format": "physical",
+        "name": "Hardcover",
+        "price": 39,
+        "stripePriceId": "price_1T2dsBBBqB7ETKuVAr3xFdJQ",
+        "stripeProductId": "prod_U0HjhvumO7Vr7D"
+      },
+      {
+        "_key": "8gp5xn7eh",
+        "description": "Instant digital download.",
+        "format": "digital",
+        "name": "Digital PDF",
+        "price": 29,
+        "stripePriceId": "price_1TOlPkBBqB7ETKuV28aBachq",
+        "stripeProductId": "prod_UNRxEQdmMdwP3X"
+      },
+      {
+        "_key": "wexsq5vot",
+        "description": "Full audiobook edition.",
+        "format": "audio",
+        "name": "Audiobook",
+        "price": 27,
+        "stripePriceId": "price_1T2dqbBBqB7ETKuVqvYCiuoB",
+        "stripeProductId": "prod_U0Hmg7MtuD0C1O"
+      }
+    ],
+    "slug": "the-proactive-cfo-solution",
+    "title": "The Proactive CFO Solution"
+  },
+  {
+    "_id": "d9a1775b-6369-4f6e-b2a6-38dbfaa3c945",
+    "editions": [
+      {
+        "_key": "ps536cp4o",
+        "description": "Hardcover book + Digital PDF + Bonuses.",
+        "format": "bundle",
+        "name": "Bundle (Digital + Print)",
+        "price": 59,
+        "stripePriceId": "price_1TOlHqBBqB7ETKuVh943I21w",
+        "stripeProductId": "prod_UNSE97UTUxZsnM"
+      },
+      {
+        "_key": "e4tee5vyz",
+        "description": "Premium hardcover edition.",
+        "format": "physical",
+        "name": "Hardcover",
+        "price": 39,
+        "stripePriceId": "price_1T2dpkBBqB7ETKuVPue0kV6m",
+        "stripeProductId": "prod_U0HrokUdTp8jwt"
+      },
+      {
+        "_key": "zq8055xlt",
+        "description": "Instant digital download.",
+        "format": "digital",
+        "name": "Digital PDF",
+        "price": 29,
+        "stripePriceId": "price_1TOlFJBBqB7ETKuVLxMO1ZR4",
+        "stripeProductId": "prod_UNSQIU4W2dtvBH"
+      },
+      {
+        "_key": "qcqfm9edi",
+        "description": "Full audiobook edition.",
+        "format": "audio",
+        "name": "Audiobook",
+        "price": 27,
+        "stripePriceId": "price_1T2do1BBqB7ETKuVhTdLQSQX",
+        "stripeProductId": "prod_U0HuuXe7zAj0Qw"
+      }
+    ],
+    "slug": "the-restaurant-profit-blueprint",
+    "title": "The Restaurant Profit Blueprint"
+  }
+]

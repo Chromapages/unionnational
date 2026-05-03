@@ -14,6 +14,8 @@ import VideoEmbed from "@/components/ui/VideoEmbed";
 import { urlFor } from "@/sanity/lib/image";
 
 
+import { Service, SanityBlock } from "@/types/sanity";
+
 // Portable Text Components
 const ptComponents: PortableTextComponents = {
     block: {
@@ -40,32 +42,11 @@ const ptComponents: PortableTextComponents = {
     },
 };
 
-interface Service {
-    title: string;
-    slug?: { current: string };
-    badge?: string;
-    shortDescription: string;
-    fullDescription?: any;
-    features?: string[];
-    icon: string;
-    startingPrice?: string;
-    comparisonPoints?: any[];
-    whyChooseUsTitle?: string;
-    whyChooseUsDescription?: string;
-    faq?: any[];
-    videoFileUrl?: string;
-    videoThumbnail?: { asset?: unknown };
-    impactGoal?: string;
-    targetAudience?: string;
-    keyBenefit?: string;
-    eligibility?: string;
-}
-
 interface RelatedService {
     _id: string;
     title: string;
     slug: { current: string };
-    icon: string;
+    icon?: string;
     shortDescription: string;
 }
 
@@ -135,7 +116,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                                 >
                                     <div className="w-2 h-2 bg-gold-500 rounded-full" />
                                     <p className="text-lg font-bold text-brand-900 font-heading italic">
-                                        &quot;{typeof service.keyBenefit === 'string' ? service.keyBenefit : (service as any).keyBenefit?.en || ''}&quot;
+                                        &quot;{typeof service.keyBenefit === 'string' ? service.keyBenefit : (service.keyBenefit as any)?.en || ''}&quot;
                                     </p>
                                 </motion.div>
                             )}
@@ -158,7 +139,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                                     <div className="relative z-10">
                                         <p className="text-sm font-bold text-gold-600 uppercase tracking-widest mb-2">The Goal</p>
                                         <h3 className="text-2xl md:text-3xl font-bold text-brand-900 font-heading leading-tight">
-                                            {typeof service.impactGoal === 'string' ? service.impactGoal : (service as any).impactGoal?.en || ''}
+                                            {typeof service.impactGoal === 'string' ? service.impactGoal : (service.impactGoal as any)?.en || ''}
                                         </h3>
                                     </div>
                                 </div>
@@ -168,7 +149,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                                 <div className="mb-12 space-y-4">
                                     <h3 className="text-xl font-bold text-brand-900 font-heading">Is this right for you?</h3>
                                     <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-200 text-zinc-600 leading-relaxed italic">
-                                        &quot;{typeof service.eligibility === 'string' ? service.eligibility : (service as any).eligibility?.en || ''}&quot;
+                                        &quot;{typeof service.eligibility === 'string' ? service.eligibility : (service.eligibility as any)?.en || ''}&quot;
                                     </div>
                                 </div>
                             )}
@@ -244,7 +225,12 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                                     </p>
                                 )}
                                 {service.comparisonPoints && service.comparisonPoints.length > 0 && (
-                                    <ComparisonTable points={service.comparisonPoints} />
+                                    <ComparisonTable points={service.comparisonPoints.map((p: any) => ({
+                                        feature: p.feature,
+                                        diy: !!p.diy,
+                                        bigFirm: !!p.bigFirm,
+                                        unionNational: !!p.unionNational
+                                    }))} />
                                 )}
                             </section>
                         )}
@@ -255,7 +241,10 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                                 <h2 className="text-3xl font-bold text-brand-900 mb-8 font-heading">
                                     Frequently Asked Questions
                                 </h2>
-                                <ServiceFAQ items={service.faq} />
+                                <ServiceFAQ items={service.faq.map((f: any) => ({
+                                    question: f.question || f.q || "",
+                                    answer: f.answer || f.a || ""
+                                }))} />
                             </section>
                         )}
 
@@ -268,11 +257,11 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                     <div className="lg:col-span-4">
                         <ServiceSidebar
                             title={service.title}
-                            icon={service.icon}
+                            icon={service.icon || "Briefcase"}
                             startingPrice={service.startingPrice}
                             features={service.features || []}
                             targetAudience={service.targetAudience}
-                            keyBenefit={service.keyBenefit}
+                            keyBenefit={typeof service.keyBenefit === 'string' ? service.keyBenefit : (service.keyBenefit as any)?.en || undefined}
                             hasOverview={!!service.fullDescription || !!service.shortDescription}
                             hasComparison={!!service.whyChooseUsTitle || !!service.whyChooseUsDescription || (!!service.comparisonPoints && service.comparisonPoints.length > 0)}
                             hasFaq={!!service.faq && service.faq.length > 0}

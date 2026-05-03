@@ -12,6 +12,7 @@ import { VSLFinalCta } from "./VSLFinalCta";
 import { VSLMobileStickyBar } from "./VSLMobileStickyBar";
 
 export interface VSLTemplateData {
+  heroBadge?: string;
   badge?: string;
   heroHeadline?: string;
   heroSubheadline?: string;
@@ -47,7 +48,7 @@ export interface VSLTemplateData {
 }
 
 interface UnifiedVSLTemplateProps {
-  data: any; // We use any here to handle raw sanity data before type-safe mapping
+  data: VSLTemplateData;
   industry: "construction" | "restaurants" | "real-estate" | "tax-resolution";
 }
 

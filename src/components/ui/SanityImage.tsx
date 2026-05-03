@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 
+import { type SanityImage as SanityImageType } from '@/types/sanity';
+
 interface SanityImageProps {
-    src: any; // Sanity Image object
+    src: SanityImageType; // Sanity Image object
     alt: string;
     width?: number;
     height?: number;
@@ -33,7 +35,7 @@ export const SanityImage = ({
 
     // Extract blurDataURL (lqip) from the sanity asset metadata if available
     // Note: Your GROQ queries must fetch asset->metadata.lqip for this to work
-    const blurDataURL = src?.asset?.metadata?.lqip;
+    const blurDataURL = (src?.asset as any)?.metadata?.lqip;
 
     const props = {
         src: imageUrl,

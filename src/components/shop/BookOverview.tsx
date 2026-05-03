@@ -1,5 +1,7 @@
 "use client";
 
+import { urlFor } from "@/sanity/lib/image";
+import VideoEmbed from "@/components/ui/VideoEmbed";
 import { PortableText } from "next-sanity";
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
@@ -8,11 +10,24 @@ interface BookOverviewProps {
     fullDescription?: any;
     features?: string[];
     shortDescription?: string;
+    videoUrl?: string;
+    videoFileUrl?: string;
+    videoThumbnail?: any;
 }
 
-export function BookOverview({ fullDescription, features, shortDescription }: BookOverviewProps) {
-    const hasContent = fullDescription || shortDescription;
+export function BookOverview({ 
+    fullDescription, 
+    features, 
+    shortDescription,
+    videoUrl,
+    videoFileUrl,
+    videoThumbnail
+}: BookOverviewProps) {
+    const hasContent = fullDescription || shortDescription || videoUrl || videoFileUrl;
     if (!hasContent && !features?.length) return null;
+
+    const posterImage = videoThumbnail ? urlFor(videoThumbnail).width(1280).height(720).url() : undefined;
+    const effectiveVideoUrl = videoFileUrl || videoUrl;
 
     return (
         <section id="overview" className="scroll-mt-24 py-12 bg-white border-b border-slate-100">
@@ -20,6 +35,31 @@ export function BookOverview({ fullDescription, features, shortDescription }: Bo
                 <h2 className="text-2xl font-bold text-brand-900 font-heading tracking-tight mb-8">
                     Overview
                 </h2>
+
+                {/* Video Walkthrough Section */}
+                {effectiveVideoUrl && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mb-12"
+                    >
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center">
+                                <CheckCircle2 className="w-5 h-5 text-gold-600" />
+                            </div>
+                            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-400">
+                                Video Asset Walkthrough
+                            </h3>
+                        </div>
+                        <div className="max-w-4xl mx-auto">
+                            <VideoEmbed 
+                                videoUrl={effectiveVideoUrl} 
+                                posterImage={posterImage}
+                            />
+                        </div>
+                    </motion.div>
+                )}
 
                 {/* Notes from Publisher card */}
                 <motion.div

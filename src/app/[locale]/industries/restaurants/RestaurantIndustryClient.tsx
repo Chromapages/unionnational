@@ -12,23 +12,17 @@ import {
     Timer,
     Wine,
     CheckCircle2,
-    ChevronDown,
-    Zap,
-    Scale,
-    Clock,
     LayoutDashboard,
     UtensilsCrossed,
-    Users
+    Users,
+    ChevronDown
 } from "lucide-react";
+import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-
-interface RestaurantIndustryClientProps {
-    locale: string;
-}
 
 const FAQ_ITEMS = [
     {
@@ -37,7 +31,7 @@ const FAQ_ITEMS = [
     },
     {
         question: "What is the FICA Tip Credit, and how do you recover it?",
-        answer: "The Section 45B credit allows restaurant owners to get a dollar-for-dollar tax credit for the employer portion of FICA taxes paid on employee tips. Many generalist CPAs miss this or miscalculate it; we ensure it's fully maximized."
+        answer: "The Section 45B credit allows restaurant owners to get a dollar-for-dollar tax credit for the employer portion of FICA taxes paid on employee tips. Many generalist CPAs miss this or miscalculate it; we ensure it&apos;s fully maximized."
     },
     {
         question: "Do you help with multi-unit expansion?",
@@ -45,7 +39,7 @@ const FAQ_ITEMS = [
     },
     {
         question: "Can you help lower our food and liquor costs?",
-        answer: "While we don't manage your kitchen, we provide the visibility. We implement 'Actual vs. Theoretical' food cost reporting so you can see exactly where inventory leak or waste is hitting your bottom line."
+        answer: "While we don&apos;t manage your kitchen, we provide the visibility. We implement &apos;Actual vs. Theoretical&apos; food cost reporting so you can see exactly where inventory leak or waste is hitting your bottom line."
     },
     {
         question: "Which POS systems do you work with?",
@@ -57,7 +51,7 @@ const FAQ_ITEMS = [
     }
 ];
 
-export default function RestaurantIndustryClient({ locale }: RestaurantIndustryClientProps) {
+export default function RestaurantIndustryClient() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const toggleFaq = (index: number) => {
@@ -166,7 +160,7 @@ export default function RestaurantIndustryClient({ locale }: RestaurantIndustryC
                                     A busy dining room does not guarantee a profitable bank account. Most operators bleed cash in the <span className="text-brand-950 font-bold decoration-gold-500 underline underline-offset-8 decoration-2">invisible margins</span>—untracked waste, labor spirals, and missed tax assets.
                                 </p>
                                 <p className="text-xl text-slate-500 leading-relaxed font-light">
-                                    Without institutional-grade visibility, you aren't running a business—you're managing a chaotic cash-flow engine that can fail at any moment.
+                                    Without institutional-grade visibility, you aren&apos;t running a business—you&apos;re managing a chaotic cash-flow engine that can fail at any moment.
                                 </p>
                                 
                                 <div className="space-y-6 pt-6 text-lg">
@@ -297,7 +291,7 @@ export default function RestaurantIndustryClient({ locale }: RestaurantIndustryC
                                 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
                                     {[
-                                        { title: "Margin Protection", text: "Identify menu or menu-item erosion and adjust pricing to maintain the 'Gold Zone'." },
+                                        { title: "Margin Protection", text: "Identify menu or menu-item erosion and adjust pricing to maintain the &apos;Gold Zone&apos;." },
                                         { title: "Tax Asset Recovery", text: "Identify and claim FICA credits, ERTC leftovers, and specialized hospitality assets." },
                                         { title: "Growth Strategy", text: "Calculated unit expansion based on cash-flow models and capital readiness." },
                                         { title: "24/7 Visibility", text: "Cloud-based financial stacks integrating your POS, payroll, and banking into one view." }
@@ -316,9 +310,11 @@ export default function RestaurantIndustryClient({ locale }: RestaurantIndustryC
 
                         <div className="relative group grayscale hover:grayscale-0 transition-all duration-1000">
                             <div className="absolute -inset-4 bg-gold-500/10 rounded-[4rem] blur-3xl opacity-50 group-hover:opacity-100 transition-opacity" />
-                            <img 
+                             <Image 
                                 src="/images/hospitality-cfo-kitchen.jpg" 
                                 alt="Hospitality Strategic Review"
+                                width={1200}
+                                height={675}
                                 className="relative rounded-[3rem] border border-white/10 shadow-2xl object-cover aspect-video"
                             />
                         </div>
@@ -348,9 +344,9 @@ export default function RestaurantIndustryClient({ locale }: RestaurantIndustryC
                             </ul>
                         </div>
                         <div className="bg-brand-950 p-10 lg:p-20 text-white space-y-8 flex flex-col justify-center">
-                            <h3 className="text-3xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                            <h3 className="text-3xl font-bold font-heading tracking-tight">Who It&apos;s <span className="text-gold-500 italic">Not</span> For</h3>
                             <p className="text-slate-400 font-light leading-relaxed text-lg">
-                                If you are a single-person food truck or a very small mom-and-pop shop with no growth interest, or if you simply want a 'tax filer'—we aren't the right fit.
+                                If you are a single-person food truck or a very small mom-and-pop shop with no growth interest, or if you simply want a &apos;tax filer&apos;—we aren&apos;t the right fit.
                             </p>
                             <p className="text-slate-400 font-light leading-relaxed mb-8">
                                 We specialize in high-overhead, high-volume hospitality where 1% makes or breaks the year.

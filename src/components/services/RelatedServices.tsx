@@ -9,7 +9,7 @@ interface RelatedService {
     _id: string;
     title: string;
     slug: { current: string };
-    icon: string;
+    icon?: string;
     shortDescription?: string;
 }
 
@@ -33,7 +33,7 @@ export function RelatedServices({ services }: RelatedServicesProps) {
                 <div className="relative z-10 flex flex-col h-full">
                     {/* Icon */}
                     <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-900 mb-4 transition-all duration-300 group-hover:bg-brand-900 group-hover:text-gold-400 group-hover:scale-110">
-                        <DynamicIcon name={s.icon} className="w-6 h-6" />
+                        <DynamicIcon name={s.icon || "Briefcase"} className="w-6 h-6" />
                     </div>
 
                     {/* Content */}

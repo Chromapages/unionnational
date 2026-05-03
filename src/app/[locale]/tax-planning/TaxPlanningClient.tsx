@@ -54,7 +54,7 @@ const FAQ_ITEMS = [
     }
 ];
 
-export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
+export default function TaxPlanningClient() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const toggleFaq = (index: number) => {
@@ -95,7 +95,7 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                             transition={{ delay: 0.2 }}
                             className="text-xl sm:text-2xl text-slate-300 mb-14 leading-relaxed max-w-3xl font-light mx-auto lg:mx-0"
                         >
-                            Most business owners lose thousands in the gap between "earning" and "filing." We close that gap with a proactive planning system that catches savings while the year is still active.
+                            Most business owners lose thousands in the gap between &quot;earning&quot; and &quot;filing.&quot; We close that gap with a proactive planning system that catches savings while the year is still active.
                         </motion.p>
 
                         <motion.div
@@ -153,8 +153,8 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                                 <h2 className="text-4xl lg:text-7xl font-bold text-brand-950 font-heading leading-[0.9] tracking-tighter">
                                     The cost of <br /><span className="italic text-gold-600">waiting until April.</span>
                                 </h2>
-                                <p className="text-2xl text-slate-600 leading-relaxed font-light">
-                                    Accurate filing is just data entry. It's a record of what's already happened. By the time your returns are ready, <span className="text-brand-950 font-bold border-b-2 border-gold-500/30">the year is closed</span> and your options for legal tax reduction are gone.
+                                 <p className="text-2xl text-slate-600 leading-relaxed font-light">
+                                    Accurate filing is just data entry. It&apos;s a record of what&apos;s already happened. By the time your returns are ready, <span className="text-brand-950 font-bold border-b-2 border-gold-500/30">the year is closed</span> and your options for legal tax reduction are gone.
                                 </p>
                                 <p className="text-xl text-slate-500 leading-relaxed font-light">
                                     Real wealth preservation happens in the operations, the investments, and the entities you build while the clock is still running.
@@ -213,7 +213,7 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                             Your Strategy <br /><span className="italic text-gold-500 underline decoration-gold-500/30">Architecture.</span>
                         </h2>
                         <p className="text-xl text-slate-500 font-light not-italic leading-relaxed">
-                            We don't just 'find' deductions; we build a permanent structure designed to protect your wealth and fuel your lifestyle.
+                            We don&apos;t just &apos;find&apos; deductions; we build a permanent structure designed to protect your wealth and fuel your lifestyle.
                         </p>
                     </div>
 
@@ -264,7 +264,7 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                                     Permanent <br /><span className="text-gold-400">Preservation.</span>
                                 </h2>
                                 <p className="text-xl text-slate-300 leading-relaxed font-light">
-                                    Tax planning isn't just about saving this year—it's about creating a tax-efficient legacy that compounds over decades.
+                                    Tax planning isn&apos;t just about saving this year—it&apos;s about creating a tax-efficient legacy that compounds over decades.
                                 </p>
                                 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
@@ -323,7 +323,7 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                                 {[
                                     "Profitable business owners doing $200k+ in net income",
                                     "Individuals with multiple entity or income streams",
-                                    "Owners who feel their current CPA is 'only a historian'",
+                                    "Owners who feel their current CPA is &apos;only a historian&apos;",
                                     "Founders of high-growth tech or service firms",
                                     "High-net-worth operators looking for structural safety"
                                 ].map((item, i) => (
@@ -336,8 +336,8 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                         </div>
                         <div className="bg-brand-950 p-10 lg:p-20 text-white space-y-8 flex flex-col justify-center">
                             <h3 className="text-4xl font-bold font-heading tracking-tighter">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
-                            <p className="text-slate-400 font-light leading-relaxed text-lg">
-                                If you are looking for the cheapest annual filing possible, or if you only have a W-2 and no business activity, you likely won't see the ROI from advanced tax planning.
+                             <p className="text-slate-400 font-light leading-relaxed text-lg">
+                                If you are looking for the cheapest annual filing possible, or if you only have a W-2 and no business activity, you likely won&apos;t see the ROI from advanced tax planning.
                             </p>
                             <p className="text-slate-400 font-light leading-relaxed mb-8">
                                 We specialize in business-level complexity where structure creates real leverage. If you want strategy, we are your partner.
@@ -364,10 +364,10 @@ export default function TaxPlanningClient({ locale }: TaxPlanningClientProps) {
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 relative">
                     <div className="absolute top-1/2 left-0 w-full h-px bg-slate-200 hidden md:block -translate-y-1/2" />
                     {[
-                        { q: "Q1", title: "Assessment", desc: "Modeling last year's returns and setting annual saving benchmarks." },
+                        { q: "Q1", title: "Assessment", desc: "Modeling last year&apos;s returns and setting annual saving benchmarks." },
                         { q: "Q2", title: "Monitoring", desc: "Reviewing mid-year performance and adjusting entity elections/salaries." },
                         { q: "Q3", title: "Implementation", desc: "Executing high-impact tax moves before the year-end deadline." },
-                        { q: "Q4", title: "Finalization", desc: "Clean, strategy-aligned filing with zero 'surprise' liabilities." }
+                        { q: "Q4", title: "Finalization", desc: "Clean, strategy-aligned filing with zero &apos;surprise&apos; liabilities." }
                     ].map((step, i) => (
                         <div key={i} className="relative z-10 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm text-center group hover:border-gold-500 transition-all">
                             <div className="w-12 h-12 rounded-full bg-brand-950 text-gold-500 flex items-center justify-center font-black mx-auto mb-6 group-hover:scale-110 transition-transform">{step.q}</div>

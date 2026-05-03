@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Check, Mail, ArrowRight, ArrowLeft, Send, Zap, Target as TargetIcon, Award, Building2, TrendingUp, Shield } from "lucide-react";
+import Link from "next/link";
 
 interface Answer {
     questionId: number;
@@ -12,7 +13,7 @@ interface Answer {
 const QUESTIONS = [
     {
         id: 1,
-        question: "What's your current annual net business income?",
+        question: "What&apos;s your current annual net business income?",
         options: [
             { label: "Under $50,000", value: 0 },
             { label: "$50,000 - $80,000", value: 1 },
@@ -25,7 +26,7 @@ const QUESTIONS = [
         id: 2,
         question: "How much do you pay in self-employment tax currently?",
         options: [
-            { label: "I don't know", value: 0 },
+            { label: "I don&apos;t know", value: 0 },
             { label: "Under $5,000", value: 1 },
             { label: "$5,000 - $12,000", value: 3 },
             { label: "$12,000 - $25,000", value: 5 },
@@ -46,10 +47,10 @@ const QUESTIONS = [
         id: 4,
         question: "How important is tax optimization to you?",
         options: [
-            { label: "I'd rather not think about it", value: 0 },
+            { label: "I&apos;d rather not think about it", value: 0 },
             { label: "Somewhat important", value: 1 },
             { label: "Very important - I want to minimize taxes legally", value: 3 },
-            { label: "Extremely important - it's a top priority", value: 5 },
+            { label: "Extremely important - it&apos;s a top priority", value: 5 },
         ],
     },
     {
@@ -58,7 +59,7 @@ const QUESTIONS = [
         options: [
             { label: "No, I want minimal complexity", value: 0 },
             { label: "Some additional is okay", value: 2 },
-            { label: "I'm willing to do what's needed", value: 4 },
+            { label: "I&apos;m willing to do what&apos;s needed", value: 4 },
         ],
     },
 ];
@@ -153,9 +154,9 @@ export function SCorpAdvantageGuide() {
                         ))}
                     </div>
 
-                    <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all">
+                    <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all">
                         Get Your Custom Plan <ArrowRight className="w-5 h-5" />
-                    </a>
+                    </Link>
                 </div>
             </section>
         );
@@ -248,7 +249,7 @@ export function SCorpAdvantageGuide() {
             {answers.length === QUESTIONS.length && (
                 <div id="guide-email-modal" className="hidden mt-8 bg-white rounded-3xl p-8">
                     <h3 className="text-2xl font-bold text-brand-900 mb-2">Get Your Free Guide</h3>
-                    <p className="text-slate-600 mb-6">Enter your email to receive "The S-Corp Advantage" guide with your personalized recommendations.</p>
+                    <p className="text-slate-600 mb-6">Enter your email to receive &quot;The S-Corp Advantage&quot; guide with your personalized recommendations.</p>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>

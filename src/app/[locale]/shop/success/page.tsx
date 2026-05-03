@@ -2,9 +2,28 @@ import { Link } from "@/i18n/navigation";
 import { CheckCircle2, ShoppingBag, ArrowRight, Mail, Download, Package } from "lucide-react";
 import { getStripe } from "@/lib/stripe";
 import { ShopPurchaseEvent } from "@/components/seo/ShopPurchaseEvent";
+import { ClearCartAfterPurchase } from "@/components/shop/ClearCartAfterPurchase";
+import type Stripe from "stripe";
 
 interface SuccessPageProps {
     searchParams: Promise<{ session_id?: string }>;
+}
+
+interface MetadataItem {
+    t?: string;
+    sh?: boolean;
+    q?: number;
+}
+
+function parseMetadataItems(metadata?: Stripe.Metadata | null): MetadataItem[] {
+    if (!metadata?.items) return [];
+
+    try {
+        const parsed = JSON.parse(metadata.items);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
 }
 
 export default async function ShopSuccessPage({ searchParams }: SuccessPageProps) {
@@ -25,18 +44,50 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
     const customerEmail = session?.customer_details?.email || "your email";
     const amountTotal = session?.amount_total ? (session.amount_total / 100).toFixed(2) : null;
     const currency = session?.currency?.toUpperCase() || "USD";
+    const metadataItems = parseMetadataItems(session?.metadata);
+    const hasDigital = session?.metadata?.has_digital === "true" || metadataItems.some((item) => item.t === "digital" || item.t === "audio" || item.t === "bundle");
+    const hasPhysical = session?.metadata?.has_physical === "true" || metadataItems.some((item) => item.sh === true || item.t === "physical" || item.t === "bundle");
 
     // Extract items for tracking
-    const trackedItems = session?.line_items?.data.map((item: any) => ({
-        name: item.description,
-        id: (item.price?.product as any)?.id || item.price?.id,
-        price: (item.amount_total / 100) / item.quantity,
-        quantity: item.quantity,
+    const trackedItems = session?.line_items?.data.map((item: Stripe.LineItem) => ({
+        name: item.description || "Shop order item",
+        id: typeof item.price?.product === "string" ? item.price.product : item.price?.product?.id || item.price?.id || item.id,
+        price: (item.amount_total / 100) / (item.quantity || 1),
+        quantity: item.quantity || 1,
     })) || [];
+
+    if (!session) {
+        return (
+            <main className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
+                <div className="max-w-2xl text-center">
+                    <div className="mb-8 flex justify-center">
+                        <div className="bg-white p-6 rounded-3xl shadow-xl border border-amber-100">
+                            <Package className="w-14 h-14 text-amber-500" />
+                        </div>
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-bold text-brand-900 font-heading mb-5 tracking-tight">
+                        We could not verify this order yet.
+                    </h1>
+                    <p className="text-lg text-slate-600 mb-8">
+                        If you completed payment, check your email for the Stripe receipt or contact order support so we can look it up.
+                    </p>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link href="/shop/cart" className="w-full sm:w-auto px-8 py-4 bg-brand-900 text-gold-400 font-black uppercase tracking-[0.16em] rounded-2xl">
+                            Return to Cart
+                        </Link>
+                        <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-white border-2 border-slate-200 text-brand-900 font-bold rounded-2xl">
+                            Contact Support
+                        </Link>
+                    </div>
+                </div>
+            </main>
+        );
+    }
 
     return (
         <main className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
-            {session && (
+            <ClearCartAfterPurchase sessionId={session.id} />
+            {session && amountTotal && (
                 <ShopPurchaseEvent 
                     orderId={session.id}
                     total={Number(amountTotal)}
@@ -60,7 +111,7 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                 </h1>
                 <p className="text-xl text-slate-600 mb-10 max-w-xl mx-auto leading-relaxed">
                     Thank you for choosing Union National. Your payment was processed successfully, 
-                    and we've sent your receipt to <span className="font-bold text-brand-900">{customerEmail}</span>.
+                    and we&apos;ve sent your receipt to <span className="font-bold text-brand-900">{customerEmail}</span>.
                 </p>
 
                 {/* Order Summary Card (Dynamic) */}
@@ -85,22 +136,26 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                             </div>
                             
                             <div className="space-y-4">
-                                <div className="flex gap-4">
-                                    <div className="w-8 h-8 bg-gold-50 rounded-full flex items-center justify-center shrink-0">
-                                        <Mail className="w-4 h-4 text-gold-600" />
+                                {hasDigital && (
+                                    <div className="flex gap-4">
+                                        <div className="w-8 h-8 bg-gold-50 rounded-full flex items-center justify-center shrink-0">
+                                            <Mail className="w-4 h-4 text-gold-600" />
+                                        </div>
+                                        <p className="text-sm text-slate-600">
+                                            Digital access instructions will be sent to <span className="font-semibold">{customerEmail}</span>.
+                                        </p>
                                     </div>
-                                    <p className="text-sm text-slate-600">
-                                        Digital access links have been sent to <span className="font-semibold">{customerEmail}</span>.
-                                    </p>
-                                </div>
-                                <div className="flex gap-4">
-                                    <div className="w-8 h-8 bg-brand-50 rounded-full flex items-center justify-center shrink-0">
-                                        <Package className="w-4 h-4 text-brand-600" />
+                                )}
+                                {hasPhysical && (
+                                    <div className="flex gap-4">
+                                        <div className="w-8 h-8 bg-brand-50 rounded-full flex items-center justify-center shrink-0">
+                                            <Package className="w-4 h-4 text-brand-600" />
+                                        </div>
+                                        <p className="text-sm text-slate-600">
+                                            Physical items will be prepared for shipment using the address provided at checkout.
+                                        </p>
                                     </div>
-                                    <p className="text-sm text-slate-600">
-                                        Physical items will be dispatched within 2-3 business days.
-                                    </p>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -117,15 +172,27 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                             A detailed confirmation and instructions for digital downloads are in your inbox.
                         </p>
                     </div>
-                    <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm text-left group hover:border-gold-500/20 transition-all">
-                        <div className="w-12 h-12 bg-slate-900 text-gold-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                            <Download className="w-6 h-6" />
+                    {hasDigital ? (
+                        <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm text-left group hover:border-gold-500/20 transition-all">
+                            <div className="w-12 h-12 bg-slate-900 text-gold-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                                <Download className="w-6 h-6" />
+                            </div>
+                            <h3 className="font-bold text-brand-900 mb-2">Digital Access</h3>
+                            <p className="text-sm text-slate-500 leading-relaxed">
+                                Your digital fulfillment instructions are tied to this confirmed Stripe order.
+                            </p>
                         </div>
-                        <h3 className="font-bold text-brand-900 mb-2">Instant Downloads</h3>
-                        <p className="text-sm text-slate-500 leading-relaxed">
-                            Digital PDF copies and Audio assets can be accessed immediately via your unique links.
-                        </p>
-                    </div>
+                    ) : (
+                        <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm text-left group hover:border-gold-500/20 transition-all">
+                            <div className="w-12 h-12 bg-slate-900 text-gold-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                                <Package className="w-6 h-6" />
+                            </div>
+                            <h3 className="font-bold text-brand-900 mb-2">Shipping Prep</h3>
+                            <p className="text-sm text-slate-500 leading-relaxed">
+                                Your physical order will move into the fulfillment queue after payment confirmation.
+                            </p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Actions */}
@@ -148,7 +215,7 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
 
                 <div className="mt-20 pt-8 border-t border-slate-200/60 max-w-xl mx-auto">
                     <p className="text-sm text-slate-400">
-                        Need assistance? We're here to help. <Link href="/contact" className="text-brand-700 font-bold hover:text-gold-600 transition-colors">Contact Order Support</Link>
+                        Need assistance? We&apos;re here to help. <Link href="/contact" className="text-brand-700 font-bold hover:text-gold-600 transition-colors">Contact Order Support</Link>
                     </p>
                 </div>
             </div>

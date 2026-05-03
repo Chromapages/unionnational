@@ -8,7 +8,7 @@ import { PortableText } from "@portabletext/react";
 interface FAQItem {
     _id: string;
     question: string;
-    answer: any; // Can be string or Portable Text blocks
+    answer: string | any[]; // Can be string or Portable Text blocks
     category: string;
 }
 
@@ -47,10 +47,11 @@ export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
             strong: ({ children }: any) => <strong className="font-bold">{children}</strong>,
             em: ({ children }: any) => <em className="italic">{children}</em>,
             link: ({ children, value }: any) => {
-                const rel = !value.href.startsWith("/") ? "noreferrer noopener" : undefined;
+                const href = value?.href || "#";
+                const rel = !href.startsWith("/") ? "noreferrer noopener" : undefined;
                 return (
                     <a
-                        href={value.href}
+                        href={href}
                         rel={rel}
                         className="text-gold-500 underline hover:text-gold-400 transition-colors"
                     >

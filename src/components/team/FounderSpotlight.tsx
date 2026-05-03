@@ -3,8 +3,10 @@ import { Linkedin, Quote, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 
+import { type TeamMember } from "@/types/sanity";
+
 interface FounderSpotlightProps {
-    founder: any;
+    founder: TeamMember;
     title: string;
 }
 

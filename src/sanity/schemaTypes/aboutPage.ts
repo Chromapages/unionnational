@@ -1,5 +1,4 @@
 import { defineField, defineType } from 'sanity'
-import { Store, User, Award, List } from 'lucide-react'
 
 export const aboutPage = defineType({
     name: 'aboutPage',

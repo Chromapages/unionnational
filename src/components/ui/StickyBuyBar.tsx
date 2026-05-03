@@ -17,9 +17,10 @@ interface StickyBuyBarProps {
     buyLink?: string;
     stripeProductId?: string;
     stripePriceId?: string;
+    requiresFormatSelection?: boolean;
 }
 
-export function StickyBuyBar({ id, slug, title, price, image, format, buyLink, stripeProductId, stripePriceId }: StickyBuyBarProps) {
+export function StickyBuyBar({ id, slug, title, price, image, format, buyLink, stripeProductId, stripePriceId, requiresFormatSelection = false }: StickyBuyBarProps) {
     const [isVisible, setIsVisible] = useState(false);
     const addItem = useCartStore((state) => state.addItem);
     const toggleCart = useCartStore((state) => state.toggleCart);
@@ -35,6 +36,11 @@ export function StickyBuyBar({ id, slug, title, price, image, format, buyLink, s
     }, []);
 
     const handleAddToCart = () => {
+        if (requiresFormatSelection) {
+            document.getElementById("product-purchase")?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+
         addItem({
             id: buildCartItemKey(id),
             productId: id,
@@ -102,7 +108,7 @@ export function StickyBuyBar({ id, slug, title, price, image, format, buyLink, s
                                 className="bg-gold-500 text-brand-900 hover:bg-gold-400 font-sans font-bold uppercase tracking-[0.1em] text-[10px] py-2.5 px-6 rounded-md shadow-sm active:scale-[0.96] transition-all flex items-center gap-2"
                             >
                                 <ShoppingBag className="w-3.5 h-3.5" />
-                                Add to Cart
+                                {requiresFormatSelection ? "Select Format" : "Add to Cart"}
                             </button>
                         </div>
                     </div>

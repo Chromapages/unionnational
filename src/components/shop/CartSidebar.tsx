@@ -53,7 +53,6 @@ export function CartSidebar() {
     const removeItem = useCartStore((state) => state.removeItem);
     const updateQuantityByAmount = useCartStore((state) => state.updateQuantity);
     const totalPrice = useCartStore((state) => state.totalPrice);
-    const clearCart = useCartStore((state) => state.clearCart);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
 
@@ -98,7 +97,6 @@ export function CartSidebar() {
 
                 const result = await beginCheckout(items);
                 if (result.ok && result.redirectUrl) {
-                    clearCart();
                     window.location.assign(result.redirectUrl);
                     return;
                 }

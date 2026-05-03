@@ -14,9 +14,6 @@ import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { urlFor } from "@/sanity/lib/image";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-import { ArrowRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
 
 import ProblemSection from "@/components/home/ProblemSection";
 import { ThreeCorePaths } from "@/components/home/ThreeCorePaths";

@@ -157,8 +157,21 @@ export const product = defineType({
                     fields: [
                         { name: "name", title: "Edition Name", type: "string", validation: (Rule) => Rule.required() },
                         { name: "price", title: "Price", type: "number", validation: (Rule) => Rule.required().min(0) },
-                        { name: "format", title: "Format Type", type: "string" },
+                        {
+                            name: "format",
+                            title: "Format Type",
+                            type: "string",
+                            options: {
+                                list: [
+                                    { title: "Digital (PDF/ePub)", value: "digital" },
+                                    { title: "Physical (Print)", value: "physical" },
+                                    { title: "Audiobook", value: "audio" },
+                                    { title: "Bundle (Digital + Print)", value: "bundle" },
+                                ],
+                            },
+                        },
                         { name: "stripePriceId", title: "Stripe Price ID", type: "string" },
+                        { name: "stripeProductId", title: "Stripe Product ID", type: "string" },
                         { name: "description", title: "Short Description", type: "string" },
                     ],
                 },

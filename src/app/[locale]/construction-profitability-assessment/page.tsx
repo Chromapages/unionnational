@@ -92,7 +92,7 @@ export default async function ConstructionAssessmentPage() {
                         </h1>
                         
                         <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-light leading-relaxed animate-slide-up delay-100">
-                            The Construction Money-Making Blueprint Assessment: Discover your "Profitability Score" and uncover exactly where your hard-earned revenue is leaking.
+                            The Construction Money-Making Blueprint Assessment: Discover your &quot;Profitability Score&quot; and uncover exactly where your hard-earned revenue is leaking.
                         </p>
 
                         <div className="flex justify-center animate-bounce-subtle">
@@ -135,14 +135,14 @@ export default async function ConstructionAssessmentPage() {
                                     Is This Assessment <br /> Right For You?
                                 </h2>
                                 <p className="text-brand-900/60 text-lg leading-relaxed font-light italic">
-                                    "Most contractors are excellent at their trade but struggle with the business of construction. We're here to bridge that gap."
+                                    &quot;Most contractors are excellent at their trade but struggle with the business of construction. We&apos;re here to bridge that gap.&quot;
                                 </p>
                                 <div className="space-y-4">
                                     {[
-                                        "You're doing $500k+ in revenue but your bank balance doesn't reflect it.",
+                                        "You&apos;re doing $500k+ in revenue but your bank balance doesn&apos;t reflect it.",
                                         "You struggle to track real-time job costs on a project-by-project basis.",
-                                        "You're tired of 'Tax Season Surprises' that wipe out your cash reserves.",
-                                        "You want to scale but feel like you're losing control of your margins."
+                                        "You&apos;re tired of &apos;Tax Season Surprises&apos; that wipe out your cash reserves.",
+                                        "You want to scale but feel like you&apos;re losing control of your margins."
                                     ].map((point, i) => (
                                         <div key={i} className="flex items-start gap-4">
                                             <CheckCircle2 className="text-gold-500 shrink-0 mt-1" size={20} />
@@ -170,7 +170,7 @@ export default async function ConstructionAssessmentPage() {
                     <div className="container px-6 mx-auto">
                         <div className="text-center mb-20">
                             <h2 className="text-4xl font-bold text-brand-900 font-heading tracking-tight uppercase mb-4">
-                                What's Inside The Blueprint?
+                                What&apos;s Inside The Blueprint?
                             </h2>
                             <p className="text-brand-900/50 uppercase tracking-widest font-black text-[10px]">Everything you need to secure your construction empire.</p>
                         </div>
@@ -229,7 +229,7 @@ export default async function ConstructionAssessmentPage() {
                 <section className="py-20 bg-brand-900 text-white text-center">
                     <div className="container px-6 mx-auto">
                         <h2 className="text-3xl md:text-4xl font-bold font-heading uppercase tracking-tighter mb-8 italic">
-                            Don't leave your <span className="text-gold-500">margins</span> to chance.
+                            Don&apos;t leave your <span className="text-gold-500">margins</span> to chance.
                         </h2>
                         <Link 
                             href="#assessment"

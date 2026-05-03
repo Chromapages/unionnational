@@ -19,8 +19,13 @@ export async function beginCheckout(items: CartLineItem[]): Promise<CheckoutResu
     const payload: CheckoutCartItemPayload[] = items.map((item) => ({
         productId: item.productId,
         editionId: item.editionId,
+        editionName: item.editionName,
         slug: item.slug,
         quantity: item.quantity,
+        stripePriceId: item.stripePriceId,
+        format: item.format,
+        fulfillmentType: item.fulfillmentType,
+        requiresShipping: item.requiresShipping,
     }));
 
     const response = await fetch("/api/shop/checkout", {

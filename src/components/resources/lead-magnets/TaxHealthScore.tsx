@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Check, Mail, ArrowRight, ArrowLeft, Send, Download, TrendingUp, AlertTriangle, Building, DollarSign, FileText, Calendar } from "lucide-react";
+import Link from "next/link";
 
 interface Answer {
     questionId: number;
@@ -13,7 +14,7 @@ interface Answer {
 const QUESTIONS = [
     {
         id: 1,
-        question: "What's your annual business revenue?",
+        question: "What&apos;s your annual business revenue?",
         options: [
             { label: "Under $50,000", value: "under50k", score: 1 },
             { label: "$50,000 - $150,000", value: "50k-150k", score: 2 },
@@ -61,7 +62,7 @@ const QUESTIONS = [
         id: 5,
         question: "Are you currently maximizing business deductions?",
         options: [
-            { label: "I don't know what I can deduct", value: "no", score: 1 },
+            { label: "I don&apos;t know what I can deduct", value: "no", score: 1 },
             { label: "I take the standard deductions", value: "standard", score: 2 },
             { label: "I track most expenses", value: "most", score: 4 },
             { label: "Yes, I capture every legitimate deduction", value: "all", score: 5 },
@@ -148,9 +149,9 @@ export function TaxHealthScore() {
                         </p>
                     </div>
 
-                    <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition-all">
+                    <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition-all">
                         Discuss Your Results <ArrowRight className="w-5 h-5" />
-                    </a>
+                    </Link>
                 </div>
             </section>
         );

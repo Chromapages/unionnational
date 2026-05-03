@@ -6,10 +6,12 @@ import { Search, Filter, X } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { cn } from "@/lib/utils";
 
+import { type SanityBlock } from "@/types/sanity";
+
 interface FAQItem {
     _id: string;
     question: string;
-    answer: any;
+    answer: SanityBlock[] | string;
     category: string;
 }
 
@@ -95,7 +97,7 @@ export const FAQList = ({ items }: FAQListProps) => {
                         </div>
                         <h3 className="text-xl font-bold text-brand-900 mb-2">No answers found</h3>
                         <p className="text-slate-500 max-w-xs mx-auto">
-                            We couldn't find anything matching "{searchQuery}". Try a different term or contact us for help.
+                            We couldn&apos;t find anything matching &quot;{searchQuery}&quot;. Try a different term or contact us for help.
                         </p>
                     </RevealOnScroll>
                 )}

@@ -61,8 +61,8 @@ const industries: Industry[] = [
 ];
 
 export default async function IndustriesHubPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+    // const params = await props.params;
+    // const locale = params.locale;
 
     return (
         <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
@@ -87,7 +87,7 @@ export default async function IndustriesHubPage(props: { params: Promise<{ local
                                     <span className="text-gold-500">Advisory.</span>
                                 </h1>
                                 <p className="text-xl text-brand-50/80 mb-12 leading-relaxed font-sans max-w-xl">
-                                    Generalist accounting doesn't cut it for complex businesses. We provide deep, industry-specific strategy for those who demand more than simple filing.
+                                    Generalist accounting doesn&apos;t cut it for complex businesses. We provide deep, industry-specific strategy for those who demand more than simple filing.
                                 </p>
                             </RevealOnScroll>
                         </div>
@@ -150,7 +150,7 @@ export default async function IndustriesHubPage(props: { params: Promise<{ local
                     <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
                         <RevealOnScroll>
                             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">
-                                Don't see your industry?
+                                Don&apos;t see your industry?
                             </h2>
                             <p className="text-lg text-slate-300 mb-10 max-w-2xl mx-auto">
                                 We work with a variety of growth-minded business owners. Book a strategy call to see if our advisory-led approach is the right fit for your situation.

@@ -1,24 +1,19 @@
 "use client";
 
 import { 
-    ShoppingCart, 
-    Globe, 
-    Package, 
-    Zap,
-    BarChart3,
-    ShieldCheck,
-    Coins,
     CheckCircle2,
-    CreditCard,
-    Boxes,
-    ArrowRight,
-    Search,
+    Lock,
+    Zap,
     TrendingUp,
+    ShieldCheck,
     Globe2,
-    Layers,
+    Boxes,
+    Search,
+    CreditCard,
     Cpu,
-    Lock
+    Layers
 } from "lucide-react";
+import Image from "next/image";
 import { IndustryHero } from "@/components/industries/IndustryHero";
 import { IndustryBento } from "@/components/industries/IndustryBento";
 import { ComparisonTable } from "@/components/industries/ComparisonTable";
@@ -27,14 +22,10 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 
-interface EcommerceIndustryClientProps {
-    locale: string;
-}
-
 const FAQ_ITEMS = [
     {
         question: "How do you handle Sales Tax Nexus (Wayfair)?",
-        answer: "We use automated tracking to monitor your economic nexus across all 50 states. Once you hit a threshold, we manage the registration, collection oversight, and filing so you don't get hit with massive back-tax penalties and interest."
+        answer: "We use automated tracking to monitor your economic nexus across all 50 states. Once you hit a threshold, we manage the registration, collection oversight, and filing so you don&apos;t get hit with massive back-tax penalties and interest."
     },
     {
         question: "Can you help optimize my inventory valuation?",
@@ -46,7 +37,7 @@ const FAQ_ITEMS = [
     },
     {
         question: "Can e-commerce brands qualify for R&D tax credits?",
-        answer: "Many brands don't realize that developing custom Shopify themes, proprietary apps, or unique product formulations can qualify for R&D credits. We perform the analysis to see if you can claim these 'hidden' dollar-for-dollar tax offsets."
+        answer: "Many brands don&apos;t realize that developing custom Shopify themes, proprietary apps, or unique product formulations can qualify for R&D credits. We perform the analysis to see if you can claim these &apos;hidden&apos; dollar-for-dollar tax offsets."
     },
     {
         question: "How do you handle international sales and VAT?",
@@ -61,7 +52,7 @@ const FAQ_ITEMS = [
 const ECOMMERCE_CHALLENGES = [
     {
         title: "Wayfair Exposure",
-        description: "Explosive sales across 50 states create a massive 'silent' liability for Sales Tax Nexus that triggers devastating audits if ignored.",
+        description: "Explosive sales across 50 states create a massive &apos;silent&apos; liability for Sales Tax Nexus that triggers devastating audits if ignored.",
         icon: Globe2,
         size: "large" as const,
         stat: "50-State",
@@ -70,7 +61,7 @@ const ECOMMERCE_CHALLENGES = [
     },
     {
         title: "Inventory Leakage",
-        description: "Poor valuation methods (LIFO vs FIFO) often cause brands to pay taxes on profits that haven't even hit their bank account yet.",
+        description: "Poor valuation methods (LIFO vs FIFO) often cause brands to pay taxes on profits that haven&apos;t even hit their bank account yet.",
         icon: Boxes,
         size: "medium" as const
     },
@@ -108,10 +99,9 @@ const ECOMMERCE_COMPARISON = [
     { feature: "Exit Readiness", generic: "Not considered", architect: "Institutional-Grade Cleanliness" }
 ];
 
-export default function EcommerceIndustryClient({ locale }: EcommerceIndustryClientProps) {
+export default function EcommerceIndustryClient() {
     return (
         <div className="bg-white overflow-x-hidden">
-            {/* 1. Breadcrumbs Overlay */}
             <div className="absolute top-24 left-0 right-0 z-50 pointer-events-none">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <Breadcrumbs 
@@ -123,7 +113,6 @@ export default function EcommerceIndustryClient({ locale }: EcommerceIndustryCli
                 </div>
             </div>
 
-            {/* 2. Industry Hero */}
             <IndustryHero 
                 eyebrow="Digital-First Scale"
                 eyebrowIcon={Zap}
@@ -139,23 +128,20 @@ export default function EcommerceIndustryClient({ locale }: EcommerceIndustryCli
                 ]}
             />
 
-            {/* 3. The Challenges (Bento Grid) */}
             <IndustryBento 
                 eyebrow="The Digital-First Gap"
                 title="Why most brands"
                 highlight="choke on success."
-                subtitle="Generalist CPAs don't understand Wayfair thresholds or Shopify/Amazon settlement reports. You need a partner who speaks the language of high-velocity digital trade."
+                subtitle="Generalist CPAs don&apos;t understand Wayfair thresholds or Shopify/Amazon settlement reports. You need a partner who speaks the language of high-velocity digital trade."
                 items={ECOMMERCE_CHALLENGES}
             />
 
-            {/* 4. Comparison (Fintech Style) */}
             <ComparisonTable 
                 title="Digital Force vs. Standard Prep."
-                subtitle="We don't just keep books. We install the financial infrastructure required for multi-channel expansion."
+                subtitle="We don&apos;t just keep books. We install the financial infrastructure required for multi-channel expansion."
                 rows={ECOMMERCE_COMPARISON}
             />
 
-            {/* 5. Deep Dive Section */}
             <section className="py-32 px-6 lg:px-8 bg-brand-950 text-white relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-[0.02] pointer-events-none" />
                 
@@ -196,9 +182,11 @@ export default function EcommerceIndustryClient({ locale }: EcommerceIndustryCli
                         <div className="relative">
                             <RevealOnScroll delay={300}>
                                 <div className="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl group">
-                                    <img 
+                                    <Image 
                                         src="/images/ecommerce-cfo.jpg" 
                                         alt="Brand Review"
+                                        width={800}
+                                        height={1000}
                                         className="w-full aspect-[4/5] object-cover transition-transform duration-1000 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-transparent to-transparent opacity-60" />
@@ -230,7 +218,6 @@ export default function EcommerceIndustryClient({ locale }: EcommerceIndustryCli
                 </div>
             </section>
 
-            {/* 6. FAQ Section */}
             <section className="py-24 px-6 lg:px-8 bg-slate-50">
                 <div className="max-w-4xl mx-auto">
                     <RevealOnScroll className="text-center mb-16">
@@ -245,7 +232,6 @@ export default function EcommerceIndustryClient({ locale }: EcommerceIndustryCli
                 </div>
             </section>
 
-            {/* 7. Final CTA */}
             <CTASection 
                 variant="homepageWireframe"
                 data={{

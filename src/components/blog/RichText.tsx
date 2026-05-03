@@ -1,25 +1,26 @@
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { buildHeadingId, HeadingItem } from "./richTextUtils";
 import { extractString } from "@/lib/utils";
+import { SanityBlock } from "@/types/sanity";
 
 interface RichTextProps {
-    value: any;
+    value: SanityBlock[];
     headings?: HeadingItem[];
     locale: string;
 }
 
-const getPlainText = (value: any) =>
-    value?.children?.map((child: any) => child.text).join("").trim() || "";
+const getPlainText = (value: SanityBlock) =>
+    value?.children?.map((child) => child.text).join("").trim() || "";
 
 export function RichText({ value, headings = [], locale }: RichTextProps) {
     let headingIndex = 0;
     const slugCounts = new Map<string, number>();
 
-    const components = {
+    const components: PortableTextComponents = {
         types: {
-            image: ({ value: imageValue }: any) => {
+            image: ({ value: imageValue }: { value: any }) => {
                 if (!imageValue?.asset?._ref) {
                     return null;
                 }

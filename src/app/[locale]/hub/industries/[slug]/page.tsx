@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { ArrowRight, BookOpen, FileText } from "lucide-react";
+import { IndustryVertical, PlaybookChapter, Playbook } from "@/types/sanity";
 
 export const revalidate = 60;
 
@@ -23,13 +24,15 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         params: { slug, locale },
     });
 
-    if (!industry) {
+    const typedIndustry = industry as IndustryVertical | null;
+
+    if (!typedIndustry) {
         return { title: "Industry Not Found" };
     }
 
     return {
-        title: `${industry.title} | Industry Guides`,
-        description: industry.description,
+        title: `${typedIndustry.title} | Industry Guides`,
+        description: typedIndustry.description,
     };
 }
 
@@ -41,35 +44,37 @@ export default async function IndustryPage(props: PageProps) {
         params: { slug, locale },
     });
 
-    if (!industry) {
+    const typedIndustry = industry as IndustryVertical | null;
+
+    if (!typedIndustry) {
         notFound();
     }
 
-    const featuredChapters = industry.featuredPlaybookChapters || [];
-    const relatedPlaybooks = industry.relatedPlaybooks || [];
+    const featuredChapters = typedIndustry.featuredPlaybookChapters || [];
+    const relatedPlaybooks = typedIndustry.relatedPlaybooks || [];
 
     return (
         <main id="main-content" className="bg-surface min-h-screen">
             <HeaderWrapper />
             
             <VerticalHero
-                title={industry.title}
-                description={industry.description}
-                heroImage={industry.heroImage}
-                heroVideo={industry.heroVideo}
-                painPoints={industry.painPoints}
-                stats={industry.stats}
-                testimonials={industry.clientTestimonials}
+                title={typedIndustry.title}
+                description={typedIndustry.description}
+                heroImage={typedIndustry.heroImage}
+                heroVideo={typedIndustry.heroVideo}
+                painPoints={typedIndustry.painPoints}
+                stats={typedIndustry.stats}
+                testimonials={typedIndustry.clientTestimonials}
             />
 
             {featuredChapters.length > 0 && (
                 <section className="mx-auto max-w-7xl px-6 py-16">
                     <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Relevant Chapters</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {featuredChapters.map((chapter: any) => (
+                        {featuredChapters.map((chapter: PlaybookChapter) => (
                             <Link
                                 key={chapter._id}
-                                href={`/hub/s-corp-playbook/${chapter.slug}`}
+                                href={`/hub/s-corp-playbook/${chapter.slug.current}`}
                                 className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10 hover:border-gold-500/30"
                             >
                                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-500/20 text-gold-300 text-lg font-bold">
@@ -95,10 +100,10 @@ export default async function IndustryPage(props: PageProps) {
                 <section className="mx-auto max-w-7xl px-6 py-16">
                     <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Related Playbooks</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {relatedPlaybooks.map((playbook: any) => (
+                        {relatedPlaybooks.map((playbook: Playbook) => (
                             <Link
                                 key={playbook._id}
-                                href={`/hub/${playbook.slug}`}
+                                href={`/hub/${playbook.slug.current}`}
                                 className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-brand-950/40 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-gold"
                             >
                                 {playbook.coverImage ? (

@@ -25,6 +25,7 @@ import { ScorpFAQSection } from "@/components/scorp/ScorpFAQSection";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { ShopViewContent } from "@/components/seo/ShopViewContent";
+import { Service } from "@/types/sanity";
 import {
     FALLBACK_FAQS,
     FALLBACK_ROADMAP,
@@ -42,11 +43,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     const { data: service } = await sanityFetch({ query: SERVICE_QUERY, params: { slug: SLUG, locale } });
     
+    const typedService = service as Service | null;
     const baseUrl = "https://unionnationaltax.com";
     const path = locale === "en" ? `/${SLUG}` : `/${locale}/${SLUG}`;
     const canonicalUrl = `${baseUrl}${path}`;
 
-    if (!service) {
+    if (!typedService) {
         return {
             title: "S-Corp Tax Advantage Program | Union National Tax",
             description: "Evaluate whether an S-Corp election could lower tax burden and support smarter growth.",
@@ -56,9 +58,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
         };
     }
 
-    const { seo } = service;
-    const metaTitle = seo?.metaTitle || `${service.title} | Union National Tax`;
-    const metaDescription = seo?.metaDescription || service.shortDescription;
+    const { seo } = typedService;
+    const metaTitle = seo?.metaTitle || `${typedService.title} | Union National Tax`;
+    const metaDescription = seo?.metaDescription || typedService.shortDescription;
 
     let ogImageUrl = "";
     if (seo?.openGraphImage?.asset) {
@@ -92,31 +94,33 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
         params: { slug: SLUG, locale } 
     });
 
-    if (!service) {
+    const typedService = service as Service | null;
+
+    if (!typedService) {
         notFound();
     }
 
     // Resolve Dynamic Data
-    const faqs = (service?.faq?.length > 0 ? service.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
+    const faqs = (typedService?.faq && typedService.faq.length > 0 ? typedService.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
         q: item.q || item.question || FALLBACK_FAQS[i]?.q,
         a: item.a || item.answer || FALLBACK_FAQS[i]?.a
     }));
 
-    const roadmap = (service?.roadmap?.length > 0 ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
+    const roadmap = (typedService?.roadmap && typedService.roadmap.length > 0 ? typedService.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
         stepNumber: step.stepNumber || FALLBACK_ROADMAP[i]?.stepNumber || (i + 1).toString().padStart(2, '0'),
         title: step.title || FALLBACK_ROADMAP[i]?.title,
         description: step.description || FALLBACK_ROADMAP[i]?.description
     }));
 
-    const criteriaPros = service?.eligibilityPros?.length > 0 ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
-    const criteriaCons = service?.eligibilityCons?.length > 0 ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
+    const criteriaPros = typedService?.eligibilityPros && typedService.eligibilityPros.length > 0 ? typedService.eligibilityPros : FALLBACK_CRITERIA_PROS;
+    const criteriaCons = typedService?.eligibilityCons && typedService.eligibilityCons.length > 0 ? typedService.eligibilityCons : FALLBACK_CRITERIA_CONS;
     
-    const comparisonPoints = (service?.comparisonPoints?.length > 0 ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
+    const comparisonPoints = (typedService?.comparisonPoints && typedService.comparisonPoints.length > 0 ? typedService.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
         ...FALLBACK_COMPARISON[i],
         ...item
     }));
 
-    const trustSignals = service?.trustSignals?.length > 0 ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
+    const trustSignals = typedService?.trustSignals && typedService.trustSignals.length > 0 ? typedService.trustSignals : FALLBACK_TRUST_SIGNALS;
 
     const heroTitle = service?.title || "Stop Overpaying Yourself Into Higher Taxes.";
     const heroDescription = service?.shortDescription || "The S-Corp Tax Advantage Program helps qualified business owners evaluate whether an S-Corp election could lower tax burden, improve compensation structure, and support smarter long-term growth.";
@@ -364,7 +368,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
                             <div className="bg-brand-900 p-8 lg:p-16 text-white relative overflow-hidden flex flex-col justify-center">
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-[80px]" />
                                 <div className="relative space-y-8">
-                                    <h3 className="text-3xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                                    <h3 className="text-3xl font-bold font-heading tracking-tight">Who It&apos;s <span className="text-gold-500 italic">Not</span> For</h3>
                                     {criteriaCons.map((item: string, idx: number) => (
                                         <p key={idx} className="text-slate-400 font-light leading-relaxed text-lg font-sans">
                                             {item}
@@ -403,7 +407,7 @@ export default async function SCorpAdvantagePage(props: { params: Promise<{ loca
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
                             <div className="absolute top-[45px] left-8 right-8 h-px bg-slate-100 hidden lg:block" />
-                            {roadmap.map((step: any, i: number) => (
+                            {roadmap.map((step, i: number) => (
                                 <RevealOnScroll key={i} delay={i * 100}>
                                     <div className="relative z-10 bg-white p-8 lg:p-10 rounded-2xl border border-slate-200 shadow-sm text-center group hover:border-gold-500/40 transition-all flex flex-col items-center">
                                         <div className="w-10 h-10 rounded-full bg-brand-900 border border-gold-500/30 text-gold-500 flex items-center justify-center font-bold mb-6 text-sm group-hover:scale-110 transition-transform duration-300">

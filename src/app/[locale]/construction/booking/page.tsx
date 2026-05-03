@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import { X, CheckCircle2, Palmtree, Calendar, Star } from "lucide-react";
+import { X, CheckCircle2, Palmtree, Calendar } from "lucide-react";
 
 export const metadata: Metadata = {
     title: "VIP Booking: Construction Partner Program | Union National Tax",
@@ -9,8 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ConstructionBookingPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+    await props.params;
     return (
         <div className="min-h-screen bg-brand-900 font-sans selection:bg-emerald-500 selection:text-white flex flex-col">
 
@@ -126,7 +125,7 @@ export default async function ConstructionBookingPage(props: { params: Promise<{
                             <div className="bg-brand-800/80 p-4 border-b border-brand-700 flex items-center justify-between">
                                 <span className="text-sm font-bold text-white flex items-center gap-2">
                                     <Calendar className="w-4 h-4 text-emerald-500" />
-                                    Jason Astwood's Calendar
+                                    Jason Astwood&apos;s Calendar
                                 </span>
                                 <div className="flex gap-1">
                                     <span className="w-2 h-2 rounded-full bg-red-500"></span>

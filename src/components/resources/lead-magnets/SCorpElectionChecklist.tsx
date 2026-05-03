@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClipboardCheck, Check, Mail, ArrowRight, ArrowLeft, Send, Building, Users, DollarSign, Clock, Shield } from "lucide-react";
+import Link from "next/link";
 
 interface Answer {
     questionId: number;
@@ -48,7 +49,7 @@ const CRITERIA = [
     {
         id: 6,
         question: "Do you pay yourself a reasonable salary?",
-        description: "You'll need to take a reasonable salary as an employee of your S-Corp.",
+        description: "You&apos;ll need to take a reasonable salary as an employee of your S-Corp.",
         icon: Users,
         required: false,
     },
@@ -144,13 +145,13 @@ export function SCorpElectionChecklist() {
                     </div>
 
                     {isEligible ? (
-                        <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-all">
+                        <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition-all">
                             Schedule Your Consultation <ArrowRight className="w-5 h-5" />
-                        </a>
+                        </Link>
                     ) : (
-                        <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl transition-all">
+                        <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl transition-all">
                             Discuss Your Options <ArrowRight className="w-5 h-5" />
-                        </a>
+                        </Link>
                     )}
                 </div>
             </section>

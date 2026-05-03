@@ -1,14 +1,15 @@
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
+import { SanityBlock } from "@/types/sanity";
 
 interface BlogContentProps {
-    value: any;
+    value: SanityBlock[];
 }
 
-const components = {
+const components: PortableTextComponents = {
     types: {
-        image: ({ value }: any) => {
+        image: ({ value }: { value: { asset?: { _ref: string }; alt?: string; caption?: string } }) => {
             if (!value?.asset?._ref) {
                 return null;
             }
@@ -38,7 +39,7 @@ const components = {
         normal: ({ children }: any) => <p className="text-lg leading-relaxed text-brand-900 mb-6 font-sans font-normal antialiased">{children}</p>,
         blockquote: ({ children }: any) => (
             <blockquote className="border-l-4 border-gold-500 pl-6 py-2 my-8 italic text-xl text-brand-900/80 font-serif bg-slate-50 rounded-r-lg">
-                "{children}"
+                &quot;{children}&quot;
             </blockquote>
         ),
     },
@@ -63,7 +64,7 @@ const components = {
                 </a>
             );
         },
-        strong: ({ children }: any) => <strong className="font-bold text-brand-900 font-heading">{children}</strong>,
+        strong: ({ children }: { children: React.ReactNode }) => <strong className="font-bold text-brand-900 font-heading">{children}</strong>,
     },
 };
 

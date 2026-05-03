@@ -51,9 +51,6 @@ export function VideoPlayer({
     className = '',
     chapters = []
 }: VideoPlayerProps) {
-    // Don't render if no src
-    if (!src) return null;
-
     const { videoRef, containerRef, state, controls } = useVideoPlayer({
         src,
         autoPlay,
@@ -89,17 +86,13 @@ export function VideoPlayer({
         setIsClient(true);
     }, []);
 
-    // Current Chapter & CTA Logic
-    const currentChapter = chapters.slice().reverse().find(c => state.currentTime >= c.startTime);
-    const showCta = currentChapter?.cta && state.isPlaying && !state.isBuffering;
-
     // Format time helper
-    const formatTime = (seconds: number) => {
+    const formatTime = useCallback((seconds: number) => {
         if (isNaN(seconds)) return "0:00";
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs.toString().padStart(2, '0')}`;
-    };
+    }, []);
 
     // Handle mouse movement to show/hide controls
     const handleMouseMove = useCallback(() => {
@@ -206,7 +199,14 @@ export function VideoPlayer({
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [controls, state.volume, state.isFullscreen, handleMouseMove]);
+    }, [controls, state.volume, state.isFullscreen, handleMouseMove, containerRef]);
+
+    // Don't render if no src
+    if (!src) return null;
+
+    // Current Chapter & CTA Logic
+    const currentChapter = chapters.slice().reverse().find(c => state.currentTime >= c.startTime);
+    const _showCta = currentChapter?.cta && state.isPlaying && !state.isBuffering;
 
     return (
         <div

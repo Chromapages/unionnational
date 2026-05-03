@@ -5,7 +5,6 @@ export const teamPage = defineType({
     name: 'teamPage',
     title: 'Team Page Settings',
     type: 'document',
-    // @ts-ignore
     icon: FileText,
     fields: [
         defineField({

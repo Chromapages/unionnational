@@ -1,12 +1,10 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogList } from "@/components/blog/BlogList";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
 import { getGhlPosts } from "@/lib/ghl/blogs";
-import { ArrowRight, Search, Tag } from "lucide-react";
-import Link from "next/link";
+import { Tag } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,8 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+    // const params = await props.params;
+    // const locale = params.locale;
 
     const blogId = process.env.GHL_BLOG_ID || "default";
     

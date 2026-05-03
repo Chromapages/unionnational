@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     TrendingUp,
     Building2,
-    Briefcase,
     Calendar,
     Users,
     CheckCircle2,
@@ -16,9 +15,7 @@ import {
     ArrowLeft,
     Zap,
     Scale,
-    AlertCircle,
     Loader2,
-    MapPin,
     Search,
     PiggyBank,
     BarChart3,
@@ -47,7 +44,7 @@ const intakeSchema = z.object({
     // Step 3: Entity & Financial Health
     entityType: z.enum(['Sole Proprietorship', 'LLC (Single)', 'LLC (Multi)', 'S-Corp', 'C-Corp', 'Other']),
     hasAccountant: z.enum(['Yes, I have an accountant', 'I do it myself', 'I have a bookkeeper only', 'No professional help']),
-    booksStatus: z.enum(['Books are current', 'Somewhat behind', 'Major cleanup needed', 'I don’t know']),
+    booksStatus: z.enum(['Books are current', 'Somewhat behind', 'Major cleanup needed', 'I don&apos;t know']),
     interestedInSCorp: z.boolean(),
     
     // Step 4: Needs & Interest
@@ -74,7 +71,7 @@ export const StrategyIntakeForm = () => {
         setValue,
         watch,
         trigger,
-        formState: { errors, isValid, isSubmitting },
+        formState: { errors, isSubmitting },
     } = useForm<IntakeData>({
         resolver: zodResolver(intakeSchema),
         mode: "onChange",
@@ -115,7 +112,38 @@ export const StrategyIntakeForm = () => {
     };
 
     const onSubmit = async (data: IntakeData) => {
-        const payload = {
+        interface GHLPayload {
+            event_type: string;
+            contact: {
+                first_name: string;
+                last_name: string;
+                email: string;
+                phone: string;
+            };
+            business: {
+                business_name: string;
+                industry: string;
+                annual_revenue_band: string;
+                entity_type: string;
+            };
+            intent: {
+                primary_service_interest: string;
+                lead_magnet_type: string;
+                urgency: string;
+                pain_points: string[];
+                services_of_interest: string[];
+            };
+            meta: {
+                version: string;
+                submitted_at: string;
+            };
+            results: {
+                investment_readiness: string;
+                books_status: string;
+            };
+        }
+
+        const payload: GHLPayload = {
             event_type: "GENERAL_INQUIRY_SUBMITTED",
             contact: {
                 first_name: data.firstName,
@@ -127,7 +155,7 @@ export const StrategyIntakeForm = () => {
                 business_name: data.companyName,
                 industry: normalizeIndustry(data.industry),
                 annual_revenue_band: normalizeRevenue(data.revenueRange),
-                entity_type: data.entityType.toUpperCase().replace(/\s+/g, "_") as any,
+                entity_type: data.entityType.toUpperCase().replace(/\s+/g, "_"),
             },
             intent: {
                 primary_service_interest: "FRACTIONAL_CFO", // Default for intake
@@ -238,7 +266,7 @@ export const StrategyIntakeForm = () => {
                                 <div className="space-y-8 text-center sm:text-left">
                                     <div className="space-y-3">
                                         <h2 className="text-4xl font-bold text-brand-900 font-heading tracking-tighter uppercase underline decoration-gold-500/30 underline-offset-8">Core Profile</h2>
-                                        <p className="text-brand-900/60 text-lg font-light leading-relaxed">Let's verify your identity and business context.</p>
+                                        <p className="text-brand-900/60 text-lg font-light leading-relaxed">Let&apos;s verify your identity and business context.</p>
                                     </div>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                         <div className="space-y-3">
@@ -391,7 +419,7 @@ export const StrategyIntakeForm = () => {
                                             <div className="space-y-4">
                                                 <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em] ml-1">Current Book Accuracy</label>
                                                 <div className="space-y-2">
-                                                    {['Books are current', 'Somewhat behind', 'Major cleanup needed', 'I don’t know'].map(opt => (
+                                                    {['Books are current', 'Somewhat behind', 'Major cleanup needed', 'I don&apos;t know'].map(opt => (
                                                         <div 
                                                             key={opt}
                                                             onClick={() => setValue("booksStatus", opt as IntakeData['booksStatus'])}
@@ -416,7 +444,7 @@ export const StrategyIntakeForm = () => {
                                 <div className="space-y-8">
                                     <div className="space-y-3">
                                         <h2 className="text-4xl font-bold text-brand-900 font-heading tracking-tighter uppercase underline decoration-gold-500/30 underline-offset-8">Strategic Priorities</h2>
-                                        <p className="text-brand-900/60 text-lg font-light leading-relaxed">What part of the "Growth OS" is broken?</p>
+                                        <p className="text-brand-900/60 text-lg font-light leading-relaxed">What part of the &quot;Growth OS&quot; is broken?</p>
                                     </div>
 
                                     <div className="space-y-4">
@@ -424,7 +452,7 @@ export const StrategyIntakeForm = () => {
                                         <textarea 
                                             {...register("primaryPainPoint")} 
                                             className="w-full bg-slate-50 border-2 border-transparent focus:border-gold-500/50 outline-none rounded-2xl px-8 py-6 transition-all h-36 resize-none italic text-lg leading-relaxed"
-                                            placeholder="e.g. I’m making great revenue but my bank account is empty, or I’m terrified of my next tax bill..."
+                                            placeholder="e.g. I&apos;m making great revenue but my bank account is empty, or I&apos;m terrified of my next tax bill..."
                                         />
                                     </div>
 

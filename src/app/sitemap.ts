@@ -34,10 +34,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         "legals": *[_type == "legalPage" && defined(slug.current)] { "slug": slug.current, _updatedAt }
     }`;
 
-    const { services, posts, legals } = await client.fetch(query);
+    interface SanityRoute {
+        slug: string;
+        _updatedAt: string;
+    }
+
+    const { services, posts, legals } = await client.fetch(query) as {
+        services: SanityRoute[];
+        posts: SanityRoute[];
+        legals: SanityRoute[];
+    };
 
     const serviceRoutes = locales.flatMap((locale) =>
-        services.map((service: any) => ({
+        services.map((service) => ({
             url: `${baseUrl}${locale === "en" ? "" : `/${locale}`}/services/${service.slug}`,
             lastModified: new Date(service._updatedAt),
             changeFrequency: "weekly" as const,
@@ -46,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     );
 
     const postRoutes = locales.flatMap((locale) =>
-        posts.map((post: any) => ({
+        posts.map((post) => ({
             url: `${baseUrl}${locale === "en" ? "" : `/${locale}`}/blog/${post.slug}`,
             lastModified: new Date(post._updatedAt),
             changeFrequency: "weekly" as const,
@@ -55,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     );
 
     const legalRoutes = locales.flatMap((locale) =>
-        legals.map((page: any) => ({
+        legals.map((page) => ({
             url: `${baseUrl}${locale === "en" ? "" : `/${locale}`}/legal/${page.slug}`,
             lastModified: new Date(page._updatedAt),
             changeFrequency: "yearly" as const,
