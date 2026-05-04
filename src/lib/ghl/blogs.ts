@@ -1,4 +1,6 @@
 import { getGhlAccessToken } from "./auth";
+import { getEnv } from "@/lib/config/env";
+import { logger } from "@/lib/observability/logger";
 
 const GHL_API_BASE = "https://services.leadconnectorhq.com";
 
@@ -43,14 +45,14 @@ interface GhlRawPost {
  */
 export const getGhlPosts = async (blogId: string, limit = 10, offset = 0): Promise<GhlBlogResponse> => {
     const accessToken = await getGhlAccessToken();
-    const locationId = process.env.GHL_LOCATION_ID;
+    const locationId = getEnv("GHL_LOCATION_ID");
 
     if (!accessToken || !locationId) {
         if (process.env.NODE_ENV === "development") {
-            console.warn("⚠️ GHL API credentials missing, returning mock data for development.");
+            logger.warn("GHL API credentials missing, returning mock data for development");
             return getMockGhlPosts(limit);
         }
-        console.error("🚨 GHL API credentials missing in production. Blog will be empty.");
+        logger.error("GHL API credentials missing in production. Blog will be empty");
         return { posts: [], total: 0 };
     }
 
@@ -66,7 +68,7 @@ export const getGhlPosts = async (blogId: string, limit = 10, offset = 0): Promi
         const data = await response.json();
 
         if (!response.ok) {
-            console.error("❌ GHL Blog Fetch Failed:", data);
+            logger.error("GHL blog fetch failed", data, { status: response.status });
             return { posts: [], total: 0 };
         }
 
@@ -88,7 +90,7 @@ export const getGhlPosts = async (blogId: string, limit = 10, offset = 0): Promi
             total: data.total || posts.length,
         };
     } catch (error) {
-        console.error("🚨 GHL Blog API Error:", error);
+        logger.error("GHL blog API error", error);
         return { posts: [], total: 0 };
     }
 };
@@ -98,9 +100,53 @@ export const getGhlPosts = async (blogId: string, limit = 10, offset = 0): Promi
  * Since GHL doesn't support direct slug lookup, we fetch and find.
  */
 export const getGhlPostBySlug = async (blogId: string, slug: string): Promise<GhlBlogPost | null> => {
-    // For production, this should include caching to avoid fetching the whole list every time.
-    const { posts } = await getGhlPosts(blogId, 50); // Fetch top 50 to find the slug
+    const { posts } = await getGhlPosts(blogId, 50);
     return posts.find((p) => p.slug === slug) || null;
+};
+
+const MOCK_POSTS: GhlBlogPost[] = [
+    {
+        id: "1",
+        title: "Why S-Corp Strategy is the Ultimate Tax Advantage in 2026",
+        slug: "scorp-tax-advantage-2026",
+        excerpt: "Learn how switching to an S-Corp can save you thousands in self-employment taxes while improving your business structure.",
+        featuredImage: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800",
+        publishedDate: new Date().toISOString(),
+        authorName: "Eric B.",
+        categories: ["Tax Strategy", "S-Corp"],
+        content: "<p>The S-Corp remains one of the most powerful tools in the small business owner's arsenal...</p>"
+    },
+    {
+        id: "2",
+        title: "Tax Season Checklist: 5 Things Every LLC Owner Misses",
+        slug: "tax-season-checklist-llc",
+        excerpt: "Don't leave money on the table. Our comprehensive checklist ensures you maximize deductions before the filing deadline.",
+        featuredImage: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800",
+        publishedDate: new Date(Date.now() - 86400000 * 2).toISOString(),
+        authorName: "Sarah M.",
+        categories: ["Compliance", "Checklist"],
+        content: "<p>Every year, we see business owners overlook critical deductions...</p>"
+    },
+    {
+        id: "3",
+        title: "Top 10 Tax Deductions for 1099 Contractors in 2026",
+        slug: "top-10-tax-deductions-for-1099-contractors-in-2026",
+        excerpt: "Maximize your take-home pay with these essential deductions every 1099 contractor should know about.",
+        featuredImage: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=800",
+        publishedDate: new Date(Date.now() - 86400000 * 5).toISOString(),
+        authorName: "Eric B.",
+        categories: ["1099 Contractors", "Tax Deductions"],
+        content: "<p>As a 1099 contractor, you have access to a wide range of deductions that can significantly reduce your tax burden...</p>"
+    }
+];
+
+export const getGhlPostBySlugWithMock = async (blogId: string, slug: string): Promise<GhlBlogPost | null> => {
+    const { posts } = await getGhlPosts(blogId, 50);
+    const found = posts.find((p) => p.slug === slug);
+    if (found) return found;
+    const mockFound = MOCK_POSTS.find((p) => p.slug === slug);
+    if (mockFound) return mockFound;
+    return null;
 };
 
 /**

@@ -3,7 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { BlogList } from "@/components/blog/BlogList";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
-import { getGhlPosts } from "@/lib/ghl/blogs";
+import { sanityFetch } from "@/sanity/lib/live";
+import { BLOG_POSTS_QUERY, BLOG_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import { Tag } from "lucide-react";
 import { Metadata } from "next";
 
@@ -13,13 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: string }> }) {
-    // const params = await props.params;
-    // const locale = params.locale;
+    const { locale } = await props.params;
 
-    const blogId = process.env.GHL_BLOG_ID || "default";
-    
-    // Fetch posts (will use mock data if credentials aren't set yet)
-    const { posts } = await getGhlPosts(blogId, 12);
+    const { data: posts } = await sanityFetch({ query: BLOG_POSTS_QUERY, params: { limit: 12 } });
 
     return (
         <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">

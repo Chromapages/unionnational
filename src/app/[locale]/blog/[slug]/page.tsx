@@ -2,7 +2,9 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { getGhlPostBySlug } from "@/lib/ghl/blogs";
+import { sanityFetch } from "@/sanity/lib/live";
+import { BLOG_POST_QUERY } from "@/sanity/lib/queries";
+import { BlogContent } from "@/components/blog/BlogContent";
 import { ArrowLeft, ArrowRight, Calendar, Clock, Share2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -11,8 +13,7 @@ import { Metadata } from "next";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
     const { locale, slug } = await props.params;
-    const blogId = process.env.GHL_BLOG_ID || "default";
-    const post = await getGhlPostBySlug(blogId, slug);
+    const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, locale } });
 
     if (!post) return { title: "Post Not Found" };
 
@@ -31,21 +32,21 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
             },
         },
         openGraph: {
-            images: [post.featuredImage || ""],
+            images: [post.featuredImage?.asset?.url || ""],
         },
     };
 }
 
 export default async function BlogPostPage(props: { params: Promise<{ locale: string; slug: string }> }) {
     const params = await props.params;
-    const blogId = process.env.GHL_BLOG_ID || "default";
-    const post = await getGhlPostBySlug(blogId, params.slug);
+    const { locale, slug } = params;
+    const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, locale } });
 
     if (!post) {
         notFound();
     }
 
-    const publishDate = post.publishedDate ? new Date(post.publishedDate) : new Date();
+    const publishDate = post.publishedAt ? new Date(post.publishedAt) : new Date();
 
     return (
         <div className="min-h-dvh bg-white flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white">
@@ -75,9 +76,9 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
 
                             {post.categories && post.categories.length > 0 && (
                                 <div className="flex gap-3 mb-8">
-                                    {post.categories.map(cat => (
-                                        <span key={cat} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-gold-500/10 border border-gold-500/20 text-gold-500 rounded-full">
-                                            {cat}
+                                    {post.categories.map((cat: { title: string; slug: string }) => (
+                                        <span key={cat.slug || cat.title} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-gold-500/10 border border-gold-500/20 text-gold-500 rounded-full">
+                                            {cat.title}
                                         </span>
                                     ))}
                                 </div>
@@ -90,11 +91,11 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                             <div className="flex flex-wrap items-center gap-8 text-slate-300 text-sm border-t border-white/10 pt-10">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-brand-900 font-bold font-heading shadow-lg shadow-gold-500/20">
-                                        {post.authorName?.charAt(0) || "U"}
+                                        {post.author?.name?.charAt(0) || "U"}
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-white font-bold">{post.authorName || "Union National Team"}</span>
-                                        <span className="text-xs text-slate-400 font-medium">Senior Tax Strategist</span>
+                                        <span className="text-white font-bold">{post.author?.name || "Union National Team"}</span>
+                                        <span className="text-xs text-slate-400 font-medium">{post.author?.role || "Tax Strategist"}</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -103,7 +104,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Clock size={16} className="text-gold-500" />
-                                    {Math.max(5, Math.ceil((post.content?.length || 0) / 1000))} min read
+                                    {post.readingTime || 5} min read
                                 </div>
                             </div>
                         </RevealOnScroll>
@@ -117,21 +118,18 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                         {/* Main Content Side */}
                         <div className="lg:col-span-8">
                             <RevealOnScroll>
-                                {post.featuredImage && (
+                                {post.featuredImage?.asset?.url && (
                                     <div className="mb-16 rounded-3xl overflow-hidden shadow-2xl relative group bg-white p-2">
-                                        <img 
-                                            src={post.featuredImage} 
-                                            alt={post.title}
+                                        <img
+                                            src={post.featuredImage.asset.url}
+                                            alt={post.featuredImage.alt || post.title}
                                             className="w-full object-cover aspect-[16/9] rounded-2xl"
                                         />
                                     </div>
                                 )}
 
                                 <div className="bg-white rounded-[2.5rem] p-8 md:p-14 shadow-soft-green border border-slate-100">
-                                    <div 
-                                        className="unt-blog-prose"
-                                        dangerouslySetInnerHTML={{ __html: post.content || "" }} 
-                                    />
+                                    <BlogContent value={post.body} />
 
                                     {/* Social Share */}
                                     <div className="mt-20 py-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-6">

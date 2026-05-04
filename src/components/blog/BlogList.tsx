@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { GhlBlogPost } from "@/lib/ghl/blogs";
+import { SanityBlogPost } from "@/types/sanity";
 import { BlogCard } from "./BlogCard";
 import { Search } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 interface BlogListProps {
-    initialPosts: GhlBlogPost[];
+    initialPosts: SanityBlogPost[];
 }
 
 const CATEGORIES = ["All Strategy", "Tax Planning", "S-Corp", "Compliance"];
@@ -18,14 +18,14 @@ export const BlogList = ({ initialPosts }: BlogListProps) => {
 
     const filteredPosts = useMemo(() => {
         return initialPosts.filter((post) => {
-            const matchesSearch = 
+            const matchesSearch =
                 post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 post.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
-            
-            const matchesCategory = 
-                activeCategory === "All Strategy" || 
-                post.categories?.some(cat => cat.toLowerCase() === activeCategory.toLowerCase());
-            
+
+            const matchesCategory =
+                activeCategory === "All Strategy" ||
+                post.categories?.some(cat => cat.title.toLowerCase() === activeCategory.toLowerCase());
+
             return matchesSearch && matchesCategory;
         });
     }, [initialPosts, searchQuery, activeCategory]);
@@ -77,7 +77,7 @@ export const BlogList = ({ initialPosts }: BlogListProps) => {
                     {filteredPosts.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                             {filteredPosts.map((post, index) => (
-                                <BlogCard key={post.id} post={post} index={index} />
+                                <BlogCard key={post._id} post={post} index={index} />
                             ))}
                         </div>
                     ) : (

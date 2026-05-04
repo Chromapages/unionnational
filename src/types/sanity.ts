@@ -177,3 +177,30 @@ export interface IndustryVertical extends SanityDocument {
   featuredPlaybookChapters?: PlaybookChapter[];
   relatedPlaybooks?: Playbook[];
 }
+
+export interface SanityBlogPostCategory {
+  title: string;
+  slug: string;
+}
+
+export interface SanityBlogPostAuthor {
+  name: string;
+  role?: string;
+  description?: string;
+  linkedinUrl?: string;
+  image?: SanityImage;
+}
+
+export interface SanityBlogPost extends SanityDocument {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  body?: string;
+  publishedAt?: string;
+  readingTime?: number;
+  isFeatured?: boolean;
+  featuredImage?: SanityImage & { asset: { url?: string } };
+  categories?: SanityBlogPostCategory[];
+  author?: SanityBlogPostAuthor;
+}
