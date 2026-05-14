@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useSyncExternalStore } from 'react';
 import { useVideoPlayer } from '@/hooks/useVideoPlayer';
 import { cn } from '@/lib/utils';
 import {
@@ -61,7 +61,8 @@ export function VideoPlayer({
     const [showControls, setShowControls] = useState(true);
     const [isHovering, setIsHovering] = useState(false);
     const [isScrubbing, setIsScrubbing] = useState(false);
-    const [isClient, setIsClient] = useState(false);
+    const noopSubscribe = () => () => {};
+    const isClient = useSyncExternalStore(noopSubscribe, () => true, () => false);
     const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -81,10 +82,6 @@ export function VideoPlayer({
                 return error.message || "Unknown media error";
         }
     };
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     // Format time helper
     const formatTime = useCallback((seconds: number) => {

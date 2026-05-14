@@ -1,4 +1,6 @@
 // GHL AUTH UTILITY
+import { getEnv } from "@/lib/config/env";
+import { logger } from "@/lib/observability/logger";
 
 const GHL_API_BASE = "https://services.leadconnectorhq.com";
 
@@ -18,12 +20,12 @@ interface GhlTokenResponse {
  * (e.g. Supabase, Upstash Redis, or a secure KV store).
  */
 export const getGhlAccessToken = async () => {
-    const clientId = process.env.GHL_CLIENT_ID;
-    const clientSecret = process.env.GHL_CLIENT_SECRET;
-    const refreshToken = process.env.GHL_REFRESH_TOKEN;
+    const clientId = getEnv("GHL_CLIENT_ID");
+    const clientSecret = getEnv("GHL_CLIENT_SECRET");
+    const refreshToken = getEnv("GHL_REFRESH_TOKEN");
 
     if (!clientId || !clientSecret || !refreshToken) {
-        console.error("❌ GHL Authorization missing credentials in env vars.");
+        logger.error("GHL Authorization missing credentials in env vars");
         return null;
     }
 
@@ -44,7 +46,7 @@ export const getGhlAccessToken = async () => {
         const data: GhlTokenResponse = await response.json();
 
         if (!response.ok) {
-            console.error("❌ GHL Token Refresh Failed:", data);
+            logger.error("GHL token refresh failed", data, { status: response.status });
             return null;
         }
 
@@ -53,7 +55,7 @@ export const getGhlAccessToken = async () => {
         
         return data.access_token;
     } catch (error) {
-        console.error("🚨 GHL Auth Error:", error);
+        logger.error("GHL auth error", error);
         return null;
     }
 };

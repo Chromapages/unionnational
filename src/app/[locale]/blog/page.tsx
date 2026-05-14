@@ -4,7 +4,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { BlogList } from "@/components/blog/BlogList";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
 import { sanityFetch } from "@/sanity/lib/live";
-import { BLOG_POSTS_QUERY, BLOG_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
 import { Tag } from "lucide-react";
 import { Metadata } from "next";
 
@@ -14,8 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: string }> }) {
-    const { locale } = await props.params;
-
+    await props.params;
     const { data: posts } = await sanityFetch({ query: BLOG_POSTS_QUERY, params: { limit: 12 } });
 
     return (

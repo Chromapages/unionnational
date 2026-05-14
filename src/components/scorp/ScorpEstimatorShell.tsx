@@ -15,7 +15,6 @@ import { ScorpEstimatorResult } from "./ScorpEstimatorResult";
 import { AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 const STEPS = [

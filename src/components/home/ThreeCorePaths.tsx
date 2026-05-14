@@ -4,15 +4,12 @@ import { useTranslations } from "next-intl";
 import { ArrowRight, CircleDollarSign, LineChart, Factory, CheckCircle2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
 export const ThreeCorePaths = () => {
     const t = useTranslations("HomePage.ThreeCorePaths");
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    const noopSubscribe = () => () => {};
+    const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
     const paths = [
         {
@@ -39,7 +36,7 @@ export const ThreeCorePaths = () => {
     ];
 
     // Prevent hydration mismatch by returning a stable structure during initial client render
-    if (!isMounted) {
+    if (!mounted) {
         return (
             <section className="relative overflow-hidden border-y border-slate-100 bg-white py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

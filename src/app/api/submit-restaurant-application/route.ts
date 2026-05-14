@@ -1,43 +1,57 @@
-import { NextResponse } from 'next/server';
-import { checkRateLimit, getClientIdentifier } from '@/lib/security/rate-limiter';
+import { NextResponse } from "next/server";
+import { checkRateLimit, getClientIdentifier } from "@/lib/security/rate-limiter";
+import { getEnv } from "@/lib/config/env";
+import { getTraceId, logger } from "@/lib/observability/logger";
 
 export async function POST(request: Request) {
+    const traceId = getTraceId();
     const identifier = getClientIdentifier(request);
-    const rateLimitResult = checkRateLimit(identifier);
+    const rateLimitResult = await checkRateLimit(identifier);
 
     if (!rateLimitResult.success) {
         return NextResponse.json(
-            { error: 'Too many requests. Please try again later.' },
-            { status: 429, headers: { 'Retry-After': String(Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)) } }
+            { error: "Too many requests. Please try again later." },
+            {
+                status: 429,
+                headers: {
+                    "Retry-After": String(
+                        Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
+                    ),
+                },
+            }
         );
     }
 
     try {
         const data = await request.json();
 
-        // Go High Level Webhook URL for Restaurant Applications
-        const GHL_WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/5CfrMZJfGkaClutPIiba";
+        const ghlWebhookUrl = getEnv("GHL_RESTAURANT_APPLICATION_WEBHOOK_URL");
 
-        // Send data to Go High Level
-        const response = await fetch(GHL_WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+        if (ghlWebhookUrl) {
+            const response = await fetch(ghlWebhookUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
 
-        if (!response.ok) {
-            throw new Error('Failed to sync with CRM');
+            if (!response.ok) {
+                logger.error("GHL webhook error", {
+                    traceId,
+                    status: response.status,
+                    statusText: response.statusText,
+                });
+                throw new Error("Failed to sync with CRM");
+            }
+
+            logger.info("Restaurant application submitted", { traceId });
         }
 
         return NextResponse.json({ success: true });
-
     } catch (error) {
-        console.error("Webhook Error:", error);
-        return NextResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-        );
+        logger.error("Restaurant application error", {
+            traceId,
+            error: error instanceof Error ? error.message : "Unknown error",
+        });
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

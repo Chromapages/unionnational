@@ -683,5 +683,33 @@
             },
             "defaultDescription": "Optimized for implementation."
         }
+    },
+    "BookLanding": {
+        "getFreeCopy": "Get Your Free Copy",
+        "downloadReceived": "Check your inbox — your download is on the way.",
+        "whoIsThisFor": "Who Is This Book For?",
+        "whatYoullLearn": "What You'll Learn",
+        "form": {
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "email": "Email Address",
+            "phone": "Phone (Optional)",
+            "companyName": "Business Name (Optional)",
+            "submit": "Send Me the Book",
+            "submitting": "Sending..."
+        },
+        "success": {
+            "title": "Check Your Inbox",
+            "message": "Your download link is on the way. Check your email shortly."
+        },
+        "trust": {
+            "secureDelivery": "Secure Delivery",
+            "expertAuthor": "Expert Author",
+            "instantAccess": "Instant Access"
+        },
+        "meta": {
+            "freeDownloadTitle": "{title} — Free Download | Union National Tax",
+            "freeDownloadDescription": "Get your free copy of {title} and start building real tax strategy."
+        }
     }
 }

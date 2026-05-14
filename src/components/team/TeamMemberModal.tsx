@@ -1,6 +1,6 @@
 import { X, Linkedin, Mail } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 import { type TeamMember } from "@/types/sanity";
@@ -11,12 +11,10 @@ interface TeamMemberModalProps {
     onClose: () => void;
 }
 
-export function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProps) {
-    const [mounted, setMounted] = useState(false);
+const noopSubscribe = () => () => {};
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+export function TeamMemberModal({ member, isOpen, onClose }: TeamMemberModalProps) {
+    const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
     useEffect(() => {
         if (isOpen) {

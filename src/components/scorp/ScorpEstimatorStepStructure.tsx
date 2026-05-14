@@ -44,7 +44,7 @@ export const ScorpEstimatorStepStructure = () => {
     });
 
     const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: string) => {
-        setValue(fieldName, value as any, { 
+        setValue(fieldName, value as ScorpEstimatorInput[keyof ScorpEstimatorInput], { 
             shouldValidate: true,
             shouldDirty: true,
             shouldTouch: true

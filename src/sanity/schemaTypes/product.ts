@@ -316,6 +316,20 @@ export const product = defineType({
             type: "seo",
             group: "seo",
         }),
+        defineField({
+            name: "leadMagnetTag",
+            title: "Lead Magnet Tag",
+            type: "string",
+            group: "content",
+            description: "GHL workflow tag for this book's nurture sequence (e.g., LM_Book_SCorp).",
+        }),
+        defineField({
+            name: "serviceLane",
+            title: "Service Lane",
+            type: "string",
+            group: "content",
+            description: "Service lane for cross-sell recommendations (e.g., s-corp-strategy, fractional-cfo).",
+        }),
     ],
     preview: {
         select: {

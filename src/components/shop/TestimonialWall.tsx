@@ -3,7 +3,13 @@
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const noopSubscribe = () => () => {};
+
+function useHydrated(): boolean {
+    return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}
 
 interface Testimonial {
     _id: string;
@@ -24,11 +30,7 @@ interface TestimonialWallProps {
 }
 
 export function TestimonialWall({ testimonials: propTestimonials, backgroundImage }: TestimonialWallProps) {
-    const [isMounted, setIsMounted] = useState(false);
-    
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    const hydrated = useHydrated();
 
     const displayTestimonials = propTestimonials?.filter((testimonial) => testimonial.quote && testimonial.clientName) || [];
 
@@ -39,14 +41,11 @@ export function TestimonialWall({ testimonials: propTestimonials, backgroundImag
     const featured = displayTestimonials[0];
     const backgroundImageUrl = backgroundImage?.url || "/images/testimonial-cinematic-bg.png";
     const backgroundImageAlt = backgroundImage?.alt || "Union National Tax product testimonial background";
-
-    // During SSR and first paint, we render a version that matches the expected legacy structure
-    // This avoids hydration mismatches while the server cache is stale
     return (
         <section id="reviews" className="scroll-mt-24 relative py-16 lg:py-20 overflow-hidden bg-brand-950">
             {/* Background Image Layer */}
             <div className="absolute inset-0 z-0">
-                {isMounted ? (
+                {hydrated ? (
                     <>
                         <Image 
                             src={backgroundImageUrl}
@@ -79,7 +78,7 @@ export function TestimonialWall({ testimonials: propTestimonials, backgroundImag
                     {/* Right Column: Featured Testimonial Card */}
                     <motion.div
                         initial={{ opacity: 0, x: 40 }}
-                        animate={isMounted ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+                        animate={hydrated ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="flex justify-center lg:justify-end"

@@ -4,7 +4,7 @@
 **Stack:** Next.js (App Router), React, TypeScript, TailwindCSS, Sanity CMS, Stripe
 **Deployment:** Vercel
 **Owner:** Union National Tax Engineering Team
-**Last Updated:** 2026-05-02
+**Last Updated:** 2026-05-04
 
 ---
 
@@ -14,7 +14,7 @@
 |--------------|-------------------------------|
 | Dev server   | `npm run dev`                 |
 | Build        | `npm run build`               |
-| Test         | `npm test -- --coverage`      |
+| Test         | `npm run test:coverage`       |
 | Lint         | `npm run lint`                |
 | Type check   | `npx tsc --noEmit`            |
 | Format       | `npx prettier --write .`      |
@@ -95,13 +95,13 @@ export default function (props: any) {
 
 ## Testing Standards
 
-- **Framework:** Playwright (E2E) / Jest (Unit - TBD)
+- **Framework:** Playwright (E2E) / Vitest + React Testing Library (Unit/Component)
 - **Location:** Colocated or in `/tests`
 - **Coverage threshold:** ≥ 80% — CI blocks merge below this
 - **Required:** Unit (all utils), Component (critical UI), Integration (API routes), E2E (checkout flows)
 
 ```bash
-npm test -- --coverage --coverageThreshold='{"global":{"lines":80}}'
+npm run test:coverage
 ```
 
 ---

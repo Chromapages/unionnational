@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useMemo, useCallback, useSyncExternalStore } from "react";
 import { useSearchParams } from "next/navigation";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { ProductGrid } from "./ProductGrid";
@@ -33,17 +33,13 @@ export function ShopClient({ products }: ShopClientProps) {
     const pathname = usePathname();
     const router = useRouter();
 
-    // Local state for immediate UI feedback (debounce-like)
-    const [isMounted, setIsMounted] = useState(false);
-    
+    const noopSubscribe = () => () => {};
+    const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
+
     // Source of truth from URL
     const activeCategory = searchParams.get("category") || "all";
     const searchQuery = searchParams.get("q") || "";
     const sortOrder = searchParams.get("sort") || "featured";
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     const updateQueryParams = useCallback((updates: Record<string, string | null>) => {
         const nextParams = new URLSearchParams(searchParams.toString());
@@ -98,7 +94,7 @@ export function ShopClient({ products }: ShopClientProps) {
         });
     }, [products, activeCategory, searchQuery, sortOrder]);
 
-    if (!isMounted) {
+    if (!mounted) {
         return (
             <div className="max-w-7xl mx-auto px-6 mb-32 min-h-[600px]">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 bg-white/50 backdrop-blur-md p-6 rounded-3xl border border-slate-200">

@@ -109,11 +109,33 @@ export function TaxHealthScore() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        
-        // In production, this would send to your API/CRM
-        console.log("Submitting assessment:", { name, email, answers, totalScore, percentage });
-        
-        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        const firstName = name.trim().split(" ")[0] || "";
+        const lastName = name.trim().split(" ").slice(1).join(" ") || "";
+
+        try {
+            const response = await fetch("/api/survey", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    firstName,
+                    lastName,
+                    email,
+                    phone: "",
+                    answers,
+                    score: percentage,
+                    lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT",
+                }),
+            });
+
+            if (!response.ok) {
+                console.error("Submission failed");
+            }
+        } catch (err) {
+            console.error("Submission error:", err);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 500));
         setIsSubmitting(false);
         setIsComplete(true);
     };
