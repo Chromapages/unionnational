@@ -6,15 +6,13 @@ import {
     Hammer, 
     HardHat, 
     TrendingUp, 
-    ArrowRight, 
-    Construction,
+    ArrowRight,
     BarChart3,
     ShieldCheck,
     Coins,
     CheckCircle2,
     ChevronDown,
     Zap,
-    Scale,
     Clock,
     UserCheck,
     Truck,
@@ -23,6 +21,7 @@ import {
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Link } from "@/i18n/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -78,7 +77,7 @@ const CONSTRUCTION_PILLARS = [
     }
 ];
 
-export default function ConstructionIndustryClient({ locale }: ConstructionIndustryClientProps) {
+export default function ConstructionIndustryClient({}: ConstructionIndustryClientProps) {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const toggleFaq = (index: number) => {
@@ -125,7 +124,7 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                             transition={{ delay: 0.2 }}
                             className="text-xl sm:text-2xl text-slate-300 mb-14 leading-relaxed max-w-3xl font-light"
                         >
-                            Generalist CPAs don't understand labor burden or WIP lag. We provide elite construction firms with the board-level leadership required to protect margins and scale with confidence.
+                            Generalist CPAs don&apos;t understand labor burden or WIP lag. We provide elite construction firms with the board-level leadership required to protect margins and scale with confidence.
                         </motion.p>
 
                         <motion.div
@@ -187,7 +186,7 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                                     You can build anything, but can you <span className="text-brand-950 font-bold decoration-gold-500 underline underline-offset-8 decoration-2">predict your profit</span> on a job before it starts? Most firms find out they lost money 30 days after the project is done.
                                 </p>
                                 <p className="text-xl text-slate-500 leading-relaxed font-light">
-                                    That 'WIP lag' is the silent killer of construction firms. Without institutional-grade leadership, you're just trading dollars for stress.
+                                    That &apos;WIP lag&apos; is the silent killer of construction firms. Without institutional-grade leadership, you&apos;re just trading dollars for stress.
                                 </p>
                                 
                                 <div className="space-y-6 pt-6 text-lg">
@@ -258,7 +257,7 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                             Financial <span className="italic text-gold-500 underline decoration-gold-500/30">Force.</span>
                         </h2>
                         <p className="text-xl text-slate-500 font-light not-italic leading-relaxed">
-                            We don't just 'keep books.' We install the high-level financial strategy that generalist firms aren't built to provide for elite contractors.
+                            We don&apos;t just &apos;keep books.&apos; We install the high-level financial strategy that generalist firms aren&apos;t built to provide for elite contractors.
                         </p>
                     </div>
 
@@ -294,7 +293,7 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                                     Defensive <br /><span className="text-gold-400">Growth.</span>
                                 </h2>
                                 <p className="text-xl text-slate-300 leading-relaxed font-light">
-                                    In construction, your biggest risk isn't lack of sales—it's lack of control. We provide the control required to scale without overexposure.
+                                    In construction, your biggest risk isn&apos;t lack of sales—it&apos;s lack of control. We provide the control required to scale without overexposure.
                                 </p>
                                 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
@@ -302,7 +301,7 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                                         { title: "Margin Defense", text: "Identify job-level margin erosion and fix it while the field crew is still active." },
                                         { title: "Clean Costing", text: "Granular visibility into labor burden, equipment depreciation, and overhead." },
                                         { title: "Strategic Growth", text: "Calculated hiring and equipment acquisition based on predictive models." },
-                                        { title: "Zero Surprises", text: "Proactive tax planning prevents the 'cash-crunch' of year-end liabilities." }
+                                        { title: "Zero Surprises", text: "Proactive tax planning prevents the &apos;cash-crunch&apos; of year-end liabilities." }
                                     ].map((benefit, i) => (
                                         <div key={i} className="space-y-4">
                                             <div className="flex items-center gap-3 text-gold-500">
@@ -318,9 +317,11 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
 
                         <div className="relative group grayscale hover:grayscale-0 transition-all duration-1000">
                             <div className="absolute -inset-4 bg-gold-500/10 rounded-[4rem] blur-3xl opacity-50 group-hover:opacity-100 transition-opacity" />
-                            <img 
+                            <Image 
                                 src="/images/construction-cfo-field.jpg" 
                                 alt="Construction Strategic Review"
+                                width={1200}
+                                height={675}
                                 className="relative rounded-[3rem] border border-white/10 shadow-2xl object-cover aspect-video"
                             />
                         </div>
@@ -350,9 +351,9 @@ export default function ConstructionIndustryClient({ locale }: ConstructionIndus
                             </ul>
                         </div>
                         <div className="bg-brand-950 p-10 lg:p-20 text-white space-y-8 flex flex-col justify-center">
-                            <h3 className="text-3xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                            <h3 className="text-3xl font-bold font-heading tracking-tight">Who It&apos;s <span className="text-gold-500 italic">Not</span> For</h3>
                             <p className="text-slate-400 font-light leading-relaxed text-lg">
-                                If you are a solo sub-contractor without a crew, or if you are looking for simple once-a-year tax prep with no ongoing strategic interest—we aren't the right partner.
+                                If you are a solo sub-contractor without a crew, or if you are looking for simple once-a-year tax prep with no ongoing strategic interest—we aren&apos;t the right partner.
                             </p>
                             <p className="text-slate-400 font-light leading-relaxed mb-8">
                                 We specialize in high-overhead, high-complexity construction firms that need real-time leadership.

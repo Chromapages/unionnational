@@ -11,14 +11,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export default async function FractionalCFOPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
-
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
             <main id="main-content">
-                <FractionalCFOClient locale={locale} />
+                <FractionalCFOClient />
             </main>
             <Footer />
         </div>

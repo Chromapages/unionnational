@@ -5,9 +5,20 @@
  */
 export const STRIPE_PRICE_MAP: Record<string, string> = {
   // The S-Corp Playbook
-  "S-Corp Playbook Bundles + Shipping & Handling": "price_1T2eUuBBqB7ETKuVwVpzqIjj",
+  "The S-Corp Playbook Bundles + Shipping & Handling": "price_1T2eUuBBqB7ETKuVwVpzqIjj",
   "The S-Corp Playbook + Shipping & Handling": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+  "The S-Corp Playbook": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+  "S-Corp Playbook": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+  "The S-Corp Playbook - Hardcover": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+  "S-Corp Playbook - Hardcover": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+  "Hardcover": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
+  "Hardcover + Shipping & Handling": "price_1TOlUKBBqB7ETKuVbUqYYNhT",
   "S-Corp Playbook - Digital PDF Copy": "price_1TOlaABBqB7ETKuVEsvwS7ce",
+  "The S-Corp Playbook - Digital PDF Copy": "price_1TOlaABBqB7ETKuVEsvwS7ce",
+  "The S-Corp Playbook - Digital PDF": "price_1TOlaABBqB7ETKuVEsvwS7ce",
+  "S-Corp Playbook - Digital PDF": "price_1TOlaABBqB7ETKuVEsvwS7ce",
+  "Digital PDF": "price_1TOlaABBqB7ETKuVEsvwS7ce",
+  "Digital PDF Copy": "price_1TOlaABBqB7ETKuVEsvwS7ce",
   "S-Corp Playbook - Audio": "price_1T2eTHBBqB7ETKuVe8Q9fuyw",
 
   // Why the Rich Don’t Pay Taxes

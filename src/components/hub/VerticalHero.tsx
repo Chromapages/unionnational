@@ -10,16 +10,34 @@ import { cn } from "@/lib/utils";
 interface VerticalHeroProps {
     title: string;
     description?: string;
-    heroImage?: any;
+    heroImage?: {
+        alt?: string;
+        asset: {
+            _ref: string;
+            _type: string;
+        };
+    };
     heroVideo?: string;
     painPoints?: string[];
     stats?: { value: string; label: string }[];
-    testimonials?: any[];
+    testimonials?: {
+        _id: string;
+        quote: string;
+        clientName: string;
+        clientCompany?: string;
+        rating?: number;
+    }[];
     className?: string;
 }
 
 interface TestimonialCardProps {
-    testimonial: any;
+    testimonial: {
+        _id: string;
+        quote: string;
+        clientName: string;
+        clientCompany?: string;
+        rating?: number;
+    };
     className?: string;
 }
 
@@ -32,7 +50,7 @@ function TestimonialCard({ testimonial, className }: TestimonialCardProps) {
                 ))}
             </div>
             <blockquote className="text-sm text-white/80 leading-relaxed mb-4">
-                "{testimonial.quote}"
+                &quot;{testimonial.quote}&quot;
             </blockquote>
             <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gold-500/20 text-gold-300 font-bold">

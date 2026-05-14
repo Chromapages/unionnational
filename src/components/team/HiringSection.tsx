@@ -2,8 +2,10 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 
+import { type TeamPageSettings } from "@/types/sanity";
+
 interface HiringSectionProps {
-    settings: any;
+    settings: TeamPageSettings;
 }
 
 export function HiringSection({ settings }: HiringSectionProps) {
@@ -34,7 +36,7 @@ export function HiringSection({ settings }: HiringSectionProps) {
                     </p>
 
                     <div className="flex flex-wrap justify-center gap-4 mb-12">
-                         {settings.hiringBenefits.map((benefit: string, i: number) => (
+                         {settings.hiringBenefits?.map((benefit: string, i: number) => (
                             <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-sm font-sans backdrop-blur-sm">
                                 <CheckCircle2 className="w-4 h-4 text-gold-500" />
                                 {benefit}

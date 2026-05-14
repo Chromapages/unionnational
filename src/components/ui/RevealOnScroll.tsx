@@ -1,42 +1,41 @@
 "use client";
 
-import { useEffect, useRef, ReactNode, useState } from "react";
+import { useEffect, useRef, ReactNode, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
 
 interface RevealOnScrollProps extends React.HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
-    delay?: number; // delay in ms
+    delay?: number;
 }
 
-// Custom hook to detect media query match
+const noopSubscribe = () => () => {};
+
+function useHydrated(): boolean {
+    return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}
+
+function subscribeToMediaQuery(query: string, callback: () => void): () => void {
+    const media = window.matchMedia(query);
+    media.addEventListener("change", callback);
+    return () => media.removeEventListener("change", callback);
+}
+
+function getServerSnapshot(): boolean {
+    return false;
+}
+
 function useMediaQuery(query: string): boolean {
-    const [matches, setMatches] = useState(false);
-
-    useEffect(() => {
-        const media = window.matchMedia(query);
-        if (media.matches !== matches) {
-            setMatches(media.matches);
-        }
-        const listener = () => setMatches(media.matches);
-        window.addEventListener("resize", listener);
-        media.addEventListener("change", listener); // Standard way to listen
-        return () => {
-            window.removeEventListener("resize", listener);
-            media.removeEventListener("change", listener);
-        };
-    }, [matches, query]);
-
-    return matches;
+    return useSyncExternalStore(
+        (callback) => subscribeToMediaQuery(query, callback),
+        () => window.matchMedia(query).matches,
+        getServerSnapshot
+    );
 }
 
 export function RevealOnScroll({ children, className, delay = 0, ...props }: RevealOnScrollProps) {
-    const [mounted, setMounted] = useState(false);
+    const mounted = useHydrated();
     const ref = useRef<HTMLDivElement>(null);
-    const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
     useEffect(() => {
         if (!mounted || prefersReducedMotion || !ref.current) return;
@@ -45,7 +44,6 @@ export function RevealOnScroll({ children, className, delay = 0, ...props }: Rev
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        // Add a small delay if specified
                         setTimeout(() => {
                             entry.target.classList.add("active");
                         }, delay);
@@ -64,17 +62,11 @@ export function RevealOnScroll({ children, className, delay = 0, ...props }: Rev
         return () => observer.disconnect();
     }, [delay, prefersReducedMotion, mounted]);
 
-    // During hydration and initial render, we want to match the server output.
-    // On the server, prefersReducedMotion (from useState(false)) is false.
-    // So we render "reveal" on server and initial client render.
-    // Once mounted and effect runs, if prefersReducedMotion is true, we'd remove it.
-    // But usually we just want it to NOT animate.
-    
     return (
         <div
             ref={ref}
             className={cn(
-                (!mounted || !prefersReducedMotion) ? "reveal" : "", 
+                (!mounted || !prefersReducedMotion) ? "reveal" : "",
                 className
             )}
             {...props}

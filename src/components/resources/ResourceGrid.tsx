@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { BookOpen, FileText, Calculator, ChevronDown, X, ChevronRight, Download, Activity } from "lucide-react";
+import { BookOpen, FileText, Calculator, ChevronDown, X, ChevronRight, Download, Activity, UtensilsCrossed } from "lucide-react";
 import { extractString } from "@/lib/utils";
 import { InteractiveToolsList } from "./InteractiveToolsList";
 import { ConstructionTaxChecklist } from "./lead-magnets/ConstructionTaxChecklist";
@@ -12,6 +12,7 @@ import { SCorpSavingsCalculator } from "./lead-magnets/SCorpSavingsCalculator";
 import { SCorpElectionChecklist } from "./lead-magnets/SCorpElectionChecklist";
 
 import { TaxHealthScore } from "./lead-magnets/TaxHealthScore";
+import { RestaurantProfitLeakAssessment } from "@/components/intake/RestaurantProfitLeakAssessment";
 
 interface Category {
     _id: string;
@@ -182,6 +183,7 @@ export function ResourceGrid({
                         {viewingLeadMagnet === "s-corp-election-checklist" && <SCorpElectionChecklist />}
 
                         {viewingLeadMagnet === "tax-health-score" && <TaxHealthScore />}
+                        {viewingLeadMagnet === "restaurant-profit-leak-assessment" && <RestaurantProfitLeakAssessment />}
                     </div>
                 ) : activeFilter === "tools" ? (
                     <InteractiveToolsList embedded />
@@ -337,8 +339,8 @@ export function ResourceGrid({
                                         </Link>
 
                                         {/* Tax Health Score */}
-                                        <button
-                                            onClick={() => setViewingLeadMagnet("tax-health-score")}
+                                        <Link
+                                            href="/proactive-cfo-assessment"
                                             className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
                                         >
                                             <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
@@ -363,6 +365,41 @@ export function ResourceGrid({
                                                 </p>
                                                 <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
                                                     <span>5-Min Assessment</span>
+                                                    <span className="flex items-center gap-1 text-gold-600 font-bold">
+                                                        Free Access
+                                                        <ChevronRight className="w-3 h-3" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Link>
+
+                                        {/* Restaurant Profit Leak Assessment */}
+                                        <button
+                                            onClick={() => setViewingLeadMagnet("restaurant-profit-leak-assessment")}
+                                            className="text-left group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
+                                        >
+                                            <div className="relative aspect-video overflow-hidden bg-brand-900 flex items-center justify-center">
+                                                <div className="absolute inset-0 opacity-20">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-500 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+                                                </div>
+                                                <UtensilsCrossed className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 left-4">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-gold-500 text-brand-900">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        Assessment
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="p-6">
+                                                <h3 className="text-lg font-bold text-brand-900 mb-2 group-hover:text-gold-600 transition-colors line-clamp-2 font-heading">
+                                                    Restaurant Profit Leak Assessment
+                                                </h3>
+                                                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                                                    Discover exactly where your restaurant revenue is leaking — from prime cost to FICA tip credits.
+                                                </p>
+                                                <div className="flex items-center justify-between text-xs text-slate-500 border-t border-slate-100 pt-4">
+                                                    <span>8-Min Assessment</span>
                                                     <span className="flex items-center gap-1 text-gold-600 font-bold">
                                                         Free Access
                                                         <ChevronRight className="w-3 h-3" />

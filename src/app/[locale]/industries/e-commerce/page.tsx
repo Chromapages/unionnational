@@ -26,14 +26,11 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 }
 
 export default async function EcommerceIndustryPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
-
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
             <HeaderWrapper />
             <main id="main-content">
-                <EcommerceIndustryClient locale={locale} />
+                <EcommerceIndustryClient />
             </main>
             <Footer />
         </div>

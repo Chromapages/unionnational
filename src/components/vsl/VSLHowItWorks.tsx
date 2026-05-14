@@ -28,8 +28,8 @@ export function VSLHowItWorks({ steps }: VSLHowItWorksProps) {
   const items = steps && steps.length > 0 ? steps : defaultSteps;
 
   const getIcon = (iconName: string) => {
-    // @ts-ignore
-    const Icon = LucideIcons[iconName] || LucideIcons.CheckCircle2;
+    const name = iconName as keyof typeof LucideIcons;
+    const Icon = (LucideIcons[name] as React.ElementType) || LucideIcons.CheckCircle2;
     return <Icon className="w-6 h-6" />;
   };
 

@@ -5,14 +5,16 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TeamMemberCard } from "./TeamMemberCard";
 import { TeamMemberModal } from "./TeamMemberModal";
 
+import { type TeamMember } from "@/types/sanity";
+
 interface TeamGridProps {
-    members: any[];
+    members: TeamMember[];
     title: string;
     subtitle: string;
 }
 
 export function TeamGrid({ members, title, subtitle }: TeamGridProps) {
-    const [selectedMember, setSelectedMember] = useState<any>(null);
+    const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
     return (
         <section className="max-w-7xl mx-auto px-6 mb-32">

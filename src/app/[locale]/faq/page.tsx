@@ -6,6 +6,7 @@ import { FAQList } from "@/components/faq/FAQList";
 import { sanityFetch } from "@/sanity/lib/live";
 import { FAQ_QUERY } from "@/sanity/lib/queries";
 import { getLocale } from "next-intl/server";
+import Link from "next/link";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -65,18 +66,18 @@ export default async function FAQPage(props: { params: Promise<{ locale: string 
                                 Every business is unique. Our team of Enrolled Agents and CPAs is ready to discuss your specific situation.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <a
+                                <Link
                                     href="/contact"
-                                    className="w-full sm:w-auto bg-gold-500 hover:bg-gold-600 text-brand-900 font-black py-5 px-10 rounded-2xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-widest text-xs"
+                                    className="w-full sm:w-auto bg-gold-500 hover:bg-gold-600 text-brand-900 font-black py-5 px-10 rounded-2xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-widest text-xs text-center"
                                 >
                                     Book Free Strategy Call
-                                </a>
-                                <a
+                                </Link>
+                                <Link
                                     href="mailto:support@unionnationaltax.com"
-                                    className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 py-5 px-10 rounded-2xl transition-all font-bold text-xs uppercase tracking-widest"
+                                    className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 py-5 px-10 rounded-2xl transition-all font-bold text-xs uppercase tracking-widest text-center"
                                 >
                                     Email Our Team
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </RevealOnScroll>

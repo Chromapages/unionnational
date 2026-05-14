@@ -5,8 +5,7 @@ import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { EABadge } from "@/components/ui/EABadge";
 import { Link } from "@/i18n/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
-import { FOOTER_LEGAL_PAGES_QUERY, SERVICES_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
-import { fallbackServices, getServiceHref, type ServiceSummary } from "./navigationData";
+import { FOOTER_LEGAL_PAGES_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 
 export async function Footer() {
     const locale = await getLocale();
@@ -14,7 +13,6 @@ export async function Footer() {
     const tHeader = await getTranslations({ locale, namespace: "Header" });
     const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
     const { data: legalPages } = await sanityFetch({ query: FOOTER_LEGAL_PAGES_QUERY, params: { locale } });
-    const { data: services } = await sanityFetch({ query: SERVICES_QUERY, params: { locale } });
 
     const formatAddress = (address: unknown): string | null => {
         if (!address) return null;

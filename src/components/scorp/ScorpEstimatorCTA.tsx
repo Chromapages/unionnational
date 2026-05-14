@@ -2,8 +2,7 @@
 
 import { ScorpFitLevel } from "@/lib/scorp/schema";
 import Link from "next/link";
-import { ArrowRight, Calendar } from "lucide-react";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Calendar } from "lucide-react";
 
 interface ScorpEstimatorCTAProps {
     fitLevel: ScorpFitLevel;

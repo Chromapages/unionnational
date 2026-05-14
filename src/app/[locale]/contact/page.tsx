@@ -11,7 +11,7 @@ import { AlternativeCTA } from "@/components/contact/AlternativeCTA";
 import { FAQSection } from "@/components/home/FAQSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { sanityFetch } from "@/sanity/lib/live";
-import { ABOUT_PAGE_QUERY, CONTACT_SETTINGS_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { CONTACT_SETTINGS_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import { urlFor } from "@/sanity/lib/image";
 import { getTranslations } from "next-intl/server";

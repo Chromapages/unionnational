@@ -51,7 +51,8 @@ export const PrimaryServiceEnum = z.enum([
     "TAX_PREPARATION",
     "NEW_BUSINESS_FORMATION",
     "BOOKKEEPING",
-    "CONSTRUCTION_BLUEPRINT"
+    "CONSTRUCTION_BLUEPRINT",
+    "RESTAURANT_CFO_PARTNERSHIP"
 ]);
 
 export const LeadMagnetTypeEnum = z.enum([
@@ -61,7 +62,9 @@ export const LeadMagnetTypeEnum = z.enum([
     "VSL_WATCHED",
     "RESOURCE_DOWNLOAD",
     "CONSTRUCTION_ASSESSMENT",
-    "BLOG_NEWSLETTER"
+    "BLOG_NEWSLETTER",
+    "BOOK_DOWNLOAD",
+    "RESTAURANT_PROFIT_LEAK_ASSESSMENT"
 ]);
 
 // ─── PAYLOAD SCHEMAS ─────────────────────────────────────────────────────────

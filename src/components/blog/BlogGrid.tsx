@@ -1,11 +1,11 @@
 import { BlogCard } from "./BlogCard";
-import type { GhlBlogPost } from "@/lib/ghl/blogs";
+import type { SanityBlogPost } from "@/types/sanity";
 
 interface BlogGridProps {
     title: string;
     subtitle?: string;
     summary?: string;
-    posts: GhlBlogPost[];
+    posts: SanityBlogPost[];
     locale: string;
 }
 
@@ -32,7 +32,7 @@ export function BlogGrid({ title, subtitle, summary, posts, locale }: BlogGridPr
 
             <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {posts.map((post) => (
-                    <BlogCard key={post.id} post={post} locale={locale} />
+                    <BlogCard key={post._id} post={post} locale={locale} />
                 ))}
             </div>
         </section>

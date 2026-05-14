@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClipboardCheck, Check, Mail, ArrowRight, Send, Download, Building2, Truck, Wrench, Home, Plane, Coffee } from "lucide-react";
+import Link from "next/link";
 
 interface DeductionItem {
     id: number;
@@ -172,9 +173,9 @@ export function ConstructionTaxChecklist() {
                         </div>
                     </div>
 
-                    <a href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all">
+                    <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all">
                         Optimize My Deductions <ArrowRight className="w-5 h-5" />
-                    </a>
+                    </Link>
                 </div>
             </section>
         );

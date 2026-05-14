@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { Linkedin, Mail, ExternalLink } from "lucide-react";
+import { Linkedin } from "lucide-react";
 
 interface TeamMember {
     _id: string;
@@ -104,7 +104,7 @@ export function TeamSection({
                                     
                                     {member.description && (
                                         <p className="text-slate-400 text-sm leading-relaxed font-light mb-6 flex-grow italic">
-                                            "{member.description}"
+                                            &quot;{member.description}&quot;
                                         </p>
                                     )}
 

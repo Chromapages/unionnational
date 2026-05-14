@@ -1,11 +1,8 @@
 import Stripe from "stripe";
+import { requireEnv } from "@/lib/config/env";
 
 export function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error("STRIPE_SECRET_KEY is missing from environment variables");
-  }
-
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+  return new Stripe(requireEnv("STRIPE_SECRET_KEY"), {
     apiVersion: "2026-03-25.dahlia",
   });
 }

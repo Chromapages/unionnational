@@ -655,5 +655,33 @@
             },
             "defaultDescription": "Optimizado para la implementación."
         }
+    },
+    "BookLanding": {
+        "getFreeCopy": "Obtenga Su Copia Gratis",
+        "downloadReceived": "Revise su bandeja de entrada — su descarga está en camino.",
+        "whoIsThisFor": "¿Para Quién Es Este Libro?",
+        "whatYoullLearn": "Lo Que Aprenderá",
+        "form": {
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "email": "Correo Electrónico",
+            "phone": "Teléfono (Opcional)",
+            "companyName": "Nombre del Negocio (Opcional)",
+            "submit": "Envíame el Libro",
+            "submitting": "Enviando..."
+        },
+        "success": {
+            "title": "Revise Su Bandeja de Entrada",
+            "message": "Su enlace de descarga está en camino. Revise su correo en breve."
+        },
+        "trust": {
+            "secureDelivery": "Entrega Segura",
+            "expertAuthor": "Autor Experto",
+            "instantAccess": "Acceso Instantáneo"
+        },
+        "meta": {
+            "freeDownloadTitle": "{title} — Descarga Gratis | Union National Tax",
+            "freeDownloadDescription": "Obtenga su copia gratis de {title} y comience a construir una estrategia fiscal real."
+        }
     }
 }

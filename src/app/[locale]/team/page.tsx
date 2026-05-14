@@ -154,7 +154,7 @@ export default async function TeamPage(props: { params: Promise<{ locale: string
                 )}
 
                 <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
-                    <HiringSection settings={settings} />
+                    <HiringSection settings={settings as any} />
                 </Suspense>
 
                 <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>

@@ -7,7 +7,7 @@ import Link from "next/link";
 import VideoEmbed from "@/components/ui/VideoEmbed";
 
 interface VSLHeroProps {
-    badge?: any;
+    badge?: string;
     headline?: string;
     subheadline?: string;
     videoUrl?: string;

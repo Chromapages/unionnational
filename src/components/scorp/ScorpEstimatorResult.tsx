@@ -2,7 +2,7 @@
 
 import { ScorpFitLevel } from "@/lib/scorp/schema";
 import { motion } from "framer-motion";
-import { CheckCircle2, AlertCircle, TrendingUp, Calendar, ArrowRight } from "lucide-react";
+import { CheckCircle2, AlertCircle, TrendingUp, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScorpEstimatorCTA } from "./ScorpEstimatorCTA";
 
@@ -18,7 +18,7 @@ const MESSAGES: Record<ScorpFitLevel, string> = {
     HIGH_INTENT_SCORP: "Your responses suggest a strong S-Corp opportunity with enough business size or profitability to justify a deeper review now. The next step is to confirm the real savings range, compensation strategy, payroll readiness, and broader tax fit. The S-Corp Advantage booklet has been sent to your email."
 };
 
-const FIT_LABELS: Record<ScorpFitLevel, { label: string, color: string, icon: any }> = {
+const FIT_LABELS: Record<ScorpFitLevel, { label: string; color: string; icon: LucideIcon }> = {
     LOW_FIT: { label: "Review Recommended", color: "text-slate-400", icon: AlertCircle },
     POSSIBLE_FIT: { label: "Potential Fit", color: "text-blue-500", icon: TrendingUp },
     STRONG_CANDIDATE: { label: "Strong Candidate", color: "text-brand-900", icon: CheckCircle2 },

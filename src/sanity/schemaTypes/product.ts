@@ -157,8 +157,21 @@ export const product = defineType({
                     fields: [
                         { name: "name", title: "Edition Name", type: "string", validation: (Rule) => Rule.required() },
                         { name: "price", title: "Price", type: "number", validation: (Rule) => Rule.required().min(0) },
-                        { name: "format", title: "Format Type", type: "string" },
+                        {
+                            name: "format",
+                            title: "Format Type",
+                            type: "string",
+                            options: {
+                                list: [
+                                    { title: "Digital (PDF/ePub)", value: "digital" },
+                                    { title: "Physical (Print)", value: "physical" },
+                                    { title: "Audiobook", value: "audio" },
+                                    { title: "Bundle (Digital + Print)", value: "bundle" },
+                                ],
+                            },
+                        },
                         { name: "stripePriceId", title: "Stripe Price ID", type: "string" },
+                        { name: "stripeProductId", title: "Stripe Product ID", type: "string" },
                         { name: "description", title: "Short Description", type: "string" },
                     ],
                 },
@@ -302,6 +315,20 @@ export const product = defineType({
             title: "SEO Overrides",
             type: "seo",
             group: "seo",
+        }),
+        defineField({
+            name: "leadMagnetTag",
+            title: "Lead Magnet Tag",
+            type: "string",
+            group: "content",
+            description: "GHL workflow tag for this book's nurture sequence (e.g., LM_Book_SCorp).",
+        }),
+        defineField({
+            name: "serviceLane",
+            title: "Service Lane",
+            type: "string",
+            group: "content",
+            description: "Service lane for cross-sell recommendations (e.g., s-corp-strategy, fractional-cfo).",
         }),
     ],
     preview: {

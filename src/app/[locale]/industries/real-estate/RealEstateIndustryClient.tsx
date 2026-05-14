@@ -1,25 +1,17 @@
 "use client";
 
 import { 
-    Building2, 
-    TrendingUp, 
-    Landmark,
-    ShieldCheck,
-    Coins,
-    BarChart3,
     CheckCircle2,
     Zap,
     Scale,
     Clock,
-    UserCheck,
-    Wallet,
     Building,
-    Key,
-    ArrowRight,
+    ShieldCheck,
+    Globe,
+    Wallet,
     PieChart,
     Activity,
-    Lock,
-    Globe
+    Lock
 } from "lucide-react";
 import { IndustryHero } from "@/components/industries/IndustryHero";
 import { IndustryBento } from "@/components/industries/IndustryBento";
@@ -28,11 +20,7 @@ import { CTASection } from "@/components/home/CTASection";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
-import { useState } from "react";
-
-interface RealEstateIndustryClientProps {
-    locale: string;
-}
+import Image from "next/image";
 
 const FAQ_ITEMS = [
     {
@@ -112,7 +100,7 @@ const REAL_ESTATE_COMPARISON = [
     { feature: "Strategic Growth", generic: "Tax compliance only", architect: "Portfolio Acquisition Advisory" }
 ];
 
-export default function RealEstateIndustryClient({ locale }: RealEstateIndustryClientProps) {
+export default function RealEstateIndustryClient() {
     return (
         <div className="bg-white overflow-x-hidden">
             {/* 1. Breadcrumbs Overlay */}
@@ -200,9 +188,11 @@ export default function RealEstateIndustryClient({ locale }: RealEstateIndustryC
                         <div className="relative">
                             <RevealOnScroll delay={300}>
                                 <div className="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl group">
-                                    <img 
+                                    <Image 
                                         src="/images/real-estate-cfo.jpg" 
                                         alt="Portfolio Review"
+                                        width={800}
+                                        height={1000}
                                         className="w-full aspect-[4/5] object-cover transition-transform duration-1000 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-brand-950 via-transparent to-transparent opacity-60" />

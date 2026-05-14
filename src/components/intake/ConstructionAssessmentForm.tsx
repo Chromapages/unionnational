@@ -1,18 +1,16 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
     TrendingUp, 
-    Building2, 
     CheckCircle2, 
     ArrowRight, 
     ArrowLeft, 
     Loader2, 
-    AlertTriangle,
     ShieldCheck,
     BarChart3,
     Calendar,
@@ -22,11 +20,11 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ConstructionResults } from "./ConstructionResults";
-import { normalizeIndustry, normalizeRevenue } from "@/lib/ghl/contract";
+import { normalizeRevenue } from "@/lib/ghl/contract";
 
 const formSchema = z.object({
     revenueRange: z.enum(['Under $250K', '$250K-$500K', '$500K-$1M', '$1M+']),
-    jobCosting: z.enum(['No, we don\'t track job-by-job', 'Partially / Inconsistent', 'Yes, fully automated']),
+    jobCosting: z.enum(['No, we don&apos;t track job-by-job', 'Partially / Inconsistent', 'Yes, fully automated']),
     cashFlow: z.enum(['Never / We just check bank balance', 'Monthly / Quarterly', 'Weekly / Real-time']),
     estimating: z.enum(['Guesswork / Based on intuition', 'Mostly accurate, but we miss things', 'Highly accurate / Data-driven']),
     reviews: z.enum(['Never / Only at tax time', 'Annually / Semi-annually', 'Monthly / Proactive']),
@@ -237,7 +235,7 @@ export const ConstructionAssessmentForm = () => {
                                             key={range}
                                             type="button"
                                             onClick={() => {
-                                                setValue("revenueRange", range as any);
+                                                setValue("revenueRange", range as FormData['revenueRange']);
                                                 handleNext();
                                             }}
                                             className={cn(
@@ -257,12 +255,12 @@ export const ConstructionAssessmentForm = () => {
                             {/* Step 2: Job Costing */}
                             {step === 2 && (
                                 <div className="space-y-3">
-                                    {['No, we don\'t track job-by-job', 'Partially / Inconsistent', 'Yes, fully automated'].map((opt) => (
+                                    {['No, we don&apos;t track job-by-job', 'Partially / Inconsistent', 'Yes, fully automated'].map((opt) => (
                                         <button
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("jobCosting", opt as any);
+                                                setValue("jobCosting", opt as FormData['jobCosting']);
                                                 handleNext();
                                             }}
                                             className={cn(
@@ -285,7 +283,7 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("cashFlow", opt as any);
+                                                setValue("cashFlow", opt as FormData['cashFlow']);
                                                 handleNext();
                                             }}
                                             className={cn(
@@ -308,7 +306,7 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("estimating", opt as any);
+                                                setValue("estimating", opt as FormData['estimating']);
                                                 handleNext();
                                             }}
                                             className={cn(
@@ -331,7 +329,7 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("reviews", opt as any);
+                                                setValue("reviews", opt as FormData['reviews']);
                                                 handleNext();
                                             }}
                                             className={cn(

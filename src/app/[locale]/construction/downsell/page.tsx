@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { Check, ArrowRight, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 
-export default async function ConstructionDownsellPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+export default async function ConstructionDownsellPage() {
     return (
         <div className="min-h-screen bg-slate-950 font-sans selection:bg-cyan-500 selection:text-slate-900 flex flex-col relative overflow-hidden">
 
@@ -85,7 +83,7 @@ export default async function ConstructionDownsellPage(props: { params: Promise<
 
                     {/* Micro-Copy */}
                     <p className="text-slate-500 text-sm animate-in fade-in duration-1000 delay-500">
-                        When you hit $1M in revenue, come back and we'll upgrade you to the CFO package.
+                        When you hit $1M in revenue, come back and we&apos;ll upgrade you to the CFO package.
                     </p>
 
                 </div>

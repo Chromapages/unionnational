@@ -3,18 +3,18 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown, type LucideIcon } from "lucide-react";
 import * as Icons from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { fallbackServices, getServiceHref, mapCategory, type ServiceSummary } from "./navigationData";
+import { fallbackServices, getServiceHref, type ServiceSummary } from "./navigationData";
 
-const getIcon = (iconName?: string) => {
+const getIcon = (iconName?: string): LucideIcon => {
   if (!iconName) {
     return Icons.Briefcase;
   }
 
-  // @ts-expect-error - Lucide exports aren't typed for dynamic access
-  return Icons[iconName] || Icons.Briefcase;
+  const Icon = (Icons as unknown as Record<string, LucideIcon>)[iconName];
+  return Icon || Icons.Briefcase;
 };
 
 type ServicesDropdownProps = {
@@ -33,11 +33,6 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
   const isServicesActive = pathname.startsWith("/services");
   const serviceData = services?.length ? services : fallbackServices;
   
-  const taxStrategy = serviceData.filter((s) => mapCategory(s.category) === "Tax Strategy");
-  const financialControl = serviceData.filter((s) => mapCategory(s.category) === "Financial Control");
-  const specializedAdvisory = serviceData.filter((s) => mapCategory(s.category) === "Specialized Advisory");
-  const complianceSupport = serviceData.filter((s) => mapCategory(s.category) === "Compliance Support");
-
   const featuredService = serviceData.find((service) => service.isPopular) || serviceData[0];
 
   const firstServiceKey =

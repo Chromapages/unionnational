@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useTransition } from "react";
 

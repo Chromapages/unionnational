@@ -187,14 +187,12 @@ interface MobileTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaE
 export function MobileTextarea({
     label,
     error,
-    helperText,
     rows = 4,
     className = "",
     disabled,
     required,
     ...props
 }: MobileTextareaProps) {
-    const [isFocused, setIsFocused] = useState(false);
     const [touched, setTouched] = useState(false);
 
     return (
@@ -229,11 +227,9 @@ export function MobileTextarea({
                     disabled={disabled}
                     required={required}
                     onFocus={(e) => {
-                        setIsFocused(true);
                         props.onFocus?.(e);
                     }}
                     onBlur={(e) => {
-                        setIsFocused(false);
                         setTouched(true);
                         props.onBlur?.(e);
                     }}
@@ -262,14 +258,12 @@ interface MobileSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement
 export function MobileSelect({
     label,
     error,
-    helperText,
     options,
     className = "",
     disabled,
     required,
     ...props
 }: MobileSelectProps) {
-    const [isFocused, setIsFocused] = useState(false);
     const [touched, setTouched] = useState(false);
 
     return (
@@ -303,11 +297,9 @@ export function MobileSelect({
                     disabled={disabled}
                     required={required}
                     onFocus={(e) => {
-                        setIsFocused(true);
                         props.onFocus?.(e);
                     }}
                     onBlur={(e) => {
-                        setIsFocused(false);
                         setTouched(true);
                         props.onBlur?.(e);
                     }}

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Minus, Plus, ShoppingBag, Trash2, Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 
 import { beginCheckout } from "@/lib/shop/checkout-client";
@@ -29,11 +30,11 @@ const formatPrice = (price: number) =>
 export function CartPageClient({ recoveryCta }: CartPageClientProps) {
     const tCart = useTranslations("Shop.Cart");
     const router = useRouter();
+    const searchParams = useSearchParams();
     const items = useCartStore((state) => state.items);
     const updateQuantity = useCartStore((state) => state.updateQuantity);
     const removeItem = useCartStore((state) => state.removeItem);
     const setIsOpen = useCartStore((state) => state.setIsOpen);
-    const clearCart = useCartStore((state) => state.clearCart);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
 
@@ -55,7 +56,6 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
 
             const result = await beginCheckout(items);
             if (result.ok && result.redirectUrl) {
-                clearCart();
                 window.location.assign(result.redirectUrl);
                 return;
             }
@@ -85,6 +85,11 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                 <p className="max-w-2xl text-base leading-relaxed text-slate-600">
                     Confirm the resource, quantity, and format before continuing to secure checkout.
                 </p>
+                {searchParams.get("checkout") === "cancelled" && (
+                    <div className="mt-4 max-w-2xl rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-900">
+                        Checkout was cancelled before payment. Your cart is still here when you are ready.
+                    </div>
+                )}
             </div>
 
             {items.length === 0 ? (

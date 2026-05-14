@@ -13,6 +13,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { Play, ArrowLeft } from "lucide-react";
 import { extractString } from "@/lib/utils";
 import Link from "next/link";
+import { Playbook, PlaybookChapter } from "@/types/sanity";
 
 export const revalidate = 60;
 
@@ -27,13 +28,15 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         params: { slug: chapter, locale },
     });
 
-    if (!chapterData) {
+    const typedChapter = chapterData as PlaybookChapter | null;
+
+    if (!typedChapter) {
         return { title: "Chapter Not Found" };
     }
 
     return {
-        title: `${extractString(chapterData.title, locale)} | S-Corp Playbook`,
-        description: `Chapter ${chapterData.chapterNumber}: ${extractString(chapterData.title, locale)}`,
+        title: `${extractString(typedChapter.title, locale)} | S-Corp Playbook`,
+        description: `Chapter ${typedChapter.chapterNumber}: ${extractString(typedChapter.title, locale)}`,
     };
 }
 
@@ -45,11 +48,17 @@ export default async function ChapterPage(props: PageProps) {
         sanityFetch({ query: PLAYBOOK_CHAPTER_QUERY, params: { slug: chapterSlug, locale } }),
     ]);
 
-    if (!playbook || !chapter) {
+    const typedPlaybook = playbook as Playbook | null;
+    const typedChapter = chapter as PlaybookChapter | null;
+
+    if (!typedPlaybook || !typedChapter) {
         notFound();
     }
 
-    const chapters = playbook.chapters || [];
+    const chapters = (typedPlaybook.chapters || []).map((c: any) => ({
+        ...c,
+        slug: typeof c.slug === 'string' ? c.slug : c.slug.current
+    }));
     const currentIndex = chapters.findIndex((c: any) => c.slug === chapterSlug);
     const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1] : null;
     const nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
@@ -73,10 +82,10 @@ export default async function ChapterPage(props: PageProps) {
                     </Link>
                     <div className="flex items-center gap-4">
                         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gold-500 text-lg font-bold text-brand-950">
-                            {chapter.chapterNumber}
+                            {typedChapter.chapterNumber}
                         </span>
                         <h1 className="text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl font-heading">
-                            {extractString(chapter.title, locale)}
+                            {extractString(typedChapter.title, locale)}
                         </h1>
                     </div>
                 </div>
@@ -85,10 +94,10 @@ export default async function ChapterPage(props: PageProps) {
             <section className="mx-auto max-w-7xl px-6 py-12">
                 <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_340px]">
                     <div className="space-y-12">
-                        {chapter.videoEmbed && (
+                        {typedChapter.videoEmbed && (
                             <div className="relative aspect-video overflow-hidden rounded-2xl bg-brand-900">
                                 <iframe
-                                    src={chapter.videoEmbed}
+                                    src={typedChapter.videoEmbed}
                                     className="absolute inset-0 h-full w-full"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
@@ -96,11 +105,11 @@ export default async function ChapterPage(props: PageProps) {
                             </div>
                         )}
 
-                        {chapter.videoThumbnail && !chapter.videoEmbed && (
+                        {typedChapter.videoThumbnail && !typedChapter.videoEmbed && (
                             <div className="relative aspect-video overflow-hidden rounded-2xl bg-brand-900">
                                 <Image
-                                    src={urlFor(chapter.videoThumbnail).url()}
-                                    alt={chapter.videoThumbnail.alt || extractString(chapter.title, locale)}
+                                    src={urlFor(typedChapter.videoThumbnail).url()}
+                                    alt={typedChapter.videoThumbnail.alt || extractString(typedChapter.title, locale)}
                                     fill
                                     className="object-cover"
                                 />
@@ -112,31 +121,31 @@ export default async function ChapterPage(props: PageProps) {
                             </div>
                         )}
 
-                        {chapter.content && (
+                        {typedChapter.content && (
                             <div className="prose prose-invert max-w-none">
-                                <RichText value={chapter.content} locale={locale} />
+                                <RichText value={typedChapter.content} locale={locale} />
                             </div>
                         )}
 
-                        {chapter.isGated && !chapter.gatedContent ? (
+                        {typedChapter.isGated && !typedChapter.gatedContent ? (
                             <GatedContentBox
                                 title="Unlock Advanced Strategies"
                                 description="This section contains advanced tactics. Enter your email to unlock this premium content."
                             />
-                        ) : chapter.isGated && chapter.gatedContent ? (
+                        ) : typedChapter.isGated && typedChapter.gatedContent ? (
                             <div>
                                 <GatedContentBox
                                     title="Advanced Strategies Unlocked"
                                     description="Thanks for subscribing! Here are the advanced tactics for this chapter."
                                 />
                                 <div className="mt-8 prose prose-invert max-w-none">
-                                    <RichText value={chapter.gatedContent} locale={locale} />
+                                    <RichText value={typedChapter.gatedContent} locale={locale} />
                                 </div>
                             </div>
                         ) : null}
 
-                        <KeyTakeaways takeaways={chapter.keyTakeaways?.map((t: any) => extractString(t, locale))} />
-                        <ToolReferences tools={chapter.tools?.map((t: any) => extractString(t, locale))} />
+                        <KeyTakeaways takeaways={typedChapter.keyTakeaways?.map((t: string) => extractString(t, locale)) || []} />
+                        <ToolReferences tools={typedChapter.tools?.map((t: string) => extractString(t, locale)) || []} />
 
                         <div className="flex items-center justify-between border-t border-white/10 pt-8">
                             {prevChapter ? (
@@ -165,7 +174,7 @@ export default async function ChapterPage(props: PageProps) {
                     <div className="hidden lg:block">
                         <div className="sticky top-24 space-y-6">
                             <PlaybookNav
-                                playbookTitle={extractString(playbook.title, locale)}
+                                playbookTitle={extractString(typedPlaybook.title, locale)}
                                 chapters={chapters}
                                 currentChapterSlug={chapterSlug}
                                 locale={locale}

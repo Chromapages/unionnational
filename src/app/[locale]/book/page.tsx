@@ -1,7 +1,6 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { CheckCircle2, XCircle, ArrowRight, ShieldCheck, Zap, TrendingUp } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { CheckCircle2, XCircle, ShieldCheck, Zap, TrendingUp } from "lucide-react";
 import { BookingCalendar } from "@/components/booking/BookingCalendar";
 
 export const metadata = {
@@ -10,8 +9,7 @@ export const metadata = {
 };
 
 export default async function BookPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+    await props.params;
 
     return (
         <main id="main-content" className="min-h-screen bg-white selection:bg-gold-500/30">

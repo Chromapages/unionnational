@@ -1,13 +1,31 @@
-import { NextResponse } from 'next/server';
-
-const GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/7558f329-2812-4a3e-ad7e-964208181c78';
+import { NextResponse } from "next/server";
+import { checkRateLimit, getClientIdentifier } from "@/lib/security/rate-limiter";
+import { getEnv } from "@/lib/config/env";
+import { getTraceId, logger } from "@/lib/observability/logger";
 
 export async function POST(request: Request) {
+    const traceId = getTraceId();
+    const identifier = getClientIdentifier(request);
+    const rateLimitResult = await checkRateLimit(identifier);
+
+    if (!rateLimitResult.success) {
+        return NextResponse.json(
+            { error: "Too many requests. Please try again later." },
+            {
+                status: 429,
+                headers: {
+                    "Retry-After": String(
+                        Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
+                    ),
+                },
+            }
+        );
+    }
+
     try {
         const data = await request.json();
 
-        // Validate required fields
-        const requiredFields = ['name', 'email', 'phone', 'businessType', 'revenueRange'];
+        const requiredFields = ["name", "email", "phone", "businessType", "revenueRange"];
         for (const field of requiredFields) {
             if (!data[field]) {
                 return NextResponse.json(
@@ -17,62 +35,64 @@ export async function POST(request: Request) {
             }
         }
 
-        // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
             return NextResponse.json(
-                { error: 'Invalid email address' },
+                { error: "Invalid email address" },
                 { status: 400 }
             );
         }
 
-        // Log the lead data
-        console.log('>>> [TAX ANALYSIS LEAD] New lead captured:', {
-            timestamp: new Date().toISOString(),
+        logger.info("Tax analysis lead captured", {
+            traceId,
+            businessType: data.businessType,
+            revenueRange: data.revenueRange,
+            source: data.source ?? "unt-tax-analysis",
+        });
+
+        const ghlPayload = {
             name: data.name,
             email: data.email,
             phone: data.phone,
-            businessType: data.businessType,
-            revenueRange: data.revenueRange,
-            source: data.source,
-        });
+            business_type: data.businessType,
+            revenue_range: data.revenueRange,
+            source: data.source || "unt-tax-analysis",
+            timestamp: new Date().toISOString(),
+        };
 
-        // Forward to GHL webhook
-        try {
-            const ghlPayload = {
-                name: data.name,
-                email: data.email,
-                phone: data.phone,
-                business_type: data.businessType,
-                revenue_range: data.revenueRange,
-                source: data.source || 'unt-tax-analysis',
-                timestamp: new Date().toISOString(),
-            };
+        const ghlWebhookUrl = getEnv("GHL_TAX_ANALYSIS_WEBHOOK_URL");
 
-            const ghlResponse = await fetch(GHL_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(ghlPayload),
-            });
+        if (ghlWebhookUrl) {
+            try {
+                const ghlResponse = await fetch(ghlWebhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(ghlPayload),
+                });
 
-            if (!ghlResponse.ok) {
-                console.error('>>> [TAX ANALYSIS LEAD] GHL webhook error:', ghlResponse.status, ghlResponse.statusText);
-                // Don't fail the request — lead is still logged
-            } else {
-                console.log('>>> [TAX ANALYSIS LEAD] GHL webhook success');
+                if (!ghlResponse.ok) {
+                    logger.error("GHL webhook error", {
+                        traceId,
+                        status: ghlResponse.status,
+                        statusText: ghlResponse.statusText,
+                    });
+                } else {
+                    logger.info("GHL webhook success", { traceId });
+                }
+            } catch (webhookError) {
+                logger.error("GHL webhook failed", {
+                    traceId,
+                    error: webhookError instanceof Error ? webhookError.message : "Unknown error",
+                });
             }
-        } catch (webhookError) {
-            // Log but don't fail — lead is captured in console
-            console.error('>>> [TAX ANALYSIS LEAD] GHL webhook failed:', webhookError);
         }
 
         return NextResponse.json({ success: true });
-
     } catch (error) {
-        console.error('>>> [TAX ANALYSIS LEAD] Error:', error);
-        return NextResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-        );
+        logger.error("Tax analysis lead error", {
+            traceId,
+            error: error instanceof Error ? error.message : "Unknown error",
+        });
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

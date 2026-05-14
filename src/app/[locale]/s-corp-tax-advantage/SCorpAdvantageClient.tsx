@@ -1,161 +1,97 @@
 "use client";
 
-import { useState } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import {
     CheckCircle2,
     TrendingDown,
     ShieldCheck,
     ArrowRight,
-    Target as TargetIcon,
     Layers,
     BarChart3,
     Search,
     FileCheck,
-    Handshake,
-    ChevronDown,
-    ChevronUp,
-    ExternalLink,
-    X,
     Check
 } from "lucide-react";
 import { ScorpEstimatorShell } from "@/components/scorp/ScorpEstimatorShell";
+import { FAQItem } from "@/components/scorp/FAQItem";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { useRef } from "react";
+import { type SanityBlock } from "@/types/sanity";
+import {
+    FALLBACK_FAQS,
+    FALLBACK_ROADMAP,
+    FALLBACK_CRITERIA_PROS,
+    FALLBACK_CRITERIA_CONS,
+    FALLBACK_COMPARISON,
+    FALLBACK_TRUST_SIGNALS,
+    SCORP_ADVANTAGE_HERO_TITLE,
+    SCORP_ADVANTAGE_HERO_DESCRIPTION,
+    SCORP_ADVANTAGE_IMPACT_GOAL,
+    SCORP_ADVANTAGE_AGITATION_TITLE,
+    SCORP_ADVANTAGE_AGITATION_DESC,
+    SCORP_ADVANTAGE_FEATURES,
+} from "@/lib/scorp/scorp-data";
 
 interface SCorpAdvantageClientProps {
     locale: string;
-    service?: any;
+    service?: {
+        title?: string;
+        shortDescription?: string;
+        impactGoal?: string;
+        fullDescription?: SanityBlock[];
+        problemAgitation?: {
+            title?: string;
+            description?: string;
+        };
+        faq?: Array<{ q?: string; question?: string; a?: string; answer?: string }>;
+        roadmap?: Array<{ stepNumber?: string; title?: string; description?: string }>;
+        eligibilityPros?: string[];
+        eligibilityCons?: string[];
+        comparisonPoints?: Array<{ feature: string; diy?: string; bigFirm?: string; unionNational?: string }>;
+        trustSignals?: string[];
+    };
 }
 
-// ─── FALLBACK DATA (Used if Sanity content is missing) ──────────────────────
-const FALLBACK_FAQS = [
-    {
-        q: "How do I know if an S-Corp is right for me?",
-        a: "The right answer depends on your business profit, the role you play in the company, how you pay yourself, and how the business is currently structured. That is why review comes first — before any assumptions or recommendations."
-    },
-    {
-        q: "Is an S-Corp always the best tax strategy?",
-        a: "No. It can be powerful in the right scenario, but it is not the right fit for every business. The decision should be based on actual business conditions, not internet hype or generic advice."
-    },
-    {
-        q: "Do I need to already have an LLC?",
-        a: "Not always. Your current setup will affect the next steps, but the right path depends on how your business is presently structured and what changes are needed."
-    },
-    {
-        q: "Does this only help with filing Form 2553?",
-        a: "No. Filing is only one part of the picture. The real value comes from assessing whether the strategy fits, implementing it correctly, and supporting the business afterward."
-    },
-    {
-        q: "What happens after I book a call?",
-        a: "You will speak with Union National Tax about your business, current structure, goals, and whether an S-Corp review makes sense as the next step."
-    },
-    {
-        q: "Can this connect to bookkeeping or CFO support later?",
-        a: "Yes. For many businesses, S-Corp strategy is the starting point that leads into stronger planning, cleaner reporting, and more ongoing financial support."
-    }
-];
-
-const FALLBACK_ROADMAP = [
-    { stepNumber: "01", title: "Evaluate", description: "We review your profit picture and role to determine S-Corp potential." },
-    { stepNumber: "02", title: "Recommend", description: "If the numbers support it, we build a customized transition roadmap." },
-    { stepNumber: "03", title: "Election", description: "We guide the filing path and handle the critical election process." },
-    { stepNumber: "04", title: "Support", description: "Ongoing leadership to ensure the strategy works long-term." }
-];
-
-const FALLBACK_CRITERIA_PROS = [
-    "Self-employed business owners with healthy profit",
-    "Single-owner or owner-operated businesses",
-    "Sole proprietors looking for better efficiency",
-    "Owners who want proactive tax strategy",
-    "Businesses seeking cleaner compensation structure"
-];
-
-const FALLBACK_CRITERIA_CONS = [
-    "If you are looking for a shortcut without compliance discipline, or if the business isn't yet at the right profit level—we aren't the right fit.",
-    "We specialize in businesses ready to integrate professional structure as part of a bigger business strategy."
-];
-
-const FALLBACK_COMPARISON = [
-    { feature: "Business Structure", diy: "Reactive filing", unionNational: "Structure-First Review" },
-    { feature: "Relationship", diy: "Seasonal/Transactional", unionNational: "Ongoing Strategy" },
-    { feature: "Optimization", diy: "Minimal attention", unionNational: "Core Decision Point" },
-    { feature: "Audit Defense", diy: "General support", unionNational: "Specialized Guard" },
-    { feature: "Decision Making", diy: "Compliance only", unionNational: "Advisory-Led" }
-];
-
-const FALLBACK_TRUST_SIGNALS = [
-    "IRS Enrolled Agent Prepared",
-    "Strategy-First Guidance",
-    "Audit Protection Built-in",
-    "High-Value Implementation",
-];
-
-const FAQItem = ({ q, a }: { q: string; a: string }) => {
-    const [open, setOpen] = useState(false);
-    return (
-        <div className="border-b border-slate-100 last:border-b-0">
-            <button
-                onClick={() => setOpen(o => !o)}
-                className="w-full flex justify-between items-center gap-4 py-6 text-left group"
-                aria-expanded={open}
-            >
-                <span className="font-bold text-brand-900 font-heading text-lg leading-snug group-hover:text-gold-600 transition-colors">
-                    {q}
-                </span>
-                <span className="shrink-0 w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-gold-500 group-hover:text-gold-500 transition-all">
-                    {open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                </span>
-            </button>
-            {open && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="pb-6 text-slate-600 leading-relaxed font-body text-base"
-                >
-                    {a}
-                </motion.div>
-            )}
-        </div>
-    );
+const SCORP_ICON_MAP: Record<string, React.ComponentType<{ size: number }>> = {
+    Search,
+    FileCheck,
+    Layers,
+    BarChart3,
 };
 
-export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantageClientProps) {
+export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientProps) {
     const estimatorRef = useRef<HTMLDivElement>(null);
 
     // ─── Resolve Dynamic Data ────────────────────────────────────────────────
     // We use a robust merging strategy to ensure hydration stability and high-fidelity content
-    const faqs = (service?.faq?.length > 0 ? service.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
+    const faqs = (service?.faq?.length ? service.faq : FALLBACK_FAQS).map((item: any, i: number) => ({
         q: item.q || item.question || FALLBACK_FAQS[i]?.q,
         a: item.a || item.answer || FALLBACK_FAQS[i]?.a
     }));
 
-    const roadmap = (service?.roadmap?.length > 0 ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
+    const roadmap = (service?.roadmap?.length ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
         stepNumber: step.stepNumber || FALLBACK_ROADMAP[i]?.stepNumber || (i + 1).toString().padStart(2, '0'),
         title: step.title || FALLBACK_ROADMAP[i]?.title,
         description: step.description || FALLBACK_ROADMAP[i]?.description
     }));
 
-    const criteriaPros = service?.eligibilityPros?.length > 0 ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
-    const criteriaCons = service?.eligibilityCons?.length > 0 ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
+    const criteriaPros = (service?.eligibilityPros && service.eligibilityPros.length > 0) ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
+    const criteriaCons = (service?.eligibilityCons && service.eligibilityCons.length > 0) ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
     
-    const comparisonPoints = (service?.comparisonPoints?.length > 0 ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
+    const comparisonPoints = (service?.comparisonPoints?.length ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
         ...FALLBACK_COMPARISON[i],
         ...item
     }));
 
-    const trustSignals = service?.trustSignals?.length > 0 ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
+    const trustSignals = (service?.trustSignals && service.trustSignals.length > 0) ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
 
-    const heroTitle = service?.title || "Stop Overpaying Yourself Into Higher Taxes.";
-    const heroDescription = service?.shortDescription || "The S-Corp Tax Advantage Program helps qualified business owners evaluate whether an S-Corp election could lower tax burden, improve compensation structure, and support smarter long-term growth.";
-    const impactGoal = service?.impactGoal || "Strategic Tax Optimization";
+    const heroTitle = service?.title || SCORP_ADVANTAGE_HERO_TITLE;
+    const heroDescription = service?.shortDescription || SCORP_ADVANTAGE_HERO_DESCRIPTION;
+    const impactGoal = service?.impactGoal || SCORP_ADVANTAGE_IMPACT_GOAL;
 
-    const agitationTitle = (service?.problemAgitation?.title) || "Why your current setup is costing you money.";
-    const agitationDesc = (service?.problemAgitation?.description) || "A lot of self-employed professionals and growing small business owners start as sole proprietors or single-member LLCs — and stay there far too long.";
+    const agitationTitle = (service?.problemAgitation?.title) || SCORP_ADVANTAGE_AGITATION_TITLE;
+    const agitationDesc = (service?.problemAgitation?.description) || SCORP_ADVANTAGE_AGITATION_DESC;
 
     const scrollToEstimator = () => {
         estimatorRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -374,36 +310,13 @@ export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantage
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-                        {[
-                            {
-                                icon: Search,
-                                title: "Strategic Evaluation",
-                                category: "Tax Audit",
-                                body: "We review your business structure, income profile, and owner compensation picture to assess whether an S-Corp election is likely to create real value."
-                            },
-                            {
-                                icon: FileCheck,
-                                title: "Entity & Election Guidance",
-                                category: "Implementation",
-                                body: "If the strategy is a fit, we help guide the transition and filing process, including the S-Corp election path and related setup considerations."
-                            },
-                            {
-                                icon: Layers,
-                                title: "Ongoing Tax Alignment",
-                                category: "Long-term Strategy",
-                                body: "An S-Corp is not just a form. It affects compensation, planning, and compliance. We help make sure the structure supports the bigger strategy."
-                            },
-                            {
-                                icon: BarChart3,
-                                title: "Financial Decision-Making",
-                                category: "Executive Leadership",
-                                body: "The goal is not only tax savings. It is a cleaner, smarter financial setup that gives the owner more control over how the business runs and grows."
-                            }
-                        ].map((item, idx) => (
+                        {SCORP_ADVANTAGE_FEATURES.map((item, idx) => {
+                            const IconComponent = SCORP_ICON_MAP[item.icon] ?? Search;
+                            return (
                             <RevealOnScroll key={idx} delay={idx * 100}>
                                 <div className="h-full bg-white p-8 lg:p-10 rounded-2xl border border-slate-200 hover:border-gold-500/40 hover:shadow-soft transition-all group flex gap-6 lg:gap-8 items-start">
                                     <div className="w-12 lg:w-14 h-12 lg:h-14 rounded-xl bg-gold-500/10 flex items-center justify-center shrink-0 text-gold-500 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all duration-300">
-                                        <item.icon size={24} />
+                                        <IconComponent size={24} />
                                     </div>
                                     <div>
                                         <span className="block text-[10px] font-bold uppercase tracking-widest text-gold-600 mb-2">{item.category}</span>
@@ -412,7 +325,8 @@ export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantage
                                     </div>
                                 </div>
                             </RevealOnScroll>
-                        ))}
+                        );
+                        })}
                     </div>
                 </div>
             </section>
@@ -438,7 +352,7 @@ export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantage
                         <div className="bg-brand-900 p-8 lg:p-16 text-white relative overflow-hidden flex flex-col justify-center">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-[80px]" />
                             <div className="relative space-y-8">
-                                <h3 className="text-3xl font-bold font-heading tracking-tight">Who It’s <span className="text-gold-500 italic">Not</span> For</h3>
+                                <h3 className="text-3xl font-bold font-heading tracking-tight">Who It&apos;s <span className="text-gold-500 italic">Not</span> For</h3>
                                 {criteriaCons.map((item: string, idx: number) => (
                                     <p key={idx} className="text-slate-400 font-light leading-relaxed text-lg font-sans">
                                         {item}
@@ -560,8 +474,8 @@ export default function SCorpAdvantageClient({ locale, service }: SCorpAdvantage
 
                     <RevealOnScroll delay={200}>
                         <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm px-6 lg:px-10">
-                            {faqs.map((faq: any, i: number) => (
-                                <FAQItem key={i} q={faq.q || faq.question} a={faq.a || faq.answer} />
+                            {faqs.map((faq: { q?: string, question?: string, a?: string, answer?: string }, i: number) => (
+                                <FAQItem key={i} q={faq.q || faq.question || ""} a={faq.a || faq.answer || ""} />
                             ))}
                         </div>
                     </RevealOnScroll>

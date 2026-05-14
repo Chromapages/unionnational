@@ -1,90 +1,182 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { getEnv } from "@/lib/config/env";
+import { createApiHandler, getClientIp } from "@/lib/observability/api-handler";
+import { incrementCounter, withLatencyAsync } from "@/lib/observability/request-metrics";
+import { logger } from "@/lib/observability/logger";
 import Stripe from "stripe";
 
-// This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const endpointSecret = getEnv("STRIPE_WEBHOOK_SECRET");
+
+interface OrderMetadataItem {
+    p?: string;
+    s?: string;
+    e?: string;
+    n?: string;
+    f?: string;
+    t?: string;
+    sh?: boolean;
+    pr?: string;
+    q?: number;
+}
+
+function parseOrderItems(metadata: Stripe.Metadata | null): OrderMetadataItem[] {
+    if (!metadata?.items) return [];
+
+    try {
+        const parsed = JSON.parse(metadata.items);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        logger.error("Unable to parse shop order metadata items", error);
+        return [];
+    }
+}
 
 export async function POST(req: NextRequest) {
+    const handler = createApiHandler(req, { module: "shop-webhook" });
     const body = await req.text();
     const sig = req.headers.get("stripe-signature");
+
+    if (!sig || !endpointSecret) {
+        handler.error("Missing stripe-signature or STRIPE_WEBHOOK_SECRET");
+        return handler.jsonError("Webhook Error: Missing signature or secret", 400);
+    }
 
     const stripe = getStripe();
     let event: Stripe.Event;
 
     try {
-        if (!sig || !endpointSecret) {
-            console.error("Missing stripe-signature or STRIPE_WEBHOOK_SECRET");
-            return NextResponse.json({ error: "Webhook Error: Missing signature or secret" }, { status: 400 });
-        }
         event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
-    } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "Unknown error";
-        console.error(`❌ Webhook signature verification failed.`, message);
-        return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 });
+    } catch (err) {
+        handler.error("Webhook signature verification failed", err);
+        return handler.jsonError("Webhook Error: Invalid signature", 400);
     }
 
-    // Handle the event
+    const eventId = event.id;
+    const existingRecord = await checkIdempotency(eventId);
+
+    if (existingRecord && existingRecord.status === "processed") {
+        handler.log.info("Stripe webhook already processed", { eventId });
+        return handler.json({ received: true, idempotent: true });
+    }
+
+    await writeIdempotencyRecord(eventId, "processing");
+
     switch (event.type) {
-        case "checkout.session.completed":
+        case "checkout.session.completed": {
             const session = event.data.object as Stripe.Checkout.Session;
-            
-            // ─── FULFILLMENT LOGIC ───────────────────────────────────────
-            // 1. Get customer info
-            const customerEmail = session.customer_details?.email;
-            const customerName = session.customer_details?.name;
-            const metadata = session.metadata;
-            
-            console.log(`🔔 Payment received for ${customerEmail}!`, {
+
+            handler.log.info("Payment received", {
                 sessionId: session.id,
-                metadata,
-                amount: session.amount_total
+                amount: session.amount_total,
             });
 
-            // 2. Trigger GHL or Email Fulfillment
-            // In a real production environment, you would call your fulfillment 
-            // service here (e.g., GHL webhook, Postmark email, etc.)
             try {
-                await fulfillOrder(session);
+                await withLatencyAsync("shop_webhook_fulfill_ms", async () => {
+                    await fulfillOrder(stripe, session, handler.traceId);
+                }, { event_type: event.type });
             } catch (fulfillmentError) {
-                console.error("Fulfillment Error:", fulfillmentError);
-                // Note: We don't necessarily want to return a 400 here because 
-                // the payment was successful, but we should log it for manual retry.
+                handler.error("Fulfillment error", fulfillmentError, { sessionId: session.id });
             }
-
             break;
-            
+        }
         default:
-            console.log(`Unhandled event type ${event.type}`);
+            handler.log.info("Unhandled Stripe webhook event", { eventType: event.type });
     }
 
-    return NextResponse.json({ received: true });
+    await writeIdempotencyRecord(eventId, "processed");
+    return handler.json({ received: true });
 }
 
-async function fulfillOrder(session: Stripe.Checkout.Session) {
+async function checkIdempotency(eventId: string): Promise<{ status: string } | null> {
+    try {
+        const { writeClient } = await import("@/sanity/lib/client");
+        const result = await writeClient.fetch<{ _id: string; status: string } | null>(
+            `*[_type == "stripeWebhookIdempotency" && stripeEventId == $eventId][0]{ _id, status }`,
+            { eventId },
+            { cache: "no-cache" }
+        );
+        return result;
+    } catch {
+        return null;
+    }
+}
+
+async function writeIdempotencyRecord(eventId: string, status: string): Promise<void> {
+    try {
+        const { writeClient } = await import("@/sanity/lib/client");
+        await writeClient.create({
+            _type: "stripeWebhookIdempotency",
+            stripeEventId: eventId,
+            processedAt: new Date().toISOString(),
+            status,
+        });
+    } catch {
+        // noop
+    }
+}
+
+async function fulfillOrder(stripe: Stripe, session: Stripe.Checkout.Session, traceId: string) {
     const metadata = session.metadata || {};
-    const items = metadata.items ? JSON.parse(metadata.items) : [];
+    const items = parseOrderItems(metadata);
     const email = session.customer_details?.email;
-    
-    // Placeholder for GHL/Email delivery logic
-    // Example: Forward to a specific GHL trigger for "Bookstore Purchase"
-    const GHL_SHOP_PURCHASE_WEBHOOK = process.env.GHL_SHOP_PURCHASE_WEBHOOK_URL;
-    
-    if (GHL_SHOP_PURCHASE_WEBHOOK) {
-        await fetch(GHL_SHOP_PURCHASE_WEBHOOK, {
+
+    if (metadata.fulfillment_status === "fulfilled") {
+        logger.info("Order fulfillment already complete", { sessionId: session.id });
+        return;
+    }
+
+    await stripe.checkout.sessions.update(session.id, {
+        metadata: {
+            ...metadata,
+            fulfillment_status: "processing",
+        },
+    });
+
+    const ghlShopPurchaseWebhook = getEnv("GHL_SHOP_PURCHASE_WEBHOOK_URL");
+    const hasDigital = items.some((item) => item.t === "digital" || item.t === "audio" || item.t === "bundle");
+    const hasPhysical = items.some((item) => item.sh === true || item.t === "physical" || item.t === "bundle");
+
+    if (ghlShopPurchaseWebhook) {
+        const response = await fetch(ghlShopPurchaseWebhook, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "X-Trace-Id": traceId,
+            },
             body: JSON.stringify({
                 event: "shop_purchase_completed",
                 email,
                 name: session.customer_details?.name,
                 items,
+                hasDigital,
+                hasPhysical,
                 total: session.amount_total,
+                currency: session.currency,
                 sessionId: session.id
             })
         });
+
+        if (!response.ok) {
+            throw new Error(`Shop fulfillment webhook failed with ${response.status}`);
+        }
+
+        await stripe.checkout.sessions.update(session.id, {
+            metadata: {
+                ...metadata,
+                fulfillment_status: "fulfilled",
+                fulfilled_at: new Date().toISOString(),
+            },
+        });
+    } else {
+        await stripe.checkout.sessions.update(session.id, {
+            metadata: {
+                ...metadata,
+                fulfillment_status: "pending_manual",
+            },
+        });
+        logger.warn("No GHL_SHOP_PURCHASE_WEBHOOK_URL configured. Manual fulfillment required", { sessionId: session.id });
     }
-    
-    // Log success
-    console.log(`✅ Order fulfillment triggered for ${email}`);
+
+    logger.info("Order fulfillment triggered", { sessionId: session.id, userId: email || "anonymous" });
 }

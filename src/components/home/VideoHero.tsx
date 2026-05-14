@@ -5,43 +5,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, Play, X, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useVideoPlayer } from "@/hooks/useVideoPlayer";
+import { useCounter, useTaxCalculator, formatCurrency } from "@/hooks/useTaxCalculator";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { Link } from "@/i18n/navigation";
-
-// Custom hook for counting numbers with ease-out
-const useCounter = (end: number, duration: number = 1000, start: boolean = false) => {
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-        if (!start) {
-            return;
-        }
-
-        let startTime: number | null = null;
-        let animationFrameId: number;
-
-        const animate = (timestamp: number) => {
-            if (!startTime) startTime = timestamp;
-            const progress = timestamp - startTime;
-            const percentage = Math.min(progress / duration, 1);
-
-            // Ease out quart
-            const ease = 1 - Math.pow(1 - percentage, 4);
-
-            setCount(end * ease);
-
-            if (progress < duration) {
-                animationFrameId = requestAnimationFrame(animate);
-            }
-        };
-
-        animationFrameId = requestAnimationFrame(animate);
-
-        return () => cancelAnimationFrame(animationFrameId);
-    }, [end, duration, start]);
-
-    return count;
-};
 
 interface VideoHeroProps {
     data?: {
@@ -57,27 +23,27 @@ export function VideoHero({ data }: VideoHeroProps) {
     const t = useTranslations('HomePage.VideoHero');
     const locale = useLocale();
     const [income, setIncome] = useState<string>("");
-    const [isCalculating, setIsCalculating] = useState(false);
     const [showResult, setShowResult] = useState(false);
-    const [result, setResult] = useState<{
-        savings: number;
-        oldTax: number;
-        newTax: number;
-    } | null>(null);
-    const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const calculationTimeoutRef = useRef<number | null>(null);
 
+    const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
+    const { result, isCalculating } = useTaxCalculator({
+        income,
+        enabled: income.length > 0 && !showResult,
+        delay: 800,
+    });
+
     // Animated savings value
-    const animatedSavings = useCounter(result?.savings || 0, 1500, showResult);
+    const animatedSavings = useCounter({ end: result?.savings || 0, duration: 1500, start: showResult });
 
     const hlsUrl = data?.heroVideoUrl;
     const primaryCtaUrl = data?.heroCtaUrl || "/book";
 
     // Default video URL if none provided from Sanity
-    // Using a subtle abstract background video from a free CDN
     const defaultVideoUrl = "https://cdn.coverr.co/videos/coverr-abstract-dark-gradient-background-9611/1080p.mp4";
     const backgroundVideoUrl = hlsUrl || defaultVideoUrl;
 
@@ -89,6 +55,7 @@ export function VideoHero({ data }: VideoHeroProps) {
         loop: true
     });
 
+    // Cleanup timeout on unmount
     useEffect(() => {
         return () => {
             if (calculationTimeoutRef.current) {
@@ -133,44 +100,19 @@ export function VideoHero({ data }: VideoHeroProps) {
     const handleCalculate = () => {
         if (!income) return;
 
-        setIsCalculating(true);
-        setShowResult(false); // Reset to trigger animation restart if needed
-
-        // Simulate calculation delay for UX
         if (calculationTimeoutRef.current) {
             window.clearTimeout(calculationTimeoutRef.current);
         }
 
+        setShowResult(false); // Reset to trigger animation restart if needed
+
         calculationTimeoutRef.current = window.setTimeout(() => {
-            const netIncome = parseFloat(income.replace(/,/g, "")) || 0;
-
-            // Simplified S-Corp Logic for Demo
-            const oldTax = netIncome * 0.153;
-            let salary = netIncome * 0.4;
-            if (salary < 40000 && netIncome > 40000) salary = 40000;
-            if (netIncome < 40000) salary = netIncome;
-
-            const newTax = salary * 0.153;
-            const savings = oldTax - newTax;
-
-            setResult({
-                savings: Math.max(0, savings),
-                oldTax,
-                newTax
-            });
-            setIsCalculating(false);
             setShowResult(true);
             calculationTimeoutRef.current = null;
         }, 800);
     };
 
-    const formatCurrency = (val: number) => {
-        return new Intl.NumberFormat(locale === "es" ? "es-US" : "en-US", {
-            style: 'currency',
-            currency: 'USD',
-            maximumFractionDigits: 0
-        }).format(val);
-    };
+    const formatCurrencyLocal = (val: number) => formatCurrency(val, locale);
 
     return (
         <section
@@ -308,7 +250,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                                 <div className="h-10 w-32 bg-white/10 rounded animate-pulse"></div>
                                             ) : (
                                                 <div className="text-4xl font-bold text-white font-heading tracking-tight tabular-nums">
-                                                    {formatCurrency(animatedSavings)}
+                                                    {formatCurrencyLocal(animatedSavings)}
                                                 </div>
                                             )}
 
@@ -393,7 +335,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                             <div className="h-14 w-full bg-slate-200/70 animate-pulse rounded-lg mb-1"></div>
                                         ) : (
                                             <div className="text-5xl font-bold tracking-tight text-brand-900 font-heading tabular-nums bg-clip-text text-transparent bg-gradient-to-r from-brand-900 to-brand-800">
-                                                {formatCurrency(animatedSavings)}
+                                                {formatCurrencyLocal(animatedSavings)}
                                             </div>
                                         )}
 
@@ -411,7 +353,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                                 <div className="h-4 w-20 bg-slate-200 animate-pulse rounded"></div>
                                             ) : (
                                                 <span className="font-bold text-red-400 line-through decoration-red-400/30 text-sm">
-                                                    {result ? formatCurrency(result.oldTax) : "$0.00"}
+                                                    {result ? formatCurrencyLocal(result.oldTax) : "$0.00"}
                                                 </span>
                                             )}
                                         </div>
@@ -424,7 +366,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                                 <div className="h-4 w-20 bg-slate-200 animate-pulse rounded"></div>
                                             ) : (
                                                 <span className="font-bold text-brand-900 text-sm">
-                                                    {result ? formatCurrency(result.newTax) : "$0.00"}
+                                                    {result ? formatCurrencyLocal(result.newTax) : "$0.00"}
                                                 </span>
                                             )}
                                         </div>

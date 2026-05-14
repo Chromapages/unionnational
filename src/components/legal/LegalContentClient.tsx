@@ -1,4 +1,5 @@
 "use client";
+import { SanityBlock } from "@/types/sanity";
 
 import { PortableText } from "next-sanity";
 import { Link as ScrollLink } from "react-scroll";
@@ -19,7 +20,7 @@ interface Heading {
 }
 
 interface LegalContentClientProps {
-    body: any;
+    body: SanityBlock[];
     title: string;
 }
 
@@ -29,14 +30,14 @@ export function LegalContentClient({ body, title }: LegalContentClientProps) {
 
     // Extract headings for TOC
     const headings: Heading[] = (body || [])
-        .filter((block: any) => block._type === "block" && /^h[1-4]$/.test(block.style))
-        .map((block: any) => {
-            const text = block.children?.map((c: any) => c.text).join("") || "";
+        .filter((block) => block._type === "block" && /^h[1-4]$/.test(block.style || ""))
+        .map((block) => {
+            const text = block.children?.map((c) => c.text).join("") || "";
             const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
             return {
                 id,
                 text,
-                level: parseInt(block.style.replace("h", ""), 10),
+                level: parseInt((block.style || "h2").replace("h", ""), 10),
             };
         });
 

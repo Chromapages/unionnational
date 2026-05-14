@@ -1,11 +1,10 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType, type SanityDocument } from 'sanity'
 import { Users } from 'lucide-react'
 
 export const teamMember = defineType({
     name: 'teamMember',
     title: 'Team Member',
     type: 'document',
-    // @ts-ignore - The icon property expects a component but type definitions might be strict
     icon: Users,
     fields: [
         defineField({
@@ -35,12 +34,14 @@ export const teamMember = defineType({
             title: 'Credentials',
             description: 'e.g. CPA, EA, MBA',
             type: 'string',
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'description',
             title: 'Bio / Description',
             type: 'text',
             rows: 4,
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'image',
@@ -54,7 +55,7 @@ export const teamMember = defineType({
                     name: 'alt',
                     title: 'Alternative Text',
                     type: 'string',
-                    initialValue: (doc: any) => doc.name || 'Team member photo',
+                    initialValue: 'Team member photo',
                 }),
             ],
             validation: (rule) => rule.required(),

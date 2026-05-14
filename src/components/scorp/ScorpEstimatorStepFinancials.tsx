@@ -5,7 +5,52 @@ import { ScorpEstimatorInput } from "@/lib/scorp/schema";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const REVENUE_BANDS = [
+type OptionDef = { value: string; label: string };
+
+function OptionGrid({
+    label,
+    options,
+    currentValue,
+    fieldName,
+    error,
+    onSelect,
+}: {
+    label: string;
+    options: OptionDef[];
+    currentValue: string | undefined;
+    fieldName: keyof ScorpEstimatorInput;
+    error?: { message?: string };
+    onSelect: (fieldName: keyof ScorpEstimatorInput, value: string) => void;
+}) {
+    const labelId = `${fieldName}_label`;
+    return (
+        <div className="space-y-4" role="radiogroup" aria-labelledby={labelId}>
+            <label id={labelId} className="text-sm font-bold text-brand-500 uppercase tracking-wider block">{label}</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {options.map((opt) => (
+                    <button
+                        key={opt.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={currentValue === opt.value}
+                        onClick={() => onSelect(fieldName, opt.value)}
+                        className={cn(
+                            "text-left px-5 py-4 rounded-xl border transition-all font-body text-sm",
+                            currentValue === opt.value
+                                ? "bg-brand-500 text-white border-brand-500 shadow-lg shadow-brand-500/20"
+                                : "bg-white text-slate-600 border-slate-200 hover:border-gold-500"
+                        )}
+                    >
+                        {opt.label}
+                    </button>
+                ))}
+            </div>
+            {error && <p id={`${fieldName}_error`} className="text-red-500 text-xs font-medium">{error.message}</p>}
+        </div>
+    );
+}
+
+const REVENUE_BANDS: OptionDef[] = [
     { value: "UNDER_100K", label: "Under $100K" },
     { value: "100K_250K", label: "$100K – $250K" },
     { value: "250K_500K", label: "$250K – $500K" },
@@ -14,7 +59,7 @@ const REVENUE_BANDS = [
     { value: "5M_PLUS", label: "$5M+" }
 ];
 
-const PROFIT_RANGES = [
+const PROFIT_RANGES: OptionDef[] = [
     { value: "UNDER_50K", label: "Under $50K" },
     { value: "50K_100K", label: "$50K – $100K" },
     { value: "100K_150K", label: "$100K – $150K" },
@@ -39,79 +84,44 @@ const PAIN_POINTS = [
 
 export const ScorpEstimatorStepFinancials = () => {
     const { control, setValue, formState: { errors } } = useFormContext<ScorpEstimatorInput>();
-    
+
     const currentRevenue = useWatch({ control, name: "annual_revenue_band" });
     const currentProfit = useWatch({ control, name: "estimated_net_profit_range" });
     const currentPayroll = useWatch({ control, name: "current_payroll_status" });
     const currentReadiness = useWatch({ control, name: "tax_payroll_readiness" });
     const currentPain = useWatch({ control, name: "primary_pain_point" });
 
-    const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: any) => {
-        setValue(fieldName, value, { 
+    const handleSelect = (fieldName: keyof ScorpEstimatorInput, value: string) => {
+        setValue(fieldName, value as ScorpEstimatorInput[keyof ScorpEstimatorInput], {
             shouldValidate: true,
             shouldDirty: true,
             shouldTouch: true
         });
     };
 
-    const OptionGrid = ({ 
-        label, 
-        options, 
-        currentValue, 
-        fieldName 
-    }: { 
-        label: string, 
-        options: { value: string, label: string }[], 
-        currentValue: any, 
-        fieldName: keyof ScorpEstimatorInput 
-    }) => {
-        const labelId = `${fieldName}_label`;
-        return (
-            <div className="space-y-4" role="radiogroup" aria-labelledby={labelId}>
-                <label id={labelId} className="text-sm font-bold text-brand-500 uppercase tracking-wider block">{label}</label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {options.map((opt) => (
-                        <button
-                            key={opt.value}
-                            type="button"
-                            role="radio"
-                            aria-checked={currentValue === opt.value}
-                            onClick={() => handleSelect(fieldName, opt.value)}
-                            className={cn(
-                                "text-left px-5 py-4 rounded-xl border transition-all font-body text-sm",
-                                currentValue === opt.value 
-                                    ? "bg-brand-500 text-white border-brand-500 shadow-lg shadow-brand-500/20" 
-                                    : "bg-white text-slate-600 border-slate-200 hover:border-gold-500"
-                            )}
-                        >
-                            {opt.label}
-                        </button>
-                    ))}
-                </div>
-                {errors[fieldName] && <p id={`${fieldName}_error`} className="text-red-500 text-xs font-medium">{(errors[fieldName] as any).message}</p>}
-            </div>
-        );
-    };
-
     return (
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             className="space-y-10"
         >
-            <OptionGrid 
-                label="Annual Gross Revenue" 
-                options={REVENUE_BANDS} 
-                currentValue={currentRevenue} 
-                fieldName="annual_revenue_band" 
+            <OptionGrid
+                label="Annual Gross Revenue"
+                options={REVENUE_BANDS}
+                currentValue={currentRevenue}
+                fieldName="annual_revenue_band"
+                error={errors.annual_revenue_band}
+                onSelect={handleSelect}
             />
 
-            <OptionGrid 
-                label="Estimated Net Profit" 
-                options={PROFIT_RANGES} 
-                currentValue={currentProfit} 
-                fieldName="estimated_net_profit_range" 
+            <OptionGrid
+                label="Estimated Net Profit"
+                options={PROFIT_RANGES}
+                currentValue={currentProfit}
+                fieldName="estimated_net_profit_range"
+                error={errors.estimated_net_profit_range}
+                onSelect={handleSelect}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -127,8 +137,8 @@ export const ScorpEstimatorStepFinancials = () => {
                                 onClick={() => handleSelect("current_payroll_status", val)}
                                 className={cn(
                                     "flex-1 px-4 py-4 rounded-xl border transition-all font-body text-[10px] font-bold leading-tight",
-                                    currentPayroll === val 
-                                        ? "bg-brand-500 text-white border-brand-500 shadow-md" 
+                                    currentPayroll === val
+                                        ? "bg-brand-500 text-white border-brand-500 shadow-md"
                                         : "bg-white text-slate-600 border-slate-200 hover:border-gold-500"
                                 )}
                             >
@@ -166,8 +176,8 @@ export const ScorpEstimatorStepFinancials = () => {
                             onClick={() => handleSelect("tax_payroll_readiness", level.value)}
                             className={cn(
                                 "text-left p-6 rounded-2xl border transition-all font-body group",
-                                currentReadiness === level.value 
-                                    ? "bg-brand-500 text-white border-brand-500 ring-2 ring-gold-500/50" 
+                                currentReadiness === level.value
+                                    ? "bg-brand-500 text-white border-brand-500 ring-2 ring-gold-500/50"
                                     : "bg-white text-slate-600 border-slate-200 hover:border-gold-500"
                             )}
                         >
