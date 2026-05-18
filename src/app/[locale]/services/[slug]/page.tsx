@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import ServiceDetailClient from "./ServiceDetailClient";
 import { urlFor } from "@/sanity/lib/image";
 import { Service } from "@/types/sanity";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 
 export const revalidate = 60;
 
@@ -166,6 +167,12 @@ export default async function ServicePage(props: { params: Promise<{ locale: str
             <HeaderWrapper />
 
             <main id="main-content">
+                <div className="container mx-auto max-w-7xl px-4 sm:px-6 pt-8">
+                    <Breadcrumbs items={[
+                        { label: "Services", href: "/services" },
+                        { label: typedService.title, href: `/services/${slug}` }
+                    ]} />
+                </div>
                 <ServiceDetailClient service={service} relatedServices={relatedServices} tiers={pricingTiers} />
             </main>
 

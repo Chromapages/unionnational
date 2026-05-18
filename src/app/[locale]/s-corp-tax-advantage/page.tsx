@@ -83,6 +83,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
             description: metaDescription,
             images: ogImageUrl ? [{ url: ogImageUrl }] : [],
         },
+        twitter: {
+            card: "summary_large_image",
+            title: metaTitle,
+            description: metaDescription,
+            images: ogImageUrl ? [ogImageUrl] : [],
+        },
     };
 }
 

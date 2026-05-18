@@ -2,8 +2,8 @@ import { MetadataRoute } from "next";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
-// Base URL - ensure this is updated with your production URL
-export const baseUrl = "https://unionnationaltax.com";
+// Base URL - configurable via environment variable
+export const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://unionnationaltax.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const locales = ["en", "es"];

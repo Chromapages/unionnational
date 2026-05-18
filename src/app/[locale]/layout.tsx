@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "@/styles/globals.css";
 import { LocalBusinessSchema } from "@/components/seo/LocalBusinessSchema";
@@ -26,6 +26,12 @@ const outfit = Outfit({
 });
 
 const baseUrl = "https://unionnationaltax.com";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0D2E2B",
+};
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const params = await props.params;
@@ -74,9 +80,9 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
       },
     },
     icons: {
-      icon: "/icon.png",
-      shortcut: "/icon.png",
-      apple: "/icon.png",
+      icon: "/images/union national tax favicon.svg",
+      shortcut: "/images/union national tax favicon.svg",
+      apple: "/images/union national tax favicon.svg",
     },
 
     alternates: {
@@ -114,7 +120,6 @@ export default async function RootLayout(props: {
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
             {props.children}
-            <LocalBusinessSchema />
             <ChatWidget />
             <ProgressBar />
             <SanityLive />

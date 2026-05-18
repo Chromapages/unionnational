@@ -29,7 +29,19 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     const seo = shopSettings?.seo;
 
     if (!seo) {
-        return {};
+        return {
+            title: "Tax & Financial Resources | Union National Tax",
+            description: "Expert tax strategies, calculators, and financial tools for growth-focused entrepreneurs.",
+            openGraph: {
+                title: "Tax & Financial Resources | Union National Tax",
+                description: "Expert tax strategies, calculators, and financial tools for growth-focused entrepreneurs.",
+            },
+            twitter: {
+                card: "summary_large_image",
+                title: "Tax & Financial Resources | Union National Tax",
+                description: "Expert tax strategies, calculators, and financial tools for growth-focused entrepreneurs.",
+            },
+        };
     }
 
     const ogImage = seo.openGraphImage

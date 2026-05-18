@@ -64,7 +64,9 @@ export const LeadMagnetTypeEnum = z.enum([
     "CONSTRUCTION_ASSESSMENT",
     "BLOG_NEWSLETTER",
     "BOOK_DOWNLOAD",
-    "RESTAURANT_PROFIT_LEAK_ASSESSMENT"
+    "RESTAURANT_PROFIT_LEAK_ASSESSMENT",
+    "BOOK_CONSTRUCTION",
+    "CONSTRUCTION_PROFIT_LEAK_CHECKLIST",
 ]);
 
 // ─── PAYLOAD SCHEMAS ─────────────────────────────────────────────────────────

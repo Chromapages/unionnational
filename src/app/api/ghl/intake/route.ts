@@ -47,11 +47,14 @@ export async function POST(request: Request) {
             email: payload.contact.email,
         });
 
-        const ghlWebhookUrl = getEnv(
-            payload.intent.lead_magnet_type === "SCORP_ESTIMATOR"
-                ? "GHL_SCORP_ESTIMATOR_WEBHOOK_URL"
-                : "GHL_WEBHOOK_URL"
-        );
+        const ghlWebhookUrl =
+            payload.intent.lead_magnet_type === "CONSTRUCTION_PROFIT_LEAK_CHECKLIST"
+                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/2307d607-729b-48ab-9a3b-0bb2305c0d2f"
+                : getEnv(
+                      payload.intent.lead_magnet_type === "SCORP_ESTIMATOR"
+                          ? "GHL_SCORP_ESTIMATOR_WEBHOOK_URL"
+                          : "GHL_WEBHOOK_URL"
+                  );
 
         if (ghlWebhookUrl) {
             const ghlResponse = await fetch(ghlWebhookUrl, {
