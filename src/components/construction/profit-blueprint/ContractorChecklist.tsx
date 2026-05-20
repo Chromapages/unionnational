@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ArrowRight } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +17,35 @@ const items = [
     "You are working more hours but the business still feels chaotic",
 ];
 
+const WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/d23b0447-6fb5-4a12-98e4-bffbf7aafafe";
+
 export function ContractorChecklist() {
+    const [submitted, setSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+
+    const handleGetChecklist = async () => {
+        if (submitting) return;
+        setSubmitting(true);
+        try {
+            const response = await fetch(WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    source: "profit-blueprint-checklist",
+                    checklist_items: items,
+                    timestamp: new Date().toISOString(),
+                }),
+            });
+            if (response.ok) {
+                setSubmitted(true);
+            }
+        } catch (err) {
+            console.error("Checklist webhook error:", err);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <RevealOnScroll>
             <section className="py-20 lg:py-24 bg-brand-900 text-white relative overflow-hidden">
@@ -57,10 +86,31 @@ export function ContractorChecklist() {
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={400}>
-                        <div className="mt-12 text-center">
+                        <div className="mt-12 text-center space-y-6">
                             <p className="text-slate-400 text-base italic max-w-2xl mx-auto">
                                 If you nodded along to even two of these, your construction company is likely losing more profit than you realize — and it is not because you cannot build.
                             </p>
+
+                            {submitted ? (
+                                <div className="inline-flex items-center gap-2 px-6 py-4 bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-emerald-400 text-sm font-bold">
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Check your inbox — the checklist is on its way!
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={handleGetChecklist}
+                                    disabled={submitting}
+                                    className={cn(
+                                        "inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-500 text-brand-900 font-black text-sm uppercase tracking-widest rounded-xl shadow-[0_4px_12px_rgba(212,175,55,0.25)] hover:bg-gold-400 active:scale-[0.98] transition-all",
+                                        submitting && "opacity-70 cursor-not-allowed"
+                                    )}
+                                >
+                                    {submitting ? "Sending..." : "Get the Free Checklist"}
+                                    <ArrowRight size={18} />
+                                </button>
+                            )}
                         </div>
                     </RevealOnScroll>
                 </div>

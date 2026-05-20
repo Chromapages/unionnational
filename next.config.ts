@@ -56,9 +56,9 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-inline' https://*.sanity.io https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.google.com https://link.agent-crm.com https://*.agent-crm.com;
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sanity.io https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.google.com https://link.agent-crm.com https://*.agent-crm.com https://widgets.leadconnectorhq.com https://*.leadconnectorhq.com https://cdn.perplexity.ai https://frontend-cdn.perplexity.ai;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-              font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai;
+              font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai https://frontend-cdn.perplexity.ai https://cdn.perplexity.ai;
               img-src 'self' data: https: blob:;
               connect-src 'self' https://*.sanity.io https://api.sanity.io https://v3.api.sanity.io https://cdn.sanity.io https://sanity-cdn.com https://sanity-cdn.work https://www.google-analytics.com https://analytics.google.com https://services.leadconnectorhq.com https://widgets.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://content.apisystem.tech https://services.msgsndr.com https://*.agent-crm.com;
               media-src 'self' data: blob: https://content.apisystem.tech https://cdn.sanity.io;

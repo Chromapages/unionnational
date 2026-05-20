@@ -8,24 +8,24 @@ import { cn } from "@/lib/utils";
 
 const faqs = [
     {
-        q: "Is the checklist actually useful for a small contractor?",
-        a: "Yes. The checklist is built for construction business owners at any stage — from solo contractors to firms with multiple crews. The items on it apply directly to the decisions you make every day, regardless of company size.",
+        q: "Is this book only for large construction companies?",
+        a: "Not at all. The blueprint works for any construction or trade business doing $250K–$20M in revenue. The systems scale up — but they're designed to start working immediately regardless of your current size.",
     },
     {
-        q: "Is this about bookkeeping or about profit control?",
-        a: "Profit control. The checklist covers the daily habits and systems that determine whether profit stays in your jobs or quietly disappears through labor overruns, change orders, and scope creep.",
+        q: "How is this different from other business books?",
+        a: "Most business books are written for generic industries. This book is written specifically for construction — the job costing, the crew dynamics, the cash flow timing, the seasonal swings. Every example, every system, every recommendation is built around how construction businesses actually operate.",
     },
     {
-        q: "I already have an accountant. Why do I need this?",
-        a: "Most accountants help you understand what happened after the fact. The checklist focuses on the indicators you should be watching during the job — where the actual profit is won or lost.",
+        q: "When will I receive the physical book?",
+        a: "Physical books ship within 3–5 business days via standard US shipping (free). You'll receive an order confirmation with tracking. All digital formats are available immediately after purchase.",
     },
     {
-        q: "How long does it take to complete?",
-        a: "About 5 minutes. It is a quick audit of your current profit control habits — not a long read. contractors go through it in one sitting.",
+        q: "Do I get digital access with the physical book?",
+        a: "Yes. Every physical book purchase includes a complimentary digital PDF download so you can reference the material on your phone or tablet while you wait for the book to arrive.",
     },
     {
-        q: "Is there a catch with the free checklist?",
-        a: "No catch. You get the full checklist. After you complete it, you may receive a few emails about the Construction Profitability Assessment — that is the natural next step if you want a deeper diagnostic.",
+        q: "Is this the same as working with Jason directly?",
+        a: "The book gives you the complete framework Jason uses with his private clients — at a fraction of the cost. Many business owners use the book as a starting point and then engage Jason's firm for implementation support once they understand the strategy.",
     },
 ];
 
@@ -40,7 +40,7 @@ export function BlueprintFAQ() {
                         <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-900/5 border border-brand-900/10 text-[10px] font-bold uppercase tracking-widest text-brand-900 mb-6">
                             Got Questions?
                         </span>
-                        <h2 className="text-3xl sm:text-4xl font-bold font-heading text-brand-900 tracking-tight">
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-brand-900 tracking-tight leading-[1.05] uppercase">
                             Frequently Asked Questions
                         </h2>
                     </div>

@@ -31,7 +31,7 @@ export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
                         
                         {/* Left: Bio Text */}
                         <RevealOnScroll className="flex flex-col">
-                            <h2 className="text-3xl sm:text-4xl font-bold text-white font-heading tracking-tight mb-8">
+                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight leading-[1.05] mb-8 uppercase">
                                 About the Author
                             </h2>
 

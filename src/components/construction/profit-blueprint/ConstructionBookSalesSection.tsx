@@ -188,11 +188,11 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <RevealOnScroll>
                     <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+                        <div className="flex flex-col items-center gap-4 mb-4">
                             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-900 text-gold-400 text-[10px] font-black uppercase tracking-[0.2em]">
                                 Ultimate Contractor Resource
                             </span>
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-brand-900 tracking-[-0.03em] whitespace-nowrap">
+                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-brand-900 tracking-tight leading-[1.05] uppercase">
                                 Your Profit Blueprint. Step-by-Step.
                             </h2>
                         </div>
@@ -274,9 +274,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                 </div>
                             </div>
                         )}
-
-                        
-                                            </div>
+                    </div>
 
                     {/* RIGHT COLUMN: Buy Box & Strategic Details */}
                     <div className="lg:col-span-7 bg-white rounded-lg border border-slate-200 p-8 sm:p-10">

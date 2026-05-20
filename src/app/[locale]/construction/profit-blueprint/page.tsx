@@ -5,8 +5,8 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { ConstructionBookForm } from "@/components/construction/profit-blueprint/ConstructionBookForm";
-import { MarginFadeTable } from "@/components/construction/profit-blueprint/MarginFadeTable";
-import { BlueprintPainPoints } from "@/components/construction/profit-blueprint/BlueprintPainPoints";
+import { SoundFamiliarSection } from "@/components/construction/profit-blueprint/SoundFamiliarSection";
+import { BlueprintMastery } from "@/components/construction/profit-blueprint/BlueprintMastery";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
 import { BlueprintFAQ } from "@/components/construction/profit-blueprint/BlueprintFAQ";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
@@ -14,6 +14,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
+import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
 
 export const metadata: Metadata = {
     title: "Money-Making Blueprint for Construction Companies | Job Costing & Profit Control Guide",
@@ -37,7 +38,10 @@ const FALLBACK_PRODUCT = {
     rating: 5,
     author: {
         name: "Jason Astwood",
-        role: "EA, FSCP, LUTCF"
+        role: "EA, FSCP, LUTCF",
+        credentials: ["EA", "FSCP", "LUTCF"],
+        imageUrl: "",
+        bioShort: "Jason Astwood helps profitable business owners connect tax structure to cash flow, compensation, and long-term wealth. His advisory process is built for owners who want clarity, control, and smarter decisions before tax season arrives."
     },
     editions: [
         {
@@ -109,7 +113,10 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
         ...product,
         author: product.author ? {
             name: product.author.name,
-            role: product.author.role || FALLBACK_PRODUCT.author.role
+            role: product.author.role || FALLBACK_PRODUCT.author.role,
+            credentials: product.author.credentials || FALLBACK_PRODUCT.author.credentials,
+            imageUrl: product.author.imageUrl || FALLBACK_PRODUCT.author.imageUrl,
+            bioShort: product.author.bioShort || FALLBACK_PRODUCT.author.bioShort
         } : FALLBACK_PRODUCT.author,
         editions: product.editions && product.editions.length > 0 ? product.editions.map((ed: ProductEditionFromSanity) => ({
             _key: ed._key || ed.name,
@@ -148,10 +155,13 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                                 </div>
                             </FadeIn>
 
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-heading text-white leading-none mb-6 tracking-tight">
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
                                 Is Your Construction Company{" "}
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic">
-                                    Losing Money?
+                                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black pr-4 pb-1">
+                                    Losing
+                                </span>{" "}
+                                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black pr-4 pb-1">
+                                    Money?
                                 </span>
                             </h1>
 
@@ -195,11 +205,14 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             {/* Book Sales Section - PRIMARY CONVERSION - Shown early */}
             <ConstructionBookSalesSection product={productData} />
 
-            {/* Margin Fade Table - Proof/Urgency for those who need more convincing */}
-            <MarginFadeTable />
+            {/* Sound Familiar - Editorial proof and systems alignment */}
+            <SoundFamiliarSection />
 
-            {/* Pain Points - What Contractors Fix */}
-            <BlueprintPainPoints />
+            {/* Blueprint Mastery - What You'll Master */}
+            <BlueprintMastery />
+
+            {/* Author Bio Section */}
+            <BlueprintAuthorBio author={productData.author} />
 
             {/* Secondary Path - Assessment (for non-buyers) - Apple Dark Tile Design */}
             <RevealOnScroll>
@@ -211,7 +224,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             </span>
                         </span>
 
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight font-heading mb-6">
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-heading leading-[1.05] mb-6 uppercase">
                             Not Ready to Buy? Start Here.
                         </h2>
 
