@@ -244,6 +244,7 @@ export function ProfitabilityAssessmentForm() {
         handleSubmit,
         watch,
         trigger,
+        setValue,
         formState: { errors },
     } = useForm<FormData>({
         resolver: zodResolver(formSchema),
@@ -458,7 +459,7 @@ export function ProfitabilityAssessmentForm() {
                                                     <button
                                                         key={opt}
                                                         type="button"
-                                                        onClick={() => (register(field as keyof FormData) as any).onChange({ target: { value: opt } })}
+                                                        onClick={() => setValue(field as keyof FormData, opt, { shouldValidate: true })}
                                                         className={cn(
                                                             "p-4 rounded-xl border-2 transition-all text-center text-sm font-bold",
                                                             (values as any)[field] === opt
@@ -482,7 +483,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do your estimates use current labor and production data?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                                             {["Yes", "Somewhat", "Using old data", "Starting/No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("estimatingCurrentData").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).estimatingCurrentData === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("estimatingCurrentData", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).estimatingCurrentData === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -492,7 +493,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you calculate overhead recovery?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             {["Yes", "Partially", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("estimatingOverheadRecovery").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).estimatingOverheadRecovery === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("estimatingOverheadRecovery", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).estimatingOverheadRecovery === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -502,7 +503,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do jobs often finish below expected margin?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                                             {["Rarely", "Sometimes", "Often", "Almost always"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("estimatingMarginFade").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).estimatingMarginFade === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("estimatingMarginFade", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).estimatingMarginFade === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -512,7 +513,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you track margin fade?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             {["Yes", "Informally", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("estimatingTrackFade").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).estimatingTrackFade === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("estimatingTrackFade", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).estimatingTrackFade === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -528,7 +529,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you use 90-day cash flow forecasts?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             {["Yes", "Sometimes", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("cashFlowForecast").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).cashFlowForecast === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("cashFlowForecast", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).cashFlowForecast === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -538,7 +539,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you bill by schedule or milestone?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             {["Yes", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("cashFlowBilling").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).cashFlowBilling === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("cashFlowBilling", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).cashFlowBilling === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -548,7 +549,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you have retainage issues?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             {["Yes sometimes", "No", "Not applicable"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("cashFlowRetainage").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).cashFlowRetainage === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("cashFlowRetainage", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).cashFlowRetainage === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -558,7 +559,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you ever struggle with payroll despite being busy?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             {["Yes", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("cashFlowPayrollStress").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).cashFlowPayrollStress === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("cashFlowPayrollStress", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).cashFlowPayrollStress === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -574,7 +575,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Are change orders captured and approved before work continues?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                                             {["Yes", "Usually", "Sometimes", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("operationalChangeOrders").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).operationalChangeOrders === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("operationalChangeOrders", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).operationalChangeOrders === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -584,7 +585,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Are subs held accountable to schedule and scope?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                                             {["Yes", "Usually", "Sometimes", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("operationalSubAccountability").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).operationalSubAccountability === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("operationalSubAccountability", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).operationalSubAccountability === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -594,7 +595,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you have weekly project financial reviews?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             {["Yes", "Sometimes", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("operationalWeeklyReviews").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).operationalWeeklyReviews === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("operationalWeeklyReviews", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).operationalWeeklyReviews === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -604,7 +605,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">Do you have documented production systems?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             {["Yes", "Some", "No"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("operationalDocumentedSystems").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).operationalDocumentedSystems === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("operationalDocumentedSystems", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-sm font-bold", (values as any).operationalDocumentedSystems === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
@@ -635,7 +636,7 @@ export function ProfitabilityAssessmentForm() {
                                         <label className="text-sm font-bold text-brand-900">How soon do you want help?</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
                                             {["Immediately", "This month", "This quarter", "Just researching"].map((opt) => (
-                                                <button key={opt} type="button" onClick={() => register("urgency").onChange({ target: { value: opt } })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).urgency === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
+                                                <button key={opt} type="button" onClick={() => setValue("urgency", opt, { shouldValidate: true })} className={cn("p-4 rounded-xl border-2 transition-all text-center text-xs font-bold", (values as any).urgency === opt ? "border-brand-900 bg-brand-900 text-white" : "border-slate-100 bg-slate-50 hover:border-gold-200")}>
                                                     {opt}
                                                 </button>
                                             ))}
