@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { TrendingUp, Calculator, ArrowRight, CheckCircle2 } from "lucide-react";
-import { useTaxCalculator, formatCurrency } from "@/hooks/useTaxCalculator";
+import { useTaxCalculator, useCounter, formatCurrency } from "@/hooks/useTaxCalculator";
 import { Link } from "@/i18n/navigation";
 
 interface VideoHeroProps {
@@ -22,6 +22,7 @@ export function VideoHero({ data }: VideoHeroProps) {
     const locale = useLocale();
     const [income, setIncome] = useState<string>("");
     const [showResult, setShowResult] = useState(false);
+    const [inputError, setInputError] = useState(false);
 
     const calculationTimeoutRef = useRef<number | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -71,6 +72,17 @@ export function VideoHero({ data }: VideoHeroProps) {
 
     const formatCurrencyLocal = (val: number) => formatCurrency(val, locale);
 
+    // Mask input to only allow numbers and commas, then validate parsing
+    const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = e.target.value;
+        // Only allow digits and commas
+        const masked = raw.replace(/[^0-9,]/g, "");
+        setIncome(masked);
+        // Validate that parsing will succeed (non-empty and results in valid number)
+        const parsed = parseFloat(masked.replace(/,/g, ""));
+        setInputError(masked.length > 0 && (isNaN(parsed) || parsed <= 0));
+    };
+
     return (
         <section
             className="relative w-full min-h-[90dvh] flex items-center pt-20 md:pt-24 pb-safe overflow-hidden bg-brand-900"
@@ -87,6 +99,8 @@ export function VideoHero({ data }: VideoHeroProps) {
                         muted
                         loop
                         playsInline
+                        preload="metadata"
+                        poster="https://cdn.pixabay.com/video/2021/08/13/84918-588365261_large.jpg"
                     />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-900/80 via-brand-900/60 to-brand-950"></div>
@@ -111,11 +125,42 @@ export function VideoHero({ data }: VideoHeroProps) {
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.1] font-bold font-heading tracking-tighter mb-6 text-white">
                             {data?.heroTitle ? (
                                 <>
-                                    {data.heroTitle.split('.')[0]}.
-                                    <br />
-                                    <span className="text-gold-500 italic">
-                                        {data.heroTitle.split('.').slice(1).join('.')}
-                                    </span>
+                                    {(() => {
+                                        // Try split on period first, then on "Save" keyword
+                                        const periodMatch = data.heroTitle.match(/^([^.]+)\.\s*(.*)$/);
+                                        if (periodMatch) {
+                                            return <>
+                                                {periodMatch[1]}.
+                                                <br />
+                                                <span className="text-gold-500 italic">
+                                                    {periodMatch[2]}
+                                                </span>
+                                            </>;
+                                        }
+                                        // Try split on "Save" keyword (case insensitive)
+                                        const saveMatch = data.heroTitle.match(/^(.*?\b[Ss]ave[d]?\b)\s*(.*)$/);
+                                        if (saveMatch) {
+                                            return <>
+                                                {saveMatch[1]}
+                                                <br />
+                                                <span className="text-gold-500 italic">
+                                                    {saveMatch[2]}
+                                                </span>
+                                            </>;
+                                        }
+                                        // Fallback: split at midpoint
+                                        const words = data.heroTitle.split(' ');
+                                        const midpoint = Math.floor(words.length / 2);
+                                        const first = words.slice(0, midpoint).join(' ');
+                                        const second = words.slice(midpoint).join(' ');
+                                        return <>
+                                            {first}
+                                            <br />
+                                            <span className="text-gold-500 italic">
+                                                {second}
+                                            </span>
+                                        </>;
+                                    })()}
                                 </>
                             ) : (
                                 <>
@@ -160,10 +205,13 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         autoCorrect="off"
                                         spellCheck="false"
                                         placeholder={t('calculator.placeholder')}
-                                        className="w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-base md:text-lg placeholder:text-slate-400 rounded-lg border border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans min-h-[56px]"
+                                        className={`w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-base md:text-lg placeholder:text-slate-400 rounded-lg border transition-all font-sans min-h-[56px] ${inputError ? "border-red-500 focus:border-red-500 focus:ring-red-500/50" : "border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50"}`}
                                         value={income}
-                                        onChange={(e) => setIncome(e.target.value)}
+                                        onChange={handleIncomeChange}
                                     />
+                                    {inputError && (
+                                        <p className="mt-2 text-sm text-red-600 text-left">Please enter a valid income amount</p>
+                                    )}
                                 </div>
                                 <button
                                     type="submit"
@@ -229,34 +277,4 @@ export function VideoHero({ data }: VideoHeroProps) {
             </div>
         </section>
     );
-}
-
-// Simple counter hook for animation
-function useCounter({ end, duration, start }: { end: number; duration: number; start: boolean }) {
-    const [value, setValue] = useState(0);
-
-    useEffect(() => {
-        if (!start) {
-            setValue(0);
-            return;
-        }
-
-        const startTime = performance.now();
-        const startValue = 0;
-
-        const animate = (currentTime: number) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setValue(Math.round(startValue + (end - startValue) * eased));
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            }
-        };
-
-        requestAnimationFrame(animate);
-    }, [end, duration, start]);
-
-    return value;
 }

@@ -22,8 +22,9 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialProps) {
 
     if (!testimonials || testimonials.length === 0) return null;
 
-    // Show only first 3 testimonials
-    const displayTestimonials = testimonials.slice(0, 3);
+    // Show all available testimonials (responsive grid based on count)
+    const displayTestimonials = testimonials;
+    const gridCols = testimonials.length >= 3 ? "md:grid-cols-3" : testimonials.length === 2 ? "md:grid-cols-2" : "";
 
     const renderMeta = (testimonial: Testimonial) => (
         <div className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -53,8 +54,8 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialProps) {
                     </h2>
                 </RevealOnScroll>
 
-                {/* Testimonial Cards - 3 columns on desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                {/* Testimonial Cards - responsive columns */}
+                <div className={`grid grid-cols-1 ${gridCols} gap-6 lg:gap-8`}>
                     {displayTestimonials.map((testimonial, index) => (
                         <RevealOnScroll key={testimonial._id || index} delay={index * 100}>
                             <div className="group flex flex-col h-full bg-white rounded-2xl border border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-gold-500/30 transition-all duration-300">

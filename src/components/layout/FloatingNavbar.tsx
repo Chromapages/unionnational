@@ -3,13 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
 import { Menu as MenuIcon, HeartPulse, Phone } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
 import { BusinessHealthAssessmentModal } from "@/components/ui/BusinessHealthAssessmentModal";
@@ -49,16 +42,13 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isHealthAssessmentOpen, setIsHealthAssessmentOpen] = useState(false);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
-        typeof window !== "undefined"
-            ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            : false
-    );
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
 
     useEffect(() => {
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
         const handler = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
         mediaQuery.addEventListener("change", handler);
 
@@ -85,38 +75,30 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
 
+    const transitionStyle = prefersReducedMotion ? "none" : "border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+
+    const goldGradient = "linear-gradient(90deg, #D4AF37, #AA8C2C)";
+
     return (
         <>
-            <AppBar
-                position="fixed"
-                elevation={scrolled ? 4 : 0}
-                sx={{
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    borderRadius: 0,
-                    zIndex: 1200,
+            <header
+                className="fixed top-0 left-0 right-0 z-[1200] border-b backdrop-blur-xl backdrop-saturate-150"
+                style={{
                     backgroundColor: "rgba(13, 46, 43, 0.98)",
                     backgroundImage: "none",
-                    backdropFilter: "blur(20px) saturate(1.5)",
-                    WebkitBackdropFilter: "blur(20px) saturate(1.5)",
-                    borderBottom: "1px solid",
-                    borderColor: scrolled
-                        ? "rgba(212, 175, 55, 0.2)"
-                        : "rgba(255, 255, 255, 0.05)",
-                    transition: "border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                    boxShadow: scrolled
-                        ? "0 4px 20px -5px rgba(2, 9, 8, 0.3)"
-                        : "none",
+                    borderColor: scrolled ? "rgba(212, 175, 55, 0.2)" : "rgba(255, 255, 255, 0.05)",
+                    transition: transitionStyle,
+                    boxShadow: scrolled ? "0 4px 20px -5px rgba(2, 9, 8, 0.3)" : "none",
+                    borderRadius: 0,
                 }}
             >
-                <Container maxWidth="xl">
-                    <Toolbar
-                        disableGutters
-                        sx={{
-                            minHeight: { xs: 64, md: scrolled ? 72 : 88 },
-                            transition: "min-height 0.3s ease",
-                            justifyContent: "space-between",
+                <div className="max-w-screen-xl mx-auto">
+                    <div
+                        className="flex min-h-[64px] md:min-h-[72px] lg:min-h-[88px] transition-[min-height] duration-300 justify-between items-center"
+                        style={{
+                            minHeight: scrolled
+                                ? "72px"
+                                : undefined,
                         }}
                     >
                         <Link
@@ -124,12 +106,11 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             aria-label={siteSettings?.companyName || "Union National Tax - Home"}
                             className="flex items-center relative z-10"
                         >
-                            <Box
-                                sx={{
-                                    position: "relative",
-                                    width: { xs: 200, md: scrolled ? 220 : 240, lg: scrolled ? 280 : 360 },
-                                    height: { xs: 50, md: scrolled ? 54 : 64, lg: scrolled ? 68 : 86 },
-                                    transition: "width 0.3s ease, height 0.3s ease",
+                            <div
+                                className="relative transition-all duration-300"
+                                style={{
+                                    width: "200px",
+                                    height: "50px",
                                 }}
                             >
                                 <Image
@@ -137,264 +118,147 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     alt={siteSettings?.companyName || "Union National Tax"}
                                     fill
                                     className="object-contain brightness-0 invert"
+                                    sizes="(max-width: 768px) 200px, 360px"
                                     priority
                                 />
-                            </Box>
+                            </div>
                         </Link>
 
-                        <Box
-                            component="nav"
+                        <nav
                             aria-label="Main navigation"
-                            sx={{
-                                display: { xs: "none", md: "flex" },
-                                alignItems: "center",
-                                gap: { md: 0.25, lg: 1 },
-                            }}
+                            className="hidden md:flex items-center"
                         >
-                            <Button
-                                component={Link}
+                            <Link
                                 href="/"
-                                sx={{
-                                    color: isLinkActive("/") ? "primary.main" : "white",
+                                className={`
+                                    relative overflow-hidden px-3 lg:px-4 py-1 rounded-md text-sm font-medium
+                                    transition-all duration-300
+                                    ${isLinkActive("/") ? "text-amber-400" : "text-white"}
+                                `}
+                                style={{
                                     fontSize: "0.9375rem",
                                     fontWeight: isLinkActive("/") ? 600 : 500,
                                     letterSpacing: "0.02em",
-                                    px: { md: 1.5, lg: 2.5 },
-                                    py: 1,
-                                    borderRadius: 1,
-                                    position: "relative",
-                                    overflow: "hidden",
                                     transition: prefersReducedMotion ? "none" : "color 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                    "&::before": {
-                                        content: '""',
-                                        position: "absolute",
-                                        inset: 0,
-                                        borderRadius: "inherit",
-                                        opacity: isLinkActive("/") ? 1 : 0,
-                                        background: "rgba(212, 175, 55, 0.1)",
-                                        border: "1px solid rgba(212, 175, 55, 0.2)",
-                                        transition: prefersReducedMotion ? "none" : "opacity 0.3s ease",
-                                    },
-                                    "&::after": {
-                                        content: '""',
-                                        position: "absolute",
-                                        bottom: 4,
-                                        left: 10,
-                                        width: "calc(100% - 20px)",
-                                        height: 2,
-                                        background: "linear-gradient(90deg, #D4AF37, #AA8C2C)",
-                                        transform: isLinkActive("/") ? "scaleX(1)" : "scaleX(0)",
-                                        transformOrigin: "left",
-                                        transition: prefersReducedMotion ? "none" : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                        borderRadius: 1,
-                                    },
-                                    "&:hover": {
-                                        color: "primary.main",
-                                        filter: "drop-shadow(0 0 12px rgba(212, 175, 55, 0.4))",
-                                        "&::before": {
-                                            opacity: 1,
-                                        },
-                                        "&::after": {
-                                            transform: "scaleX(1)",
-                                        },
-                                    },
-                                    "&:focus-visible": {
-                                        outline: "2px solid",
-                                        outlineColor: "primary.main",
-                                        outlineOffset: 2,
-                                    },
                                 }}
                             >
-                                {t("home")}
-                            </Button>
+                                {isLinkActive("/") && (
+                                    <span
+                                        className="absolute inset-0 rounded-md border border-amber-500/20 bg-amber-500/10"
+                                    />
+                                )}
+                                {isLinkActive("/") && (
+                                    <span
+                                        className="absolute bottom-1 left-2.5 right-2.5 h-0.5 rounded-full"
+                                        style={{
+                                            background: goldGradient,
+                                            transform: "scaleX(1)",
+                                            transformOrigin: "left",
+                                            transition: prefersReducedMotion ? "none" : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                                        }}
+                                    />
+                                )}
+                                <span className="relative z-10">{t("home")}</span>
+                            </Link>
 
                             <ServicesDropdown services={services} />
 
                             {navLinks.filter((link) => link.translationKey !== "home").map((link) => {
                                 const isActive = isLinkActive(link.href);
                                 return (
-                                    <Button
+                                    <Link
                                         key={link.translationKey}
-                                        component={Link}
                                         href={link.href}
-                                        sx={{
-                                            color: isActive ? "primary.main" : "white",
+                                        className={`
+                                            relative overflow-hidden px-3 lg:px-4 py-1 rounded-md text-sm font-medium
+                                            transition-all duration-300
+                                            ${isActive ? "text-amber-400" : "text-white"}
+                                        `}
+                                        style={{
                                             fontSize: "0.9375rem",
                                             fontWeight: isActive ? 600 : 500,
                                             letterSpacing: "0.02em",
-                                            px: { md: 1.5, lg: 2.5 },
-                                            py: 1,
-                                            borderRadius: 1,
-                                            position: "relative",
-                                            overflow: "hidden",
                                             transition: prefersReducedMotion ? "none" : "color 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                            "&::before": {
-                                                content: '""',
-                                                position: "absolute",
-                                                inset: 0,
-                                                borderRadius: "inherit",
-                                                opacity: isActive ? 1 : 0,
-                                                background: "rgba(212, 175, 55, 0.1)",
-                                                border: "1px solid rgba(212, 175, 55, 0.2)",
-                                                transition: prefersReducedMotion ? "none" : "opacity 0.3s ease",
-                                            },
-                                            "&::after": {
-                                                content: '""',
-                                                position: "absolute",
-                                                bottom: 4,
-                                                left: 10,
-                                                width: "calc(100% - 20px)",
-                                                height: 2,
-                                                background: "linear-gradient(90deg, #D4AF37, #AA8C2C)",
-                                                transform: isActive ? "scaleX(1)" : "scaleX(0)",
-                                                transformOrigin: "left",
-                                                transition: prefersReducedMotion ? "none" : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                                borderRadius: 1,
-                                            },
-                                            "&:hover": {
-                                                color: "primary.main",
-                                                filter: "drop-shadow(0 0 12px rgba(212, 175, 55, 0.4))",
-                                                "&::before": {
-                                                    opacity: 1,
-                                                },
-                                                "&::after": {
-                                                    transform: "scaleX(1)",
-                                                },
-                                            },
-                                            "&:focus-visible": {
-                                                outline: "2px solid",
-                                                outlineColor: "primary.main",
-                                                outlineOffset: 2,
-                                            },
                                         }}
                                     >
-                                        {t(link.translationKey)}
-                                    </Button>
+                                        {isActive && (
+                                            <span
+                                                className="absolute inset-0 rounded-md border border-amber-500/20 bg-amber-500/10"
+                                            />
+                                        )}
+                                        {isActive && (
+                                            <span
+                                                className="absolute bottom-1 left-2.5 right-2.5 h-0.5 rounded-full"
+                                                style={{
+                                                    background: goldGradient,
+                                                    transform: "scaleX(1)",
+                                                    transformOrigin: "left",
+                                                    transition: prefersReducedMotion ? "none" : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                                                }}
+                                            />
+                                        )}
+                                        <span className="relative z-10">{t(link.translationKey)}</span>
+                                    </Link>
                                 );
                             })}
-                        </Box>
+                        </nav>
 
-                        <Box
-                            sx={{
-                                display: { xs: "none", md: "flex" },
-                                alignItems: "center",
-                                gap: 2,
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    display: { xs: "none", lg: "block" },
-                                    height: 20,
-                                    width: "1px",
-                                    backgroundColor: "rgba(255, 255, 255, 0.15)",
-                                    ml: 1,
-                                    mr: 0.5,
-                                }}
-                            />
-                            <IconButton
+                        <div className="hidden md:flex items-center gap-4">
+                            <div className="hidden lg:block h-5 w-px bg-white/15 mx-1" />
+
+                            <button
                                 onClick={() => setIsContactModalOpen(true)}
                                 aria-label="View Contact Information"
-                                sx={{
-                                    display: { xs: "none", md: "flex" },
-                                    color: "rgba(255, 255, 255, 0.7)",
-                                    "&:hover": { color: "primary.main" },
-                                }}
+                                className="hidden md:flex items-center text-white/70 hover:text-amber-400 transition-colors"
                             >
                                 <Phone size={20} />
-                            </IconButton>
-                            <IconButton
+                            </button>
+                            <button
                                 aria-label="Business Health Assessment"
                                 onClick={() => setIsHealthAssessmentOpen(true)}
-                                sx={{
-                                    display: { xs: "none", lg: "flex" },
-                                    color: "rgba(255, 255, 255, 0.7)",
-                                    "&:hover": { color: "primary.main" },
-                                }}
+                                className="hidden lg:flex items-center text-white/70 hover:text-amber-400 transition-colors"
                             >
                                 <HeartPulse size={20} />
-                            </IconButton>
-                            <Button
-                                component={Link}
+                            </button>
+                            <Link
                                 href={ctaUrl}
-                                variant="contained"
-                                color="primary"
-                                sx={{
-                                    display: { xs: "none", md: "flex" },
-                                    fontWeight: 600,
-                                    px: { md: 2, lg: 4 },
-                                    py: 1.5,
-                                    position: "relative",
-                                    overflow: "hidden",
+                                className="hidden md:flex items-center px-4 lg:px-6 py-1.5 rounded-md font-semibold text-sm relative overflow-hidden"
+                                style={{
+                                    backgroundColor: "#D4AF37",
                                     boxShadow: "0 4px 14px -3px rgba(212, 175, 55, 0.4)",
-                                    transition: "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                    "&::before": {
-                                        content: '""',
-                                        position: "absolute",
-                                        top: 0,
-                                        left: "-100%",
-                                        width: "100%",
-                                        height: "100%",
-                                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                                        transition: "left 0.5s ease",
-                                    },
-                                    "&:hover": {
-                                        backgroundColor: "primary.dark",
-                                        boxShadow: "0 6px 20px -4px rgba(212, 175, 55, 0.6)",
-                                        transform: "translateY(-2px)",
-                                        "&::before": {
-                                            left: "100%",
-                                        },
-                                    },
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                    },
-                                    "&:focus-visible": {
-                                        outline: "2px solid white",
-                                        outlineOffset: 2,
-                                    },
+                                    transition: prefersReducedMotion ? "none" : "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                                 }}
                             >
-                                {ctaText}
-                            </Button>
-                        </Box>
+                                <span
+                                    className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
+                                    style={{
+                                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                                        left: "-100%",
+                                    }}
+                                />
+                                <span className="relative z-10">{ctaText}</span>
+                            </Link>
+                        </div>
 
-                        <Box
-                            sx={{
-                                display: { xs: "flex", md: "none" },
-                                alignItems: "center",
-                            }}
-                        >
-                            <IconButton
+                        <div className="flex md:hidden items-center">
+                            <button
                                 onClick={handleToggleSidebar}
                                 aria-label={sidebarOpen ? "Close menu" : "Open menu"}
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
-                                sx={{
-                                    color: "white",
-                                    backgroundColor: "rgba(212, 175, 55, 0.1)",
-                                    border: "1px solid rgba(212, 175, 55, 0.3)",
-                                    p: 1,
-                                    "&:hover": {
-                                        backgroundColor: "rgba(212, 175, 55, 0.2)",
-                                    },
-                                    "&:focus-visible": {
-                                        outline: "2px solid white",
-                                        outlineOffset: 2,
-                                    },
-                                }}
+                                className="p-1 rounded-md border border-amber-500/30 bg-amber-500/10 text-white hover:bg-amber-500/20 transition-colors"
                             >
                                 <MenuIcon size={24} aria-hidden="true" />
-                            </IconButton>
-                        </Box>
-                    </Toolbar>
-                </Container>
-            </AppBar>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-            <Toolbar
-                aria-hidden
-                disableGutters
-                sx={{
-                    minHeight: { xs: 56, md: scrolled ? 72 : 88 },
+            <div
+                className="hidden md:block"
+                style={{
+                    minHeight: "72px",
                     transition: "min-height 0.3s ease",
                 }}
             />

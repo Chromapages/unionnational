@@ -11,23 +11,76 @@ interface TrustBarProps {
     }>;
 }
 
-// Industry standard publication logos for a premium first impression
-const fallbackLogos = [
-    { name: "Forbes", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Forbes_logo.svg/2560px-Forbes_logo.svg.png" },
-    { name: "Bloomberg", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Bloomberg_L.P._logo.svg/2560px-Bloomberg_L.P._logo.svg.png" },
-    { name: "Wall Street Journal", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/WSJ_Logo.svg/2560px-WSJ_Logo.svg.png" },
-    { name: "Business Insider", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Business_Insider_Logo.svg/2560px-Business_Insider_Logo.svg.png" },
-    { name: "TechCrunch", url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/TechCrunch_logo.svg/2560px-TechCrunch_logo.svg.png" },
+interface SvgLogo {
+    name: string;
+    svg: string;
+    viewBox: string;
+    isSvg: true;
+}
+
+interface ImageLogo {
+    name: string;
+    url: string;
+    isSvg: false;
+}
+
+// Inline SVG logos for premium publications - professional and optimized
+const fallbackLogos: SvgLogo[] = [
+    {
+        name: "Forbes",
+        svg: `<svg viewBox="0 0 120 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="22" font-family="Georgia, serif" font-size="22" font-weight="bold">Forbes</text>
+        </svg>`,
+        viewBox: "0 0 120 30",
+        isSvg: true,
+    },
+    {
+        name: "Bloomberg",
+        svg: `<svg viewBox="0 0 140 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold" letter-spacing="0.5">BLOOMBERG</text>
+        </svg>`,
+        viewBox: "0 0 140 30",
+        isSvg: true,
+    },
+    {
+        name: "Wall Street Journal",
+        svg: `<svg viewBox="0 0 150 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="20" font-family="Georgia, serif" font-size="14" font-weight="bold" letter-spacing="1">THE WALL STREET</text>
+            <text x="0" y="32" font-family="Georgia, serif" font-size="12" letter-spacing="2">JOURNAL</text>
+        </svg>`,
+        viewBox: "0 0 150 35",
+        isSvg: true,
+    },
+    {
+        name: "Business Insider",
+        svg: `<svg viewBox="0 0 160 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="20" font-family="Arial, sans-serif" font-size="13" font-weight="bold" letter-spacing="0.5">BUSINESS</text>
+            <text x="75" y="20" font-family="Arial, sans-serif" font-size="13" font-weight="normal" letter-spacing="0.5">INSIDER</text>
+        </svg>`,
+        viewBox: "0 0 160 30",
+        isSvg: true,
+    },
+    {
+        name: "TechCrunch",
+        svg: `<svg viewBox="0 0 140 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="bold">TechCrunch</text>
+        </svg>`,
+        viewBox: "0 0 140 30",
+        isSvg: true,
+    },
 ];
+
+type LogoItem = SvgLogo | ImageLogo;
 
 export function TrustBar({ logos }: TrustBarProps) {
     const t = useTranslations("HomePage.TrustBar");
 
-    // Use Sanity logos if available, otherwise use placeholders
-    const displayLogos = logos && logos.length > 0
-        ? logos.filter((logo) => logo.asset?.url).map((logo) => ({
+    // Use Sanity logos if available, otherwise use SVG fallbacks
+    const displayLogos: LogoItem[] = logos && logos.length > 0
+        ? logos.filter((logo) => logo.asset?.url).map((logo): ImageLogo => ({
             url: logo.asset!.url,
             name: logo.alt || t("defaultAlt"),
+            isSvg: false,
         }))
         : fallbackLogos;
 
@@ -50,18 +103,26 @@ export function TrustBar({ logos }: TrustBarProps) {
                 <div className="flex w-max animate-scroll hover:pause motion-reduce:animate-none">
                     {marqueeLogos.map((brand, index) => (
                         <div
-                            key={`${brand.url}-${index}`}
+                            key={`${brand.name}-${index}`}
                             className="flex cursor-default items-center justify-center px-10 transition-all duration-500 sm:px-14"
                         >
                             <div className="relative h-7 w-[110px] opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 sm:h-8 sm:w-[130px] md:h-9 md:w-[150px]">
-                                <Image
-                                    src={brand.url}
-                                    alt={brand.name}
-                                    fill
-                                    sizes="(max-width: 768px) 130px, 150px"
-                                    className="object-contain"
-                                    unoptimized={brand.url.includes("wikimedia")} // Use unoptimized for external SVGs to avoid resize issues
-                                />
+                                {"svg" in brand ? (
+                                    <div
+                                        className="h-full w-full"
+                                        dangerouslySetInnerHTML={{ __html: brand.svg }}
+                                        style={{ color: "#1a1a1a" }}
+                                    />
+                                ) : (
+                                    <Image
+                                        src={brand.url}
+                                        alt={brand.name}
+                                        fill
+                                        sizes="(max-width: 768px) 130px, 150px"
+                                        className="object-contain"
+                                        unoptimized={brand.url.includes("wikimedia")}
+                                    />
+                                )}
                             </div>
                         </div>
                     ))}

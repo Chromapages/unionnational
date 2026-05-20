@@ -170,6 +170,26 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                     </RevealOnScroll>
                 </div>
 
+                {/* Stats Row */}
+                <RevealOnScroll delay={300}>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                        {(data?.stats?.length ? data.stats : [
+                            { value: "23%", label: "Average Tax Reduction" },
+                            { value: "$2.4M", label: "Client Savings Last Year" },
+                            { value: "1,000+", label: "Businesses Served" },
+                            { value: "15+", label: "Years Experience" },
+                        ]).map((stat, index) => (
+                            <div key={index} className="text-center p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                                <div className="text-3xl md:text-4xl font-black text-brand-900 font-heading mb-2" style={{ color: "#D4AF37" }}>
+                                    {stat.value}
+                                </div>
+                                <div className="text-xs sm:text-sm text-slate-600 font-medium">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </RevealOnScroll>
 
 
                 {/* Call to Action */}

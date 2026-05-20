@@ -67,12 +67,12 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
             };
         }
 
-        // Keep the subtitle detailed, premium, and uniform across all priority cards
-        if (slug === 'tax-planning') {
+        // Use fallback only when shortDescription is empty (preserve CMS content)
+        if (!currentService.shortDescription && slug === 'tax-planning') {
             currentService.shortDescription = "Implement proactive tax-saving strategies to legally minimize your liability, optimize deductions, and shield business wealth.";
-        } else if (slug === 's-corp-tax-advantage') {
+        } else if (!currentService.shortDescription && slug === 's-corp-tax-advantage') {
             currentService.shortDescription = "Optimize your entity structure to legally reduce self-employment taxes, protect assets, and maximize your take-home pay.";
-        } else if (slug === 'fractional-cfo') {
+        } else if (!currentService.shortDescription && slug === 'fractional-cfo') {
             currentService.shortDescription = "Leverage high-level financial leadership, cash flow forecasting, and strategic metrics to guide sustainable business scaling.";
         }
 

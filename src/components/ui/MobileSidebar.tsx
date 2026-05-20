@@ -16,6 +16,7 @@ import {
     CircleHelp,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 interface MobileSidebarProps {
     isOpen: boolean;
@@ -256,6 +257,3 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
     );
 }
 
-function cn(...classes: Array<string | false>) {
-    return classes.filter(Boolean).join(" ");
-}

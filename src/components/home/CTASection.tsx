@@ -6,6 +6,7 @@ import { Phone, Calendar, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 interface CTASectionProps {
     data?: {
@@ -23,12 +24,15 @@ interface CTASectionProps {
 
 export function CTASection({ data, variant = "default" }: CTASectionProps) {
     const t = useTranslations("HomePage.CTASection");
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+    useEffect(() => {
+        setCurrentYear(new Date().getFullYear());
+    }, []);
     const backgroundImageUrl = data?.ctaBackgroundImage?.asset
         ? urlFor(data.ctaBackgroundImage).width(2000).height(1200).url()
         : "/images/ctasection.jpg";
     const backgroundImageAlt = data?.ctaBackgroundImage?.alt || "Office Background";
-
-    const currentYear = new Date().getFullYear();
 
     // Fallbacks with translations
     const title = data?.ctaTitle || t("fallbackTitle");
