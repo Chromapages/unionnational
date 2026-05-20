@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { ConstructionBookForm } from "@/components/construction/profit-blueprint/ConstructionBookForm";
@@ -45,22 +44,13 @@ const FALLBACK_PRODUCT = {
     },
     editions: [
         {
-            _key: "qmhcu1dgv",
-            name: "Bundle (Digital + Print)",
-            price: 59,
-            format: "bundle",
-            stripePriceId: "price_1TOlSoBBqB7ETKuVtDfASqwk",
-            stripeProductId: "prod_UNRJ66222da3Bv",
-            description: "Hardcover book + Digital PDF + Bonuses."
-        },
-        {
             _key: "0yojp28zt",
-            name: "Hardcover",
+            name: "Print Edition",
             price: 39,
             format: "physical",
             stripePriceId: "price_1T2cpuBBqB7ETKuVPA63LBVd",
             stripeProductId: "prod_U0I59FqHVgmIKe",
-            description: "Premium hardcover edition."
+            description: "Premium print edition."
         },
         {
             _key: "5htyhz1qd",
@@ -70,15 +60,6 @@ const FALLBACK_PRODUCT = {
             stripePriceId: "price_1TOlYGBBqB7ETKuVjY3QWF1m",
             stripeProductId: "prod_UNAGtZ3NgI4Aue",
             description: "Instant digital download."
-        },
-        {
-            _key: "ur4qbl6u0",
-            name: "Audiobook",
-            price: 27,
-            format: "audio",
-            stripePriceId: "price_1T2dAkBBqB7ETKuVZCP3OsnA",
-            stripeProductId: "prod_U0I8eAAAHeCBBA",
-            description: "Full audiobook edition."
         }
     ]
 };
@@ -131,7 +112,6 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
-            <HeaderWrapper />
             <main id="main-content" className="flex-1">
             <ExitIntentChecklist />
 
