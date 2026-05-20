@@ -218,6 +218,11 @@
                 }
             ]
         },
+        "SingleCTA": {
+            "title": "Ready to Stop Overpaying the IRS?",
+            "subtitle": "Book a 30-minute discovery evaluation with an enrolled agent. We'll identify planning gaps, S-Corp opportunities, and immediate savings.",
+            "cta": "Book Your Discovery Evaluation"
+        },
         "HealthCheckSection": {
             "title": "Get a clear read on your tax position.",
             "subtitle": "Take the Proactive CFO Assessment to see where cash leaks, entity issues, and planning gaps may be costing you money.",

@@ -16,11 +16,23 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
+  serverExternalPackages: [
+    "@grpc/grpc-js",
+    "@grpc/proto-loader",
+    "@opentelemetry/exporter-trace-otlp-http",
+    "@opentelemetry/exporter-logs-otlp-grpc",
+    "@opentelemetry/otlp-grpc-exporter-base",
+    "@opentelemetry/instrumentation-http",
+    "@opentelemetry/resources",
+    "@opentelemetry/sdk-node",
+    "@opentelemetry/sdk-trace-base",
+    "@opentelemetry/semantic-conventions",
+  ],
   reactCompiler: true,
 
   // Enable experimental optimizations
   experimental: {
-    optimizePackageImports: ['lucide-react', '@mui/material', '@mui/icons-material'],
+    optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   },
   async headers() {
     return [

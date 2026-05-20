@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { NextRequest } from "next/server";
 
 // Minimal mock for the Sanity client
@@ -193,6 +193,199 @@ describe("POST /api/shop/checkout", () => {
         const body = await res.json();
         expect(body.code).toBe("REDIRECT_TO_EXTERNAL_CHECKOUT");
         expect(body.redirectUrl).toBe("https://external-checkout.example.com/buy");
+    });
+
+    it("resolves construction blueprint checkout by slug and format when edition ids are stale", async () => {
+        const mockProduct = {
+            _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+            title: "The Moneyâ€‘Making Blueprint for Construction Companies",
+            slug: "the-money-making-blueprint-for-construction-companies",
+            buyLink: null,
+            price: 2900,
+            stripePriceId: undefined,
+            editions: [
+                {
+                    _key: "current-digital-key",
+                    name: "Digital PDF",
+                    price: 29,
+                    format: "digital",
+                    stripePriceId: undefined,
+                },
+            ],
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({
+            url: "https://checkout.stripe.com/construction-blueprint",
+        });
+
+        const req = buildCheckoutRequest({
+            items: [
+                {
+                    productId: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+                    slug: "the-money-making-blueprint-for-construction-companies",
+                    editionId: "old-digital-key",
+                    editionName: "Digital PDF",
+                    format: "digital",
+                    quantity: 1,
+                },
+            ],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(200);
+        expect(mockStripeCheckoutSessionsCreate).toHaveBeenCalled();
+
+        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
+        expect(createCall.line_items).toEqual([
+            { price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 },
+        ]);
+    });
+
+    it("prefers construction blueprint slug and format mapping over a swapped Sanity edition price", async () => {
+        const mockProduct = {
+            _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+            title: "The Moneyâ€‘Making Blueprint for Construction Companies",
+            slug: "the-money-making-blueprint-for-construction-companies",
+            buyLink: null,
+            price: 2900,
+            stripePriceId: undefined,
+            editions: [
+                {
+                    _key: "digital-key",
+                    name: "Digital PDF",
+                    price: 29,
+                    format: "digital",
+                    stripePriceId: "price_1T2dAkBBqB7ETKuVZCP3OsnA",
+                },
+            ],
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({
+            url: "https://checkout.stripe.com/construction-blueprint",
+        });
+
+        const req = buildCheckoutRequest({
+            items: [
+                {
+                    productId: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+                    slug: "the-money-making-blueprint-for-construction-companies",
+                    editionId: "digital-key",
+                    editionName: "Digital PDF",
+                    format: "digital",
+                    quantity: 1,
+                },
+            ],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(200);
+
+        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
+        expect(createCall.line_items).toEqual([
+            { price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 },
+        ]);
+    });
+
+    it("uses the digital Stripe price when digital is selected even if the Sanity edition price id and format are stale", async () => {
+        const mockProduct = {
+            _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+            title: "The MoneyÃ¢â‚¬â€˜Making Blueprint for Construction Companies",
+            slug: "the-money-making-blueprint-for-construction-companies",
+            buyLink: null,
+            price: 2900,
+            stripePriceId: undefined,
+            editions: [
+                {
+                    _key: "digital-key",
+                    name: "Digital PDF",
+                    price: 29,
+                    format: "physical",
+                    stripePriceId: "price_1T2dAkBBqB7ETKuVZCP3OsnA",
+                },
+            ],
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({
+            url: "https://checkout.stripe.com/construction-blueprint-digital",
+        });
+
+        const req = buildCheckoutRequest({
+            items: [
+                {
+                    productId: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+                    slug: "the-money-making-blueprint-for-construction-companies",
+                    editionId: "digital-key",
+                    editionName: "Digital PDF",
+                    format: "digital",
+                    quantity: 1,
+                },
+            ],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(200);
+
+        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
+        expect(createCall.line_items).toEqual([
+            { price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 },
+        ]);
+    });
+
+    it("uses the audio Stripe price when audio is selected even if the Sanity edition price id and format are stale", async () => {
+        const mockProduct = {
+            _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+            title: "The MoneyÃ¢â‚¬â€˜Making Blueprint for Construction Companies",
+            slug: "the-money-making-blueprint-for-construction-companies",
+            buyLink: null,
+            price: 2700,
+            stripePriceId: undefined,
+            editions: [
+                {
+                    _key: "audio-key",
+                    name: "Audiobook",
+                    price: 27,
+                    format: "digital",
+                    stripePriceId: "price_1TOlYGBBqB7ETKuVjY3QWF1m",
+                },
+            ],
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({
+            url: "https://checkout.stripe.com/construction-blueprint-audio",
+        });
+
+        const req = buildCheckoutRequest({
+            items: [
+                {
+                    productId: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+                    slug: "the-money-making-blueprint-for-construction-companies",
+                    editionId: "audio-key",
+                    editionName: "Audiobook",
+                    format: "audio",
+                    quantity: 1,
+                },
+            ],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(200);
+
+        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
+        expect(createCall.line_items).toEqual([
+            { price: "price_1T2dAkBBqB7ETKuVZCP3OsnA", quantity: 1 },
+        ]);
     });
 
     it("returns 409 STRIPE_PRICE_MISSING when no Stripe price is available and no buyLink", async () => {

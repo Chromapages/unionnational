@@ -23,7 +23,15 @@ export function normalizeEditionId(productId: string, edition: CommerceEditionLi
 }
 
 export function classifyFulfillment(format?: string, name?: string): FulfillmentType {
-    const text = `${format || ""} ${name || ""}`.toLowerCase();
+    const nameText = (name || "").toLowerCase();
+    const formatText = (format || "").toLowerCase();
+    const text = `${formatText} ${nameText}`;
+
+    if (nameText.includes("bundle")) return "bundle";
+    if (nameText.includes("audio")) return "audio";
+    if (nameText.includes("digital") || nameText.includes("pdf") || nameText.includes("ebook") || nameText.includes("e-book")) return "digital";
+    if (nameText.includes("hardcover") || nameText.includes("physical") || nameText.includes("print")) return "physical";
+
     const hasDigital = text.includes("digital") || text.includes("pdf") || text.includes("ebook") || text.includes("e-book");
     const hasAudio = text.includes("audio");
     const hasPhysical = text.includes("hardcover") || text.includes("physical") || text.includes("print") || text.includes("shipping");

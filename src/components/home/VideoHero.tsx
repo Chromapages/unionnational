@@ -3,10 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { TrendingUp, Calculator, Play, X, ArrowRight, CheckCircle2 } from "lucide-react";
-import { useVideoPlayer } from "@/hooks/useVideoPlayer";
-import { useCounter, useTaxCalculator, formatCurrency } from "@/hooks/useTaxCalculator";
-import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { TrendingUp, Calculator, ArrowRight, CheckCircle2 } from "lucide-react";
+import { useTaxCalculator, formatCurrency } from "@/hooks/useTaxCalculator";
 import { Link } from "@/i18n/navigation";
 
 interface VideoHeroProps {
@@ -25,35 +23,27 @@ export function VideoHero({ data }: VideoHeroProps) {
     const [income, setIncome] = useState<string>("");
     const [showResult, setShowResult] = useState(false);
 
-    const closeButtonRef = useRef<HTMLButtonElement>(null);
-    const modalRef = useRef<HTMLDivElement>(null);
     const calculationTimeoutRef = useRef<number | null>(null);
-
-    const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     const { result, isCalculating } = useTaxCalculator({
         income,
         enabled: income.length > 0 && !showResult,
-        delay: 800,
+        delay: 600,
     });
 
     // Animated savings value
     const animatedSavings = useCounter({ end: result?.savings || 0, duration: 1500, start: showResult });
 
-    const hlsUrl = data?.heroVideoUrl;
     const primaryCtaUrl = data?.heroCtaUrl || "/book";
+    const videoUrl = data?.heroVideoUrl || "https://cdn.pixabay.com/video/2021/08/13/84918-588365261_large.mp4";
 
-    // Default video URL if none provided from Sanity
-    const defaultVideoUrl = "https://cdn.coverr.co/videos/coverr-abstract-dark-gradient-background-9611/1080p.mp4";
-    const backgroundVideoUrl = hlsUrl || defaultVideoUrl;
-
-    // Background video hook
-    const { videoRef: bgVideoRef } = useVideoPlayer({
-        src: backgroundVideoUrl,
-        autoPlay: true,
-        muted: true,
-        loop: true
-    });
+    // Set cinematic playback rate
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.playbackRate = 0.6;
+        }
+    }, []);
 
     // Cleanup timeout on unmount
     useEffect(() => {
@@ -64,39 +54,6 @@ export function VideoHero({ data }: VideoHeroProps) {
         };
     }, []);
 
-    // Accessibility: Focus Management for Modal
-    useEffect(() => {
-        if (isVideoModalOpen) {
-            const handleFocusTrap = (e: KeyboardEvent) => {
-                if (e.key === "Tab" && modalRef.current) {
-                    const focusableElements = modalRef.current.querySelectorAll(
-                        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                    );
-                    const firstElement = focusableElements[0] as HTMLElement;
-                    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-                    if (e.shiftKey) {
-                        if (document.activeElement === firstElement) {
-                            e.preventDefault();
-                            lastElement.focus();
-                        }
-                    } else {
-                        if (document.activeElement === lastElement) {
-                            e.preventDefault();
-                            firstElement.focus();
-                        }
-                    }
-                }
-                if (e.key === "Escape") setIsVideoModalOpen(false);
-            };
-
-            document.addEventListener("keydown", handleFocusTrap);
-            setTimeout(() => closeButtonRef.current?.focus(), 100);
-
-            return () => document.removeEventListener("keydown", handleFocusTrap);
-        }
-    }, [isVideoModalOpen]);
-
     const handleCalculate = () => {
         if (!income) return;
 
@@ -104,343 +61,202 @@ export function VideoHero({ data }: VideoHeroProps) {
             window.clearTimeout(calculationTimeoutRef.current);
         }
 
-        setShowResult(false); // Reset to trigger animation restart if needed
+        setShowResult(false);
 
         calculationTimeoutRef.current = window.setTimeout(() => {
             setShowResult(true);
             calculationTimeoutRef.current = null;
-        }, 800);
+        }, 600);
     };
 
     const formatCurrencyLocal = (val: number) => formatCurrency(val, locale);
 
     return (
         <section
-            className="relative w-full min-h-[100dvh] md:min-h-[90dvh] lg:min-h-[95dvh] flex items-center pt-20 md:pt-24 pb-safe overflow-hidden"
+            className="relative w-full min-h-[90dvh] flex items-center pt-20 md:pt-24 pb-safe overflow-hidden bg-brand-900"
             aria-label={t('sectionAriaLabel')}
         >
             {/* Video Background */}
-            <div className="absolute inset-0 w-full h-full z-0 bg-brand-900">
-                <video
-                    ref={bgVideoRef}
-                    className="absolute inset-0 w-full h-full object-cover opacity-50"
-                    playsInline
-                    muted
-                    loop
-                    autoPlay
-                />
-                {/* Overlay: 70% opacity for balanced contrast and video visibility
-                    Base layer: 70% opaque bg-brand-900 (#020908 - near black) provides dark foundation
-                    Second layer: 70% opaque bg-brand-950 (#010504 - near black) for additional darkening
-                    Video at 50% opacity + 70% overlay ensures readable text with visible video movement
-                    Aligns with "Digital Vault" design system's "Solid over Translucent" principle */}
-                <div className="absolute inset-0 bg-brand-900/40"></div>
-                <div className="absolute inset-0 bg-brand-950/40"></div>
+            <div className="absolute inset-0 w-full h-full z-0">
+                {videoUrl && (
+                    <video
+                        ref={videoRef}
+                        src={videoUrl}
+                        className="absolute inset-0 w-full h-full object-cover opacity-30 grayscale saturate-0"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                    />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-b from-brand-900/80 via-brand-900/60 to-brand-950"></div>
             </div>
 
-            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full mb-8">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-16 md:py-24">
+                <div className="max-w-3xl mx-auto text-center">
 
-                    {/* Left Column: Content & Calculator (55% width approx) */}
-                    <div className="lg:col-span-7 flex flex-col justify-center">
-                        <RevealOnScroll className="w-full">
-                            {/* Eyebrow */}
-                            <div className="flex items-center gap-3 mb-6 animate-in fade-in slide-in-from-left-4 duration-700 ease-out">
-                                <span className="h-px w-8 bg-gold-500/70"></span>
-                                <p className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-gold-400 font-heading">
-                                    {t('eyebrow')}
-                                </p>
-                            </div>
-
-                            {/* Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] font-bold font-heading tracking-tighter mb-6 text-white drop-shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-forwards">
-                                {data?.heroTitle ? (
-                                    <>
-                                        {data.heroTitle.split('.')[0]}.
-                                        <br />
-                                        <span className="text-gold-500 italic">
-                                            {data.heroTitle.split('.').slice(1).join('.')}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <>
-                                        {t.rich('titlePart1', {
-                                            gold: (chunks) => (
-                                                <span className="text-gold-500 italic">{chunks}</span>
-                                            )
-                                        })}
-                                    </>
-                                )}
-                            </h1>
-
-                            {/* Subtitle */}
-                            <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-sans max-w-2xl font-light animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-forwards">
-                                {data?.heroSubtitle || t('subtitle')}
+                    {/* Eyebrow */}
+                    <RevealOnScroll>
+                        <div className="flex items-center justify-center gap-3 mb-6">
+                            <span className="h-px w-8 bg-gold-500/70"></span>
+                            <p className="text-xs md:text-sm font-bold uppercase tracking-[0.25em] text-gold-400 font-heading">
+                                {t('eyebrow')}
                             </p>
+                            <span className="h-px w-8 bg-gold-500/70"></span>
+                        </div>
+                    </RevealOnScroll>
 
-                            {/* Calculator & CTA Container */}
-                            <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-forwards">
+                    {/* Headline */}
+                    <RevealOnScroll delay={100}>
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.1] font-bold font-heading tracking-tighter mb-6 text-white">
+                            {data?.heroTitle ? (
+                                <>
+                                    {data.heroTitle.split('.')[0]}.
+                                    <br />
+                                    <span className="text-gold-500 italic">
+                                        {data.heroTitle.split('.').slice(1).join('.')}
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    {t.rich('titlePart1', {
+                                        gold: (chunks) => (
+                                            <span className="text-gold-500 italic">{chunks}</span>
+                                        )
+                                    })}
+                                </>
+                            )}
+                        </h1>
+                    </RevealOnScroll>
 
-                                {/* Calculator Card - Enhanced "Command Center" Style */}
-                                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-1 max-w-xl shadow-2xl">
-                                    <div className="bg-white rounded-lg p-5 sm:p-6 border border-slate-200">
-                                        <label
-                                            htmlFor="hero-income-input"
-                                            className="block text-xs font-bold text-brand-900 uppercase tracking-widest mb-3 font-heading flex items-center justify-between"
-                                        >
-                                            <span>{t('calculator.title')}</span>
-                                            <span className="text-gold-600/60 hidden sm:inline-block text-[10px]">{t('calculator.confidential')}</span>
-                                        </label>
+                    {/* Subtitle */}
+                    <RevealOnScroll delay={200}>
+                        <p className="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-sans max-w-2xl mx-auto">
+                            {data?.heroSubtitle || t('subtitle')}
+                        </p>
+                    </RevealOnScroll>
 
-                                        <form
-                                            className="flex flex-col sm:flex-row gap-3 relative"
-                                            onSubmit={(e) => { e.preventDefault(); handleCalculate(); }}
-                                        >
-                                            <div className="relative flex-1 group/input">
-                                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-900/60 font-medium text-lg md:text-xl group-focus-within/input:text-gold-600 transition-colors">$</span>
-                                                <input
-                                                    id="hero-income-input"
-                                                    type="text"
-                                                    inputMode="decimal"
-                                                    autoComplete="off"
-                                                    autoCorrect="off"
-                                                    spellCheck="false"
-                                                    placeholder={t('calculator.placeholder')}
-                                                    className="w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-base md:text-lg placeholder:text-slate-400 rounded-md border border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans min-h-[56px]"
-                                                    value={income}
-                                                    onChange={(e) => setIncome(e.target.value)}
-                                                />
-                                            </div>
-                                            <button
-                                                type="submit"
-                                                disabled={isCalculating}
-                                                className="px-6 md:px-8 py-4 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-gold-500/20 bg-gold-500 text-brand-900 hover:bg-gold-400 hover:shadow-gold-500/30 font-heading tracking-wide active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 min-h-[56px] min-w-[120px] touch-target-pref no-tap-highlight"
-                                            >
-                                                {isCalculating ? (
-                                                    <span className="flex items-center gap-2">
-                                                        <span className="w-4 h-4 border-2 border-brand-900/30 border-t-brand-900 rounded-full animate-spin"></span>
-                                                        {t('calculator.calculating')}
-                                                    </span>
-                                                ) : (
-                                                    <>
-                                                        {t('calculator.button')}
-                                                        <Calculator className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                                                    </>
-                                                )}
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                {/* Mobile Inline Result (Visible < 1024px) */}
-                                {(showResult || isCalculating) && (
-                                    <div className="lg:hidden animate-in fade-in slide-in-from-top-2 duration-500">
-                                        <div className="bg-gradient-to-br from-brand-800 to-brand-900 border border-gold-500/30 rounded-lg p-5 shadow-xl relative overflow-hidden group">
-                                            {/* Shimmer overlay */}
-                                            {isCalculating && (
-                                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]"></div>
-                                            )}
-
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-xs font-bold uppercase tracking-wider text-gold-400 font-heading">{t('mobileResult.potentialSavings')}</span>
-                                                <TrendingUp className="w-4 h-4 text-gold-500" />
-                                            </div>
-
-                                            {isCalculating ? (
-                                                <div className="h-10 w-32 bg-white/10 rounded animate-pulse"></div>
-                                            ) : (
-                                                <div className="text-4xl font-bold text-white font-heading tracking-tight tabular-nums">
-                                                    {formatCurrencyLocal(animatedSavings)}
-                                                </div>
-                                            )}
-
-                                            <div className="mt-3 pt-3 border-t border-white/10 flex justify-between items-center">
-                                                <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{t('mobileResult.estimatedReduction')}</span>
-                                                {!isCalculating && (
-                                                    <span className="text-xs text-green-400 font-bold flex items-center gap-1">
-                                                        <CheckCircle2 className="w-3 h-3" /> {t('mobileResult.verifiedStrategy')}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* CTAs Row */}
-                                <div className="flex flex-col sm:flex-row gap-5 mt-2">
-                                    <button
-                                        onClick={() => setIsVideoModalOpen(true)}
-                                        aria-label={t('videoButton.ariaLabel')}
-                                        className="bg-brand-900/50 backdrop-blur-sm border border-white/20 text-white px-8 py-5 rounded-xl text-sm font-bold hover:bg-white/10 hover:border-white/40 transition-all flex items-center justify-center sm:justify-start gap-4 font-heading tracking-wide group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 w-full sm:w-auto min-h-[64px] touch-target-pref no-tap-highlight"
-                                    >
-                                        <div className="w-10 h-10 rounded-full bg-gold-500/10 border border-gold-500/50 flex items-center justify-center text-gold-400 group-hover:bg-gold-500 group-hover:text-brand-900 transition-all shadow-[0_0_15px_rgba(212,175,55,0.1)] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]">
-                                            <Play className="w-4 h-4 fill-current ml-0.5" />
-                                        </div>
-                                        <div className="text-left">
-                                            <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">{t('videoButton.eyebrow')}</span>
-                                            <span className="block text-base">{t('videoButton.label')}</span>
-                                        </div>
-                                    </button>
-
-                                    <Link 
-                                        href={primaryCtaUrl}
-                                        className="inline-flex items-center justify-center gap-3 px-8 py-5 bg-gold-500 text-brand-900 font-black rounded-xl hover:bg-gold-400 transition-all text-lg shadow-xl shadow-gold-500/20 active:scale-[0.98] group"
-                                    >
-                                        {data?.heroCtaText || t('videoChapters.cta.bookCall')}
-                                        <ArrowRight size={20} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                </div>
-
-                            </div>
-                        </RevealOnScroll>
-                    </div>
-
-                    {/* Right Column: Dashboard Card (45% width) - Hidden on mobile/tablet */}
-                    <div className="hidden lg:flex lg:col-span-5 relative h-full min-h-[500px] items-center justify-center perspective-[2000px]">
-                        <RevealOnScroll className="w-full relative z-10" delay={400}>
-                            <div
-                                className="relative bg-white rounded-2xl shadow-2xl transform transition-all duration-700 ease-out hover:rotate-y-[2deg] hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] border border-white/20 ring-1 ring-black/5"
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    transform: isCalculating ? 'scale(0.98) rotateY(0deg)' : 'rotateY(-8deg) rotateX(4deg)',
-                                }}
+                    {/* Calculator Card */}
+                    <RevealOnScroll delay={300}>
+                        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-2xl max-w-xl mx-auto border border-slate-100">
+                            <label
+                                htmlFor="hero-income-input"
+                                className="block text-xs font-bold text-brand-900 uppercase tracking-widest mb-4 font-heading text-left"
                             >
-                                {/* Card Header */}
-                                <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 rounded-t-2xl">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-white text-xs font-bold shadow-lg ring-2 ring-white">JA</div>
-                                        <div>
-                                            <div className="text-sm font-bold text-brand-900 font-heading leading-tight">{t('dashboard.advisorName')}</div>
-                                            <div className="text-xs text-slate-500 font-medium">{t('dashboard.advisorCompany')}</div>
-                                        </div>
-                                    </div>
-                                    <div className="bg-emerald-100/50 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-200/50 flex items-center gap-1.5">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                        {t('dashboard.active')}
-                                    </div>
+                                {t('calculator.title')}
+                            </label>
+
+                            <form
+                                className="flex flex-col sm:flex-row gap-3"
+                                onSubmit={(e) => { e.preventDefault(); handleCalculate(); }}
+                            >
+                                <div className="relative flex-1 group/input">
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-900/60 font-medium text-lg group-focus-within/input:text-gold-600 transition-colors">$</span>
+                                    <input
+                                        id="hero-income-input"
+                                        type="text"
+                                        inputMode="decimal"
+                                        autoComplete="off"
+                                        autoCorrect="off"
+                                        spellCheck="false"
+                                        placeholder={t('calculator.placeholder')}
+                                        className="w-full pl-9 pr-4 py-4 bg-slate-50 outline-none text-brand-900 font-bold text-base md:text-lg placeholder:text-slate-400 rounded-lg border border-slate-200 focus:border-gold-500 focus:ring-1 focus:ring-gold-500/50 transition-all font-sans min-h-[56px]"
+                                        value={income}
+                                        onChange={(e) => setIncome(e.target.value)}
+                                    />
                                 </div>
+                                <button
+                                    type="submit"
+                                    disabled={isCalculating}
+                                    className="px-8 py-4 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2 group shadow-lg shadow-gold-500/20 bg-gold-500 text-brand-900 hover:bg-gold-400 hover:shadow-gold-500/30 font-heading tracking-wide active:scale-[0.98] disabled:opacity-70 disabled:cursor-wait whitespace-nowrap min-h-[56px] touch-target-pref"
+                                >
+                                    {isCalculating ? (
+                                        <span className="flex items-center gap-2">
+                                            <span className="w-4 h-4 border-2 border-brand-900/30 border-t-brand-900 rounded-full animate-spin"></span>
+                                            {t('calculator.calculating')}
+                                        </span>
+                                    ) : (
+                                        <>
+                                            {t('calculator.button')}
+                                            <Calculator className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                                        </>
+                                    )}
+                                </button>
+                            </form>
 
-                                {/* Card Body */}
-                                <div className="p-8">
-                                    <div className="mb-8 p-6 rounded-xl bg-gradient-to-br from-brand-50 to-white border border-brand-100 relative overflow-hidden group/card-stat">
-                                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover/card-stat:opacity-20 transition-opacity">
-                                            <TrendingUp className="w-24 h-24 text-brand-900" />
-                                        </div>
-
-                                        <div className="text-xs text-brand-900/70 font-bold uppercase tracking-widest mb-2 flex items-center gap-2 font-heading">
-                                            {t('dashboard.projectedSavings')}
-                                        </div>
-
-                                        {isCalculating ? (
-                                            <div className="h-14 w-full bg-slate-200/70 animate-pulse rounded-lg mb-1"></div>
-                                        ) : (
-                                            <div className="text-5xl font-bold tracking-tight text-brand-900 font-heading tabular-nums bg-clip-text text-transparent bg-gradient-to-r from-brand-900 to-brand-800">
-                                                {formatCurrencyLocal(animatedSavings)}
-                                            </div>
-                                        )}
-
-                                        <div className="mt-4 flex items-center gap-2 text-xs font-medium text-emerald-600 bg-emerald-50 w-fit px-2 py-1 rounded border border-emerald-100/50">
-                                            <TrendingUp className="w-3 h-3" />
-                                            <span>{t('dashboard.retainedEarnings')}</span>
-                                        </div>
+                            {/* Result Display */}
+                            {(showResult || isCalculating) && (
+                                <div className="mt-6 p-5 bg-gradient-to-br from-brand-50 to-white border border-brand-100 rounded-xl">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="text-xs font-bold uppercase tracking-wider text-brand-900/70 font-heading">Estimated Tax Savings</span>
+                                        <TrendingUp className="w-4 h-4 text-gold-600" />
                                     </div>
 
-                                    {/* Detailed Breakdown */}
-                                    <div className="space-y-5">
-                                        <div className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 transition-colors">
-                                            <span className="text-slate-500 font-medium text-sm">{t('dashboard.selfEmploymentTax')}</span>
-                                            {isCalculating ? (
-                                                <div className="h-4 w-20 bg-slate-200 animate-pulse rounded"></div>
-                                            ) : (
-                                                <span className="font-bold text-red-400 line-through decoration-red-400/30 text-sm">
-                                                    {result ? formatCurrencyLocal(result.oldTax) : "$0.00"}
-                                                </span>
-                                            )}
+                                    {isCalculating ? (
+                                        <div className="h-12 w-40 bg-slate-200/70 animate-pulse rounded-lg mx-auto"></div>
+                                    ) : (
+                                        <div className="text-4xl sm:text-5xl font-bold tracking-tight text-brand-900 font-heading tabular-nums text-center">
+                                            {formatCurrencyLocal(animatedSavings)}
                                         </div>
+                                    )}
 
-                                        <div className="w-full h-px bg-slate-100"></div>
-
-                                        <div className="flex items-center justify-between p-3 rounded-lg bg-gold-50/30 border border-gold-100/50">
-                                            <span className="text-brand-900 font-bold text-sm">{t('dashboard.newLiability')}</span>
-                                            {isCalculating ? (
-                                                <div className="h-4 w-20 bg-slate-200 animate-pulse rounded"></div>
-                                            ) : (
-                                                <span className="font-bold text-brand-900 text-sm">
-                                                    {result ? formatCurrencyLocal(result.newTax) : "$0.00"}
-                                                </span>
-                                            )}
+                                    {!isCalculating && result && (
+                                        <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-sm text-emerald-600">
+                                            <CheckCircle2 className="w-4 h-4" />
+                                            <span className="font-medium">Verified S-Corp strategy available</span>
                                         </div>
-
-                                        {/* Progress Bar */}
-                                        <div className="pt-2">
-                                            <div className="flex justify-between text-[10px] uppercase font-bold text-slate-400 mb-1.5 tracking-wider">
-                                                <span>{t('dashboard.taxEfficiency')}</span>
-                                                <span className={result ? "text-gold-600" : ""}>{result ? t('dashboard.taxEfficiencyScore', { score: 92 }) : t('dashboard.taxEfficiencyScore', { score: 0 })}</span>
-                                            </div>
-                                            <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden shadow-inner">
-                                                <div
-                                                    className="h-full bg-gradient-to-r from-gold-400 to-gold-600 rounded-full transition-all duration-1000 ease-out relative"
-                                                    style={{ width: result ? `${(result.newTax / result.oldTax) * 100}%` : '5%' }}
-                                                >
-                                                    <div className="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <Link 
-                                        href="/intake"
-                                        className="w-full mt-8 py-4 rounded-lg font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2 bg-brand-900 text-white hover:bg-brand-800 hover:shadow-lg font-heading group ring-1 ring-white/10"
-                                    >
-                                        {t('dashboard.viewAnalysis')}
-                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-gold-500" />
-                                    </Link>
+                                    )}
                                 </div>
-                            </div>
-                        </RevealOnScroll>
-                    </div>
+                            )}
+                        </div>
+                    </RevealOnScroll>
+
+                    {/* Primary CTA Button */}
+                    <RevealOnScroll delay={400}>
+                        <div className="mt-8">
+                            <Link
+                                href={primaryCtaUrl}
+                                className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-500 text-brand-900 font-black rounded-xl hover:bg-gold-400 transition-all text-lg shadow-xl shadow-gold-500/30 active:scale-[0.98] group"
+                            >
+                                {data?.heroCtaText || 'Book Your Free Strategy Call'}
+                                <ArrowRight size={20} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                            <p className="mt-4 text-sm text-slate-400">Free 30-minute consultation • No obligation</p>
+                        </div>
+                    </RevealOnScroll>
+
                 </div>
             </div>
-
-            {/* Video Modal */}
-            {
-                isVideoModalOpen && (
-                    <div
-                        ref={modalRef}
-                        className="fixed inset-0 z-[100] bg-brand-950/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label={t('videoModal.ariaLabel')}
-                        onClick={() => setIsVideoModalOpen(false)}
-                    >
-                        <div
-                            className="relative w-full max-w-6xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 animate-in zoom-in-95 duration-300"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button
-                                ref={closeButtonRef}
-                                onClick={() => setIsVideoModalOpen(false)}
-                                aria-label={t('videoModal.closeAriaLabel')}
-                                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 text-white/70 hover:text-white hover:bg-black/70 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
-                            >
-                                <X className="w-6 h-6" aria-hidden="true" />
-                            </button>
-                            <VideoPlayer
-                                src={hlsUrl || defaultVideoUrl}
-                                autoPlay
-                                className="w-full h-full"
-                                chapters={[
-                                        { id: '1', title: t('videoChapters.intro'), startTime: 0, cta: { text: t('videoChapters.cta.bookCall'), url: '/book' } },
-                                    { id: '2', title: t('videoChapters.strategy'), startTime: 15 },
-                                    { id: '3', title: t('videoChapters.calculating'), startTime: 45, cta: { text: t('videoChapters.cta.tryCalculator'), url: '/intake' } },
-                                    { id: '4', title: t('videoChapters.implementation'), startTime: 90 },
-                                    { id: '5', title: t('videoChapters.nextSteps'), startTime: 120, cta: { text: t('videoChapters.cta.getStarted'), url: '/book' } }
-                                ]}
-                            />
-                        </div>
-                    </div>
-                )
-            }
-        </section >
+        </section>
     );
+}
+
+// Simple counter hook for animation
+function useCounter({ end, duration, start }: { end: number; duration: number; start: boolean }) {
+    const [value, setValue] = useState(0);
+
+    useEffect(() => {
+        if (!start) {
+            setValue(0);
+            return;
+        }
+
+        const startTime = performance.now();
+        const startValue = 0;
+
+        const animate = (currentTime: number) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setValue(Math.round(startValue + (end - startValue) * eased));
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }, [end, duration, start]);
+
+    return value;
 }

@@ -82,13 +82,9 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                             <span>{buttonText}</span>
                                         </Link>
 
-                                        <Link
-                                            href="/contact?type=expert"
-                                            className="inline-flex min-h-[62px] w-full items-center justify-center gap-2 rounded-full bg-gold-500 px-6 py-3 text-center font-heading text-[15px] font-bold text-brand-950 transition-all duration-300 hover:bg-gold-400 hover:-translate-y-0.5 lg:w-[242px] xl:w-[258px]"
-                                        >
-                                            <Phone className="h-4.5 w-4.5" />
-                                            <span>{t("secondaryButton")}</span>
-                                        </Link>
+                                        <p className="text-sm text-slate-500 text-center lg:text-right">
+                                            Free 30-minute consultation
+                                        </p>
                                     </div>
 
                                     <div className="border-t border-brand-900/30 pt-5 lg:col-span-2 lg:row-start-3 lg:mt-10">
@@ -151,23 +147,19 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center justify-end gap-4">
+                                <div className="lg:col-span-5 flex flex-col items-center justify-end gap-4">
                                     <Link
                                         href={buttonUrl}
-                                        className="w-full sm:w-auto min-w-[220px] bg-gold-500 text-brand-950 px-6 py-3.5 rounded-xl text-base font-bold hover:bg-gold-400 transition-all duration-300 shadow-[0_10px_20px_rgba(212,175,55,0.15)] hover:shadow-[0_15px_30px_rgba(212,175,55,0.25)] hover:-translate-y-0.5 text-center font-heading tracking-wide flex items-center justify-center gap-2 group/btn"
+                                        className="w-full max-w-[320px] bg-gold-500 text-brand-950 px-8 py-4 rounded-xl text-lg font-bold hover:bg-gold-400 transition-all duration-300 shadow-[0_10px_20px_rgba(212,175,55,0.15)] hover:shadow-[0_15px_30px_rgba(212,175,55,0.25)] hover:-translate-y-0.5 text-center font-heading tracking-wide flex items-center justify-center gap-2 group/btn"
                                     >
-                                        <Calendar className="w-4 h-4" />
+                                        <Calendar className="w-5 h-5" />
                                         <span>{buttonText}</span>
-                                        <ArrowRight className="w-4 h-4 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all" />
+                                        <ArrowRight className="w-5 h-5 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 transition-all" />
                                     </Link>
 
-                                    <Link
-                                        href="/contact?type=expert"
-                                        className="w-full sm:w-auto min-w-[200px] bg-white/5 backdrop-blur-md border border-white/10 text-white px-6 py-3.5 rounded-xl text-base font-bold hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2.5 group/secondary font-heading tracking-wide"
-                                    >
-                                        <Phone className="w-4 h-4 text-slate-400 group-hover/secondary:text-gold-500 transition-colors" />
-                                        <span>{t("secondaryButton")}</span>
-                                    </Link>
+                                    <p className="text-sm text-slate-400 text-center">
+                                        Free 30-minute strategy session
+                                    </p>
                                 </div>
                             </div>
 

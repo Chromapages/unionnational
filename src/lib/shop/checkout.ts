@@ -93,12 +93,62 @@ function findMappedPrice(keys: string[]): string | null {
     return null;
 }
 
+function buildSlugFormatPriceKeys(productSlug: string, format?: string, editionName?: string): string[] {
+    const editionNameText = (editionName || "").toLowerCase();
+    const fulfillmentType =
+        editionNameText.includes("bundle")
+            ? "bundle"
+            : editionNameText.includes("audio")
+              ? "audio"
+              : editionNameText.includes("digital") ||
+                  editionNameText.includes("pdf") ||
+                  editionNameText.includes("ebook") ||
+                  editionNameText.includes("e-book")
+                ? "digital"
+                : editionNameText.includes("hardcover") ||
+                    editionNameText.includes("physical") ||
+                    editionNameText.includes("print")
+                  ? "physical"
+                  : classifyFulfillment(format, editionName);
+    const searchText = `${format || ""} ${editionName || ""}`.toLowerCase();
+    const keys = [];
+
+    if (fulfillmentType === "bundle" || searchText.includes("bundle")) {
+        keys.push(`${productSlug} - bundle`);
+    }
+
+    if (fulfillmentType === "physical") {
+        keys.push(`${productSlug} - physical`, `${productSlug} - hardcover`);
+    }
+
+    if (fulfillmentType === "digital") {
+        keys.push(`${productSlug} - digital`, `${productSlug} - pdf`);
+    }
+
+    if (fulfillmentType === "audio") {
+        keys.push(`${productSlug} - audio`);
+    }
+
+    return keys;
+}
+
 export function getStripePriceId(
     product: ProductCheckoutRecord,
     item: CheckoutCartItemPayload,
     matchingEdition = findMatchingEdition(product, item)
 ): string | null {
     const titleWithoutLeadingThe = product.title.replace(/^The\s+/i, "");
+    const mappedSlugFormatPriceId = findMappedPrice(
+        buildSlugFormatPriceKeys(
+            product.slug,
+            item.format || matchingEdition?.format,
+            item.editionName || matchingEdition?.name
+        )
+    );
+
+    if (mappedSlugFormatPriceId) {
+        return mappedSlugFormatPriceId;
+    }
 
     // 1. Check if edition has stripePriceId in Sanity
     if (item.editionId && product.editions?.length) {
@@ -123,6 +173,7 @@ export function getStripePriceId(
                 `${titleWithoutLeadingThe} - ${editionName}`,
                 ...(isDigitalEdition
                     ? [
+                          ...buildSlugFormatPriceKeys(product.slug, editionFormat, editionName),
                           `${product.title} - Digital PDF`,
                           `${titleWithoutLeadingThe} - Digital PDF`,
                           `${product.title} - Digital PDF Copy`,
@@ -131,6 +182,7 @@ export function getStripePriceId(
                     : []),
                 ...(isHardcoverEdition
                     ? [
+                          ...buildSlugFormatPriceKeys(product.slug, editionFormat, editionName),
                           `${product.title} + Shipping & Handling`,
                           `${titleWithoutLeadingThe} + Shipping & Handling`,
                           `${product.title} - Hardcover`,
@@ -160,6 +212,7 @@ export function getStripePriceId(
             normalizedEditionId.includes("physical") ||
             normalizedEditionId.includes("print");
         const fallbackEditionPriceId = findMappedPrice([
+            ...buildSlugFormatPriceKeys(product.slug, item.format, item.editionName),
             ...(isDigitalEdition
                 ? [
                       `${product.title} - Digital PDF`,
@@ -186,8 +239,9 @@ export function getStripePriceId(
         return product.stripePriceId;
     }
 
-    // 5. Final Fallbacks: try product title variants directly in the map
+    // 5. Final Fallbacks: try slug/format and product title variants directly in the map
     const productTitleKeys = [
+        ...buildSlugFormatPriceKeys(product.slug, item.format, item.editionName),
         product.title,
         titleWithoutLeadingThe,
         `${product.title} + Shipping & Handling`,

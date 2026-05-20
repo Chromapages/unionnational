@@ -2,15 +2,17 @@
 
 import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { ArrowRight, ChevronRight, Zap, Target as TargetIcon, TrendingUp, ShieldCheck, LucideIcon, PieChart } from "lucide-react";
+import { ArrowRight, ChevronRight, Zap, Target as TargetIcon, TrendingUp, ShieldCheck, LucideIcon, PieChart, Briefcase } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { fallbackServices, getServiceHref } from "@/components/layout/navigationData";
 
 const ICON_MAP: Record<string, LucideIcon> = {
     Zap,
     Target: TargetIcon,
     TrendingUp,
     ShieldCheck,
-    PieChart
+    PieChart,
+    Briefcase
 };
 
 interface Service {
@@ -41,11 +43,41 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
     const buttonText = data?.servicesButtonText || t("viewAllCta");
 
     const prioritySlugs = ['s-corp-tax-advantage', 'fractional-cfo', 'tax-planning'];
-    const priorityServices = services.filter(s => prioritySlugs.includes(s.slug?.current || ''));
-    const industryCards = [
-        { title: t("industries.construction.title"), icon: ShieldCheck, slug: "construction", desc: t("industries.construction.description") },
-        { title: t("industries.restaurants.title"), icon: TrendingUp, slug: "restaurants", desc: t("industries.restaurants.description") }
-    ];
+    
+    // Map props services to priority services
+    const priorityServicesMap = new Map<string, Service>();
+    services.forEach(s => {
+        if (s.slug?.current && prioritySlugs.includes(s.slug.current)) {
+            priorityServicesMap.set(s.slug.current, s);
+        }
+    });
+
+    // Make sure we have all three, fallback to local static data if missing from sanity
+    const priorityServices: Service[] = prioritySlugs.map(slug => {
+        let currentService: Service;
+        if (priorityServicesMap.has(slug)) {
+            currentService = { ...priorityServicesMap.get(slug)! };
+        } else {
+            const fallback = fallbackServices.find(f => f.slug?.current === slug);
+            currentService = {
+                title: fallback?.title || slug,
+                shortDescription: fallback?.shortDescription || '',
+                icon: fallback?.icon || 'Zap',
+                slug: { current: slug }
+            };
+        }
+
+        // Keep the subtitle detailed, premium, and uniform across all priority cards
+        if (slug === 'tax-planning') {
+            currentService.shortDescription = "Implement proactive tax-saving strategies to legally minimize your liability, optimize deductions, and shield business wealth.";
+        } else if (slug === 's-corp-tax-advantage') {
+            currentService.shortDescription = "Optimize your entity structure to legally reduce self-employment taxes, protect assets, and maximize your take-home pay.";
+        } else if (slug === 'fractional-cfo') {
+            currentService.shortDescription = "Leverage high-level financial leadership, cash flow forecasting, and strategic metrics to guide sustainable business scaling.";
+        }
+
+        return currentService;
+    });
 
     return (
         <section
@@ -71,8 +103,8 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                     </RevealOnScroll>
                 </div>
 
-                {/* Priority Strategy Grid — 2 columns on desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-16">
+                {/* Priority Strategy Grid — 3 columns on desktop */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
                     {priorityServices.map((service, index) => {
                         const Icon = ICON_MAP[service.icon || ''] || Zap;
                         return (
@@ -104,7 +136,7 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
 
                                     {/* Footer CTA */}
                                     <Link
-                                        href={`/services/${service.slug?.current || ''}`}
+                                        href={getServiceHref(service)}
                                         className="inline-flex items-center gap-3 text-sm font-bold text-gold-500 hover:text-gold-400 transition-colors duration-300 group/link mt-auto"
                                     >
                                         <span className="uppercase tracking-[0.1em] text-xs">
@@ -116,41 +148,6 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                             </RevealOnScroll>
                         );
                     })}
-                </div>
-
-                {/* Industry Cards Grid — 2 columns on desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-                    {industryCards.map((industry, i) => (
-                        <RevealOnScroll key={i} delay={i * 100}>
-                            <Link href={`/industries/${industry.slug}`} className="group block">
-                                <div className="relative flex items-center gap-6 p-6 lg:p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-gold-500/30 hover:bg-white transition-all duration-500 shadow-sm hover:shadow-soft overflow-hidden">
-
-                                    {/* Hover glow */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-gold-500/0 via-gold-500/5 to-gold-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                                    {/* Icon */}
-                                    <div className="relative w-12 h-12 shrink-0 rounded-xl bg-brand-900 flex items-center justify-center text-gold-500 shadow-md group-hover:bg-brand-900 group-hover:scale-105 transition-all duration-500">
-                                        <industry.icon size={22} strokeWidth={1.5} aria-hidden="true" />
-                                    </div>
-
-                                    {/* Text */}
-                                    <div className="relative flex-1 min-w-0">
-                                        <h4 className="text-lg font-black text-brand-900 font-heading tracking-tight mb-1 group-hover:text-gold-700 transition-colors duration-300">
-                                            {industry.title}
-                                        </h4>
-                                        <p className="text-sm text-slate-500 font-sans font-medium truncate">
-                                            {industry.desc}
-                                        </p>
-                                    </div>
-
-                                    {/* Arrow */}
-                                    <div className="relative w-8 h-8 shrink-0 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-gold-500/40 group-hover:bg-gold-500 group-hover:text-brand-900 group-hover:scale-110 transition-all duration-500">
-                                        <ArrowRight size={16} aria-hidden="true" />
-                                    </div>
-                                </div>
-                            </Link>
-                        </RevealOnScroll>
-                    ))}
                 </div>
 
                 {/* Bottom CTA */}

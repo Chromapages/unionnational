@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, useInView, animate } from "framer-motion";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
+import { useIntersectionInView } from "@/hooks/useIntersectionInView";
 
 interface AnimatedStatProps {
     value: number;
@@ -13,7 +14,7 @@ interface AnimatedStatProps {
 
 export function AnimatedStat({ value, suffix = "", prefix = "", duration = 2, className }: AnimatedStatProps) {
     const ref = useRef<HTMLSpanElement>(null);
-    const inView = useInView(ref, { once: true, margin: "-20px" });
+    const inView = useIntersectionInView(ref, { once: true, rootMargin: "-20px" });
 
     const count = useMotionValue(0);
 

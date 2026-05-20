@@ -51,7 +51,7 @@ const STRIPE_DATA = [
     editions: [
       { name: 'Bundle (Digital + Print)', price: 59, format: 'bundle', productId: 'prod_UNRJ66222da3Bv', priceId: 'price_1TOlSoBBqB7ETKuVtDfASqwk', description: 'Hardcover book + Digital PDF + Bonuses.' },
       { name: 'Hardcover', price: 39, format: 'physical', productId: 'prod_U0I59FqHVgmIKe', priceId: 'price_1T2cpuBBqB7ETKuVPA63LBVd', description: 'Premium hardcover edition.' },
-      { name: 'Digital PDF', price: 29, format: 'digital', productId: 'prod_UNAG4gj0lRYIGj', priceId: 'price_1TOlYSBBqB7ETKuVhVlOdPk8', description: 'Instant digital download.' },
+      { name: 'Digital PDF', price: 27, format: 'digital', productId: 'prod_UNAGtZ3NgI4Aue', priceId: 'price_1TOlYGBBqB7ETKuVjY3QWF1m', description: 'Instant digital download.' },
       { name: 'Audiobook', price: 27, format: 'audio', productId: 'prod_U0I8eAAAHeCBBA', priceId: 'price_1T2dAkBBqB7ETKuVZCP3OsnA', description: 'Full audiobook edition.' }
     ]
   },

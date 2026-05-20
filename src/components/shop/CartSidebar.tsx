@@ -45,6 +45,11 @@ const itemVariants = {
     exit: { opacity: 0, x: 20 },
 };
 
+const getImageSrc = (image: string) => {
+    const trimmedImage = image.trim();
+    return trimmedImage.length > 0 ? trimmedImage : null;
+};
+
 export function CartSidebar() {
     const t_cart = useTranslations("Shop.Cart");
     const items = useCartStore((state) => state.items);
@@ -177,22 +182,31 @@ export function CartSidebar() {
                             ) : (
                                 <ul className="space-y-6">
                                     <AnimatePresence mode="popLayout">
-                                        {items.map((item) => (
-                                            <motion.li
-                                                key={item.id}
-                                                variants={itemVariants}
-                                                layout
-                                                exit={{ opacity: 0, scale: 0.95 }}
-                                                className="flex gap-4 p-3 rounded-2xl border border-slate-50 hover:border-slate-100 transition-colors bg-white group"
-                                            >
-                                                <div className="relative w-24 h-24 bg-slate-50 rounded-xl overflow-hidden shrink-0">
-                                                    <Image
-                                                        src={item.image}
-                                                        alt={item.title}
-                                                        fill
-                                                        className="object-contain p-2"
-                                                    />
-                                                </div>
+                                        {items.map((item) => {
+                                            const imageSrc = getImageSrc(item.image);
+
+                                            return (
+                                                <motion.li
+                                                    key={item.id}
+                                                    variants={itemVariants}
+                                                    layout
+                                                    exit={{ opacity: 0, scale: 0.95 }}
+                                                    className="flex gap-4 p-3 rounded-2xl border border-slate-50 hover:border-slate-100 transition-colors bg-white group"
+                                                >
+                                                    <div className="relative w-24 h-24 bg-slate-50 rounded-xl overflow-hidden shrink-0">
+                                                        {imageSrc ? (
+                                                            <Image
+                                                                src={imageSrc}
+                                                                alt={item.title}
+                                                                fill
+                                                                className="object-contain p-2"
+                                                            />
+                                                        ) : (
+                                                            <div className="flex h-full w-full items-center justify-center text-slate-300">
+                                                                <ShoppingBag className="h-8 w-8" aria-hidden="true" />
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 <div className="flex flex-col flex-1">
                                                     <div className="flex justify-between items-start mb-1">
                                                         <h3 className="font-bold text-brand-900 line-clamp-1 text-sm group-hover:text-gold-600 transition-colors">
@@ -231,8 +245,9 @@ export function CartSidebar() {
                                                         </span>
                                                     </div>
                                                 </div>
-                                            </motion.li>
-                                        ))}
+                                                </motion.li>
+                                            );
+                                        })}
                                     </AnimatePresence>
                                 </ul>
                             )}

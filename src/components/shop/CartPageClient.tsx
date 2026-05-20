@@ -27,6 +27,11 @@ const formatPrice = (price: number) =>
         minimumFractionDigits: 0,
     }).format(price);
 
+const getImageSrc = (image: string) => {
+    const trimmedImage = image.trim();
+    return trimmedImage.length > 0 ? trimmedImage : null;
+};
+
 export function CartPageClient({ recoveryCta }: CartPageClientProps) {
     const tCart = useTranslations("Shop.Cart");
     const router = useRouter();
@@ -134,19 +139,28 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
             ) : (
                 <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
                     <div className="space-y-4">
-                        {items.map((item) => (
-                            <div
-                                key={item.id}
-                                className="flex gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"
-                            >
-                                <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-2xl bg-slate-50">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="object-contain p-2"
-                                    />
-                                </div>
+                        {items.map((item) => {
+                            const imageSrc = getImageSrc(item.image);
+
+                            return (
+                                <div
+                                    key={item.id}
+                                    className="flex gap-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"
+                                >
+                                    <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-2xl bg-slate-50">
+                                        {imageSrc ? (
+                                            <Image
+                                                src={imageSrc}
+                                                alt={item.title}
+                                                fill
+                                                className="object-contain p-2"
+                                            />
+                                        ) : (
+                                            <div className="flex h-full w-full items-center justify-center text-slate-300">
+                                                <ShoppingBag className="h-7 w-7" aria-hidden="true" />
+                                            </div>
+                                        )}
+                                    </div>
 
                                 <div className="flex min-w-0 flex-1 flex-col">
                                     <div className="flex items-start justify-between gap-4">
@@ -202,8 +216,9 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                                </div>
+                            );
+                        })}
                     </div>
 
                     <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-24">

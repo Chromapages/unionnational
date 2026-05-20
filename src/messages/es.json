@@ -213,6 +213,11 @@
                 }
             ]
         },
+        "SingleCTA": {
+            "title": "¿Listo para dejar de pagar de más al IRS?",
+            "subtitle": "Reserve una evaluación de descubrimiento de 30 minutos con un agente inscrito. Identificaremos brechas de planificación, opciones de S-Corp y ahorros inmediatos.",
+            "cta": "Reserve su evaluación de descubrimiento"
+        },
         "HealthCheckSection": {
             "title": "Obtenga una lectura clara de su posición fiscal.",
             "subtitle": "Realice la evaluación rápida para detectar fugas de efectivo, problemas de entidad y vacíos de planificación que podrían estar costándole dinero.",

@@ -46,8 +46,14 @@ export const STRIPE_PRICE_MAP: Record<string, string> = {
   "THE PROACTIVE CFO SOLUTION - Audio": "price_1T2dqbBBqB7ETKuVqvYCiuoB",
 
   // Construction Blueprint
+  "the-money-making-blueprint-for-construction-companies - bundle": "price_1TOlSoBBqB7ETKuVtDfASqwk",
+  "the-money-making-blueprint-for-construction-companies - physical": "price_1T2cpuBBqB7ETKuVPA63LBVd",
+  "the-money-making-blueprint-for-construction-companies - hardcover": "price_1T2cpuBBqB7ETKuVPA63LBVd",
+  "the-money-making-blueprint-for-construction-companies - digital": "price_1TOlYGBBqB7ETKuVjY3QWF1m",
+  "the-money-making-blueprint-for-construction-companies - pdf": "price_1TOlYGBBqB7ETKuVjY3QWF1m",
+  "the-money-making-blueprint-for-construction-companies - audio": "price_1T2dAkBBqB7ETKuVZCP3OsnA",
   "The Money-Making Blueprint for Construction Companies Bundles + Shipping & Handling": "price_1TOlSoBBqB7ETKuVtDfASqwk",
   "The Money-Making Blueprint for Construction Companies + Shipping & Handling": "price_1T2cpuBBqB7ETKuVPA63LBVd",
-  "The Money-Making Blueprint for Construction Companies - Digital PDF Copy": "price_1TOlYSBBqB7ETKuVhVlOdPk8",
+  "The Money-Making Blueprint for Construction Companies - Digital PDF Copy": "price_1TOlYGBBqB7ETKuVjY3QWF1m",
   "The Money-Making Blueprint for Construction Companies - Audio": "price_1T2dAkBBqB7ETKuVZCP3OsnA",
 };

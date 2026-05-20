@@ -53,10 +53,10 @@ export function ControlSystemSection() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
                         <div className="bg-gradient-to-br from-brand-900/5 to-transparent rounded-3xl p-8 lg:p-0">
                             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-900/5 border border-brand-900/10 text-[10px] font-bold uppercase tracking-widest text-brand-900 mb-6">
-                                The 6-Pillar Profit System
+                                Construction Financial Control
                             </span>
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-brand-900 tracking-tight mb-6">
-                                Six Pillars of Construction Financial Control
+                                Six Key Areas of Construction Financial Control
                             </h2>
                             <p className="text-slate-500 text-lg leading-relaxed">
                                 The checklist covers the exact habits construction owners need to move from reactive firefighting to proactive financial control — starting this week.
