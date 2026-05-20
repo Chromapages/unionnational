@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const formSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
     email: z.string().email("Valid email required"),
-    biggestChallenge: z.string().optional(),
+    phone: z.string().min(10, "Valid phone number required"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -43,12 +43,12 @@ export function ConstructionBookForm({ className, campaign }: ConstructionBookFo
             contact: {
                 first_name: data.firstName,
                 email: data.email,
+                phone: data.phone,
                 tags: ["LM_Construction_ProfitLeakChecklist", "Interest_Construction"],
             },
             intent: {
                 lead_magnet_type: "CONSTRUCTION_PROFIT_LEAK_CHECKLIST",
                 primary_service_interest: "CONSTRUCTION_BLUEPRINT",
-                pain_points: data.biggestChallenge ? [data.biggestChallenge] : undefined,
             },
             business: {
                 industry: "CONSTRUCTION",
@@ -92,8 +92,8 @@ export function ConstructionBookForm({ className, campaign }: ConstructionBookFo
                 <h3 className="text-2xl font-heading font-bold text-brand-900 mb-3">
                     Check Your Inbox
                 </h3>
-                <p className="text-slate-600">
-                    Your Profit Leak Checklist is on the way. Check your email shortly.
+                <p className="text-brand-700 font-medium">
+                    Your Profit Leak Checklist is on the way.
                 </p>
             </motion.div>
         );
@@ -101,13 +101,6 @@ export function ConstructionBookForm({ className, campaign }: ConstructionBookFo
 
     return (
         <div className={cn("bg-white rounded-2xl border border-slate-200 shadow-xl p-8 sm:p-10", className)}>
-            <h3 className="text-2xl font-heading font-bold text-brand-900 mb-2">
-                Get Your Free Profit Leak Checklist
-            </h3>
-            <p className="text-sm text-slate-500 mb-8">
-                Enter your details and we&apos;ll send the checklist directly to your inbox.
-            </p>
-
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -144,20 +137,20 @@ export function ConstructionBookForm({ className, campaign }: ConstructionBookFo
                 </div>
 
                 <div>
-                    <label htmlFor="biggestChallenge" className="block text-sm font-medium text-slate-700 mb-1.5">
-                        Biggest Challenge <span className="text-slate-400">(optional)</span>
+                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1.5">
+                        Phone Number
                     </label>
-                    <select
-                        id="biggestChallenge"
-                        {...register("biggestChallenge")}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-brand-900 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm appearance-none"
-                    >
-                        <option value="">Select your biggest challenge...</option>
-                        <option value="CASH_FLOW">Cash Flow Issues</option>
-                        <option value="JOB_COSTING">Job Costing</option>
-                        <option value="MARGIN_FADE">Margin Fade</option>
-                        <option value="ESTIMATING">Estimating</option>
-                    </select>
+                    <input
+                        id="phone"
+                        type="tel"
+                        autoComplete="tel"
+                        placeholder="(555) 555-5555"
+                        {...register("phone")}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-brand-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
+                    />
+                    {errors.phone && (
+                        <p className="mt-1.5 text-xs text-red-600">{errors.phone.message}</p>
+                    )}
                 </div>
 
                 {errorMessage && (

@@ -192,8 +192,8 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                         <div className="lg:col-span-5 relative">
                             <div className="bg-white rounded-2xl p-6 shadow-2xl shadow-brand-900/40">
                                 <div className="text-center mb-4">
-                                    <p className="text-sm text-slate-500 mb-2">Get the Free Profit Leak Checklist</p>
-                                    <p className="text-xs text-slate-400">Enter your details and we&apos;ll send it to your inbox</p>
+                                    <p className="text-base font-bold text-black mb-1.5">Get the Free Profit Leak Checklist</p>
+                                    <p className="text-xs font-semibold text-black">Enter your details and we&apos;ll send it to your inbox</p>
                                 </div>
                                 <ConstructionBookForm />
                             </div>
