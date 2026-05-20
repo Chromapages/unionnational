@@ -74,6 +74,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                                     src={author?.imageUrl || "/images/jason_astwood.png"}
                                     alt="Jason Astwood"
                                     className="w-full h-full object-cover"
+                                    suppressHydrationWarning
                                 />
                             </div>
                         </RevealOnScroll>

@@ -53,7 +53,7 @@ export function BlueprintFAQ() {
                                         onClick={() => setOpenIndex(openIndex === i ? null : i)}
                                         className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
                                     >
-                                        <span className="font-bold font-heading text-brand-900 pr-4">
+                                        <span className="font-bold font-heading text-brand-900 pr-4" suppressHydrationWarning>
                                             {faq.q}
                                         </span>
                                         <div className={cn(

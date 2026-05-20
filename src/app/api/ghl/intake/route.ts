@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
         const ghlWebhookUrl =
             payload.intent.lead_magnet_type === "CONSTRUCTION_PROFIT_LEAK_CHECKLIST"
-                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/2307d607-729b-48ab-9a3b-0bb2305c0d2f"
+                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/d23b0447-6fb5-4a12-98e4-bffbf7aafafe"
                 : getEnv(
                       payload.intent.lead_magnet_type === "SCORP_ESTIMATOR"
                           ? "GHL_SCORP_ESTIMATOR_WEBHOOK_URL"

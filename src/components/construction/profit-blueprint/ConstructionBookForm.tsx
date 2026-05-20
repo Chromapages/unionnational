@@ -47,7 +47,7 @@ export function ConstructionBookForm({ className, campaign }: ConstructionBookFo
             },
             intent: {
                 lead_magnet_type: "CONSTRUCTION_PROFIT_LEAK_CHECKLIST",
-                primary_service_interest: "CONSTRUCTION_CFO_PARTNERSHIP",
+                primary_service_interest: "CONSTRUCTION_BLUEPRINT",
                 pain_points: data.biggestChallenge ? [data.biggestChallenge] : undefined,
             },
             business: {

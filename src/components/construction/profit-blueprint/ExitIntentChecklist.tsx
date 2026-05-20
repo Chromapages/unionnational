@@ -43,6 +43,7 @@ export function ExitIntentChecklist() {
 
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true);
+        setIsSuccess(false);
 
         const payload = {
             event_type: "CONSTRUCTION_CHECKLIST_SUBMITTED",
@@ -53,7 +54,7 @@ export function ExitIntentChecklist() {
             },
             intent: {
                 lead_magnet_type: "CONSTRUCTION_PROFIT_LEAK_CHECKLIST",
-                primary_service_interest: "CONSTRUCTION_CFO_PARTNERSHIP",
+                primary_service_interest: "CONSTRUCTION_BLUEPRINT",
             },
             business: {
                 industry: "CONSTRUCTION",
@@ -65,14 +66,22 @@ export function ExitIntentChecklist() {
         };
 
         try {
-            await fetch("/api/ghl/intake", {
+            const response = await fetch("/api/ghl/intake", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || `Server error: ${response.status}`);
+            }
+
             setIsSuccess(true);
         } catch (error) {
             console.error("Checklist submission error:", error);
+            setIsSuccess(false);
         } finally {
             setIsSubmitting(false);
         }
