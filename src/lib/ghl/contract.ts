@@ -52,7 +52,8 @@ export const PrimaryServiceEnum = z.enum([
     "NEW_BUSINESS_FORMATION",
     "BOOKKEEPING",
     "CONSTRUCTION_BLUEPRINT",
-    "RESTAURANT_CFO_PARTNERSHIP"
+    "RESTAURANT_CFO_PARTNERSHIP",
+    "CONSTRUCTION_CFO_PARTNERSHIP"
 ]);
 
 export const LeadMagnetTypeEnum = z.enum([
@@ -67,6 +68,7 @@ export const LeadMagnetTypeEnum = z.enum([
     "RESTAURANT_PROFIT_LEAK_ASSESSMENT",
     "BOOK_CONSTRUCTION",
     "CONSTRUCTION_PROFIT_LEAK_CHECKLIST",
+    "CONSTRUCTION_PROFITABILITY_ASSESSMENT",
 ]);
 
 // ─── PAYLOAD SCHEMAS ─────────────────────────────────────────────────────────
