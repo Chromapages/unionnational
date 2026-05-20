@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -76,10 +76,10 @@ const formSchema = z.object({
     operationalSubAccountability: z.string().min(1, "Required"),
 
     // Stage 3: Contact Info
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
+    fullName: z.string().min(1, "Full name is required"),
+    businessName: z.string().min(1, "Business name is required"),
     email: z.string().email("Valid email required"),
-    phone: z.string().optional(),
+    phone: z.string().min(1, "Phone number is required").min(10, "Please enter a valid phone number (10+ digits)"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -203,13 +203,15 @@ export function ProfitabilityAssessmentForm() {
         handleSubmit,
         trigger,
         setValue,
+        watch,
         formState: { errors },
     } = useForm<FormData>({
         resolver: zodResolver(formSchema),
         mode: "onChange",
     });
 
-    const values = useWatch();
+    const formValues = watch();
+    const values = formValues;
 
     const handleNext = async () => {
         let fields: (keyof FormData)[] = [];
@@ -226,6 +228,9 @@ export function ProfitabilityAssessmentForm() {
                 "cashFlowPayrollStress",
                 "operationalSubAccountability",
             ];
+        }
+        if (step === 2) {
+            fields = ["fullName", "businessName", "email", "phone"];
         }
 
         const valid = await trigger(fields);
@@ -251,10 +256,9 @@ export function ProfitabilityAssessmentForm() {
         const payload = {
             event_type: "CONSTRUCTION_ASSESSMENT_SUBMITTED",
             contact: {
-                first_name: data.firstName,
-                last_name: data.lastName,
+                first_name: data.fullName,
                 email: data.email,
-                phone: data.phone || undefined,
+                phone: data.phone,
                 tags: [
                     "LM_Construction",
                     "Interest_Construction",
@@ -263,6 +267,7 @@ export function ProfitabilityAssessmentForm() {
                 ].filter(Boolean),
             },
             business: {
+                business_name: data.businessName,
                 industry: "CONSTRUCTION",
                 annual_revenue_band: normalizeRevenue(data.revenueBand),
                 challenge: data.biggestChallenge,
@@ -314,7 +319,7 @@ export function ProfitabilityAssessmentForm() {
                 band={finalResults.band}
                 leaks={finalResults.leaks}
                 highIntent={finalResults.highIntent}
-                firstName={values.firstName}
+                firstName={values.fullName || ""}
             />
         );
     }
@@ -601,35 +606,33 @@ export function ProfitabilityAssessmentForm() {
                             {/* STAGE 3: Contact Info */}
                             {step === 2 && (
                                 <div className="space-y-6">
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em]">
-                                                First Name
-                                            </label>
-                                            <input
-                                                onChange={(e) => setValue("firstName", e.target.value, { shouldValidate: true })}
-                                                value={values.firstName || ""}
-                                                className="w-full bg-slate-50 border-2 border-transparent focus:border-gold-500/50 focus:bg-white outline-none rounded-xl px-4 py-3 transition-all text-sm"
-                                                placeholder="Jane"
-                                            />
-                                            {errors.firstName && (
-                                                <p className="text-rose-500 text-[10px] font-bold">{errors.firstName.message}</p>
-                                            )}
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em]">
-                                                Last Name
-                                            </label>
-                                            <input
-                                                onChange={(e) => setValue("lastName", e.target.value, { shouldValidate: true })}
-                                                value={values.lastName || ""}
-                                                className="w-full bg-slate-50 border-2 border-transparent focus:border-gold-500/50 focus:bg-white outline-none rounded-xl px-4 py-3 transition-all text-sm"
-                                                placeholder="Doe"
-                                            />
-                                            {errors.lastName && (
-                                                <p className="text-rose-500 text-[10px] font-bold">{errors.lastName.message}</p>
-                                            )}
-                                        </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em]">
+                                            Full Name
+                                        </label>
+                                        <input
+                                            onChange={(e) => setValue("fullName", e.target.value, { shouldValidate: true })}
+                                            value={values.fullName || ""}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:border-gold-500/50 focus:bg-white outline-none rounded-xl px-4 py-3 transition-all text-sm"
+                                            placeholder="Jane Doe"
+                                        />
+                                        {errors.fullName && (
+                                            <p className="text-rose-500 text-[10px] font-bold">{errors.fullName.message}</p>
+                                        )}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em]">
+                                            Business Name
+                                        </label>
+                                        <input
+                                            onChange={(e) => setValue("businessName", e.target.value, { shouldValidate: true })}
+                                            value={values.businessName || ""}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:border-gold-500/50 focus:bg-white outline-none rounded-xl px-4 py-3 transition-all text-sm"
+                                            placeholder="Smith Builders LLC"
+                                        />
+                                        {errors.businessName && (
+                                            <p className="text-rose-500 text-[10px] font-bold">{errors.businessName.message}</p>
+                                        )}
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em]">
@@ -648,7 +651,7 @@ export function ProfitabilityAssessmentForm() {
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em]">
-                                            Phone <span className="text-slate-400">(optional)</span>
+                                            Phone
                                         </label>
                                         <input
                                             onChange={(e) => setValue("phone", e.target.value, { shouldValidate: true })}
@@ -657,6 +660,9 @@ export function ProfitabilityAssessmentForm() {
                                             className="w-full bg-slate-50 border-2 border-transparent focus:border-gold-500/50 focus:bg-white outline-none rounded-xl px-4 py-3 transition-all text-sm"
                                             placeholder="(555) 123-4567"
                                         />
+                                        {errors.phone && (
+                                            <p className="text-rose-500 text-[10px] font-bold">{errors.phone.message}</p>
+                                        )}
                                     </div>
                                 </div>
                             )}
