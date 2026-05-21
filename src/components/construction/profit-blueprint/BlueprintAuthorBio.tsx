@@ -33,24 +33,14 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
 
     const details = [
         "IRS Enrolled Agent",
-        "Est. 2015 - Orem, UT",
+        "Est. 2012 - Orem, UT",
         "Licensed in all 50 states"
     ];
 
-    const handleLinkClick = () => {
-        // Analytics or action trigger
-    };
-
-    const handleLinkKeyDown = (event: React.KeyboardEvent<HTMLAnchorElement>) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            window.open("https://unionnationaltax.com", "_blank", "noopener,noreferrer");
-        }
-    };
-
+    
     return (
-        <section 
-            id="about-author" 
+        <section
+            id="about-author"
             className="scroll-mt-24 py-20 lg:py-28 bg-[#0B1210] text-white px-4 sm:px-6 lg:px-8 border-t border-brand-900/40 relative overflow-hidden"
             aria-label="About the Author"
         >
@@ -58,7 +48,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-                    
+
                     {/* Left Column: Eyebrow, Portrait, Tags, Details */}
                     <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
                         <RevealOnScroll className="w-full">
@@ -115,7 +105,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                             <h2 className="text-white font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-2 uppercase font-heading">
                                 Jason Astwood, EA
                             </h2>
-                            
+
                             <span className="text-gold-500 text-xs sm:text-sm font-bold uppercase tracking-wider mb-8 block font-sans">
                                 Enrolled Agent · MBA · Founder, Union National Tax
                             </span>
@@ -124,7 +114,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                         <RevealOnScroll className="space-y-6 text-slate-300 text-base leading-relaxed font-sans max-w-2xl" delay={100}>
                             <p>
                                 Jason Astwood is an IRS Enrolled Agent, MBA, and the founder of{" "}
-                                <strong className="text-white font-bold">Union National Tax</strong> — a firm built from the ground up to serve contractors, construction companies, and trade businesses. Since 2015, his firm has helped{" "}
+                                <strong className="text-white font-bold">Union National Tax</strong> — a firm built from the ground up to serve contractors, construction companies, and trade businesses. Since 2012, his firm has helped{" "}
                                 <strong className="text-white font-bold">1,000+ business owners</strong> save an average of{" "}
                                 <strong className="text-white font-bold">$23,420 per year</strong> in taxes — totaling over $25 million in documented client savings.
                             </p>
@@ -151,21 +141,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                             ))}
                         </RevealOnScroll>
 
-                        <RevealOnScroll className="mt-8" delay={200}>
-                            <a
-                                href="https://unionnationaltax.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-rose-400 font-black text-xs uppercase tracking-widest hover:text-rose-300 transition-colors border-b border-rose-500/20 hover:border-rose-400/55 pb-1 cursor-pointer"
-                                aria-label="Visit unionnationaltax.com (opens in a new tab)"
-                                onClick={handleLinkClick}
-                                onKeyDown={handleLinkKeyDown}
-                                tabIndex={0}
-                            >
-                                unionnationaltax.com <ArrowRight size={14} className="shrink-0" />
-                            </a>
-                        </RevealOnScroll>
-                    </div>
+                                            </div>
 
                 </div>
             </div>

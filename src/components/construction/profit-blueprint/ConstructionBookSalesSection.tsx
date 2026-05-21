@@ -85,11 +85,11 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
         const sourceEditions = editions.length > 0
             ? editions
             : [{
-                _key: "default",
-                name: "Hardcover Book",
+                _key: "physical",
+                name: "Physical",
                 price: 39,
                 format: "physical",
-                description: "Premium hardcover edition.",
+                description: "Premium print edition.",
             }];
 
         return sourceEditions.map((edition) => {
@@ -230,7 +230,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                         fill
                                         sizes="(max-width: 768px) 100vw, 40vw"
                                         className={cn(
-                                            "object-contain p-3 transition-all duration-300",
+                                            "object-cover p-0 transition-all duration-300",
                                             imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
                                         )}
                                         onLoadingComplete={() => setImageLoaded(true)}

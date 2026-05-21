@@ -44,23 +44,23 @@ const FALLBACK_PRODUCT = {
     },
     editions: [
         {
-            _key: "0yojp28zt",
-            name: "Print Edition",
+            _key: "physical",
+            name: "Physical",
             price: 39,
             format: "physical",
             stripePriceId: "price_1T2cpuBBqB7ETKuVPA63LBVd",
             stripeProductId: "prod_U0I59FqHVgmIKe",
-            description: "Premium print edition."
+            description: "Premium print edition.",
         },
         {
-            _key: "5htyhz1qd",
+            _key: "digital",
             name: "Digital PDF",
             price: 27,
             format: "digital",
             stripePriceId: "price_1TOlYGBBqB7ETKuVjY3QWF1m",
             stripeProductId: "prod_UNAGtZ3NgI4Aue",
-            description: "Instant digital download."
-        }
+            description: "Instant digital download.",
+        },
     ]
 };
 
@@ -99,15 +99,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             imageUrl: product.author.imageUrl || FALLBACK_PRODUCT.author.imageUrl,
             bioShort: product.author.bioShort || FALLBACK_PRODUCT.author.bioShort
         } : FALLBACK_PRODUCT.author,
-        editions: product.editions && product.editions.length > 0 ? product.editions.map((ed: ProductEditionFromSanity) => ({
-            _key: ed._key || ed.name,
-            name: ed.name,
-            price: ed.price,
-            format: ed.format,
-            stripePriceId: ed.stripePriceId,
-            stripeProductId: ed.stripeProductId,
-            description: ed.description
-        })) : FALLBACK_PRODUCT.editions
+        editions: FALLBACK_PRODUCT.editions
     } : FALLBACK_PRODUCT;
 
     return (
@@ -130,7 +122,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             <FadeIn delay={0.1}>
                                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-400/20 mb-6">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-gold-400">
-                                        $27 - $59 | Hardcover, PDF, or Audiobook
+                                        $27 - $39 | Digital PDF or Physical
                                     </span>
                                 </div>
                             </FadeIn>
