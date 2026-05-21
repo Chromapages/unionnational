@@ -140,9 +140,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                                 </div>
                             ))}
                         </RevealOnScroll>
-
-                                            </div>
-
+                    </div>
                 </div>
             </div>
         </section>

@@ -53,8 +53,7 @@ export function SoundFamiliarSection() {
                         That&apos;s exactly what <em className="italic text-white">The Money-Making Blueprint for Construction Companies</em> was written to fix. This isn&apos;t theory. It&apos;s the exact framework Jason Astwood has used with hundreds of construction businesses to <strong className="font-bold text-white">plug the leaks, build real profit, and create a company that runs without the owner being on-site 24/7.</strong>
                     </p>
                 </RevealOnScroll>
-
-                            </div>
+            </div>
         </section>
     );
 }
