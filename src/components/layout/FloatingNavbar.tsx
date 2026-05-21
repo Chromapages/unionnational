@@ -69,7 +69,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const handleToggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
-    const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
+    const logoUrl = "/Logos-2.webp";
     const ctaText = siteSettings?.ctaButtonText || t("bookCall");
     const ctaUrl = siteSettings?.ctaButtonUrl || "/book";
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
