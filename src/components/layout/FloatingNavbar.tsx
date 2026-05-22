@@ -117,7 +117,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                     src={logoUrl}
                                     alt={siteSettings?.companyName || "Union National Tax"}
                                     fill
-                                    className="object-contain brightness-0 invert"
+                                    className="object-contain"
                                     sizes="(max-width: 768px) 200px, 360px"
                                     priority
                                 />
