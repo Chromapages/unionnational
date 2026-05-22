@@ -127,6 +127,17 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                                 </div>
                             </FadeIn>
 
+                            <FadeIn delay={150}>
+                                <div className="flex flex-wrap gap-4 mb-6">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                                        <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">✓ 1,200+ Downloads</span>
+                                    </div>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                                        <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">✓ 3 Printable Checklists</span>
+                                    </div>
+                                </div>
+                            </FadeIn>
+
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
                                 Is Your Construction Company{" "}
                                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black pr-4 pb-1">
