@@ -80,9 +80,9 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
       },
     },
     icons: {
-      icon: "/images/UNT IG PROFILE.png",
-      shortcut: "/images/UNT IG PROFILE.png",
-      apple: "/images/UNT IG PROFILE.png",
+      icon: "/images/Untitled design.svg",
+      shortcut: "/images/Untitled design.svg",
+      apple: "/images/Untitled design.svg",
     },
 
     alternates: {
