@@ -80,9 +80,9 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
       },
     },
     icons: {
-      icon: "/images/union national tax favicon.svg",
-      shortcut: "/images/union national tax favicon.svg",
-      apple: "/images/union national tax favicon.svg",
+      icon: "/images/UNT IG PROFILE.png",
+      shortcut: "/images/UNT IG PROFILE.png",
+      apple: "/images/UNT IG PROFILE.png",
     },
 
     alternates: {
