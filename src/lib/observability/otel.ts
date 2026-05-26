@@ -68,40 +68,4 @@ export function getTracer() {
   return tracerInstance;
 }
 
-export async function withSpan<T>(
-  name: string,
-  fn: (span: { setAttribute(key: string, value: string): void; end(): void }) => Promise<T>,
-  kind: SpanKind = SpanKind.INTERNAL
-): Promise<T> {
-  const tracer = tracerInstance;
-
-  if (!tracer) {
-    return await fn({ setAttribute: () => {}, end: () => {} });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const span: unknown = await (tracer as any).startActiveSpan(name, { kind }, async (s: unknown) => s);
-  const spanObj = span as { setAttribute(key: string, value: string): void; end(): void; recordException(e: Error): void };
-
-  try {
-    const result = await fn({
-      setAttribute: (key: string, value: string) => spanObj.setAttribute(key, value),
-      end: () => spanObj.end(),
-    });
-    return result;
-  } catch (error) {
-    spanObj.recordException(error instanceof Error ? error : new Error(String(error)));
-    throw error;
-  } finally {
-    spanObj.end();
-  }
-}
-
-export function wrapHandler<T extends (...args: unknown[]) => Promise<Response>>(
-  handlerName: string,
-  handler: T
-): T {
-  return handler;
-}
-
 export { SpanKind, SpanStatusCode, context };

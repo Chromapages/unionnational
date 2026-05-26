@@ -2,8 +2,6 @@
 
 import Script from "next/script";
 
-// TODO: Replace with your actual Meta Pixel ID from Facebook Events Manager
-// Go to https://www.facebook.com/events_manager to get your pixel ID
 const META_PIXEL_ID = "1320632069943065";
 
 interface MetaPixelProps {

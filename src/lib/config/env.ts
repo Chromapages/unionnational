@@ -78,16 +78,3 @@ export const readinessChecks = [
 export function getMissingReadinessEnv(): string[] {
   return readinessChecks.filter((name) => !getEnv(name));
 }
-
-export type GhlWebhookKey =
-  | "GHL_WEBHOOK_URL"
-  | "GHL_SHOP_PURCHASE_WEBHOOK_URL"
-  | "GHL_SCORP_ESTIMATOR_WEBHOOK_URL"
-  | "GHL_SURVEY_WEBHOOK_URL"
-  | "GHL_RESTAURANT_APPLICATION_WEBHOOK_URL"
-  | "GHL_APPLICATION_WEBHOOK_URL"
-  | "GHL_TAX_ANALYSIS_WEBHOOK_URL";
-
-export function getGhlWebhookUrl(key: GhlWebhookKey): string {
-  return requireEnv(key);
-}
