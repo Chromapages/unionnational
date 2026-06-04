@@ -9,7 +9,7 @@ interface TimelineEvent {
 }
 
 const milestones: TimelineEvent[] = [
-    { year: "2015", title: "Founded", description: "Union National Tax established" },
+    { year: "2012", title: "Founded", description: "Union National Tax established" },
     { year: "2018", title: "EA Certification", description: "Jason becomes Enrolled Agent" },
     { year: "2021", title: "$25M Saved", description: "Milestone: $25M in client tax savings" },
     { year: "2024", title: "1,000+ Clients", description: "Serving 1,000+ business owners" },

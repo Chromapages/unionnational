@@ -24,7 +24,7 @@ export function AboutHero({ title, subtitle, badge }: AboutHeroProps) {
                     <div className="animate-fade-in-up">
                         <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-gold-400">
                             <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
-                            {badge || "EST. 2015"}
+                            {badge || "EST. 2012"}
                         </div>
 
                         <h1 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl font-heading leading-[0.95]">

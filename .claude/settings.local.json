@@ -45,7 +45,21 @@
       "Bash(xargs -I{} sh -c 'echo \"=== {} ===\" && head -50 {}')",
       "Bash(npx lighthouse *)",
       "Skill(marketing-skills)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(find /Users/mimac/WORK/tax websites/build/build/unionnational -name \"ConstructionBookForm.tsx\" 2>/dev/null)",
+      "Read(//Users/mimac/WORK/**)",
+      "Bash(pkill -f \"next build\")",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s http://localhost:3000/en)",
+      "Bash(curl -s http://localhost:3000/en/construction/profitability-assessment)",
+      "Bash(curl -s -X POST http://localhost:3000/api/ghl/intake -H \"Content-Type: application/json\" -d '{\"event_type\":\"TEST\",\"contact\":{\"first_name\":\"Test\"},\"business\":{},\"intent\":{},\"meta\":{}}')",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"next-server\")",
+      "Bash(rm -rf .next)",
+      "Bash(curl -sI http://localhost:3000/en/construction/profitability-assessment)",
+      "Bash(curl -sL http://localhost:3000/construction/profitability-assessment)",
+      "Bash(md5 \"/Users/mimac/WORK/tax websites/build/build/unionnational/public/images/cta-bg.png\")",
+      "Bash(git checkout *)"
     ]
   }
 }
