@@ -10,6 +10,17 @@
         "healthCheck": "Health Check",
         "resources": "Resources",
         "bookCall": "Book Your Discovery Evaluation",
+        "defaultCompanyName": "Union National Tax",
+        "logoHomeAria": "{company} home",
+        "contactButtonAria": "View contact information",
+        "healthAssessmentButtonAria": "Open the business health assessment",
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu",
+        "menuTitle": "Menu",
+        "mobileNavigationAria": "Mobile navigation",
+        "skipToContent": "Skip to content",
+        "switchToSpanish": "Switch to Spanish",
+        "switchToEnglish": "Switch to English",
         "calculator": "Calc",
         "more": "More",
         "moreOptions": "More Options",
@@ -17,6 +28,8 @@
         "newsletter": "Newsletter",
         "language": "Language",
         "servicesDropdownAriaLabel": "Services navigation menu",
+        "servicesDropdownHeading": "Browse our services",
+        "servicesDropdownSubheading": "Quick access to core solutions.",
         "servicesDropdownEyebrow": "Advisory-led navigation",
         "servicesDropdownTitle": "Choose the right service path.",
         "servicesDropdownDescription": "Start with a recommended strategy path, then browse the key service options.",
@@ -56,6 +69,7 @@
         "potentialSavings": "Potential Savings"
     },
     "Footer": {
+        "defaultCompanyName": "Union National Tax",
         "brandBio": "Specialized tax strategies for construction, real estate, and service-based businesses. Keep more of what you earn with proactive planning.",
         "complianceTitle": "Compliance & Implementation",
         "companyTitle": "Company",
@@ -68,7 +82,14 @@
         "disclaimerLabel": "Disclaimer:",
         "disclaimerBody": "The information on this website is for general informational purposes only and does not constitute tax, legal, accounting, or financial advice. Use of this site does not create a professional relationship. Please consult a qualified professional for advice specific to your situation.",
         "followOn": "Follow us on {platform}",
-        "copyright": "© 2026 Union National Tax. All rights reserved.",
+        "fallbackAddress": "Utah, United States",
+        "fallbackPhone": "(801) 555-0123",
+        "fallbackEmail": "hello@unionnationaltax.com",
+        "complianceLinks": {
+            "taxPrep": "Tax Filing & Preparation",
+            "newBusinessFormation": "New Business Formation"
+        },
+        "copyright": "© {year} Union National Tax. All rights reserved.",
         "privacy": "Privacy Policy",
         "terms": "Terms of Service"
     },
@@ -151,7 +172,8 @@
                 "confidential": "Confidential Calculation",
                 "placeholder": "Net Income (e.g. 150,000)",
                 "button": "Calculate",
-                "calculating": "Calculating..."
+                "calculating": "Calculating...",
+                "invalidIncome": "Please enter a valid income amount"
             },
             "mobileResult": {
                 "potentialSavings": "Potential Savings",
@@ -190,7 +212,13 @@
             "videoModal": {
                 "ariaLabel": "Video modal",
                 "closeAriaLabel": "Close modal"
-            }
+            },
+            "result": {
+                "estimatedTaxSavings": "Estimated Tax Savings",
+                "verifiedStrategy": "Verified S-Corp strategy available"
+            },
+            "primaryCta": "Book Your Free Strategy Call",
+            "primaryCtaNote": "Free 30-minute consultation • No obligation"
         },
         "TrustBar": {
             "eyebrow": "Trusted by businesses featured in respected industry outlets",
@@ -365,7 +393,63 @@
         "TestimonialsSection": {
             "eyebrow": "Client Success Stories",
             "title": "Trusted by High-Growth Business Owners",
-            "titleHighlight": "Business Owners"
+            "titleHighlight": "Business Owners",
+            "subtitle": "Hear from founders and operators who trust us with their books, taxes, and growth strategy.",
+            "verifiedClient": "Verified Client"
+        },
+        "WhyUsSection": {
+            "eyebrow": "Why Work With Us",
+            "fallbackTitle": "Stop overpaying. Start planning.",
+            "fallbackSubtitle": "Most CPAs compile history. We build forward-looking strategy that protects your wealth.",
+            "statusQuoLabel": "The status quo",
+            "traditionalCpaTitle": "The Traditional CPA",
+            "traditionalCpaDescription": "Reactive filing structures that document wealth loss rather than preventing it.",
+            "proactiveDefenseLabel": "Proactive defense",
+            "cfoPartnershipTitle": "The CFO Partnership",
+            "cfoPartnershipDescription": "Continuous strategizing, structuring, and reporting designed to build and preserve asset value.",
+            "problems": {
+                "flyingBlind": {
+                    "title": "Flying Blind",
+                    "description": "No real-time visibility into your tax position until April rolls around."
+                },
+                "taxSurprises": {
+                    "title": "Tax Surprises",
+                    "description": "April deadlines are too late to make meaningful savings happen."
+                },
+                "complianceDrag": {
+                    "title": "Compliance Drag",
+                    "description": "Your CPA spends more time checking boxes than building strategy."
+                }
+            },
+            "differentiators": {
+                "proactiveStrategy": {
+                    "title": "Proactive Strategy",
+                    "description": "Monthly checkpoints to save before the year ends."
+                },
+                "directAccess": {
+                    "title": "Direct Access",
+                    "description": "Talk directly to your assigned tax expert, never a call center."
+                },
+                "sCorpSpecialists": {
+                    "title": "S-Corp Specialists",
+                    "description": "We optimize entity structures to maximize tax savings."
+                }
+            },
+            "ctaTitle": "Ready for a partner that actually plans?",
+            "ctaSubtitle": "Analyze your structure and find potential leaks before tax season.",
+            "ctaButton": "Book Free Call",
+            "ctaButtonAria": "Book your free strategy call",
+            "stats": {
+                "averageTaxReduction": "Average Tax Reduction",
+                "clientSavingsLastYear": "Client Savings Last Year",
+                "businessesServed": "Businesses Served",
+                "yearsExperience": "Years Experience"
+            }
+        },
+        "FAQSection": {
+            "eyebrow": "Got Questions?",
+            "title": "Frequently Asked Questions",
+            "subtitle": "Everything you need to know about our services, pricing, and tax strategies."
         },
         "ExitIntentModal": {
             "title": "Before you go, check your tax blind spots.",
@@ -442,7 +526,11 @@
             "fallbackSubtitle": "Book a 30-minute tax strategy call. We'll review your situation, identify where you may be overpaying, and explain what strategic support could look like for your business.",
             "fallbackButtonText": "Book a Tax Strategy Call",
             "secondaryButton": "See If an S-Corp Fits",
-            "footerText": "No obligation. 100% Confidential."
+            "footerText": "No obligation. 100% Confidential.",
+            "consultationNote": "Free 30-minute consultation",
+            "secondaryFooterText": "Strategic guidance. Clear next steps.",
+            "strategySessionNote": "Free 30-minute strategy session",
+            "poweredBy": "Powered by Union National"
         }
     },
     "AboutPage": {
@@ -515,6 +603,29 @@
             "title": "Contact | Union National Tax",
             "description": "Get in touch with our team of tax experts. Schedule a consultation or speak directly with a strategist."
         },
+        "Hero": {
+            "eyebrow": "Contact Union National Tax",
+            "fallbackTitle": "Let's build your tax strategy together",
+            "fallbackSubtitle": "Whether you're facing a complex audit or looking to restructure for growth, our strategists are ready to listen.",
+            "stats": {
+                "happyClients": "Happy Clients",
+                "taxSaved": "Tax Saved",
+                "avgResponse": "Avg. Response",
+                "responseTimeValue": "2 hours"
+            }
+        },
+        "AlternativeCTA": {
+            "eyebrow": "Instant Scheduling",
+            "fallbackTitle": "Prefer to schedule directly?",
+            "fallbackSubtitle": "Skip the back-and-forth email tag. Book a free 15-minute strategy call with our team.",
+            "callDirectly": "Or call us directly"
+        },
+        "TrustBadges": {
+            "eaLicensed": "EA Licensed",
+            "encryption": "256-bit Encryption",
+            "avgResponse": "2hr Avg. Response",
+            "irsRepresentation": "IRS Representation"
+        },
         "TeamMemberCard": {
             "fallbackName": "Jason Astwood",
             "fallbackTitle": "Director",
@@ -569,7 +680,8 @@
                 "privacyText": "I agree to the {privacyLink} and consent to being contacted. We honor your privacy and never share data.",
                 "privacyLink": "Privacy Policy",
                 "submitButton": "Request Consultation",
-                "sending": "Sending..."
+                "sending": "Sending...",
+                "successMessage": "Message sent! (Simulated)"
             },
             "validation": {
                 "firstNameRequired": "First name is required",

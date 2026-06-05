@@ -4,12 +4,24 @@
         "services": "Servicios",
         "industries": "Industrias",
         "about": "Nosotros",
+        "faq": "Preguntas frecuentes",
         "team": "Equipo",
         "contact": "Contacto",
         "shop": "Tienda",
         "healthCheck": "Revisión de Salud",
         "resources": "Recursos",
         "bookCall": "Reservar Consulta",
+        "defaultCompanyName": "Union National Tax",
+        "logoHomeAria": "Inicio de {company}",
+        "contactButtonAria": "Ver la información de contacto",
+        "healthAssessmentButtonAria": "Abrir la evaluación de salud del negocio",
+        "openMenu": "Abrir menú",
+        "closeMenu": "Cerrar menú",
+        "menuTitle": "Menú",
+        "mobileNavigationAria": "Navegación móvil",
+        "skipToContent": "Ir al contenido principal",
+        "switchToSpanish": "Cambiar a español",
+        "switchToEnglish": "Cambiar a inglés",
         "calculator": "Calc",
         "more": "Más",
         "moreOptions": "Más Opciones",
@@ -17,6 +29,8 @@
         "newsletter": "Boletín",
         "language": "Idioma",
         "servicesDropdownAriaLabel": "Men\u00fa de navegaci\u00f3n de servicios",
+        "servicesDropdownHeading": "Explore nuestros servicios",
+        "servicesDropdownSubheading": "Acceso rápido a las soluciones principales.",
         "servicesDropdownEyebrow": "Navegaci\u00f3n guiada por asesor\u00eda",
         "servicesDropdownTitle": "Elija la ruta de servicio correcta.",
         "servicesDropdownDescription": "Comience con una ruta recomendada y luego explore las opciones clave de servicio.",
@@ -51,19 +65,28 @@
         "potentialSavings": "Ahorros Potenciales"
     },
     "Footer": {
-        "brandBio": "Estrategias fiscales especializadas para construcciÃ³n, bienes raÃ­ces y negocios de servicios. Conserve mÃ¡s de lo que gana con una planificaciÃ³n proactiva.",
+        "defaultCompanyName": "Union National Tax",
+        "complianceTitle": "Cumplimiento e implementación",
+        "brandBio": "Estrategias fiscales especializadas para construcción, bienes raíces y negocios de servicios. Conserve más de lo que gana con una planificación proactiva.",
         "servicesTitle": "Servicios",
         "companyTitle": "Empresa",
-        "contactTitle": "ContÃ¡ctenos",
+        "contactTitle": "Contáctenos",
         "viewAllServices": "Ver Todos los Servicios",
         "team": "Equipo",
         "newsletterTitle": "Reciba Consejos y Actualizaciones Fiscales",
-        "newsletterUnavailable": "La suscripciÃ³n al boletÃ­n aÃºn no estÃ¡ disponible. EscrÃ­banos directamente y le mantendremos informado.",
-        "newsletterEmailUs": "EscrÃ­banos sobre actualizaciones",
+        "newsletterUnavailable": "La suscripción al boletín aún no está disponible. Escríbanos directamente y le mantendremos informado.",
+        "newsletterEmailUs": "Escríbanos sobre actualizaciones",
         "disclaimerLabel": "Aviso:",
-        "disclaimerBody": "La informaciÃ³n de este sitio web es solo para fines informativos generales y no constituye asesorÃ­a fiscal, legal, contable ni financiera. El uso de este sitio no crea una relaciÃ³n profesional. Consulte a un profesional calificado para recibir orientaciÃ³n especÃ­fica para su situaciÃ³n.",
-        "followOn": "SÃ­ganos en {platform}",
-        "copyright": "© 2026 Union National Tax. Todos los derechos reservados.",
+        "disclaimerBody": "La información de este sitio web es solo para fines informativos generales y no constituye asesoría fiscal, legal, contable ni financiera. El uso de este sitio no crea una relación profesional. Consulte a un profesional calificado para recibir orientación específica para su situación.",
+        "followOn": "Síganos en {platform}",
+        "fallbackAddress": "Utah, Estados Unidos",
+        "fallbackPhone": "(801) 555-0123",
+        "fallbackEmail": "hello@unionnationaltax.com",
+        "complianceLinks": {
+            "taxPrep": "Declaración y preparación de impuestos",
+            "newBusinessFormation": "Formación de nuevos negocios"
+        },
+        "copyright": "© {year} Union National Tax. Todos los derechos reservados.",
         "privacy": "Política de Privacidad",
         "terms": "Términos de Servicio"
     },
@@ -144,9 +167,10 @@
             "calculator": {
                 "title": "Estime Sus Ahorros de S-Corp",
                 "confidential": "Cálculo Confidencial",
-                "placeholder": "Ingreso Neto (ej. 150,000)",
+                "placeholder": "Ingreso neto (ej. 150.000)",
                 "button": "Calcular",
-                "calculating": "Calculando..."
+                "calculating": "Calculando...",
+                "invalidIncome": "Ingrese un monto de ingresos válido"
             },
             "mobileResult": {
                 "potentialSavings": "Ahorros Potenciales",
@@ -185,7 +209,13 @@
             "videoModal": {
                 "ariaLabel": "Modal de video",
                 "closeAriaLabel": "Cerrar modal"
-            }
+            },
+            "result": {
+                "estimatedTaxSavings": "Ahorro fiscal estimado",
+                "verifiedStrategy": "Hay una estrategia S-Corp verificada disponible"
+            },
+            "primaryCta": "Reserve su llamada de estrategia gratuita",
+            "primaryCtaNote": "Consulta gratuita de 30 minutos • Sin compromiso"
         },
         "TrustBar": {
             "eyebrow": "Con la confianza de negocios destacados en medios del sector",
@@ -337,7 +367,63 @@
         "TestimonialsSection": {
             "eyebrow": "Historias de Éxito de Clientes",
             "title": "Confiado por Propietarios de Negocios de Alto Crecimiento",
-            "titleHighlight": "Propietarios de Negocios"
+            "titleHighlight": "Propietarios de Negocios",
+            "subtitle": "Escuche a fundadores y operadores que confían en nosotros con sus libros, impuestos y estrategia de crecimiento.",
+            "verifiedClient": "Cliente verificado"
+        },
+        "WhyUsSection": {
+            "eyebrow": "Por qué trabajar con nosotros",
+            "fallbackTitle": "Deje de pagar de más. Empiece a planificar.",
+            "fallbackSubtitle": "La mayoría de los CPAs documentan el pasado. Nosotros construimos una estrategia que protege su patrimonio hacia el futuro.",
+            "statusQuoLabel": "La situación actual",
+            "traditionalCpaTitle": "El CPA tradicional",
+            "traditionalCpaDescription": "Estructuras reactivas de presentación que registran la pérdida de patrimonio en lugar de prevenirla.",
+            "proactiveDefenseLabel": "Defensa proactiva",
+            "cfoPartnershipTitle": "La alianza de CFO",
+            "cfoPartnershipDescription": "Estrategia, estructura e informes continuos diseñados para construir y proteger el valor de sus activos.",
+            "problems": {
+                "flyingBlind": {
+                    "title": "Sin visibilidad",
+                    "description": "No tiene visibilidad en tiempo real de su situación fiscal hasta que llega abril."
+                },
+                "taxSurprises": {
+                    "title": "Sorpresas fiscales",
+                    "description": "Los vencimientos de abril llegan demasiado tarde para generar ahorros importantes."
+                },
+                "complianceDrag": {
+                    "title": "Fricción de cumplimiento",
+                    "description": "Su CPA pasa más tiempo marcando casillas que construyendo estrategia."
+                }
+            },
+            "differentiators": {
+                "proactiveStrategy": {
+                    "title": "Estrategia proactiva",
+                    "description": "Revisiones mensuales para ahorrar antes de que termine el año."
+                },
+                "directAccess": {
+                    "title": "Acceso directo",
+                    "description": "Hable directamente con su experto fiscal asignado, nunca con un centro de llamadas."
+                },
+                "sCorpSpecialists": {
+                    "title": "Especialistas en S-Corp",
+                    "description": "Optimizamos la estructura de su entidad para maximizar el ahorro fiscal."
+                }
+            },
+            "ctaTitle": "¿Listo para un aliado que realmente planifica?",
+            "ctaSubtitle": "Analice su estructura y detecte fugas potenciales antes de la temporada fiscal.",
+            "ctaButton": "Reservar llamada gratuita",
+            "ctaButtonAria": "Reserve su llamada de estrategia gratuita",
+            "stats": {
+                "averageTaxReduction": "Reducción fiscal promedio",
+                "clientSavingsLastYear": "Ahorros logrados el año pasado",
+                "businessesServed": "Negocios atendidos",
+                "yearsExperience": "Años de experiencia"
+            }
+        },
+        "FAQSection": {
+            "eyebrow": "¿Tiene preguntas?",
+            "title": "Preguntas frecuentes",
+            "subtitle": "Todo lo que necesita saber sobre nuestros servicios, precios y estrategias fiscales."
         },
         "ExitIntentModal": {
             "title": "Antes de irse, revise sus puntos ciegos fiscales.",
@@ -414,7 +500,11 @@
             "fallbackSubtitle": "Únase a más de 500 propietarios de negocios que ahorran un promedio de $40k/año. Reserve su llamada de estrategia gratuita de 15 minutos para desbloquear sus ahorros potenciales.",
             "fallbackButtonText": "Reservar Llamada de Estrategia",
             "secondaryButton": "Hablar con un Experto",
-            "footerText": "Sin compromiso. 100% Confidencial."
+            "footerText": "Sin compromiso. 100% confidencial.",
+            "consultationNote": "Consulta gratuita de 30 minutos",
+            "secondaryFooterText": "Orientación estratégica. Próximos pasos claros.",
+            "strategySessionNote": "Sesión estratégica gratuita de 30 minutos",
+            "poweredBy": "Impulsado por Union National"
         }
     },
     "AboutPage": {
@@ -487,6 +577,29 @@
             "title": "Contacto | Union National Tax",
             "description": "Póngase en contacto con nuestro equipo de expertos fiscales. Programe una consulta o hable directamente con un estratega."
         },
+        "Hero": {
+            "eyebrow": "Contacte a Union National Tax",
+            "fallbackTitle": "Construyamos juntos su estrategia fiscal",
+            "fallbackSubtitle": "Ya sea que enfrente una auditoría compleja o quiera reestructurarse para crecer, nuestros estrategas están listos para escucharle.",
+            "stats": {
+                "happyClients": "Clientes satisfechos",
+                "taxSaved": "Impuestos ahorrados",
+                "avgResponse": "Respuesta promedio",
+                "responseTimeValue": "2 horas"
+            }
+        },
+        "AlternativeCTA": {
+            "eyebrow": "Programación inmediata",
+            "fallbackTitle": "¿Prefiere agendar directamente?",
+            "fallbackSubtitle": "Evite el ir y venir por correo. Reserve una llamada estratégica gratuita de 15 minutos con nuestro equipo.",
+            "callDirectly": "O llámenos directamente"
+        },
+        "TrustBadges": {
+            "eaLicensed": "Licencia EA",
+            "encryption": "Encriptación de 256 bits",
+            "avgResponse": "Respuesta promedio de 2 h",
+            "irsRepresentation": "Representación ante el IRS"
+        },
         "TeamMemberCard": {
             "fallbackName": "Jason Astwood",
             "fallbackTitle": "Director",
@@ -541,7 +654,8 @@
                 "privacyText": "Acepto la {privacyLink} y doy mi consentimiento para ser contactado. Respetamos su privacidad y nunca compartimos datos.",
                 "privacyLink": "Política de Privacidad",
                 "submitButton": "Solicitar Consulta",
-                "sending": "Enviando..."
+                "sending": "Enviando...",
+                "successMessage": "¡Mensaje enviado! (Simulado)"
             },
             "validation": {
                 "firstNameRequired": "El nombre es requerido",
