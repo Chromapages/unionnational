@@ -87,6 +87,11 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes locale-label-swap {
+        from { opacity: 0; transform: translateY(-2px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
     @keyframes scale-in {
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
@@ -100,6 +105,27 @@
         --primary: 173 56% 11%;
         --secondary: 46 64% 52%;
         --border: 214.3 31.8% 91.4%;
+
+        /* Semantic design tokens used by inline component styles */
+        --color-surface: #F8F9FA;
+        --color-surface-offset: #F1F3F5;
+        --color-text: #03100E;
+        --color-text-muted: #6C757D;
+        --color-gold: #D4AF37;
+        --color-border-subtle: rgba(13, 46, 43, 0.08);
+
+        --space-4: 1rem;
+        --space-6: 1.5rem;
+        --space-10: 2.5rem;
+        --space-12: 3rem;
+        --space-24: 6rem;
+
+        --radius-lg: 1rem;
+        --content-narrow: 640px;
+
+        /* Default uniform testimonial card height; overridden at runtime
+           by TestimonialsSection once it measures the natural card heights. */
+        --testimonial-card-height: 280px;
     }
 
     .dark {
@@ -189,6 +215,10 @@
     /* Smooth scroll behavior */
     .scroll-smooth-ios {
         -webkit-overflow-scrolling: touch;
+    }
+
+    .locale-label-swap {
+        animation: locale-label-swap 180ms ease-out;
     }
 
     .pb-safe {
@@ -455,4 +485,57 @@
         display: none !important;
         visibility: hidden !important;
     }
+}
+
+/* =========================================================
+   Testimonial Carousel — infinite auto-scrolling marquee
+   ========================================================= */
+.testimonial-carousel-section {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.testimonial-carousel-viewport {
+    width: 100%;
+    overflow: hidden;
+}
+
+.testimonial-carousel-track {
+    display: flex;
+    gap: var(--space-6);
+    width: max-content;
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .testimonial-carousel-track {
+        animation: scroll var(--marquee-duration, 40s) linear infinite;
+    }
+}
+
+/* Desktop hover pause */
+.testimonial-carousel-section:hover .testimonial-carousel-track {
+    animation-play-state: paused;
+}
+
+/* Touch pause (toggled by component on touchstart/touchend) */
+.testimonial-carousel-section.is-touching .testimonial-carousel-track {
+    animation-play-state: paused;
+}
+
+/* Card sizing — fixed width, never shrinks */
+.testimonial-carousel-track > .testimonial-card {
+    flex-shrink: 0;
+    width: clamp(280px, 30vw, 380px);
+    height: var(--testimonial-card-height);
+}
+
+/* Static-grid cards share the same uniform height */
+.testimonial-card {
+    height: var(--testimonial-card-height);
+}
+
+/* Stagger second row by half a card width for visual offset */
+.testimonial-carousel-track--reverse {
+    animation-delay: -15s;
 }
