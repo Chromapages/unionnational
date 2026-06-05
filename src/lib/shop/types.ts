@@ -7,7 +7,7 @@ export interface ProductEdition {
     stripePriceId?: string;
 }
 
-export type FulfillmentType = "digital" | "physical" | "audio" | "bundle" | "unknown";
+export type FulfillmentType = "digital" | "physical" | "audio" | "bundle" | "service" | "unknown";
 
 export interface CartLineItem {
     id: string;

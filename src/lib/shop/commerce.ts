@@ -48,6 +48,10 @@ export function requiresShippingForFulfillment(fulfillmentType: FulfillmentType)
     return fulfillmentType === "physical" || fulfillmentType === "bundle";
 }
 
+export function isServiceFulfillment(fulfillmentType?: FulfillmentType) {
+    return fulfillmentType === "service";
+}
+
 export function normalizeProductEdition(productId: string, edition: ProductEdition): ProductEdition & {
     id: string;
     fulfillmentType: FulfillmentType;

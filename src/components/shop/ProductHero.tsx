@@ -33,7 +33,7 @@ export interface ProductEdition {
     format: string;
     description?: string;
     stripePriceId?: string;
-    fulfillmentType?: "digital" | "physical" | "audio" | "bundle" | "unknown";
+    fulfillmentType?: "digital" | "physical" | "audio" | "bundle" | "service" | "unknown";
     requiresShipping?: boolean;
 }
 

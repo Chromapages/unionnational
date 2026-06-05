@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import { Link } from "@/i18n/navigation";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { ConstructionBookForm } from "@/components/construction/profit-blueprint/ConstructionBookForm";
@@ -8,8 +7,9 @@ import { SoundFamiliarSection } from "@/components/construction/profit-blueprint
 import { BlueprintMastery } from "@/components/construction/profit-blueprint/BlueprintMastery";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
 import { BlueprintFAQ } from "@/components/construction/profit-blueprint/BlueprintFAQ";
+import { BlueprintVideoSection } from "@/components/construction/profit-blueprint/BlueprintVideoSection";
+import { SalesLetterSection } from "@/components/construction/profit-blueprint/SalesLetterSection";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -44,6 +44,15 @@ const FALLBACK_PRODUCT = {
     },
     editions: [
         {
+            _key: "bundle",
+            name: "Complete Bundle",
+            price: 79,
+            format: "bundle",
+            stripePriceId: "price_1BUNDLE_BUNDLE_BUNDLE_BUNDLE",
+            stripeProductId: "prod_BUNDLE_BUNDLE_BUNDLE_BUNDLE",
+            description: "Digital PDF + Physical Book + Audiobook + Bonus Templates.",
+        },
+        {
             _key: "physical",
             name: "Physical",
             price: 39,
@@ -61,7 +70,16 @@ const FALLBACK_PRODUCT = {
             stripeProductId: "prod_UNAGtZ3NgI4Aue",
             description: "Instant digital download.",
         },
-    ]
+    ],
+    orderBump: {
+        _key: "strategy-call",
+        name: "30-Min Tax Strategy Call with Jason",
+        price: 97,
+        format: "service",
+        description: "Apply the blueprint to your business. 30 minutes with Jason, focused on your numbers.",
+        stripePriceId: "price_1STRATEGY_STRATEGY_STRATEGY",
+        stripeProductId: "prod_STRATEGY_STRATEGY_STRATEGY",
+    }
 };
 
 interface ProductEditionFromSanity {
@@ -73,6 +91,8 @@ interface ProductEditionFromSanity {
     stripeProductId?: string;
     description?: string;
 }
+
+const FALLBACK_VIDEO_URL = "https://assets.cdn.filesafe.space/N5KQjySifAxlxhrrvY8g/media/69dae49fa4e6aa34cbdfcede.mp4";
 
 export default async function ProfitBlueprintPage(props: { params: Promise<{ locale: string }> }) {
     const { locale } = await props.params;
@@ -99,7 +119,8 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             imageUrl: product.author.imageUrl || FALLBACK_PRODUCT.author.imageUrl,
             bioShort: product.author.bioShort || FALLBACK_PRODUCT.author.bioShort
         } : FALLBACK_PRODUCT.author,
-        editions: FALLBACK_PRODUCT.editions
+        editions: FALLBACK_PRODUCT.editions,
+        orderBump: product.orderBump || FALLBACK_PRODUCT.orderBump
     } : FALLBACK_PRODUCT;
 
     return (
@@ -185,8 +206,19 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                 </div>
             </section>
 
+            {/* VSL Section - Pre-sell warmup before book sales */}
+            <BlueprintVideoSection
+                videoSrc={productData?.videoFileUrl || FALLBACK_VIDEO_URL}
+                posterSrc={productData?.videoThumbnail?.asset?.url}
+            />
+
+            {/* Long-Form Sales Letter - Persuasion bridge between VSL and offer */}
+            <SalesLetterSection />
+
             {/* Book Sales Section - PRIMARY CONVERSION - Shown early */}
-            <ConstructionBookSalesSection product={productData} />
+            <div id="book-sales">
+                <ConstructionBookSalesSection product={productData} />
+            </div>
 
             {/* Sound Familiar - Editorial proof and systems alignment */}
             <SoundFamiliarSection />
@@ -196,39 +228,6 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
-
-            {/* Secondary Path - Assessment (for non-buyers) - Apple Dark Tile Design */}
-            <RevealOnScroll>
-                <section className="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-900 py-20 lg:py-24">
-                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-gold-400">
-                                Free Assessment
-                            </span>
-                        </span>
-
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-heading leading-[1.05] mb-6 uppercase">
-                            Not Ready to Buy? Start Here.
-                        </h2>
-
-                        <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-                            25 questions. 10 minutes. Know exactly where your construction company is losing profit.
-                        </p>
-
-                        <p className="text-sm text-slate-500 mb-8">
-                            Completely free • No commitment • Results in 10 minutes
-                        </p>
-
-                        <Link
-                            href="/construction/profitability-assessment"
-                            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-500 text-brand-900 font-black text-sm uppercase tracking-widest rounded-xl shadow-[0_4px_12px_rgba(212,175,55,0.25)] hover:bg-gold-400 active:scale-[0.98] transition-all"
-                        >
-                            Take the Assessment
-                            <ArrowRight size={18} />
-                        </Link>
-                    </div>
-                </section>
-            </RevealOnScroll>
 
             {/* FAQ - Brief */}
             <BlueprintFAQ />

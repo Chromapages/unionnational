@@ -3,13 +3,30 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight, Lock } from "lucide-react";
+import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight, Lock, Phone, Sparkles } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 import { beginCheckout } from "@/lib/shop/checkout-client";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
+import { cn } from "@/lib/utils";
+import { buildCartItemKey, type CartLineItem } from "@/lib/shop/types";
+
+// TODO: replace with real Stripe price/product IDs for the strategy call offer
+// TODO: when order bump is configured in Sanity per-product, source these from the product data instead of hardcoding
+const ORDER_BUMP = {
+    productId: "construction-strategy-call",
+    name: "30-Min Tax Strategy Call with Jason",
+    price: 97,
+    image: "/images/og-construction.png",
+    format: "service",
+    fulfillmentType: "service" as const,
+    requiresShipping: false,
+    stripePriceId: "price_1STRATEGY_STRATEGY_STRATEGY",
+    stripeProductId: "prod_STRATEGY_STRATEGY_STRATEGY",
+    description: "Apply the blueprint to your business. 30 minutes with Jason, focused on your numbers.",
+};
 
 const overlayVariants = {
     hidden: { opacity: 0 },
@@ -55,6 +72,7 @@ export function CartSidebar() {
     const items = useCartStore((state) => state.items);
     const isOpen = useCartStore((state) => state.isOpen);
     const setIsOpen = useCartStore((state) => state.setIsOpen);
+    const addItem = useCartStore((state) => state.addItem);
     const removeItem = useCartStore((state) => state.removeItem);
     const updateQuantityByAmount = useCartStore((state) => state.updateQuantity);
     const totalPrice = useCartStore((state) => state.totalPrice);
@@ -253,6 +271,11 @@ export function CartSidebar() {
                             )}
                         </div>
 
+                        {/* Order Bump - shown only when construction blueprint book is in cart */}
+                        {items.some((item) => item.slug === "the-money-making-blueprint-for-construction-companies") && (
+                            <OrderBumpCard items={items} addItem={addItem} removeItem={removeItem} />
+                        )}
+
                         {/* Footer */}
                         {items.length > 0 && (
                             <div className="p-6 border-t border-slate-100 bg-slate-50/50">
@@ -302,5 +325,89 @@ export function CartSidebar() {
                 </>
             )}
         </AnimatePresence>
+    );
+}
+
+interface OrderBumpCardProps {
+    items: CartLineItem[];
+    addItem: (item: Omit<CartLineItem, "quantity">) => void;
+    removeItem: (id: string) => void;
+}
+
+function OrderBumpCard({ items, addItem, removeItem }: OrderBumpCardProps) {
+    const bumpCartId = buildCartItemKey(ORDER_BUMP.productId);
+    const isChecked = items.some((i) => i.id === bumpCartId);
+
+    const handleToggle = () => {
+        if (isChecked) {
+            removeItem(bumpCartId);
+        } else {
+            addItem({
+                id: bumpCartId,
+                productId: ORDER_BUMP.productId,
+                slug: ORDER_BUMP.productId,
+                title: ORDER_BUMP.name,
+                price: ORDER_BUMP.price,
+                image: ORDER_BUMP.image,
+                format: ORDER_BUMP.format,
+                fulfillmentType: ORDER_BUMP.fulfillmentType,
+                requiresShipping: ORDER_BUMP.requiresShipping,
+                stripePriceId: ORDER_BUMP.stripePriceId,
+                stripeProductId: ORDER_BUMP.stripeProductId,
+            });
+            trackMetaEvent("AddToCart", {
+                content_id: ORDER_BUMP.productId,
+                content_type: "service",
+                value: ORDER_BUMP.price,
+                currency: "USD",
+            });
+        }
+    };
+
+    return (
+        <div className="px-6 py-4 border-t border-slate-100 bg-gradient-to-br from-gold-50/60 to-white">
+            <div className="flex items-start gap-3">
+                <button
+                    type="button"
+                    role="checkbox"
+                    aria-checked={isChecked}
+                    onClick={handleToggle}
+                    className={cn(
+                        "shrink-0 mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center transition-all",
+                        isChecked
+                            ? "bg-gold-500 border-gold-500"
+                            : "bg-white border-slate-300 hover:border-gold-500"
+                    )}
+                >
+                    {isChecked && (
+                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    )}
+                </button>
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1.5 mb-1">
+                        <Sparkles className="w-3.5 h-3.5 text-gold-600" />
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gold-700">
+                            Recommended Add-On
+                        </span>
+                    </div>
+                    <p className="text-sm font-bold text-brand-900 leading-snug">
+                        {ORDER_BUMP.name}
+                    </p>
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                        {ORDER_BUMP.description}
+                    </p>
+                    <div className="mt-2 flex items-center gap-2">
+                        <Phone className="w-3.5 h-3.5 text-slate-400" />
+                        <span className="text-sm font-black text-brand-900">${ORDER_BUMP.price}</span>
+                        <span className="text-xs text-slate-400 line-through">$197</span>
+                        <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+                            Save 50%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

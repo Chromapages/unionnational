@@ -327,6 +327,32 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                             </div>
                         </div>
 
+                        {/* What's in the bundle - shown only when bundle is selected */}
+                        {selectedEdition.format === "bundle" && (
+                            <div className="mb-8 p-5 rounded-2xl bg-gold-50/40 border border-gold-200/60">
+                                <p className="text-xs font-black uppercase tracking-widest text-gold-700 mb-3">
+                                    What&apos;s in the Complete Bundle
+                                </p>
+                                <ul className="space-y-2">
+                                    {[
+                                        "Digital PDF — instant download",
+                                        "Physical hardcover book — premium print",
+                                        "Audiobook — listen on the jobsite",
+                                        "Bonus Templates pack — job cost, cash flow, estimating",
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex items-start gap-2.5 text-sm text-brand-900">
+                                            <span className="text-gold-600 font-black mt-0.5">✓</span>
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <p className="mt-3 text-xs text-slate-500">
+                                    Total value if purchased separately: <span className="line-through">$130</span> &nbsp;
+                                    <span className="text-emerald-700 font-bold">You save $51</span>
+                                </p>
+                            </div>
+                        )}
+
                         {/* Call to Action and Trust Info */}
                         <div className="space-y-4">
                             <div className="flex items-baseline gap-4 mb-2">
@@ -356,6 +382,14 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                 Secure This Asset
                                 <ChevronRight className="w-4 h-4" />
                             </button>
+
+                            {/* 60-Day Money-Back Guarantee */}
+                            <div className="flex items-center justify-center gap-2.5 pt-1 text-sm text-slate-600">
+                                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
+                                <span>
+                                    <strong className="font-bold text-brand-900">60-day money-back guarantee.</strong> If the blueprint doesn&apos;t pay for itself, we refund you.
+                                </span>
+                            </div>
 
                             {/* Trust Badges */}
                             <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 text-center">

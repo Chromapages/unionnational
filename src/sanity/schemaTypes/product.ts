@@ -178,6 +178,21 @@ export const product = defineType({
             ],
         }),
         defineField({
+            name: "orderBump",
+            title: "Order Bump (1-Click Upsell in Cart)",
+            type: "object",
+            group: "content",
+            description: "Optional. Shows in the cart sidebar after the customer adds this product. Usually a complementary offer (e.g., a strategy call).",
+            fields: [
+                { name: "name", title: "Offer Name", type: "string" },
+                { name: "price", title: "Price", type: "number", validation: (Rule) => Rule.min(0) },
+                { name: "format", title: "Format", type: "string", initialValue: "service" },
+                { name: "description", title: "Short Description", type: "string" },
+                { name: "stripePriceId", title: "Stripe Price ID", type: "string" },
+                { name: "stripeProductId", title: "Stripe Product ID", type: "string" },
+            ],
+        }),
+        defineField({
             name: "buyLink",
             title: "Buy Link",
             type: "url",

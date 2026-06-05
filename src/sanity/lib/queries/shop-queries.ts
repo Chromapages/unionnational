@@ -140,6 +140,15 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       stripeProductId,
       description
     },
+    orderBump {
+      _key,
+      name,
+      price,
+      format,
+      description,
+      stripePriceId,
+      stripeProductId
+    },
     seo {
       metaTitle,
       metaDescription,
