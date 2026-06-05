@@ -19,7 +19,7 @@ import {
 
 import { useCartStore } from "@/store/useCartStore";
 import { buildCartItemKey, type FulfillmentType } from "@/lib/shop/types";
-import { normalizeProductEdition } from "@/lib/shop/commerce";
+import { normalizeProductEdition, safeLower } from "@/lib/shop/commerce";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
 import { cn } from "@/lib/utils";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
@@ -111,35 +111,40 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                 description: "Premium print edition.",
             }];
 
-        return sourceEditions.map((edition) => {
-            const localizedName = resolveLocalized(edition.name, pageLocale) ?? String(edition.name ?? "");
-            const localizedDescription = edition.description
-                ? resolveLocalized(edition.description, pageLocale) ?? String(edition.description)
-                : undefined;
-            const localizedFormat = resolveLocalized(edition.format, pageLocale) ?? String(edition.format ?? "");
+        return sourceEditions
+            .filter((edition) => {
+                const rawFormat = resolveLocalized(edition.format, pageLocale) ?? String(edition.format ?? "");
+                return safeLower(rawFormat) !== "bundle";
+            })
+            .map((edition) => {
+                const localizedName = resolveLocalized(edition.name, pageLocale) ?? String(edition.name ?? "");
+                const localizedDescription = edition.description
+                    ? resolveLocalized(edition.description, pageLocale) ?? String(edition.description)
+                    : undefined;
+                const localizedFormat = resolveLocalized(edition.format, pageLocale) ?? String(edition.format ?? "");
 
-            const normalized = normalizeProductEdition(id, {
-                ...edition,
-                name: localizedName,
-                description: localizedDescription,
-                format: localizedFormat,
+                const normalized = normalizeProductEdition(id, {
+                    ...edition,
+                    name: localizedName,
+                    description: localizedDescription,
+                    format: localizedFormat,
+                });
+                const canonicalFormat =
+                    normalized.fulfillmentType === "unknown"
+                        ? localizedFormat
+                        : normalized.fulfillmentType;
+
+                return {
+                    ...edition,
+                    name: localizedName,
+                    description: localizedDescription,
+                    id: normalized.id,
+                    _key: normalized.id,
+                    format: canonicalFormat,
+                    fulfillmentType: normalized.fulfillmentType,
+                    requiresShipping: normalized.requiresShipping,
+                };
             });
-            const canonicalFormat =
-                normalized.fulfillmentType === "unknown"
-                    ? localizedFormat
-                    : normalized.fulfillmentType;
-
-            return {
-                ...edition,
-                name: localizedName,
-                description: localizedDescription,
-                id: normalized.id,
-                _key: normalized.id,
-                format: canonicalFormat,
-                fulfillmentType: normalized.fulfillmentType,
-                requiresShipping: normalized.requiresShipping,
-            };
-        });
     }, [editions, id, pageLocale]);
 
     // Determine which languages have editions available; default selection follows the page locale.

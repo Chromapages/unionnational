@@ -10,7 +10,7 @@ export interface CommerceEditionLike {
     stripePriceId?: string;
 }
 
-const safeLower = (value: unknown): string => {
+export const safeLower = (value: unknown): string => {
     if (typeof value === "string") return value.toLowerCase().trim();
     if (value && typeof value === "object" && !Array.isArray(value)) {
         return extractString(value, "en", "").toLowerCase().trim();
