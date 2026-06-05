@@ -42,9 +42,13 @@ export const SHOP_PAGE_QUERY = defineQuery(`
       "buttonUrl": recoveryCTA.buttonUrl
     },
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     }
   }
 `)
@@ -93,7 +97,9 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       name,
       price,
       format,
+      language,
       stripePriceId,
+      stripeProductId,
       description
     },
     "samplePages": samplePages[] {
@@ -109,7 +115,7 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       "role": coalesce(role[$locale], role.en, role),
       "credentials": credentials[]{ "text": coalesce(@[$locale], @.en, @) }.text,
       "imageUrl": image.asset->url,
-      bioShort
+      "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
     },
     "featuredTestimonials": featuredTestimonials[]-> {
         _id,
@@ -128,18 +134,10 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     "videoFileUrl": videoFile.asset->url,
     videoThumbnail {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     stripeProductId,
     stripePriceId,
-    editions[] {
-      name,
-      price,
-      format,
-      stripePriceId,
-      stripeProductId,
-      description
-    },
     orderBump {
       _key,
       name,
@@ -150,9 +148,13 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       stripeProductId
     },
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     },
     "relatedProducts": select(
       count(relatedProducts) > 0 => relatedProducts[]-> {

@@ -23,7 +23,7 @@ export const siteSettings = defineType({
             title: "Tagline",
             type: "localizedString",
             group: "content",
-            initialValue: { en: "Tax strategy and financial clarity for business owners who want more." },
+            initialValue: { en: "Tax strategy and financial clarity for business owners who want more.", es: "Estrategia fiscal y claridad financiera para propietarios de negocios que quieren más." },
         }),
         defineField({
             name: "logo",
@@ -35,7 +35,7 @@ export const siteSettings = defineType({
                 {
                     name: "alt",
                     title: "Alternative Text",
-                    type: "string",
+                    type: "localizedString",
                 },
             ],
         }),
@@ -45,7 +45,7 @@ export const siteSettings = defineType({
             type: "image",
             group: "content",
             options: { hotspot: true },
-            description: "Optional. Use if the main logo doesn't look good on dark headers/footers.",
+            description: "Opcional. Use si el logo principal no se ve bien en encabezados/pies de página oscuros.",
         }),
         defineField({
             name: "phone",
@@ -80,8 +80,8 @@ export const siteSettings = defineType({
                 {
                     type: "object",
                     fields: [
-                        { name: "day", type: "string", title: "Day" },
-                        { name: "hours", type: "string", title: "Hours" },
+                        { name: "day", type: "localizedString", title: "Day" },
+                        { name: "hours", type: "localizedString", title: "Hours" },
                     ],
                 },
             ],
@@ -104,7 +104,7 @@ export const siteSettings = defineType({
             title: "Header CTA Text",
             type: "localizedString",
             group: "content",
-            initialValue: { en: "Book a Strategy Call" },
+            initialValue: { en: "Book a Strategy Call", es: "Reserve Una Llamada de Estrategia" },
         }),
         defineField({
             name: "ctaButtonUrl",
@@ -119,14 +119,14 @@ export const siteSettings = defineType({
             title: "Default SEO (Global Fallback)",
             type: "seo",
             group: "seo",
-            description: "Default metadata for pages that don't have their own SEO defined.",
+            description: "Metadatos predeterminados para páginas que no tienen su propio SEO definido.",
         }),
         defineField({
             name: "metaTitleSuffix",
             title: "Meta Title Suffix",
             type: "string",
             group: "seo",
-            description: "Text appended to the end of every page title (e.g., ' | Union National Tax').",
+            description: "Texto añadido al final del título de cada página (ej., ' | Union National Tax').",
             initialValue: " | Union National Tax",
         }),
         defineField({
@@ -134,7 +134,7 @@ export const siteSettings = defineType({
             title: "Meta Title Separator",
             type: "string",
             group: "seo",
-            description: "The character(s) between the page title and the suffix.",
+            description: "El(los) carácter(es) entre el título de la página y el sufijo.",
             initialValue: " | ",
         }),
         defineField({
@@ -142,7 +142,7 @@ export const siteSettings = defineType({
             title: "Price Range",
             type: "string",
             group: "content",
-            description: "Range of price (e.g. $, $$, $$$).",
+            description: "Rango de precio (ej., $, $$, $$$).",
             initialValue: "$$$",
         }),
         defineField({
@@ -150,16 +150,16 @@ export const siteSettings = defineType({
             title: "Founding Year",
             type: "number",
             group: "content",
-            description: "The year the company was founded.",
+            description: "El año en que se fundó la empresa.",
         }),
         defineField({
             name: "areaServed",
             title: "Area Served",
             type: "array",
             group: "content",
-            of: [{ type: "string" }],
-            description: "Regions served (e.g. United States, Texas).",
-            initialValue: ["United States"],
+            of: [{ type: "localizedString" }],
+            description: "Regiones atendidas (ej., Estados Unidos, Texas).",
+            initialValue: [{ en: "United States", es: "Estados Unidos" }],
         }),
         defineField({
             name: "sameAs",
@@ -167,15 +167,15 @@ export const siteSettings = defineType({
             type: "array",
             group: "content",
             of: [{ type: "url" }],
-            description: "Links to other official profiles (Google Business, Yelp, etc.).",
+            description: "Enlaces a otros perfiles oficiales (Google Business, Yelp, etc.).",
         }),
         defineField({
             name: "copyrightText",
             title: "Copyright Text",
             type: "localizedString",
             group: "content",
-            description: "Year will be added automatically.",
-            initialValue: { en: "Union National Tax. All Rights Reserved." },
+            description: "El año se añadirá automáticamente.",
+            initialValue: { en: "Union National Tax. All Rights Reserved.", es: "Union National Tax. Todos los Derechos Reservados." },
         }),
     ],
 });

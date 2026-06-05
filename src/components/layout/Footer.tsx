@@ -50,14 +50,14 @@ export async function Footer() {
         return `mailto:${trimmed}`;
     };
 
-    const addressText = formatAddress(siteSettings?.address) || "Utah, United States";
-    const phoneText = (typeof siteSettings?.phone === "string" && siteSettings.phone.trim()) || "(801) 555-0123";
+    const addressText = formatAddress(siteSettings?.address) || tFooter("fallbackAddress");
+    const phoneText = (typeof siteSettings?.phone === "string" && siteSettings.phone.trim()) || tFooter("fallbackPhone");
     const phoneHref = formatTelHref(siteSettings?.phone) || formatTelHref(phoneText) || "tel:+18015550123";
-    const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || "hello@unionnationaltax.com";
+    const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || tFooter("fallbackEmail");
     const emailHref = formatMailtoHref(siteSettings?.email) || formatMailtoHref(emailText) || "mailto:hello@unionnationaltax.com";
     const complianceLinks = [
-        { label: "Tax Filing & Preparation", href: "/services/tax-filing-and-preparation-services" },
-        { label: "New Business Formation", href: "/services/new-business-formation" },
+        { label: tFooter("complianceLinks.taxPrep"), href: "/services/tax-filing-and-preparation-services" },
+        { label: tFooter("complianceLinks.newBusinessFormation"), href: "/services/new-business-formation" },
     ];
 
     const companyLinks = [
@@ -102,21 +102,21 @@ export async function Footer() {
                             {siteSettings?.logo?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logo.asset.url}
-                                    alt={siteSettings.logo.alt || siteSettings.companyName || "Union National Tax"}
+                                    alt={siteSettings.logo.alt || siteSettings.companyName || tFooter("defaultCompanyName")}
                                     fill
                                     className="object-contain object-left"
                                 />
                             ) : siteSettings?.logoAlt?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logoAlt.asset.url}
-                                    alt={siteSettings.logoAlt.alt || siteSettings.companyName || "Union National Tax"}
+                                    alt={siteSettings.logoAlt.alt || siteSettings.companyName || tFooter("defaultCompanyName")}
                                     fill
                                     className="object-contain object-left"
                                 />
                             ) : (
                                 <Image
                                     src="/images/logo.png"
-                                    alt="Union National Tax"
+                                    alt={tFooter("defaultCompanyName")}
                                     fill
                                     className="object-contain object-left brightness-0 invert opacity-90"
                                 />
@@ -206,7 +206,7 @@ export async function Footer() {
 
                 <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-brand-800 pt-8 md:flex-row">
                     <p className="text-center text-xs text-zinc-500 md:text-left">
-                        {siteSettings?.copyrightText || `© ${new Date().getFullYear()} Union National Tax. All Rights Reserved.`}
+                        {siteSettings?.copyrightText || tFooter("copyright", { year: new Date().getFullYear() })}
                     </p>
 
                     <div className="flex gap-3">

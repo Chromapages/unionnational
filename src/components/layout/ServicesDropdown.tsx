@@ -184,10 +184,10 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
             <div className="px-8 py-8">
               <div className="border-b border-white/10 pb-6 mb-6">
                 <h3 className="font-heading text-[1.75rem] font-bold tracking-tight text-white uppercase opacity-80 leading-none">
-                  BROWSE OUR SERVICES
+                  {t("servicesDropdownHeading")}
                 </h3>
                 <p className="mt-3 text-[1rem] text-zinc-400 font-medium">
-                  Quick access to core solutions.
+                  {t("servicesDropdownSubheading")}
                 </p>
               </div>
 
@@ -201,7 +201,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
                   onClick={handleClose}
                   className="inline-flex h-11 items-center justify-center rounded-full bg-gold-500 px-8 text-[0.8125rem] font-bold uppercase tracking-widest text-brand-900 transition-all hover:bg-gold-400 hover:scale-105"
                 >
-                  VIEW ALL SERVICES
+                  {t("servicesDropdownViewAll")}
                 </Link>
               </div>
             </div>

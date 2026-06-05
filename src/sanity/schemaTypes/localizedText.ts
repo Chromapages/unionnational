@@ -24,6 +24,17 @@ export const localizedText = defineType({
             type: 'text',
             rows: 3,
             fieldset: 'translations',
+            validation: (Rule) =>
+                Rule.custom((value, context) => {
+                    const parent = context.parent as { en?: string } | undefined;
+                    if (parent?.en && !value) {
+                        return {
+                            message: 'Spanish translation is still empty.',
+                            level: 'warning',
+                        };
+                    }
+                    return true;
+                }),
         }),
     ],
 });

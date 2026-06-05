@@ -54,8 +54,8 @@ export const teamMember = defineType({
                 defineField({
                     name: 'alt',
                     title: 'Alternative Text',
-                    type: 'string',
-                    initialValue: 'Team member photo',
+                    type: 'localizedString',
+                    initialValue: { en: 'Team member photo', es: 'Foto del miembro del equipo' },
                 }),
             ],
             validation: (rule) => rule.required(),
@@ -88,13 +88,12 @@ export const teamMember = defineType({
             title: 'Specialty Tags',
             description: 'e.g. Tax Strategy, S-Corp (Only shown for founder currently)',
             type: 'array',
-            of: [{ type: 'string' }],
+            of: [{ type: 'localizedString' }],
         }),
         defineField({
             name: 'bioShort',
             title: 'Short Bio',
-            type: 'text',
-            rows: 3,
+            type: 'localizedText',
             description: 'Short biography for E-E-A-T authorship signals (160 chars recommended)',
         }),
         defineField({
@@ -111,7 +110,7 @@ export const teamMember = defineType({
             name: "certifications",
             title: "Professional Certifications",
             type: "array",
-            of: [{ type: "string" }],
+            of: [{ type: "localizedString" }],
             description: "List of formal licenses and certifications (e.g. IRS Enrolled Agent, CPA, EA).",
         }),
         defineField({

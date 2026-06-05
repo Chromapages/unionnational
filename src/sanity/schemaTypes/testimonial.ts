@@ -64,13 +64,13 @@ export const testimonial = defineType({
             name: "savingsAmount",
             title: "Tax Savings (if applicable)",
             type: "string",
-            description: "e.g. '$12,400' - powerful social proof metric.",
+            description: "ej. '$12,400' - poderosa métrica de prueba social.",
         }),
         defineField({
             name: "industry",
             title: "Client Industry",
             type: "string",
-            description: "Used to group testimonials for segment-specific landing pages.",
+            description: "Se utiliza para agrupar testimonios en páginas de destino específicas por segmento.",
             options: {
                 list: [
                     { title: "Construction", value: "Construction" },
@@ -85,14 +85,14 @@ export const testimonial = defineType({
             name: "verifiedClient",
             title: "Verified Client?",
             type: "boolean",
-            description: "Toggle on to show 'Verified Client' badge for trust.",
+            description: "Active para mostrar el distintivo de 'Cliente Verificado' y generar confianza.",
             initialValue: true,
         }),
         defineField({
             name: "outcome",
             title: "Succinct Outcome",
             type: "localizedString",
-            description: "e.g. 'Saved $23k via S-Corp election'. Short and scannable.",
+            description: "ej. 'Ahorró $23k con elección de S-Corp'. Breve y fácil de leer.",
         }),
         defineField({
             name: "displayOrder",

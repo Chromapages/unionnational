@@ -27,7 +27,7 @@ export const TEAM_PAGE_QUERY = defineQuery(`
     },
     ctaBackgroundImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     }
   }
 `)
@@ -40,9 +40,12 @@ export const TEAM_MEMBERS_QUERY = defineQuery(`
     "credentials": coalesce(credentials[$locale], credentials.en, credentials),
     "description": coalesce(description[$locale], description.en, description),
     image {
-      asset->
+      asset->,
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    linkedinUrl
+    linkedinUrl,
+    "certifications": certifications[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
   }
 `)
 
@@ -54,10 +57,13 @@ export const FOUNDER_QUERY = defineQuery(`
     "credentials": coalesce(credentials[$locale], credentials.en, credentials),
     "description": coalesce(description[$locale], description.en, description),
     image {
-      asset->
+      asset->,
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     linkedinUrl,
-    "tags": tags[]{ "text": coalesce(@[$locale], @.en, @) }.text
+    "tags": tags[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    "certifications": certifications[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
   }
 `)
 
@@ -95,7 +101,7 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     "founderVideoFileUrl": founderVideoFile.asset->url,
     founderImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     "ctaTitle": coalesce(ctaTitle[$locale], ctaTitle.en, ctaTitle),
     "ctaSubtitle": coalesce(ctaSubtitle[$locale], ctaSubtitle.en, ctaSubtitle),
@@ -103,7 +109,7 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     ctaButtonUrl,
     ctaBackgroundImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     }
   }
 `)
@@ -112,7 +118,11 @@ export const CONTACT_SETTINGS_QUERY = defineQuery(`
   *[_type == "contactSettings"][0]{
     "heroTitle": coalesce(heroTitle[$locale], heroTitle.en, heroTitle),
     "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.en, heroSubtitle),
-    heroStats,
+    heroStats {
+      clients,
+      savings,
+      "responseTime": coalesce(responseTime[$locale], responseTime.en, responseTime)
+    },
     founder {
       name,
       "title": coalesce(title[$locale], title.en, title),
@@ -123,7 +133,10 @@ export const CONTACT_SETTINGS_QUERY = defineQuery(`
     contactEmail,
     contactPhone,
     officeAddress,
-    officeHours,
+    "officeHours": officeHours[]{
+      "day": coalesce(day[$locale], day.en, day),
+      "hours": coalesce(hours[$locale], hours.en, hours)
+    },
     ghlCalendarUrl,
     "alternativeCTA": {
       "title": coalesce(alternativeCTA.title[$locale], alternativeCTA.title.en, alternativeCTA.title),
@@ -133,9 +146,13 @@ export const CONTACT_SETTINGS_QUERY = defineQuery(`
     "formTitle": coalesce(formTitle[$locale], formTitle.en, formTitle),
     "formSubtitle": coalesce(formSubtitle[$locale], formSubtitle.en, formSubtitle),
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     }
   }
 `)

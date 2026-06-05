@@ -36,14 +36,14 @@ export const pricingTier = defineType({
             title: 'Best For (Table Column)',
             type: 'localizedString',
             group: 'content',
-            description: 'Short description of who this plan is for (e.g., "W-2 / 1099 Filers")',
+            description: 'Descripción breve de a quién está dirigido este plan (ej., "Declarantes W-2 / 1099")',
         }),
         defineField({
             name: 'includes',
             title: 'Included Items (Table Column)',
             type: 'localizedText',
             group: 'content',
-            description: 'List of specific items included (used for the comparison table)',
+            description: 'Lista de elementos específicos incluidos (usado para la tabla comparativa)',
         }),
         defineField({
             name: 'slug',
@@ -101,7 +101,7 @@ export const pricingTier = defineType({
             title: 'CTA Text',
             type: 'localizedString',
             group: 'content',
-            initialValue: { en: 'Get Started' },
+            initialValue: { en: 'Get Started', es: 'Comenzar' },
         }),
         defineField({
             name: 'ctaUrl',

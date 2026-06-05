@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { getSiteSettings } from "@/sanity/lib/getSiteSettings";
 import { urlFor } from "@/sanity/lib/image";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { MetaPixel } from "@/components/seo/MetaPixel";
 import { ProgressBar } from "@/components/ProgressBar";
 import { SanityLive } from "@/sanity/lib/live";
@@ -46,6 +46,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   const ogImage = seo?.openGraphImage
     ? urlFor(seo.openGraphImage).width(1200).height(630).url()
     : "/images/og-default.png";
+  const canonicalUrl = `${baseUrl}/${locale}`;
 
   return {
     metadataBase: new URL(baseUrl),
@@ -86,9 +87,9 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     },
 
     alternates: {
-      canonical: `https://unionnationaltax.com/${locale === "en" ? "" : locale}`,
+      canonical: canonicalUrl,
       languages: {
-        en: "https://unionnationaltax.com",
+        en: "https://unionnationaltax.com/en",
         es: "https://unionnationaltax.com/es",
       },
     },
@@ -103,6 +104,7 @@ export default async function RootLayout(props: {
   const locale = params.locale;
 
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: "Header" });
 
   return (
     <html lang={locale} className="scroll-smooth" suppressHydrationWarning>
@@ -115,7 +117,7 @@ export default async function RootLayout(props: {
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-gold-500 focus:text-brand-900 focus:px-4 focus:py-2 focus:rounded-lg"
         >
-          Skip to content
+          {t("skipToContent")}
         </a>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>

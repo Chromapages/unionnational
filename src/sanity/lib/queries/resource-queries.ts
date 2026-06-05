@@ -9,9 +9,9 @@ export const INDUSTRY_VERTICALS_QUERY = defineQuery(`
     "description": coalesce(description[$locale], description.en, description),
     heroImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    painPoints,
+    "painPoints": painPoints[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     "testimonialCount": count(clientTestimonials)
   }
 `)
@@ -24,10 +24,10 @@ export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
     "description": coalesce(description[$locale], description.en, description),
     heroImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     heroVideo,
-    painPoints,
+    "painPoints": painPoints[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     featuredPlaybookChapters[]->{
       _id,
       "title": coalesce(title[$locale], title.en, title),
@@ -40,7 +40,7 @@ export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
       "slug": slug.current,
       coverImage {
         asset->,
-        alt
+        "alt": coalesce(alt[$locale], alt.en, alt)
       }
     },
     clientTestimonials[]->{
@@ -56,9 +56,13 @@ export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
       "label": coalesce(label[$locale], label.en, label)
     },
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     }
   }
 `)
@@ -78,7 +82,7 @@ export const PLAYBOOKS_QUERY = defineQuery(`
     "description": coalesce(description[$locale], description.en, description),
     coverImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     isFeatured,
     "chapterCount": count(chapters)
@@ -93,7 +97,7 @@ export const PLAYBOOK_QUERY = defineQuery(`
     "description": coalesce(description[$locale], description.en, description),
     coverImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     isFeatured,
     "gatedPdfUrl": gatedPdf.asset->url,
@@ -105,9 +109,13 @@ export const PLAYBOOK_QUERY = defineQuery(`
       isGated
     },
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     }
   }
 `)
@@ -119,8 +127,8 @@ export const PLAYBOOK_CHAPTERS_QUERY = defineQuery(`
     "slug": slug.current,
     chapterNumber,
     isGated,
-    keyTakeaways,
-    tools
+    "keyTakeaways": keyTakeaways[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    "tools": tools[]{ "text": coalesce(@[$locale], @.en, @) }.text
   }
 `)
 
@@ -133,11 +141,11 @@ export const PLAYBOOK_CHAPTER_QUERY = defineQuery(`
     videoEmbed,
     videoThumbnail {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     "content": coalesce(content[$locale], content.en, content),
-    keyTakeaways,
-    tools,
+    "keyTakeaways": keyTakeaways[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    "tools": tools[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     isGated,
     "gatedContent": coalesce(gatedContent[$locale], gatedContent.en, gatedContent)
   }
@@ -151,7 +159,7 @@ export const FEATURED_PLAYBOOK_QUERY = defineQuery(`
     "description": coalesce(description[$locale], description.en, description),
     coverImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     "chapterCount": count(chapters)
   }
@@ -169,11 +177,11 @@ export const RESOURCES_PAGE_QUERY = defineQuery(`
       "description": coalesce(description[$locale], description.en, description),
       coverImage {
         asset->,
-        alt
+        "alt": coalesce(alt[$locale], alt.en, alt)
       },
       featuredImage {
         asset->,
-        alt
+        "alt": coalesce(alt[$locale], alt.en, alt)
       },
       isFeatured,
       "chapterCount": count(chapters)
@@ -187,9 +195,13 @@ export const RESOURCES_PAGE_QUERY = defineQuery(`
     showBlogPosts,
     showTools,
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     }
   }
 `)
@@ -202,7 +214,7 @@ export const RESOURCES_PLAYBOOKS_QUERY = defineQuery(`
     "description": coalesce(description[$locale], description.en, description),
     coverImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     isFeatured,
     displayOrder,
@@ -221,7 +233,7 @@ export const RESOURCES_BLOG_POSTS_QUERY = defineQuery(`
     isFeatured,
     featuredImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     categories[]->{
       "title": coalesce(title[$locale], title.en, title),

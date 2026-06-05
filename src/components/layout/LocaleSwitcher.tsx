@@ -1,90 +1,73 @@
 "use client";
 
-import React from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useTransition } from "react";
-import { locales } from "@/i18n/config";
-import { Globe } from "lucide-react";
-import {
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
+import { useSynchronizedLocale } from "@/i18n/use-synchronized-locale";
 
-const languageNames: Record<string, string> = {
-  en: "English",
-  es: "Español",
+type LocaleSwitcherProps = {
+  className?: string;
+  mobileDrawer?: boolean;
 };
 
-export function LocaleSwitcher() {
+const localeMeta = {
+  en: {
+    flag: "\u{1F1FA}\u{1F1F8}",
+    label: "EN",
+  },
+  es: {
+    flag: "\u{1F1EA}\u{1F1F8}",
+    label: "ES",
+  },
+} as const;
+
+export function LocaleSwitcher({ className, mobileDrawer = false }: LocaleSwitcherProps) {
   const t = useTranslations("Header");
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isPending, startTransition] = useTransition();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { locale, isPending, syncLocale } = useSynchronizedLocale();
 
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleSelect = (newLocale: string) => {
-    handleClose();
-    startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
-    });
-  };
+  const nextLocale = locale === "es" ? "en" : "es";
+  const current = localeMeta[locale] ?? localeMeta.en;
+  const targetLabel = nextLocale === "es" ? t("switchToSpanish") : t("switchToEnglish");
 
   return (
-    <>
-      <IconButton
-        onClick={handleOpen}
-        size="small"
-        sx={{
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          gap: 0.5,
-        }}
-        aria-label={t("language")}
-      >
-        <Globe size={18} />
-        <span style={{ fontSize: "0.875rem" }}>
-          {languageNames[locale] || locale.toUpperCase()}
+    <button
+      type="button"
+      onClick={() => syncLocale(nextLocale)}
+      disabled={isPending}
+      aria-label={targetLabel}
+      className={cn(
+        "group inline-flex items-center rounded-full border transition-all duration-300 disabled:cursor-wait disabled:opacity-70",
+        mobileDrawer
+          ? "w-full justify-between border-gold-400/20 bg-white/5 px-4 py-3 text-left text-white hover:bg-gold-500/10"
+          : "border-white/15 bg-white/5 px-2.5 py-1.5 text-white hover:-translate-y-0.5 hover:border-gold-400/40 hover:bg-white/10",
+        className
+      )}
+    >
+      <span className="flex items-center gap-2">
+        <span
+          aria-hidden="true"
+          className={cn(
+            "inline-flex items-center justify-center rounded-full bg-white/10 text-[13px]",
+            mobileDrawer ? "h-8 w-8" : "h-7 w-7"
+          )}
+        >
+          {current.flag}
         </span>
-      </IconButton>
-      
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        {locales.map((loc) => (
-          <MenuItem
-            key={loc}
-            onClick={() => handleSelect(loc)}
-            selected={locale === loc}
-            disabled={isPending}
-          >
-            <ListItemText>{languageNames[loc] || loc.toUpperCase()}</ListItemText>
-          </MenuItem>
-        ))}
-      </Menu>
-    </>
+        <span
+          key={current.label}
+          className={cn(
+            "locale-label-swap font-heading text-xs font-bold uppercase tracking-[0.18em] text-white/90 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:opacity-100",
+            mobileDrawer ? "inline-flex" : "hidden sm:inline-flex"
+          )}
+        >
+          {current.label}
+        </span>
+      </span>
+
+      {mobileDrawer ? (
+        <span className="text-xs font-medium uppercase tracking-[0.14em] text-gold-400">
+          {targetLabel}
+        </span>
+      ) : null}
+    </button>
   );
 }

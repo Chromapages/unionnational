@@ -8,14 +8,13 @@ export const seo = defineType({
         defineField({
             name: "metaTitle",
             title: "Meta Title",
-            type: "string",
+            type: "localizedString",
             validation: (Rule) => Rule.max(60).warning("Keep meta titles under 60 characters."),
         }),
         defineField({
             name: "metaDescription",
             title: "Meta Description",
-            type: "text",
-            rows: 3,
+            type: "localizedText",
             validation: (Rule) => Rule.max(160).warning("Keep meta descriptions under 160 characters."),
         }),
         defineField({
@@ -28,20 +27,20 @@ export const seo = defineType({
             name: "canonicalUrl",
             title: "Canonical URL",
             type: "url",
-            description: "The preferred URL for this page (helps prevent duplicate content).",
+            description: "La URL preferida para esta página (ayuda a prevenir contenido duplicado).",
         }),
         defineField({
             name: "noIndex",
             title: "No-Index",
             type: "boolean",
-            description: "Hide this page from search engines (e.g. thank-you pages).",
+            description: "Oculte esta página de los motores de búsqueda (ej. páginas de agradecimiento).",
             initialValue: false,
         }),
         defineField({
             name: "structuredDataType",
             title: "Structured Data Type",
             type: "string",
-            description: "Hint for what type of schema to generate for this page.",
+            description: "Pista sobre qué tipo de esquema generar para esta página.",
             options: {
                 list: [
                     { title: "AccountingService", value: "AccountingService" },
@@ -56,7 +55,7 @@ export const seo = defineType({
             name: "keywords",
             title: "Keywords",
             type: "array",
-            of: [{ type: "string" }],
+            of: [{ type: "localizedString" }],
             options: {},
         }),
     ],

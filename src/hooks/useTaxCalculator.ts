@@ -114,7 +114,7 @@ export function useTaxCalculator({
         }
 
         timeoutRef.current = window.setTimeout(() => {
-            const netIncome = parseFloat(income.replace(/,/g, "")) || 0;
+            const netIncome = parseFloat(income.replace(/[.,]/g, "")) || 0;
 
             // Self-employment tax rate (Social Security 12.4% + Medicare 2.9%)
             const SE_TAX_RATE = 0.153;
@@ -144,7 +144,7 @@ export function useTaxCalculator({
  * Format a number as USD currency without cents.
  */
 export function formatCurrency(value: number, locale: string = "en-US"): string {
-    const resolvedLocale = locale === "es" ? "es-US" : locale;
+    const resolvedLocale = locale === "es" ? "es-ES" : locale;
     return new Intl.NumberFormat(resolvedLocale, {
         style: 'currency',
         currency: 'USD',

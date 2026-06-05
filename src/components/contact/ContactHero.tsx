@@ -2,6 +2,7 @@
 
 import { TrustBadges } from "./TrustBadges";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { useLocale, useTranslations } from "next-intl";
 
 interface ContactHeroProps {
     title?: string;
@@ -16,14 +17,16 @@ interface ContactHeroProps {
 }
 
 export function ContactHero({
-    title = "Let's Build Your Tax Strategy Together",
-    subtitle = "Whether you're facing a complex audit or looking to restructure for growth, our strategists are ready to listen.",
+    title,
+    subtitle,
     stats
 }: ContactHeroProps) {
+    const t = useTranslations("ContactPage.Hero");
+    const locale = useLocale();
     const safeStats = {
         clients: stats?.clients ?? 5000,
         savings: stats?.savings ?? "$2.3B",
-        responseTime: stats?.responseTime ?? "2 hours",
+        responseTime: stats?.responseTime ?? t("stats.responseTimeValue"),
     };
 
     return (
@@ -38,15 +41,15 @@ export function ContactHero({
             <div className="relative max-w-5xl mx-auto px-6 pt-32 pb-24 text-center">
                 <RevealOnScroll>
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm font-sans backdrop-blur-sm">
-                        Contact Union National Tax
+                        {t("eyebrow")}
                     </div>
 
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-8 leading-[1.1] font-heading">
-                        {title}
+                        {title || t("fallbackTitle")}
                     </h1>
 
                     <p className="text-lg text-slate-300/90 leading-relaxed max-w-2xl mx-auto font-sans mb-12">
-                        {subtitle}
+                        {subtitle || t("fallbackSubtitle")}
                     </p>
 
                     <TrustBadges className="mb-16" />
@@ -54,16 +57,16 @@ export function ContactHero({
                     {/* Stats Bar */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-8 border-t border-white/10 max-w-3xl mx-auto">
                         <div>
-                            <div className="text-3xl font-bold text-gold-500 font-heading mb-1">{safeStats.clients.toLocaleString()}+</div>
-                            <div className="text-sm text-slate-400 font-sans uppercase tracking-wide">Happy Clients</div>
+                            <div className="text-3xl font-bold text-gold-500 font-heading mb-1">{safeStats.clients.toLocaleString(locale === "es" ? "es-ES" : "en-US")}+</div>
+                            <div className="text-sm text-slate-400 font-sans uppercase tracking-wide">{t("stats.happyClients")}</div>
                         </div>
                         <div>
                             <div className="text-3xl font-bold text-gold-500 font-heading mb-1">{safeStats.savings}</div>
-                            <div className="text-sm text-slate-400 font-sans uppercase tracking-wide">Tax Saved</div>
+                            <div className="text-sm text-slate-400 font-sans uppercase tracking-wide">{t("stats.taxSaved")}</div>
                         </div>
                         <div>
                             <div className="text-3xl font-bold text-gold-500 font-heading mb-1">{safeStats.responseTime}</div>
-                            <div className="text-sm text-slate-400 font-sans uppercase tracking-wide">Avg. Response</div>
+                            <div className="text-sm text-slate-400 font-sans uppercase tracking-wide">{t("stats.avgResponse")}</div>
                         </div>
                     </div>
                 </RevealOnScroll>

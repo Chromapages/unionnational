@@ -14,14 +14,17 @@ export const SERVICES_QUERY = defineQuery(`*[_type == "service"] | order(isPopul
   isPopular,
   accentColor,
   targetKeyword,
-  targetAudience,
+  "targetAudience": coalesce(targetAudience[$locale], targetAudience.en, targetAudience),
   "keyBenefit": coalesce(keyBenefit[$locale], keyBenefit.en, keyBenefit),
   "eligibility": coalesce(eligibility[$locale], eligibility.en, eligibility),
   "faq": faq[]{
     "question": coalesce(question[$locale], question.en, question),
     "answer": coalesce(answer[$locale], answer.en, answer)
   },
-  schema_faq
+  "schema_faq": schema_faq[]{
+    "question": coalesce(question[$locale], question.en, question),
+    "answer": coalesce(answer[$locale], answer.en, answer)
+  }
 }`)
 
 export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current == $slug][0] {
@@ -39,7 +42,7 @@ export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current =
   isPopular,
   accentColor,
   targetKeyword,
-  targetAudience,
+  "targetAudience": coalesce(targetAudience[$locale], targetAudience.en, targetAudience),
   "keyBenefit": coalesce(keyBenefit[$locale], keyBenefit.en, keyBenefit),
   "eligibility": coalesce(eligibility[$locale], eligibility.en, eligibility),
   "faq": faq[]{
@@ -57,16 +60,20 @@ export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current =
   "videoFileUrl": videoFile.asset->url,
   videoThumbnail {
     asset->,
-    alt
+    "alt": coalesce(alt[$locale], alt.en, alt)
   },
-  schema_faq,
+  "schema_faq": schema_faq[]{
+    "question": coalesce(question[$locale], question.en, question),
+    "answer": coalesce(answer[$locale], answer.en, answer)
+  },
   seo {
-    metaTitle,
-    metaDescription,
-    openGraphImage {
-      asset->
-    },
-    keywords
+    "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+    "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+    openGraphImage,
+    "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+    canonicalUrl,
+    noIndex,
+    structuredDataType
   }
 }`)
 
@@ -81,7 +88,7 @@ export const SERVICES_PAGE_QUERY = defineQuery(`
     ctaButtonUrl,
     ctaBackgroundImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     }
 }
 `)

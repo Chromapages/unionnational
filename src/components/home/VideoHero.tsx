@@ -72,14 +72,12 @@ export function VideoHero({ data }: VideoHeroProps) {
 
     const formatCurrencyLocal = (val: number) => formatCurrency(val, locale);
 
-    // Mask input to only allow numbers and commas, then validate parsing
+    // Allow locale-friendly separators while normalizing to a whole-number income input.
     const handleIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value;
-        // Only allow digits and commas
-        const masked = raw.replace(/[^0-9,]/g, "");
+        const masked = raw.replace(/[^0-9,\.]/g, "");
         setIncome(masked);
-        // Validate that parsing will succeed (non-empty and results in valid number)
-        const parsed = parseFloat(masked.replace(/,/g, ""));
+        const parsed = parseFloat(masked.replace(/[.,]/g, ""));
         setInputError(masked.length > 0 && (isNaN(parsed) || parsed <= 0));
     };
 
@@ -210,7 +208,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                         onChange={handleIncomeChange}
                                     />
                                     {inputError && (
-                                        <p className="mt-2 text-sm text-red-600 text-left">Please enter a valid income amount</p>
+                                        <p className="mt-2 text-sm text-red-600 text-left">{t("calculator.invalidIncome")}</p>
                                     )}
                                 </div>
                                 <button
@@ -236,7 +234,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                             {(showResult || isCalculating) && (
                                 <div className="mt-6 p-5 bg-gradient-to-br from-brand-50 to-white border border-brand-100 rounded-xl">
                                     <div className="flex items-center justify-between mb-3">
-                                        <span className="text-xs font-bold uppercase tracking-wider text-brand-900/70 font-heading">Estimated Tax Savings</span>
+                                        <span className="text-xs font-bold uppercase tracking-wider text-brand-900/70 font-heading">{t("result.estimatedTaxSavings")}</span>
                                         <TrendingUp className="w-4 h-4 text-gold-600" />
                                     </div>
 
@@ -251,7 +249,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                                     {!isCalculating && result && (
                                         <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-sm text-emerald-600">
                                             <CheckCircle2 className="w-4 h-4" />
-                                            <span className="font-medium">Verified S-Corp strategy available</span>
+                                            <span className="font-medium">{t("result.verifiedStrategy")}</span>
                                         </div>
                                     )}
                                 </div>
@@ -266,10 +264,10 @@ export function VideoHero({ data }: VideoHeroProps) {
                                 href={primaryCtaUrl}
                                 className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-500 text-brand-900 font-black rounded-xl hover:bg-gold-400 transition-all text-lg shadow-xl shadow-gold-500/30 active:scale-[0.98] group"
                             >
-                                {data?.heroCtaText || 'Book Your Free Strategy Call'}
+                                {data?.heroCtaText || t("primaryCta")}
                                 <ArrowRight size={20} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
                             </Link>
-                            <p className="mt-4 text-sm text-slate-400">Free 30-minute consultation • No obligation</p>
+                            <p className="mt-4 text-sm text-slate-400">{t("primaryCtaNote")}</p>
                         </div>
                     </RevealOnScroll>
 

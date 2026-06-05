@@ -87,7 +87,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                         </Link>
 
                                         <p className="text-sm text-slate-500 text-center lg:text-right">
-                                            Free 30-minute consultation
+                                            {t("consultationNote")}
                                         </p>
                                     </div>
 
@@ -99,7 +99,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
 
                                             <p className="flex items-center gap-3 text-slate-600 sm:justify-end">
                                                 <span aria-hidden="true" className="h-px w-6 bg-brand-900/40"></span>
-                                                <span className="font-medium">Strategic guidance. Clear next steps.</span>
+                                                <span className="font-medium">{t("secondaryFooterText")}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -162,7 +162,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                     </Link>
 
                                     <p className="text-sm text-slate-400 text-center">
-                                        Free 30-minute strategy session
+                                        {t("strategySessionNote")}
                                     </p>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                 <div className="flex items-center gap-6">
                                     <div className="h-px w-8 bg-gold-500/30 hidden sm:block"></div>
                                     <span className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold font-sans">
-                                        Powered by Union National
+                                        {t("poweredBy")}
                                     </span>
                                 </div>
                             </div>

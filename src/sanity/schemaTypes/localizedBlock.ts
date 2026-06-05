@@ -24,6 +24,17 @@ export const localizedBlock = defineType({
             type: 'array',
             of: [{ type: 'block' }],
             fieldset: 'translations',
+            validation: (Rule) =>
+                Rule.custom((value, context) => {
+                    const parent = context.parent as { en?: unknown[] } | undefined;
+                    if (Array.isArray(parent?.en) && parent.en.length > 0 && (!Array.isArray(value) || value.length === 0)) {
+                        return {
+                            message: 'Spanish translation is still empty.',
+                            level: 'warning',
+                        };
+                    }
+                    return true;
+                }),
         }),
     ],
 });

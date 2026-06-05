@@ -3,9 +3,20 @@
 // https://github.com/sanity-io/next-sanity#live-content-api for more information.
 import { defineLive } from "next-sanity/live";
 import { client } from './client'
+import type { SanityLocale } from "./client";
 
 export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: false,
   browserToken: false,
 });
+
+export function sanityFetchWithLocale(query: string, locale: SanityLocale, params: Record<string, unknown> = {}) {
+  return sanityFetch({
+    query,
+    params: {
+      ...params,
+      locale,
+    },
+  });
+}

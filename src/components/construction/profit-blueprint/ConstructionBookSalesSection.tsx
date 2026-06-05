@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocale } from "next-intl";
 import {
     ShoppingCart,
     Lock,
@@ -23,11 +24,27 @@ import { trackMetaEvent } from "@/components/seo/MetaPixel";
 import { cn } from "@/lib/utils";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
+type Locale = "en" | "es";
+
+const resolveLocalized = (value: unknown, locale: Locale): string | undefined => {
+    if (value == null) return undefined;
+    if (typeof value === "string") return value;
+    if (typeof value === "object") {
+        const obj = value as Record<string, unknown>;
+        const localized = obj[locale];
+        if (typeof localized === "string" && localized.length > 0) return localized;
+        const en = obj.en;
+        if (typeof en === "string") return en;
+    }
+    return undefined;
+};
+
 export interface BookEdition {
     _key: string;
     name: string;
     price: number;
     format: string;
+    language?: "en" | "es";
     stripePriceId?: string;
     stripeProductId?: string;
     description?: string;
@@ -81,6 +98,8 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
     const removeProductItems = useCartStore((state) => state.removeProductItems);
     const toggleCart = useCartStore((state) => state.toggleCart);
 
+    const pageLocale = useLocale() as "en" | "es";
+
     const normalizedEditions = useMemo<CanonicalBookEdition[]>(() => {
         const sourceEditions = editions.length > 0
             ? editions
@@ -93,14 +112,27 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
             }];
 
         return sourceEditions.map((edition) => {
-            const normalized = normalizeProductEdition(id, edition);
+            const localizedName = resolveLocalized(edition.name, pageLocale) ?? String(edition.name ?? "");
+            const localizedDescription = edition.description
+                ? resolveLocalized(edition.description, pageLocale) ?? String(edition.description)
+                : undefined;
+            const localizedFormat = resolveLocalized(edition.format, pageLocale) ?? String(edition.format ?? "");
+
+            const normalized = normalizeProductEdition(id, {
+                ...edition,
+                name: localizedName,
+                description: localizedDescription,
+                format: localizedFormat,
+            });
             const canonicalFormat =
                 normalized.fulfillmentType === "unknown"
-                    ? edition.format
+                    ? localizedFormat
                     : normalized.fulfillmentType;
 
             return {
                 ...edition,
+                name: localizedName,
+                description: localizedDescription,
                 id: normalized.id,
                 _key: normalized.id,
                 format: canonicalFormat,
@@ -108,15 +140,55 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                 requiresShipping: normalized.requiresShipping,
             };
         });
-    }, [editions, id]);
+    }, [editions, id, pageLocale]);
 
-    const [selectedEdition, setSelectedEdition] = useState<CanonicalBookEdition>(normalizedEditions[0]);
+    // Determine which languages have editions available; default selection follows the page locale.
+    const availableLanguages = useMemo<Array<"en" | "es">>(() => {
+        const present = new Set<"en" | "es">(
+            normalizedEditions
+                .map((e) => e.language)
+                .filter((l): l is "en" | "es" => l === "en" || l === "es")
+        );
+        const ordered: Array<"en" | "es"> = [];
+        if (present.has("en")) ordered.push("en");
+        if (present.has("es")) ordered.push("es");
+        return ordered;
+    }, [normalizedEditions]);
+
+    const [selectedLanguage, setSelectedLanguage] = useState<"en" | "es">(() => {
+        if (pageLocale === "es" && availableLanguages.includes("es")) return "es";
+        return "en";
+    });
+
+    const visibleEditions = useMemo<CanonicalBookEdition[]>(() => {
+        if (availableLanguages.length === 0) return normalizedEditions;
+        return normalizedEditions.filter(
+            (e) => !e.language || e.language === selectedLanguage
+        );
+    }, [normalizedEditions, selectedLanguage, availableLanguages]);
+
+    const [selectedEdition, setSelectedEdition] = useState<CanonicalBookEdition>(
+        visibleEditions[0] ?? normalizedEditions[0]
+    );
 
     const [activeMediaUrl, setActiveMediaUrl] = useState<string>(imageUrl);
     const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
+    // When the user switches language, snap selection to the first edition in the new language set.
+    useEffect(() => {
+        if (visibleEditions.length === 0) return;
+        if (!visibleEditions.some((e) => e._key === selectedEdition._key)) {
+            setSelectedEdition(visibleEditions[0]);
+        }
+    }, [visibleEditions, selectedEdition._key]);
+
     const handleEditionSelect = (edition: CanonicalBookEdition) => {
         setSelectedEdition(edition);
+    };
+
+    const handleLanguageSelect = (language: "en" | "es") => {
+        if (!availableLanguages.includes(language)) return;
+        setSelectedLanguage(language);
     };
 
     const handleThumbnailClick = (url: string) => {
@@ -278,13 +350,27 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
 
                     {/* RIGHT COLUMN: Buy Box & Strategic Details */}
                     <div className="lg:col-span-7 bg-white rounded-lg border border-slate-200 p-8 sm:p-10">
+                        {/* Language Toggle - Dedicated section, prominent */}
+                        {availableLanguages.length > 1 && (
+                            <div className="mb-8 pb-8 border-b border-slate-200">
+                                <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
+                                    Idioma / Language
+                                </p>
+                                <LanguageToggle
+                                    availableLanguages={availableLanguages}
+                                    selectedLanguage={selectedLanguage}
+                                    onSelect={handleLanguageSelect}
+                                />
+                            </div>
+                        )}
+
                         {/* Format Selection Cards */}
                         <div className="mb-8">
                             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                                 Choose Format
                             </p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {normalizedEditions.map((ed) => {
+                                {visibleEditions.map((ed) => {
                                     const isSelected = selectedEdition._key === ed._key;
                                     return (
                                         <button
@@ -419,3 +505,49 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
         </section>
     );
 };
+
+interface LanguageToggleProps {
+    availableLanguages: Array<"en" | "es">;
+    selectedLanguage: "en" | "es";
+    onSelect: (language: "en" | "es") => void;
+}
+
+function LanguageToggle({ availableLanguages, selectedLanguage, onSelect }: LanguageToggleProps) {
+    const options: Array<{ code: "en" | "es"; label: string; flag: string; aria: string }> = [
+        { code: "en", label: "English", flag: "🇺🇸", aria: "Show English editions" },
+        { code: "es", label: "Español", flag: "🇪🇸", aria: "Mostrar ediciones en español" },
+    ];
+
+    return (
+        <div
+            role="tablist"
+            aria-label="Book language"
+            className="inline-flex items-center rounded-full border-2 border-slate-200 bg-white p-1.5 gap-1 shadow-sm"
+        >
+            {options
+                .filter((option) => availableLanguages.includes(option.code))
+                .map((option) => {
+                    const isActive = selectedLanguage === option.code;
+                    return (
+                        <button
+                            key={option.code}
+                            type="button"
+                            role="tab"
+                            aria-selected={isActive}
+                            aria-label={option.aria}
+                            onClick={() => onSelect(option.code)}
+                            className={cn(
+                                "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-black uppercase tracking-wider transition-all focus:outline-none focus:ring-2 focus:ring-gold-500",
+                                isActive
+                                    ? "bg-brand-900 text-gold-400 shadow-md scale-[1.02]"
+                                    : "bg-transparent text-slate-500 hover:text-brand-900 hover:bg-slate-50"
+                            )}
+                        >
+                            <span aria-hidden="true" className="text-base leading-none">{option.flag}</span>
+                            <span>{option.label}</span>
+                        </button>
+                    );
+                })}
+        </div>
+    );
+}

@@ -2,6 +2,7 @@
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import {
     EyeOff,
     Clock,
@@ -30,39 +31,40 @@ interface WhyUsSectionProps {
 }
 
 export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
+    const t = useTranslations("HomePage.WhyUsSection");
     const problems = [
         {
             icon: EyeOff,
-            title: "Flying Blind",
-            description: "No real-time visibility into your tax position until April rolls around.",
+            title: t("problems.flyingBlind.title"),
+            description: t("problems.flyingBlind.description"),
         },
         {
             icon: Clock,
-            title: "Tax Surprises",
-            description: "April deadlines are too late to make meaningful savings happen.",
+            title: t("problems.taxSurprises.title"),
+            description: t("problems.taxSurprises.description"),
         },
         {
             icon: AlertTriangle,
-            title: "Compliance Drag",
-            description: "Your CPA spends more time checking boxes than building strategy.",
+            title: t("problems.complianceDrag.title"),
+            description: t("problems.complianceDrag.description"),
         },
     ];
 
     const differentiators = [
         {
             icon: Check,
-            title: "Proactive Strategy",
-            description: "Monthly checkpoints to save before the year ends.",
+            title: t("differentiators.proactiveStrategy.title"),
+            description: t("differentiators.proactiveStrategy.description"),
         },
         {
             icon: Users,
-            title: "Direct Access",
-            description: "Talk directly to your assigned tax expert, never a call center.",
+            title: t("differentiators.directAccess.title"),
+            description: t("differentiators.directAccess.description"),
         },
         {
             icon: ShieldCheck,
-            title: "S-Corp Specialists",
-            description: "We optimize entity structures to maximize tax savings.",
+            title: t("differentiators.sCorpSpecialists.title"),
+            description: t("differentiators.sCorpSpecialists.description"),
         },
     ];
 
@@ -78,17 +80,17 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                 {/* Section Header */}
                 <RevealOnScroll className="text-center mb-16 max-w-3xl mx-auto">
                     <span className="inline-block text-[10px] font-bold uppercase tracking-[0.15em] text-gold-600 mb-4">
-                        Why Work With Us
+                        {t("eyebrow")}
                     </span>
                     <h2
                         id="why-us-heading"
                         className="text-4xl sm:text-5xl font-bold tracking-tighter text-brand-900 font-heading leading-none mb-6"
                     >
-                        {data?.problemTitle || "Stop Overpaying. Start Planning."}
+                        {data?.problemTitle || t("fallbackTitle")}
                     </h2>
                     <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-light">
                         {data?.problemSubtitle ||
-                            "Most CPAs compile history. We build forward-looking strategy that protects your wealth."}
+                            t("fallbackSubtitle")}
                     </p>
                 </RevealOnScroll>
 
@@ -103,14 +105,14 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                                         <TrendingDown size={20} />
                                     </div>
                                     <div>
-                                        <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">The Status Quo</p>
+                                        <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">{t("statusQuoLabel")}</p>
                                         <h3 className="text-xl font-bold text-brand-900 font-heading">
-                                            The Traditional CPA
+                                            {t("traditionalCpaTitle")}
                                         </h3>
                                     </div>
                                 </div>
                                 <p className="text-sm text-slate-500 mb-8 leading-relaxed">
-                                    Reactive filing structures that document wealth loss rather than preventing it.
+                                    {t("traditionalCpaDescription")}
                                 </p>
 
                                 <ul className="space-y-6">
@@ -142,14 +144,14 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                                         <Zap size={20} />
                                     </div>
                                     <div>
-                                        <p className="text-[9px] font-bold uppercase tracking-wider text-gold-500/80">Proactive Defense</p>
+                                        <p className="text-[9px] font-bold uppercase tracking-wider text-gold-500/80">{t("proactiveDefenseLabel")}</p>
                                         <h3 className="text-xl font-bold text-white font-heading">
-                                            The CFO Partnership
+                                            {t("cfoPartnershipTitle")}
                                         </h3>
                                     </div>
                                 </div>
                                 <p className="text-sm text-slate-400 mb-8 leading-relaxed">
-                                    Continuous strategizing, structuring, and reporting designed to build and preserve asset value.
+                                    {t("cfoPartnershipDescription")}
                                 </p>
 
                                 <ul className="space-y-6">
@@ -174,10 +176,10 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                 <RevealOnScroll delay={300}>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
                         {(data?.stats?.length ? data.stats : [
-                            { value: "23%", label: "Average Tax Reduction" },
-                            { value: "$2.4M", label: "Client Savings Last Year" },
-                            { value: "1,000+", label: "Businesses Served" },
-                            { value: "15+", label: "Years Experience" },
+                            { value: "23%", label: t("stats.averageTaxReduction") },
+                            { value: "$2.4M", label: t("stats.clientSavingsLastYear") },
+                            { value: "1,000+", label: t("stats.businessesServed") },
+                            { value: "15+", label: t("stats.yearsExperience") },
                         ]).map((stat, index) => (
                             <div key={index} className="text-center p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
                                 <div className="text-3xl md:text-4xl font-black text-brand-900 font-heading mb-2" style={{ color: "#D4AF37" }}>
@@ -197,19 +199,19 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                     <div className="text-center bg-white border border-slate-200 rounded-2xl shadow-sm p-8 sm:p-10 max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
                         <div className="text-left">
                             <h3 className="text-xl font-bold text-brand-900 font-heading mb-1">
-                                {data?.differentiatorTitle || "Ready for a partner that actually plans?"}
+                            {data?.differentiatorTitle || t("ctaTitle")}
                             </h3>
                             <p className="text-sm text-slate-500">
-                                {data?.differentiatorSubtitle || "Analyze your structure and find potential leaks before tax season."}
+                                {data?.differentiatorSubtitle || t("ctaSubtitle")}
                             </p>
                         </div>
                         <Link
                             href="/book"
                             tabIndex={0}
-                            aria-label="Book your free strategy call"
+                            aria-label={t("ctaButtonAria")}
                             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 active:scale-95 text-brand-900 font-bold font-heading rounded-md shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 shrink-0 group"
                         >
-                            Book Free Call
+                            {t("ctaButton")}
                             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>

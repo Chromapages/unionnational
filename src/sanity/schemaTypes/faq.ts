@@ -38,7 +38,7 @@ export const faq = defineType({
             name: "targetedQuery",
             title: "Targeted Search Query",
             type: "string",
-            description: "The exact long-tail query this FAQ is trying to answer (e.g. 'How much does an S-Corp save in taxes?').",
+            description: "La consulta exacta de cola larga que esta pregunta frecuente intenta responder (ej. '¿Cuánto ahorra en impuestos un S-Corp?').",
         }),
         defineField({
             name: "serpIntent",
@@ -52,20 +52,20 @@ export const faq = defineType({
                     { title: "Transactional (Buying)", value: "Transactional" },
                 ],
             },
-            description: "Used to ensure content satisfies the user's search goal.",
+            description: "Se utiliza para asegurar que el contenido satisfaga el objetivo de búsqueda del usuario.",
         }),
         defineField({
             name: "lastReviewedAt",
             title: "Last Reviewed At",
             type: "datetime",
-            description: "Update this to ensure search engines see the answer as 'Fresh'.",
+            description: "Actualice esto para asegurar que los motores de búsqueda vean la respuesta como 'Fresca'.",
         }),
         defineField({
             name: "relatedService",
             title: "Related Service",
             type: "reference",
             to: [{ type: "service" }],
-            description: "Show this FAQ on a specific service page.",
+            description: "Muestre esta pregunta frecuente en una página de servicio específica.",
         }),
         defineField({
             name: "isPublished",

@@ -13,7 +13,7 @@ export const legalPage = defineType({
         defineField({
             name: 'title',
             title: 'Page Title',
-            description: 'The full title of the legal page (e.g., "Privacy Policy", "Terms of Service")',
+            description: 'El título completo de la página legal (ej., "Política de Privacidad", "Términos de Servicio")',
             type: 'localizedString',
             group: 'content',
             validation: (rule) => rule.required(),
@@ -21,7 +21,7 @@ export const legalPage = defineType({
         defineField({
             name: 'slug',
             title: 'Slug',
-            description: 'URL-friendly identifier (e.g., "privacy-policy", "terms-of-service")',
+            description: 'Identificador URL-amigable (ej., "politica-de-privacidad", "terminos-de-servicio")',
             type: 'slug',
             group: 'settings',
             options: {
@@ -33,7 +33,7 @@ export const legalPage = defineType({
         defineField({
             name: 'pageType',
             title: 'Page Type',
-            description: 'Determines which content template and legal framework applies',
+            description: 'Determina qué plantilla de contenido y marco legal aplica',
             type: 'string',
             group: 'settings',
             options: {
@@ -52,7 +52,7 @@ export const legalPage = defineType({
         defineField({
             name: 'jurisdiction',
             title: 'Jurisdiction',
-            description: 'Applicable legal jurisdictions for this legal page',
+            description: 'Jurisdicciones legales aplicables para esta página legal',
             type: 'array',
             group: 'settings',
             of: [{ type: 'string' }],
@@ -71,21 +71,21 @@ export const legalPage = defineType({
         defineField({
             name: 'body',
             title: 'Content',
-            description: 'The main body content of the legal page, formatted as Portable Text blocks',
+            description: 'El contenido principal del cuerpo de la página legal, formateado como bloques de Portable Text',
             type: 'localizedBlock',
             group: 'content',
         }),
         defineField({
             name: 'intro',
             title: 'Introduction',
-            description: 'Optional introductory paragraph that appears before the main sections. Use this for scope and applicability statements.',
+            description: 'Párrafo introductorio opcional que aparece antes de las secciones principales. Use esto para declaraciones de alcance y aplicabilidad.',
             type: 'localizedBlock',
             group: 'content',
         }),
         defineField({
             name: 'effectiveDate',
             title: 'Effective Date',
-            description: 'The date this policy became/will become effective',
+            description: 'La fecha en que esta política entró o entrará en vigencia',
             type: 'date',
             group: 'settings',
             options: {
@@ -95,7 +95,7 @@ export const legalPage = defineType({
         defineField({
             name: 'lastUpdated',
             title: 'Last Updated',
-            description: 'The date this policy was most recently revised',
+            description: 'La fecha de la revisión más reciente de esta política',
             type: 'datetime',
             group: 'settings',
             options: {
@@ -106,13 +106,13 @@ export const legalPage = defineType({
         defineField({
             name: 'version',
             title: 'Version Number',
-            description: 'Semantic version of this legal document (e.g., "1.0", "2.1")',
+            description: 'Versión semántica de este documento legal (ej., "1.0", "2.1")',
             type: 'string',
             group: 'settings',
             validation: (rule) => rule.custom((value) => {
                 if (!value) return true
                 if (!/^\d+\.\d+(\.\d+)?$/.test(value)) {
-                    return 'Version must be a valid semantic version (e.g., "1.0" or "1.0.0")'
+                    return 'La versión debe ser una versión semántica válida (ej., "1.0" o "1.0.0")'
                 }
                 return true
             }),
@@ -120,7 +120,7 @@ export const legalPage = defineType({
         defineField({
             name: 'replaces',
             title: 'Replaces',
-            description: 'Reference to the previous version of this document',
+            description: 'Referencia a la versión anterior de este documento',
             type: 'reference',
             to: [{ type: 'legalPage' }],
             group: 'settings',
@@ -128,7 +128,7 @@ export const legalPage = defineType({
         defineField({
             name: 'relatedDocuments',
             title: 'Related Legal Documents',
-            description: 'Links to related legal pages (e.g., Privacy Policy links to Cookie Policy)',
+            description: 'Enlaces a páginas legales relacionadas (ej., la Política de Privacidad enlaza a la Política de Cookies)',
             type: 'array',
             group: 'settings',
             of: [{ type: 'reference', to: [{ type: 'legalPage' }] }],
@@ -136,7 +136,7 @@ export const legalPage = defineType({
         defineField({
             name: 'isPublished',
             title: 'Published',
-            description: 'Whether this document is live on the website',
+            description: 'Si este documento está publicado en el sitio web',
             type: 'boolean',
             group: 'settings',
             initialValue: false,
@@ -145,7 +145,7 @@ export const legalPage = defineType({
         defineField({
             name: 'requiresReview',
             title: 'Requires Legal Review',
-            description: 'Flag this document for review by legal counsel before publishing',
+            description: 'Marque este documento para revisión por asesoría legal antes de publicarlo',
             type: 'boolean',
             group: 'settings',
             initialValue: false,
@@ -153,7 +153,7 @@ export const legalPage = defineType({
         defineField({
             name: 'reviewNotes',
             title: 'Internal Review Notes',
-            description: 'Private notes for the team about required changes or legal review items. Not visible to users.',
+            description: 'Notas privadas para el equipo sobre cambios requeridos o elementos de revisión legal. No son visibles para los usuarios.',
             type: 'text',
             group: 'settings',
             rows: 3,
@@ -161,33 +161,9 @@ export const legalPage = defineType({
         defineField({
             name: 'seo',
             title: 'SEO Overrides',
-            description: 'Override default SEO settings for this page',
-            type: 'object',
+            description: 'Anular la configuración SEO predeterminada para esta página',
+            type: 'seo',
             group: 'seo',
-            fields: [
-                defineField({
-                    name: 'metaTitle',
-                    title: 'Meta Title',
-                    type: 'localizedString',
-                }),
-                defineField({
-                    name: 'metaDescription',
-                    title: 'Meta Description',
-                    type: 'localizedString',
-                }),
-                defineField({
-                    name: 'canonicalUrl',
-                    title: 'Canonical URL Override',
-                    type: 'url',
-                }),
-                defineField({
-                    name: 'noIndex',
-                    title: 'No Index',
-                    description: 'Prevent search engines from indexing this page',
-                    type: 'boolean',
-                    initialValue: true,
-                }),
-            ],
         }),
     ],
     preview: {

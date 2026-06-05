@@ -34,7 +34,7 @@ export const service = defineType({
             title: "Short Description",
             type: "localizedText",
             group: "content",
-            description: "Used in cards and previews.",
+            description: "Usado en tarjetas y vistas previas.",
             validation: (Rule) => Rule.required(),
         }),
         defineField({
@@ -42,7 +42,7 @@ export const service = defineType({
             title: "Full Description",
             type: "localizedBlock",
             group: "content",
-            description: "The main content for the service detail page.",
+            description: "El contenido principal para la página de detalle del servicio.",
         }),
         defineField({
             name: "icon",
@@ -74,15 +74,15 @@ export const service = defineType({
             title: "Impact Goal",
             type: "localizedString",
             group: "content",
-            description: "The 'Why' - Focus on the financial RESULT (e.g., 'Slash S-Corp Tax Liability by 25%'), not the process.",
-            initialValue: { en: "Stop overpaying. Keep more of what you earn." },
+            description: "El 'Porqué' — Enfóquese en el RESULTADO financiero (por ejemplo, 'Reduzca la carga fiscal de su S-Corp en un 25%'), no en el proceso.",
+            initialValue: { en: "Stop overpaying. Keep more of what you earn.", es: "Deje de pagar de más. Conserve más de lo que gana." },
         }),
         defineField({
             name: "badge",
             title: "Badge Text",
             type: "localizedString",
             group: "content",
-            description: "Optional badge like 'Most Popular' or 'Scale'.",
+            description: "Insignia opcional como 'Más Popular' o 'Escala'.",
         }),
         defineField({
             name: "category",
@@ -104,7 +104,7 @@ export const service = defineType({
             title: "Starting Price",
             type: "localizedString",
             group: "content",
-            description: "e.g., 'From $500/mo' or 'Custom Quote'",
+            description: "Por ejemplo, 'Desde $500/mes' o 'Cotización personalizada'",
         }),
         defineField({
             name: "isPopular",
@@ -136,8 +136,8 @@ export const service = defineType({
             group: "content",
             initialValue: [
                 {
-                    question: { en: "How is this different from my current CPA?" },
-                    answer: { en: "Most CPAs are generalists who react to your data once a year. We are construction specialists who proactively plan your strategy every month." }
+                    question: { en: "How is this different from my current CPA?", es: "¿En qué se diferencia esto de mi CPA actual?" },
+                    answer: { en: "Most CPAs are generalists who react to your data once a year. We are construction specialists who proactively plan your strategy every month.", es: "La mayoría de los CPAs son generalistas que reaccionan a sus datos una vez al año. Nosotros somos especialistas en construcción que planifican proactivamente su estrategia cada mes." }
                 }
             ]
         }),
@@ -146,15 +146,15 @@ export const service = defineType({
             title: "Why Choose Us Title",
             type: "localizedString",
             group: "content",
-            description: "Custom title for the comparison section.",
-            initialValue: { en: "Why Growth-Minded Owners Choose Union National" }
+            description: "Título personalizado para la sección de comparación.",
+            initialValue: { en: "Why Growth-Minded Owners Choose Union National", es: "Por Qué los Propietarios con Mentalidad de Crecimiento Eligen Union National" }
         }),
         defineField({
             name: "whyChooseUsDescription",
             title: "Why Choose Us Description",
             type: "localizedText",
             group: "content",
-            description: "Optional context text to display above the comparison table.",
+            description: "Texto de contexto opcional para mostrar encima de la tabla de comparación.",
         }),
         defineField({
             name: "comparisonPoints",
@@ -179,25 +179,25 @@ export const service = defineType({
             group: "content",
             initialValue: [
                 {
-                    feature: { en: "Construction Specialization" },
+                    feature: { en: "Construction Specialization", es: "Especialización en Construcción" },
                     diy: false,
                     bigFirm: false,
                     unionNational: true
                 },
                 {
-                    feature: { en: "Proactive Strategy (Year-Round)" },
+                    feature: { en: "Proactive Strategy (Year-Round)", es: "Estrategia Proactiva (Todo el Año)" },
                     diy: false,
                     bigFirm: false,
                     unionNational: true
                 },
                 {
-                    feature: { en: "Audit Defense Included" },
+                    feature: { en: "Audit Defense Included", es: "Defensa ante Auditoría Incluida" },
                     diy: false,
                     bigFirm: false,
                     unionNational: true
                 },
                 {
-                    feature: { en: "Flat-Fee Transparency" },
+                    feature: { en: "Flat-Fee Transparency", es: "Transparencia de Tarifa Fija" },
                     diy: true,
                     bigFirm: false,
                     unionNational: true
@@ -225,7 +225,7 @@ export const service = defineType({
                 },
             ],
             group: "content",
-            description: "Step-by-step installation process for this service.",
+            description: "Proceso de instalación paso a paso para este servicio.",
         }),
         defineField({
             name: "eligibilityPros",
@@ -233,7 +233,7 @@ export const service = defineType({
             type: "array",
             of: [{ type: "localizedString" }],
             group: "content",
-            description: "List of criteria for ideal candidates.",
+            description: "Lista de criterios para candidatos ideales.",
         }),
         defineField({
             name: "eligibilityCons",
@@ -241,7 +241,7 @@ export const service = defineType({
             type: "array",
             of: [{ type: "localizedString" }],
             group: "content",
-            description: "List of criteria for non-ideal candidates.",
+            description: "Lista de criterios para candidatos no ideales.",
         }),
         defineField({
             name: "trustSignals",
@@ -249,7 +249,7 @@ export const service = defineType({
             type: "array",
             of: [{ type: "localizedString" }],
             group: "content",
-            description: "Short signals like 'IRS Enrolled Agent Prepared'.",
+            description: "Señales cortas como 'Preparado por Agente Inscrito del IRS'.",
         }),
         defineField({
             name: "problemAgitation",
@@ -266,7 +266,7 @@ export const service = defineType({
             title: "Strategy Video File",
             type: "file",
             group: "content",
-            description: "Upload an MP4 or similar file for the service walkthrough.",
+            description: "Suba un archivo MP4 o similar para el recorrido del servicio.",
         }),
         defineField({
             name: "videoThumbnail",
@@ -279,28 +279,28 @@ export const service = defineType({
             name: "targetKeyword",
             title: "Service Target Keyword",
             type: "string",
-            description: "Primary keyword for this service landing page.",
+            description: "Palabra clave principal para la página de destino de este servicio.",
             group: "seo",
         }),
         defineField({
             name: "targetAudience",
             title: "Primary Audience",
-            type: "string",
-            description: "e.g. 'Residential Contractors', 'HVAC Business Owners'.",
+            type: "localizedString",
+            description: "Por ejemplo, 'Contratistas Residenciales', 'Dueños de Negocios de HVAC'.",
             group: "content",
         }),
         defineField({
             name: "keyBenefit",
             title: "Single Core Benefit",
             type: "localizedString",
-            description: "The #1 outcome: e.g. 'Save $23,000 yearly by switching to S-Corp'.",
+            description: "El resultado #1: por ejemplo, 'Ahorre $23,000 anuales al cambiarse a S-Corp'.",
             group: "content",
         }),
         defineField({
             name: "eligibility",
             title: "Who Is This For? (Snippet Ready)",
             type: "localizedText",
-            description: "Briefly define who qualifies. Great for 'How to' or 'Who needs' snippets.",
+            description: "Defina brevemente quién califica. Ideal para fragmentos de 'Cómo' o 'Quién necesita'.",
             group: "content",
         }),
         defineField({
@@ -311,12 +311,12 @@ export const service = defineType({
                 {
                     type: "object",
                     fields: [
-                        { name: "question", type: "string", title: "Question" },
-                        { name: "answer", type: "text", title: "Answer", rows: 3 },
+                        { name: "question", type: "localizedString", title: "Question" },
+                        { name: "answer", type: "localizedText", title: "Answer" },
                     ],
                 },
             ],
-            description: "3-5 high-volume questions specifically for the FAQPage schema. Distinct from the display FAQs.",
+            description: "3-5 preguntas de alto volumen específicamente para el esquema FAQPage. Distintas de las preguntas frecuentes mostradas.",
             group: "content",
         }),
         defineField({

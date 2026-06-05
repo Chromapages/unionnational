@@ -41,7 +41,7 @@ export const playbookChapter = defineType({
             title: 'Video Embed URL',
             type: 'url',
             group: 'content',
-            description: 'YouTube or Vimeo embed URL for "The 2-Minute Expert" video',
+            description: 'URL de inserción de YouTube o Vimeo para el video "El Experto en 2 Minutos"',
         }),
         defineField({
             name: 'videoThumbnail',
@@ -54,7 +54,7 @@ export const playbookChapter = defineType({
             fields: [
                 {
                     name: 'alt',
-                    type: 'string',
+                    type: 'localizedString',
                     title: 'Alternative Text',
                 },
             ],
@@ -70,16 +70,16 @@ export const playbookChapter = defineType({
             title: 'Key Takeaways',
             type: 'array',
             group: 'content',
-            of: [{ type: 'string' }],
-            description: 'Bullet points summarizing main lessons from this chapter',
+            of: [{ type: 'localizedString' }],
+            description: 'Puntos clave que resumen las lecciones principales de este capítulo',
         }),
         defineField({
             name: 'tools',
             title: 'Related Tools',
             type: 'array',
             group: 'content',
-            of: [{ type: 'string' }],
-            description: 'Calculator or tool names referenced in this chapter',
+            of: [{ type: 'localizedString' }],
+            description: 'Nombres de calculadoras o herramientas mencionadas en este capítulo',
         }),
         defineField({
             name: 'isGated',
@@ -87,14 +87,14 @@ export const playbookChapter = defineType({
             type: 'boolean',
             group: 'meta',
             initialValue: false,
-            description: 'If enabled, this chapter requires email to access',
+            description: 'Si está activado, este capítulo requiere un correo electrónico para acceder',
         }),
         defineField({
             name: 'gatedContent',
             title: 'Gated Content Section',
             type: 'localizedBlock',
             group: 'meta',
-            description: 'Advanced content shown only after email capture',
+            description: 'Contenido avanzado que se muestra solo después de capturar el correo electrónico',
         }),
         defineField({
             name: 'displayOrder',

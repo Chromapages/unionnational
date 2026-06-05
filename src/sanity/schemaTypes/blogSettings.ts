@@ -14,15 +14,14 @@ export const blogSettings = defineType({
         defineField({
             name: 'heroTitle',
             title: 'Hero Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             initialValue: 'Union National Blog',
         }),
         defineField({
             name: 'heroSubtitle',
             title: 'Hero Subtitle',
-            type: 'text',
-            rows: 3,
+            type: 'localizedText',
             group: 'content',
             initialValue: 'Insights and strategies for tax optimization and wealth building.',
         }),
@@ -37,16 +36,15 @@ export const blogSettings = defineType({
         defineField({
             name: 'newsletterTitle',
             title: 'Newsletter Title',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
             initialValue: 'Join the Inner Circle',
         }),
         defineField({
             name: 'newsletterDescription',
             title: 'Newsletter Description',
-            type: 'text',
+            type: 'localizedText',
             group: 'content',
-            rows: 3,
         }),
         defineField({
             name: 'seo',

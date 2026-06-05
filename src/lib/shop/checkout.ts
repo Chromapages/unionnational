@@ -6,6 +6,15 @@
 import type { FulfillmentType } from "@/lib/shop/types";
 import { STRIPE_PRICE_MAP } from "@/lib/shop/stripe-price-map";
 import { classifyFulfillment, requiresShippingForFulfillment } from "@/lib/shop/commerce";
+import { extractString } from "@/lib/utils";
+
+const safeLower = (value: unknown): string => {
+    if (typeof value === "string") return value.toLowerCase().trim();
+    if (value && typeof value === "object") {
+        return extractString(value, "en", "").toLowerCase().trim();
+    }
+    return "";
+};
 
 export interface CheckoutCartItemPayload {
     productId: string;
@@ -74,7 +83,7 @@ export function findMatchingEdition(
 
     return (
         product.editions.find((edition) => {
-            const normalizedName = edition.name.toLowerCase().replace(/\s+/g, "-");
+            const normalizedName = safeLower(edition.name).replace(/\s+/g, "-");
             return (
                 edition._key === item.editionId ||
                 normalizedName === item.editionId ||
@@ -94,7 +103,7 @@ function findMappedPrice(keys: string[]): string | null {
 }
 
 function buildSlugFormatPriceKeys(productSlug: string, format?: string, editionName?: string): string[] {
-    const editionNameText = (editionName || "").toLowerCase();
+    const editionNameText = safeLower(editionName);
     const fulfillmentType =
         editionNameText.includes("bundle")
             ? "bundle"
@@ -110,7 +119,7 @@ function buildSlugFormatPriceKeys(productSlug: string, format?: string, editionN
                     editionNameText.includes("print")
                   ? "physical"
                   : classifyFulfillment(format, editionName);
-    const searchText = `${format || ""} ${editionName || ""}`.toLowerCase();
+    const searchText = `${safeLower(format)} ${safeLower(editionName)}`;
     const keys = [];
 
     if (fulfillmentType === "bundle" || searchText.includes("bundle")) {
@@ -160,7 +169,7 @@ export function getStripePriceId(
         if (matchingEdition?.name) {
             const editionName = matchingEdition.name;
             const editionFormat = matchingEdition.format || "";
-            const editionSearchText = `${editionName} ${editionFormat}`.toLowerCase();
+            const editionSearchText = `${safeLower(editionName)} ${safeLower(editionFormat)}`;
             const isDigitalEdition =
                 editionSearchText.includes("digital") ||
                 editionSearchText.includes("pdf");

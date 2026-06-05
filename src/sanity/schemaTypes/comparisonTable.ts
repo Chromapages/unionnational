@@ -23,7 +23,7 @@ export const comparisonTable = defineType({
             title: 'Subtitle',
             type: 'localizedText',
             group: 'content',
-            description: 'Optional subtitle below the title',
+            description: 'Subtítulo opcional debajo del título',
         }),
         defineField({
             name: 'comparisonType',
@@ -45,7 +45,7 @@ export const comparisonTable = defineType({
             title: 'Industry (if industry-specific)',
             type: 'string',
             group: 'content',
-            description: 'e.g., HVAC, Restaurant, Construction',
+            description: 'ej., HVAC, Restaurantes, Construcción',
         }),
         defineField({
             name: 'showUnionNational',
@@ -57,9 +57,9 @@ export const comparisonTable = defineType({
         defineField({
             name: 'unionNationalLabel',
             title: 'Union National Label',
-            type: 'string',
+            type: 'localizedString',
             group: 'content',
-            initialValue: 'Union National Tax',
+            initialValue: { en: 'Union National Tax', es: 'Union National Tax' },
         }),
         defineField({
             name: 'competitors',
@@ -67,7 +67,7 @@ export const comparisonTable = defineType({
             type: 'array',
             group: 'content',
             of: [{ type: 'string' }],
-            description: 'List of competitor names to compare against',
+            description: 'Lista de nombres de competidores para comparar',
             validation: (Rule) => Rule.min(1).max(3),
         }),
         defineField({
@@ -101,8 +101,8 @@ export const comparisonTable = defineType({
                             name: 'competitorValues',
                             title: 'Competitor Values',
                             type: 'array',
-                            of: [{ type: 'string' }],
-                            description: 'Values for each competitor (in same order as competitors list)',
+                            of: [{ type: 'localizedString' }],
+                            description: 'Valores para cada competidor (en el mismo orden que la lista de competidores)',
                         }),
                         defineField({
                             name: 'isCheckmark',
@@ -114,7 +114,7 @@ export const comparisonTable = defineType({
                             name: 'icon',
                             title: 'Icon',
                             type: 'string',
-                            description: 'Optional icon name (e.g., check, x, star)',
+                            description: 'Nombre de icono opcional (ej., check, x, star)',
                         }),
                     ],
                 },
@@ -133,9 +133,9 @@ export const comparisonTable = defineType({
         defineField({
             name: 'badge',
             title: 'Badge Text',
-            type: 'string',
+            type: 'localizedString',
             group: 'design',
-            description: 'e.g., "Recommended", "Most Popular"',
+            description: 'ej., "Recomendado", "Más Popular"',
         }),
         defineField({
             name: 'isActive',

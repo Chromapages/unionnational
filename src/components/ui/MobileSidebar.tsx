@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
 
 interface MobileSidebarProps {
     isOpen: boolean;
@@ -168,19 +169,19 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                 className="flex items-center justify-between border-b border-gold-400/20 px-5 py-4"
                             >
                                 <span className="text-lg font-semibold text-gold-400">
-                                    {siteSettings?.companyName || "Menu"}
+                                    {siteSettings?.companyName || t("menuTitle")}
                                 </span>
                                 <button
                                     type="button"
                                     onClick={onClose}
                                     className="rounded-xl p-2 text-white/70 transition-all hover:bg-gold-500/10 hover:text-white active:scale-95"
-                                    aria-label="Close menu"
+                                    aria-label={t("closeMenu")}
                                 >
                                     <X className="h-6 w-6" aria-hidden="true" />
                                 </button>
                             </motion.div>
 
-                            <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile navigation">
+                            <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label={t("mobileNavigationAria")}>
                                 <ul className="space-y-1">
                                     {navItems.map((item) => {
                                         const Icon = item.icon;
@@ -225,6 +226,15 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                     animate="visible"
                                     className="my-6 border-t border-gold-400/20"
                                 />
+
+                                <motion.div
+                                    variants={itemVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    className="px-1"
+                                >
+                                    <LocaleSwitcher mobileDrawer />
+                                </motion.div>
                             </nav>
 
                             <motion.div

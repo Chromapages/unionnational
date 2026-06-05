@@ -9,11 +9,7 @@ export const blogPost = defineType({
         defineField({
             name: 'title',
             title: 'Title',
-            type: 'object',
-            fields: [
-                { name: 'en', title: 'English', type: 'string' },
-                { name: 'es', title: 'Spanish', type: 'string' },
-            ],
+            type: 'localizedString',
         }),
         defineField({
             name: 'slug',
@@ -47,7 +43,7 @@ export const blogPost = defineType({
             fields: [
                 {
                     name: 'alt',
-                    type: 'string',
+                    type: 'localizedString',
                     title: 'Alternative Text',
                 }
             ]
@@ -60,7 +56,7 @@ export const blogPost = defineType({
             fields: [
                 {
                     name: 'alt',
-                    type: 'string',
+                    type: 'localizedString',
                     title: 'Alternative Text',
                 }
             ]
@@ -75,20 +71,12 @@ export const blogPost = defineType({
         defineField({
             name: 'excerpt',
             title: 'Excerpt',
-            type: 'object',
-            fields: [
-                { name: 'en', title: 'English', type: 'text', rows: 3 },
-                { name: 'es', title: 'Spanish', type: 'text', rows: 3 },
-            ],
+            type: 'localizedText',
         }),
         defineField({
             name: 'body',
             title: 'Body',
-            type: 'object',
-            fields: [
-                { name: 'en', title: 'English', type: 'array', of: [{ type: 'block' }] },
-                { name: 'es', title: 'Spanish', type: 'array', of: [{ type: 'block' }] },
-            ],
+            type: 'localizedBlock',
         }),
         defineField({
             name: 'publishedAt',
@@ -109,14 +97,14 @@ export const blogPost = defineType({
         defineField({
             name: 'targetKeyword',
             title: 'Primary Target Keyword',
-            type: 'string',
-            description: 'The main keyword this post is optimized for.',
+            type: 'localizedString',
+            description: 'La palabra clave principal para la cual se optimiza este artículo.',
         }),
         defineField({
             name: 'lastReviewedAt',
             title: 'Last Reviewed/Updated',
             type: 'datetime',
-            description: 'GEO freshness signal. Update this when content is verified for accuracy.',
+            description: 'Señal de frescura para GEO. Actualice esto cuando se verifique la precisión del contenido.',
         }),
         defineField({
             name: "faqItems",
@@ -126,12 +114,12 @@ export const blogPost = defineType({
                 {
                     type: "object",
                     fields: [
-                        { name: "question", type: "string", title: "Question" },
-                        { name: "answer", type: "text", title: "Answer", rows: 3 },
+                        { name: "question", type: "localizedString", title: "Question" },
+                        { name: "answer", type: "localizedText", title: "Answer" },
                     ],
                 },
             ],
-            description: "Add 3-5 specific questions answered in this post to qualify for FAQ rich snippets.",
+            description: "Agregue de 3 a 5 preguntas específicas respondidas en este artículo para calificar para fragmentos enriquecidos de preguntas frecuentes.",
         }),
         // --- SEO ---
         defineField({

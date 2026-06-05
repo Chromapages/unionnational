@@ -3,13 +3,13 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Menu as MenuIcon, HeartPulse, Phone } from "lucide-react";
+import { Menu as MenuIcon, Phone } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
-import { BusinessHealthAssessmentModal } from "@/components/ui/BusinessHealthAssessmentModal";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ServiceSummary } from "./navigationData";
 import { ContactModal } from "@/components/ui/ContactModal";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 type NavLink = {
     translationKey: string;
@@ -40,7 +40,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const t = useTranslations("Header");
     const [scrolled, setScrolled] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [isHealthAssessmentOpen, setIsHealthAssessmentOpen] = useState(false);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
@@ -103,7 +102,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                     >
                         <Link
                             href="/"
-                            aria-label={siteSettings?.companyName || "Union National Tax - Home"}
+                            aria-label={t("logoHomeAria", {
+                                company: siteSettings?.companyName || t("defaultCompanyName"),
+                            })}
                             className="flex items-center relative z-10"
                         >
                             <div
@@ -115,7 +116,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             >
                                 <Image
                                     src={logoUrl}
-                                    alt={siteSettings?.companyName || "Union National Tax"}
+                                    alt={siteSettings?.companyName || t("defaultCompanyName")}
                                     fill
                                     className="object-contain"
                                     sizes="(max-width: 768px) 200px, 360px"
@@ -208,18 +209,12 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
                             <button
                                 onClick={() => setIsContactModalOpen(true)}
-                                aria-label="View Contact Information"
+                                aria-label={t("contactButtonAria")}
                                 className="hidden md:flex items-center text-white/70 hover:text-amber-400 transition-colors"
                             >
                                 <Phone size={20} />
                             </button>
-                            <button
-                                aria-label="Business Health Assessment"
-                                onClick={() => setIsHealthAssessmentOpen(true)}
-                                className="hidden lg:flex items-center text-white/70 hover:text-amber-400 transition-colors"
-                            >
-                                <HeartPulse size={20} />
-                            </button>
+                            <LocaleSwitcher />
                             <Link
                                 href={ctaUrl}
                                 className="hidden md:flex items-center px-4 lg:px-6 py-1.5 rounded-md font-semibold text-sm relative overflow-hidden"
@@ -243,7 +238,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         <div className="flex md:hidden items-center">
                             <button
                                 onClick={handleToggleSidebar}
-                                aria-label={sidebarOpen ? "Close menu" : "Open menu"}
+                                aria-label={sidebarOpen ? t("closeMenu") : t("openMenu")}
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
                                 className="p-1 rounded-md border border-amber-500/30 bg-amber-500/10 text-white hover:bg-amber-500/20 transition-colors"
@@ -269,7 +264,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                 siteSettings={siteSettings}
             />
 
-            <BusinessHealthAssessmentModal isOpen={isHealthAssessmentOpen} onClose={() => setIsHealthAssessmentOpen(false)} />
             <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} phoneNumber={phoneNumber} phoneHref={phoneHref} />
         </>
     );

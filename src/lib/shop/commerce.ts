@@ -1,20 +1,32 @@
 import type { FulfillmentType, ProductEdition } from "@/lib/shop/types";
+import { extractString } from "@/lib/utils";
 
 export interface CommerceEditionLike {
     id?: string;
     _key?: string;
-    name?: string;
-    format?: string;
+    name?: unknown;
+    format?: unknown;
     price?: number;
     stripePriceId?: string;
+}
+
+const safeLower = (value: unknown): string => {
+    if (typeof value === "string") return value.toLowerCase().trim();
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+        return extractString(value, "en", "").toLowerCase().trim();
+    }
+    return "";
+};
+
+function normalizeText(value: unknown) {
+    return safeLower(value);
 }
 
 export function normalizeEditionId(productId: string, edition: CommerceEditionLike) {
     if (edition._key) return edition._key;
     if (edition.id) return edition.id;
 
-    const normalizedName = (edition.name || edition.format || "default")
-        .toLowerCase()
+    const normalizedName = (normalizeText(edition.name) || normalizeText(edition.format) || "default")
         .trim()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "");
@@ -22,9 +34,9 @@ export function normalizeEditionId(productId: string, edition: CommerceEditionLi
     return `${productId}-${normalizedName || "default"}`;
 }
 
-export function classifyFulfillment(format?: string, name?: string): FulfillmentType {
-    const nameText = (name || "").toLowerCase();
-    const formatText = (format || "").toLowerCase();
+export function classifyFulfillment(format?: unknown, name?: unknown): FulfillmentType {
+    const nameText = safeLower(name);
+    const formatText = safeLower(format);
     const text = `${formatText} ${nameText}`;
 
     if (nameText.includes("bundle")) return "bundle";

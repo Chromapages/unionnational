@@ -18,14 +18,14 @@ export const resourcesPage = defineType({
             type: "localizedString",
             group: "hero",
             validation: (Rule) => Rule.required(),
-            initialValue: { en: "Resources Hub" },
+            initialValue: { en: "Resources Hub", es: "Centro de Recursos" },
         }),
         defineField({
             name: "heroSubtitle",
             title: "Hero Subtitle",
             type: "localizedText",
             group: "hero",
-            initialValue: { en: "Explore our collection of guides, playbooks, and insights to help you optimize your tax strategy." },
+            initialValue: { en: "Explore our collection of guides, playbooks, and insights to help you optimize your tax strategy.", es: "Explore nuestra colección de guías, manuales y análisis para ayudarle a optimizar su estrategia fiscal." },
         }),
         defineField({
             name: "featuredResource",
@@ -36,7 +36,7 @@ export const resourcesPage = defineType({
                 { type: "playbook" },
                 { type: "blogPost" },
             ],
-            description: "Select a featured playbook or blog post to highlight at the top of the page.",
+            description: "Seleccione un manual o artículo del blog destacado para resaltar en la parte superior de la página.",
         }),
         defineField({
             name: "categories",
@@ -44,7 +44,7 @@ export const resourcesPage = defineType({
             type: "array",
             group: "content",
             of: [{ type: "reference", to: [{ type: "blogCategory" }] }],
-            description: "Select categories to show in the filter. Leave empty to show all categories.",
+            description: "Seleccione categorías para mostrar en el filtro. Déjelo vacío para mostrar todas las categorías.",
         }),
         defineField({
             name: "showPlaybooks",
@@ -52,7 +52,7 @@ export const resourcesPage = defineType({
             type: "boolean",
             group: "content",
             initialValue: true,
-            description: "Display playbooks in the resources grid.",
+            description: "Mostrar manuales en la cuadrícula de recursos.",
         }),
         defineField({
             name: "showBlogPosts",
@@ -60,7 +60,7 @@ export const resourcesPage = defineType({
             type: "boolean",
             group: "content",
             initialValue: true,
-            description: "Display blog posts in the resources grid.",
+            description: "Mostrar artículos del blog en la cuadrícula de recursos.",
         }),
         defineField({
             name: "showTools",
@@ -68,7 +68,7 @@ export const resourcesPage = defineType({
             type: "boolean",
             group: "content",
             initialValue: true,
-            description: "Display the Health Check Survey section.",
+            description: "Mostrar la sección de Encuesta de Revisión de Salud.",
         }),
         defineField({
             name: "seo",

@@ -42,7 +42,7 @@ export const product = defineType({
                 defineField({
                     name: "alt",
                     title: "Alt Text",
-                    type: "string",
+                    type: "localizedString",
                     description: "Describe the testimonial section background for accessibility.",
                 }),
             ],
@@ -84,7 +84,7 @@ export const product = defineType({
                 defineField({
                     name: "alt",
                     title: "Alt Text",
-                    type: "string",
+                    type: "localizedString",
                     description: "Describe the video thumbnail for accessibility.",
                 }),
             ],

@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: string }> }) {
-    await props.params;
-    const { data: posts } = await sanityFetch({ query: BLOG_POSTS_QUERY, params: { limit: 12 } });
+    const { locale } = await props.params;
+    const { data: posts } = await sanityFetch({ query: BLOG_POSTS_QUERY, params: { limit: 12, locale } });
 
     return (
         <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">

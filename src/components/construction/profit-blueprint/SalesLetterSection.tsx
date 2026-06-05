@@ -4,7 +4,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 export function SalesLetterSection() {
     return (
         <section className="py-20 lg:py-28 bg-white relative">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <RevealOnScroll>
                     <div className="text-center mb-12">
@@ -12,7 +12,7 @@ export function SalesLetterSection() {
                             A Letter to the Construction Company Owner
                         </span>
                         <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase text-brand-900">
-                            The 4 Numbers That Decide Whether You Build Wealth &mdash; or Build Yourself a Job You Can&apos;t Quit
+                            The 4 Numbers That Decide Whether You Build Wealth
                         </h2>
                     </div>
                 </RevealOnScroll>
@@ -241,10 +241,6 @@ export function SalesLetterSection() {
                     <div className="mt-12 pt-12 border-t-2 border-slate-200 text-center">
                         <a
                             href="#book-sales"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                document.getElementById("book-sales")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                            }}
                             className="inline-flex items-center gap-2 px-10 py-5 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm sm:text-base rounded-full transition-colors shadow-lg shadow-gold-500/30"
                         >
                             Choose Your Format Below

@@ -1,19 +1,21 @@
 import { LucideIcon, ShieldCheck, Lock, Clock, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface TrustBadge {
     icon: LucideIcon;
     label: string;
 }
 
-const badges: TrustBadge[] = [
-    { icon: ShieldCheck, label: 'EA Licensed' },
-    { icon: Lock, label: '256-bit Encryption' },
-    { icon: Clock, label: '2hr Avg. Response' },
-    { icon: Award, label: 'IRS Representation' },
-];
-
 export function TrustBadges({ className }: { className?: string }) {
+    const t = useTranslations("ContactPage.TrustBadges");
+    const badges: TrustBadge[] = [
+        { icon: ShieldCheck, label: t("eaLicensed") },
+        { icon: Lock, label: t("encryption") },
+        { icon: Clock, label: t("avgResponse") },
+        { icon: Award, label: t("irsRepresentation") },
+    ];
+
     return (
         <div className={cn("flex flex-wrap gap-3 justify-center", className)}>
             {badges.map((badge, i) => (

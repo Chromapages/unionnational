@@ -21,7 +21,7 @@ export const BLOG_POSTS_QUERY = defineQuery(`
     isFeatured,
     featuredImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     categories[]->{
       "title": coalesce(title[$locale], title.en, title),
@@ -48,7 +48,7 @@ export const BLOG_RECENT_POSTS_QUERY = defineQuery(`
     isFeatured,
     featuredImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     categories[]->{
       "title": coalesce(title[$locale], title.en, title),
@@ -75,7 +75,7 @@ export const BLOG_POST_QUERY = defineQuery(`
     readingTime,
     featuredImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     categories[]->{
       "title": coalesce(title[$locale], title.en, title),
@@ -104,7 +104,7 @@ export const FEATURED_POSTS_QUERY = defineQuery(`
     isFeatured,
     featuredImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     categories[]->{
       "title": coalesce(title[$locale], title.en, title),
@@ -136,7 +136,7 @@ export const RELATED_POSTS_QUERY = defineQuery(`
     publishedAt,
     featuredImage {
       asset->,
-      alt
+      "alt": coalesce(alt[$locale], alt.en, alt)
     },
     author->{
       name

@@ -2,7 +2,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { FAQ_QUERY } from "@/sanity/lib/queries";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQAccordion } from "./FAQAccordion";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 interface FAQSectionProps {
     variant?: "light" | "dark";
@@ -10,6 +10,7 @@ interface FAQSectionProps {
 
 export async function FAQSection({ variant = "light" }: FAQSectionProps) {
     const locale = await getLocale();
+    const t = await getTranslations({ locale, namespace: "HomePage.FAQSection" });
     const { data: faqs } = await sanityFetch({ query: FAQ_QUERY, params: { locale } });
 
     if (!faqs || faqs.length === 0) {
@@ -23,13 +24,13 @@ export async function FAQSection({ variant = "light" }: FAQSectionProps) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <RevealOnScroll className="mb-16 max-w-3xl">
                     <span className={`font-bold tracking-widest text-sm uppercase mb-3 block font-sans ${isDark ? "text-gold-500" : "text-gold-600"}`}>
-                        Got Questions?
+                        {t("eyebrow")}
                     </span>
                     <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 font-heading tracking-tight ${isDark ? "text-white" : "text-brand-900"}`}>
-                        Frequently Asked Questions
+                        {t("title")}
                     </h2>
                     <p className={`text-lg ${isDark ? "text-slate-300" : "text-slate-600"}`}>
-                        Everything you need to know about our services, pricing, and tax strategies.
+                        {t("subtitle")}
                     </p>
                 </RevealOnScroll>
 

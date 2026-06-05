@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 // --- Form Schema & Types ---
 const contactFormSchema = z.object({
@@ -91,7 +91,7 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
 
     const onSubmit = async (data: FormData) => {
         await new Promise(resolve => setTimeout(resolve, 1500));
-        alert("Message sent! (Simulated)");
+        alert(t("step2.successMessage"));
     };
 
     // --- Variatns for Animation ---
@@ -307,7 +307,7 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                 </div>
                                 <label htmlFor="privacy" className="text-xs text-brand-900/70 leading-relaxed cursor-pointer select-none">
                                     {t.rich("step2.privacyText", {
-                                        privacyLink: (chunks) => <Link href="/privacy" className="underline decoration-slate-300 hover:text-brand-900">{chunks}</Link>
+                                        privacyLink: (chunks) => <Link href="/legal/privacy-policy" className="underline decoration-slate-300 hover:text-brand-900">{chunks}</Link>
                                     })}
                                 </label>
                             </div>

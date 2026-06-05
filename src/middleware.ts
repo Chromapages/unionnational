@@ -4,7 +4,12 @@ import { locales, defaultLocale } from "@/i18n/config";
 export default createMiddleware({
     locales,
     defaultLocale,
-    localePrefix: "as-needed",
+    localePrefix: "always",
+    localeDetection: true,
+    localeCookie: {
+        name: "NEXT_LOCALE",
+        sameSite: "lax",
+    },
 });
 
 export const config = {

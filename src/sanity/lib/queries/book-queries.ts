@@ -30,7 +30,7 @@ export const BOOK_LANDING_QUERY = defineQuery(`
       "role": coalesce(role[$locale], role.en, role),
       "credentials": credentials[]{ "text": coalesce(@[$locale], @.en, @) }.text,
       "imageUrl": image.asset->url,
-      bioShort
+      "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
     },
     "featuredTestimonials": featuredTestimonials[]-> {
         _id,
@@ -42,9 +42,13 @@ export const BOOK_LANDING_QUERY = defineQuery(`
         "imageUrl": image.asset->url
     },
     seo {
-      metaTitle,
-      metaDescription,
-      openGraphImage
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     },
     "relatedServices": select(
       count(relatedServices) > 0 => relatedServices[]-> {

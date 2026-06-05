@@ -35,7 +35,7 @@ export const playbook = defineType({
             title: 'Description',
             type: 'localizedText',
             group: 'content',
-            description: 'Short summary shown in listings and SEO meta.',
+            description: 'Resumen breve que se muestra en los listados y en la meta de SEO.',
         }),
         defineField({
             name: 'coverImage',
@@ -48,7 +48,7 @@ export const playbook = defineType({
             fields: [
                 {
                     name: 'alt',
-                    type: 'string',
+                    type: 'localizedString',
                     title: 'Alternative Text',
                 },
             ],
@@ -59,14 +59,14 @@ export const playbook = defineType({
             type: 'array',
             group: 'chapters',
             of: [{ type: 'reference', to: [{ type: 'playbookChapter' }] }],
-            description: 'Ordered list of chapters in this playbook',
+            description: 'Lista ordenada de capítulos en este playbook',
         }),
         defineField({
             name: 'gatedPdf',
             title: 'Gated PDF Download',
             type: 'file',
             group: 'chapters',
-            description: 'Full PDF version of the playbook (available after email capture)',
+            description: 'Versión PDF completa del playbook (disponible después de capturar el correo electrónico)',
         }),
         defineField({
             name: 'isFeatured',

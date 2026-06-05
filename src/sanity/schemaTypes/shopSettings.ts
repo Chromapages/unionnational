@@ -16,7 +16,7 @@ export const shopSettings = defineType({
             title: "Hero Title",
             type: "localizedString",
             group: "content",
-            initialValue: { en: "Shop Our Resources" },
+            initialValue: { en: "Shop Our Resources", es: "Explore Nuestros Recursos" },
         }),
         defineField({
             name: "heroSubtitle",
@@ -29,13 +29,13 @@ export const shopSettings = defineType({
             title: "Hero Slideshow Images",
             type: "array",
             group: "content",
-            description: "Upload images for the hero background slideshow.",
+            description: "Sube imágenes para la presentación de fondo del hero.",
             of: [
                 {
                     type: "object",
                     fields: [
                         { name: "image", type: "image", title: "Image", options: { hotspot: true } },
-                        { name: "alt", type: "string", title: "Alt Text" },
+                        { name: "alt", type: "localizedString", title: "Alt Text" },
                     ],
                 },
             ],
@@ -45,7 +45,7 @@ export const shopSettings = defineType({
             title: "Hero Background Video URL",
             type: "url",
             group: "content",
-            description: "Direct URL to an mp4 or HLS stream (e.g. from Mux or BunnyCDN).",
+            description: "URL directa a un archivo mp4 o stream HLS (ej. desde Mux o BunnyCDN).",
         }),
         defineField({
             name: "featuredProduct",
@@ -53,7 +53,7 @@ export const shopSettings = defineType({
             type: "reference",
             to: [{ type: "product" }],
             group: "content",
-            description: "Select the main product to showcase in the hero area.",
+            description: "Seleccione el producto principal para mostrar en el área del hero.",
         }),
         defineField({
             name: "faq",

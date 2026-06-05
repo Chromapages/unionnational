@@ -36,7 +36,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     : undefined;
 
   const baseUrl = "https://unionnationaltax.com";
-  const canonicalUrl = locale === "en" ? baseUrl : `${baseUrl}/${locale}`;
+  const canonicalUrl = `${baseUrl}/${locale}`;
 
   return {
     title: seo.metaTitle,
@@ -44,7 +44,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        en: baseUrl,
+        en: `${baseUrl}/en`,
         es: `${baseUrl}/es`,
       },
     },

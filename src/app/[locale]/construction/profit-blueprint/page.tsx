@@ -25,14 +25,23 @@ export const metadata: Metadata = {
 
 const FALLBACK_PRODUCT = {
     _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
-    title: "The Money‑Making Blueprint for Construction Companies",
+    title: {
+        en: "The Money-Making Blueprint for Construction Companies",
+        es: "El Plan Para Generar Dinero en Empresas de Construcción",
+    },
     slug: "the-money-making-blueprint-for-construction-companies",
     imageUrl: "/images/og-construction.png",
     price: 27,
     compareAtPrice: 49,
-    shortDescription: "The ultimate implementation guide to job costing, cash flow control, and protecting your construction margins.",
+    shortDescription: {
+        en: "The ultimate implementation guide to job costing, cash flow control, and protecting your construction margins.",
+        es: "La guía de implementación definitiva para el costo de trabajo, el control del flujo de efectivo y la protección de sus márgenes de construcción.",
+    },
     format: "Book",
-    badge: "Contractor Edition",
+    badge: {
+        en: "Contractor Edition",
+        es: "Edición para Contratistas",
+    },
     category: "Financial Control",
     rating: 5,
     author: {
@@ -40,43 +49,91 @@ const FALLBACK_PRODUCT = {
         role: "EA, FSCP, LUTCF",
         credentials: ["EA", "FSCP", "LUTCF"],
         imageUrl: "",
-        bioShort: "Jason Astwood helps profitable business owners connect tax structure to cash flow, compensation, and long-term wealth. His advisory process is built for owners who want clarity, control, and smarter decisions before tax season arrives."
+        bioShort: {
+            en: "Jason Astwood helps profitable business owners connect tax structure to cash flow, compensation, and long-term wealth. His advisory process is built for owners who want clarity, control, and smarter decisions before tax season arrives.",
+            es: "Jason Astwood ayuda a los propietarios de negocios rentables a conectar la estructura fiscal con el flujo de efectivo, la compensación y el patrimonio a largo plazo. Su proceso de asesoría está diseñado para propietarios que buscan claridad, control y decisiones más inteligentes antes de que llegue la temporada de impuestos.",
+        },
     },
     editions: [
         {
             _key: "bundle",
-            name: "Complete Bundle",
+            name: {
+                en: "Complete Bundle",
+                es: "Paquete Completo",
+            },
             price: 79,
             format: "bundle",
+            language: "en",
             stripePriceId: "price_1BUNDLE_BUNDLE_BUNDLE_BUNDLE",
             stripeProductId: "prod_BUNDLE_BUNDLE_BUNDLE_BUNDLE",
-            description: "Digital PDF + Physical Book + Audiobook + Bonus Templates.",
+            description: {
+                en: "Digital PDF + Physical Book + Audiobook + Bonus Templates.",
+                es: "PDF Digital + Libro Físico + Audiolibro + Plantillas Bonus.",
+            },
         },
         {
             _key: "physical",
-            name: "Physical",
+            name: {
+                en: "Physical",
+                es: "Físico",
+            },
             price: 39,
             format: "physical",
+            language: "en",
             stripePriceId: "price_1T2cpuBBqB7ETKuVPA63LBVd",
             stripeProductId: "prod_U0I59FqHVgmIKe",
-            description: "Premium print edition.",
+            description: {
+                en: "Premium print edition.",
+                es: "Edición impresa de primera calidad.",
+            },
         },
         {
             _key: "digital",
-            name: "Digital PDF",
+            name: {
+                en: "Digital PDF",
+                es: "PDF Digital",
+            },
             price: 27,
             format: "digital",
+            language: "en",
             stripePriceId: "price_1TOlYGBBqB7ETKuVjY3QWF1m",
             stripeProductId: "prod_UNAGtZ3NgI4Aue",
-            description: "Instant digital download.",
+            description: {
+                en: "Instant digital download.",
+                es: "Descarga digital instantánea.",
+            },
+        },
+        // TODO: replace placeholder Stripe IDs with real Spanish-locale Stripe product/price once published
+        // For now, only the Spanish Digital PDF edition is offered; bundle and physical will be added later
+        {
+            _key: "digital-es",
+            name: {
+                en: "Digital PDF (Spanish)",
+                es: "PDF Digital",
+            },
+            price: 27,
+            format: "digital",
+            language: "es",
+            stripePriceId: "price_1DIGITAL_ES_DIGITAL_ES",
+            stripeProductId: "prod_DIGITAL_ES_DIGITAL_ES",
+            description: {
+                en: "Instant digital download.",
+                es: "Descarga digital instantánea.",
+            },
         },
     ],
     orderBump: {
         _key: "strategy-call",
-        name: "30-Min Tax Strategy Call with Jason",
+        name: {
+            en: "30-Min Tax Strategy Call with Jason",
+            es: "Llamada de Estrategia Fiscal de 30 Minutos con Jason",
+        },
         price: 97,
         format: "service",
-        description: "Apply the blueprint to your business. 30 minutes with Jason, focused on your numbers.",
+        description: {
+            en: "Apply the blueprint to your business. 30 minutes with Jason, focused on your numbers.",
+            es: "Aplique el plan a su negocio. 30 minutos con Jason, enfocados en sus números.",
+        },
         stripePriceId: "price_1STRATEGY_STRATEGY_STRATEGY",
         stripeProductId: "prod_STRATEGY_STRATEGY_STRATEGY",
     }
@@ -94,8 +151,24 @@ interface ProductEditionFromSanity {
 
 const FALLBACK_VIDEO_URL = "https://assets.cdn.filesafe.space/N5KQjySifAxlxhrrvY8g/media/69dae49fa4e6aa34cbdfcede.mp4";
 
+type Locale = "en" | "es";
+
+const resolveLocalized = (value: unknown, locale: Locale): string | undefined => {
+    if (value == null) return undefined;
+    if (typeof value === "string") return value;
+    if (typeof value === "object") {
+        const obj = value as Record<string, unknown>;
+        const localized = obj[locale];
+        if (typeof localized === "string" && localized.length > 0) return localized;
+        const en = obj.en;
+        if (typeof en === "string") return en;
+    }
+    return undefined;
+};
+
 export default async function ProfitBlueprintPage(props: { params: Promise<{ locale: string }> }) {
-    const { locale } = await props.params;
+    const { locale: rawLocale } = await props.params;
+    const locale: Locale = rawLocale === "es" ? "es" : "en";
 
     // Fetch construction book details from Sanity
     let product = null;
@@ -112,16 +185,31 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
     const productData = product ? {
         ...FALLBACK_PRODUCT,
         ...product,
+        title: product.title || resolveLocalized(FALLBACK_PRODUCT.title, locale) || FALLBACK_PRODUCT.title.en,
+        shortDescription: product.shortDescription || resolveLocalized(FALLBACK_PRODUCT.shortDescription, locale) || FALLBACK_PRODUCT.shortDescription.en,
+        badge: product.badge || resolveLocalized(FALLBACK_PRODUCT.badge, locale) || FALLBACK_PRODUCT.badge.en,
         author: product.author ? {
             name: product.author.name,
             role: product.author.role || FALLBACK_PRODUCT.author.role,
             credentials: product.author.credentials || FALLBACK_PRODUCT.author.credentials,
             imageUrl: product.author.imageUrl || FALLBACK_PRODUCT.author.imageUrl,
-            bioShort: product.author.bioShort || FALLBACK_PRODUCT.author.bioShort
-        } : FALLBACK_PRODUCT.author,
+            bioShort: product.author.bioShort || resolveLocalized(FALLBACK_PRODUCT.author.bioShort, locale) || FALLBACK_PRODUCT.author.bioShort.en,
+        } : {
+            ...FALLBACK_PRODUCT.author,
+            bioShort: resolveLocalized(FALLBACK_PRODUCT.author.bioShort, locale) || FALLBACK_PRODUCT.author.bioShort.en,
+        },
         editions: FALLBACK_PRODUCT.editions,
-        orderBump: product.orderBump || FALLBACK_PRODUCT.orderBump
-    } : FALLBACK_PRODUCT;
+        orderBump: product.orderBump || FALLBACK_PRODUCT.orderBump,
+    } : {
+        ...FALLBACK_PRODUCT,
+        title: resolveLocalized(FALLBACK_PRODUCT.title, locale) || FALLBACK_PRODUCT.title.en,
+        shortDescription: resolveLocalized(FALLBACK_PRODUCT.shortDescription, locale) || FALLBACK_PRODUCT.shortDescription.en,
+        badge: resolveLocalized(FALLBACK_PRODUCT.badge, locale) || FALLBACK_PRODUCT.badge.en,
+        author: {
+            ...FALLBACK_PRODUCT.author,
+            bioShort: resolveLocalized(FALLBACK_PRODUCT.author.bioShort, locale) || FALLBACK_PRODUCT.author.bioShort.en,
+        },
+    };
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">

@@ -30,7 +30,7 @@ export const contactSettings = defineType({
             fields: [
                 { name: 'clients', type: 'number', title: 'Clients Served' },
                 { name: 'savings', type: 'string', title: 'Total Tax Savings (e.g., "$2.3B")' },
-                { name: 'responseTime', type: 'string', title: 'Average Response Time' },
+                { name: 'responseTime', type: 'localizedString', title: 'Average Response Time' },
             ],
         }),
         defineField({
@@ -40,7 +40,7 @@ export const contactSettings = defineType({
             group: 'content',
             fields: [
                 { name: 'name', type: 'string', title: 'Name' },
-                { name: 'title', type: 'string', title: 'Title' },
+                { name: 'title', type: 'localizedString', title: 'Title' },
                 { name: 'image', type: 'image', title: 'Photo' },
                 { name: 'quote', type: 'localizedText', title: 'Personal Quote' },
                 { name: 'credentials', type: 'array', of: [{ type: 'localizedString' }], title: 'Credentials' },
@@ -79,8 +79,8 @@ export const contactSettings = defineType({
                 {
                     type: 'object',
                     fields: [
-                        defineField({ name: 'day', title: 'Day(s)', type: 'string' }),
-                        defineField({ name: 'hours', title: 'Hours', type: 'string' }),
+                        defineField({ name: 'day', title: 'Day(s)', type: 'localizedString' }),
+                        defineField({ name: 'hours', title: 'Hours', type: 'localizedString' }),
                     ],
                 },
             ],
