@@ -83,8 +83,8 @@ export function BlueprintVideoSection({ videoSrc, posterSrc }: BlueprintVideoSec
 
                 <RevealOnScroll delay={100}>
                     <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight leading-[1.05] mb-6 uppercase text-center">
-                        <span className="block text-white">See exactly what&apos;s</span>
-                        <span className="block text-gold-500 mt-1">inside the blueprint.</span>
+                        <span className="block text-white">How Jason takes contractors from</span>
+                        <span className="block text-gold-500 mt-1">5% to 18% net margin in 18 months.</span>
                     </h2>
                 </RevealOnScroll>
 

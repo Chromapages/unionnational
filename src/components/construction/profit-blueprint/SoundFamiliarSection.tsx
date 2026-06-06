@@ -40,7 +40,7 @@ export function SoundFamiliarSection() {
                 <RevealOnScroll delay={300}>
                     <div className="bg-[#131E1C] border-l-4 border-gold-500 p-6 sm:p-8 rounded-r-2xl mb-8 relative">
                         <p className="text-white font-semibold text-base sm:text-lg italic leading-relaxed">
-                            &ldquo;The average construction company operates on a 3&ndash;5% net margin. With the right systems in place, that number should be 15&ndash;20%. The gap? Leadership, structure, and knowing your numbers.&rdquo;
+                            &ldquo;The average general contractor runs on a 5&ndash;6% net margin. Healthy operators hit 8&ndash;10%. The top performers in specialty trades run 15&ndash;25%. The gap? Leadership, structure, and knowing your numbers.&rdquo;
                         </p>
                         <p className="text-slate-400 text-sm mt-3 font-medium">
                             &mdash; Jason Astwood, EA

@@ -474,12 +474,19 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                 <ChevronRight className="w-4 h-4" />
                             </button>
 
-                            {/* 60-Day Money-Back Guarantee */}
-                            <div className="flex items-center justify-center gap-2.5 pt-1 text-sm text-slate-600">
-                                <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
-                                <span>
-                                    <strong className="font-bold text-brand-900">60-day money-back guarantee.</strong> If the blueprint doesn&apos;t pay for itself, we refund you.
-                                </span>
+                            {/* 60-Day Money-Back Guarantee - prominent risk-reversal badge */}
+                            <div className="flex items-center justify-center gap-3 px-5 py-4 mt-2 rounded-2xl bg-emerald-50 border-2 border-emerald-200/80 shadow-sm">
+                                <div className="shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                                    <ShieldCheck className="w-6 h-6 text-emerald-700" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700 leading-none mb-1">
+                                        60-Day Money-Back Guarantee
+                                    </p>
+                                    <p className="text-sm text-brand-900 leading-snug">
+                                        If the blueprint doesn&apos;t pay for itself, we refund you. Zero risk.
+                                    </p>
+                                </div>
                             </div>
 
                             {/* Trust Badges */}

@@ -2,7 +2,6 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { BlogList } from "@/components/blog/BlogList";
-import { NewsletterForm } from "@/components/blog/NewsletterForm";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
 import { Tag } from "lucide-react";
@@ -50,22 +49,6 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: s
                 </section>
 
                 <BlogList initialPosts={posts} />
-
-                {/* Newsletter / CTA */}
-                <section className="py-24 bg-gold-500 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[url('/images/pattern.svg')] opacity-10" />
-                    <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-                        <RevealOnScroll>
-                            <h2 className="text-4xl md:text-5xl font-bold text-brand-900 mb-6 font-heading tracking-tight">
-                                Never miss a <span className="underline decoration-brand-900/20 underline-offset-8">strategic advantage.</span>
-                            </h2>
-                            <p className="text-lg text-brand-900/80 mb-10 font-sans font-medium">
-                                Join 5,000+ business owners receiving weekly tax-saving tactics directly from our founders.
-                            </p>
-                            <NewsletterForm />
-                        </RevealOnScroll>
-                    </div>
-                </section>
             </main>
 
             <Footer />

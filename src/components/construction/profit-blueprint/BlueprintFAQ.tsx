@@ -1,10 +1,5 @@
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus, ChevronUp } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { cn } from "@/lib/utils";
 
 const faqs = [
     {
@@ -30,8 +25,6 @@ const faqs = [
 ];
 
 export function BlueprintFAQ() {
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
-
     return (
         <RevealOnScroll>
             <section className="py-20 lg:py-24 bg-surface">
@@ -48,36 +41,26 @@ export function BlueprintFAQ() {
                     <div className="space-y-4">
                         {faqs.map((faq, i) => (
                             <RevealOnScroll key={i} delay={i * 60}>
-                                <div className="border border-slate-200 rounded-2xl overflow-hidden">
-                                    <button
-                                        onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                                        className="w-full flex items-center justify-between p-6 text-left bg-white hover:bg-slate-50 transition-colors"
-                                    >
-                                        <span className="font-bold font-heading text-brand-900 pr-4" suppressHydrationWarning>
+                                <details
+                                    className="group border border-slate-200 rounded-2xl overflow-hidden bg-white"
+                                    open
+                                >
+                                    <summary className="flex items-center justify-between p-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-slate-50 transition-colors">
+                                        <span className="font-bold font-heading text-brand-900 pr-4">
                                             {faq.q}
                                         </span>
-                                        <div className={cn(
-                                            "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors",
-                                            openIndex === i ? "bg-brand-900 text-white" : "bg-slate-100 text-slate-500"
-                                        )}>
-                                            {openIndex === i ? <ChevronUp size={14} /> : <Plus size={14} />}
-                                        </div>
-                                    </button>
-                                    <AnimatePresence>
-                                        {openIndex === i && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: "auto", opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.25, ease: "easeOut" }}
-                                            >
-                                                <div className="px-6 pb-6 pt-0 text-slate-600 text-sm leading-relaxed border-l-2 border-brand-900/20">
-                                                    {faq.a}
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
+                                        <span
+                                            aria-hidden="true"
+                                            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors bg-slate-100 text-slate-500 group-open:bg-brand-900 group-open:text-white"
+                                        >
+                                            <Plus size={14} className="block group-open:hidden" />
+                                            <Minus size={14} className="hidden group-open:block" />
+                                        </span>
+                                    </summary>
+                                    <div className="px-6 pb-6 pt-0 text-slate-600 text-sm leading-relaxed border-l-2 border-brand-900/20">
+                                        {faq.a}
+                                    </div>
+                                </details>
                             </RevealOnScroll>
                         ))}
                     </div>

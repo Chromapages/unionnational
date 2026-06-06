@@ -34,19 +34,6 @@ export const blogSettings = defineType({
             validation: (Rule) => Rule.min(3).max(24),
         }),
         defineField({
-            name: 'newsletterTitle',
-            title: 'Newsletter Title',
-            type: 'localizedString',
-            group: 'content',
-            initialValue: 'Join the Inner Circle',
-        }),
-        defineField({
-            name: 'newsletterDescription',
-            title: 'Newsletter Description',
-            type: 'localizedText',
-            group: 'content',
-        }),
-        defineField({
             name: 'seo',
             title: 'SEO Overrides',
             type: 'seo',

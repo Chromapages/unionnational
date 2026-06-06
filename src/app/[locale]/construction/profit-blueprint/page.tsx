@@ -1,16 +1,16 @@
 import { Metadata } from "next";
-import { CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { CartSidebar } from "@/components/shop/CartSidebar";
-import { ConstructionBookForm } from "@/components/construction/profit-blueprint/ConstructionBookForm";
-import { SoundFamiliarSection } from "@/components/construction/profit-blueprint/SoundFamiliarSection";
 import { BlueprintMastery } from "@/components/construction/profit-blueprint/BlueprintMastery";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
 import { BlueprintFAQ } from "@/components/construction/profit-blueprint/BlueprintFAQ";
-import { BlueprintVideoSection } from "@/components/construction/profit-blueprint/BlueprintVideoSection";
 import { SalesLetterSection } from "@/components/construction/profit-blueprint/SalesLetterSection";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
-import { FadeIn } from "@/components/ui/FadeIn";
+import { BlueprintCta } from "@/components/construction/profit-blueprint/BlueprintCta";
+import { MobileStickyCta } from "@/components/construction/profit-blueprint/MobileStickyCta";
+import { MathSection } from "@/components/construction/profit-blueprint/MathSection";
+import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideoEmbed";
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
@@ -139,16 +139,6 @@ const FALLBACK_PRODUCT = {
     }
 };
 
-interface ProductEditionFromSanity {
-    _key?: string;
-    name: string;
-    price: number;
-    format: string;
-    stripePriceId?: string;
-    stripeProductId?: string;
-    description?: string;
-}
-
 const FALLBACK_VIDEO_URL = "https://assets.cdn.filesafe.space/N5KQjySifAxlxhrrvY8g/media/69dae49fa4e6aa34cbdfcede.mp4";
 
 type Locale = "en" | "es";
@@ -212,11 +202,11 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
     };
 
     return (
-        <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+        <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden pb-20 md:pb-0">
             <main id="main-content" className="flex-1">
             <ExitIntentChecklist />
 
-            {/* Hero Section - Simplified for Book Sales with Lead Capture */}
+            {/* Hero Section - Two-column: copy + video above the fold */}
             <section className="relative min-h-[80dvh] flex items-center bg-brand-900 overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
@@ -225,29 +215,10 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-8 lg:py-12">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
                         {/* Left: Copy - Focus on Book */}
-                        <div className="lg:col-span-7">
-                            <FadeIn delay={0.1}>
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-400/20 mb-6">
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-gold-400">
-                                        $27 - $39 | Digital PDF or Physical
-                                    </span>
-                                </div>
-                            </FadeIn>
-
-                            <FadeIn delay={150}>
-                                <div className="flex flex-wrap gap-4 mb-6">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                                        <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">✓ 1,200+ Downloads</span>
-                                    </div>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                                        <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">✓ 3 Printable Checklists</span>
-                                    </div>
-                                </div>
-                            </FadeIn>
-
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
+                        <div>
+                            <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
                                 Is Your Construction Company{" "}
                                 <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black pr-4 pb-1">
                                     Losing
@@ -257,22 +228,36 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                                 </span>
                             </h1>
 
-                            <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed max-w-2xl font-light">
-                                The Money-Making Blueprint shows contractors exactly where profit disappears — and how to stop it. Job costing, cash flow, estimating, margin control.
+                            <p className="text-base sm:text-lg text-slate-300 mb-7 leading-relaxed max-w-xl font-light">
+                                The Money-Making Blueprint shows contractors exactly where profit disappears — and how to stop it.
                             </p>
 
                             <ul className="space-y-3 mb-8">
                                 {[
-                                    "10-point checklist to identify your profit leaks",
                                     "Job costing systems that surface losing jobs early",
                                     "Cash flow forecasting to stop payroll surprises",
+                                    "Pricing discipline that protects every bid",
+                                    "The S-Corp strategy that saves $20K/year in taxes",
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-slate-300">
+                                    <li key={i} className="flex items-start gap-3 text-slate-300 text-sm sm:text-base">
                                         <CheckCircle2 size={18} className="text-gold-500 shrink-0 mt-0.5" />
                                         <span>{item}</span>
                                     </li>
                                 ))}
                             </ul>
+
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
+                                <a
+                                    href="#book-sales"
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm rounded-full transition-colors shadow-lg shadow-gold-500/30"
+                                >
+                                    Get the Blueprint
+                                    <ArrowRight size={18} />
+                                </a>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                                    Instant Digital Delivery
+                                </p>
+                            </div>
 
                             <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
                                 <div className="h-px w-8 bg-gold-500/30" />
@@ -280,48 +265,49 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             </div>
                         </div>
 
-                        {/* Right: Lead Capture Form */}
-                        <div className="lg:col-span-5 relative">
-                            <div className="bg-white rounded-2xl p-6 shadow-2xl shadow-brand-900/40">
-                                <div className="text-center mb-4">
-                                    <p className="text-base font-bold text-black mb-1.5">Get the Free Profit Leak Checklist</p>
-                                    <p className="text-xs font-semibold text-black">Enter your details and we&apos;ll send it to your inbox</p>
-                                </div>
-                                <ConstructionBookForm />
-                            </div>
+                        {/* Right: Video - validates the headline in real time */}
+                        <div className="w-full">
+                            <HeroVideoEmbed
+                                videoSrc={productData?.videoFileUrl || FALLBACK_VIDEO_URL}
+                                posterSrc={productData?.videoThumbnail?.asset?.url}
+                            />
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* VSL Section - Pre-sell warmup before book sales */}
-            <BlueprintVideoSection
-                videoSrc={productData?.videoFileUrl || FALLBACK_VIDEO_URL}
-                posterSrc={productData?.videoThumbnail?.asset?.url}
-            />
+            {/* Money Slide - The Math - Hit hard right after the emotional hook */}
+            <MathSection />
 
             {/* Long-Form Sales Letter - Persuasion bridge between VSL and offer */}
             <SalesLetterSection />
 
-            {/* Book Sales Section - PRIMARY CONVERSION - Shown early */}
-            <div id="book-sales">
-                <ConstructionBookSalesSection product={productData} />
-            </div>
-
-            {/* Sound Familiar - Editorial proof and systems alignment */}
-            <SoundFamiliarSection />
-
-            {/* Blueprint Mastery - What You'll Master */}
+            {/* Chapter Breakdown - What You'll Master (moved up: shows the value before the buy widget) */}
             <BlueprintMastery />
 
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
 
+            {/* Book Sales Section - Buy Widget + Guarantee (moved down: earned after reading chapters + bio + proof) */}
+            <div id="book-sales">
+                <ConstructionBookSalesSection product={productData} />
+            </div>
+
             {/* FAQ - Brief */}
             <BlueprintFAQ />
+
+            {/* Final CTA - bottom of page */}
+            <BlueprintCta
+                variant="gold"
+                eyebrow="Last Step"
+                title="Stop Leaving Six Figures on the Table"
+                subtitle="Less than the cost of one afternoon on a job site — for the system that turns owner-operators into business owners."
+                buttonText="Get the Blueprint Now"
+            />
             </main>
             <Footer />
             <CartSidebar />
+            <MobileStickyCta />
         </div>
     );
 }

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
-import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import { EABadge } from "@/components/ui/EABadge";
 import { Link } from "@/i18n/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -189,10 +188,6 @@ export async function Footer() {
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-
-                        <div className="pt-6 border-t border-brand-800">
-                            <NewsletterForm />
                         </div>
                     </div>
                 </div>

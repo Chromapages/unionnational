@@ -4,9 +4,7 @@ export const BLOG_SETTINGS_QUERY = defineQuery(`
   *[_type == "blogSettings"][0] {
     "heroTitle": coalesce(heroTitle[$locale], heroTitle.en, heroTitle),
     "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.en, heroSubtitle),
-    postsPerPage,
-    "newsletterTitle": coalesce(newsletterTitle[$locale], newsletterTitle.en, newsletterTitle),
-    "newsletterDescription": coalesce(newsletterDescription[$locale], newsletterDescription.en, newsletterDescription)
+    postsPerPage
   }
 `)
 

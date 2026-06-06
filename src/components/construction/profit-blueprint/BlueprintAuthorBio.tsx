@@ -1,8 +1,3 @@
-"use client";
-
-import React from "react";
-
-import { ArrowRight } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 interface Author {
@@ -17,9 +12,9 @@ interface BlueprintAuthorBioProps {
     author?: Author;
 }
 
-export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }) => {
+export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
     const stats = [
-        { value: "$25M+", label: "Client Tax Savings" },
+        { value: "$23,420", label: "Avg. Annual Client Tax Savings*" },
         { value: "1,000+", label: "Business Owners Served" },
         { value: "10+", label: "Years in Practice" }
     ];
@@ -116,7 +111,7 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                                 Jason Astwood is an IRS Enrolled Agent, MBA, and the founder of{" "}
                                 <strong className="text-white font-bold">Union National Tax</strong> — a firm built from the ground up to serve contractors, construction companies, and trade businesses. Since 2012, his firm has helped{" "}
                                 <strong className="text-white font-bold">1,000+ business owners</strong> save an average of{" "}
-                                <strong className="text-white font-bold">$23,420 per year</strong> in taxes — totaling over $25 million in documented client savings.
+                                <strong className="text-white font-bold">$23,420 per year</strong> in taxes through entity structure, owner compensation, and deduction planning.
                             </p>
                             <p>
                                 As one of the few federally licensed tax specialists focused exclusively on the construction industry, Jason understands the unique financial challenges contractors face — from job costing and cash flow gaps to crew costs and equipment write-offs. He&apos;s not a generalist who files for flower shops and construction companies alike.{" "}
@@ -140,9 +135,15 @@ export const BlueprintAuthorBio: React.FC<BlueprintAuthorBioProps> = ({ author }
                                 </div>
                             ))}
                         </RevealOnScroll>
+
+                        <RevealOnScroll delay={200}>
+                            <p className="mt-4 text-slate-500 text-[10px] sm:text-[11px] leading-relaxed max-w-xl">
+                                *Methodology: average tax savings figure is calculated from internal advisory engagements completed between 2012–2024. Individual results vary based on entity structure, revenue, deductions, and current IRS regulations. Past performance is not a guarantee of future outcomes.
+                            </p>
+                        </RevealOnScroll>
                     </div>
                 </div>
             </div>
         </section>
     );
-};
+}
