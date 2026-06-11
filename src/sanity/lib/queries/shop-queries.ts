@@ -132,9 +132,21 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     isbn,
     videoUrl,
     "videoFileUrl": videoFile.asset->url,
+    videoUrlEn,
+    videoUrlEs,
+    "videoFileUrlEn": videoFileEn.asset->url,
+    "videoFileUrlEs": videoFileEs.asset->url,
     videoThumbnail {
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
+    },
+    videoThumbnailEn {
+      asset->,
+      alt
+    },
+    videoThumbnailEs {
+      asset->,
+      alt
     },
     stripeProductId,
     stripePriceId,

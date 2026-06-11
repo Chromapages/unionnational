@@ -80,7 +80,13 @@ export interface Service extends SanityDocument {
   keyBenefit?: string | LocalizedString;
   eligibility?: string | LocalizedString;
   fullDescription?: SanityBlock[];
+  videoFileUrlEn?: string;
+  videoFileUrlEs?: string;
   videoFileUrl?: string;
+  videoUrlEn?: string;
+  videoUrlEs?: string;
+  videoThumbnailEn?: SanityImage;
+  videoThumbnailEs?: SanityImage;
   videoThumbnail?: SanityImage;
   startingPrice?: string;
   targetAudience?: string;

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
+import { Link } from "@/i18n/navigation";
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { BlueprintMastery } from "@/components/construction/profit-blueprint/BlueprintMastery";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
@@ -249,14 +251,18 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
                                 <a
                                     href="#book-sales"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm rounded-full transition-colors shadow-lg shadow-gold-500/30"
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm rounded-full transition-colors shadow-lg shadow-gold-500/30 w-full sm:w-auto justify-center"
                                 >
                                     Get the Blueprint
                                     <ArrowRight size={18} />
                                 </a>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
-                                    Instant Digital Delivery
-                                </p>
+                                <Link
+                                    href="/construction-profitability-assessment"
+                                    className="inline-flex items-center gap-2 px-8 py-4 border border-gold-500/30 hover:border-gold-500 bg-gold-500/10 hover:bg-gold-500/20 text-gold-400 hover:text-gold-300 font-black uppercase tracking-wider text-sm rounded-full transition-colors w-full sm:w-auto justify-center"
+                                >
+                                    {locale === "es" ? "Realizar la Evaluación" : "Take the Assessment"}
+                                    <ArrowRight size={18} />
+                                </Link>
                             </div>
 
                             <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
@@ -267,14 +273,35 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
                         {/* Right: Video - validates the headline in real time */}
                         <div className="w-full">
-                            <HeroVideoEmbed
-                                videoSrc={productData?.videoFileUrl || FALLBACK_VIDEO_URL}
-                                posterSrc={productData?.videoThumbnail?.asset?.url}
-                            />
+                             <HeroVideoEmbed
+                                 videoSrc={
+                                     (locale === "es"
+                                         ? (productData?.videoFileUrlEs || productData?.videoUrlEs)
+                                         : (productData?.videoFileUrlEn || productData?.videoUrlEn))
+                                     ?? productData?.videoFileUrlEn
+                                     ?? productData?.videoUrlEn
+                                     ?? productData?.videoFileUrlEs
+                                     ?? productData?.videoUrlEs
+                                     ?? productData?.videoFileUrl
+                                     ?? productData?.videoUrl
+                                     ?? FALLBACK_VIDEO_URL
+                                 }
+                                 posterSrc={
+                                     (locale === "es"
+                                         ? productData?.videoThumbnailEs?.asset?.url
+                                         : productData?.videoThumbnailEn?.asset?.url)
+                                     ?? productData?.videoThumbnail?.asset?.url
+                                 }
+                             />
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* Book Sales Section - Buy Widget + Guarantee */}
+            <div id="book-sales">
+                <ConstructionBookSalesSection product={productData} />
+            </div>
 
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
             <MathSection />
@@ -288,10 +315,36 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
 
-            {/* Book Sales Section - Buy Widget + Guarantee (moved down: earned after reading chapters + bio + proof) */}
-            <div id="book-sales">
-                <ConstructionBookSalesSection product={productData} />
-            </div>
+            {/* Assessment CTA */}
+            <RevealOnScroll>
+                <section className="py-20 lg:py-24 bg-brand-900 border-y border-brand-800 text-white relative overflow-hidden">
+                    <div className="absolute inset-0 z-0">
+                        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+                        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-600/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4" />
+                    </div>
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-6">
+                            {locale === "es" ? "Próximo Paso" : "Next Step"}
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase mb-6">
+                            {locale === "es" 
+                                ? "¿Listo para identificar sus fugas de ganancias específicas?" 
+                                : "Ready to Find Your Specific Profit Leaks?"}
+                        </h2>
+                        <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+                            {locale === "es"
+                                ? "Después de obtener el plan, realice la Evaluación de Rentabilidad de la Construcción: un diagnóstico de 6 preguntas que identifica exactamente dónde su empresa está perdiendo el control."
+                                : "After you get the blueprint, take the Construction Profitability Assessment — a 6-question diagnostic that identifies exactly where your business is losing control."}
+                        </p>
+                        <Link
+                            href="/construction-profitability-assessment"
+                            className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-full transition-colors text-sm uppercase tracking-widest shadow-lg shadow-gold-500/20"
+                        >
+                            {locale === "es" ? "Realizar la Evaluación" : "Take the Assessment"} <ArrowRight size={18} />
+                        </Link>
+                    </div>
+                </section>
+            </RevealOnScroll>
 
             {/* FAQ - Brief */}
             <BlueprintFAQ />
