@@ -317,28 +317,28 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
             {/* Assessment CTA */}
             <RevealOnScroll>
-                <section className="py-20 lg:py-24 bg-brand-900 border-y border-brand-800 text-white relative overflow-hidden">
+                <section className="py-12 lg:py-16 bg-brand-900 border-y border-brand-800 text-white relative overflow-hidden">
                     <div className="absolute inset-0 z-0">
                         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
                         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-600/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4" />
                     </div>
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-6">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-4">
                             {locale === "es" ? "Próximo Paso" : "Next Step"}
                         </span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase mb-6">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase mb-4">
                             {locale === "es" 
                                 ? "¿Listo para identificar sus fugas de ganancias específicas?" 
                                 : "Ready to Find Your Specific Profit Leaks?"}
                         </h2>
-                        <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+                        <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-6">
                             {locale === "es"
                                 ? "Después de obtener el plan, realice la Evaluación de Rentabilidad de la Construcción: un diagnóstico de 6 preguntas que identifica exactamente dónde su empresa está perdiendo el control."
                                 : "After you get the blueprint, take the Construction Profitability Assessment — a 6-question diagnostic that identifies exactly where your business is losing control."}
                         </p>
                         <Link
                             href="/construction-profitability-assessment"
-                            className="inline-flex items-center justify-center gap-3 px-10 py-5 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-full transition-colors text-sm uppercase tracking-widest shadow-lg shadow-gold-500/20"
+                            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-full transition-colors text-sm uppercase tracking-widest shadow-lg shadow-gold-500/20 animate-fade-in"
                         >
                             {locale === "es" ? "Realizar la Evaluación" : "Take the Assessment"} <ArrowRight size={18} />
                         </Link>

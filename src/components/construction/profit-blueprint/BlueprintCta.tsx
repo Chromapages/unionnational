@@ -25,7 +25,7 @@ export function BlueprintCta({
     return (
         <section
             className={cn(
-                "py-16 lg:py-24 relative overflow-hidden",
+                "py-12 lg:py-16 relative overflow-hidden",
                 isDark ? "bg-brand-900" : "bg-gold-500"
             )}
         >
@@ -43,7 +43,7 @@ export function BlueprintCta({
                 {eyebrow && (
                     <span
                         className={cn(
-                            "inline-block text-xs font-black uppercase tracking-[0.2em] mb-4",
+                            "inline-block text-xs font-black uppercase tracking-[0.2em] mb-3",
                             isDark ? "text-gold-400" : "text-brand-900"
                         )}
                     >
@@ -52,7 +52,7 @@ export function BlueprintCta({
                 )}
                 <h2
                     className={cn(
-                        "text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase mb-5",
+                        "text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase mb-4",
                         isDark ? "text-white" : "text-brand-900"
                     )}
                 >
@@ -61,7 +61,7 @@ export function BlueprintCta({
                 {subtitle && (
                     <p
                         className={cn(
-                            "text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto",
+                            "text-base sm:text-lg leading-relaxed mb-6 max-w-2xl mx-auto",
                             isDark ? "text-slate-300" : "text-brand-900/80"
                         )}
                     >
@@ -71,7 +71,7 @@ export function BlueprintCta({
                 <a
                     href={buttonHref}
                     className={cn(
-                        "inline-flex items-center gap-2 px-10 py-5 font-black uppercase tracking-wider text-sm sm:text-base rounded-full transition-colors shadow-lg",
+                        "inline-flex items-center gap-2 px-8 py-4 font-black uppercase tracking-wider text-sm sm:text-base rounded-full transition-colors shadow-lg",
                         isDark
                             ? "bg-gold-500 hover:bg-gold-600 text-white shadow-gold-500/30"
                             : "bg-brand-900 hover:bg-brand-800 text-white shadow-brand-900/30"
@@ -83,7 +83,7 @@ export function BlueprintCta({
                 {trustLine && (
                     <p
                         className={cn(
-                            "mt-5 text-xs uppercase tracking-wider font-bold",
+                            "mt-4 text-xs uppercase tracking-wider font-bold",
                             isDark ? "text-slate-400" : "text-brand-900/70"
                         )}
                     >
