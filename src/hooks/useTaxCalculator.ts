@@ -20,11 +20,14 @@ interface UseCounterOptions {
  * @example
  * const savings = useCounter(12000, 1500, showResult);
  */
-export function useCounter({ end, duration = 1000, start = false }: UseCounterOptions): number {
+export const useCounter = ({ end, duration = 1000, start = false }: UseCounterOptions): number => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
-        if (!start) return;
+        if (!start) {
+            setCount(0);
+            return;
+        }
 
         let startTime: number | null = null;
         let animationFrameId: number;
@@ -50,7 +53,7 @@ export function useCounter({ end, duration = 1000, start = false }: UseCounterOp
     }, [end, duration, start]);
 
     return count;
-}
+};
 
 interface UseCalculationResult {
     savings: number;
@@ -79,25 +82,16 @@ interface UseTaxCalculatorOptions {
  * @example
  * const { result, isCalculating } = useTaxCalculator({ income, enabled: true });
  */
-export function useTaxCalculator({
+export const useTaxCalculator = ({
     income,
     enabled,
     delay = 800,
 }: UseTaxCalculatorOptions): {
     result: UseCalculationResult | null;
     isCalculating: boolean;
-} {
+} => {
     const [result, setResult] = useState<UseCalculationResult | null>(null);
     const [isCalculating, setIsCalculating] = useState(false);
-    const timeoutRef = useRef<number | null>(null);
-
-    useEffect(() => {
-        return () => {
-            if (timeoutRef.current) {
-                window.clearTimeout(timeoutRef.current);
-            }
-        };
-    }, []);
 
     useEffect(() => {
         if (!enabled || !income) {
@@ -109,11 +103,7 @@ export function useTaxCalculator({
         setIsCalculating(true);
         setResult(null);
 
-        if (timeoutRef.current) {
-            window.clearTimeout(timeoutRef.current);
-        }
-
-        timeoutRef.current = window.setTimeout(() => {
+        const timer = window.setTimeout(() => {
             const netIncome = parseFloat(income.replace(/[.,]/g, "")) || 0;
 
             // Self-employment tax rate (Social Security 12.4% + Medicare 2.9%)
@@ -133,21 +123,24 @@ export function useTaxCalculator({
                 newTax,
             });
             setIsCalculating(false);
-            timeoutRef.current = null;
         }, delay);
+
+        return () => {
+            window.clearTimeout(timer);
+        };
     }, [income, enabled, delay]);
 
     return { result, isCalculating };
-}
+};
 
 /**
  * Format a number as USD currency without cents.
  */
-export function formatCurrency(value: number, locale: string = "en-US"): string {
+export const formatCurrency = (value: number, locale: string = "en-US"): string => {
     const resolvedLocale = locale === "es" ? "es-ES" : locale;
     return new Intl.NumberFormat(resolvedLocale, {
         style: 'currency',
         currency: 'USD',
         maximumFractionDigits: 0,
     }).format(value);
-}
+};

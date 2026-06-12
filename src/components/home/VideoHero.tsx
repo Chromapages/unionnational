@@ -17,19 +17,18 @@ interface VideoHeroProps {
     };
 }
 
-export function VideoHero({ data }: VideoHeroProps) {
+export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
     const t = useTranslations('HomePage.VideoHero');
     const locale = useLocale();
     const [income, setIncome] = useState<string>("");
     const [showResult, setShowResult] = useState(false);
     const [inputError, setInputError] = useState(false);
 
-    const calculationTimeoutRef = useRef<number | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     const { result, isCalculating } = useTaxCalculator({
         income,
-        enabled: income.length > 0 && !showResult,
+        enabled: showResult && !inputError,
         delay: 600,
     });
 
@@ -46,28 +45,11 @@ export function VideoHero({ data }: VideoHeroProps) {
         }
     }, []);
 
-    // Cleanup timeout on unmount
-    useEffect(() => {
-        return () => {
-            if (calculationTimeoutRef.current) {
-                window.clearTimeout(calculationTimeoutRef.current);
-            }
-        };
-    }, []);
-
     const handleCalculate = () => {
         if (!income) return;
+        if (inputError) return;
 
-        if (calculationTimeoutRef.current) {
-            window.clearTimeout(calculationTimeoutRef.current);
-        }
-
-        setShowResult(false);
-
-        calculationTimeoutRef.current = window.setTimeout(() => {
-            setShowResult(true);
-            calculationTimeoutRef.current = null;
-        }, 600);
+        setShowResult(true);
     };
 
     const formatCurrencyLocal = (val: number) => formatCurrency(val, locale);
@@ -79,6 +61,7 @@ export function VideoHero({ data }: VideoHeroProps) {
         setIncome(masked);
         const parsed = parseFloat(masked.replace(/[.,]/g, ""));
         setInputError(masked.length > 0 && (isNaN(parsed) || parsed <= 0));
+        setShowResult(false);
     };
 
     return (
@@ -98,7 +81,7 @@ export function VideoHero({ data }: VideoHeroProps) {
                         loop
                         playsInline
                         preload="metadata"
-                        poster="https://cdn.pixabay.com/video/2021/08/13/84918-588365261_large.jpg"
+                        poster=""
                     />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-900/80 via-brand-900/60 to-brand-950"></div>
