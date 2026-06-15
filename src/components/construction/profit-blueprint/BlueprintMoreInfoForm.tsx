@@ -11,6 +11,9 @@ import { cn } from "@/lib/utils";
 const formSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
     email: z.string().email("Valid email required"),
+    phone: z.string().min(10, "Valid phone number required"),
+    businessName: z.string().min(1, "Business name is required"),
+    state: z.string().min(1, "State is required"),
     message: z.string().min(1, "Please enter your question").max(500, "Message too long"),
 });
 
@@ -43,6 +46,7 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
             contact: {
                 first_name: data.firstName,
                 email: data.email,
+                phone: data.phone,
                 tags: ["LM_Blueprint_MoreInfo", "Interest_Construction"],
             },
             intent: {
@@ -51,6 +55,7 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                 message: data.message,
             },
             business: {
+                business_name: data.businessName,
                 industry: "CONSTRUCTION",
             },
             meta: {
@@ -147,6 +152,59 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                             <p className="mt-1.5 text-xs text-red-400">{errors.email.message}</p>
                         )}
                     </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-1.5">
+                            Phone Number
+                        </label>
+                        <input
+                            id="phone"
+                            type="tel"
+                            autoComplete="tel"
+                            placeholder="(555) 555-5555"
+                            {...register("phone")}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-600 bg-brand-700 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
+                        />
+                        {errors.phone && (
+                            <p className="mt-1.5 text-xs text-red-400">{errors.phone.message}</p>
+                        )}
+                    </div>
+                    <div>
+                        <label htmlFor="businessName" className="block text-sm font-medium text-slate-300 mb-1.5">
+                            Business Name
+                        </label>
+                        <input
+                            id="businessName"
+                            type="text"
+                            autoComplete="organization"
+                            placeholder="Acme Construction"
+                            {...register("businessName")}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-600 bg-brand-700 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
+                        />
+                        {errors.businessName && (
+                            <p className="mt-1.5 text-xs text-red-400">{errors.businessName.message}</p>
+                        )}
+                    </div>
+                </div>
+
+                <div>
+                    <label htmlFor="state" className="block text-sm font-medium text-slate-300 mb-1.5">
+                        State
+                    </label>
+                    <input
+                        id="state"
+                        type="text"
+                        autoComplete="address-level1"
+                        placeholder="TX"
+                        maxLength={2}
+                        {...register("state")}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-600 bg-brand-700 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm uppercase"
+                    />
+                    {errors.state && (
+                        <p className="mt-1.5 text-xs text-red-400">{errors.state.message}</p>
+                    )}
                 </div>
 
                 <div>
