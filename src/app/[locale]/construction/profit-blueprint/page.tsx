@@ -16,6 +16,7 @@ import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideo
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
+import { BlueprintMoreInfoForm } from "@/components/construction/profit-blueprint/BlueprintMoreInfoForm";
 
 export const metadata: Metadata = {
     title: "Money-Making Blueprint for Construction Companies | Job Costing & Profit Control Guide",
@@ -357,6 +358,13 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                 subtitle="Less than the cost of one afternoon on a job site — for the system that turns owner-operators into business owners."
                 buttonText="Get the Blueprint Now"
             />
+
+            {/* More Info Form - quick contact form at bottom */}
+            <section className="py-12 lg:py-16 bg-brand-900 border-y border-brand-800">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <BlueprintMoreInfoForm />
+                </div>
+            </section>
             </main>
             <Footer />
             <CartSidebar />

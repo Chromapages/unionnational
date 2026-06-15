@@ -52,6 +52,8 @@ export async function POST(request: Request) {
                 ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/d23b0447-6fb5-4a12-98e4-bffbf7aafafe"
                 : payload.intent.lead_magnet_type === "CONSTRUCTION_PROFITABILITY_ASSESSMENT"
                 ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/b15f618f-d4ec-4cf3-b1d4-01ba9e87b271"
+                : payload.intent.lead_magnet_type === "BLUEPRINT_MORE_INFO"
+                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/f1e87470-26e7-45fd-9b04-99d46ba991c5"
                 : getEnv(
                       payload.intent.lead_magnet_type === "SCORP_ESTIMATOR"
                           ? "GHL_SCORP_ESTIMATOR_WEBHOOK_URL"
