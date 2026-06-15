@@ -14,7 +14,6 @@ const formSchema = z.object({
     phone: z.string().min(10, "Valid phone number required"),
     businessName: z.string().min(1, "Business name is required"),
     state: z.string().min(1, "State is required"),
-    message: z.string().min(1, "Please enter your question").max(500, "Message too long"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -52,7 +51,6 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
             intent: {
                 lead_magnet_type: "BLUEPRINT_MORE_INFO",
                 primary_service_interest: "CONSTRUCTION_BLUEPRINT",
-                message: data.message,
             },
             business: {
                 business_name: data.businessName,
@@ -204,22 +202,6 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                     />
                     {errors.state && (
                         <p className="mt-1.5 text-xs text-red-400">{errors.state.message}</p>
-                    )}
-                </div>
-
-                <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-slate-300 mb-1.5">
-                        Your Question
-                    </label>
-                    <textarea
-                        id="message"
-                        rows={4}
-                        placeholder="What would you like to know about the blueprint?"
-                        {...register("message")}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-600 bg-brand-700 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm resize-none"
-                    />
-                    {errors.message && (
-                        <p className="mt-1.5 text-xs text-red-400">{errors.message.message}</p>
                     )}
                 </div>
 
