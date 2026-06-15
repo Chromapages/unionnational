@@ -9,6 +9,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { MetaPixel } from "@/components/seo/MetaPixel";
+import { GhlExternalTracking } from "@/components/seo/GhlExternalTracking";
 import { ProgressBar } from "@/components/ProgressBar";
 import { SanityLive } from "@/sanity/lib/live";
 
@@ -113,6 +114,7 @@ export default async function RootLayout(props: {
         suppressHydrationWarning
       >
         <MetaPixel />
+        <GhlExternalTracking />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-gold-500 focus:text-brand-900 focus:px-4 focus:py-2 focus:rounded-lg"
