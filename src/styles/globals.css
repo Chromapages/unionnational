@@ -474,6 +474,7 @@
 /* Hide GHL Chat Widget on mobile (conflicts with bottom tab bar) */
 @media (max-width: 767px) {
 
+    chat-widget,
     #chat-widget-container,
     #lc-chat-widget-container,
     #ghl-chat-widget-container,

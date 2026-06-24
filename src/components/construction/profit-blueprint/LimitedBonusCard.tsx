@@ -11,6 +11,21 @@ interface LimitedBonusCardProps {
 }
 
 const BONUS_DEADLINE_ISO = "2026-06-30T23:59:59-04:00"; // Q2 close (America/New_York)
+const ROLLING_DEADLINE_DAYS = 7; // rolling fallback after Q2 close
+
+// Compute a rolling deadline: end of today + N days, stored in sessionStorage
+const getRollingDeadlineMs = (): number => {
+    if (typeof window === "undefined") return 0;
+    const stored = sessionStorage.getItem("blueprint_bonus_deadline");
+    if (stored) {
+        const deadline = parseInt(stored, 10);
+        if (deadline > Date.now()) return deadline;
+    }
+    const now = new Date();
+    const rolling = new Date(now.getFullYear(), now.getMonth(), now.getDate() + ROLLING_DEADLINE_DAYS, 23, 59, 59).getTime();
+    sessionStorage.setItem("blueprint_bonus_deadline", rolling.toString());
+    return rolling;
+};
 
 interface TimeLeft {
     days: number;
@@ -111,7 +126,7 @@ const formatNumber = (n: number): string => n.toString().padStart(2, "0");
 
 export function LimitedBonusCard({ locale }: LimitedBonusCardProps) {
     const t = COPY[locale];
-    const deadlineMs = new Date(BONUS_DEADLINE_ISO).getTime();
+    const fixedDeadlineMs = new Date(BONUS_DEADLINE_ISO).getTime();
 
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({
         days: 0,
@@ -126,12 +141,16 @@ export function LimitedBonusCard({ locale }: LimitedBonusCardProps) {
         // mounted is a one-time hydration flag — first render shows placeholders to avoid SSR/client time drift.
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
-        setTimeLeft(computeTimeLeft(deadlineMs));
+
+        // Use fixed deadline if still in future; otherwise fall back to rolling session deadline
+        const effectiveDeadline = fixedDeadlineMs > Date.now() ? fixedDeadlineMs : getRollingDeadlineMs();
+        setTimeLeft(computeTimeLeft(effectiveDeadline));
         const interval = setInterval(() => {
-            setTimeLeft(computeTimeLeft(deadlineMs));
+            const deadline = fixedDeadlineMs > Date.now() ? fixedDeadlineMs : getRollingDeadlineMs();
+            setTimeLeft(computeTimeLeft(deadline));
         }, 1000);
         return () => clearInterval(interval);
-    }, [deadlineMs]);
+    }, [fixedDeadlineMs]);
 
     const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();

@@ -42,6 +42,14 @@ export interface ProductCheckoutRecord {
         format?: string;
         stripePriceId?: string;
     }>;
+    orderBump?: {
+        _key?: string;
+        name?: string | Record<string, string>;
+        price?: number;
+        format?: string;
+        stripePriceId?: string;
+        stripeProductId?: string;
+    };
 }
 
 export interface ResolvedCheckoutItem {
@@ -71,6 +79,14 @@ export const CHECKOUT_PRODUCTS_QUERY = `
       price,
       format,
       stripePriceId
+    },
+    orderBump {
+      _key,
+      name,
+      price,
+      format,
+      stripePriceId,
+      stripeProductId
     }
   }
 `;
@@ -146,6 +162,11 @@ export function getStripePriceId(
     item: CheckoutCartItemPayload,
     matchingEdition = findMatchingEdition(product, item)
 ): string | null {
+    const isOrderBump = item.editionId === "strategy-call" || (product.orderBump && product.orderBump._key === item.editionId);
+    if (isOrderBump && product.orderBump) {
+        return product.orderBump.stripePriceId || "price_1STRATEGY_STRATEGY_STRATEGY";
+    }
+
     const titleWithoutLeadingThe = product.title.replace(/^The\s+/i, "");
     const mappedSlugFormatPriceId = findMappedPrice(
         buildSlugFormatPriceKeys(
@@ -264,6 +285,34 @@ export function resolveCheckoutItem(
     product: ProductCheckoutRecord,
     item: CheckoutCartItemPayload
 ): ResolvedCheckoutItem | null {
+    const isOrderBump = item.editionId === "strategy-call" || (product.orderBump && product.orderBump._key === item.editionId);
+
+    if (isOrderBump && product.orderBump) {
+        const priceId = product.orderBump.stripePriceId || "price_1STRATEGY_STRATEGY_STRATEGY";
+        
+        let resolvedName = "30-Min Tax Strategy Call with Jason";
+        if (typeof product.orderBump.name === "string") {
+            resolvedName = product.orderBump.name;
+        } else if (product.orderBump.name && typeof product.orderBump.name === "object") {
+            // Check for localized name
+            const localized = product.orderBump.name as Record<string, string>;
+            resolvedName = localized.en || resolvedName;
+        }
+
+        return {
+            productId: product._id,
+            slug: product.slug,
+            title: product.title,
+            editionId: item.editionId,
+            editionName: resolvedName,
+            format: product.orderBump.format || "service",
+            fulfillmentType: "service",
+            requiresShipping: false,
+            stripePriceId: priceId,
+            quantity: item.quantity,
+        };
+    }
+
     const matchingEdition = findMatchingEdition(product, item);
     const priceId = getStripePriceId(product, item, matchingEdition);
 

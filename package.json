@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
+    "dev:3001": "node scripts/dev-server.mjs 3001 .next-3001",
     "dev:webpack": "next dev --webpack",
     "dev:turbo": "next dev --turbopack",
     "build": "next build",

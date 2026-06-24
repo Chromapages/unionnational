@@ -1,4 +1,7 @@
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Calendar, ExternalLink, Video } from "lucide-react";
+
+const CALENDAR_URL = "https://calendly.com/jason-unt/blueprint-call";
 
 interface Author {
     name: string;
@@ -20,10 +23,10 @@ export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
     ];
 
     const tags = [
-        { label: "EA", primary: true },
-        { label: "MBA", primary: false },
-        { label: "FSCP", primary: false },
-        { label: "LUTCF", primary: false }
+        { label: "EA", primary: true, desc: "IRS Enrolled Agent — licensed to represent taxpayers in audits" },
+        { label: "MBA", primary: false, desc: "Master of Business Administration" },
+        { label: "FSCP", primary: false, desc: "Financial Specialist in Tax Planning" },
+        { label: "LUTCF", primary: false, desc: "Life Underwriter Training Council Fellow" }
     ];
 
     const details = [
@@ -66,20 +69,24 @@ export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
 
                         <RevealOnScroll className="w-full" delay={150}>
                             {/* Credentials Chips */}
-                            <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
+                            <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-4">
                                 {tags.map((tag) => (
                                     <span
                                         key={tag.label}
+                                        title={tag.desc}
                                         className={
                                             tag.primary
-                                                ? "bg-rose-600 text-white font-bold text-[11px] px-3 py-1 uppercase tracking-wide rounded-none"
-                                                : "bg-white/5 border border-white/10 text-slate-300 font-bold text-[11px] px-3 py-1 uppercase tracking-wide rounded-none"
+                                                ? "bg-rose-600 text-white font-bold text-[11px] px-3 py-1 uppercase tracking-wide rounded-none cursor-help"
+                                                : "bg-white/5 border border-white/10 text-slate-300 font-bold text-[11px] px-3 py-1 uppercase tracking-wide rounded-none cursor-help"
                                         }
                                     >
                                         {tag.label}
                                     </span>
                                 ))}
                             </div>
+                            <p className="text-slate-400 text-[10px] leading-relaxed max-w-sm">
+                                EA — IRS Enrolled Agent, licensed to represent taxpayers in audits across all 50 states
+                            </p>
                         </RevealOnScroll>
 
                         <RevealOnScroll className="w-full" delay={200}>
@@ -141,6 +148,40 @@ export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
                                 *Methodology: average tax savings figure is calculated from internal advisory engagements completed between 2012–2024. Individual results vary based on entity structure, revenue, deductions, and current IRS regulations. Past performance is not a guarantee of future outcomes.
                             </p>
                         </RevealOnScroll>
+
+                        {/* Next Step: Book a Call */}
+                        <div className="mt-10 pt-8 border-t border-white/10 max-w-xl">
+                            <h3 className="text-xl font-black text-white mb-3">
+                                Want to apply this directly to your business?
+                            </h3>
+                            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                                Book 30 minutes with Jason. Apply the blueprint to your specific numbers — no pitch, no obligation.
+                            </p>
+                            <a
+                                href={CALENDAR_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-gold-500 hover:bg-gold-400 text-brand-900 font-black uppercase text-xs tracking-wider rounded-full transition-colors"
+                            >
+                                <Calendar className="w-4 h-4" />
+                                Book a Free 15-Min Call
+                            </a>
+                            <div className="flex items-center gap-4 mt-4 text-[10px] text-slate-500">
+                                <div className="flex items-center gap-1.5">
+                                    <Video className="w-3.5 h-3.5" />
+                                    <span>Video call · 15 min · No prep needed</span>
+                                </div>
+                                <a
+                                    href={CALENDAR_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1 text-gold-600 hover:text-gold-500 font-bold"
+                                >
+                                    Open in new tab
+                                    <ExternalLink className="w-3 h-3" />
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

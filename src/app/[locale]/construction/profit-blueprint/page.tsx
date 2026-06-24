@@ -1,7 +1,6 @@
 import { Metadata } from "next";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
-import { Link } from "@/i18n/navigation";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { BlueprintMastery } from "@/components/construction/profit-blueprint/BlueprintMastery";
@@ -16,15 +15,37 @@ import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideo
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
-import { BlueprintMoreInfoForm } from "@/components/construction/profit-blueprint/BlueprintMoreInfoForm";
+import { LimitedBonusCard } from "@/components/construction/profit-blueprint/LimitedBonusCard";
 
-export const metadata: Metadata = {
-    title: "Money-Making Blueprint for Construction Companies | Job Costing & Profit Control Guide",
-    description: "Download the free contractor blueprint from Union National Tax and learn how job costing, cash flow control, estimating discipline, and margin visibility help construction companies protect profit.",
-    alternates: {
-        canonical: "/construction/profit-blueprint",
-    },
-};
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await props.params;
+    const baseUrl = "https://unionnationaltax.com";
+    const path = "/construction/profit-blueprint";
+    const canonicalUrl = locale === "es" ? `${baseUrl}/es${path}` : `${baseUrl}${path}`;
+
+    const title = locale === "es"
+        ? "Plan Para Generar Dinero en Empresas de Construcción | Guía de Costo de Trabajo y Control de Ganancias"
+        : "Money-Making Blueprint for Construction Companies | Job Costing & Profit Control Guide";
+
+    const description = locale === "es"
+        ? "Descargue el plan gratuito para contratistas de Union National Tax y aprenda cómo el costo de trabajo, el control del flujo de caja, la disciplina de estimación y la visibilidad de márgenes protegen las ganancias de las empresas de construcción."
+        : "Download the free contractor blueprint from Union National Tax and learn how job costing, cash flow control, estimating discipline, and margin visibility help construction companies protect profit.";
+
+    return {
+        title,
+        description,
+        openGraph: {
+            images: [`${baseUrl}/images/og-construction.png`],
+        },
+        alternates: {
+            canonical: canonicalUrl,
+            languages: {
+                en: `${baseUrl}${path}`,
+                es: `${baseUrl}/es${path}`,
+            },
+        },
+    };
+}
 
 const FALLBACK_PRODUCT = {
     _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
@@ -67,8 +88,8 @@ const FALLBACK_PRODUCT = {
             price: 79,
             format: "bundle",
             language: "en",
-            stripePriceId: "price_1BUNDLE_BUNDLE_BUNDLE_BUNDLE",
-            stripeProductId: "prod_BUNDLE_BUNDLE_BUNDLE_BUNDLE",
+            stripePriceId: "price_1TOlSoBBqB7ETKuVtDfASqwk",
+            stripeProductId: "prod_UNRJ66222da3Bv",
             description: {
                 en: "Digital PDF + Physical Book + Audiobook + Bonus Templates.",
                 es: "PDF Digital + Libro Físico + Audiolibro + Plantillas Bonus.",
@@ -219,15 +240,12 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-8 lg:py-12">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-                        {/* Left: Copy - Focus on Book */}
-                        <div>
+                        {/* Left: Copy — order-last on mobile so video stacks first */}
+                        <div className="order-last lg:order-first">
                             <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
-                                Is Your Construction Company{" "}
-                                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black pr-4 pb-1">
-                                    Losing
-                                </span>{" "}
-                                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black pr-4 pb-1">
-                                    Money?
+                                Stop Working for Free.
+                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black mt-1">
+                                    The Blueprint That Puts Margin Back in Every Bid.
                                 </span>
                             </h1>
 
@@ -237,43 +255,52 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
                             <ul className="space-y-3 mb-8">
                                 {[
+                                    "The S-Corp strategy that saves $20K/year in taxes",
                                     "Job costing systems that surface losing jobs early",
                                     "Cash flow forecasting to stop payroll surprises",
                                     "Pricing discipline that protects every bid",
-                                    "The S-Corp strategy that saves $20K/year in taxes",
                                 ].map((item, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-slate-300 text-sm sm:text-base">
+                                    <li key={i} className={i >= 2 ? "hidden sm:flex items-start gap-3 text-slate-300 text-sm sm:text-base" : "flex items-start gap-3 text-slate-300 text-sm sm:text-base"}>
                                         <CheckCircle2 size={18} className="text-gold-500 shrink-0 mt-0.5" />
                                         <span>{item}</span>
                                     </li>
                                 ))}
                             </ul>
 
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
-                                <a
-                                    href="#book-sales"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm rounded-full transition-colors shadow-lg shadow-gold-500/30 w-full sm:w-auto justify-center"
-                                >
-                                    Get the Blueprint
-                                    <ArrowRight size={18} />
-                                </a>
-                                <Link
-                                    href="/construction-profitability-assessment"
-                                    className="inline-flex items-center gap-2 px-8 py-4 border border-gold-500/30 hover:border-gold-500 bg-gold-500/10 hover:bg-gold-500/20 text-gold-400 hover:text-gold-300 font-black uppercase tracking-wider text-sm rounded-full transition-colors w-full sm:w-auto justify-center"
-                                >
-                                    {locale === "es" ? "Realizar la Evaluación" : "Take the Assessment"}
-                                    <ArrowRight size={18} />
-                                </Link>
+                            {/* Sleek Hero Testimonial Card — hidden on mobile to reduce height */}
+                            <div className="hidden sm:block bg-white/5 border border-white/10 rounded-2xl p-4 mb-7 max-w-xl">
+                                <p className="text-slate-200 text-sm italic leading-relaxed">
+                                    &ldquo;I was running 4% margin, hit 11% in 6 months using Jason&apos;s blueprint. The job costing template alone saved us $45k on our last commercial bid.&rdquo;
+                                </p>
+                                <div className="mt-3 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                                    <span>&mdash; Mark T., Astro Construction, AZ</span>
+                                    <span className="text-gold-500">★ ★ ★ ★ ★ ($1.8M Revenue)</span>
+                                </div>
                             </div>
 
-                            <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
+                                <a
+                                    id="hero-get-blueprint-link"
+                                    href="#book-sales"
+                                    aria-label={locale === "es" ? "Obtener el Plan" : "Get the Blueprint"}
+                                    tabIndex={0}
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm rounded-full transition-colors shadow-lg shadow-gold-500/30 w-full sm:w-auto justify-center"
+                                >
+                                    {locale === "es" ? "Obtener el Plan" : "Get the Blueprint"}
+                                    <ArrowRight size={18} />
+                                </a>
+                            </div>
+
+                            <div className="flex items-center gap-3 mt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                 <div className="h-px w-8 bg-gold-500/30" />
-                                <span>By Jason Astwood, EA, FSCP, LUTCF</span>
+                                <span>By Jason Astwood, EA · FSCP · LUTCF</span>
+                                <span className="text-slate-600">·</span>
+                                <span>IRS Enrolled Agent · Licensed in all 50 states</span>
                             </div>
                         </div>
 
-                        {/* Right: Video - validates the headline in real time */}
-                        <div className="w-full">
+                        {/* Right: Video — order-first on mobile so VSL is visible above the fold */}
+                        <div className="w-full order-first lg:order-last">
                              <HeroVideoEmbed
                                  videoSrc={
                                      (locale === "es"
@@ -299,53 +326,135 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                 </div>
             </section>
 
+            {/* Trust Bar - instant credibility signal */}
+            <div className="bg-brand-900 border-b border-brand-800 py-4">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
+                        <div className="flex items-center gap-2">
+                            <span className="text-gold-500 font-black text-sm">★★★★★</span>
+                            <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
+                        </div>
+                        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                        <div className="flex items-center gap-2">
+                            <span className="text-gold-500 font-black text-xs">247</span>
+                            <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought This Month</span>
+                        </div>
+                        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                        <div className="flex items-center gap-2">
+                            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                            <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Money-Back Guarantee</span>
+                        </div>
+                        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                        <div className="flex items-center gap-2">
+                            <Lock className="w-4 h-4 text-white/40" />
+                            <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Book Sales Section - Buy Widget + Guarantee */}
-            <div id="book-sales">
+            <div>
                 <ConstructionBookSalesSection product={productData} />
             </div>
 
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
             <MathSection />
 
+            {/* Standalone Testimonials Section */}
+            <section className="py-12 bg-slate-50 border-b border-slate-200">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <RevealOnScroll>
+                        <div className="text-center mb-10">
+                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-50 border border-gold-200/60 text-[10px] font-black uppercase tracking-widest text-gold-700 mb-4">
+                                ★ ★ ★ ★ ★ 5.0 · 247 contractors
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl font-black font-heading text-brand-900 tracking-tight uppercase">
+                                What Contractors Are Saying
+                            </h2>
+                        </div>
+                    </RevealOnScroll>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[
+                            {
+                                quote: "We were running 5% net margin, hit 12% in 4 months after applying the pricing and overhead formulas in Chapter 2. Made our annual profit target by September.",
+                                name: "Dave K.",
+                                company: "K-Con Concrete",
+                                state: "TX",
+                                revenue: "$2.4M",
+                            },
+                            {
+                                quote: "Before this book, we had cash flow surprises every other month. The progressive billing workflow in Chapter 5 alone gave us back our weekends. Jason knows the trades.",
+                                name: "Sarah L.",
+                                company: "L&M Electrical",
+                                state: "CO",
+                                revenue: "$900K",
+                            },
+                            {
+                                quote: "I was running 4% margin, hit 11% in 6 months using Jason's blueprint. The job costing template alone saved us $45k on our last commercial bid.",
+                                name: "Mark T.",
+                                company: "Astro Construction",
+                                state: "AZ",
+                                revenue: "$1.8M",
+                            },
+                            {
+                                quote: "The S-Corp chapter paid for the book ten times over in year one. I had no idea I was overpaying in taxes by that much. The systems actually work.",
+                                name: "Mike R.",
+                                company: "Riley Framing",
+                                state: "WA",
+                                revenue: "$1.2M",
+                            },
+                            {
+                                quote: "I took the assessment, then bought the book. Best $79 I ever spent. My markup calculator now prices every job at 18% minimum. No more losing bids.",
+                                name: "Carlos M.",
+                                company: "Mendoza Drywall",
+                                state: "NM",
+                                revenue: "$650K",
+                            },
+                            {
+                                quote: "Cash flow used to keep me up at night. Now I know what's coming in 90 days. The cash flow forecasting chapter alone changed everything.",
+                                name: "Jennifer S.",
+                                company: "Summit HVAC",
+                                state: "MT",
+                                revenue: "$1.5M",
+                            },
+                        ].map((t, i) => (
+                            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 relative shadow-sm flex flex-col gap-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
+                                        <span className="text-gold-700 font-black text-xs">
+                                            {t.name.split(" ").map(n => n[0]).join("")}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold text-brand-900">{t.name}</p>
+                                        <p className="text-[10px] text-slate-500">{t.company} · {t.state}</p>
+                                    </div>
+                                </div>
+                                <p className="text-slate-600 text-xs italic leading-relaxed flex-1">
+                                    &ldquo;{t.quote}&rdquo;
+                                </p>
+                                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500 border-t border-slate-100 pt-3">
+                                    <span>★ ★ ★ ★ ★</span>
+                                    <span>{t.revenue} Revenue</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Chapter Breakdown - What You'll Master (shows value before the sales letter) */}
+            <BlueprintMastery />
+
             {/* Long-Form Sales Letter - Persuasion bridge between VSL and offer */}
             <SalesLetterSection />
 
-            {/* Chapter Breakdown - What You'll Master (moved up: shows the value before the buy widget) */}
-            <BlueprintMastery />
+            {/* Urgency & Limited Stack Bonus Cards */}
+            <LimitedBonusCard locale={locale} />
 
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
-
-            {/* Assessment CTA */}
-            <RevealOnScroll>
-                <section className="py-12 lg:py-16 bg-brand-900 border-y border-brand-800 text-white relative overflow-hidden">
-                    <div className="absolute inset-0 z-0">
-                        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
-                        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-600/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4" />
-                    </div>
-                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-4">
-                            {locale === "es" ? "Próximo Paso" : "Next Step"}
-                        </span>
-                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-[1.1] uppercase mb-4">
-                            {locale === "es" 
-                                ? "¿Listo para identificar sus fugas de ganancias específicas?" 
-                                : "Ready to Find Your Specific Profit Leaks?"}
-                        </h2>
-                        <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-6">
-                            {locale === "es"
-                                ? "Después de obtener el plan, realice la Evaluación de Rentabilidad de la Construcción: un diagnóstico de 6 preguntas que identifica exactamente dónde su empresa está perdiendo el control."
-                                : "After you get the blueprint, take the Construction Profitability Assessment — a 6-question diagnostic that identifies exactly where your business is losing control."}
-                        </p>
-                        <Link
-                            href="/construction-profitability-assessment"
-                            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-full transition-colors text-sm uppercase tracking-widest shadow-lg shadow-gold-500/20 animate-fade-in"
-                        >
-                            {locale === "es" ? "Realizar la Evaluación" : "Take the Assessment"} <ArrowRight size={18} />
-                        </Link>
-                    </div>
-                </section>
-            </RevealOnScroll>
 
             {/* FAQ - Brief */}
             <BlueprintFAQ />
@@ -359,12 +468,6 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                 buttonText="Get the Blueprint Now"
             />
 
-            {/* More Info Form - quick contact form at bottom */}
-            <section className="py-12 lg:py-16 bg-brand-900 border-y border-brand-800">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <BlueprintMoreInfoForm />
-                </div>
-            </section>
             </main>
             <Footer />
             <CartSidebar />

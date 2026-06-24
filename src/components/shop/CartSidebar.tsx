@@ -335,7 +335,12 @@ interface OrderBumpCardProps {
 }
 
 function OrderBumpCard({ items, addItem, removeItem }: OrderBumpCardProps) {
-    const bumpCartId = buildCartItemKey(ORDER_BUMP.productId);
+    const bookItem = items.find((item) => item.slug === "the-money-making-blueprint-for-construction-companies");
+    const bookProductId = bookItem?.productId || "038a9b49-ee53-4e6a-9897-e9fe51693396";
+    const bookSlug = bookItem?.slug || "the-money-making-blueprint-for-construction-companies";
+    const bookTitle = bookItem?.title ? bookItem.title.split(" — ")[0] : "The Money-Making Blueprint for Construction Companies";
+
+    const bumpCartId = buildCartItemKey(bookProductId, "strategy-call");
     const isChecked = items.some((i) => i.id === bumpCartId);
 
     const handleToggle = () => {
@@ -344,9 +349,11 @@ function OrderBumpCard({ items, addItem, removeItem }: OrderBumpCardProps) {
         } else {
             addItem({
                 id: bumpCartId,
-                productId: ORDER_BUMP.productId,
-                slug: ORDER_BUMP.productId,
-                title: ORDER_BUMP.name,
+                productId: bookProductId,
+                slug: bookSlug,
+                editionId: "strategy-call",
+                editionName: ORDER_BUMP.name,
+                title: `${bookTitle} — ${ORDER_BUMP.name}`,
                 price: ORDER_BUMP.price,
                 image: ORDER_BUMP.image,
                 format: ORDER_BUMP.format,
@@ -356,7 +363,7 @@ function OrderBumpCard({ items, addItem, removeItem }: OrderBumpCardProps) {
                 stripeProductId: ORDER_BUMP.stripeProductId,
             });
             trackMetaEvent("AddToCart", {
-                content_id: ORDER_BUMP.productId,
+                content_id: bookSlug,
                 content_type: "service",
                 value: ORDER_BUMP.price,
                 currency: "USD",

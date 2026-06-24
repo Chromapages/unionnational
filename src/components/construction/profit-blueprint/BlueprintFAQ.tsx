@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
@@ -22,9 +25,30 @@ const faqs = [
         q: "Is this the same as working with Jason directly?",
         a: "The book gives you the complete framework Jason uses with his private clients — at a fraction of the cost. Many business owners use the book as a starting point and then engage Jason's firm for implementation support once they understand the strategy.",
     },
+    {
+        q: "What if I don't have time to read it?",
+        a: "The book is designed to be read in one Saturday morning — about 3 hours. The implementation checklists at the end of each chapter take 15 minutes each to apply. Most contractors start with Chapter 2 (Pricing) because it gives them an immediate win on their next bid.",
+    },
+    {
+        q: "I'm not a 'numbers person' — is this too technical?",
+        a: "Every formula in the book comes with a step-by-step example from a real contractor. If you can read a job estimate, you can follow this book. The systems are designed to be implemented without a CPA or CFO — just you, the book, and your numbers.",
+    },
 ];
 
 export function BlueprintFAQ() {
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const handleToggle = (i: number) => {
+        setOpenIndex((prev) => (prev === i ? null : i));
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent, i: number) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleToggle(i);
+        }
+    };
+
     return (
         <RevealOnScroll>
             <section className="py-20 lg:py-24 bg-surface">
@@ -39,30 +63,55 @@ export function BlueprintFAQ() {
                     </div>
 
                     <div className="space-y-4">
-                        {faqs.map((faq, i) => (
-                            <RevealOnScroll key={i} delay={i * 60}>
-                                <details
-                                    className="group border border-slate-200 rounded-2xl overflow-hidden bg-white"
-                                    open
-                                >
-                                    <summary className="flex items-center justify-between p-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-slate-50 transition-colors">
-                                        <span className="font-bold font-heading text-brand-900 pr-4">
-                                            {faq.q}
-                                        </span>
-                                        <span
-                                            aria-hidden="true"
-                                            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors bg-slate-100 text-slate-500 group-open:bg-brand-900 group-open:text-white"
+                        {faqs.map((faq, i) => {
+                            const isOpen = openIndex === i;
+                            return (
+                                <RevealOnScroll key={i} delay={i * 60}>
+                                    <div
+                                        className="border border-slate-200 rounded-2xl overflow-hidden bg-white"
+                                    >
+                                        <button
+                                            type="button"
+                                            id={`faq-btn-${i}`}
+                                            aria-expanded={isOpen}
+                                            aria-controls={`faq-panel-${i}`}
+                                            onClick={() => handleToggle(i)}
+                                            onKeyDown={(e) => handleKeyDown(e, i)}
+                                            className="w-full flex items-center justify-between p-6 cursor-pointer text-left hover:bg-slate-50 transition-colors"
                                         >
-                                            <Plus size={14} className="block group-open:hidden" />
-                                            <Minus size={14} className="hidden group-open:block" />
-                                        </span>
-                                    </summary>
-                                    <div className="px-6 pb-6 pt-0 text-slate-600 text-sm leading-relaxed border-l-2 border-brand-900/20">
-                                        {faq.a}
+                                            <span className="font-bold font-heading text-brand-900 pr-4">
+                                                {faq.q}
+                                            </span>
+                                            <span
+                                                aria-hidden="true"
+                                                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                                                    isOpen
+                                                        ? "bg-brand-900 text-white"
+                                                        : "bg-slate-100 text-slate-500"
+                                                }`}
+                                            >
+                                                {isOpen ? (
+                                                    <Minus size={14} />
+                                                ) : (
+                                                    <Plus size={14} />
+                                                )}
+                                            </span>
+                                        </button>
+
+                                        {isOpen && (
+                                            <div
+                                                id={`faq-panel-${i}`}
+                                                role="region"
+                                                aria-labelledby={`faq-btn-${i}`}
+                                                className="px-6 pb-6 pt-0 text-slate-600 text-sm leading-relaxed border-l-2 border-brand-900/20"
+                                            >
+                                                {faq.a}
+                                            </div>
+                                        )}
                                     </div>
-                                </details>
-                            </RevealOnScroll>
-                        ))}
+                                </RevealOnScroll>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

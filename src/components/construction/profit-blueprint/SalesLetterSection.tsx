@@ -109,96 +109,29 @@ export function SalesLetterSection() {
                     </p>
                 </RevealOnScroll>
 
-                {/* Author pull-quote - the "why this gap exists" voice */}
-                <RevealOnScroll delay={850}>
-                    <div className="my-12 border-l-4 border-gold-500 bg-slate-50 p-6 sm:p-8 rounded-r-2xl relative">
-                        <Quote className="w-8 h-8 text-gold-500/30 absolute top-4 right-4" />
-                        <p className="text-brand-900 font-semibold text-base sm:text-lg italic leading-relaxed pr-10">
-                            &ldquo;The average general contractor runs on a 5&ndash;6% net margin. Healthy operators hit 8&ndash;10%. The top performers in specialty trades run 15&ndash;25%. The gap? Leadership, structure, and knowing your numbers.&rdquo;
-                        </p>
-                        <p className="text-slate-500 text-sm mt-3 font-medium not-italic">
-                            &mdash; Jason Astwood, EA
-                        </p>
-                    </div>
-                </RevealOnScroll>
-
-                {/* Why this book */}
-                <RevealOnScroll delay={1000}>
-                    <h3 className="text-2xl sm:text-3xl font-black font-heading uppercase tracking-tight text-brand-900 mb-6">
-                        Why This Book Works When Most Don&apos;t
-                    </h3>
-                </RevealOnScroll>
-
-                <RevealOnScroll delay={1050}>
-                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">
-                        You&apos;ve probably read books on construction management before. Most of them are written by people who&apos;ve never run a job site. They&apos;re theory. They&apos;re frameworks. They&apos;re not implementation.
-                    </p>
-                </RevealOnScroll>
-
-                <RevealOnScroll delay={1100}>
-                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-12">
-                        This book is different because it was written from the inside. Every chapter, every checklist, every system comes from real contractors &mdash; owners who went from 5% to 18% margin in 18 months using the exact framework in these pages. It doesn&apos;t matter if you&apos;re a $300K sole operator or a $20M specialty contractor. <strong className="font-bold text-brand-900">The framework works the same way. The systems scale.</strong>
-                    </p>
-                </RevealOnScroll>
-
-                {/* What's inside */}
-                <RevealOnScroll delay={1150}>
-                    <h3 className="text-2xl sm:text-3xl font-black font-heading uppercase tracking-tight text-brand-900 mb-6">
-                        What&apos;s Inside
-                    </h3>
-                </RevealOnScroll>
-
-                <RevealOnScroll delay={1200}>
-                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-12">
-                        The book is organized around six chapters &mdash; each one closes with a 30-day implementation plan and a printable checklist you can hand to your PM on Monday morning. The full chapter-by-chapter breakdown is just below.
-                    </p>
-                </RevealOnScroll>
-
-                {/* Closing CTA */}
-                <RevealOnScroll delay={1300}>
+                {/* The Cost of Waiting — Option 1 / Option 2 close */}
+                <RevealOnScroll delay={800}>
                     <h3 className="text-2xl sm:text-3xl font-black font-heading uppercase tracking-tight text-brand-900 mb-6">
                         The Cost of Waiting
                     </h3>
                 </RevealOnScroll>
 
-                <RevealOnScroll delay={1350}>
+                <RevealOnScroll delay={850}>
                     <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">
                         You have two options.
                     </p>
                 </RevealOnScroll>
 
-                <RevealOnScroll delay={1400}>
+                <RevealOnScroll delay={900}>
                     <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">
                         <strong className="font-bold text-brand-900">Option 1:</strong> Put the book down, close this page, and go back to running your company the way you&apos;ve been running it. The 5% margin stays. The 60-hour weeks stay. The April tax bill stays. The gap between revenue and wealth stays.
                     </p>
                 </RevealOnScroll>
 
-                <RevealOnScroll delay={1450}>
+                <RevealOnScroll delay={950}>
                     <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-12">
                         <strong className="font-bold text-brand-900">Option 2:</strong> Spend $27 today. Read it on Saturday. Implement one system on Monday. Watch what happens to the next job you estimate.
                     </p>
-                </RevealOnScroll>
-
-                <RevealOnScroll delay={1500}>
-                    <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-12">
-                        Most of the contractors who bought this book in the last 90 days are running margins they&apos;ve never run before. The ones who finished it? They&apos;re booking strategy calls to talk about the next level &mdash; entity structure, owner compensation, and the kind of wealth planning that turns a profitable business into a transferable asset.
-                    </p>
-                </RevealOnScroll>
-
-                {/* Final CTA */}
-                <RevealOnScroll delay={1550}>
-                    <div className="mt-12 pt-12 border-t-2 border-slate-200 text-center">
-                        <a
-                            href="#book-sales"
-                            className="inline-flex items-center gap-2 px-10 py-5 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm sm:text-base rounded-full transition-colors shadow-lg shadow-gold-500/30"
-                        >
-                            Choose Your Format Below
-                            <ArrowRight size={18} />
-                        </a>
-                        <p className="mt-5 text-xs text-slate-500 uppercase tracking-wider font-bold">
-                            Instant Digital Delivery
-                        </p>
-                    </div>
                 </RevealOnScroll>
             </div>
         </section>
