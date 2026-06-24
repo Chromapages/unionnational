@@ -1,8 +1,36 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-export function MobileStickyCta() {
+export const MobileStickyCta: React.FC = () => {
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const heroCta = document.getElementById("hero-get-blueprint-link");
+            if (!heroCta) {
+                setIsVisible(window.scrollY > 600);
+                return;
+            }
+            const rect = heroCta.getBoundingClientRect();
+            setIsVisible(rect.bottom < 0);
+        };
+
+        handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    if (!isVisible) {
+        return null;
+    }
+
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-brand-900 border-t border-brand-800 shadow-2xl shadow-brand-900/40">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-brand-900 border-t border-brand-800 shadow-2xl shadow-brand-900/40 animate-slide-up">
             <div
                 className="px-4 py-3 flex items-center justify-between gap-3"
                 style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
@@ -25,4 +53,4 @@ export function MobileStickyCta() {
             </div>
         </div>
     );
-}
+};
