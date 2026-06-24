@@ -100,8 +100,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
         compareAtPrice,
         badge = "Contractor Edition",
         editions = [],
-        samplePages = [],
-        orderBump
+        samplePages = []
     } = product;
 
     const addItem = useCartStore((state) => state.addItem);
@@ -109,8 +108,6 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
     const toggleCart = useCartStore((state) => state.toggleCart);
 
     const pageLocale = useLocale() as "en" | "es";
-
-    const [orderBumpChecked, setOrderBumpChecked] = useState<boolean>(false);
 
     const normalizedEditions = useMemo<CanonicalBookEdition[]>(() => {
         const sourceEditions = editions.length > 0
@@ -243,34 +240,15 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
             stripePriceId: selectedEdition.stripePriceId,
         });
 
-        if (orderBumpChecked && orderBump) {
-            const bumpName = resolveLocalized(orderBump.name, pageLocale) || "Strategy Call";
-            addItem({
-                id: buildCartItemKey(id, orderBump._key),
-                productId: id,
-                editionId: orderBump._key,
-                editionName: bumpName,
-                slug,
-                title: `${title} — ${bumpName}`,
-                price: orderBump.price,
-                image: imageUrl,
-                format: orderBump.format,
-                fulfillmentType: "service",
-                requiresShipping: false,
-                stripeProductId: orderBump.stripeProductId,
-                stripePriceId: orderBump.stripePriceId,
-            });
-        }
-
         trackMetaEvent("AddToCart", {
             content_id: slug,
             content_type: "product",
-            value: selectedEdition.price + (orderBumpChecked && orderBump ? orderBump.price : 0),
+            value: selectedEdition.price,
             currency: "USD",
         });
 
         toggleCart();
-    }, [id, slug, title, imageUrl, selectedEdition, addItem, removeProductItems, toggleCart, orderBumpChecked, orderBump, pageLocale]);
+    }, [id, slug, title, imageUrl, selectedEdition, addItem, removeProductItems, toggleCart]);
 
     const handleAddToCartKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -551,48 +529,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                 )}
                             </div>
 
-                            {/* P0 Issue: Order Bump in Buy Box */}
-                            {orderBump && (
-                                <div className="mb-6 p-5 rounded-2xl border-2 border-dashed border-gold-400 bg-gold-50/20 flex items-start gap-4">
-                                    <button
-                                        id="order-bump-checkbox"
-                                        type="button"
-                                        role="checkbox"
-                                        aria-checked={orderBumpChecked}
-                                        aria-label={pageLocale === "es" ? "Agregar llamada de estrategia fiscal" : "Add tax strategy call"}
-                                        onClick={() => setOrderBumpChecked(!orderBumpChecked)}
-                                        className={cn(
-                                            "shrink-0 mt-1 w-5 h-5 rounded border-2 flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-gold-500",
-                                            orderBumpChecked
-                                                ? "bg-gold-500 border-gold-500 text-white"
-                                                : "bg-white border-slate-300 hover:border-gold-500"
-                                        )}
-                                    >
-                                        {orderBumpChecked && (
-                                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        )}
-                                    </button>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-1.5 mb-1.5">
-                                            <Sparkles className="w-4 h-4 text-gold-600 animate-pulse" />
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-gold-700">
-                                                {pageLocale === "es" ? "Adición Recomendada" : "Recommended Add-On"}
-                                            </span>
-                                        </div>
-                                        <p className="text-sm font-bold text-brand-900 leading-snug">
-                                            {resolveLocalized(orderBump.name, pageLocale)} &mdash; ${orderBump.price}
-                                        </p>
-                                        <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                                            {resolveLocalized(orderBump.description, pageLocale)}
-                                        </p>
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-2">
-                                            Jason&apos;s private clients pay $500/hr &middot; One-time offer
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
+
 
                             <button
                                 type="button"
