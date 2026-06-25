@@ -59,7 +59,24 @@
       "Bash(curl -sI http://localhost:3000/en/construction/profitability-assessment)",
       "Bash(curl -sL http://localhost:3000/construction/profitability-assessment)",
       "Bash(md5 \"/Users/mimac/WORK/tax websites/build/build/unionnational/public/images/cta-bg.png\")",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Skill(i18n-localization)",
+      "Bash(echo \"EXIT_CODE=$?\")",
+      "Bash(npx eslint *)",
+      "Bash(echo \"TYPECHECK_EXIT=$?\")",
+      "Bash(echo \"EXIT_CODE: $?\")",
+      "Read(//tmp/**)",
+      "Bash(git restore *)",
+      "Bash(npx next *)",
+      "Bash(xargs grep *)",
+      "Bash(curl *)",
+      "Bash(grep -oE 'grid-cols-1 lg:grid-cols-2|aspect-ratio.{1,50}|HeroVideoEmbed')",
+      "Bash(grep -oE '\\\\\\\\\"digest\\\\\\\\\":\\\\\\\\\"[^\\\\\\\\]+\\\\\\\\\"|\\\\\\\\\"message\\\\\\\\\":\\\\\\\\\"[^\\\\\\\\]+\\\\\\\\\"' /tmp/pb.html)",
+      "Bash(grep -oE '<video[^>]{0,250}')",
+      "Bash(grep -oE '<video[^>]{0,300}')",
+      "Bash(git commit *)",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }
