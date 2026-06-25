@@ -305,7 +305,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
                     {/* LEFT COLUMN: Visual Media Showcase */}
                     <div className="lg:col-span-5 flex flex-col items-center gap-6 lg:sticky lg:top-24">
-                        <div className="relative w-full max-w-lg aspect-[3/4] bg-transparent rounded-none shadow-[0_8px_30px_rgba(0,0,0,0.15)] group">
+                        <div className="relative w-full max-w-[280px] sm:max-w-lg aspect-square lg:aspect-[3/4] bg-transparent rounded-none shadow-[0_8px_30px_rgba(0,0,0,0.15)] group">
                             {badge && (
                                 <div className="absolute top-4 left-4 z-10">
                                     <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-brand-900 text-gold-400 text-[9px] font-black uppercase tracking-widest rounded-md shadow-lg border border-brand-800">
@@ -330,7 +330,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                         fill
                                         sizes="(max-width: 768px) 100vw, 40vw"
                                         className={cn(
-                                            "object-cover p-0 transition-all duration-300",
+                                            "object-contain lg:object-cover p-0 transition-all duration-300",
                                             imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
                                         )}
                                         onLoad={() => setImageLoaded(true)}
