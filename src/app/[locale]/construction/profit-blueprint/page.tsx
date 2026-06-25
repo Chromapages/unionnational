@@ -341,27 +341,73 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             </section>
 
             {/* Trust Bar - instant credibility signal */}
-            <div className="bg-brand-900 border-b border-brand-800 py-4">
+            <div className="bg-brand-900 border-b border-brand-800 py-4 overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
+                    {/* Desktop View */}
+                    <div className="hidden sm:flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
                         <div className="flex items-center gap-2">
                             <span className="text-gold-500 font-black text-sm">★★★★★</span>
                             <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
                         </div>
-                        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                        <div className="h-4 w-px bg-white/10" />
                         <div className="flex items-center gap-2">
                             <span className="text-gold-500 font-black text-xs">247</span>
                             <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought This Month</span>
                         </div>
-                        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                        <div className="h-4 w-px bg-white/10" />
                         <div className="flex items-center gap-2">
                             <ShieldCheck className="w-4 h-4 text-emerald-500" />
                             <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Money-Back Guarantee</span>
                         </div>
-                        <div className="h-4 w-px bg-white/10 hidden sm:block" />
+                        <div className="h-4 w-px bg-white/10" />
                         <div className="flex items-center gap-2">
                             <Lock className="w-4 h-4 text-white/40" />
                             <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
+                        </div>
+                    </div>
+
+                    {/* Mobile View: Infinite Loop Marquee Carousel */}
+                    <div className="sm:hidden relative w-full overflow-hidden mask-gradient-x">
+                        <div className="flex gap-10 py-0.5 animate-scroll w-max whitespace-nowrap">
+                            {/* Original Set */}
+                            <div className="flex items-center gap-10 shrink-0">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-gold-500 font-black text-sm">★★★★★</span>
+                                    <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-gold-500 font-black text-xs">247</span>
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Guarantee</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Lock className="w-4 h-4 text-white/40" />
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
+                                </div>
+                            </div>
+
+                            {/* Duplicate Set for Seamless Loop */}
+                            <div className="flex items-center gap-10 shrink-0">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-gold-500 font-black text-sm">★★★★★</span>
+                                    <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-gold-500 font-black text-xs">247</span>
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Guarantee</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Lock className="w-4 h-4 text-white/40" />
+                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
