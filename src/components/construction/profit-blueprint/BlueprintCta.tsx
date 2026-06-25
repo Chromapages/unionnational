@@ -36,7 +36,7 @@ export function BlueprintCta({
                     <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-600/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4" />
                 </>
             ) : (
-                <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-10" />
+                <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-10" />
             )}
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">

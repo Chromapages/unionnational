@@ -536,15 +536,22 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                 onClick={handleAddToCart}
                                 onKeyDown={handleAddToCartKeyDown}
                                 tabIndex={0}
-                                className="w-full bg-gold-500 text-brand-900 hover:bg-gold-400 active:scale-[0.98] transition-all font-black text-sm uppercase tracking-widest py-5 rounded-full flex items-center justify-center gap-3 shadow-[0_4px_12px_rgba(212,175,55,0.25)]"
+                                className="w-full bg-gold-500 hover:bg-gold-400 active:scale-[0.97] transition-all text-brand-900 rounded-full flex flex-col items-center justify-center py-4 px-6 shadow-[0_4px_20px_rgba(212,175,55,0.35)] md:shadow-[0_4px_12px_rgba(212,175,55,0.25)] md:flex-row md:gap-3 md:py-5"
                             >
-                                <ShoppingCart className="w-5 h-5" />
-                                {selectedEdition.format === "bundle"
-                                    ? pageLocale === "es" ? "Obtener Todo — $79" : "Get Everything — $79"
-                                    : selectedEdition.format === "physical"
-                                    ? pageLocale === "es" ? "Enviarme el Plan — $39" : "Ship Me the Blueprint — $39"
-                                    : pageLocale === "es" ? "Obtener Acceso Instantáneo — $27" : "Get Instant Access — $27"}
-                                <ChevronRight className="w-4 h-4" />
+                                <ShoppingCart className="w-5 h-5 hidden md:block" />
+                                <div className="flex flex-col items-center justify-center md:flex-row md:gap-2">
+                                    <span className="text-sm font-black uppercase tracking-widest">
+                                        {selectedEdition.format === "bundle"
+                                            ? pageLocale === "es" ? `Obtener Todo — $${selectedEdition.price}` : `Get Everything — $${selectedEdition.price}`
+                                            : selectedEdition.format === "physical"
+                                            ? pageLocale === "es" ? `Enviarme el Plan — $${selectedEdition.price}` : `Ship Me the Blueprint — $${selectedEdition.price}`
+                                            : pageLocale === "es" ? `Obtener Acceso Instantáneo — $${selectedEdition.price}` : `Get Instant Access — $${selectedEdition.price}`}
+                                    </span>
+                                    <span className="block md:hidden text-[9px] font-bold text-brand-900/80 uppercase tracking-widest leading-none mt-0.5">
+                                        {pageLocale === "es" ? "Garantía de 30 Días · Pago Seguro" : "30-Day Guarantee · Secure Checkout"}
+                                    </span>
+                                </div>
+                                <ChevronRight className="w-4 h-4 hidden md:block" />
                             </button>
 
                             {/* Inline guarantee trust line */}

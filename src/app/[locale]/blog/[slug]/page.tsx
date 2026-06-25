@@ -56,7 +56,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                 {/* Article Header */}
                 <header className="relative pt-20 pb-16 md:pt-32 md:pb-24 bg-brand-900 overflow-hidden">
                     {/* Visual Decor */}
-                    <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')]" />
+                    <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern-grid.svg')] bg-repeat" />
                     <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
                     
                     <div className="max-w-4xl mx-auto px-6 relative z-10">
