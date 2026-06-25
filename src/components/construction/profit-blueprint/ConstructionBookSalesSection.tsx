@@ -276,15 +276,15 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
     const allMedia = [imageUrl, ...(samplePages?.filter(p => p && p.url).map(p => p.url) || [])].slice(0, 5);
 
     return (
-        <section className="py-20 lg:py-24 bg-white">
+        <section className="py-10 md:py-20 lg:py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <RevealOnScroll>
-                    <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <div className="flex flex-col items-center gap-4 mb-4">
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-900 text-gold-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                    <div className="text-center mb-8 md:mb-16 max-w-3xl mx-auto">
+                        <div className="flex flex-col items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-900 text-gold-400 text-[9px] sm:px-4 sm:py-2 sm:text-[10px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em]">
                                 Ultimate Contractor Resource
                             </span>
-                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black font-heading text-brand-900 tracking-tight leading-[1.05] uppercase">
+                            <h2 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-black font-heading text-brand-900 tracking-tighter sm:tracking-tight leading-[1.1] sm:leading-[1.05] uppercase">
                                 Your Profit Blueprint. Step-by-Step.
                             </h2>
                             <div className="flex items-center gap-1 bg-gold-50/50 border border-gold-200/40 rounded-full px-4 py-1.5 shadow-sm mt-1">
@@ -292,20 +292,25 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                     ★★★★★
                                 </div>
                                 <span className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider pl-1">
-                                    5.0 (247 contractors bought this month)
+                                    <span className="inline sm:hidden">
+                                        {pageLocale === "es" ? "5.0 (247 opiniones)" : "5.0 (247 reviews)"}
+                                    </span>
+                                    <span className="hidden sm:inline">
+                                        {pageLocale === "es" ? "5.0 (247 contratistas compraron este mes)" : "5.0 (247 contractors bought this month)"}
+                                    </span>
                                 </span>
                             </div>
                         </div>
-                        <p className="text-slate-500 text-base leading-[1.47] tracking-[-0.024px]">
+                        <p className="text-slate-500 text-sm sm:text-base leading-[1.5] sm:leading-[1.47] tracking-[-0.024px] max-w-2xl mx-auto px-2">
                             The complete implementation guide to protecting your construction profit. Job costing, cash flow, and margin control — step by step.
                         </p>
                     </div>
                 </RevealOnScroll>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                     {/* LEFT COLUMN: Visual Media Showcase */}
                     <div className="lg:col-span-5 flex flex-col items-center gap-6 lg:sticky lg:top-24">
-                        <div className="relative w-full max-w-[280px] sm:max-w-lg aspect-square lg:aspect-[3/4] bg-transparent rounded-none shadow-[0_8px_30px_rgba(0,0,0,0.15)] group">
+                        <div className="relative w-full max-w-[280px] xs:max-w-[320px] sm:max-w-[380px] md:max-w-md lg:max-w-lg aspect-[3/4] bg-transparent rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.15)] group">
                             {badge && (
                                 <div className="absolute top-4 left-4 z-10">
                                     <span className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-brand-900 text-gold-400 text-[9px] font-black uppercase tracking-widest rounded-md shadow-lg border border-brand-800">
@@ -330,7 +335,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                         fill
                                         sizes="(max-width: 768px) 100vw, 40vw"
                                         className={cn(
-                                            "object-contain lg:object-cover p-0 transition-all duration-300",
+                                            "object-contain p-0 transition-all duration-300",
                                             imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
                                         )}
                                         onLoad={() => setImageLoaded(true)}
@@ -343,10 +348,10 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                         {/* Interactive Thumbnails — mobile only (shown below cover, hidden on desktop) */}
                         {allMedia.length > 1 && (
                             <div className="lg:hidden w-full max-w-lg">
-                                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-1">
+                                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2 px-1 text-center">
                                     Tap to preview pages
                                 </p>
-                                <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+                                <div className="flex gap-3 justify-center overflow-x-auto pb-2 no-scrollbar scroll-smooth-ios">
                                     {allMedia.map((mediaUrl, i) => (
                                         <div
                                             key={i}
@@ -356,10 +361,10 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                             onClick={() => handleThumbnailClick(mediaUrl)}
                                             onKeyDown={(e) => handleThumbnailKeyDown(e, mediaUrl)}
                                             className={cn(
-                                                "min-w-[72px] min-h-[88px] w-16 h-20 shrink-0 relative rounded-lg border-2 bg-white overflow-hidden cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-gold-500",
+                                                "w-14 h-18 xs:w-16 xs:h-20 shrink-0 relative rounded-lg border-2 bg-white overflow-hidden cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-gold-500",
                                                 activeMediaUrl === mediaUrl
                                                     ? "border-gold-500 shadow-md scale-105"
-                                                    : "border-slate-200 hover:border-slate-400"
+                                                    : "border-slate-200 hover:border-slate-300"
                                             )}
                                         >
                                             <Image
@@ -412,13 +417,17 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                     </div>
 
                     {/* RIGHT COLUMN: Buy Box & Strategic Details */}
-                    {/* id="book-sales" lives here so #book-sales links land at the price/CTA, not the section title */}
-                    <div id="book-sales" className="lg:col-span-7 bg-white rounded-lg border border-slate-200 p-8 sm:p-10 scroll-mt-20">
+                    <div id="book-sales" className="lg:col-span-7 bg-white rounded-2xl border border-slate-100 sm:border-slate-200 p-4 xs:p-6 sm:p-10 shadow-soft sm:shadow-none scroll-mt-20">
                         {/* Star Rating / review count badge */}
                         <div className="flex items-center gap-1 bg-gold-50/40 border border-gold-200/30 rounded-xl px-3 py-1.5 w-fit mb-6 shadow-sm">
                             <span className="text-gold-500 font-bold text-xs">★★★★★</span>
                             <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider pl-1">
-                                {pageLocale === "es" ? "5.0 (247 contratistas compraron este mes)" : "5.0 (247 contractors bought this month)"}
+                                <span className="inline sm:hidden">
+                                    {pageLocale === "es" ? "5.0 (247 opiniones)" : "5.0 (247 reviews)"}
+                                </span>
+                                <span className="hidden sm:inline">
+                                    {pageLocale === "es" ? "5.0 (247 contratistas compraron este mes)" : "5.0 (247 contractors bought this month)"}
+                                </span>
                             </span>
                         </div>
 
@@ -451,12 +460,26 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
                                             onClick={() => handleEditionSelect(ed)}
                                             aria-pressed={isSelected}
                                             className={cn(
-                                                "flex items-start gap-4 p-5 rounded-2xl border-2 transition-all text-left relative focus:outline-none focus:ring-2 focus:ring-gold-500",
+                                                "flex items-start gap-3 p-4 sm:p-5 rounded-2xl border-2 transition-all text-left relative focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer",
                                                 isSelected
                                                     ? "border-gold-500 bg-gold-50/20 shadow-md ring-2 ring-gold-500/5"
                                                     : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
                                             )}
                                         >
+                                            {/* Circular Radio Indicator */}
+                                            <div className="flex-shrink-0 mt-1">
+                                                <div className={cn(
+                                                    "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all",
+                                                    isSelected
+                                                        ? "border-gold-500 bg-gold-500 text-brand-900 shadow-sm"
+                                                        : "border-slate-300 bg-white"
+                                                )}>
+                                                    {isSelected && (
+                                                        <span className="text-[9px] font-black leading-none text-brand-900 select-none">✓</span>
+                                                    )}
+                                                </div>
+                                            </div>
+
                                             <div className="mt-1">
                                                 {getFormatIcon(ed.format)}
                                             </div>
@@ -487,24 +510,24 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
 
                         {/* What's in the bundle - shown only when bundle is selected */}
                         {selectedEdition.format === "bundle" && (
-                            <div className="mb-8 p-5 rounded-2xl bg-gold-50/40 border border-gold-200/60">
+                            <div className="mb-6 p-4 sm:p-5 rounded-2xl bg-gold-50/40 border border-gold-200/60">
                                 <p className="text-xs font-black uppercase tracking-widest text-gold-700 mb-3">
                                     What&apos;s in the Complete Bundle
                                 </p>
-                                <ul className="space-y-2">
+                                <ul className="space-y-1.5 sm:space-y-2">
                                     {[
                                         "Digital PDF — instant download",
                                         "Physical hardcover book — premium print",
                                         "Audiobook — listen on the jobsite",
                                         "Bonus Templates pack — job cost, cash flow, estimating",
                                     ].map((item, i) => (
-                                        <li key={i} className="flex items-start gap-2.5 text-sm text-brand-900">
+                                        <li key={i} className="flex items-start gap-2.5 text-xs xs:text-sm text-brand-900">
                                             <span className="text-gold-600 font-black mt-0.5">✓</span>
                                             <span>{item}</span>
                                         </li>
                                     ))}
                                 </ul>
-                                <p className="mt-3 text-xs text-slate-500">
+                                <p className="mt-2.5 text-[11px] sm:text-xs text-slate-500">
                                     Total value if purchased separately: <span className="line-through">$130</span> &nbsp;
                                     <span className="text-emerald-700 font-bold">You save $51</span>
                                 </p>
@@ -513,87 +536,80 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
 
                         {/* Call to Action and Trust Info */}
                         <div className="space-y-4">
-                            <div className="flex items-baseline gap-4 mb-2">
-                                <span className="text-4xl font-extrabold text-brand-900 tabular-nums">
+                            <div className="flex flex-wrap items-baseline gap-2 sm:gap-4 mb-2">
+                                <span className="text-3xl xs:text-4xl font-extrabold text-brand-900 tabular-nums">
                                     ${selectedEdition.price.toFixed(2)}
                                 </span>
                                 {compareAtPrice && compareAtPrice > selectedEdition.price && (
-                                    <span className="text-lg text-slate-400 line-through tabular-nums">
+                                    <span className="text-base sm:text-lg text-slate-400 line-through tabular-nums">
                                         ${compareAtPrice.toFixed(2)}
                                     </span>
                                 )}
                                 {discountDollar && (
-                                    <span className="text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded uppercase tracking-wider">
+                                    <span className="text-[10px] xs:text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded uppercase tracking-wider">
                                         Save ${discountDollar} Today
                                     </span>
                                 )}
                             </div>
-
-
 
                             <button
                                 type="button"
                                 onClick={handleAddToCart}
                                 onKeyDown={handleAddToCartKeyDown}
                                 tabIndex={0}
-                                className="w-full bg-gold-500 hover:bg-gold-400 active:scale-[0.97] transition-all text-brand-900 rounded-full flex flex-col items-center justify-center py-4 px-6 shadow-[0_4px_20px_rgba(212,175,55,0.35)] md:shadow-[0_4px_12px_rgba(212,175,55,0.25)] md:flex-row md:gap-3 md:py-5"
+                                className="w-full bg-gold-500 hover:bg-gold-400 active:scale-[0.97] transition-all text-brand-900 rounded-full flex items-center justify-center py-3.5 px-4 xs:py-4 xs:px-6 md:py-5 shadow-[0_4px_20px_rgba(212,175,55,0.35)] md:shadow-[0_4px_12px_rgba(212,175,55,0.25)] gap-2 focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer"
                             >
-                                <ShoppingCart className="w-5 h-5 hidden md:block" />
-                                <div className="flex flex-col items-center justify-center md:flex-row md:gap-2">
-                                    <span className="text-sm font-black uppercase tracking-widest">
-                                        {selectedEdition.format === "bundle"
-                                            ? pageLocale === "es" ? `Obtener Todo — $${selectedEdition.price}` : `Get Everything — $${selectedEdition.price}`
-                                            : selectedEdition.format === "physical"
-                                            ? pageLocale === "es" ? `Enviarme el Plan — $${selectedEdition.price}` : `Ship Me the Blueprint — $${selectedEdition.price}`
-                                            : pageLocale === "es" ? `Obtener Acceso Instantáneo — $${selectedEdition.price}` : `Get Instant Access — $${selectedEdition.price}`}
-                                    </span>
-                                    <span className="block md:hidden text-[9px] font-bold text-brand-900/80 uppercase tracking-widest leading-none mt-0.5">
-                                        {pageLocale === "es" ? "Garantía de 30 Días · Pago Seguro" : "30-Day Guarantee · Secure Checkout"}
-                                    </span>
-                                </div>
-                                <ChevronRight className="w-4 h-4 hidden md:block" />
+                                <ShoppingCart className="w-4 h-4 xs:w-5 h-5 shrink-0" />
+                                <span className="text-xs xs:text-sm font-black uppercase tracking-widest text-center truncate">
+                                    {selectedEdition.format === "bundle"
+                                        ? pageLocale === "es" ? `Obtener Todo — $${selectedEdition.price}` : `Get Everything — $${selectedEdition.price}`
+                                        : selectedEdition.format === "physical"
+                                        ? pageLocale === "es" ? `Enviarme el Plan — $${selectedEdition.price}` : `Ship Me the Blueprint — $${selectedEdition.price}`
+                                        : pageLocale === "es" ? `Obtener Acceso Instantáneo — $${selectedEdition.price}` : `Get Instant Access — $${selectedEdition.price}`}
+                                </span>
+                                <ChevronRight className="w-4 h-4 hidden md:block shrink-0" />
                             </button>
 
                             {/* Inline guarantee trust line */}
                             <div className="text-center mt-3 mb-2">
                                 <ShieldCheck className="w-4 h-4 inline mr-1.5 text-emerald-600 align-middle" />
-                                <span className="text-xs font-bold text-emerald-700">
+                                <span className="text-[11px] xs:text-xs font-bold text-emerald-700">
                                     30-Day Money-Back Guarantee · No questions asked
                                 </span>
                             </div>
 
                             {/* 60-Day Money-Back Guarantee - prominent risk-reversal badge */}
-                            <div className="flex items-center justify-center gap-3 px-5 py-4 mt-2 rounded-2xl bg-emerald-50 border-2 border-emerald-200/80 shadow-sm">
-                                <div className="shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                                    <ShieldCheck className="w-6 h-6 text-emerald-700" />
+                            <div className="flex items-center justify-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 mt-2 rounded-xl sm:rounded-2xl bg-emerald-50 border border-emerald-100 sm:border-emerald-200/80 shadow-sm">
+                                <div className="shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                                    <ShieldCheck className="w-5 h-5 text-emerald-700" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-700 leading-none mb-1">
+                                    <p className="text-[9px] xs:text-[10px] font-black uppercase tracking-widest text-emerald-700 leading-none mb-1">
                                         60-Day Money-Back Guarantee
                                     </p>
-                                    <p className="text-sm text-brand-900 leading-snug">
+                                    <p className="text-xs xs:text-sm text-brand-900 leading-snug">
                                         If the blueprint doesn&apos;t pay for itself, we refund you. Zero risk.
                                     </p>
                                 </div>
                             </div>
 
                             {/* Trust Badges */}
-                            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 text-center">
+                            <div className="grid grid-cols-3 gap-2 xs:gap-4 md:gap-6 pt-6 border-t border-slate-200 text-center">
                                 <div className="flex flex-col items-center">
                                     <ShieldCheck className="w-5 h-5 text-gold-500 mb-1" />
-                                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">
+                                    <span className="text-[7px] xs:text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">
                                         Secure Checkout
                                     </span>
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <Lock className="w-5 h-5 text-gold-500 mb-1" />
-                                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">
+                                    <span className="text-[7px] xs:text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">
                                         Encrypted Pay
                                     </span>
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <Download className="w-5 h-5 text-gold-500 mb-1" />
-                                    <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">
+                                    <span className="text-[7px] xs:text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400">
                                         Instant Delivery
                                     </span>
                                 </div>
@@ -637,7 +653,7 @@ function LanguageToggle({ availableLanguages, selectedLanguage, onSelect }: Lang
                             aria-label={option.aria}
                             onClick={() => onSelect(option.code)}
                             className={cn(
-                                "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-black uppercase tracking-wider transition-all focus:outline-none focus:ring-2 focus:ring-gold-500",
+                                "inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-xs xs:px-5 xs:py-2.5 xs:text-sm font-black uppercase tracking-wider transition-all focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer",
                                 isActive
                                     ? "bg-brand-900 text-gold-400 shadow-md scale-[1.02]"
                                     : "bg-transparent text-slate-500 hover:text-brand-900 hover:bg-slate-50"
