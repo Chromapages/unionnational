@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { Play } from "lucide-react";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 interface HeroVideoEmbedProps {
@@ -65,6 +64,9 @@ export default function HeroVideoEmbed({ videoSrc, posterSrc }: HeroVideoEmbedPr
                     onTimeUpdate={handleTimeUpdate}
                     onPlay={handlePlay}
                     className="absolute inset-0 w-full h-full object-cover"
+                    // Media extensions and tracking scripts can decorate <video> before
+                    // React hydrates it. Ignore those external attribute-only mutations.
+                    suppressHydrationWarning
                 >
                     <img
                         src={posterSrc || FALLBACK_POSTER}
@@ -74,10 +76,6 @@ export default function HeroVideoEmbed({ videoSrc, posterSrc }: HeroVideoEmbedPr
                 </video>
             </div>
 
-            <p className="mt-3 text-center text-slate-400 text-xs sm:text-sm font-medium">
-                <Play className="w-3 h-3 inline-block mr-1.5 -mt-0.5 fill-current" />
-                Watch Jason explain the system in 30 seconds
-            </p>
         </div>
     );
 }
