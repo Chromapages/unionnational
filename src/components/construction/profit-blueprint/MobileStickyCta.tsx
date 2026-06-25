@@ -30,11 +30,14 @@ export const MobileStickyCta: React.FC = () => {
     }
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-brand-900 border-t border-brand-800 shadow-2xl shadow-brand-900/40 animate-slide-up">
-            <div
-                className="px-4 py-3 flex items-center justify-between gap-3"
-                style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
-            >
+        <div 
+            className="md:hidden fixed left-0 right-0 z-40 bg-brand-900 border-t border-brand-800 shadow-2xl shadow-brand-900/40 animate-slide-up"
+            style={{ 
+                bottom: "-20px",
+                paddingBottom: "calc(20px + env(safe-area-inset-bottom, 0px))"
+            }}
+        >
+            <div className="px-4 py-3 flex items-center justify-between gap-3">
                 <div className="min-w-0 flex-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-gold-400 leading-tight truncate">
                         The Money-Making Blueprint
