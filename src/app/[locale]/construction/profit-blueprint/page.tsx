@@ -13,6 +13,7 @@ import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
 import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
+import { ServiceViewContent } from "@/components/seo/ServiceViewContent";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
@@ -269,6 +270,11 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden pb-20 md:pb-0">
+            {/* Meta Pixel: ViewContent — fires once on page load for retargeting & funnel tracking */}
+            <ServiceViewContent
+                serviceName="Money-Making Blueprint for Construction Companies"
+                serviceId="construction-profit-blueprint"
+            />
             <main id="main-content" className="flex-1">
             <ExitIntentChecklist />
 

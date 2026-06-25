@@ -7,6 +7,7 @@ import * as z from "zod";
 import { motion } from "framer-motion";
 import { Loader2, CheckCircle2, Lock, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 type FormData = {
     firstName: string;
@@ -80,6 +81,18 @@ export function BlueprintMoreInfoForm({ className, locale = "en" }: BlueprintMor
             });
 
             if (!response.ok) throw new Error("Failed to submit");
+
+            // Fire Meta Pixel conversion events — tracked as a Lead and Contact
+            trackMetaEvent("Lead", {
+                content_name: "Blueprint More Info Request",
+                content_category: "Construction Blueprint",
+                source: "blueprint_form",
+            });
+            trackMetaEvent("Contact", {
+                content_name: "Blueprint More Info Request",
+                source: "blueprint_form",
+            });
+
             setIsSuccess(true);
             reset();
         } catch (error) {
