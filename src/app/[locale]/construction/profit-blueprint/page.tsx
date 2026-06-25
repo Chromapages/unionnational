@@ -5,7 +5,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
-import { BlueprintCta } from "@/components/construction/profit-blueprint/BlueprintCta";
+import { BlueprintMoreInfoForm } from "@/components/construction/profit-blueprint/BlueprintMoreInfoForm";
 import { MobileStickyCta } from "@/components/construction/profit-blueprint/MobileStickyCta";
 import { MathSection } from "@/components/construction/profit-blueprint/MathSection";
 import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideoEmbed";
@@ -553,14 +553,12 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
 
-            {/* Final CTA - bottom of page */}
-            <BlueprintCta
-                variant="gold"
-                eyebrow="Last Step"
-                title="Stop Leaving Six Figures on the Table"
-                subtitle="Less than the cost of one afternoon on a job site — for the system that turns owner-operators into business owners."
-                buttonText="Get the Blueprint Now"
-            />
+            {/* More Info Form - quick contact form at bottom */}
+            <section className="py-12 lg:py-16 bg-brand-900 border-t border-brand-800">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <BlueprintMoreInfoForm locale={locale} />
+                </div>
+            </section>
 
             </main>
             <Footer />

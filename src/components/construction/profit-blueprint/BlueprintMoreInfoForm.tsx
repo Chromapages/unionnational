@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,24 +8,31 @@ import { motion } from "framer-motion";
 import { Loader2, CheckCircle2, Lock, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
-    firstName: z.string().min(1, "First name is required"),
-    email: z.string().email("Valid email required"),
-    phone: z.string().min(10, "Valid phone number required"),
-    businessName: z.string().min(1, "Business name is required"),
-    state: z.string().min(1, "State is required"),
-});
-
-type FormData = z.infer<typeof formSchema>;
+type FormData = {
+    firstName: string;
+    email: string;
+    phone: string;
+    businessName: string;
+    state: string;
+};
 
 interface BlueprintMoreInfoFormProps {
     className?: string;
+    locale?: "en" | "es";
 }
 
-export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps) {
+export function BlueprintMoreInfoForm({ className, locale = "en" }: BlueprintMoreInfoFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const formSchema = useMemo(() => z.object({
+        firstName: z.string().min(1, locale === "es" ? "El nombre es obligatorio" : "First name is required"),
+        email: z.string().email(locale === "es" ? "Se requiere un correo electrónico válido" : "Valid email required"),
+        phone: z.string().min(10, locale === "es" ? "Se requiere un número de teléfono válido" : "Valid phone number required"),
+        businessName: z.string().min(1, locale === "es" ? "El nombre de la empresa es obligatorio" : "Business name is required"),
+        state: z.string().min(1, locale === "es" ? "El estado es obligatorio" : "State is required"),
+    }), [locale]);
 
     const {
         register,
@@ -46,7 +53,9 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                 first_name: data.firstName,
                 email: data.email,
                 phone: data.phone,
-                tags: ["LM_Blueprint_MoreInfo", "Interest_Construction"],
+                tags: locale === "es"
+                    ? ["LM_Blueprint_MoreInfo", "Interest_Construction", "Lang_ES"]
+                    : ["LM_Blueprint_MoreInfo", "Interest_Construction", "Lang_EN"],
             },
             intent: {
                 lead_magnet_type: "BLUEPRINT_MORE_INFO",
@@ -59,6 +68,7 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
             meta: {
                 version: "1.0",
                 submitted_at: new Date().toISOString(),
+                locale: locale,
             },
         };
 
@@ -74,7 +84,11 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
             reset();
         } catch (error) {
             console.error("Blueprint more info form submission error:", error);
-            setErrorMessage("There was an error submitting your request. Please try again.");
+            setErrorMessage(
+                locale === "es"
+                    ? "Hubo un error al enviar su solicitud. Por favor, inténtelo de nuevo."
+                    : "There was an error submitting your request. Please try again."
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -91,10 +105,12 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                     <CheckCircle2 className="w-8 h-8 text-gold-500" />
                 </div>
                 <h3 className="text-2xl font-heading font-bold text-white mb-3">
-                    Message Sent
+                    {locale === "es" ? "Mensaje Enviado" : "Message Sent"}
                 </h3>
                 <p className="text-slate-300">
-                    We'll be in touch shortly to answer your questions.
+                    {locale === "es"
+                        ? "Nos pondremos en contacto a la brevedad para responder sus preguntas."
+                        : "We'll be in touch shortly to answer your questions."}
                 </p>
             </motion.div>
         );
@@ -108,10 +124,12 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                 </div>
                 <div>
                     <h3 className="text-xl font-heading font-bold text-white">
-                        Have Questions?
+                        {locale === "es" ? "¿Tiene Preguntas?" : "Have Questions?"}
                     </h3>
                     <p className="text-sm text-slate-400">
-                        Send us a message and we'll get back to you within 24 hours.
+                        {locale === "es"
+                            ? "Envíenos un mensaje y le responderemos en un plazo de 24 horas."
+                            : "Send us a message and we'll get back to you within 24 hours."}
                     </p>
                 </div>
             </div>
@@ -120,7 +138,7 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label htmlFor="firstName" className="block text-sm font-medium text-slate-300 mb-1.5">
-                            First Name
+                            {locale === "es" ? "Nombre" : "First Name"}
                         </label>
                         <input
                             id="firstName"
@@ -136,13 +154,13 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                     </div>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1.5">
-                            Email Address
+                            {locale === "es" ? "Correo Electrónico" : "Email Address"}
                         </label>
                         <input
                             id="email"
                             type="email"
                             autoComplete="email"
-                            placeholder="jane@company.com"
+                            placeholder={locale === "es" ? "jane@empresa.com" : "jane@company.com"}
                             {...register("email")}
                             className="w-full px-4 py-3 rounded-xl border border-slate-600 bg-brand-700 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
                         />
@@ -155,7 +173,7 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
                         <label htmlFor="phone" className="block text-sm font-medium text-slate-300 mb-1.5">
-                            Phone Number
+                            {locale === "es" ? "Número de Teléfono" : "Phone Number"}
                         </label>
                         <input
                             id="phone"
@@ -171,13 +189,13 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                     </div>
                     <div>
                         <label htmlFor="businessName" className="block text-sm font-medium text-slate-300 mb-1.5">
-                            Business Name
+                            {locale === "es" ? "Nombre de la Empresa" : "Business Name"}
                         </label>
                         <input
                             id="businessName"
                             type="text"
                             autoComplete="organization"
-                            placeholder="Acme Construction"
+                            placeholder={locale === "es" ? "Construcciones Acme" : "Acme Construction"}
                             {...register("businessName")}
                             className="w-full px-4 py-3 rounded-xl border border-slate-600 bg-brand-700 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
                         />
@@ -189,7 +207,7 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
 
                 <div>
                     <label htmlFor="state" className="block text-sm font-medium text-slate-300 mb-1.5">
-                        State
+                        {locale === "es" ? "Estado" : "State"}
                     </label>
                     <input
                         id="state"
@@ -217,16 +235,18 @@ export function BlueprintMoreInfoForm({ className }: BlueprintMoreInfoFormProps)
                     {isSubmitting ? (
                         <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            Sending...
+                            {locale === "es" ? "Enviando..." : "Sending..."}
                         </>
                     ) : (
-                        "Send Message"
+                        locale === "es" ? "Enviar Mensaje" : "Send Message"
                     )}
                 </button>
 
                 <p className="text-xs text-slate-500 text-center flex items-center justify-center gap-1.5">
                     <Lock className="w-3 h-3" />
-                    We respect your privacy. No spam, ever.
+                    {locale === "es"
+                        ? "Respetamos su privacidad. Nunca enviaremos spam."
+                        : "We respect your privacy. No spam, ever."}
                 </p>
             </form>
         </div>
