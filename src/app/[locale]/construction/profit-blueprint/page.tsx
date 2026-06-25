@@ -3,10 +3,8 @@ import { ArrowRight, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
-import { BlueprintMastery } from "@/components/construction/profit-blueprint/BlueprintMastery";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
 import { BlueprintFAQ } from "@/components/construction/profit-blueprint/BlueprintFAQ";
-import { SalesLetterSection } from "@/components/construction/profit-blueprint/SalesLetterSection";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
 import { BlueprintCta } from "@/components/construction/profit-blueprint/BlueprintCta";
 import { MobileStickyCta } from "@/components/construction/profit-blueprint/MobileStickyCta";
@@ -15,7 +13,7 @@ import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideo
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
-import { LimitedBonusCard } from "@/components/construction/profit-blueprint/LimitedBonusCard";
+import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
@@ -224,6 +222,51 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             bioShort: resolveLocalized(FALLBACK_PRODUCT.author.bioShort, locale) || FALLBACK_PRODUCT.author.bioShort.en,
         },
     };
+
+    const testimonials = [
+        {
+            quote: "We were running 5% net margin, hit 12% in 4 months after applying the pricing and overhead formulas in Chapter 2. Made our annual profit target by September.",
+            name: "Dave K.",
+            company: "K-Con Concrete",
+            state: "TX",
+            revenue: "$2.4M",
+        },
+        {
+            quote: "Before this book, we had cash flow surprises every other month. The progressive billing workflow in Chapter 5 alone gave us back our weekends. Jason knows the trades.",
+            name: "Sarah L.",
+            company: "L&M Electrical",
+            state: "CO",
+            revenue: "$900K",
+        },
+        {
+            quote: "I was running 4% margin, hit 11% in 6 months using Jason's blueprint. The job costing template alone saved us $45k on our last commercial bid.",
+            name: "Mark T.",
+            company: "Astro Construction",
+            state: "AZ",
+            revenue: "$1.8M",
+        },
+        {
+            quote: "The S-Corp chapter paid for the book ten times over in year one. I had no idea I was overpaying in taxes by that much. The systems actually work.",
+            name: "Mike R.",
+            company: "Riley Framing",
+            state: "WA",
+            revenue: "$1.2M",
+        },
+        {
+            quote: "I took the assessment, then bought the book. Best $79 I ever spent. My markup calculator now prices every job at 18% minimum. No more losing bids.",
+            name: "Carlos M.",
+            company: "Mendoza Drywall",
+            state: "NM",
+            revenue: "$650K",
+        },
+        {
+            quote: "Cash flow used to keep me up at night. Now I know what's coming in 90 days. The cash flow forecasting chapter alone changed everything.",
+            name: "Jennifer S.",
+            company: "Summit HVAC",
+            state: "MT",
+            revenue: "$1.5M",
+        },
+    ];
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden pb-20 md:pb-0">
@@ -446,51 +489,9 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             </p>
                         </div>
                     </RevealOnScroll>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[
-                            {
-                                quote: "We were running 5% net margin, hit 12% in 4 months after applying the pricing and overhead formulas in Chapter 2. Made our annual profit target by September.",
-                                name: "Dave K.",
-                                company: "K-Con Concrete",
-                                state: "TX",
-                                revenue: "$2.4M",
-                            },
-                            {
-                                quote: "Before this book, we had cash flow surprises every other month. The progressive billing workflow in Chapter 5 alone gave us back our weekends. Jason knows the trades.",
-                                name: "Sarah L.",
-                                company: "L&M Electrical",
-                                state: "CO",
-                                revenue: "$900K",
-                            },
-                            {
-                                quote: "I was running 4% margin, hit 11% in 6 months using Jason's blueprint. The job costing template alone saved us $45k on our last commercial bid.",
-                                name: "Mark T.",
-                                company: "Astro Construction",
-                                state: "AZ",
-                                revenue: "$1.8M",
-                            },
-                            {
-                                quote: "The S-Corp chapter paid for the book ten times over in year one. I had no idea I was overpaying in taxes by that much. The systems actually work.",
-                                name: "Mike R.",
-                                company: "Riley Framing",
-                                state: "WA",
-                                revenue: "$1.2M",
-                            },
-                            {
-                                quote: "I took the assessment, then bought the book. Best $79 I ever spent. My markup calculator now prices every job at 18% minimum. No more losing bids.",
-                                name: "Carlos M.",
-                                company: "Mendoza Drywall",
-                                state: "NM",
-                                revenue: "$650K",
-                            },
-                            {
-                                quote: "Cash flow used to keep me up at night. Now I know what's coming in 90 days. The cash flow forecasting chapter alone changed everything.",
-                                name: "Jennifer S.",
-                                company: "Summit HVAC",
-                                state: "MT",
-                                revenue: "$1.5M",
-                            },
-                        ].map((t, i) => (
+                    {/* Desktop & Tablet Grid View */}
+                    <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
+                        {testimonials.map((t, i) => (
                             <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 relative shadow-sm flex flex-col gap-4">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 rounded-full bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
@@ -507,23 +508,48 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                                     &ldquo;{t.quote}&rdquo;
                                 </p>
                                 <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500 border-t border-slate-100 pt-3">
-                                    <span>★ ★ ★ ★ ★</span>
+                                    <span className="text-gold-500">★ ★ ★ ★ ★</span>
                                     <span>{t.revenue} Revenue</span>
                                 </div>
                             </div>
                         ))}
                     </div>
+
+                    {/* Mobile Swiper/Carousel View */}
+                    <div className="block md:hidden px-2">
+                        <SwipeableCarousel
+                            slideClassName="w-[290px] xs:w-[320px] max-w-[85vw]"
+                            showArrows={false}
+                            showDots={true}
+                            gap={16}
+                        >
+                            {testimonials.map((t, i) => (
+                                <div key={i} className="bg-white p-5 rounded-2xl border border-slate-200 relative shadow-sm flex flex-col gap-4 h-full min-h-[230px] select-none text-left">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
+                                            <span className="text-gold-700 font-black text-xs">
+                                                {t.name.split(" ").map(n => n[0]).join("")}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold text-brand-900">{t.name}</p>
+                                            <p className="text-[10px] text-slate-500">{t.company} · {t.state}</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-slate-600 text-xs italic leading-relaxed flex-1">
+                                        &ldquo;{t.quote}&rdquo;
+                                    </p>
+                                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500 border-t border-slate-100 pt-3">
+                                        <span className="text-gold-500">★ ★ ★ ★ ★</span>
+                                        <span>{t.revenue} Revenue</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </SwipeableCarousel>
+                    </div>
                 </div>
             </section>
 
-            {/* Chapter Breakdown - What You'll Master (shows value before the sales letter) */}
-            <BlueprintMastery />
-
-            {/* Long-Form Sales Letter - Persuasion bridge between VSL and offer */}
-            <SalesLetterSection />
-
-            {/* Urgency & Limited Stack Bonus Cards */}
-            <LimitedBonusCard locale={locale} />
 
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
