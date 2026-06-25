@@ -263,10 +263,10 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
                             <ul className="space-y-3 mb-8">
                                 {[
-                                    "The S-Corp strategy that saves $20K/year in taxes",
-                                    "Job costing systems that surface losing jobs early",
+                                    "IRS-approved tax structure that saves contractors $20K/year",
+                                    "Stop losing money on bids — spot unprofitable jobs early",
                                     "Cash flow forecasting to stop payroll surprises",
-                                    "Pricing discipline that protects every bid",
+                                    "Pricing discipline to protect your margins on every bid",
                                 ].map((item, i) => (
                                     <li key={i} className={i >= 2 ? "hidden sm:flex items-start gap-3 text-slate-300 text-sm sm:text-base" : "flex items-start gap-3 text-slate-300 text-sm sm:text-base"}>
                                         <CheckCircle2 size={18} className="text-gold-500 shrink-0 mt-0.5" />
