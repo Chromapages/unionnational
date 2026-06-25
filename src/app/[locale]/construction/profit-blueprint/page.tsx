@@ -287,17 +287,23 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             </div>
 
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
-                                <a
-                                    id="hero-get-blueprint-link"
-                                    href="#book-sales"
-                                    aria-label={locale === "es" ? "Obtener el Plan" : "Get the Blueprint"}
-                                    tabIndex={0}
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-sm rounded-full transition-colors shadow-lg shadow-gold-500/30 w-full sm:w-auto justify-center"
-                                >
-                                    {locale === "es" ? "Obtener el Plan" : "Get the Blueprint"}
-                                    <ArrowRight size={18} />
-                                </a>
-                            </div>
+                                 <a
+                                     id="hero-get-blueprint-link"
+                                     href="#book-sales"
+                                     aria-label={locale === "es" ? "Obtener el Plan — $27" : "Get the Blueprint — $27"}
+                                     tabIndex={0}
+                                     className="inline-flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 active:scale-[0.98] active:bg-gold-600 text-white font-black uppercase tracking-wider rounded-full transition-all shadow-lg shadow-gold-500/30 w-full sm:w-auto text-center"
+                                 >
+                                     <span className="text-sm font-black flex items-center gap-1.5 justify-center">
+                                         {locale === "es" ? "Obtener el Plan" : "Get the Blueprint"}
+                                         <span className="inline sm:hidden">&nbsp;&mdash;&nbsp;$27</span>
+                                         <ArrowRight size={16} className="shrink-0 sm:w-[18px] sm:h-[18px]" />
+                                     </span>
+                                     <span className="block sm:hidden text-[9px] font-bold text-white/80 uppercase tracking-widest leading-none mt-0.5">
+                                         {locale === "es" ? "Descarga PDF Instantánea" : "Instant PDF Download"}
+                                     </span>
+                                 </a>
+                             </div>
 
                             <div className="flex items-center gap-3 mt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                 <div className="h-px w-8 bg-gold-500/30" />
