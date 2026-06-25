@@ -421,17 +421,29 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
             <MathSection />
 
-            {/* Standalone Testimonials Section */}
-            <section className="py-12 bg-slate-50 border-b border-slate-200">
+            <section className="py-10 md:py-16 bg-slate-50 border-b border-slate-200">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <RevealOnScroll>
-                        <div className="text-center mb-10">
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-50 border border-gold-200/60 text-[10px] font-black uppercase tracking-widest text-gold-700 mb-4">
-                                ★ ★ ★ ★ ★ 5.0 · 247 contractors
+                        <div className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
+                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-50 border border-gold-200/60 text-[9px] sm:px-4 sm:py-2 sm:text-[10px] font-black uppercase tracking-widest text-gold-700 mb-4 hover:scale-[1.02] active:scale-95 transition-all">
+                                <span className="text-gold-500">★★★★★</span>
+                                <span>
+                                    <span className="inline sm:hidden">
+                                        {locale === "es" ? "5.0 (247 opiniones)" : "5.0 (247 reviews)"}
+                                    </span>
+                                    <span className="hidden sm:inline">
+                                        {locale === "es" ? "5.0 · 247 contratistas" : "5.0 · 247 contractors"}
+                                    </span>
+                                </span>
                             </span>
-                            <h2 className="text-3xl sm:text-4xl font-black font-heading text-brand-900 tracking-tight uppercase">
-                                What Contractors Are Saying
+                            <h2 className="text-2xl xs:text-3xl sm:text-4xl font-black font-heading text-brand-900 tracking-tighter sm:tracking-tight leading-[1.1] sm:leading-[1.05] uppercase">
+                                {locale === "es" ? "Lo Que Dicen Los Contratistas" : "What Contractors Are Saying"}
                             </h2>
+                            <p className="text-slate-500 text-xs xs:text-sm max-w-md sm:max-w-xl mx-auto mt-4 px-4 leading-relaxed font-light">
+                                {locale === "es" 
+                                    ? "Contratistas reales. Resultados reales. Lea cómo las fórmulas del plan ayudaron a los dueños de empresas de construcción a proteger sus márgenes."
+                                    : "Real contractors. Real results. Read how the blueprint formulas helped trades owners protect their margins and grow their profits."}
+                            </p>
                         </div>
                     </RevealOnScroll>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
