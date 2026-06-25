@@ -24,16 +24,19 @@ export function MathSection() {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <RevealOnScroll>
                     <div className="text-center mb-8 md:mb-10">
-                        <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/60 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-rose-700 mb-4 sm:mb-5">
+                        <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/60 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-rose-700 mb-4 sm:mb-5 hover:scale-[1.02] active:scale-95 transition-all">
                             <Calculator className="w-3.5 h-3.5 animate-pulse" />
                             The Cost of Inaction
                         </span>
                         <h2 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-black font-heading text-brand-900 tracking-tighter sm:tracking-tight leading-[1.1] sm:leading-[1.05] uppercase">
-                            The Math Most Contractors
-                            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-rose-800 italic font-black pr-2 sm:pr-4">
+                            The Math Most <br className="xs:hidden" /> Contractors
+                            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-rose-800 italic font-black pr-2 sm:pr-4 drop-shadow-[0_2px_10px_rgba(225,29,72,0.18)]">
                                 Avoid
                             </span>
                         </h2>
+                        <p className="text-slate-500 text-xs xs:text-sm max-w-md sm:max-w-xl mx-auto mt-4 px-4 leading-relaxed">
+                            Select your annual revenue below to calculate the real, compounding cost of a 5% average profit margin compared to a systems-driven 18% margin.
+                        </p>
                     </div>
                 </RevealOnScroll>
 
