@@ -244,8 +244,11 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                         <div className="order-last lg:order-first">
                             <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
                                 Stop Working for Free.
-                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black mt-1">
+                                <span className="hidden sm:block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black mt-1">
                                     The Blueprint That Puts Margin Back in Every Bid.
+                                </span>
+                                <span className="block sm:hidden text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black mt-1">
+                                    Put Margin Back in Every Bid.
                                 </span>
                             </h1>
 
