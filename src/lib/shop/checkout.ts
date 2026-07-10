@@ -118,6 +118,10 @@ function findMappedPrice(keys: string[]): string | null {
     return null;
 }
 
+function isPlaceholderPriceId(priceId?: string | null): boolean {
+    return !priceId || priceId.includes("STRATEGY_STRATEGY");
+}
+
 function buildSlugFormatPriceKeys(productSlug: string, format?: string, editionName?: string): string[] {
     const editionNameText = safeLower(editionName);
     const fulfillmentType =
@@ -164,7 +168,9 @@ export function getStripePriceId(
 ): string | null {
     const isOrderBump = item.editionId === "strategy-call" || (product.orderBump && product.orderBump._key === item.editionId);
     if (isOrderBump && product.orderBump) {
-        return product.orderBump.stripePriceId || "price_1STRATEGY_STRATEGY_STRATEGY";
+        return isPlaceholderPriceId(product.orderBump.stripePriceId)
+            ? null
+            : product.orderBump.stripePriceId ?? null;
     }
 
     const titleWithoutLeadingThe = product.title.replace(/^The\s+/i, "");
@@ -288,7 +294,11 @@ export function resolveCheckoutItem(
     const isOrderBump = item.editionId === "strategy-call" || (product.orderBump && product.orderBump._key === item.editionId);
 
     if (isOrderBump && product.orderBump) {
-        const priceId = product.orderBump.stripePriceId || "price_1STRATEGY_STRATEGY_STRATEGY";
+        const priceId = isPlaceholderPriceId(product.orderBump.stripePriceId)
+            ? null
+            : product.orderBump.stripePriceId ?? null;
+
+        if (!priceId) return null;
         
         let resolvedName = "30-Min Tax Strategy Call with Jason";
         if (typeof product.orderBump.name === "string") {

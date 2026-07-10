@@ -28,6 +28,8 @@ const ORDER_BUMP = {
     description: "Apply the blueprint to your business. 30 minutes with Jason, focused on your numbers.",
 };
 
+const hasConfiguredOrderBumpPrice = !ORDER_BUMP.stripePriceId.includes("STRATEGY_STRATEGY");
+
 const overlayVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -272,7 +274,7 @@ export function CartSidebar() {
                         </div>
 
                         {/* Order Bump - shown only when construction blueprint book is in cart */}
-                        {items.some((item) => item.slug === "the-money-making-blueprint-for-construction-companies") && (
+                        {hasConfiguredOrderBumpPrice && items.some((item) => item.slug === "the-money-making-blueprint-for-construction-companies") && (
                             <OrderBumpCard items={items} addItem={addItem} removeItem={removeItem} />
                         )}
 

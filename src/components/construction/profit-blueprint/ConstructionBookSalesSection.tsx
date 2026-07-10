@@ -39,6 +39,8 @@ const resolveLocalized = (value: unknown, locale: Locale): string | undefined =>
     return undefined;
 };
 
+const isAudioFormat = (format: string) => format === "audio" || format === "audiobook";
+
 export interface BookEdition {
     _key: string;
     name: string;
@@ -262,7 +264,7 @@ export const ConstructionBookSalesSection = ({ product }: ConstructionBookSalesS
         if (format === "bundle") return <Sparkles className="w-5 h-5 text-gold-500" />;
         if (format === "physical" || format === "print") return <BookOpen className="w-5 h-5 text-slate-500" />;
         if (format === "digital" || format === "pdf") return <Tablet className="w-5 h-5 text-slate-500" />;
-        if (format === "audio") return <Volume2 className="w-5 h-5 text-slate-500" />;
+        if (isAudioFormat(format)) return <Volume2 className="w-5 h-5 text-slate-500" />;
         return <BookOpen className="w-5 h-5 text-slate-500" />;
     };
 

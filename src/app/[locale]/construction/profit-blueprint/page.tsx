@@ -125,6 +125,22 @@ const FALLBACK_PRODUCT = {
                 es: "Descarga digital instantánea.",
             },
         },
+        {
+            _key: "audio",
+            name: {
+                en: "Audiobook",
+                es: "Audiolibro",
+            },
+            price: 27,
+            format: "audio",
+            language: "en",
+            stripePriceId: "price_1T2dAkBBqB7ETKuVZCP3OsnA",
+            stripeProductId: "prod_U0I8eAAAHeCBBA",
+            description: {
+                en: "Full audiobook edition for listening on the jobsite.",
+                es: "Audiolibro completo para escuchar en el sitio de trabajo.",
+            },
+        },
         // TODO: replace placeholder Stripe IDs with real Spanish-locale Stripe product/price once published
         // For now, only the Spanish Digital PDF edition is offered; bundle and physical will be added later
         {
@@ -198,6 +214,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
         ...FALLBACK_PRODUCT,
         ...product,
         title: product.title || resolveLocalized(FALLBACK_PRODUCT.title, locale) || FALLBACK_PRODUCT.title.en,
+        imageUrl: product.imageUrl || FALLBACK_PRODUCT.imageUrl,
         shortDescription: product.shortDescription || resolveLocalized(FALLBACK_PRODUCT.shortDescription, locale) || FALLBACK_PRODUCT.shortDescription.en,
         badge: product.badge || resolveLocalized(FALLBACK_PRODUCT.badge, locale) || FALLBACK_PRODUCT.badge.en,
         author: product.author ? {

@@ -1,6 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { NextRequest } from "next/server";
 
+const mockEnv = vi.hoisted(() => ({
+    values: {
+        STRIPE_SECRET_KEY: "sk_test_checkout",
+        STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
+        GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/webhook",
+    } as Record<string, string | undefined>,
+}));
+
 // Minimal mock for the Sanity client
 const mockSanityFetch = vi.fn();
 vi.mock("@/sanity/lib/client", () => ({
@@ -22,11 +30,7 @@ vi.mock("@/lib/stripe", () => ({
 vi.mock("@/lib/config/env", () => ({
     publicEnv: { baseUrl: "https://example.com" },
     getEnv: (key: string) => {
-        const env: Record<string, string> = {
-            STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
-            GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/webhook",
-        };
-        return env[key];
+        return mockEnv.values[key];
     },
 }));
 
@@ -84,6 +88,9 @@ describe("POST /api/shop/checkout", () => {
         vi.clearAllMocks();
         mockSanityFetch.mockReset();
         mockStripeCheckoutSessionsCreate.mockReset();
+        mockEnv.values.STRIPE_SECRET_KEY = "sk_test_checkout";
+        mockEnv.values.STRIPE_WEBHOOK_SECRET = "whsec_test_secret";
+        mockEnv.values.GHL_SHOP_PURCHASE_WEBHOOK_URL = "https://ghl.example.com/webhook";
     });
 
     it("returns 200 with redirectUrl when cart is valid and checkout succeeds", async () => {
@@ -388,6 +395,101 @@ describe("POST /api/shop/checkout", () => {
         ]);
     });
 
+    it("uses the construction audio map when the fallback audiobook edition is not in Sanity yet", async () => {
+        const mockProduct = {
+            _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+            title: "The Money-Making Blueprint for Construction Companies",
+            slug: "the-money-making-blueprint-for-construction-companies",
+            buyLink: null,
+            price: 2700,
+            stripePriceId: undefined,
+            editions: [
+                {
+                    _key: "digital-key",
+                    name: "Digital PDF",
+                    price: 27,
+                    format: "digital",
+                    stripePriceId: "price_1TOlYGBBqB7ETKuVjY3QWF1m",
+                },
+            ],
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({
+            url: "https://checkout.stripe.com/construction-blueprint-audio",
+        });
+
+        const req = buildCheckoutRequest({
+            items: [
+                {
+                    productId: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+                    slug: "the-money-making-blueprint-for-construction-companies",
+                    editionId: "audio",
+                    editionName: "Audiobook",
+                    format: "audio",
+                    fulfillmentType: "audio",
+                    requiresShipping: false,
+                    quantity: 1,
+                },
+            ],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(200);
+
+        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
+        expect(createCall.line_items).toEqual([
+            { price: "price_1T2dAkBBqB7ETKuVZCP3OsnA", quantity: 1 },
+        ]);
+        expect(createCall.metadata.has_digital).toBe("true");
+    });
+
+    it("returns a clean price-missing response for the unconfigured strategy-call order bump", async () => {
+        const mockProduct = {
+            _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+            title: "The Money-Making Blueprint for Construction Companies",
+            slug: "the-money-making-blueprint-for-construction-companies",
+            buyLink: null,
+            price: 2700,
+            stripePriceId: undefined,
+            editions: [],
+            orderBump: {
+                _key: "strategy-call",
+                name: "30-Min Tax Strategy Call with Jason",
+                price: 97,
+                format: "service",
+                stripePriceId: "price_1STRATEGY_STRATEGY_STRATEGY",
+            },
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+
+        const req = buildCheckoutRequest({
+            items: [
+                {
+                    productId: "038a9b49-ee53-4e6a-9897-e9fe51693396",
+                    slug: "the-money-making-blueprint-for-construction-companies",
+                    editionId: "strategy-call",
+                    editionName: "30-Min Tax Strategy Call with Jason",
+                    format: "service",
+                    fulfillmentType: "service",
+                    requiresShipping: false,
+                    quantity: 1,
+                },
+            ],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(409);
+        const body = await res.json();
+        expect(body.code).toBe("STRIPE_PRICE_MISSING");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
+    });
+
     it("returns 409 STRIPE_PRICE_MISSING when no Stripe price is available and no buyLink", async () => {
         const mockProductNoPrice = {
             _id: "prod-noprice",
@@ -411,6 +513,35 @@ describe("POST /api/shop/checkout", () => {
         expect(res.status).toBe(409);
         const body = await res.json();
         expect(body.code).toBe("STRIPE_PRICE_MISSING");
+    });
+
+    it("returns 503 CHECKOUT_NOT_CONFIGURED when Stripe secret key is missing", async () => {
+        mockEnv.values.STRIPE_SECRET_KEY = undefined;
+
+        const mockProduct = {
+            _id: "prod-config",
+            title: "Configured Product",
+            slug: "configured-product",
+            buyLink: null,
+            price: 4900,
+            stripePriceId: "price_configured123",
+            editions: [],
+        };
+
+        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
+
+        const req = buildCheckoutRequest({
+            items: [{ productId: "prod-config", slug: "configured-product", quantity: 1 }],
+        });
+
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(req as unknown as NextRequest);
+
+        expect(res.status).toBe(503);
+        const body = await res.json();
+        expect(body.code).toBe("CHECKOUT_NOT_CONFIGURED");
+        expect(body.message).toContain("Checkout is not configured");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 
     it("passes shipping metadata when item requires shipping", async () => {

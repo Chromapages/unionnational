@@ -1,11 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { client } from "@/sanity/lib/client";
 import { getStripe } from "@/lib/stripe";
-import { publicEnv } from "@/lib/config/env";
+import { getEnv, publicEnv } from "@/lib/config/env";
 import { createApiHandler, getClientIp } from "@/lib/observability/api-handler";
 import { incrementCounter, withLatencyAsync } from "@/lib/observability/request-metrics";
-import { requiresShippingForFulfillment } from "@/lib/shop/commerce";
-import type { FulfillmentType } from "@/lib/shop/types";
 import {
     CHECKOUT_PRODUCTS_QUERY,
     resolveCheckoutItem,
@@ -135,6 +133,23 @@ export async function POST(request: NextRequest) {
             return handler.json(
                 { ok: false, code: "CART_TOO_LARGE", message: "Please check out with fewer distinct resources at a time." },
                 { status: 400, headers: handler.rateLimitHeaders(rateLimit.remaining, rateLimit.resetAt) }
+            );
+        }
+
+        if (!getEnv("STRIPE_SECRET_KEY")) {
+            handler.log.error("Stripe checkout is not configured", {
+                module: "shop-checkout",
+                reason: "missing_STRIPE_SECRET_KEY",
+            });
+            incrementCounter("shop_checkout_not_configured");
+            return handler.json(
+                {
+                    ok: false,
+                    code: "CHECKOUT_NOT_CONFIGURED",
+                    message: "Checkout is not configured yet. Please contact us to complete this purchase.",
+                    traceId: handler.traceId,
+                },
+                { status: 503, headers: handler.rateLimitHeaders(rateLimit.remaining, rateLimit.resetAt) }
             );
         }
 
