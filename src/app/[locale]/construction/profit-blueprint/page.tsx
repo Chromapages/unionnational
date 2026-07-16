@@ -8,6 +8,7 @@ import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/
 import { BlueprintMoreInfoForm } from "@/components/construction/profit-blueprint/BlueprintMoreInfoForm";
 import { MobileStickyCta } from "@/components/construction/profit-blueprint/MobileStickyCta";
 import { MathSection } from "@/components/construction/profit-blueprint/MathSection";
+import { BlueprintServicesAlternative } from "@/components/construction/profit-blueprint/BlueprintServicesAlternative";
 import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideoEmbed";
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -482,6 +483,9 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             <div>
                 <ConstructionBookSalesSection product={productData} />
             </div>
+
+            {/* Alternative path for contractors who want hands-on implementation support */}
+            <BlueprintServicesAlternative />
 
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
             <MathSection />
