@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Star, ShieldCheck } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { urlFor } from "@/sanity/lib/image";
+import { TestimonialModal } from "@/components/ui/TestimonialModal";
 
 interface TestimonialImage {
     asset?: unknown;
@@ -41,14 +42,20 @@ function StarRating({ rating = 5 }: { rating?: number }) {
 function TestimonialCard({
     testimonial,
     setMarker,
+    isDuplicate = false,
+    onOpen,
 }: {
     testimonial: Testimonial;
     setMarker?: "a" | "b";
+    isDuplicate?: boolean;
+    onOpen: (t: Testimonial) => void;
 }) {
     const t = useTranslations("HomePage.TestimonialsSection");
     const name = testimonial.clientName || "Anonymous Client";
     const initial = name.charAt(0).toUpperCase();
     const hasImage = Boolean(testimonial.image?.asset);
+    const quote = testimonial.quote || "";
+
     const imageUrl = hasImage
         ? urlFor(testimonial.image as Parameters<typeof urlFor>[0]).width(80).height(80).url()
         : null;
@@ -56,22 +63,35 @@ function TestimonialCard({
     return (
         <article
             data-card-set={setMarker}
-            className="testimonial-card flex flex-col h-full p-6 bg-white border border-slate-200 rounded-2xl shadow-sm"
+            aria-hidden={isDuplicate || undefined}
+            className="testimonial-card flex flex-col p-6 bg-white border border-slate-200 rounded-2xl shadow-sm"
         >
             <StarRating rating={testimonial.rating} />
 
-            <blockquote className="mt-5 text-brand-900 text-base leading-[1.6] flex-grow line-clamp-5">
-                &ldquo;{testimonial.quote}&rdquo;
+            <blockquote className="mt-5 text-brand-900 text-base leading-[1.6] line-clamp-4">
+                &ldquo;{quote}&rdquo;
             </blockquote>
 
-            <footer className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+            {quote && (
+                <button
+                    type="button"
+                    onClick={() => onOpen(testimonial)}
+                    tabIndex={isDuplicate ? -1 : undefined}
+                    className="mt-3 w-fit rounded text-left text-sm font-medium text-gold-700 transition-colors duration-200 hover:text-gold-800 focus-visible:outline-2 focus-visible:outline-gold-500 focus-visible:outline-offset-2"
+                    aria-label={`Read full story from ${name}`}
+                >
+                    {t("readFullStory")}
+                </button>
+            )}
+
+            <footer className="mt-4 pt-4 border-t border-slate-100 flex items-center gap-3">
+                {/* Author photo / company logo slot */}
                 <div
                     className="w-10 h-10 rounded-full bg-brand-900 flex items-center justify-center text-gold-500 text-sm font-bold overflow-hidden flex-shrink-0"
                     style={{ backgroundColor: "var(--color-surface-offset)" }}
                 >
                     {imageUrl ? (
                         // Plain <img> is intentional: Sanity CDN delivers optimized WebP/AVIF
-                        // and we control lazy/async/dimensions explicitly per spec.
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                             src={imageUrl}
@@ -83,7 +103,8 @@ function TestimonialCard({
                             className="w-full h-full object-cover"
                         />
                     ) : (
-                        <span aria-hidden="true">{initial}</span>
+                        /* Placeholder: shows initials with brand gradient */
+                        <span aria-hidden="true" className="text-xs font-bold">{initial}</span>
                     )}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -108,19 +129,37 @@ function TestimonialCard({
     );
 }
 
+// ─── Testimonial reordering ───────────────────────────────────────────────────
+// Priority order: dollar-amount saves → contractor/construction language → generic
+const RELEVANCE_PATTERNS = [
+    /\$[\d,]+/,           // dollar amounts
+    /contractor|construction|real estate/i,
+    /saved|savings|reduced tax/i,
+];
+
+function getRelevanceScore(t: Testimonial): number {
+    const text = `${t.quote || ""} ${t.clientName || ""} ${t.clientCompany || ""} ${t.clientTitle || ""}`;
+    let score = 0;
+    RELEVANCE_PATTERNS.forEach((pattern, i) => {
+        if (pattern.test(text)) score = RELEVANCE_PATTERNS.length - i;
+    });
+    return score;
+}
+
 function MarqueeRow({
     testimonials,
     duration,
     reverse = false,
+    onOpen,
 }: {
     testimonials: Testimonial[];
     duration: number;
     reverse?: boolean;
+    onOpen: (t: Testimonial) => void;
 }) {
     return (
         <div
             className="testimonial-carousel-track"
-            aria-hidden="true"
             style={
                 {
                     "--marquee-duration": `${duration}s`,
@@ -134,6 +173,7 @@ function MarqueeRow({
                     key={`a-${testimonial._id ?? i}`}
                     testimonial={testimonial}
                     setMarker="a"
+                    onOpen={onOpen}
                 />
             ))}
             {/* Duplicate set for seamless infinite loop.
@@ -145,13 +185,21 @@ function MarqueeRow({
                     key={`b-${testimonial._id ?? i}`}
                     testimonial={testimonial}
                     setMarker="b"
+                    isDuplicate
+                    onOpen={onOpen}
                 />
             ))}
         </div>
     );
 }
 
-function StaticGridFallback({ testimonials }: { testimonials: Testimonial[] }) {
+function StaticGridFallback({
+    testimonials,
+    onOpen,
+}: {
+    testimonials: Testimonial[];
+    onOpen: (t: Testimonial) => void;
+}) {
     return (
         <div
             className="grid gap-6"
@@ -164,6 +212,7 @@ function StaticGridFallback({ testimonials }: { testimonials: Testimonial[] }) {
                     key={testimonial._id ?? i}
                     testimonial={testimonial}
                     setMarker="a"
+                    onOpen={onOpen}
                 />
             ))}
         </div>
@@ -192,6 +241,18 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsCarouselP
     const touchTimeoutRef = useRef<number | null>(null);
     const prefersReducedMotion = usePrefersReducedMotion();
 
+    const [activeTestimonial, setActiveTestimonial] = useState<Testimonial | null>(null);
+
+    const handleOpenModal = useCallback((testimonial: Testimonial) => {
+        setActiveTestimonial(testimonial);
+        sectionRef.current?.classList.add("is-modal-open");
+    }, []);
+
+    const handleCloseModal = useCallback(() => {
+        setActiveTestimonial(null);
+        sectionRef.current?.classList.remove("is-modal-open");
+    }, []);
+
     // On low-memory devices, drop will-change after mount to free GPU memory.
     // `performance.memory` is Chromium-only and only available in the browser,
     // so this effect is a no-op during SSR.
@@ -209,48 +270,6 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsCarouselP
                 });
         }
     }, []);
-
-    // Measure natural card heights and publish the average to
-    // --testimonial-card-height so every card (including the duplicated
-    // marquee set and the static-grid fallback) renders at the same height.
-    useEffect(() => {
-        const measure = () => {
-            // Only count the first occurrence of each card (set "a") across
-            // all rows so the duplicate set "b" doesn't double the weight.
-            const cards = document.querySelectorAll<HTMLElement>(
-                '.testimonial-card[data-card-set="a"]'
-            );
-            if (cards.length === 0) return;
-
-            let sum = 0;
-            cards.forEach((card) => {
-                sum += card.offsetHeight;
-            });
-            const avg = sum / cards.length;
-            const rounded = Math.round(avg);
-
-            // Only write if the value actually changed — avoids extra
-            // style recalculation cascades on resize.
-            const current = document.documentElement.style.getPropertyValue(
-                "--testimonial-card-height"
-            );
-            if (current !== `${rounded}px`) {
-                document.documentElement.style.setProperty(
-                    "--testimonial-card-height",
-                    `${rounded}px`
-                );
-            }
-        };
-
-        // Measure after the first paint and again after web fonts settle
-        // (custom fonts change text wrapping → card heights).
-        measure();
-        if ("fonts" in document) {
-            document.fonts.ready.then(measure);
-        }
-        window.addEventListener("resize", measure);
-        return () => window.removeEventListener("resize", measure);
-    }, [testimonials, prefersReducedMotion]);
 
     // Touch pause — pause on touchstart, resume 2000ms after touchend
     const handleTouchStart = () => {
@@ -275,31 +294,41 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsCarouselP
         };
     }, []);
 
-    if (!testimonials || testimonials.length === 0) return null;
+    if (!testimonials || testimonials.length === 0) {
+        return (
+            <section aria-label="Customer testimonials" className="relative overflow-hidden bg-slate-50 py-16 lg:py-24">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <p className="text-slate-500">{t("noTestimonials") || "Client testimonials coming soon"}</p>
+                </div>
+            </section>
+        );
+    }
 
-    // Animation duration scales with card count: 6s per card, clamped 30-50s
-    const baseDuration = Math.min(50, Math.max(30, 6 * testimonials.length));
+    // Reorder: dollar-amount saves → contractor/construction language → generic
+    const sortedTestimonials = [...testimonials].sort(
+        (a, b) => getRelevanceScore(b) - getRelevanceScore(a)
+    );
+
+    // Animation duration scales with card count: 8s per card, clamped 40-60s
+    const baseDuration = Math.min(60, Math.max(40, 8 * sortedTestimonials.length));
 
     // Two-row staggered layout at 8+ testimonials for richer visual rhythm
-    const useTwoRows = testimonials.length >= 8;
-    const splitIndex = useTwoRows ? Math.ceil(testimonials.length / 2) : testimonials.length;
-    const firstRow = testimonials.slice(0, splitIndex);
-    const secondRow = useTwoRows ? testimonials.slice(splitIndex) : [];
+    const useTwoRows = sortedTestimonials.length >= 8;
+    const splitIndex = useTwoRows ? Math.ceil(sortedTestimonials.length / 2) : sortedTestimonials.length;
+    const firstRow = sortedTestimonials.slice(0, splitIndex);
+    const secondRow = useTwoRows ? sortedTestimonials.slice(splitIndex) : [];
 
     // Headings
     const headerBlock = (
         <header className="relative z-10 max-w-[var(--content-narrow)] mx-auto text-center mb-10 px-4 sm:px-6 lg:px-8">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold-600 mb-4">
+            <span className="home-eyebrow mb-4 block text-gold-700">
                 {t("eyebrow")}
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-950 font-heading leading-[1.1] mb-4">
-                {t("title")}{" "}
-                <span className="bg-gradient-to-r from-gold-500 to-gold-700 bg-clip-text text-transparent">
-                    {t("titleHighlight")}
-                </span>
+            <h2 className="home-section-heading mb-4 text-brand-950">
+                {t("title")}
             </h2>
             {t.has("subtitle") && (
-                <p className="mt-3 text-base text-slate-500">{t("subtitle")}</p>
+                <p className="home-supporting-copy mt-3 text-slate-600">{t("subtitle")}</p>
             )}
         </header>
     );
@@ -312,14 +341,10 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsCarouselP
                 aria-label="Customer testimonials"
                 className="relative overflow-hidden bg-slate-50 py-12 md:py-16 lg:py-24"
             >
-                {/* Background accents */}
-                <div className="absolute top-0 right-0 h-[400px] w-[400px] bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 h-[400px] w-[400px] bg-brand-100/40 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
                 <div className="max-w-7xl mx-auto">
                     {headerBlock}
                     <div className="px-4 sm:px-6 lg:px-8">
-                        <StaticGridFallback testimonials={testimonials} />
+                        <StaticGridFallback testimonials={sortedTestimonials} onOpen={handleOpenModal} />
                     </div>
                 </div>
 
@@ -337,16 +362,12 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsCarouselP
             onTouchEnd={handleTouchEnd}
             className="testimonial-carousel-section relative overflow-hidden bg-slate-50 py-12 md:py-16 lg:py-24"
         >
-            {/* Background accents (pointer-events-none so they don't block hover/touch) */}
-            <div className="absolute top-0 right-0 h-[400px] w-[400px] bg-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 h-[400px] w-[400px] bg-brand-100/40 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
             {headerBlock}
 
             {/* Carousel rows */}
             <div className="space-y-4">
                 <div className="testimonial-carousel-viewport">
-                    <MarqueeRow testimonials={firstRow} duration={baseDuration} />
+                    <MarqueeRow testimonials={firstRow} duration={baseDuration} onOpen={handleOpenModal} />
                 </div>
                 {useTwoRows && (
                     <div className="testimonial-carousel-viewport">
@@ -354,13 +375,23 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsCarouselP
                             testimonials={secondRow}
                             duration={baseDuration}
                             reverse
+                            onOpen={handleOpenModal}
                         />
                     </div>
                 )}
             </div>
 
             {/* sr-only static list — full content available to assistive tech */}
-            <SrOnlyTestimonialsList testimonials={testimonials} />
+            <SrOnlyTestimonialsList testimonials={sortedTestimonials} />
+
+            {/* Full testimonial modal */}
+            {activeTestimonial && (
+                <TestimonialModal
+                    isOpen={true}
+                    onClose={handleCloseModal}
+                    testimonial={activeTestimonial as Parameters<typeof TestimonialModal>[0]["testimonial"]}
+                />
+            )}
         </section>
     );
 }

@@ -1,27 +1,29 @@
 {
   "version": 1,
   "active": true,
-  "skill": "code-review",
-  "keyword": "code-review",
+  "skill": "autopilot",
+  "keyword": "I want a",
   "phase": "planning",
-  "activated_at": "2026-05-04T07:41:06.641Z",
-  "updated_at": "2026-05-04T07:41:06.641Z",
+  "activated_at": "2026-07-16T03:04:21.363Z",
+  "updated_at": "2026-07-16T03:10:55.602Z",
   "source": "keyword-detector",
   "session_id": "",
-  "thread_id": "019df1b9-dd41-7422-85bc-d741b4c031e7",
-  "turn_id": "019df1d8-3a50-7c22-8782-c02dfd137f9f",
+  "thread_id": "019f6331-8a94-7aa3-b501-8c3d4780fd9d",
+  "turn_id": "019f68e0-a1cb-7871-8f3f-1e477e1f0391",
   "active_skills": [
     {
-      "skill": "code-review",
+      "skill": "autopilot",
       "phase": "planning",
       "active": true,
-      "activated_at": "2026-05-04T07:41:06.641Z",
-      "updated_at": "2026-05-04T07:41:06.641Z",
+      "activated_at": "2026-07-16T03:04:21.363Z",
+      "updated_at": "2026-07-16T03:10:55.602Z",
       "session_id": "",
-      "thread_id": "019df1b9-dd41-7422-85bc-d741b4c031e7",
-      "turn_id": "019df1d8-3a50-7c22-8782-c02dfd137f9f"
+      "thread_id": "019f6331-8a94-7aa3-b501-8c3d4780fd9d",
+      "turn_id": "019f68e0-a1cb-7871-8f3f-1e477e1f0391"
     }
   ],
-  "iteration": 39,
-  "last_turn_at": "2026-06-25T18:52:56.747Z"
+  "initialized_mode": "autopilot",
+  "initialized_state_path": ".omx/state/autopilot-state.json",
+  "iteration": 1,
+  "last_turn_at": "2026-07-16T03:15:56.114Z"
 }

@@ -100,10 +100,37 @@
             "description": "Comprehensive tax strategy, bookkeeping, and CFO services for modern businesses."
         },
         "Hero": {
-            "title": "Advisory-led tax and financial services for growth-minded business owners.",
-            "subtitle": "We lead with strategy. Filing and bookkeeping support it.",
+            "title": "Stop Overpaying. Start Keeping.",
+            "subtitle": "Proactive tax strategy and year-round advisory — so you keep more of what you earn.",
             "ctaPrimary": "Book a Tax Strategy Call",
-            "ctaSecondary": "Browse Services"
+            "ctaSecondary": "Browse Services",
+            "trustBar": {
+                "eaCredential": "IRS-Enrolled Agent",
+                "avgSavings": "Avg. Client Savings",
+                "clientsServed": "Businesses Served"
+            }
+        },
+        "FAQ": {
+            "eyebrow": "Common Questions",
+            "title": "What clients ask before signing up",
+            "items": [
+                {
+                    "question": "How much can I actually save with Union National Tax?",
+                    "answer": "Most clients reduce their tax burden by 20–40% through proactive structuring — S-Corp elections, retirement contributions, cost segregation, and entity-level deductions. Our construction and restaurant partners average $350K–$400K in savings annually."
+                },
+                {
+                    "question": "What if I'm already working with a CPA?",
+                    "answer": "We complement your existing CPA — we don't replace them. We handle the forward-looking strategy, tax planning, and CFO work; your CPA handles compliance filing. Most clients' CPAs appreciate the cleaner books and proactive planning we deliver."
+                },
+                {
+                    "question": "What's the difference between your service and a typical CPA?",
+                    "answer": "Most CPAs are reactive — they file what you give them once a year. We're advisory-led and year-round: quarterly reviews, real-time bookkeeping, entity structuring, and proactive IRS audit preparation. We treat your finances like a business owner should."
+                },
+                {
+                    "question": "How do I know if I need CFO services or just tax filing?",
+                    "answer": "If your business has more than $500K in revenue, multiple income streams, or you're spending more than 10 hours a year on financial admin — you need more than filing. Schedule a free 30-minute diagnostic and we'll tell you exactly what you need."
+                }
+            ]
         },
         "PricingSection": {
             "eyebrow": "Strategic Partnership",
@@ -122,6 +149,7 @@
                 "mostPopular": "Most Popular"
             },
             "features": {
+                "features": "Features",
                 "idealFor": "Ideal For",
                 "annualInvestment": "Annual Investment",
                 "taxPrepIncluded": "Tax Prep Included",
@@ -144,22 +172,25 @@
             "hotelNights": "2-5 Nights"
         },
         "ExecutiveIncentive": {
-            "badge": "Qualified Revenue: {threshold}",
-            "title": "The Executive Retreat Incentive",
-            "description": "Move beyond simple tax savings. High-revenue partners unlock exclusive access to our annual luxury networking retreats and private wealth summits.",
+            "badge": "By Application Only",
+            "title": "Your Annual Strategy Retreat. By Invitation Only.",
+            "description": "Disconnect from day-to-day operations and spend two days with Union National strategists and 11 of America's most serious business owners — working on your business, not just in it.",
             "features": {
-                "privateRetreats": "Private Retreats",
-                "wealthStrategy": "Wealth Strategy",
-                "assetProtection": "Asset Protection"
+                "privateRetreats": "2-Day Private Strategy Summit",
+                "wealthStrategy": "Tax & Entity Structure Review",
+                "assetProtection": "3-Year Audit Shield Included"
             },
             "cta": "Apply for Partner Status",
-            "limitText": "Limited to 12 partners in {year}",
-            "exclusiveAccess": "Exclusive Access"
+            "limitText": "12 partner spots available — {year}",
+            "exclusiveAccess": "Exclusive Access",
+            "qualificationNote": "For qualified businesses · $500K+ annual revenue"
         }
     },
     "HomePage": {
         "VideoHero": {
             "sectionAriaLabel": "Tax Strategy Video and Savings Calculator",
+            "playerAriaLabel": "Watch our tax strategy overview",
+            "playerUnavailable": "The video is unavailable right now. Please try again later.",
             "titlePart1": "Stop overpaying the IRS. <gold>Build a smarter business.</gold>",
             "eyebrow": "Your Tax Strategy",
             "subtitle": "Proactive tax strategy and fractional CFO leadership for owners who want more than just a tax preparer.",
@@ -389,9 +420,10 @@
         "TestimonialsSection": {
             "eyebrow": "Client Success Stories",
             "title": "Trusted by High-Growth Business Owners",
-            "titleHighlight": "Business Owners",
             "subtitle": "Hear from founders and operators who trust us with their books, taxes, and growth strategy.",
-            "verifiedClient": "Verified Client"
+            "verifiedClient": "Verified Client",
+            "readFullStory": "Read full story",
+            "noTestimonials": "Client testimonials coming soon"
         },
         "WhyUsSection": {
             "eyebrow": "Why Work With Us",
@@ -452,7 +484,8 @@
             "subtitle": "A quick health check can surface missed savings opportunities and planning gaps in minutes.",
             "cta": "Take the Health Check",
             "dismiss": "No thanks",
-            "close": "Close health check prompt"
+            "close": "Close health check prompt",
+            "closeModal": "Close"
         },
         "FloatingTaxButton": {
             "buttonAria": "Open tax health check panel",
@@ -513,8 +546,7 @@
                 }
             },
             "ctaText": "Ready to experience the difference? Schedule a tax strategy call with our team.",
-            "ctaPrimary": "Book a Tax Strategy Call",
-            "ctaSecondary": "Learn About Our Process"
+            "ctaPrimary": "Book a Tax Strategy Call"
         },
         "CTASection": {
             "badge": "Accepting New Advisory Clients for {year}",
@@ -639,6 +671,11 @@
             "defaultAddress": "Financial District, NYC",
             "mapTitle": "Office Location Map"
         },
+        "FAQSection": {
+            "eyebrow": "Got Questions?",
+            "title": "Frequently Asked Questions",
+            "subtitle": "Everything you need to know about getting started with our tax advisory services."
+        },
         "MultiStepForm": {
             "step1": {
                 "fallbackTitle": "What's your primary goal?",
@@ -671,6 +708,7 @@
                     "firstName": "Jane",
                     "lastName": "Doe",
                     "email": "jane@company.com",
+                    "phone": "(555) 000-0000",
                     "message": "Tell us a bit about your situation..."
                 },
                 "privacyText": "I agree to the {privacyLink} and consent to being contacted. We honor your privacy and never share data.",

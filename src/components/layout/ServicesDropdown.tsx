@@ -19,9 +19,10 @@ const getIcon = (iconName?: string): LucideIcon => {
 
 type ServicesDropdownProps = {
   services?: ServiceSummary[];
+  isActive?: boolean;
 };
 
-export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
+export const ServicesDropdown = ({ services, isActive: forcedIsActive }: ServicesDropdownProps) => {
   const t = useTranslations("Header");
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +31,8 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
   const pathname = usePathname();
   const menuId = useId();
   const buttonId = useId();
-  const isServicesActive = pathname.startsWith("/services");
+  // Use forced prop if provided (from parent), otherwise derive from pathname
+  const isServicesActive = forcedIsActive ?? pathname.startsWith("/services");
   const serviceData = services?.length ? services : fallbackServices;
   
   const featuredService = serviceData.find((service) => service.isPopular) || serviceData[0];
@@ -132,36 +134,32 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
         type="button"
         id={buttonId}
         className={cn(
-          "group relative flex items-center gap-1.5 rounded px-1.5 py-2 text-[0.9375rem] font-medium transition-all duration-300 ease-out lg:px-3",
-          isServicesActive || isOpen ? "text-gold-500" : "text-white",
-          "hover:text-gold-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
+          "group relative flex items-center gap-1.5 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200",
+          // Active: filled gold background — strongest possible signal
+          isServicesActive
+            ? "bg-gold-500/15 text-gold-400 ring-1 ring-gold-500/30"
+            : isOpen
+            ? "bg-gold-500/10 text-gold-400 ring-1 ring-gold-500/20"
+            : "text-white/75 hover:text-white hover:bg-gold-500/10 hover:ring-1 hover:ring-gold-500/20",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500"
         )}
         onClick={handleToggle}
         onKeyDown={handleButtonKeyDown}
         aria-expanded={isOpen}
-        aria-haspopup="dialog"
+        aria-haspopup="menu"
         aria-controls={menuId}
       >
-        <span
-          className={cn(
-            "absolute inset-0 rounded transition-all duration-300",
-            isOpen ? "bg-gold-500/10 ring-1 ring-gold-500/30" : "bg-transparent",
-            "group-hover:bg-gold-500/10 group-hover:ring-1 group-hover:ring-gold-500/30"
-          )}
-        />
-
-        <span className="relative z-10 group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]">
-          {t("services")}
-        </span>
+        <span className="relative z-10">{t("services")}</span>
         <ChevronDown
-          size={16}
+          size={15}
           aria-hidden="true"
-          className={cn("relative z-10 transition-transform duration-300 ease-out", isOpen && "rotate-180")}
+          className={cn("relative z-10 transition-transform duration-200", isOpen && "rotate-180")}
         />
 
+        {/* Gold underline bar — shows when active or open */}
         <span
           className={cn(
-            "absolute bottom-1 left-3 right-3 h-0.5 origin-left rounded-full bg-gradient-to-r from-gold-500 to-gold-600 transition-transform duration-300",
+            "absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-gold-500 transition-transform duration-200",
             isServicesActive || isOpen ? "scale-x-100" : "scale-x-0",
             "group-hover:scale-x-100"
           )}
@@ -171,7 +169,7 @@ export const ServicesDropdown = ({ services }: ServicesDropdownProps) => {
       {isOpen ? (
         <div
           id={menuId}
-          role="dialog"
+          role="menu"
           aria-labelledby={buttonId}
           aria-label={t("servicesDropdownAriaLabel")}
           onKeyDown={handleMenuKeyDown}

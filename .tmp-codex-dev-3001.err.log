@@ -1,0 +1,1033 @@
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '4083501398'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⨯ Failed to generate static paths for /[locale]/construction/profit-blueprint:
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  type: 'SyntaxError'
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+⨯ Failed to generate static paths for /[locale]/construction/profit-blueprint:
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError'
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+⨯ ./
+Module not found: Can't resolve 'D:\WORK\WORK\unionnational\node_modules\next\font\google\target.css?{"path":"src\\app\\[locale]\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter","display":"swap"}],"variableName":"inter"}'
+
+https://nextjs.org/docs/messages/module-not-found
+⨯ ./
+Module not found: Can't resolve 'D:\WORK\WORK\unionnational\node_modules\next\font\google\target.css?{"path":"src\\app\\[locale]\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter","display":"swap"}],"variableName":"inter"}'
+
+https://nextjs.org/docs/messages/module-not-found
+⨯ ./
+Module not found: Can't resolve 'D:\WORK\WORK\unionnational\node_modules\next\font\google\target.css?{"path":"src\\app\\[locale]\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter","display":"swap"}],"variableName":"inter"}'
+
+https://nextjs.org/docs/messages/module-not-found
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+⨯ ./
+Module not found: Can't resolve 'D:\WORK\WORK\unionnational\node_modules\next\font\google\target.css?{"path":"src\\app\\[locale]\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter","display":"swap"}],"variableName":"inter"}'
+
+https://nextjs.org/docs/messages/module-not-found
+⨯ ./
+Module not found: Can't resolve 'D:\WORK\WORK\unionnational\node_modules\next\font\google\target.css?{"path":"src\\app\\[locale]\\layout.tsx","import":"Inter","arguments":[{"subsets":["latin"],"variable":"--font-inter","display":"swap"}],"variableName":"inter"}'
+
+https://nextjs.org/docs/messages/module-not-found
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+⨯ Module not found: Error: Can't resolve 'next-client-pages-loader' in 'D:\WORK\WORK\unionnational'
+Error: Cannot find module '../server/get-page-files'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\pages\_document.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\load-default-error-components.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\next-dev-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\next.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module '../server/get-page-files'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\pages\_document.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\load-default-error-components.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\next-dev-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\next.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+⨯ Error: Cannot find module 'D:\WORK\WORK\unionnational\node_modules\next\node_modules\@swc\helpers\cjs\_interop_require_default.cjs'
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  path: 'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\node_modules\\@swc\\helpers'
+}
+Error: Cannot find module 'D:\WORK\WORK\unionnational\node_modules\next\node_modules\@swc\helpers\cjs\_interop_require_default.cjs'
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  path: 'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\node_modules\\@swc\\helpers'
+}
+Error: Cannot find module 'D:\WORK\WORK\unionnational\node_modules\next\node_modules\@swc\helpers\cjs\_interop_require_default.cjs'
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  path: 'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\node_modules\\@swc\\helpers'
+}
+
+
+Retrying 1/3...
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next-3001\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next-3001\\dev\\fallback-build-manifest.json'
+}
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx
+⨯ ./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+Attempted import error: 'useServerInsertedHTML' is not exported from './nextNavigation.cjs' (imported as 'useServerInsertedHTML').
+
+Import trace for requested module:
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/appRouterV13.js
+./node_modules/@mui/material-nextjs/esm/v13-appRouter/index.js
+./node_modules/@mui/material-nextjs/esm/v14-appRouter/index.js
+./src/lib/theme/ThemeProvider.tsx

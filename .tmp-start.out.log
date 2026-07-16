@@ -1,0 +1,10 @@
+
+> union-national-tax@0.1.0 start
+> next start -p 3300
+
+▲ Next.js 16.1.6
+- Local:         http://localhost:3300
+- Network:       http://192.168.86.35:3300
+
+✓ Starting...
+✓ Ready in 970ms

@@ -1,0 +1,167 @@
+
+> union-national-tax@0.1.0 dev
+> next dev --webpack --port 3000
+
+▲ Next.js 16.1.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.86.35:3000
+- Environments: .env
+- Experiments (use with caution):
+  · optimizePackageImports
+
+✓ Starting...
+✓ Ready in 2.1s
+○ Compiling /[locale]/construction/profit-blueprint ...
+ GET /en/construction/profit-blueprint 200 in 13.2s (compile: 11.4s, proxy.ts: 100ms, render: 1665ms)
+ GET /images/pattern.svg 404 in 3.1s (compile: 3.0s, render: 143ms)
+ GET /en/construction/profit-blueprint 200 in 1009ms (compile: 49ms, proxy.ts: 16ms, render: 944ms)
+ GET /images/pattern.svg 404 in 35ms (compile: 4ms, render: 31ms)
+▲ Next.js 16.1.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.86.35:3000
+- Environments: .env
+- Experiments (use with caution):
+  · optimizePackageImports
+
+✓ Starting...
+✓ Ready in 1663ms
+○ Compiling /[locale]/construction/profit-blueprint ...
+ GET /en/construction/profit-blueprint 200 in 18.4s (compile: 16.0s, proxy.ts: 125ms, render: 2.2s)
+○ Compiling /_not-found ...
+ GET /images/pattern.svg 404 in 3.5s (compile: 3.4s, render: 119ms)
+ GET /en/construction/profit-blueprint 200 in 387ms (compile: 45ms, proxy.ts: 22ms, render: 320ms)
+ GET /images/pattern.svg 404 in 53ms (compile: 4ms, render: 49ms)
+▲ Next.js 16.1.6 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.86.35:3000
+- Environments: .env
+- Experiments (use with caution):
+  · optimizePackageImports
+
+✓ Starting...
+✓ Ready in 3.7s
+○ Compiling /[locale] ...
+ GET /en 200 in 36.4s (compile: 29.6s, proxy.ts: 7ms, render: 6.8s)
+ GET /en 200 in 1225ms (compile: 64ms, proxy.ts: 44ms, render: 1117ms)
+ GET /en 200 in 1512ms (compile: 49ms, proxy.ts: 18ms, render: 1445ms)
+○ Compiling /[locale]/construction/profit-blueprint ...
+ GET /en 200 in 537ms (compile: 78ms, proxy.ts: 25ms, render: 434ms)
+ GET /en/construction/profit-blueprint 200 in 11.7s (compile: 10.1s, proxy.ts: 18ms, render: 1614ms)
+ GET /en/construction/profit-blueprint 200 in 1356ms (compile: 154ms, proxy.ts: 26ms, render: 1176ms)
+ GET /en/construction/profit-blueprint 200 in 957ms (compile: 52ms, proxy.ts: 33ms, render: 872ms)
+ GET /en/construction/profit-blueprint 200 in 934ms (compile: 54ms, proxy.ts: 111ms, render: 768ms)
+ GET /en/construction/profit-blueprint 200 in 1027ms (compile: 64ms, proxy.ts: 31ms, render: 933ms)
+ GET /en/construction/profit-blueprint 200 in 771ms (compile: 37ms, proxy.ts: 53ms, render: 681ms)
+ GET /en/construction/profit-blueprint 200 in 809ms (compile: 70ms, proxy.ts: 20ms, render: 718ms)
+ GET /en/construction/profit-blueprint 200 in 1568ms (compile: 23ms, proxy.ts: 16ms, render: 1529ms)
+ GET /en/construction/profit-blueprint 200 in 1044ms (compile: 41ms, proxy.ts: 19ms, render: 984ms)
+ GET /en/construction/profit-blueprint 200 in 492ms (compile: 23ms, proxy.ts: 25ms, render: 445ms)
+○ Compiling /favicon.ico ...
+ GET /favicon.ico 307 in 4.7s (compile: 4.6s, render: 116ms)
+ GET /en/construction/profit-blueprint 200 in 1408ms (compile: 133ms, proxy.ts: 53ms, render: 1222ms)
+ GET /favicon.ico 307 in 57ms (compile: 48ms, render: 9ms)
+ GET /en/construction/profit-blueprint 200 in 233ms (compile: 25ms, proxy.ts: 13ms, render: 195ms)
+ GET /en/construction/profit-blueprint 200 in 801ms (compile: 20ms, proxy.ts: 13ms, render: 769ms)
+ GET /favicon.ico 307 in 33ms (compile: 8ms, render: 25ms)
+ GET /en/construction/profit-blueprint 200 in 113ms (compile: 20ms, proxy.ts: 9ms, render: 84ms)
+ GET /en/construction/profit-blueprint 200 in 836ms (compile: 47ms, proxy.ts: 17ms, render: 771ms)
+ GET /en/construction/profit-blueprint 200 in 164ms (compile: 12ms, proxy.ts: 12ms, render: 140ms)
+ GET /favicon.ico 307 in 571ms (compile: 530ms, render: 40ms)
+ GET /en/construction/profit-blueprint 200 in 915ms (compile: 33ms, proxy.ts: 23ms, render: 859ms)
+ GET /favicon.ico 307 in 31ms (compile: 25ms, render: 6ms)
+ GET /en/construction/profit-blueprint 200 in 158ms (compile: 15ms, proxy.ts: 13ms, render: 131ms)
+ GET /en/construction/profit-blueprint 200 in 709ms (compile: 20ms, proxy.ts: 14ms, render: 675ms)
+ GET /favicon.ico 307 in 15ms (compile: 4ms, render: 11ms)
+ GET /en/construction/profit-blueprint 200 in 1335ms (compile: 40ms, proxy.ts: 11ms, render: 1284ms)
+ GET /favicon.ico 307 in 15ms (compile: 5ms, render: 10ms)
+ GET /en/construction/profit-blueprint 500 in 572ms (proxy.ts: 18ms)
+ GET /en/construction/profit-blueprint 500 in 572ms (proxy.ts: 18ms)
+ GET /favicon.ico 307 in 12ms (compile: 5ms, render: 8ms)
+ GET /en/construction/profit-blueprint 500 in 245ms (proxy.ts: 9ms)
+ GET /en/construction/profit-blueprint 500 in 245ms (proxy.ts: 9ms)
+ GET /favicon.ico 307 in 19ms (compile: 7ms, render: 12ms)
+ GET /en/construction/profit-blueprint 500 in 210ms (proxy.ts: 11ms)
+ GET /en/construction/profit-blueprint 500 in 210ms (proxy.ts: 11ms)
+ GET /favicon.ico 307 in 14ms (compile: 5ms, render: 9ms)
+ GET /en/construction/profit-blueprint 500 in 172ms (proxy.ts: 7ms)
+ GET /en/construction/profit-blueprint 500 in 173ms (proxy.ts: 7ms)
+ GET /en/construction/profit-blueprint 500 in 162ms (proxy.ts: 7ms)
+ GET /en/construction/profit-blueprint 500 in 163ms (proxy.ts: 7ms)
+ GET /en/construction/profit-blueprint 500 in 177ms (proxy.ts: 10ms)
+ GET /en/construction/profit-blueprint 500 in 178ms (proxy.ts: 10ms)
+ GET /en/construction/profit-blueprint 200 in 3.9s (compile: 2.6s, proxy.ts: 10ms, render: 1282ms)
+ GET /en/construction/profit-blueprint 200 in 976ms (compile: 28ms, proxy.ts: 14ms, render: 934ms)
+ GET /favicon.ico 307 in 49ms (compile: 37ms, render: 11ms)
+ GET /en/construction/profit-blueprint 200 in 2.2s (compile: 19ms, proxy.ts: 17ms, render: 2.1s)
+ GET /en/construction/profit-blueprint 200 in 3.7s (compile: 947ms, proxy.ts: 178ms, render: 2.6s)
+ GET /en/construction/profit-blueprint 200 in 3.7s (compile: 948ms, proxy.ts: 177ms, render: 2.6s)
+ GET /en/construction/profit-blueprint 200 in 2.8s (compile: 447ms, proxy.ts: 49ms, render: 2.3s)
+ GET /favicon.ico 307 in 2.8s (compile: 2.7s, render: 23ms)
+ GET /en/construction/profit-blueprint 200 in 1385ms (compile: 111ms, proxy.ts: 8ms, render: 1266ms)
+ GET /en/construction/profit-blueprint 200 in 1982ms (compile: 19ms, proxy.ts: 9ms, render: 1954ms)
+ GET /favicon.ico 307 in 15ms (compile: 6ms, render: 9ms)
+ GET /en/construction/profit-blueprint 200 in 932ms (compile: 12ms, proxy.ts: 6ms, render: 913ms)
+ GET /en/construction/profit-blueprint 200 in 936ms (compile: 14ms, proxy.ts: 7ms, render: 914ms)
+ GET /en/construction/profit-blueprint 200 in 586ms (compile: 11ms, proxy.ts: 6ms, render: 569ms)
+ GET /favicon.ico 307 in 9ms (compile: 3ms, render: 6ms)
+ GET /en/construction/profit-blueprint 200 in 590ms (compile: 12ms, proxy.ts: 5ms, render: 573ms)
+ GET /en/construction/profit-blueprint 200 in 729ms (compile: 20ms, proxy.ts: 8ms, render: 701ms)
+ GET /en/construction/profit-blueprint 200 in 668ms (compile: 20ms, proxy.ts: 12ms, render: 635ms)
+ GET /en/construction/profit-blueprint 200 in 86ms (compile: 14ms, proxy.ts: 6ms, render: 67ms)
+ GET /favicon.ico 307 in 45ms (compile: 37ms, render: 9ms)
+ GET /en/construction/profit-blueprint 200 in 2.3s (compile: 15ms, proxy.ts: 6ms, render: 2.3s)
+ GET /favicon.ico 307 in 12ms (compile: 3ms, render: 9ms)
+ GET /en/construction/profit-blueprint 200 in 2.6s (compile: 11ms, proxy.ts: 6ms, render: 2.6s)
+ GET /en/construction/profit-blueprint 200 in 868ms (compile: 28ms, proxy.ts: 19ms, render: 821ms)
+ GET /en/construction/profit-blueprint 200 in 910ms (compile: 560ms, proxy.ts: 49ms, render: 301ms)
+ GET /en/construction/profit-blueprint 200 in 1705ms (compile: 560ms, proxy.ts: 49ms, render: 1097ms)
+ GET /favicon.ico 307 in 8ms (compile: 3ms, render: 5ms)
+ GET /en/construction/profit-blueprint 200 in 574ms (compile: 11ms, proxy.ts: 5ms, render: 558ms)
+ GET /en/construction/profit-blueprint 200 in 581ms (compile: 254ms, proxy.ts: 9ms, render: 318ms)
+ GET /en/construction/profit-blueprint 200 in 699ms (compile: 278ms, proxy.ts: 11ms, render: 411ms)
+ GET /en/construction/profit-blueprint 200 in 488ms (compile: 155ms, proxy.ts: 6ms, render: 327ms)
+ GET /en/construction/profit-blueprint 200 in 1307ms (compile: 14ms, proxy.ts: 7ms, render: 1285ms)
+ GET /en/construction/profit-blueprint 200 in 293ms (compile: 35ms, proxy.ts: 10ms, render: 248ms)
+ GET /en/construction/profit-blueprint 200 in 1075ms (compile: 422ms, proxy.ts: 57ms, render: 595ms)
+ GET /en/construction/profit-blueprint 200 in 651ms (compile: 209ms, proxy.ts: 32ms, render: 410ms)
+ GET /en/construction/profit-blueprint 200 in 863ms (compile: 212ms, proxy.ts: 31ms, render: 620ms)
+ GET /en/construction/profit-blueprint 200 in 482ms (compile: 110ms, proxy.ts: 25ms, render: 346ms)
+ GET /en/construction/profit-blueprint 200 in 447ms (compile: 179ms, proxy.ts: 27ms, render: 241ms)
+ GET /en/construction/profit-blueprint 200 in 440ms (compile: 65ms, proxy.ts: 8ms, render: 367ms)
+ GET /en/construction/profit-blueprint 200 in 447ms (compile: 117ms, proxy.ts: 6ms, render: 323ms)
+ GET /en/construction/profit-blueprint 200 in 687ms (compile: 230ms, proxy.ts: 15ms, render: 442ms)
+ GET /en/construction/profit-blueprint 200 in 200ms (compile: 18ms, proxy.ts: 8ms, render: 173ms)
+ GET /en/construction/profit-blueprint 200 in 407ms (compile: 125ms, proxy.ts: 9ms, render: 273ms)
+ GET /en/construction/profit-blueprint 200 in 524ms (compile: 139ms, proxy.ts: 8ms, render: 377ms)
+ GET /en/construction/profit-blueprint 200 in 545ms (compile: 193ms, proxy.ts: 9ms, render: 344ms)
+ GET /en/construction/profit-blueprint 200 in 214ms (compile: 56ms, proxy.ts: 10ms, render: 148ms)
+ GET /en/construction/profit-blueprint 200 in 328ms (compile: 68ms, proxy.ts: 7ms, render: 253ms)
+ GET /en/construction/profit-blueprint 200 in 442ms (compile: 119ms, proxy.ts: 8ms, render: 314ms)
+ GET /en/construction/profit-blueprint 200 in 1585ms (compile: 1155ms, proxy.ts: 26ms, render: 404ms)
+ GET /en/construction/profit-blueprint 200 in 412ms (compile: 193ms, proxy.ts: 17ms, render: 201ms)
+ GET /en/construction/profit-blueprint 200 in 2.5s (compile: 1841ms, proxy.ts: 26ms, render: 671ms)
+ GET /en/construction/profit-blueprint 200 in 2.3s (compile: 1495ms, proxy.ts: 25ms, render: 751ms)
+ GET /en/construction/profit-blueprint 200 in 2.3s (compile: 75ms, proxy.ts: 7ms, render: 2.3s)
+ GET /en/construction/profit-blueprint 200 in 494ms (compile: 94ms, proxy.ts: 9ms, render: 391ms)
+ GET /en/construction/profit-blueprint 200 in 559ms (compile: 210ms, proxy.ts: 9ms, render: 340ms)
+ GET /en/construction/profit-blueprint 200 in 380ms (compile: 36ms, proxy.ts: 23ms, render: 321ms)
+ GET /en/construction/profit-blueprint 200 in 825ms (compile: 273ms, proxy.ts: 45ms, render: 507ms)
+ GET /en/construction/profit-blueprint 200 in 794ms (compile: 230ms, proxy.ts: 15ms, render: 548ms)
+ GET /en/construction/profit-blueprint 200 in 289ms (compile: 86ms, proxy.ts: 8ms, render: 195ms)
+ GET /en/construction/profit-blueprint 200 in 900ms (compile: 274ms, proxy.ts: 20ms, render: 606ms)
+ GET /en/construction/profit-blueprint 200 in 1155ms (compile: 232ms, proxy.ts: 39ms, render: 884ms)
+ GET /en/construction/profit-blueprint 500 in 5.7s (compile: 5.0s, proxy.ts: 235ms, render: 432ms)
+ GET /en/construction/profit-blueprint 500 in 5.7s (compile: 5.0s, proxy.ts: 235ms, render: 433ms)
+ GET /en/construction/profit-blueprint 500 in 1992ms (compile: 1523ms, proxy.ts: 16ms, render: 453ms)
+ GET /en/construction/profit-blueprint 500 in 1993ms (compile: 1523ms, proxy.ts: 16ms, render: 453ms)
+ GET /en/construction/profit-blueprint 500 in 2.0s (compile: 1523ms, proxy.ts: 16ms, render: 473ms)
+ GET /en/construction/profit-blueprint 500 in 2.0s (compile: 1523ms, proxy.ts: 16ms, render: 474ms)
+ GET /en/construction/profit-blueprint 500 in 776ms (compile: 402ms, proxy.ts: 9ms, render: 365ms)
+ GET /en/construction/profit-blueprint 500 in 780ms (compile: 402ms, proxy.ts: 9ms, render: 369ms)
+ GET /favicon.ico 500 in 2.0s (compile: 1939ms, render: 106ms)
+○ Compiling /_error ...
+○ Compiling /_not-found ...
+ GET /en/articles 500 in 10.3s (compile: 10.0s, proxy.ts: 20ms, render: 273ms)
+ GET /en/articles 500 in 10.3s (compile: 10.0s, proxy.ts: 20ms, render: 273ms)
+ GET /en/articles 500 in 1271ms (compile: 962ms, proxy.ts: 7ms, render: 302ms)
+ GET /en/articles 500 in 1271ms (compile: 962ms, proxy.ts: 7ms, render: 303ms)

@@ -29,6 +29,10 @@ const ProcessTimeline = dynamic(() => import("@/components/services/ProcessTimel
   loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
 });
 
+const ServiceFAQ = dynamic(() => import("@/components/services/ServiceFAQ").then(mod => ({ default: mod.ServiceFAQ })), {
+  loading: () => <div className="h-64 animate-pulse bg-slate-100" />,
+});
+
 const TravelIncentiveDisclaimer = dynamic(() => import("@/components/ui/TravelIncentiveDisclaimer").then(mod => ({ default: mod.TravelIncentiveDisclaimer })), {
   loading: () => <div className="h-32 animate-pulse bg-slate-100" />,
 });
@@ -76,6 +80,9 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
         sanityFetch({ query: SERVICES_PAGE_QUERY, params: { locale } })
     ]);
 
+    // Pull FAQ items from translations (static; CMS schema doesn't have FAQ field yet)
+    const faqItems = t.raw("FAQ.items") as Array<{ question: string; answer: string }>;
+
     // Schema.org Structured Data
     const jsonLd = {
         "@context": "https://schema.org",
@@ -107,19 +114,56 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
             <HeaderWrapper />
 
             <main id="main-content">
-                {/* Minimalist Hero Section - Above the fold */}
+                {/* Hero Section - Above the fold with trust signals */}
                 <section className="bg-brand-500 px-6 py-16 md:py-20 relative overflow-hidden">
-                    <div className="max-w-7xl mx-auto">
+                    {/* Decorative background element */}
+                    <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+                    </div>
+
+                    <div className="max-w-7xl mx-auto relative">
                         <div className="max-w-3xl">
                             <RevealOnScroll>
-                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-8 leading-[0.9] font-heading">
+                                {/* H1 - outcome-focused headline */}
+                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-6 leading-[0.9] font-heading">
                                     {t("Hero.title")}
                                 </h1>
-                                <p className="text-xl text-brand-50/80 mb-12 leading-relaxed font-sans max-w-xl">
+
+                                {/* Subtitle */}
+                                <p className="text-xl text-brand-50/80 mb-10 leading-relaxed font-sans max-w-xl">
                                     {t("Hero.subtitle")}
                                 </p>
 
-                                <div className="flex flex-col sm:flex-row items-center gap-6">
+                                {/* Trust bar - 3 key stats directly under subtitle */}
+                                <div className="flex flex-wrap gap-x-8 gap-y-4 mb-10 pb-10 border-b border-white/20">
+                                    <div>
+                                        <div className="text-sm font-bold text-brand-50/60 uppercase tracking-wider mb-1">
+                                            {t("Hero.trustBar.eaCredential")}
+                                        </div>
+                                        <div className="text-lg font-black text-white font-heading" style={{ color: "#D4AF37" }}>
+                                            Highest IRS Credential
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-sm font-bold text-brand-50/60 uppercase tracking-wider mb-1">
+                                            {t("Hero.trustBar.avgSavings")}
+                                        </div>
+                                        <div className="text-lg font-black text-white font-heading" style={{ color: "#D4AF37" }}>
+                                            $2.4M+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-sm font-bold text-brand-50/60 uppercase tracking-wider mb-1">
+                                            {t("Hero.trustBar.clientsServed")}
+                                        </div>
+                                        <div className="text-lg font-black text-white font-heading" style={{ color: "#D4AF37" }}>
+                                            1,000+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* CTAs - primary dominant, secondary as text link */}
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                                     <Link
                                         href="/intake"
                                         className={cn(
@@ -135,10 +179,10 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                                     <a
                                         href="#services"
                                         className={cn(
-                                            "w-full sm:w-auto px-10 py-5 bg-transparent text-white font-bold text-lg rounded-md",
-                                            "border border-white/20 hover:bg-white/10 transition-all duration-300",
+                                            "text-white/80 hover:text-white font-medium text-base",
+                                            "underline underline-offset-4 hover:underline decoration-white/30 transition-colors duration-200",
                                             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-500",
-                                            "active:scale-95 flex items-center justify-center gap-3 font-heading tracking-tight"
+                                            "flex items-center gap-2"
                                         )}
                                     >
                                         {t("Hero.ctaSecondary")}
@@ -155,6 +199,30 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                         <ServicesClient services={services} />
                     </div>
                 </Suspense>
+
+                {/* Proof band — key stats before partner programs */}
+                <section className="bg-brand-900 py-14 mt-24">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                            <div>
+                                <div className="text-3xl md:text-4xl font-black text-white font-heading mb-1" style={{ color: "#D4AF37" }}>$400K+</div>
+                                <div className="text-xs text-white/50 uppercase tracking-wider font-semibold">Avg. Construction Client Savings</div>
+                            </div>
+                            <div>
+                                <div className="text-3xl md:text-4xl font-black text-white font-heading mb-1" style={{ color: "#D4AF37" }}>95%</div>
+                                <div className="text-xs text-white/50 uppercase tracking-wider font-semibold">Client Retention Rate</div>
+                            </div>
+                            <div>
+                                <div className="text-3xl md:text-4xl font-black text-white font-heading mb-1" style={{ color: "#D4AF37" }}>90 Days</div>
+                                <div className="text-xs text-white/50 uppercase tracking-wider font-semibold">To First Measurable Results</div>
+                            </div>
+                            <div>
+                                <div className="text-3xl md:text-4xl font-black text-white font-heading mb-1" style={{ color: "#D4AF37" }}>$2.4M+</div>
+                                <div className="text-xs text-white/50 uppercase tracking-wider font-semibold">Total Client Savings Last Year</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
                     <div className="pt-12 pb-20">
@@ -182,14 +250,30 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                     <ProcessTimeline />
                 </Suspense>
 
-                <Suspense fallback={<div className="h-32 animate-pulse bg-slate-100" />}>
-                    <div className="space-y-0">
-                        <TravelIncentiveDisclaimer />
-                    </div>
+                {/* FAQ Section */}
+                <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
+                    <section className="py-24 bg-white">
+                        <div className="max-w-3xl mx-auto px-6">
+                            <div className="text-center mb-12">
+                                <div className="inline-block px-4 py-1.5 mb-4 text-[0.7rem] font-bold tracking-[0.2em] uppercase text-gold-600 bg-gold-50 rounded-full border border-gold-200">
+                                    {t("FAQ.eyebrow")}
+                                </div>
+                                <h2 className="text-3xl md:text-4xl font-bold text-brand-900 tracking-tight font-heading">
+                                    {t("FAQ.title")}
+                                </h2>
+                            </div>
+                            <ServiceFAQ items={faqItems} />
+                        </div>
+                    </section>
                 </Suspense>
 
                 <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
                     <LuxuryTravelIncentive />
+                </Suspense>
+
+                {/* Disclaimer — moved to after incentive content, not mid-flow */}
+                <Suspense fallback={<div className="h-32 animate-pulse bg-slate-100" />}>
+                    <TravelIncentiveDisclaimer />
                 </Suspense>
             </main>
 

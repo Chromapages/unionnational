@@ -14,7 +14,7 @@ interface AlternativeCTAProps {
 export function AlternativeCTA({
     title,
     subtitle,
-    phone = "(385) 425-5410"
+    phone
 }: AlternativeCTAProps) {
     const t = useTranslations("ContactPage.AlternativeCTA");
 
@@ -46,7 +46,7 @@ export function AlternativeCTA({
                     <p className="text-sm font-bold text-brand-900/40 uppercase tracking-widest mb-4 font-sans">
                         {t("callDirectly")}
                     </p>
-                    <a href={`tel:${phone.replace(/\D/g, '')}`} className="inline-flex items-center gap-3 text-2xl font-bold text-brand-900 hover:text-gold-600 transition-colors font-heading group">
+                    <a href={`tel:${(phone ?? "").replace(/\D/g, '')}`} className="inline-flex items-center gap-3 text-2xl font-bold text-brand-900 hover:text-gold-600 transition-colors font-heading group">
                         <div className="w-10 h-10 rounded-full bg-gold-500 text-brand-900 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-gold-500/20">
                             <Phone className="w-5 h-5 fill-current" />
                         </div>

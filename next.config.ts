@@ -96,25 +96,8 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Cache static assets for 1 year
-      {
-        source: "/:path*.js",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/:path*.css",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
+      // Next.js owns caching for generated JS/CSS. Its development filenames are
+      // stable, so marking them immutable can hydrate fresh HTML with stale code.
       {
         source: "/:path*.ico",
         headers: [

@@ -97,10 +97,37 @@
             "description": "Servicios integrales de estrategia fiscal, contabilidad y CFO para empresas modernas."
         },
         "Hero": {
-            "title": "Elimine la ansiedad fiscal. Construya verdadera riqueza.",
-            "subtitle": "Reemplazamos la declaración reactiva \"una vez al año\" con un sistema financiero proactivo durante todo el año, diseñado para contratistas de alto crecimiento y propietarios de S-Corp.",
+            "title": "Deje de Pagar de Más. Empiece a Conservar.",
+            "subtitle": "Estrategia fiscal proactiva y asesoría durante todo el año — para que conserve más de lo que gana.",
             "ctaPrimary": "Programar Consulta",
-            "ctaSecondary": "Explorar Servicios"
+            "ctaSecondary": "Explorar Servicios",
+            "trustBar": {
+                "eaCredential": "Agente Inscrito del IRS",
+                "avgSavings": "Ahorro Promedio del Cliente",
+                "clientsServed": "Empresas Atendidas"
+            }
+        },
+        "FAQ": {
+            "eyebrow": "Preguntas Frecuentes",
+            "title": "Lo que nuestros clientes preguntan antes de inscribirse",
+            "items": [
+                {
+                    "question": "¿Cuánto puedo realmente ahorrar con Union National Tax?",
+                    "answer": "La mayoría de nuestros clientes reducen su carga fiscal entre un 20 y 40% mediante estructuración proactiva — elecciones S-Corp, contribuciones a jubilaciones, segregación de costos y deducciones a nivel de entidad. Nuestros socios en construcción y restaurantes ahorran en promedio $350K–$400K anuales."
+                },
+                {
+                    "question": "¿Qué pasa si ya estoy trabajando con un CPA?",
+                    "answer": "Complementamos a su CPA existente — no lo reemplazamos. Nosotros manejamos la estrategia prospectiva, planificación fiscal y trabajo de CFO; su CPA maneja la declaración de cumplimiento. A la mayoría de los CPAs de nuestros clientes les agradan los libros más limpios y la planificación proactiva que entregamos."
+                },
+                {
+                    "question": "¿Cuál es la diferencia entre su servicio y un CPA típico?",
+                    "answer": "La mayoría de los CPAs son reactivos — declaran lo que usted les entrega una vez al año. Nosotros somos asesores y trabajamos todo el año: revisiones trimestrales, contabilidad en tiempo real, estructuración de entidades y preparación proactiva para auditorías del IRS. Tratamos sus finanzas como lo haría un verdadero empresario."
+                },
+                {
+                    "question": "¿Cómo sé si necesito servicios de CFO o solo presentación de impuestos?",
+                    "answer": "Si su negocio tiene más de $500K en ingresos, múltiples fuentes de ingreso, o pasa más de 10 horas al año en administración financiera — necesita más que simplemente presentar declaraciones. Programe un diagnóstico gratuito de 30 minutos y le diremos exactamente lo que necesita."
+                }
+            ]
         },
         "PricingSection": {
             "eyebrow": "Asociación Estratégica",
@@ -119,6 +146,7 @@
                 "mostPopular": "Más Popular"
             },
             "features": {
+                "features": "Características",
                 "idealFor": "Ideal Para",
                 "annualInvestment": "Inversión Anual",
                 "taxPrepIncluded": "Preparación de Impuestos Incluida",
@@ -141,22 +169,25 @@
             "hotelNights": "2-5 Noches"
         },
         "ExecutiveIncentive": {
-            "badge": "Ingresos Calificados: {threshold}",
-            "title": "El Incentivo de Retiro Ejecutivo",
-            "description": "Vaya más allá de los simples ahorros fiscales. Los socios de altos ingresos desbloquean acceso exclusivo a nuestros retiros anuales de lujo y cumbres privadas de patrimonio.",
+            "badge": "Solo por Invitación",
+            "title": "Su Retiro de Estrategia Anual. Solo por Invitación.",
+            "description": "Desconéctese de lo operativo y pase dos días con los principales estrategas de Union National y 11 empresarios estadounidenses exitosos — trabajando en su negocio, no solo en él.",
             "features": {
-                "privateRetreats": "Retiros Privados",
-                "wealthStrategy": "Estrategia de Patrimonio",
-                "assetProtection": "Protección de Activos"
+                "privateRetreats": "Cumbre Privada de Estrategia de 2 Días",
+                "wealthStrategy": "Revisión Fiscal y Estructura de Entidades",
+                "assetProtection": "Escudo de Auditoría por 3 Años"
             },
             "cta": "Solicitar Estado de Socio",
-            "limitText": "Limitado a 12 socios en {year}",
-            "exclusiveAccess": "Acceso Exclusivo"
+            "limitText": "12 cupos disponibles — {year}",
+            "exclusiveAccess": "Acceso Exclusivo",
+            "qualificationNote": "Para negocios calificados · Ingresos anuales de $500K+"
         }
     },
     "HomePage": {
         "VideoHero": {
             "sectionAriaLabel": "Video de Estrategia Fiscal y Calculadora de Ahorros",
+            "playerAriaLabel": "Vea nuestro resumen de estrategia fiscal",
+            "playerUnavailable": "El video no está disponible en este momento. Inténtelo de nuevo más tarde.",
             "titlePart1": "Deje de Pagar en Exceso. <gold>Empiece a Ahorrar.</gold>",
             "eyebrow": "Su Estrategia Fiscal",
             "subtitle": "Union National Tax ayuda a propietarios de negocios a reducir impuestos legalmente, optimizar la estructura de su entidad y tener mayor control financiero durante todo el año, no solo al presentar impuestos.",
@@ -363,9 +394,10 @@
         "TestimonialsSection": {
             "eyebrow": "Historias de Éxito de Clientes",
             "title": "Confiado por Propietarios de Negocios de Alto Crecimiento",
-            "titleHighlight": "Propietarios de Negocios",
             "subtitle": "Escuche a fundadores y operadores que confían en nosotros con sus libros, impuestos y estrategia de crecimiento.",
-            "verifiedClient": "Cliente verificado"
+            "verifiedClient": "Cliente verificado",
+            "readFullStory": "Leer historia completa",
+            "noTestimonials": "Próximamente publicaremos testimonios de clientes"
         },
         "WhyUsSection": {
             "eyebrow": "Por qué trabajar con nosotros",
@@ -426,7 +458,8 @@
             "subtitle": "Una evaluación rápida puede revelar oportunidades de ahorro y vacíos de planificación en minutos.",
             "cta": "Hacer la revisión",
             "dismiss": "No por ahora",
-            "close": "Cerrar aviso de revisión fiscal"
+            "close": "Cerrar aviso de revisión fiscal",
+            "closeModal": "Cerrar"
         },
         "FloatingTaxButton": {
             "buttonAria": "Abrir panel de revisión fiscal",
@@ -487,8 +520,7 @@
                 }
             },
             "ctaText": "¿Listo para experimentar la diferencia? Programe una consulta gratuita con nuestro equipo.",
-            "ctaPrimary": "Programar Consulta Gratuita",
-            "ctaSecondary": "Conozca Nuestro Proceso"
+            "ctaPrimary": "Programar Consulta Gratuita"
         },
         "CTASection": {
             "badge": "Aceptando Nuevos Clientes para la Temporada Fiscal {year}",
@@ -613,6 +645,11 @@
             "defaultAddress": "Distrito Financiero, NYC",
             "mapTitle": "Mapa de Ubicación de Oficina"
         },
+        "FAQSection": {
+            "eyebrow": "¿Tiene preguntas?",
+            "title": "Preguntas frecuentes",
+            "subtitle": "Todo lo que necesita saber sobre cómo comenzar con nuestros servicios de asesoría fiscal."
+        },
         "MultiStepForm": {
             "step1": {
                 "fallbackTitle": "¿Cuál es su objetivo principal?",
@@ -645,6 +682,7 @@
                     "firstName": "María",
                     "lastName": "García",
                     "email": "maria@empresa.com",
+                    "phone": "(555) 000-0000",
                     "message": "Cuéntenos un poco sobre su situación..."
                 },
                 "privacyText": "Acepto la {privacyLink} y doy mi consentimiento para ser contactado. Respetamos su privacidad y nunca compartimos datos.",

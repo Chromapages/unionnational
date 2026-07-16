@@ -104,7 +104,7 @@ export const useTaxCalculator = ({
         setResult(null);
 
         const timer = window.setTimeout(() => {
-            const netIncome = parseFloat(income.replace(/[.,]/g, "")) || 0;
+            const netIncome = parseFloat(income.replace(/,/g, "")) || 0;
 
             // Self-employment tax rate (Social Security 12.4% + Medicare 2.9%)
             const SE_TAX_RATE = 0.153;

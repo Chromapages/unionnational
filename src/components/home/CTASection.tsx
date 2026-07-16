@@ -40,93 +40,80 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
     const buttonText = data?.ctaButtonText || t("fallbackButtonText");
     const buttonUrl = data?.ctaButtonUrl || "/book";
 
+    // ─── HOMEPAGE WIREFRAME VARIANT ─────────────────────────────────────────────
+    // Clean, editorial, premium: solid brand-900 field, two-column grid,
+    // restrained gold accent, one dominant CTA. No gradient stacks, no decorative
+    // overlays, no image backgrounds.
     if (variant === "homepageWireframe") {
         return (
-            <section id="contact" className="relative bg-surface py-12 lg:py-20">
+            <section
+                id="contact"
+                aria-labelledby="cta-heading"
+                className="relative bg-black py-20 lg:py-20"
+            >
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <RevealOnScroll>
-                        <div className="relative overflow-hidden rounded-[2rem] border-[3px] border-brand-900 bg-white shadow-soft sm:rounded-[2.25rem]">
-                            <div className="absolute inset-0">
-                                <Image
-                                    src={backgroundImageUrl}
-                                    alt={backgroundImageAlt}
-                                    fill
-                                    className="object-cover opacity-[0.42]"
-                                />
-                                <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(1,5,4,0.34)_0%,rgba(1,5,4,0.24)_42%,rgba(1,5,4,0.14)_70%,rgba(1,5,4,0.18)_100%)]"></div>
-                                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(1,5,4,0.14)_0%,rgba(1,5,4,0.04)_45%,rgba(1,5,4,0.1)_100%)]"></div>
-                                <div className="absolute inset-y-0 right-0 w-[44%] bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.06),transparent_68%)]"></div>
-                                <div className="absolute inset-0 bg-white/68"></div>
-                            </div>
 
-                            <div className="relative px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-9">
-                                <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:grid-rows-[auto_1fr_auto] lg:gap-x-10 lg:gap-y-0 xl:grid-cols-[minmax(0,1fr)_260px] xl:gap-x-14">
-                                    <div className="lg:col-start-1 lg:row-start-1">
-                                        <div className="inline-flex min-h-11 min-w-[180px] items-center justify-center rounded-full bg-gold-500 px-5 py-2 text-center text-[11px] font-bold uppercase tracking-[0.16em] text-brand-950 sm:min-w-[238px]">
-                                            {t("badge", { year: currentYear })}
-                                        </div>
-                                    </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-12 items-center">
 
-                                    <div className="lg:col-start-1 lg:row-start-2 lg:pt-8">
-                                        <h2 className="max-w-[700px] text-3xl font-bold leading-[0.98] tracking-tighter text-brand-900 sm:text-4xl lg:text-[3.5rem]">
-                                            {title}
-                                        </h2>
-
-                                        <p className="mt-4 max-w-[620px] text-base leading-relaxed text-slate-700 sm:text-lg lg:text-[1.15rem]">
-                                            {subtitle}
-                                        </p>
-                                    </div>
-
-                                    <div className="flex flex-col gap-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:items-end lg:justify-center">
-                                        <Link
-                                            href={buttonUrl}
-                                            className="inline-flex min-h-[62px] w-full items-center justify-center gap-2 rounded-full bg-gold-500 px-6 py-3 text-center font-heading text-[15px] font-bold text-brand-950 transition-all duration-300 hover:bg-gold-400 hover:-translate-y-0.5 lg:w-[242px] xl:w-[258px]"
-                                        >
-                                            <Calendar className="h-4.5 w-4.5" />
-                                            <span>{buttonText}</span>
-                                        </Link>
-
-                                        <p className="text-sm text-slate-500 text-center lg:text-right">
-                                            {t("consultationNote")}
-                                        </p>
-                                    </div>
-
-                                    <div className="border-t border-brand-900/30 pt-5 lg:col-span-2 lg:row-start-3 lg:mt-10">
-                                        <div className="flex flex-col gap-3 text-sm text-slate-700 sm:flex-row sm:items-center sm:justify-between sm:gap-6 lg:text-base">
-                                            <p className="font-medium text-slate-700">
-                                                {t("footerText")}
-                                            </p>
-
-                                            <p className="flex items-center gap-3 text-slate-600 sm:justify-end">
-                                                <span aria-hidden="true" className="h-px w-6 bg-brand-900/40"></span>
-                                                <span className="font-medium">{t("secondaryFooterText")}</span>
-                                            </p>
-                                        </div>
-                                    </div>
+                            {/* Left column — text content */}
+                            <div className="flex flex-col items-start text-left">
+                                {/* Gold rule + credential badge */}
+                                <div className="flex flex-col gap-3 mb-6">
+                                    <div className="h-px w-12 bg-gold-500" aria-hidden="true" />
+                                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-500 font-sans">
+                                        {t("badge", { year: currentYear })}
+                                    </p>
                                 </div>
+
+                                {/* Heading */}
+                                <h2
+                                    id="cta-heading"
+                                    className="text-4xl md:text-5xl font-bold text-white leading-[1.1] font-heading tracking-tight"
+                                >
+                                    {title}
+                                </h2>
+
+                                {/* Supporting copy */}
+                                <p className="mt-5 text-lg text-slate-400 leading-relaxed font-sans max-w-lg">
+                                    {subtitle}
+                                </p>
                             </div>
+
+                            {/* Right column — CTA aligned to top */}
+                            <div className="flex flex-col items-start lg:items-start gap-3">
+                                <Link
+                                    href={buttonUrl}
+                                    className="inline-flex min-h-[56px] items-center justify-center gap-3 rounded-full bg-gold-500 px-10 py-4 text-brand-950 font-bold font-heading text-base tracking-wide transition-all duration-200 hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
+                                >
+                                    <Calendar className="h-5 w-5 shrink-0" aria-hidden="true" />
+                                    <span>{buttonText}</span>
+                                </Link>
+
+                                {/* Trust microcopy */}
+                                <p className="text-sm text-slate-500 font-sans leading-relaxed">
+                                    {t("consultationNote")}
+                                </p>
+                            </div>
+
                         </div>
+
                     </RevealOnScroll>
                 </div>
             </section>
         );
     }
 
+    // ─── DEFAULT VARIANT ─────────────────────────────────────────────────────────
     return (
-        <section id="contact" className="relative py-12 lg:py-20 bg-surface">
+        <section id="contact" className="relative py-16 lg:py-24 bg-black">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <RevealOnScroll>
                     <div className="relative overflow-hidden rounded-[2.5rem] bg-brand-950 border border-white/5 shadow-2xl group">
-                        {/* Subtle Background Accent */}
+                        {/* Background — solid gradient, no image */}
                         <div className="absolute inset-0 z-0">
-                            <Image
-                                src={backgroundImageUrl}
-                                alt={backgroundImageAlt}
-                                fill
-                                className="object-cover opacity-20 group-hover:opacity-25 transition-opacity duration-700 grayscale"
-                            />
                             <div className="absolute inset-0 bg-gradient-to-br from-brand-950 via-brand-950/90 to-brand-900/80"></div>
-                            
+
                             {/* Decorative Glow */}
                             <div className="absolute -top-24 -right-24 w-96 h-96 bg-gold-500/10 rounded-full blur-[100px]"></div>
                             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-500/10 rounded-full blur-[100px]"></div>
@@ -136,6 +123,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                             <div className="grid lg:grid-cols-12 gap-12 items-center">
                                 {/* Text Content */}
                                 <div className="lg:col-span-7 flex flex-col items-start text-left">
+                                    {/* Gold badge with pulse dot */}
                                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-400/20 text-gold-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-6 backdrop-blur-md">
                                         <span className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
                                         {t("badge", { year: currentYear })}
@@ -145,7 +133,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                         {title}
                                     </h2>
 
-                                    <p className="text-lg text-slate-300/80 leading-relaxed font-sans max-w-xl">
+                                    <p className="text-lg text-slate-300 leading-relaxed font-sans max-w-xl">
                                         {subtitle}
                                     </p>
                                 </div>
@@ -169,12 +157,12 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
 
                             {/* Footer Text */}
                             <div className="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <p className="text-sm text-slate-500 font-sans italic opacity-60">
+                                <p className="text-sm text-slate-400 font-sans">
                                     {t("footerText")}
                                 </p>
                                 <div className="flex items-center gap-6">
                                     <div className="h-px w-8 bg-gold-500/30 hidden sm:block"></div>
-                                    <span className="text-[10px] uppercase tracking-[0.3em] text-slate-600 font-bold font-sans">
+                                    <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold font-sans">
                                         {t("poweredBy")}
                                     </span>
                                 </div>

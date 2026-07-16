@@ -61,6 +61,8 @@ export async function Footer() {
 
     const companyLinks = [
         { label: tHeader("about"), href: "/about" },
+        // TODO (content): Confirm "Shop" nav item is intentional — no /shop page appears to exist.
+        // Remove this line if it's unused/legacy navigation.
         { label: tHeader("shop"), href: "/shop" },
         { label: tFooter("team"), href: "/team" },
         { label: tHeader("faq"), href: "/faq" },
@@ -93,7 +95,7 @@ export async function Footer() {
     }
 
     return (
-        <footer className="bg-brand-900 border-t border-brand-800">
+        <footer aria-label="Site footer" className="bg-brand-900 border-t border-brand-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
                     <div className="space-y-6">
@@ -128,7 +130,7 @@ export async function Footer() {
                     </div>
 
                     <div>
-                        <h3 className="mb-6 font-heading font-bold text-white uppercase tracking-wider text-xs">{tFooter("complianceTitle")}</h3>
+                        <h3 className="home-eyebrow mb-6 text-white">{tFooter("complianceTitle")}</h3>
                         <ul className="space-y-3">
                             {complianceLinks.map((link) => (
                                 <li key={link.href}>
@@ -152,7 +154,7 @@ export async function Footer() {
                     </div>
 
                     <div>
-                        <h3 className="mb-6 font-heading font-bold text-white uppercase tracking-wider text-xs">{tFooter("companyTitle")}</h3>
+                        <h3 className="home-eyebrow mb-6 text-white">{tFooter("companyTitle")}</h3>
                         <ul className="space-y-3">
                             {companyLinks.map((item) => (
                                 <li key={item.href}>
@@ -169,7 +171,7 @@ export async function Footer() {
 
                     <div className="space-y-8">
                         <div>
-                            <h3 className="mb-6 font-heading font-bold text-white uppercase tracking-wider text-xs">{tFooter("contactTitle")}</h3>
+                            <h3 className="home-eyebrow mb-6 text-white">{tFooter("contactTitle")}</h3>
                             <ul className="space-y-4">
                                 <li className="group flex items-start gap-3 text-sm text-zinc-400">
                                     <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />

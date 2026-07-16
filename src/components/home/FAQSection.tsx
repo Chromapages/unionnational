@@ -10,7 +10,7 @@ interface FAQSectionProps {
 
 export async function FAQSection({ variant = "light" }: FAQSectionProps) {
     const locale = await getLocale();
-    const t = await getTranslations({ locale, namespace: "HomePage.FAQSection" });
+    const t = await getTranslations({ locale, namespace: "ContactPage.FAQSection" });
     const { data: faqs } = await sanityFetch({ query: FAQ_QUERY, params: { locale } });
 
     if (!faqs || faqs.length === 0) {

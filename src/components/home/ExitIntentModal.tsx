@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Calculator } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -16,10 +16,17 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
   const [isMobileBannerVisible, setIsMobileBannerVisible] = useState(false);
   const [hasShown, setHasShown] = useState(false);
 
+  // Focus management refs
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<Element | null>(null);
+  const mobileBannerCtaRef = useRef<HTMLAnchorElement>(null);
+
   const showModal = useCallback(() => {
     if (hasShown || sessionStorage.getItem("exitIntentShown")) {
       return;
     }
+    // Store current active element for focus restoration on close
+    previousActiveElement.current = document.activeElement;
     setIsVisible(true);
     setHasShown(true);
     setIsMobileBannerVisible(false);
@@ -89,21 +96,78 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
     showModal();
   };
 
+  // Focus mobile banner CTA when banner becomes visible
+  useEffect(() => {
+    if (!isMobileBannerVisible) {
+      return;
+    }
+    // Small delay to ensure DOM is ready after animation
+    const timer = setTimeout(() => {
+      mobileBannerCtaRef.current?.focus();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [isMobileBannerVisible]);
+
+  // Focus first focusable element when modal opens, implement focus trap
   useEffect(() => {
     if (!isVisible) {
       return;
     }
+
+    // Move focus to first focusable element inside modal (close button)
+    const firstFocusable = modalRef.current?.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    firstFocusable?.focus();
+
+    // Focus trap: prevent Tab/Shift+Tab from leaving modal
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") {
+        return;
+      }
+      const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusableElements || focusableElements.length === 0) {
+        event.preventDefault();
+        return;
+      }
+      const firstEl = focusableElements[0];
+      const lastEl = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey) {
+        if (document.activeElement === firstEl) {
+          event.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        if (document.activeElement === lastEl) {
+          event.preventDefault();
+          firstEl.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsVisible(false);
       }
     };
-
     document.addEventListener("keydown", handleEscape);
 
+    // Prevent body scroll while modal is open
+    document.body.style.overflow = "hidden";
+
     return () => {
+      document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+      // Restore focus to previously focused element
+      if (previousActiveElement.current && previousActiveElement.current instanceof HTMLElement) {
+        previousActiveElement.current.focus();
+      }
     };
   }, [isVisible]);
 
@@ -121,15 +185,19 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
             onClick={handleClose}
           >
             <motion.div
+              ref={modalRef}
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               className="bg-white rounded-3xl max-w-lg w-full p-8 relative"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="exit-intent-modal-title"
             >
               <button
                 onClick={handleClose}
-                aria-label={t("close")}
+                aria-label={t("closeModal")}
                 className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gold-500"
               >
                 <X className="w-5 h-5" aria-hidden="true" />
@@ -140,7 +208,7 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
                   <Calculator className="w-8 h-8 text-gold-600" aria-hidden="true" />
                 </div>
 
-                <h2 className="text-2xl font-black text-brand-900 mb-3">
+                <h2 id="exit-intent-modal-title" className="text-2xl font-black text-brand-900 mb-3">
                   {t("title")}
                 </h2>
                 
@@ -149,7 +217,7 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
                 </p>
 
                 <Link
-                  href="/health-check"
+                  href={{ pathname: "/health-check" }}
                   onClick={handleClose}
                   className="inline-flex items-center gap-2 w-full justify-center px-6 py-4 bg-gold-500 hover:bg-gold-600 text-brand-900 font-bold rounded-xl transition-all"
                 >
@@ -189,16 +257,17 @@ export function ExitIntentModal({ children }: ExitIntentModalProps) {
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <Link
-                  href="/health-check"
+                  href={{ pathname: "/health-check" }}
                   onClick={handleClose}
-                  className="px-4 py-2 bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold rounded-lg text-sm transition-colors"
+                  ref={mobileBannerCtaRef}
+                  className="mobile-banner-cta px-4 py-2 bg-gold-500 hover:bg-gold-400 text-brand-900 font-bold rounded-lg text-sm transition-colors"
                 >
                   {t("cta")}
                 </Link>
                 <button
                   onClick={handleClose}
                   className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
-                  aria-label={t("close")}
+                  aria-label={t("closeModal")}
                 >
                   <X className="w-5 h-5" aria-hidden="true" />
                 </button>

@@ -87,10 +87,16 @@ export function TrustBar({ logos }: TrustBarProps) {
     // Triple the logos to ensure the carousel never has gaps on any screen size
     const marqueeLogos = [...displayLogos, ...displayLogos, ...displayLogos];
 
+    // Key function: position within each repetition cycle, so duplicates are intentionally
+    // re-rendered (not deduplicated by React) — the animation handles seamless looping.
+    const getKey = (brand: LogoItem, idx: number, repIdx: number) =>
+        `${brand.name}-${idx}-rep${repIdx}`;
+
     return (
-        <section className="relative overflow-hidden border-b border-slate-100 bg-white py-12">
-            <div className="mx-auto mb-8 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-                <p className="font-heading text-xs font-bold uppercase tracking-[0.25em] text-brand-900/40">
+        <section className="relative overflow-hidden border-b border-slate-100 bg-white py-8 lg:py-6">
+            <div className="mx-auto mb-6 lg:mb-4 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+                <p className="home-eyebrow text-brand-900/70">
+                    {/* TODO (content): Confirm label — "Featured In" vs "As Seen In" */}
                     {t("eyebrow")}
                 </p>
             </div>
@@ -101,12 +107,15 @@ export function TrustBar({ logos }: TrustBarProps) {
                 <div className="absolute right-0 top-0 bottom-0 z-10 w-24 bg-gradient-to-l from-white to-transparent sm:w-40" />
 
                 <div className="flex w-max animate-scroll hover:pause motion-reduce:animate-none">
-                    {marqueeLogos.map((brand, index) => (
+                    {marqueeLogos.map((brand, index) => {
+                        const repIdx = Math.floor(index / displayLogos.length);
+                        const itemIdx = index % displayLogos.length;
+                        return (
                         <div
-                            key={`${brand.name}-${index}`}
-                            className="flex cursor-default items-center justify-center px-10 transition-all duration-500 sm:px-14"
+                            key={`${brand.name}-${itemIdx}-rep${repIdx}`}
+                            className="flex cursor-default items-center justify-center px-6 lg:px-8 transition-all duration-500 sm:px-14"
                         >
-                            <div className="relative h-7 w-[110px] opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 sm:h-8 sm:w-[130px] md:h-9 md:w-[150px]">
+                            <div className="relative h-7 w-[110px] opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 sm:h-8 sm:w-[130px] md:h-9 md:w-[150px] lg:h-8 lg:w-[130px]">
                                 {"svg" in brand ? (
                                     <div
                                         className="h-full w-full"
@@ -125,7 +134,8 @@ export function TrustBar({ logos }: TrustBarProps) {
                                 )}
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

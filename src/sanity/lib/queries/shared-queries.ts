@@ -167,6 +167,8 @@ export const HOME_PAGE_QUERY = defineQuery(`
     "heroTitle": coalesce(heroTitle[$locale], heroTitle.en, heroTitle),
     "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.en, heroSubtitle),
     heroVideoUrl,
+    heroPlayerVideoUrl,
+    "heroPlayerPosterUrl": heroPlayerPoster.asset->url,
     "heroCtaText": coalesce(heroCtaText[$locale], heroCtaText.en, heroCtaText),
     heroCtaUrl,
     "heroSecondaryCtaText": coalesce(heroSecondaryCtaText[$locale], heroSecondaryCtaText.en, heroSecondaryCtaText),

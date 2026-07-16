@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Menu as MenuIcon, Phone } from "lucide-react";
@@ -8,13 +8,7 @@ import { ServicesDropdown } from "./ServicesDropdown";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ServiceSummary } from "./navigationData";
-import { ContactModal } from "@/components/ui/ContactModal";
 import { LocaleSwitcher } from "./LocaleSwitcher";
-
-type NavLink = {
-    translationKey: string;
-    href: string;
-};
 
 type FloatingNavbarProps = {
     siteSettings?: {
@@ -29,41 +23,23 @@ type FloatingNavbarProps = {
     services?: ServiceSummary[];
 };
 
-const navLinks: NavLink[] = [
-    { translationKey: "industries", href: "/industries" },
-    { translationKey: "shop", href: "/shop" },
-    { translationKey: "resources", href: "/resources" },
+// Desktop primary nav
+const primaryNavLinks = [
     { translationKey: "about", href: "/about" },
+    { translationKey: "shop", href: "/shop" },
 ];
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
     const t = useTranslations("Header");
-    const [scrolled, setScrolled] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const pathname = usePathname();
-
-    useEffect(() => {
-        setPrefersReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-
-        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const handler = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
-        mediaQuery.addEventListener("change", handler);
-
-        return () => mediaQuery.removeEventListener("change", handler);
-    }, []);
-
-    useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
 
     const isLinkActive = (href: string) => {
         if (href === "/") return pathname === "/";
         return pathname.startsWith(href);
     };
+
+    const isServicesActive = pathname.startsWith("/services") || pathname.startsWith("/industries");
 
     const handleToggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
@@ -74,197 +50,151 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
 
-    const transitionStyle = prefersReducedMotion ? "none" : "border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
-
-    const goldGradient = "linear-gradient(90deg, #D4AF37, #AA8C2C)";
-
     return (
         <>
             <header
-                className="fixed top-0 left-0 right-0 z-[1200] border-b backdrop-blur-xl backdrop-saturate-150"
+                className="fixed top-0 left-0 right-0 z-[1200]"
                 style={{
-                    backgroundColor: "rgba(13, 46, 43, 0.98)",
-                    backgroundImage: "none",
-                    borderColor: scrolled ? "rgba(212, 175, 55, 0.2)" : "rgba(255, 255, 255, 0.05)",
-                    transition: transitionStyle,
-                    boxShadow: scrolled ? "0 4px 20px -5px rgba(2, 9, 8, 0.3)" : "none",
-                    borderRadius: 0,
+                    backgroundColor: "rgb(13, 46, 43)",
+                    borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: "0 1px 24px -4px rgba(2, 9, 8, 0.25)",
                 }}
             >
                 <div className="max-w-screen-xl mx-auto">
+                    {/* Inner row: logo + nav + utilities */}
                     <div
-                        className="flex min-h-[64px] md:min-h-[72px] lg:min-h-[88px] transition-[min-height] duration-300 justify-between items-center"
-                        style={{
-                            minHeight: scrolled
-                                ? "72px"
-                                : undefined,
-                        }}
+                        className="flex items-center justify-between px-5 lg:px-6"
+                        style={{ minHeight: "68px" }}
                     >
+                        {/* ── Left: Logo ── */}
                         <Link
                             href="/"
                             aria-label={t("logoHomeAria", {
                                 company: siteSettings?.companyName || t("defaultCompanyName"),
                             })}
-                            className="flex items-center relative z-10"
+                            className="flex items-center shrink-0 mr-6"
                         >
-                            <div
-                                className="relative transition-all duration-300"
-                                style={{
-                                    width: "200px",
-                                    height: "50px",
-                                }}
-                            >
+                            <div className="relative" style={{ width: "172px", height: "42px" }}>
                                 <Image
                                     src={logoUrl}
                                     alt={siteSettings?.companyName || t("defaultCompanyName")}
                                     fill
                                     className="object-contain"
-                                    sizes="(max-width: 768px) 200px, 360px"
+                                    sizes="172px"
                                     priority
                                 />
                             </div>
                         </Link>
 
+                        {/* ── Center: Desktop Nav (lg+) ── */}
                         <nav
                             aria-label="Main navigation"
-                            className="hidden md:flex items-center"
+                            className="hidden lg:flex items-center gap-0.5"
                         >
+                            {/* Home */}
                             <Link
                                 href="/"
                                 className={`
-                                    relative overflow-hidden px-3 lg:px-4 py-1 rounded-md text-sm font-medium
-                                    transition-all duration-300
-                                    ${isLinkActive("/") ? "text-amber-400" : "text-white"}
+                                    relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
+                                    ${isLinkActive("/") ? "text-gold-400" : "text-white/75 hover:text-white"}
                                 `}
-                                style={{
-                                    fontSize: "0.9375rem",
-                                    fontWeight: isLinkActive("/") ? 600 : 500,
-                                    letterSpacing: "0.02em",
-                                    transition: prefersReducedMotion ? "none" : "color 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                }}
                             >
                                 {isLinkActive("/") && (
-                                    <span
-                                        className="absolute inset-0 rounded-md border border-amber-500/20 bg-amber-500/10"
-                                    />
+                                    <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
                                 )}
-                                {isLinkActive("/") && (
-                                    <span
-                                        className="absolute bottom-1 left-2.5 right-2.5 h-0.5 rounded-full"
-                                        style={{
-                                            background: goldGradient,
-                                            transform: "scaleX(1)",
-                                            transformOrigin: "left",
-                                            transition: prefersReducedMotion ? "none" : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                        }}
-                                    />
-                                )}
-                                <span className="relative z-10">{t("home")}</span>
+                                <span className="relative">{t("home")}</span>
                             </Link>
 
-                            <ServicesDropdown services={services} />
+                            {/* Services — strongest active treatment */}
+                            <ServicesDropdown services={services} isActive={isServicesActive} />
 
-                            {navLinks.filter((link) => link.translationKey !== "home").map((link) => {
+                            {primaryNavLinks.map((link) => {
                                 const isActive = isLinkActive(link.href);
                                 return (
                                     <Link
                                         key={link.translationKey}
                                         href={link.href}
                                         className={`
-                                            relative overflow-hidden px-3 lg:px-4 py-1 rounded-md text-sm font-medium
-                                            transition-all duration-300
-                                            ${isActive ? "text-amber-400" : "text-white"}
+                                            relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
+                                            ${isActive ? "text-gold-400" : "text-white/75 hover:text-white"}
                                         `}
-                                        style={{
-                                            fontSize: "0.9375rem",
-                                            fontWeight: isActive ? 600 : 500,
-                                            letterSpacing: "0.02em",
-                                            transition: prefersReducedMotion ? "none" : "color 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                        }}
                                     >
                                         {isActive && (
-                                            <span
-                                                className="absolute inset-0 rounded-md border border-amber-500/20 bg-amber-500/10"
-                                            />
+                                            <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
                                         )}
-                                        {isActive && (
-                                            <span
-                                                className="absolute bottom-1 left-2.5 right-2.5 h-0.5 rounded-full"
-                                                style={{
-                                                    background: goldGradient,
-                                                    transform: "scaleX(1)",
-                                                    transformOrigin: "left",
-                                                    transition: prefersReducedMotion ? "none" : "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                                }}
-                                            />
-                                        )}
-                                        <span className="relative z-10">{t(link.translationKey)}</span>
+                                        <span className="relative">{t(link.translationKey)}</span>
                                     </Link>
                                 );
                             })}
                         </nav>
 
-                        <div className="hidden md:flex items-center gap-4">
-                            <div className="hidden lg:block h-5 w-px bg-white/15 mx-1" />
-
-                            <button
-                                onClick={() => setIsContactModalOpen(true)}
-                                aria-label={t("contactButtonAria")}
-                                className="hidden md:flex items-center text-white/70 hover:text-amber-400 transition-colors"
+                        {/* ── Right: Utilities + CTA ── */}
+                        <div className="flex items-center gap-3">
+                            {/* Phone — visible on lg+, call icon on mobile */}
+                            <a
+                                href={phoneHref}
+                                className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-md bg-gold-500/10 border border-gold-500/20 text-sm text-gold-400 hover:bg-gold-500/20 hover:text-gold-300 transition-colors duration-200 font-sans font-medium"
+                                aria-label="Call us"
                             >
-                                <Phone size={20} />
-                            </button>
+                                <Phone size={16} aria-hidden="true" className="text-gold-400" />
+                                {phoneNumber}
+                            </a>
+
+                            {/* Mobile call button — replaces phone on small screens */}
+                            <a
+                                href={phoneHref}
+                                aria-label="Call us"
+                                className="flex lg:hidden items-center justify-center p-2 rounded-md bg-gold-500/10 border border-gold-500/30 text-gold-400 hover:bg-gold-500/20 hover:text-gold-300 transition-all duration-200"
+                            >
+                                <Phone size={18} aria-hidden="true" />
+                            </a>
+
+                            {/* Language toggle */}
                             <LocaleSwitcher />
+
+                            {/* Primary CTA — always visible, sticky in fixed header */}
                             <Link
                                 href={ctaUrl}
-                                className="hidden md:flex items-center px-4 lg:px-6 py-1.5 rounded-md font-semibold text-sm relative overflow-hidden"
-                                style={{
-                                    backgroundColor: "#D4AF37",
-                                    boxShadow: "0 4px 14px -3px rgba(212, 175, 55, 0.4)",
-                                    transition: prefersReducedMotion ? "none" : "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                                }}
+                                className="
+                                    hidden md:inline-flex items-center px-5 py-2.5
+                                    rounded-md font-bold text-sm text-brand-900 bg-gold-500
+                                    hover:bg-gold-400 active:scale-95 transition-all duration-200
+                                    font-heading tracking-tight
+                                "
+                                style={{ boxShadow: "0 2px 10px -2px rgba(212, 175, 55, 0.5)" }}
                             >
-                                <span
-                                    className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
-                                    style={{
-                                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                                        left: "-100%",
-                                    }}
-                                />
-                                <span className="relative z-10">{ctaText}</span>
+                                {ctaText}
                             </Link>
-                        </div>
 
-                        <div className="flex md:hidden items-center">
+                            {/* Hamburger — only shown when sidebar is closed on mobile */}
                             <button
                                 onClick={handleToggleSidebar}
                                 aria-label={sidebarOpen ? t("closeMenu") : t("openMenu")}
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
-                                className="p-1 rounded-md border border-amber-500/30 bg-amber-500/10 text-white hover:bg-amber-500/20 transition-colors"
+                                className="
+                                    flex md:flex items-center justify-center
+                                    p-2 rounded-md
+                                    border border-gold-500/30 bg-gold-500/10
+                                    text-white hover:bg-gold-500/20
+                                    transition-all duration-200
+                                "
                             >
-                                <MenuIcon size={24} aria-hidden="true" />
+                                <MenuIcon size={20} aria-hidden="true" />
                             </button>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div
-                className="hidden md:block"
-                style={{
-                    minHeight: "72px",
-                    transition: "min-height 0.3s ease",
-                }}
-            />
+            {/* Spacer for sticky header */}
+            <div style={{ minHeight: "68px" }} />
 
             <MobileSidebar
                 isOpen={sidebarOpen}
                 onClose={handleCloseSidebar}
                 siteSettings={siteSettings}
             />
-
-            <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} phoneNumber={phoneNumber} phoneHref={phoneHref} />
         </>
     );
 };

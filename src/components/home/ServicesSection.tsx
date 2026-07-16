@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { ArrowRight, ChevronRight, Zap, Target as TargetIcon, TrendingUp, ShieldCheck, LucideIcon, PieChart, Briefcase } from "lucide-react";
+import { ArrowRight, Zap, Target as TargetIcon, TrendingUp, ShieldCheck, LucideIcon, PieChart, Briefcase } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { fallbackServices, getServiceHref } from "@/components/layout/navigationData";
 
@@ -79,6 +79,22 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
         return currentService;
     });
 
+    // CTA copy and qualifiers vary per pillar
+    const pillarMeta: Record<string, { cta: string; qualifier: string }> = {
+        "s-corp-tax-advantage": {
+            cta: "See S-Corp Savings",
+            qualifier: "For contractors, consultants & high-earning sole proprietors",
+        },
+        "fractional-cfo": {
+            cta: "Meet a Fractional CFO",
+            qualifier: "For growing businesses ready for financial leadership",
+        },
+        "tax-planning": {
+            cta: "Build My Tax Plan",
+            qualifier: "For owners who want year-round proactive strategy",
+        },
+    };
+
     return (
         <section
             id="services"
@@ -91,13 +107,13 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                 {/* Section Header */}
                 <div className="text-center mb-16 lg:mb-20 max-w-4xl mx-auto">
                     <RevealOnScroll>
-                        <span className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold-600 font-sans mb-6">
+                        <span className="home-eyebrow mb-4 block text-gold-700">
                             {eyebrow}
                         </span>
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-brand-900 font-heading leading-[1.05] mb-6">
+                        <h2 className="home-section-heading mb-6 text-brand-900">
                             {title}
                         </h2>
-                        <p className="text-slate-500 leading-relaxed font-sans text-lg md:text-xl font-light max-w-2xl mx-auto">
+                        <p className="home-supporting-copy mx-auto max-w-2xl text-slate-600">
                             {subtitle}
                         </p>
                     </RevealOnScroll>
@@ -107,6 +123,10 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
                     {priorityServices.map((service, index) => {
                         const Icon = ICON_MAP[service.icon || ''] || Zap;
+                        const meta = pillarMeta[service.slug?.current || ''] || {
+                            cta: t("serviceCta"),
+                            qualifier: null,
+                        };
                         return (
                             <RevealOnScroll key={index} delay={index * 100}>
                                 <div className="group relative h-full bg-brand-900 rounded-3xl p-8 lg:p-10 overflow-hidden flex flex-col transition-all duration-500 hover:shadow-premium">
@@ -119,28 +139,35 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                                         <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center text-brand-900 shadow-lg group-hover:scale-105 transition-transform duration-500">
                                             <Icon size={26} strokeWidth={2} aria-hidden="true" />
                                         </div>
-                                        <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-gold-500/80 px-3 py-1.5 bg-gold-500/10 rounded-full border border-gold-500/20">
+                                        <span className="home-eyebrow rounded-full border border-gold-500/20 bg-gold-500/10 px-3 py-1.5 text-gold-400">
                                             {t("pillarBadge")}
                                         </span>
                                     </div>
 
                                     {/* Content */}
                                     <div className="mt-8">
-                                        <h3 className="text-2xl lg:text-3xl font-black text-white tracking-tight font-heading leading-tight mb-4">
+                                        <h3 className="home-card-heading mb-2 text-white">
                                             {service.title}
                                         </h3>
-                                        <p className="text-slate-400 leading-relaxed text-base lg:text-lg font-light mb-8">
+                                        {/* "Who this is for" qualifier */}
+                                        {meta.qualifier && (
+                                            <p className="text-xs text-gold-500/70 mb-4 leading-relaxed">
+                                                {meta.qualifier}
+                                            </p>
+                                        )}
+                                        <p className="text-slate-400 leading-relaxed text-base lg:text-lg font-light">
                                             {service.shortDescription}
                                         </p>
                                     </div>
 
-                                    {/* Footer CTA */}
+                                    {/* Footer CTA — varied copy per pillar */}
                                     <Link
-                                        href={getServiceHref(service)}
+                                        href={service.slug?.current ? getServiceHref(service) : '#'}
+                                        aria-disabled={!service.slug?.current}
                                         className="inline-flex items-center gap-3 text-sm font-bold text-gold-500 hover:text-gold-400 transition-colors duration-300 group/link mt-auto"
                                     >
                                         <span className="uppercase tracking-[0.1em] text-xs">
-                                            {t("serviceCta")}
+                                            {meta.cta}
                                         </span>
                                         <ArrowRight size={18} aria-hidden="true" className="group-hover/link:translate-x-2 transition-transform duration-300" />
                                     </Link>
@@ -150,14 +177,13 @@ export function ServicesSection({ services = [], data }: ServicesSectionProps) {
                     })}
                 </div>
 
-                {/* Bottom CTA */}
+                {/* Bottom CTA — primary button pattern */}
                 <div className="mt-16 lg:mt-20 text-center">
                     <Link
                         href="/services"
-                        className="inline-flex items-center gap-2 text-brand-900 font-bold uppercase tracking-[0.12em] text-xs hover:text-gold-600 transition-colors duration-300 group"
+                        className="inline-flex min-h-[56px] items-center justify-center gap-3 rounded-full bg-gold-500 px-10 py-4 text-brand-950 font-bold font-heading text-base tracking-wide transition-all duration-200 hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
                     >
                         <span>{buttonText}</span>
-                        <ChevronRight size={16} aria-hidden="true" className="group-hover:translate-x-1 transition-transform duration-300" />
                     </Link>
                 </div>
             </div>

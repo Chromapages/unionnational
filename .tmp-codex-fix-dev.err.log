@@ -1,0 +1,1311 @@
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+⨯ Failed to generate static paths for /[locale]/construction/profit-blueprint:
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError'
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+Error: Jest worker encountered 2 child process exceptions, exceeding retry limit
+    at ignore-listed frames {
+  type: 'WorkerError',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+Error: Cannot find module 'next/dist/pages/_error'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\on-demand-entry-handler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack\plugins\flight-client-entry-plugin.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\build\webpack-config.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\hot-reloader-webpack.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\router-server.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\lib\start-server.js
+    at ignore-listed frames {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+node:internal/modules/cjs/loader:1424
+  throw err;
+  ^
+
+Error: Cannot find module '../require-hook'
+Require stack:
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1421:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1059:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1064:22)
+    at Module._load (node:internal/modules/cjs/loader:1227:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:245:24)
+    at Module.require (node:internal/modules/cjs/loader:1504:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (D:\WORK\WORK\unionnational\node_modules\next\src\server\dev\static-paths-worker.ts:40:23)
+    at Module._compile (node:internal/modules/cjs/loader:1761:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\server\\dev\\static-paths-worker.js',
+    'D:\\WORK\\WORK\\unionnational\\node_modules\\next\\dist\\compiled\\jest-worker\\processChild.js'
+  ]
+}
+
+Node.js v24.11.1
+⨯ ReferenceError: LimitedBonusCard is not defined
+    at ProfitBlueprintPage (src\app\[locale]\construction\profit-blueprint\page.tsx:554:14)
+  552 |
+  553 |             {/* Urgency & Limited Stack Bonus Cards */}
+> 554 |             <LimitedBonusCard locale={locale} />
+      |              ^
+  555 |
+  556 |             {/* Author Bio Section */}
+  557 |             <BlueprintAuthorBio author={productData.author} /> {
+  digest: '1683894052'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+Error fetching construction book product details: ReferenceError: sanityFetch is not defined
+    at ProfitBlueprintPage (src\app\[locale]\construction\profit-blueprint\page.tsx:187:26)
+  185 |     let product = null;
+  186 |     try {
+> 187 |         const response = await sanityFetch({
+      |                          ^
+  188 |             query: PRODUCT_DETAIL_QUERY,
+  189 |             params: { slug: "the-money-making-blueprint-for-construction-companies", locale }
+  190 |         });
+⨯ ReferenceError: LimitedBonusCard is not defined
+    at ProfitBlueprintPage (src\app\[locale]\construction\profit-blueprint\page.tsx:554:14)
+  552 |
+  553 |             {/* Urgency & Limited Stack Bonus Cards */}
+> 554 |             <LimitedBonusCard locale={locale} />
+      |              ^
+  555 |
+  556 |             {/* Author Bio Section */}
+  557 |             <BlueprintAuthorBio author={productData.author} /> {
+  digest: '1683894052'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⨯ ReferenceError: LimitedBonusCard is not defined
+    at ProfitBlueprintPage (src\app\[locale]\construction\profit-blueprint\page.tsx:555:14)
+  553 |
+  554 |             {/* Urgency & Limited Stack Bonus Cards */}
+> 555 |             <LimitedBonusCard locale={locale} />
+      |              ^
+  556 |
+  557 |             {/* Author Bio Section */}
+  558 |             <BlueprintAuthorBio author={productData.author} /> {
+  digest: '2090488426'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\0.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\0.pack.gz'
+}
+⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\0.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\0.pack.gz'
+}
+⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\0.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\0.pack.gz'
+}
+[Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\3.pack.gz'
+}
+⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\3.pack.gz'
+}
+⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\3.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\3.pack.gz'
+}
+[Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\10.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\10.pack.gz'
+}
+⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\10.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\10.pack.gz'
+}
+⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\10.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\server-development\\10.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\server-development\0.pack.gz'
+[Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\client-development\12.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\client-development\\12.pack.gz'
+}
+⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\client-development\12.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\client-development\\12.pack.gz'
+}
+⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\client-development\12.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\cache\\webpack\\client-development\\12.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'D:\WORK\WORK\unionnational\.next\dev\cache\webpack\client-development\12.pack.gz'
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\server\\app\\[locale]\\construction\\profit-blueprint\\page.js',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json',
+  page: '/favicon.ico'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Failed to generate static paths for /[locale]/construction/profit-blueprint:
+Error: Cannot find module './vendor-chunks/@sanity.js'
+Require stack:
+- D:\WORK\WORK\unionnational\.next\dev\server\webpack-runtime.js
+- D:\WORK\WORK\unionnational\.next\dev\server\app\[locale]\construction\profit-blueprint\page.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\require.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\load-components.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\server\dev\static-paths-worker.js
+- D:\WORK\WORK\unionnational\node_modules\next\dist\compiled\jest-worker\processChild.js
+    at ignore-listed frames {
+  type: 'Error',
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json',
+  page: '/en/construction/profit-blueprint'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\routes-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\routes-manifest.json'
+}
+Error: ENOENT: no such file or directory, open 'D:\WORK\WORK\unionnational\.next\dev\fallback-build-manifest.json'
+    at ignore-listed frames {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'D:\\WORK\\WORK\\unionnational\\.next\\dev\\fallback-build-manifest.json'
+}

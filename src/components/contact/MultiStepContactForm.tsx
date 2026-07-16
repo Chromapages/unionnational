@@ -18,9 +18,12 @@ import {
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { submitContactForm } from "@/app/[locale]/contact/actions";
+import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 // --- Form Schema & Types ---
 const contactFormSchema = z.object({
+    _hpt: z.string().optional(), // honeypot
     goal: z.enum(['tax-reduction', 'audit-defense', 'restructure', 'partnership'], {
         message: "Please select a primary goal.",
     }),
@@ -53,7 +56,8 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
         watch,
         setValue,
         trigger,
-        formState: { errors, isSubmitting },
+        getValues,
+        formState: { errors, isSubmitting: isRHFSubmitting },
     } = useForm<FormData>({
         resolver: zodResolver(contactFormSchema),
         mode: "onChange",
@@ -78,10 +82,11 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
 
     const handleNext = async () => {
         const isGoalValid = await trigger("goal");
-        if (isGoalValid) {
-            setDirection(1);
-            setStep(2);
-        }
+        if (!isGoalValid) return;
+        // Pre-validate step 2 required fields before showing them
+        await trigger(["firstName", "lastName", "email", "privacy"]);
+        setDirection(1);
+        setStep(2);
     };
 
     const handleBack = () => {
@@ -89,12 +94,30 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
         setStep(1);
     };
 
-    const onSubmit = async (data: FormData) => {
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        alert(t("step2.successMessage"));
+    const onValid = async (data: FormData) => {
+        const fd = new FormData();
+        fd.append("_hpt", (data._hpt as string) || "");
+        fd.append("goal", data.goal);
+        fd.append("clientType", data.clientType);
+        fd.append("firstName", data.firstName);
+        fd.append("lastName", data.lastName);
+        fd.append("email", data.email);
+        fd.append("phone", data.phone || "");
+        fd.append("message", data.message || "");
+        fd.append("privacy", String(data.privacy));
+
+        const result = await submitContactForm(null, fd);
+
+        if (result.status === "success") {
+            trackMetaEvent("Lead", { content_name: "Contact Form", content_category: data.goal });
+            alert(t("step2.successMessage"));
+        } else if (result.status === "error") {
+            // Surface server error to user
+            alert(result.message || t("step2.successMessage"));
+        }
     };
 
-    // --- Variatns for Animation ---
+    // --- Variants for Animation ---
     const slideVariants = {
         enter: (direction: number) => ({
             x: direction > 0 ? 50 : -50,
@@ -112,7 +135,18 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
             {/* Top Decoration */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-gold-500/5 rounded-bl-full -mr-10 -mt-10 pointer-events-none" />
 
-            <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 w-full">
+            <form onSubmit={handleSubmit(onValid)} className="relative z-10 w-full">
+
+                {/* Honeypot — invisible to humans, catches bots */}
+                <input
+                    type="text"
+                    {...register("_hpt")}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute -inset-full w-full h-full border-none opacity-0 pointer-events-none"
+                />
+
                 {/* Progress Bar */}
                 <div className="flex items-center gap-2 mb-8">
                     <div className={cn("h-1 flex-1 rounded-full transition-colors duration-500", step >= 1 ? "bg-gold-500" : "bg-slate-200")} />
@@ -284,6 +318,22 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
                                 {errors.email && <span className="text-xs text-rose-500">{t("validation.emailInvalid")}</span>}
                             </div>
 
+                            {/* Phone */}
+                            <div className="space-y-1.5">
+                                <label htmlFor="phone" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{t("step2.labels.phone")}</label>
+                                <input
+                                    type="tel"
+                                    {...register("phone")}
+                                    className={cn(
+                                        "w-full bg-white border rounded-lg px-4 py-3 text-sm outline-none transition-all placeholder:text-slate-400",
+                                        errors.phone
+                                            ? "border-rose-500 focus:ring-2 focus:ring-rose-500/20"
+                                            : "border-slate-200 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/20"
+                                    )}
+                                    placeholder={t("step2.placeholders.phone")}
+                                />
+                            </div>
+
                             <div className="space-y-1.5">
                                 <label htmlFor="message" className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{t("step2.labels.message")}</label>
                                 <textarea
@@ -315,11 +365,11 @@ export function MultiStepContactForm({ title, subtitle }: MultiStepContactFormPr
 
                             <button
                                 type="submit"
-                                disabled={isSubmitting}
+                                disabled={isRHFSubmitting}
                                 className="w-full bg-brand-900 text-white font-bold py-3.5 rounded-lg hover:bg-gold-500 hover:text-brand-900 transition-all shadow-lg shadow-brand-900/10 flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed mt-6"
                             >
-                                {isSubmitting ? t("step2.sending") : t("step2.submitButton")}
-                                {!isSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                                {isRHFSubmitting ? t("step2.sending") : t("step2.submitButton")}
+                                {!isRHFSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                             </button>
 
                         </motion.div>

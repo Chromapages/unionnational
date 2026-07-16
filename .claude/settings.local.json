@@ -76,7 +76,11 @@
       "Bash(grep -oE '<video[^>]{0,250}')",
       "Bash(grep -oE '<video[^>]{0,300}')",
       "Bash(git commit *)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(python -c ' *)",
+      "Read(//c/Users/ericb/.claude/skills/playwright-skill/**)",
+      "Bash(node -e \"require\\('./lib/helpers'\\).detectDevServers\\(\\).then\\(s => console.log\\(JSON.stringify\\(s\\)\\)\\)\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\);const j=JSON.parse\\(d\\);console.log\\('scripts:', JSON.stringify\\(j.scripts,null,2\\)\\);console.log\\('dev:', j.scripts?.dev || j.scripts?.next || 'not found'\\)\")"
     ]
   }
 }

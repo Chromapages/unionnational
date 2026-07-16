@@ -12,7 +12,7 @@ import {
     Users,
     ArrowRight,
     TrendingDown,
-    Zap
+    Zap,
 } from "lucide-react";
 
 interface StatItem {
@@ -32,42 +32,46 @@ interface WhyUsSectionProps {
 
 export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
     const t = useTranslations("HomePage.WhyUsSection");
-    const problems = [
+
+    // ─── Side-by-side comparison rows ───────────────────────────────────────────
+    // Each row pairs a "status quo" problem with its CFO partnership solution.
+    // Matched-row structure so each point contrasts directly across columns.
+    const comparisonRows = [
         {
-            icon: EyeOff,
-            title: t("problems.flyingBlind.title"),
-            description: t("problems.flyingBlind.description"),
+            problemIcon: EyeOff,
+            problemTitle: t("problems.flyingBlind.title"),
+            problemDesc: t("problems.flyingBlind.description"),
+            solutionIcon: Check,
+            solutionTitle: t("differentiators.proactiveStrategy.title"),
+            solutionDesc: t("differentiators.proactiveStrategy.description"),
         },
         {
-            icon: Clock,
-            title: t("problems.taxSurprises.title"),
-            description: t("problems.taxSurprises.description"),
+            problemIcon: Clock,
+            problemTitle: t("problems.taxSurprises.title"),
+            problemDesc: t("problems.taxSurprises.description"),
+            solutionIcon: Users,
+            solutionTitle: t("differentiators.directAccess.title"),
+            solutionDesc: t("differentiators.directAccess.description"),
         },
         {
-            icon: AlertTriangle,
-            title: t("problems.complianceDrag.title"),
-            description: t("problems.complianceDrag.description"),
+            problemIcon: AlertTriangle,
+            problemTitle: t("problems.complianceDrag.title"),
+            problemDesc: t("problems.complianceDrag.description"),
+            solutionIcon: ShieldCheck,
+            solutionTitle: t("differentiators.sCorpSpecialists.title"),
+            solutionDesc: t("differentiators.sCorpSpecialists.description"),
         },
     ];
 
-    const differentiators = [
-        {
-            icon: Check,
-            title: t("differentiators.proactiveStrategy.title"),
-            description: t("differentiators.proactiveStrategy.description"),
-        },
-        {
-            icon: Users,
-            title: t("differentiators.directAccess.title"),
-            description: t("differentiators.directAccess.description"),
-        },
-        {
-            icon: ShieldCheck,
-            title: t("differentiators.sCorpSpecialists.title"),
-            description: t("differentiators.sCorpSpecialists.description"),
-        },
-    ];
-
+    // Stats — defaults from CMS
+    const stats = data?.stats?.length
+        ? data.stats
+        : [
+              { value: "23%", label: t("stats.averageTaxReduction") },
+              { value: "$2.4M", label: t("stats.clientSavingsLastYear") },
+              { value: "1,000+", label: t("stats.businessesServed") },
+              { value: "15+", label: t("stats.yearsExperience") },
+          ];
 
 
     return (
@@ -79,110 +83,85 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
                 <RevealOnScroll className="text-center mb-16 max-w-3xl mx-auto">
-                    <span className="inline-block text-[10px] font-bold uppercase tracking-[0.15em] text-gold-600 mb-4">
+                    <span className="home-eyebrow mb-4 block text-gold-700">
                         {t("eyebrow")}
                     </span>
                     <h2
                         id="why-us-heading"
-                        className="text-4xl sm:text-5xl font-bold tracking-tighter text-brand-900 font-heading leading-none mb-6"
+                        className="home-section-heading mb-6 text-brand-900"
                     >
                         {data?.problemTitle || t("fallbackTitle")}
                     </h2>
-                    <p className="text-lg md:text-xl text-slate-600 leading-relaxed font-light">
-                        {data?.problemSubtitle ||
-                            t("fallbackSubtitle")}
+                    <p className="home-supporting-copy text-slate-600">
+                        {data?.problemSubtitle || t("fallbackSubtitle")}
                     </p>
                 </RevealOnScroll>
 
-                {/* Comparative Section Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16 items-stretch">
-                    {/* The Traditional CPA - Light Reactive Card */}
-                    <RevealOnScroll delay={100} className="h-full">
-                        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-8 sm:p-10 flex flex-col justify-between h-full relative group hover:border-slate-300 transition-all duration-300">
+                {/* ─── Comparison Header Row ─────────────────────────────────────── */}
+                <RevealOnScroll delay={100}>
+                    <div className="grid grid-cols-2 gap-4 mb-4 px-2">
+                        <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-lg bg-red-50 flex items-center justify-center text-red-500 border border-red-100">
+                                <TrendingDown size={18} />
+                            </div>
                             <div>
-                                <div className="flex items-center gap-3.5 mb-6">
-                                    <div className="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-500 border border-red-100">
-                                        <TrendingDown size={20} />
-                                    </div>
-                                    <div>
-                                        <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">{t("statusQuoLabel")}</p>
-                                        <h3 className="text-xl font-bold text-brand-900 font-heading">
-                                            {t("traditionalCpaTitle")}
-                                        </h3>
-                                    </div>
-                                </div>
-                                <p className="text-sm text-slate-500 mb-8 leading-relaxed">
-                                    {t("traditionalCpaDescription")}
-                                </p>
-
-                                <ul className="space-y-6">
-                                    {problems.map((prob) => (
-                                        <li key={prob.title} className="flex gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-100 shrink-0">
-                                                <prob.icon size={18} />
-                                            </div>
-                                            <div>
-                                                <h4 className="text-sm font-bold text-brand-900 mb-1">{prob.title}</h4>
-                                                <p className="text-xs text-slate-500 leading-relaxed">{prob.description}</p>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500 font-sans">{t("statusQuoLabel")}</p>
+                                <h3 className="home-card-heading text-base md:text-lg text-brand-900">{t("traditionalCpaTitle")}</h3>
                             </div>
                         </div>
-                    </RevealOnScroll>
-
-                    {/* The CFO Partnership - Dark Proactive Vault Card */}
-                    <RevealOnScroll delay={200} className="h-full">
-                        <div className="bg-brand-900 text-white rounded-2xl shadow-lg border border-brand-900/50 p-8 sm:p-10 flex flex-col justify-between h-full relative overflow-hidden group">
-                            {/* Vault Grid Background overlay */}
-                            <div className="absolute inset-0 z-0 bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-[0.02]" />
-
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-3.5 mb-6">
-                                    <div className="w-10 h-10 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500 border border-gold-500/20">
-                                        <Zap size={20} />
-                                    </div>
-                                    <div>
-                                        <p className="text-[9px] font-bold uppercase tracking-wider text-gold-500/80">{t("proactiveDefenseLabel")}</p>
-                                        <h3 className="text-xl font-bold text-white font-heading">
-                                            {t("cfoPartnershipTitle")}
-                                        </h3>
-                                    </div>
-                                </div>
-                                <p className="text-sm text-slate-400 mb-8 leading-relaxed">
-                                    {t("cfoPartnershipDescription")}
-                                </p>
-
-                                <ul className="space-y-6">
-                                    {differentiators.map((diff) => (
-                                        <li key={diff.title} className="flex gap-4">
-                                            <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-500 border border-gold-500/20 shrink-0">
-                                                <diff.icon size={18} />
-                                            </div>
-                                            <div>
-                                                <h4 className="text-sm font-bold text-white mb-1">{diff.title}</h4>
-                                                <p className="text-xs text-slate-400 leading-relaxed">{diff.description}</p>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
+                        <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500 border border-gold-500/20">
+                                <Zap size={18} />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-gold-500/80 font-sans">{t("proactiveDefenseLabel")}</p>
+                                <h3 className="home-card-heading text-base md:text-lg text-black">{t("cfoPartnershipTitle")}</h3>
                             </div>
                         </div>
-                    </RevealOnScroll>
-                </div>
+                    </div>
+                </RevealOnScroll>
 
-                {/* Stats Row */}
+                {/* ─── Side-by-side Comparison Rows ─────────────────────────────── */}
+                <RevealOnScroll delay={200}>
+                    <div className="mb-16 space-y-4">
+                        {comparisonRows.map((row, idx) => (
+                            <div
+                                key={idx}
+                                className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch"
+                            >
+                                {/* Problem card — left column */}
+                                <div className="bg-white border border-slate-200 rounded-xl p-5 flex gap-4 items-start hover:border-red-200 transition-all duration-200">
+                                    <div className="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 border border-slate-100 shrink-0 mt-0.5">
+                                        <row.problemIcon size={16} />
+                                    </div>
+                                    <div>
+                                        <h4 className="mb-1 font-sans text-sm font-semibold leading-[1.35] text-brand-900">{row.problemTitle}</h4>
+                                        <p className="text-xs text-slate-500 leading-relaxed">{row.problemDesc}</p>
+                                    </div>
+                                </div>
+
+                                {/* Solution card — right column */}
+                                <div className="bg-brand-900 border border-brand-800 rounded-xl p-5 flex gap-4 items-start hover:border-gold-500/30 transition-all duration-200">
+                                    <div className="w-9 h-9 rounded-full bg-gold-500/10 flex items-center justify-center text-gold-500 border border-gold-500/20 shrink-0 mt-0.5">
+                                        <row.solutionIcon size={16} />
+                                    </div>
+                                    <div>
+                                        <h4 className="mb-1 font-sans text-sm font-semibold leading-[1.35] text-white">{row.solutionTitle}</h4>
+                                        <p className="text-xs text-slate-400 leading-relaxed">{row.solutionDesc}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+
+                    </div>
+                </RevealOnScroll>
+
+                {/* ─── Stats Row ─────────────────────────────────────────────────── */}
                 <RevealOnScroll delay={300}>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-                        {(data?.stats?.length ? data.stats : [
-                            { value: "23%", label: t("stats.averageTaxReduction") },
-                            { value: "$2.4M", label: t("stats.clientSavingsLastYear") },
-                            { value: "1,000+", label: t("stats.businessesServed") },
-                            { value: "15+", label: t("stats.yearsExperience") },
-                        ]).map((stat, index) => (
+                        {stats.map((stat, index) => (
                             <div key={index} className="text-center p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                                <div className="text-3xl md:text-4xl font-black text-brand-900 font-heading mb-2" style={{ color: "#D4AF37" }}>
+                                <div className="text-3xl md:text-4xl font-black font-heading mb-2 text-gold-500">
                                     {stat.value}
                                 </div>
                                 <div className="text-xs sm:text-sm text-slate-600 font-medium">
@@ -193,20 +172,19 @@ export const WhyUsSection = ({ data }: WhyUsSectionProps) => {
                     </div>
                 </RevealOnScroll>
 
-
                 {/* Call to Action */}
                 <RevealOnScroll delay={400}>
                     <div className="text-center bg-white border border-slate-200 rounded-2xl shadow-sm p-8 sm:p-10 max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 hover:shadow-md transition-shadow">
                         <div className="text-left">
-                            <h3 className="text-xl font-bold text-brand-900 font-heading mb-1">
-                            {data?.differentiatorTitle || t("ctaTitle")}
+                            <h3 className="home-card-heading mb-1 text-brand-900">
+                                {data?.differentiatorTitle || t("ctaTitle")}
                             </h3>
                             <p className="text-sm text-slate-500">
                                 {data?.differentiatorSubtitle || t("ctaSubtitle")}
                             </p>
                         </div>
                         <Link
-                            href="/book"
+                            href={{ pathname: "/book" }}
                             tabIndex={0}
                             aria-label={t("ctaButtonAria")}
                             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 active:scale-95 text-brand-900 font-bold font-heading rounded-md shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2 shrink-0 group"

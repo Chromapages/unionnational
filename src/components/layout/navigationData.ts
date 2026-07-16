@@ -81,6 +81,13 @@ export const fallbackServices: ServiceSummary[] = [
     shortDescription: "Multi-state nexus & margin protection",
     category: "Specialized Advisory",
   },
+  {
+    title: "Payroll Services",
+    slug: { current: "payroll-services" },
+    icon: "DollarSign",
+    shortDescription: "Accurate, compliant payroll processing and filings.",
+    category: "Financial Control",
+  },
 ];
 
 export const getServiceHref = (service: ServiceSummary) => {

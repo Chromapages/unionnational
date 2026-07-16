@@ -11,6 +11,8 @@ import type { Metadata } from "next";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { urlFor } from "@/sanity/lib/image";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { locales, defaultLocale } from "@/i18n/config";
 
 import { WhyUsSection } from "@/components/home/WhyUsSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
@@ -66,6 +68,11 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
   const params = await props.params;
   const locale = params.locale;
 
+  // Validate locale against configured locales
+  if (!locales.includes(locale as typeof locales[number])) {
+    redirect(`/${defaultLocale}`);
+  }
+
   // Fetch critical data in parallel
   const [homePageData, services, testimonials, siteSettings] = await Promise.all([
     sanityFetch({ query: HOME_PAGE_QUERY, params: { locale } }),
@@ -81,10 +88,19 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
 
 
   return (
-    <ExitIntentModal>
-      <main id="main-content" className="min-h-dvh w-full bg-surface flex flex-col">
+    <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-gold-500 focus:text-brand-900 focus:rounded-lg"
+      >
+        Skip to main content
+      </a>
+      <ExitIntentModal>
+        <main id="main-content" className="min-h-dvh w-full bg-brand-900 flex flex-col">
         <JsonLd siteSettings={siteSettingsData} homePageData={homeData} />
-        <HeaderWrapper />
+        <ErrorBoundary name="Header">
+          <HeaderWrapper />
+        </ErrorBoundary>
         <div className="flex-1">
           {/* Hero with simplified calculator and single CTA */}
           <ErrorBoundary name="Hero Section">
@@ -117,8 +133,11 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           {/* Final CTA - single button */}
           <CTASection data={homeData} variant="homepageWireframe" />
         </div>
-        <Footer />
+        <ErrorBoundary name="Footer">
+          <Footer />
+        </ErrorBoundary>
       </main>
-    </ExitIntentModal>
+      </ExitIntentModal>
+    </>
   );
 }

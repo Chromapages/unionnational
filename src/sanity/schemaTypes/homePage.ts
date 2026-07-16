@@ -41,6 +41,23 @@ export const homePage = defineType({
             description: "URL al stream HLS o archivo mp4.",
         }),
         defineField({
+            name: "heroPlayerVideoUrl",
+            title: "Hero Player Video URL",
+            type: "url",
+            group: "hero",
+            description: "Foreground HTML5 video for the homepage hero. Use an MP4 or WebM URL.",
+        }),
+        defineField({
+            name: "heroPlayerPoster",
+            title: "Hero Player Poster",
+            type: "image",
+            group: "hero",
+            options: { hotspot: true },
+            fields: [
+                { name: "alt", title: "Video poster description", type: "string" },
+            ],
+        }),
+        defineField({
             name: "heroCtaText",
             title: "Hero Primary CTA Text",
             type: "localizedString",

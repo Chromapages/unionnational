@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, PhoneCall, Mail, MapPin } from "lucide-react";
@@ -19,21 +19,69 @@ export const ContactModal = ({
     phoneNumber,
     phoneHref,
 }: ContactModalProps) => {
+    const modalRef = useRef<HTMLDivElement>(null);
+    const previousActiveElement = useRef<Element | null>(null);
+
     useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        // Store current active element for focus restoration on close
+        previousActiveElement.current = document.activeElement;
+
+        // Move focus to first focusable element inside modal
+        const firstFocusable = modalRef.current?.querySelector<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        firstFocusable?.focus();
+
+        // Focus trap
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== "Tab") {
+                return;
+            }
+            const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusableElements || focusableElements.length === 0) {
+                event.preventDefault();
+                return;
+            }
+            const firstEl = focusableElements[0];
+            const lastEl = focusableElements[focusableElements.length - 1];
+
+            if (event.shiftKey) {
+                if (document.activeElement === firstEl) {
+                    event.preventDefault();
+                    lastEl.focus();
+                }
+            } else {
+                if (document.activeElement === lastEl) {
+                    event.preventDefault();
+                    firstEl.focus();
+                }
+            }
+        };
+
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === "Escape" && isOpen) {
                 onClose();
             }
         };
 
-        if (isOpen) {
-            document.addEventListener("keydown", handleEscape);
-            document.body.style.overflow = "hidden";
-        }
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keydown", handleEscape);
+        document.body.style.overflow = "hidden";
 
         return () => {
+            document.removeEventListener("keydown", handleKeyDown);
             document.removeEventListener("keydown", handleEscape);
-            document.body.style.overflow = "unset";
+            document.body.style.overflow = "";
+            // Restore focus to previously focused element
+            if (previousActiveElement.current && previousActiveElement.current instanceof HTMLElement) {
+                previousActiveElement.current.focus();
+            }
         };
     }, [isOpen, onClose]);
 
@@ -47,10 +95,12 @@ export const ContactModal = ({
 
     const modalContent = (
         <div
+            ref={modalRef}
             className="fixed inset-0 z-[1300] flex items-center justify-center p-4 bg-brand-950/80 backdrop-blur-sm"
             onClick={handleBackdropClick}
             role="dialog"
             aria-modal="true"
+            aria-labelledby="contact-modal-title"
         >
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -76,7 +126,7 @@ export const ContactModal = ({
                         <PhoneCall className="w-8 h-8 text-gold-500" />
                     </div>
 
-                    <h2 className="text-2xl font-bold text-white mb-2 font-heading">
+                    <h2 id="contact-modal-title" className="text-2xl font-bold text-white mb-2 font-heading">
                         Get in Touch
                     </h2>
                     <p className="text-slate-400 mb-8 font-sans text-sm">
