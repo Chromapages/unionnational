@@ -9,6 +9,7 @@ import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ServiceSummary } from "./navigationData";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { getBookingHref } from "@/lib/booking";
 
 type FloatingNavbarProps = {
     siteSettings?: {
@@ -29,6 +30,11 @@ const primaryNavLinks = [
     { translationKey: "shop", href: "/shop" },
 ];
 
+const navbarStyles = {
+    cta: "hidden md:inline-flex items-center px-5 py-2.5 rounded-md font-bold text-sm text-brand-900 bg-gold-500 hover:bg-gold-400 active:scale-95 transition-all duration-200 font-heading tracking-tight",
+    menuButton: "flex md:flex items-center justify-center p-2 rounded-md border border-gold-500/30 bg-gold-500/10 text-white hover:bg-gold-500/20 transition-all duration-200",
+} as const;
+
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
     const t = useTranslations("Header");
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,7 +52,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
     const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
     const ctaText = siteSettings?.ctaButtonText || t("bookCall");
-    const ctaUrl = siteSettings?.ctaButtonUrl || "/book";
+    const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
 
@@ -155,12 +161,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             {/* Primary CTA — always visible, sticky in fixed header */}
                             <Link
                                 href={ctaUrl}
-                                className="
-                                    hidden md:inline-flex items-center px-5 py-2.5
-                                    rounded-md font-bold text-sm text-brand-900 bg-gold-500
-                                    hover:bg-gold-400 active:scale-95 transition-all duration-200
-                                    font-heading tracking-tight
-                                "
+                                className={navbarStyles.cta}
                                 style={{ boxShadow: "0 2px 10px -2px rgba(212, 175, 55, 0.5)" }}
                             >
                                 {ctaText}
@@ -172,13 +173,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 aria-label={sidebarOpen ? t("closeMenu") : t("openMenu")}
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
-                                className="
-                                    flex md:flex items-center justify-center
-                                    p-2 rounded-md
-                                    border border-gold-500/30 bg-gold-500/10
-                                    text-white hover:bg-gold-500/20
-                                    transition-all duration-200
-                                "
+                                className={navbarStyles.menuButton}
                             >
                                 <MenuIcon size={20} aria-hidden="true" />
                             </button>

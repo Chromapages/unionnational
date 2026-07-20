@@ -4,6 +4,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { urlFor } from "@/sanity/lib/image";
 import { Phone, Calendar, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { getBookingHref } from "@/lib/booking";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -38,7 +39,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
     const title = data?.ctaTitle || t("fallbackTitle");
     const subtitle = data?.ctaSubtitle || t("fallbackSubtitle");
     const buttonText = data?.ctaButtonText || t("fallbackButtonText");
-    const buttonUrl = data?.ctaButtonUrl || "/book";
+    const buttonUrl = getBookingHref(data?.ctaButtonUrl);
 
     // ─── HOMEPAGE WIREFRAME VARIANT ─────────────────────────────────────────────
     // Clean, editorial, premium: solid brand-900 field, two-column grid,

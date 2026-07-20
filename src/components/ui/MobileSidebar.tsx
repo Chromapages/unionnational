@@ -17,6 +17,7 @@ import {
     BookOpen,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
+import { getBookingHref } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
 
@@ -117,7 +118,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
     const pathname = usePathname();
     const previousPathnameRef = useRef(pathname);
     const ctaText = siteSettings?.ctaButtonText || t("bookCall");
-    const ctaUrl = siteSettings?.ctaButtonUrl || "/book";
+    const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
     const phoneNumber = siteSettings?.phone || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
 
@@ -286,4 +287,3 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
         </AnimatePresence>
     );
 }
-

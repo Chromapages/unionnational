@@ -112,7 +112,7 @@ export const siteSettings = defineType({
             type: "url",
             group: "content",
             validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
-            initialValue: "https://calendly.com/",
+            initialValue: "/book",
         }),
         defineField({
             name: "seo",

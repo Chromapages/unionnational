@@ -1,9 +1,7 @@
 "use client";
 
 import { Calendar, ExternalLink, Video } from "lucide-react";
-
-// TODO: replace with real Calendly/Cal.com URL for the post-purchase call booking
-const CALENDAR_URL = "https://calendly.com/jason-unt/blueprint-call";
+import { BOOKING_ROUTE } from "@/lib/booking";
 
 export function CallBookingEmbed() {
     return (
@@ -25,7 +23,7 @@ export function CallBookingEmbed() {
 
             <div className="relative bg-slate-50" style={{ height: "640px" }}>
                 <iframe
-                    src={CALENDAR_URL}
+                    src={BOOKING_ROUTE}
                     title="Book a call"
                     className="w-full h-full border-0"
                     loading="lazy"
@@ -38,7 +36,7 @@ export function CallBookingEmbed() {
                     <span>Video call &middot; 15 min &middot; No prep needed</span>
                 </div>
                 <a
-                    href={CALENDAR_URL}
+                    href={BOOKING_ROUTE}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-gold-700 hover:text-gold-800 font-bold"

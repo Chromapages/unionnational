@@ -14,6 +14,7 @@ import {
     BookOpen
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { BOOKING_ROUTE } from "@/lib/booking";
 
 interface ConstructionResultsProps {
     score: number;
@@ -51,7 +52,7 @@ export const ConstructionResults = ({ score, label, urgency, highIntent }: Const
         "Delayed financial reporting slowing decision making"
     ];
 
-    const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "/book";
+    const bookingUrl = BOOKING_ROUTE;
 
     return (
         <motion.div 

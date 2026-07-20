@@ -601,6 +601,39 @@
         }
     },
     "ContactPage": {
+        "Hero": {
+            "eyebrow": "Contacte a Union National Tax",
+            "consultationTitle": "Cuéntenos su situación fiscal. Le conectaremos con el especialista adecuado.",
+            "consultationSubtitle": "Encuentre deducciones omitidas, prepárese para una auditoría o reestructure antes de la temporada fiscal. Reciba una respuesta en un plazo de dos horas hábiles.",
+            "proof": {
+                "label": "Por qué los clientes confían en Union National Tax",
+                "eaLicensed": "Licencia EA",
+                "irsRepresentation": "Representación ante el IRS",
+                "avgResponse": "Respuesta promedio de 2 h",
+                "clients": "Clientes"
+            },
+            "reviewedBy": "Revisado por {name}, EA",
+            "reviewerTitle": "Director y Estratega Principal",
+            "reviewProcess": "Jason revisa cada consulta y la dirige al estratega más adecuado. El estratega asignado dirigirá la consulta.",
+            "faqTeaser": "¿Preguntas antes de comenzar?",
+            "viewFaq": "Ver preguntas frecuentes",
+            "verifiedClient": "Cliente verificado",
+            "fallbackTitle": "Construyamos juntos su estrategia fiscal",
+            "fallbackSubtitle": "Ya sea que enfrente una auditoría compleja o busque reestructurarse, nuestros estrategas están listos para escuchar.",
+            "stats": {
+                "happyClients": "Clientes satisfechos",
+                "taxSaved": "Impuestos ahorrados",
+                "avgResponse": "Respuesta promedio",
+                "responseTimeValue": "2 horas"
+            }
+        },
+        "AlternativeCTA": {
+            "eyebrow": "Programación directa",
+            "fallbackTitle": "¿Prefiere programar de inmediato?",
+            "fallbackSubtitle": "Reserve una llamada estratégica gratuita de 15 minutos con nuestro equipo.",
+            "callDirectly": "O llámenos directamente",
+            "seeTimes": "Ver horarios disponibles"
+        },
         "metadata": {
             "title": "Contacto | Union National Tax",
             "description": "Póngase en contacto con nuestro equipo de expertos fiscales. Programe una consulta o hable directamente con un estratega."
@@ -651,6 +684,20 @@
             "subtitle": "Todo lo que necesita saber sobre cómo comenzar con nuestros servicios de asesoría fiscal."
         },
         "MultiStepForm": {
+            "progressLabel": "Progreso de la solicitud de consulta",
+            "stepCount": "Paso {current} de {total}",
+            "microcopy": "Toma 45 segundos · Sin obligación · Le conectaremos con el estratega adecuado dentro de 2 horas hábiles.",
+            "errorMessage": "No pudimos enviar su solicitud. Inténtelo de nuevo o llame a nuestra oficina.",
+            "confirmation": {
+                "eyebrow": "Su prioridad seleccionada",
+                "next": "A continuación, comparta algunos datos de contacto para que podamos dirigir su solicitud y preparar al estratega adecuado.",
+                "continue": "Agregar mis datos"
+            },
+            "success": {
+                "title": "Recibimos su solicitud.",
+                "message": "Gracias. Nuestro equipo revisará su situación y le conectará con el estratega fiscal adecuado. No necesita enviar nada más.",
+                "responseTime": "Espere una respuesta dentro de 2 horas hábiles"
+            },
             "step1": {
                 "fallbackTitle": "¿Cuál es su objetivo principal?",
                 "fallbackSubtitle": "Seleccione la opción que mejor describa sus necesidades.",
@@ -659,6 +706,12 @@
                     "auditDefense": "Defender una auditoría del IRS",
                     "restructure": "Reestructurar mi negocio",
                     "partnership": "Explorar una asociación"
+                },
+                "helpers": {
+                    "taxReduction": "Planificación proactiva para propietarios que quieren conservar más efectivo.",
+                    "auditDefense": "Obtenga representación experta y un plan de respuesta claro.",
+                    "restructure": "Evalúe cambios de entidad y propiedad antes de la temporada fiscal.",
+                    "partnership": "Explore apoyo continuo de estrategia fiscal y asesoría financiera."
                 },
                 "continueButton": "Continuar",
                 "errorMessage": "Por favor seleccione un objetivo principal."
@@ -685,7 +738,7 @@
                     "phone": "(555) 000-0000",
                     "message": "Cuéntenos un poco sobre su situación..."
                 },
-                "privacyText": "Acepto la {privacyLink} y doy mi consentimiento para ser contactado. Respetamos su privacidad y nunca compartimos datos.",
+                "privacyText": "Acepto la <privacyLink>Política de Privacidad</privacyLink> y doy mi consentimiento para ser contactado. Respetamos su privacidad y nunca compartimos datos.",
                 "privacyLink": "Política de Privacidad",
                 "submitButton": "Solicitar Consulta",
                 "sending": "Enviando...",

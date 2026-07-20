@@ -6,9 +6,10 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 interface FAQSectionProps {
     variant?: "light" | "dark";
+    initialLimit?: number;
 }
 
-export async function FAQSection({ variant = "light" }: FAQSectionProps) {
+export async function FAQSection({ variant = "light", initialLimit }: FAQSectionProps) {
     const locale = await getLocale();
     const t = await getTranslations({ locale, namespace: "ContactPage.FAQSection" });
     const { data: faqs } = await sanityFetch({ query: FAQ_QUERY, params: { locale } });
@@ -20,9 +21,9 @@ export async function FAQSection({ variant = "light" }: FAQSectionProps) {
     const isDark = variant === "dark";
 
     return (
-        <section className={`py-24 border-t ${isDark ? "bg-transparent border-white/5" : "bg-surface-50 border-slate-200"}`}>
+        <section id="contact-faq" className={`scroll-mt-24 py-16 sm:py-20 border-t ${isDark ? "bg-transparent border-white/5" : "bg-surface-50 border-slate-200"}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <RevealOnScroll className="mb-16 max-w-3xl">
+                <RevealOnScroll className="mb-10 max-w-3xl">
                     <span className={`font-bold tracking-widest text-sm uppercase mb-3 block font-sans ${isDark ? "text-gold-500" : "text-gold-600"}`}>
                         {t("eyebrow")}
                     </span>
@@ -36,7 +37,7 @@ export async function FAQSection({ variant = "light" }: FAQSectionProps) {
 
                 <RevealOnScroll delay={100}>
                     <div className="max-w-4xl mx-auto">
-                        <FAQAccordion items={faqs} variant={variant} />
+                        <FAQAccordion items={faqs} variant={variant} initialLimit={initialLimit} />
                     </div>
                 </RevealOnScroll>
             </div>

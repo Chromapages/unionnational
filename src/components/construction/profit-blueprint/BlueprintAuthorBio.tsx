@@ -1,7 +1,6 @@
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Calendar, ExternalLink, Video } from "lucide-react";
-
-const CALENDAR_URL = "https://calendly.com/jason-unt/blueprint-call";
+import { BOOKING_ROUTE } from "@/lib/booking";
 
 interface Author {
     name: string;
@@ -160,7 +159,7 @@ export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
                             </p>
                             <div className="flex justify-center lg:justify-start">
                                 <a
-                                    href={CALENDAR_URL}
+                                    href={BOOKING_ROUTE}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-gold-500 hover:bg-gold-400 text-brand-900 font-black uppercase text-xs tracking-wider rounded-full transition-colors w-full sm:w-auto justify-center"
@@ -176,7 +175,7 @@ export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
                                     <span>Video call · 15 min · No prep needed</span>
                                 </div>
                                 <a
-                                    href={CALENDAR_URL}
+                                    href={BOOKING_ROUTE}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-1 text-gold-600 hover:text-gold-500 font-bold justify-center xs:justify-start"

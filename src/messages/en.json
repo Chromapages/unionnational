@@ -633,6 +633,21 @@
         },
         "Hero": {
             "eyebrow": "Contact Union National Tax",
+            "consultationTitle": "Tell us your tax issue. We'll match you with the right specialist.",
+            "consultationSubtitle": "Find missed deductions, prepare for an audit, or restructure before tax season. Start with a focused consultation request and hear from our team within two business hours.",
+            "proof": {
+                "label": "Why clients trust Union National Tax",
+                "eaLicensed": "EA Licensed",
+                "irsRepresentation": "IRS Representation",
+                "avgResponse": "2hr Avg. Response",
+                "clients": "Clients"
+            },
+            "reviewedBy": "Reviewed by {name}, EA",
+            "reviewerTitle": "Director & Chief Strategist",
+            "reviewProcess": "Jason reviews each inquiry and routes it to the strategist best suited to your situation. Your matched strategist will lead the consultation.",
+            "faqTeaser": "Questions before you start?",
+            "viewFaq": "View all FAQs",
+            "verifiedClient": "Verified client",
             "fallbackTitle": "Let's build your tax strategy together",
             "fallbackSubtitle": "Whether you're facing a complex audit or looking to restructure for growth, our strategists are ready to listen.",
             "stats": {
@@ -646,7 +661,8 @@
             "eyebrow": "Instant Scheduling",
             "fallbackTitle": "Prefer to schedule directly?",
             "fallbackSubtitle": "Skip the back-and-forth email tag. Book a free 15-minute strategy call with our team.",
-            "callDirectly": "Or call us directly"
+            "callDirectly": "Or call us directly",
+            "seeTimes": "See available times"
         },
         "TrustBadges": {
             "eaLicensed": "EA Licensed",
@@ -677,6 +693,20 @@
             "subtitle": "Everything you need to know about getting started with our tax advisory services."
         },
         "MultiStepForm": {
+            "progressLabel": "Consultation request progress",
+            "stepCount": "Step {current} of {total}",
+            "microcopy": "Takes 45 seconds · No obligation · We'll match you to the right strategist within 2 business hours.",
+            "errorMessage": "We couldn't send your request. Please try again or call our office.",
+            "confirmation": {
+                "eyebrow": "Your selected priority",
+                "next": "Next, share a few contact details so we can route your request and prepare the right strategist.",
+                "continue": "Add my details"
+            },
+            "success": {
+                "title": "Your request is in.",
+                "message": "Thank you. Our team will review your situation and match you with the right tax strategist. You don't need to submit anything else.",
+                "responseTime": "Expect a response within 2 business hours"
+            },
             "step1": {
                 "fallbackTitle": "What's your primary goal?",
                 "fallbackSubtitle": "Select the option that best describes your needs.",
@@ -685,6 +715,12 @@
                     "auditDefense": "Defend an IRS audit",
                     "restructure": "Restructure my business",
                     "partnership": "Explore a partnership"
+                },
+                "helpers": {
+                    "taxReduction": "Proactive planning for owners who want to keep more cash.",
+                    "auditDefense": "Get experienced representation and a clear response plan.",
+                    "restructure": "Evaluate entity and ownership changes before tax season.",
+                    "partnership": "Explore ongoing tax strategy and financial advisory support."
                 },
                 "continueButton": "Continue",
                 "errorMessage": "Please select a primary goal."
@@ -711,7 +747,7 @@
                     "phone": "(555) 000-0000",
                     "message": "Tell us a bit about your situation..."
                 },
-                "privacyText": "I agree to the {privacyLink} and consent to being contacted. We honor your privacy and never share data.",
+                "privacyText": "I agree to the <privacyLink>Privacy Policy</privacyLink> and consent to being contacted. We honor your privacy and never share data.",
                 "privacyLink": "Privacy Policy",
                 "submitButton": "Request Consultation",
                 "sending": "Sending...",

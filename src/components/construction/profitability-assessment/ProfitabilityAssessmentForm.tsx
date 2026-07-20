@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { normalizeRevenue } from "@/lib/ghl/contract";
+import { BOOKING_ROUTE } from "@/lib/booking";
 
 // ─── SECTIONS (3 stages) ───────────────────────────────────────────────────────
 
@@ -718,7 +719,7 @@ interface AssessmentResultsProps {
 }
 
 function AssessmentResults({ score, band, leaks, highIntent, firstName }: AssessmentResultsProps) {
-    const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "/book";
+    const bookingUrl = BOOKING_ROUTE;
 
     return (
         <motion.div

@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 export function ChatWidget() {
     const pathname = usePathname();
 
-    // Do not render the widget on Sanity Studio pages
-    if (pathname?.startsWith("/hq")) {
+    // The contact page has its own mobile action bar; loading the third-party
+    // launcher there would cover one of its primary controls.
+    if (pathname?.startsWith("/hq") || /\/(?:en|es)\/contact\/?$/.test(pathname || "")) {
         return null;
     }
 

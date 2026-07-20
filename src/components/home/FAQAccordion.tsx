@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 
 interface FAQItem {
@@ -15,15 +15,19 @@ interface FAQItem {
 interface FAQAccordionProps {
     items: FAQItem[];
     variant?: "light" | "dark";
+    initialLimit?: number;
 }
 
-export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
+export function FAQAccordion({ items, variant = "light", initialLimit }: FAQAccordionProps) {
     // Unique categories
     const categories = Array.from(new Set(items.map(item => item.category)));
     const [activeCategory, setActiveCategory] = useState<string>(categories[0] || "General");
     const [openItemId, setOpenItemId] = useState<string | null>(null);
+    const [showAll, setShowAll] = useState(false);
+    const reduceMotion = useReducedMotion();
 
     const filteredItems = items.filter(item => item.category === activeCategory);
+    const visibleItems = initialLimit && !showAll ? filteredItems.slice(0, initialLimit) : filteredItems;
 
     const toggleItem = (id: string) => {
         setOpenItemId(openItemId === id ? null : id);
@@ -69,10 +73,12 @@ export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {categories.map((cat) => (
                         <button
+                            type="button"
                             key={cat}
                             onClick={() => {
                                 setActiveCategory(cat);
                                 setOpenItemId(null);
+                                setShowAll(false);
                             }}
                             className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === cat
                                 ? "bg-gold-500 text-brand-900 shadow-md"
@@ -89,7 +95,7 @@ export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
 
             {/* Accordion Items */}
             <div className="space-y-4">
-                {filteredItems.map((item) => (
+                {visibleItems.map((item) => (
                     <div
                         key={item._id}
                         className={`rounded-lg border transition-all duration-300 overflow-hidden ${isDark
@@ -98,8 +104,11 @@ export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
                             }`}
                     >
                         <button
+                            type="button"
                             onClick={() => toggleItem(item._id)}
-                            className="w-full flex items-center justify-between p-6 text-left group"
+                            aria-expanded={openItemId === item._id}
+                            aria-controls={`faq-answer-${item._id}`}
+                            className="w-full min-h-14 flex items-center justify-between p-5 sm:p-6 text-left group focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-gold-500"
                         >
                             <span className={`text-lg font-medium pr-8 font-heading transition-colors ${isDark
                                 ? (openItemId === item._id ? "text-gold-400" : "text-white")
@@ -118,10 +127,11 @@ export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
                         <AnimatePresence>
                             {openItemId === item._id && (
                                 <motion.div
+                                    id={`faq-answer-${item._id}`}
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    transition={reduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeInOut" }}
                                 >
                                     <div className={`px-6 pb-6 leading-relaxed font-sans border-t pt-4 ${isDark
                                         ? "text-slate-300 border-white/5"
@@ -139,6 +149,11 @@ export function FAQAccordion({ items, variant = "light" }: FAQAccordionProps) {
                     </div>
                 ))}
             </div>
+            {initialLimit && filteredItems.length > initialLimit && (
+                <button type="button" onClick={() => setShowAll((value) => !value)} className="mx-auto mt-6 flex min-h-11 items-center rounded-lg px-4 text-sm font-bold text-gold-700 hover:bg-gold-50 focus-visible:outline-2 focus-visible:outline-gold-500">
+                    {showAll ? "Show fewer questions" : `View all ${filteredItems.length} questions`}
+                </button>
+            )}
         </div>
     );
 }
