@@ -12,6 +12,7 @@ import { PortableText } from "@portabletext/react";
 import { PortableTextComponents } from "@portabletext/react";
 import VideoEmbed from "@/components/ui/VideoEmbed";
 import { urlFor } from "@/sanity/lib/image";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/ui/Breadcrumbs";
 
 
 import { Service, SanityBlock } from "@/types/sanity";
@@ -69,9 +70,10 @@ interface ServiceDetailClientProps {
     service: Service;
     relatedServices: RelatedService[];
     tiers?: PricingTier[];
+    breadcrumbItems: BreadcrumbItem[];
 }
 
-export default function ServiceDetailClient({ service, relatedServices, tiers }: ServiceDetailClientProps) {
+export default function ServiceDetailClient({ service, relatedServices, tiers, breadcrumbItems }: ServiceDetailClientProps) {
     return (
         <>
             {/* ===== HERO SECTION (Standard Detail) ===== */}
@@ -79,6 +81,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers }:
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gold-400/5 rounded-full blur-3xl pointer-events-none" />
 
                 <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center">
+                    <Breadcrumbs items={breadcrumbItems} className="mb-8 self-start" />
                     {service.badge && (
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}

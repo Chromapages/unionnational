@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { ArrowRight, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/Footer";
+import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
@@ -289,6 +291,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden pb-20 md:pb-0">
+            <LocaleSwitcher className="fixed right-6 top-6 z-[1100] hidden min-h-11 items-center border-gold-500/50 bg-brand-900 px-4 shadow-lg shadow-brand-950/30 hover:border-gold-400 hover:bg-brand-800 md:inline-flex" />
             {/* Meta Pixel: ViewContent — fires once on page load for retargeting & funnel tracking */}
             <ServiceViewContent
                 serviceName="Money-Making Blueprint for Construction Companies"
@@ -487,6 +490,36 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
             {/* Alternative path for contractors who want hands-on implementation support */}
             <BlueprintServicesAlternative />
+
+            {/* Construction Profitability Assessment */}
+            <RevealOnScroll>
+                <section className="relative overflow-hidden border-y border-brand-800 bg-brand-900 py-16 text-white lg:py-24">
+                    <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+                        <div className="absolute -right-24 -top-40 h-[420px] w-[420px] rounded-full bg-gold-500/10 blur-[100px]" />
+                        <div className="absolute -bottom-40 -left-24 h-[320px] w-[320px] rounded-full bg-gold-600/10 blur-[80px]" />
+                    </div>
+                    <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+                        <span className="mb-6 inline-flex rounded-full border border-gold-500/20 bg-gold-500/10 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-gold-400">
+                            {locale === "es" ? "Próximo Paso" : "Next Step"}
+                        </span>
+                        <h2 className="font-heading text-3xl font-black uppercase leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
+                            {locale === "es" ? "¿Listo para identificar sus fugas de ganancias específicas?" : "Ready to Find Your Specific Profit Leaks?"}
+                        </h2>
+                        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
+                            {locale === "es"
+                                ? "Después de obtener el plan, realice la Evaluación de Rentabilidad de la Construcción: un diagnóstico de 6 preguntas que identifica exactamente dónde su empresa está perdiendo el control."
+                                : "After you get the blueprint, take the Construction Profitability Assessment — a 6-question diagnostic that identifies exactly where your business is losing control."}
+                        </p>
+                        <Link
+                            href="/construction-profitability-assessment"
+                            className="mt-8 inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-gold-500 px-8 py-4 text-sm font-bold uppercase tracking-widest text-brand-900 shadow-lg shadow-gold-500/20 transition-colors hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
+                        >
+                            {locale === "es" ? "Realizar la Evaluación" : "Take the Assessment"}
+                            <ArrowRight size={18} aria-hidden="true" />
+                        </Link>
+                    </div>
+                </section>
+            </RevealOnScroll>
 
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
             <MathSection />

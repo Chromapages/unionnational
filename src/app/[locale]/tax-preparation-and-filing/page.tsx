@@ -1,7 +1,8 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { CheckCircle2, FileText, ArrowRight, ShieldCheck, Scale } from "lucide-react";
+import { CheckCircle2, FileText, ShieldCheck, Scale } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { ServiceHero } from "@/components/services/ServiceHero";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -30,29 +31,19 @@ export default async function TaxFilingPage() {
             <HeaderWrapper />
             
             <main id="main-content" className="flex-1">
-                {/* Hero */}
-                <section className="bg-brand-900 px-6 py-20 lg:py-28 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gold-500/5 opacity-30" />
-                    <div className="max-w-7xl mx-auto relative z-10">
-                        <div className="max-w-3xl">
-                            <RevealOnScroll>
-                                <span className="text-xs font-bold uppercase tracking-[0.3em] text-gold-500 block mb-6">Compliance Excellence</span>
-                                <h1 className="text-5xl lg:text-7xl font-bold font-heading text-white leading-[0.9] tracking-tighter mb-8">
-                                    Precision <br /><span className="text-gold-500">Tax Filing.</span>
-                                </h1>
-                                <p className="text-xl text-brand-50/70 mb-10 leading-relaxed font-light">
-                                    Filing is the execution of a well-built strategy. We handle the complexity of federal and multi-state filings with professional-grade accuracy, ensuring you stay in the good graces of the IRS.
-                                </p>
-                                <Link 
-                                    href="/contact"
-                                    className="inline-flex items-center gap-3 px-8 py-4 bg-gold-500 text-brand-900 font-bold rounded-xl hover:bg-gold-600 transition-all text-lg"
-                                >
-                                    Filing Strategy Consultation <ArrowRight size={20} />
-                                </Link>
-                            </RevealOnScroll>
-                        </div>
-                    </div>
-                </section>
+                <ServiceHero
+                    eyebrow="For established businesses and high-income owners"
+                    headline={<>File with confidence — <span className="text-gold-400">and keep every strategic advantage.</span></>}
+                    subheadline="Filing is the execution of a well-built strategy. We manage federal and multi-state complexity with professional-grade accuracy, so your return is compliant, complete, and aligned with your bigger plan."
+                    trustItems={[
+                        { value: "EA-prepared", label: "returns" },
+                        { value: "Multi-state", label: "filing support" },
+                        { value: "Audit-ready", label: "review process" },
+                    ]}
+                    primaryCta={{ label: "Filing Strategy Consultation", href: "/contact" }}
+                    secondaryCta={{ label: "See what to expect", href: "#included" }}
+                    microcopy="No obligation — start with a focused filing review."
+                />
 
                 <section className="py-24 px-6 bg-white">
                     <div className="max-w-7xl mx-auto">
@@ -83,7 +74,7 @@ export default async function TaxFilingPage() {
                                 </RevealOnScroll>
 
                                 <RevealOnScroll>
-                                    <h2 className="text-3xl font-bold font-heading text-brand-900 mb-6 tracking-tighter">What to Expect</h2>
+                                    <h2 id="included" className="scroll-mt-[calc(var(--header-height)+1.5rem)] text-3xl font-bold font-heading text-brand-900 mb-6 tracking-tighter">What to Expect</h2>
                                     <div className="space-y-6">
                                         {[
                                             "Secure digital document portal for easy uploads.",

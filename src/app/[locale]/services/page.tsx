@@ -8,6 +8,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { TrustStack } from "@/components/ui/TrustStack";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -154,23 +155,15 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                                     </div>
 
                                     {/* Supporting proof is compact below the mobile actions and remains above them on desktop. */}
-                                    <dl
-                                        aria-label="Union National Tax credentials"
-                                        className="order-2 sm:order-1 grid grid-cols-3 gap-2 mt-6 pt-6 border-t border-white/20 sm:flex sm:flex-wrap sm:gap-x-8 sm:gap-y-4 sm:mt-0 sm:mb-10 sm:pb-10 sm:border-t-0 sm:border-b"
-                                    >
-                                        <div className="min-w-0">
-                                            <dd className="text-base sm:text-lg font-black text-gold-500 font-heading leading-tight">Highest IRS Credential</dd>
-                                            <dt className="mt-1 text-xs sm:text-sm font-bold text-brand-50/60 uppercase tracking-wide sm:tracking-wider leading-snug">{t("Hero.trustBar.eaCredential")}</dt>
-                                        </div>
-                                        <div className="min-w-0">
-                                            <dd className="text-base sm:text-lg font-black text-gold-500 font-heading leading-tight">$2.4M+</dd>
-                                            <dt className="mt-1 text-xs sm:text-sm font-bold text-brand-50/60 uppercase tracking-wide sm:tracking-wider leading-snug">{t("Hero.trustBar.avgSavings")}</dt>
-                                        </div>
-                                        <div className="min-w-0">
-                                            <dd className="text-base sm:text-lg font-black text-gold-500 font-heading leading-tight">1,000+</dd>
-                                            <dt className="mt-1 text-xs sm:text-sm font-bold text-brand-50/60 uppercase tracking-wide sm:tracking-wider leading-snug">{t("Hero.trustBar.clientsServed")}</dt>
-                                        </div>
-                                    </dl>
+                                    <TrustStack
+                                        ariaLabel="Union National Tax credentials"
+                                        className="order-2 mt-6 grid-cols-3 gap-2 border-white/20 pt-6 sm:order-1 sm:mt-0 sm:mb-10 sm:grid-cols-3 sm:gap-8 sm:border-t-0 sm:border-b sm:pb-10"
+                                        items={[
+                                            { value: "Highest IRS Credential", label: t("Hero.trustBar.eaCredential") },
+                                            { value: "$2.4M+", label: t("Hero.trustBar.avgSavings") },
+                                            { value: "1,000+", label: t("Hero.trustBar.clientsServed") },
+                                        ]}
+                                    />
                                 </div>
                             </RevealOnScroll>
                         </div>

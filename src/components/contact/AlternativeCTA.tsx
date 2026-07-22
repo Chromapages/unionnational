@@ -51,7 +51,7 @@ export function AlternativeCTA({
                             <ChevronDown className={`h-5 w-5 transition-transform motion-reduce:transition-none ${calendarOpen ? "rotate-180" : ""}`} aria-hidden="true" />
                         </button>
                         {calendarOpen && (
-                            <div id="direct-booking-calendar" className="min-h-[600px] border-t border-slate-200">
+                            <div id="direct-booking-calendar" className="min-h-[600px] scroll-mt-[calc(var(--header-height)+1rem)] border-t border-slate-200">
                                 <BookingCalendar src={calendarUrl} />
                             </div>
                         )}

@@ -6,8 +6,14 @@ import { usePathname } from "next/navigation";
 
 export function ChatWidget() {
     const pathname = usePathname();
+    const isBlueprintPage = /\/(?:en|es)\/construction\/profit-blueprint\/?$/.test(pathname || "");
 
     useEffect(() => {
+        if (isBlueprintPage) {
+            document.querySelector("chat-widget")?.remove();
+            return;
+        }
+
         let observer: MutationObserver | undefined;
         let faqObserver: IntersectionObserver | undefined;
         let footerObserver: IntersectionObserver | undefined;
@@ -82,11 +88,11 @@ export function ChatWidget() {
             faqObserver?.disconnect();
             footerObserver?.disconnect();
         };
-    }, [pathname]);
+    }, [pathname, isBlueprintPage]);
 
     // The contact page has its own mobile action bar; loading the third-party
     // launcher there would cover one of its primary controls.
-    if (pathname?.startsWith("/hq") || /\/(?:en|es)\/contact\/?$/.test(pathname || "")) {
+    if (isBlueprintPage || pathname?.startsWith("/hq") || /\/(?:en|es)\/contact\/?$/.test(pathname || "")) {
         return null;
     }
 
