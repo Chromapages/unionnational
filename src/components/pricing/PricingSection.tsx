@@ -2,13 +2,11 @@
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { AdvisoryPricingCards } from "./AdvisoryPricingCards";
-import { TaxPrepGrid } from "./TaxPrepGrid";
-import { OptionalServices } from "./OptionalServices";
 import { ServiceComparisonTable } from "@/components/services/ServiceComparisonTable";
 import { TaxPrepPricingTables } from "./TaxPrepPricingTables";
 import { PricingCarousel } from "./PricingCarousel";
 import { IncludedFeatures } from "./IncludedFeatures";
-import { OptionalServicesTable } from "./OptionalServicesTable";
+import { SectionHeader } from "@/components/ui/SectionHeader";
 
 // Re-using the same interface for consistency across files
 export interface PricingTier {
@@ -49,7 +47,6 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
 
     // Filter tiers based on category
     const advisoryTiers = tiers.filter(t => t.category === "advisory" || !t.category);
-    const optionalTiers = tiers.filter(t => t.category === "optional");
 
     // Use translations or fallback to default English
     const t = translations || {
@@ -61,17 +58,13 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
     };
 
     return (
-        <section className="pt-12 pb-0 relative overflow-hidden">
+        <section className="relative overflow-hidden py-16 md:py-20">
             <div className="space-y-16 lg:space-y-24">
 
                 {/* Section Header */}
-                <div className="text-center max-w-4xl mx-auto px-6 mb-16">
+                <div className="px-6">
                     <RevealOnScroll>
-                        <span className="text-gold-500 font-bold tracking-widest text-xs uppercase mb-4 block">{t.eyebrow}</span>
-                        <h2 className="text-4xl md:text-5xl font-bold text-brand-900 font-heading mb-6">{t.title}</h2>
-                        <p className="text-brand-900/60 font-sans text-lg max-w-2xl mx-auto leading-relaxed">
-                            {t.subtitle}
-                        </p>
+                        <SectionHeader label={t.eyebrow} heading={t.title} description={t.subtitle} className="mb-12 md:mb-16" />
                     </RevealOnScroll>
                 </div>
 
@@ -81,13 +74,8 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
                         <PricingCarousel
                             advisoryView={<AdvisoryPricingCards tiers={advisoryTiers} />}
                             taxPrepView={<TaxPrepPricingTables />}
-                            optionalServicesView={<OptionalServicesTable />}
-                            comparisonView={
-                                <div className="space-y-16">
-                                    <ServiceComparisonTable />
-                                    <OptionalServices tiers={optionalTiers} />
-                                </div>
-                            }
+                            comparisonView={<ServiceComparisonTable />}
+                            hideTaxPrep={hideTaxPrep}
                         />
                     </div>
                 </RevealOnScroll>

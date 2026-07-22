@@ -18,6 +18,12 @@ interface SwipeableCarouselProps {
     slidesToScroll?: number;
     gap?: number;
     dragFree?: boolean;
+    showProgress?: boolean;
+    showSwipeHint?: boolean;
+    ariaLabel?: string;
+    slideLabels?: string[];
+    selectedSlideClassName?: string;
+    trackClassName?: string;
 }
 
 export function SwipeableCarousel({
@@ -33,6 +39,12 @@ export function SwipeableCarousel({
     slidesToScroll = 1,
     gap = 16,
     dragFree = false,
+    showProgress = false,
+    showSwipeHint = true,
+    ariaLabel = "Carousel",
+    slideLabels,
+    selectedSlideClassName = "",
+    trackClassName = "",
 }: SwipeableCarouselProps) {
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop,
@@ -72,12 +84,15 @@ export function SwipeableCarousel({
     useEffect(() => {
         if (!emblaApi) return;
 
-        setScrollSnaps(emblaApi.scrollSnapList());
-        onSelect();
+        const frameId = requestAnimationFrame(() => {
+            setScrollSnaps(emblaApi.scrollSnapList());
+            onSelect();
+        });
         emblaApi.on("select", onSelect);
         emblaApi.on("reInit", onSelect);
 
         return () => {
+            cancelAnimationFrame(frameId);
             emblaApi.off("select", onSelect);
             emblaApi.off("reInit", onSelect);
         };
@@ -87,8 +102,6 @@ export function SwipeableCarousel({
     useEffect(() => {
         if (!autoplay || !emblaApi) return;
 
-        let intervalId: NodeJS.Timeout;
-
         const autoplayFn = () => {
             if (emblaApi.canScrollNext()) {
                 emblaApi.scrollNext();
@@ -97,7 +110,7 @@ export function SwipeableCarousel({
             }
         };
 
-        intervalId = setInterval(autoplayFn, autoplayDelay);
+        const intervalId = setInterval(autoplayFn, autoplayDelay);
 
         return () => clearInterval(intervalId);
     }, [autoplay, autoplayDelay, emblaApi, loop]);
@@ -105,17 +118,19 @@ export function SwipeableCarousel({
     if (children.length === 0) return null;
 
     return (
-        <div className={`relative ${className}`}>
+        <section className={`relative ${className}`} aria-roledescription="carousel" aria-label={ariaLabel}>
             {/* Viewport */}
-            <div className="overflow-hidden" ref={emblaRef}>
+            <div className="overflow-hidden py-1 -my-1" ref={emblaRef}>
                 <div
-                    className="flex touch-pan-y"
+                    className={`flex touch-pan-y ${trackClassName}`}
                     style={{ gap: `${gap}px` }}
                 >
                     {children.map((child, index) => (
                         <div
                             key={index}
-                            className={`flex-shrink-0 flex-grow-0 ${slideClassName}`}
+                            className={`flex-shrink-0 flex-grow-0 transition-[opacity,transform,box-shadow] duration-200 motion-reduce:transition-none ${slideClassName} ${selectedIndex === index ? selectedSlideClassName : ""}`}
+                            aria-roledescription="slide"
+                            aria-label={`${index + 1} of ${children.length}${slideLabels?.[index] ? `: ${slideLabels[index]}` : ""}`}
                         >
                             {child}
                         </div>
@@ -170,29 +185,35 @@ export function SwipeableCarousel({
                 </>
             )}
 
-            {/* Dots Navigation */}
-            {showDots && scrollSnaps.length > 1 && (
-                <div className="flex justify-center items-center gap-2 mt-6">
-                    {scrollSnaps.map((_, index) => (
+            {(showDots || showProgress) && scrollSnaps.length > 1 && (
+                <div className="flex justify-center items-center gap-1 mt-6 pb-2">
+                    {showProgress && (
+                        <p className="mr-2 text-sm font-semibold tabular-nums text-brand-700" aria-live="polite">
+                            {selectedIndex + 1} of {scrollSnaps.length}
+                        </p>
+                    )}
+                    {/* Dots Navigation */}
+                    {showDots && scrollSnaps.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => scrollTo(index)}
-                            className={`
-                                transition-all duration-300 rounded-full
-                                ${selectedIndex === index
-                                    ? "w-6 h-2 bg-gold-500"
-                                    : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
-                                }
-                            `}
-                            aria-label={`Go to slide ${index + 1}`}
+                            className="flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2"
+                            aria-label={`Go to service ${index + 1}${slideLabels?.[index] ? `: ${slideLabels[index]}` : ""}`}
                             aria-current={selectedIndex === index ? "true" : undefined}
-                        />
+                        >
+                            <span
+                                className={`block rounded-full transition-all duration-300 motion-reduce:transition-none ${selectedIndex === index
+                                    ? "h-2 w-6 bg-gold-500"
+                                    : "h-2 w-2 bg-slate-300 hover:bg-slate-400"
+                                }`}
+                            />
+                        </button>
                     ))}
                 </div>
             )}
 
             {/* Mobile Swipe Hint */}
-            <div className="md:hidden flex items-center justify-center mt-2 text-slate-400 text-xs">
+            {showSwipeHint && <div className="md:hidden flex items-center justify-center mt-2 text-slate-400 text-xs">
                 <span className="flex items-center gap-1">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
@@ -202,8 +223,8 @@ export function SwipeableCarousel({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H3" />
                     </svg>
                 </span>
-            </div>
-        </div>
+            </div>}
+        </section>
     );
 }
 

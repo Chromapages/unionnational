@@ -29,8 +29,8 @@ export const ServicesDropdown = ({ services, isActive: forcedIsActive }: Service
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
-  const menuId = useId();
-  const buttonId = useId();
+  const menuId = "services-dropdown-menu";
+  const buttonId = "services-dropdown-button";
   // Use forced prop if provided (from parent), otherwise derive from pathname
   const isServicesActive = forcedIsActive ?? pathname.startsWith("/services");
   const serviceData = services?.length ? services : fallbackServices;

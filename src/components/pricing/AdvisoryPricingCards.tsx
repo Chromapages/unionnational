@@ -35,14 +35,16 @@ const getTierIcon = (name: string) => {
 export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
     if (!tiers || tiers.length === 0) return null;
 
-    const advisoryTiers = tiers.filter(t => t.category === "advisory" || !t.category);
+    const advisoryTiers = [...tiers]
+        .filter(t => t.category === "advisory" || !t.category)
+        .sort((a, b) => Number(b.isFeatured || b.name.toLowerCase().includes("foundation")) - Number(a.isFeatured || a.name.toLowerCase().includes("foundation")));
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-6 relative z-10 items-stretch">
             {advisoryTiers.map((tier) => {
                 const nameLower = tier.name.toLowerCase();
                 const isExecutive = nameLower.includes("executive");
-                const isGrowth = nameLower.includes("growth") || tier.isFeatured;
+                const isPopular = tier.isFeatured || nameLower.includes("foundation");
                 const Icon = getTierIcon(tier.name);
 
                 return (
@@ -53,7 +55,7 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         className={cn(
-                            "group relative flex flex-col p-8 md:p-10 rounded-3xl transition-all duration-500",
+                            "group relative flex flex-col rounded-3xl p-7 md:p-10 transition-all duration-500",
                             "border border-white/10 shadow-2xl overflow-hidden h-full",
 
                             // High-end Fintech Aesthetics
@@ -61,32 +63,32 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                                 ? "bg-[#0B1215] text-white"
                                 : "bg-white/80 backdrop-blur-sm text-brand-900 border-slate-200/60",
 
-                            isGrowth && "ring-2 ring-gold-500/20"
+                            isPopular && "border-gold-500 ring-2 ring-gold-500/30 shadow-xl shadow-gold-500/10"
                         )}
                     >
                         {/* Subtle background glow for featured cards */}
-                        {isGrowth && (
+                        {isPopular && (
                             <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-gold-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-gold-500/10 transition-colors duration-500" />
                         )}
 
-                        {/* "Most Popular" Ribbon - Fintech Style */}
-                        {tier.isFeatured && (
+                        {/* Standardized recommendation badge */}
+                        {isPopular && (
                             <div className="absolute top-0 right-0">
                                 <div className="absolute top-4 right-[-35px] rotate-45 bg-gold-500 text-brand-950 text-[10px] font-bold uppercase tracking-widest px-10 py-1 shadow-lg border-b border-black/10">
-                                    Popular
+                                    Recommended
                                 </div>
                             </div>
                         )}
 
                         {/* Card Header */}
-                        <div className="flex justify-between items-start mb-10">
+                        <div className="mb-8 flex flex-col items-start gap-4 sm:mb-10 sm:flex-row sm:justify-between">
                             <div className={cn(
                                 "w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110",
                                 isExecutive ? "bg-brand-800/50 text-gold-500" : "bg-brand-50 text-brand-600"
                             )}>
                                 <Icon className="w-7 h-7" />
                             </div>
-                            <div className="text-right">
+                            <div className="text-left sm:text-right">
                                 <h3 className={cn(
                                     "text-2xl font-bold font-heading tracking-tight",
                                     isExecutive ? "text-white" : "text-brand-900"
@@ -105,17 +107,17 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                         </div>
 
                         {/* Pricing Section */}
-                        <div className="mb-10 pt-2 border-t border-dashed border-white/10 dark:border-brand-900/5">
-                            <div className="flex items-baseline gap-2">
+                        <div className="mb-8 border-t border-dashed border-white/10 pt-4 dark:border-brand-900/5 sm:mb-10">
+                            <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-baseline sm:gap-2">
                                 <span className={cn(
-                                    "text-5xl font-bold font-heading tracking-tight",
+                                    "text-4xl font-bold font-heading tracking-tight sm:text-5xl",
                                     isExecutive ? "text-white" : "text-brand-900"
                                 )}>
                                     {tier.price}
                                 </span>
                                 {tier.billingPeriod && (
                                     <span className={cn(
-                                        "text-xs font-bold uppercase tracking-widest opacity-40",
+                                "text-xs font-bold uppercase tracking-widest opacity-70 whitespace-nowrap",
                                         isExecutive ? "text-slate-400" : "text-brand-500"
                                     )}>
                                         /{tier.billingPeriod}
@@ -123,8 +125,8 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                                 )}
                             </div>
                             <p className={cn(
-                                "text-xs font-medium mt-2",
-                                isExecutive ? "text-slate-500" : "text-brand-400"
+                                "mt-3 rounded-md px-3 py-2 text-sm font-semibold",
+                                isExecutive ? "bg-brand-800/60 text-slate-300" : "bg-gold-50 text-brand-700"
                             )}>
                                 Starting implementation fee applies
                             </p>
@@ -154,21 +156,19 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                             ))}
                         </ul>
 
-                        {/* CTA - High Contrast, Fintech Look */}
+                        {/* Tier selection is a secondary action; the page-level booking CTA remains primary. */}
                         <div className="mt-auto">
                             <Link
                                 href={tier.ctaUrl || "/contact"}
                                 className={cn(
-                                    "relative overflow-hidden block w-full py-5 rounded-2xl text-center font-bold text-xs tracking-[0.2em] uppercase transition-all duration-300",
-                                    "shadow-lg active:scale-95",
+                                    "block min-h-11 w-full rounded-xl border px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] transition-colors",
 
                                     isExecutive
-                                        ? "bg-gold-500 text-brand-950 hover:bg-gold-400"
-                                        : "bg-brand-900 text-white hover:bg-black"
+                                        ? "border-gold-400 text-gold-400 hover:bg-gold-400 hover:text-brand-950"
+                                        : "border-brand-900 bg-white text-brand-900 hover:bg-brand-900 hover:text-white"
                                 )}
                             >
                                 <span className="relative z-10">{tier.ctaText || "Get Started"}</span>
-                                <div className="absolute inset-0 bg-white/10 translate-y-full hover:translate-y-0 transition-transform duration-300" />
                             </Link>
                         </div>
                     </motion.div>

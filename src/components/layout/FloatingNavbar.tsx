@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Menu as MenuIcon, Phone } from "lucide-react";
@@ -39,6 +39,22 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const t = useTranslations("Header");
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const pathname = usePathname();
+    const headerRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const header = headerRef.current;
+        if (!header) return;
+
+        const updateHeaderHeight = () => {
+            document.documentElement.style.setProperty("--header-height", `${header.getBoundingClientRect().height}px`);
+        };
+
+        updateHeaderHeight();
+        const observer = new ResizeObserver(updateHeaderHeight);
+        observer.observe(header);
+
+        return () => observer.disconnect();
+    }, []);
 
     const isLinkActive = (href: string) => {
         if (href === "/") return pathname === "/";
@@ -59,6 +75,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     return (
         <>
             <header
+                ref={headerRef}
                 className="fixed top-0 left-0 right-0 z-[1200]"
                 style={{
                     backgroundColor: "rgb(13, 46, 43)",
@@ -182,8 +199,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                 </div>
             </header>
 
-            {/* Spacer for sticky header */}
-            <div style={{ minHeight: "68px" }} />
+            {/* Shared layout offset for the fixed header. */}
+            <div aria-hidden="true" style={{ height: "var(--header-height)", minHeight: "var(--header-height)" }} />
 
             <MobileSidebar
                 isOpen={sidebarOpen}
