@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
+import { BlueprintFAQ } from "@/components/construction/profit-blueprint/BlueprintFAQ";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
 import { BlueprintMoreInfoForm } from "@/components/construction/profit-blueprint/BlueprintMoreInfoForm";
 import { MobileStickyCta } from "@/components/construction/profit-blueprint/MobileStickyCta";
@@ -579,6 +580,9 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
+
+            {/* Assessment questions */}
+            <BlueprintFAQ />
 
             {/* More Info Form - quick contact form at bottom */}
             <section className="py-12 lg:py-16 bg-brand-900 border-t border-brand-800">

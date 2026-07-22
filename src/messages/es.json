@@ -69,6 +69,7 @@
         "brandBio": "Estrategias fiscales especializadas para construcción, bienes raíces y negocios de servicios. Conserve más de lo que gana con una planificación proactiva.",
         "servicesTitle": "Servicios",
         "companyTitle": "Empresa",
+        "resourcesTitle": "Recursos",
         "contactTitle": "Contáctenos",
         "viewAllServices": "Ver Todos los Servicios",
         "team": "Equipo",
@@ -130,6 +131,11 @@
                     "answer": "Si su negocio tiene más de $500K en ingresos, múltiples fuentes de ingreso, o pasa más de 10 horas al año en administración financiera — necesita más que simplemente presentar declaraciones. Programe un diagnóstico gratuito de 30 minutos y le diremos exactamente lo que necesita."
                 }
             ]
+        },
+        "ClosingCTA": {
+            "title": "Listo para dejar de pagar de más?",
+            "subtitle": "Obtenga una estrategia fiscal personalizada para su negocio.",
+            "cta": "Reserve una llamada de estrategia fiscal"
         },
         "PricingSection": {
             "eyebrow": "Asociación Estratégica",

@@ -207,7 +207,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
 
                 {/* FAQ Section */}
                 <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
-                    <section className="bg-white py-16 md:py-24">
+                    <section id="services-faq" className="bg-white py-16 md:py-24">
                         <div className="max-w-3xl mx-auto px-6">
                             <SectionHeader label={t("FAQ.eyebrow")} heading={t("FAQ.title")} className="mb-10" />
                             <ServiceFAQ items={faqItems} />
@@ -216,6 +216,23 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                 </Suspense>
 
                 {/* Disclaimer — moved to after incentive content, not mid-flow */}
+                <section className="bg-brand-900 px-6 py-16 text-center md:py-24">
+                    <div className="mx-auto max-w-3xl">
+                        <h2 className="font-heading text-3xl font-bold tracking-tight text-white md:text-4xl">
+                            {t("ClosingCTA.title")}
+                        </h2>
+                        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
+                            {t("ClosingCTA.subtitle")}
+                        </p>
+                        <Link
+                            href="/intake"
+                            className="mt-8 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-gold-500 px-6 py-3 font-heading font-bold text-brand-900 transition-colors hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
+                        >
+                            {t("ClosingCTA.cta")}
+                            <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                        </Link>
+                    </div>
+                </section>
             </main>
 
             <Footer />

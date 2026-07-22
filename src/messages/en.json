@@ -72,6 +72,7 @@
         "brandBio": "Specialized tax strategies for construction, real estate, and service-based businesses. Keep more of what you earn with proactive planning.",
         "complianceTitle": "Compliance & Implementation",
         "companyTitle": "Company",
+        "resourcesTitle": "Resources",
         "contactTitle": "Contact Us",
         "viewAllServices": "View All Services",
         "team": "Team",
@@ -133,6 +134,11 @@
                     "answer": "If your business has more than $500K in revenue, multiple income streams, or you're spending more than 10 hours a year on financial admin — you need more than filing. Schedule a free 30-minute diagnostic and we'll tell you exactly what you need."
                 }
             ]
+        },
+        "ClosingCTA": {
+            "title": "Ready to stop overpaying?",
+            "subtitle": "Get a personalized tax strategy built around your business.",
+            "cta": "Book a Tax Strategy Call"
         },
         "PricingSection": {
             "eyebrow": "Strategic Partnership",

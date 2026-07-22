@@ -63,10 +63,13 @@ export async function Footer() {
         { label: tHeader("about"), href: "/about" },
         // TODO (content): Confirm "Shop" nav item is intentional — no /shop page appears to exist.
         // Remove this line if it's unused/legacy navigation.
-        { label: tHeader("shop"), href: "/shop" },
         { label: tFooter("team"), href: "/team" },
-        { label: tHeader("faq"), href: "/faq" },
         { label: tHeader("contact"), href: "/contact" },
+    ];
+
+    const resourceLinks = [
+        { label: tHeader("shop"), href: "/shop" },
+        { label: tHeader("faq"), href: "/faq" },
         { label: tFooter("privacy"), href: "/legal/privacy-policy" },
         { label: tFooter("terms"), href: "/legal/terms-of-service" },
     ];
@@ -95,9 +98,9 @@ export async function Footer() {
     }
 
     return (
-        <footer aria-label="Site footer" className="bg-brand-900 border-t border-brand-800">
+        <footer id="site-footer" aria-label="Site footer" className="bg-brand-900 border-t border-brand-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+                <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,1fr)] lg:gap-8 mb-16">
                     <div className="space-y-6">
                         <Link href="/" className="block relative h-28 w-[400px] max-w-full mb-6">
                             {siteSettings?.logo?.asset?.url ? (
@@ -169,6 +172,22 @@ export async function Footer() {
                         </ul>
                     </div>
 
+                    <div>
+                        <h3 className="home-eyebrow mb-6 text-white">{tFooter("resourcesTitle")}</h3>
+                        <ul className="space-y-3">
+                            {resourceLinks.map((item) => (
+                                <li key={item.href}>
+                                    <Link
+                                        href={item.href}
+                                        className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                     <div className="space-y-8">
                         <div>
                             <h3 className="home-eyebrow mb-6 text-white">{tFooter("contactTitle")}</h3>
@@ -195,8 +214,8 @@ export async function Footer() {
                 </div>
 
                 <div className="pt-8 border-t border-brand-800">
-                    <p className="mx-auto max-w-4xl text-center text-xs leading-relaxed text-zinc-500">
-                        <span className="font-semibold text-zinc-400">{tFooter("disclaimerLabel")}</span>{" "}
+                    <p className="footer-disclaimer mx-auto max-w-4xl text-center text-[13px] font-normal leading-relaxed text-zinc-500">
+                        <span className="font-medium text-zinc-400">{tFooter("disclaimerLabel")}</span>{" "}
                         {tFooter("disclaimerBody")}
                     </p>
                 </div>
@@ -213,10 +232,10 @@ export async function Footer() {
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-brand-700 bg-brand-800 text-zinc-400 shadow-sm transition-all hover:-translate-y-0.5 hover:border-gold-500 hover:bg-gold-500 hover:text-brand-900 hover:shadow-md"
+                                className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-700 bg-brand-800 text-zinc-300 shadow-sm transition-all hover:-translate-y-0.5 hover:border-gold-500 hover:bg-white/10 hover:text-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
                                 aria-label={tFooter("followOn", { platform: social.label })}
                             >
-                                <social.icon aria-hidden="true" className="h-4 w-4" />
+                                <social.icon aria-hidden="true" className="h-6 w-6" />
                             </a>
                         ))}
                     </div>
