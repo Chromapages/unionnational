@@ -43,13 +43,6 @@
     --color-feedback-success: #2E7D32;
     --color-feedback-warning: #ED6C02;
 
-    --font-heading: var(--font-outfit), sans-serif;
-    --font-body: var(--font-inter), sans-serif;
-    --font-display: var(--font-outfit), sans-serif;
-    --font-data: var(--font-inter), sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-    --font-sans: var(--font-inter), sans-serif;
-
     --tracking-tighter: -0.05em;
     --tracking-tight: -0.015em;
     --tracking-normal: 0;
@@ -96,6 +89,16 @@
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
     }
+}
+
+/* Resolve Next.js runtime font variables directly in Tailwind utilities. */
+@theme inline {
+    --font-heading: var(--font-outfit), sans-serif;
+    --font-body: var(--font-inter), sans-serif;
+    --font-display: var(--font-outfit), sans-serif;
+    --font-data: var(--font-inter), sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --font-sans: var(--font-inter), sans-serif;
 }
 
 @layer base {
