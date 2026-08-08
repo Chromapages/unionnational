@@ -1,17 +1,22 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
 import { EABadge } from "@/components/ui/EABadge";
 import { Link } from "@/i18n/navigation";
 import { sanityFetch } from "@/sanity/lib/live";
-import { FOOTER_LEGAL_PAGES_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
+
+type FooterLink = {
+    href: string;
+    label: string;
+    emphasized?: boolean;
+};
 
 export async function Footer() {
     const locale = await getLocale();
     const tFooter = await getTranslations({ locale, namespace: "Footer" });
     const tHeader = await getTranslations({ locale, namespace: "Header" });
     const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
-    const { data: legalPages } = await sanityFetch({ query: FOOTER_LEGAL_PAGES_QUERY, params: { locale } });
 
     const formatAddress = (address: unknown): string | null => {
         if (!address) return null;
@@ -45,8 +50,7 @@ export async function Footer() {
     const formatMailtoHref = (email: unknown): string | null => {
         if (typeof email !== "string") return null;
         const trimmed = email.trim();
-        if (!trimmed.length) return null;
-        return `mailto:${trimmed}`;
+        return trimmed.length ? `mailto:${trimmed}` : null;
     };
 
     const addressText = formatAddress(siteSettings?.address) || tFooter("fallbackAddress");
@@ -54,55 +58,95 @@ export async function Footer() {
     const phoneHref = formatTelHref(siteSettings?.phone) || formatTelHref(phoneText) || "tel:+18015550123";
     const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || tFooter("fallbackEmail");
     const emailHref = formatMailtoHref(siteSettings?.email) || formatMailtoHref(emailText) || "mailto:hello@unionnationaltax.com";
-    const complianceLinks = [
-        { label: tFooter("complianceLinks.taxPrep"), href: "/services/tax-filing-and-preparation-services" },
-        { label: tFooter("complianceLinks.newBusinessFormation"), href: "/services/new-business-formation" },
+
+    const navigationGroups: Array<{ title: string; links: FooterLink[] }> = [
+        {
+            title: tFooter("advisoryTitle"),
+            links: [
+                { label: tFooter("advisoryLinks.scorp"), href: "/s-corp-tax-advantage" },
+                { label: tFooter("advisoryLinks.taxPlanning"), href: "/tax-planning" },
+                { label: tFooter("advisoryLinks.bookkeeping"), href: "/strategic-bookkeeping" },
+                { label: tFooter("advisoryLinks.fractionalCfo"), href: "/fractional-cfo" },
+                { label: tFooter("viewAllServices"), href: "/services", emphasized: true },
+            ],
+        },
+        {
+            title: tFooter("complianceTitle"),
+            links: [
+                { label: tFooter("complianceLinks.taxPrep"), href: "/tax-preparation-and-filing" },
+                { label: tFooter("complianceLinks.newBusinessFormation"), href: "/new-business-formation" },
+                { label: tFooter("complianceLinks.payroll"), href: "/payroll-services" },
+            ],
+        },
+        {
+            title: tFooter("companyTitle"),
+            links: [
+                { label: tHeader("about"), href: "/about" },
+                { label: tFooter("team"), href: "/team" },
+                { label: tHeader("industries"), href: "/industries" },
+                { label: tHeader("contact"), href: "/contact" },
+            ],
+        },
+        {
+            title: tFooter("resourcesTitle"),
+            links: [
+                { label: tFooter("resourceCenter"), href: "/resources" },
+                { label: tHeader("faq"), href: "/faq" },
+                { label: tHeader("shop"), href: "/shop" },
+            ],
+        },
     ];
 
-    const companyLinks = [
-        { label: tHeader("about"), href: "/about" },
-        // TODO (content): Confirm "Shop" nav item is intentional — no /shop page appears to exist.
-        // Remove this line if it's unused/legacy navigation.
-        { label: tFooter("team"), href: "/team" },
-        { label: tHeader("contact"), href: "/contact" },
-    ];
-
-    const resourceLinks = [
-        { label: tHeader("shop"), href: "/shop" },
-        { label: tHeader("faq"), href: "/faq" },
+    const legalLinks: FooterLink[] = [
+        { label: tFooter("disclaimer"), href: "/legal/disclaimer" },
         { label: tFooter("privacy"), href: "/legal/privacy-policy" },
         { label: tFooter("terms"), href: "/legal/terms-of-service" },
     ];
 
-    const socialLinks = [
+    const configuredSocialLinks = [
         { icon: Linkedin, href: siteSettings?.socialLinks?.linkedin, label: "LinkedIn" },
         { icon: Facebook, href: siteSettings?.socialLinks?.facebook, label: "Facebook" },
         { icon: Youtube, href: siteSettings?.socialLinks?.youtube, label: "YouTube" },
         { icon: Instagram, href: siteSettings?.socialLinks?.instagram, label: "Instagram" },
         { icon: Twitter, href: siteSettings?.socialLinks?.twitter, label: "Twitter" },
-    ].filter((link) => link.href);
+    ].filter((link): link is typeof link & { href: string } => Boolean(link.href));
 
-    if (socialLinks.length === 0) {
-        if (!siteSettings?.socialLinks?.linkedin) {
-            socialLinks.push({ icon: Linkedin, href: "https://www.linkedin.com/in/jason-astwood-ea-lutcf-fscp-8337a476/", label: "LinkedIn" });
-        }
-        if (!siteSettings?.socialLinks?.facebook) {
-            socialLinks.push({ icon: Facebook, href: "https://www.facebook.com/UnionNationalTax", label: "Facebook" });
-        }
-        if (!siteSettings?.socialLinks?.youtube) {
-            socialLinks.push({ icon: Youtube, href: "https://www.youtube.com/@JasonAstwood", label: "YouTube" });
-        }
-        if (!siteSettings?.socialLinks?.instagram) {
-            socialLinks.push({ icon: Instagram, href: "https://www.instagram.com/unionnationaltax/?hl=en", label: "Instagram" });
-        }
-    }
+    const socialLinks = configuredSocialLinks.length > 0
+        ? configuredSocialLinks
+        : [
+            { icon: Linkedin, href: "https://www.linkedin.com/in/jason-astwood-ea-lutcf-fscp-8337a476/", label: "LinkedIn" },
+            { icon: Facebook, href: "https://www.facebook.com/UnionNationalTax", label: "Facebook" },
+            { icon: Youtube, href: "https://www.youtube.com/@JasonAstwood", label: "YouTube" },
+            { icon: Instagram, href: "https://www.instagram.com/unionnationaltax/?hl=en", label: "Instagram" },
+        ];
+
+    const renderLinkList = (links: FooterLink[]) => (
+        <ul className="space-y-1.5">
+            {links.map((link) => (
+                <li key={link.href}>
+                    <Link
+                        href={link.href}
+                        className={`inline-flex min-h-10 items-center text-sm leading-snug underline-offset-4 transition-colors hover:text-gold-400 hover:underline focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 ${
+                            link.emphasized ? "font-semibold text-gold-400" : "text-zinc-300"
+                        }`}
+                    >
+                        {link.label}
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    );
 
     return (
-        <footer id="site-footer" aria-label="Site footer" className="bg-brand-900 border-t border-brand-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8">
-                <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,1fr)] lg:gap-8 mb-16">
-                    <div className="space-y-6">
-                        <Link href="/" className="block relative h-28 w-[400px] max-w-full mb-6">
+        <footer id="site-footer" className="border-t border-white/10 bg-brand-900">
+            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+                <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+                    <div className="lg:col-span-4">
+                        <Link
+                            href="/"
+                            aria-label={tFooter("homeLinkLabel")}
+                            className="relative block h-16 w-full max-w-[22rem] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-500"
+                        >
                             {siteSettings?.logo?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logo.asset.url}
@@ -126,138 +170,97 @@ export async function Footer() {
                                 />
                             )}
                         </Link>
-                        <p className="max-w-xs text-sm leading-relaxed text-zinc-400">
+
+                        <p className="mt-5 max-w-sm text-sm leading-6 text-zinc-300">
                             {tFooter("brandBio")}
                         </p>
-                        <EABadge />
+
+                        <EABadge
+                            className="mt-5"
+                            label={tFooter("credentialLabel")}
+                            detail={tFooter("credentialDetail")}
+                        />
+
+                        <div className="mt-6 space-y-1 text-sm text-zinc-300">
+                            <Link href="/contact" className="group flex min-h-10 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
+                                <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
+                                <span>{addressText}</span>
+                            </Link>
+                            <a href={phoneHref} className="group flex min-h-10 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
+                                <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
+                                <span>{phoneText}</span>
+                            </a>
+                            <a href={emailHref} className="group flex min-h-10 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
+                                <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
+                                <span className="break-all">{emailText}</span>
+                            </a>
+                        </div>
+
+                        <div className="mt-5 flex flex-wrap gap-2">
+                            {socialLinks.map((social) => (
+                                <a
+                                    key={social.label}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-zinc-200 transition-all hover:-translate-y-0.5 hover:border-gold-500 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+                                    aria-label={tFooter("followOn", { platform: social.label })}
+                                >
+                                    <social.icon aria-hidden="true" className="h-5 w-5" />
+                                </a>
+                            ))}
+                        </div>
                     </div>
 
-                    <div>
-                        <h3 className="home-eyebrow mb-6 text-white">{tFooter("complianceTitle")}</h3>
-                        <ul className="space-y-3">
-                            {complianceLinks.map((link) => (
+                    <nav aria-label={tFooter("navigationLabel")} className="lg:col-span-8">
+                        <div className="hidden grid-cols-4 gap-x-6 md:grid">
+                            {navigationGroups.map((group) => (
+                                <section key={group.title} aria-labelledby={`footer-${group.title.replace(/\s+/g, "-").toLowerCase()}`}>
+                                    <h2 id={`footer-${group.title.replace(/\s+/g, "-").toLowerCase()}`} className="home-eyebrow mb-4 text-white">
+                                        {group.title}
+                                    </h2>
+                                    {renderLinkList(group.links)}
+                                </section>
+                            ))}
+                        </div>
+
+                        <div className="divide-y divide-white/10 border-y border-white/10 md:hidden">
+                            {navigationGroups.map((group) => (
+                                <details key={group.title} className="group">
+                                    <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 [&::-webkit-details-marker]:hidden">
+                                        {group.title}
+                                        <ChevronDown aria-hidden="true" className="h-5 w-5 shrink-0 text-gold-500 transition-transform group-open:rotate-180" />
+                                    </summary>
+                                    <div className="pb-4 pl-1">{renderLinkList(group.links)}</div>
+                                </details>
+                            ))}
+                        </div>
+                    </nav>
+                </div>
+
+                <div className="mt-10 border-t border-white/10 pt-6">
+                    <p className="max-w-3xl text-sm font-normal leading-6 text-zinc-300">
+                        <span className="font-semibold text-white">{tFooter("disclaimerLabel")}</span>{" "}
+                        {tFooter("disclaimerBody")}
+                    </p>
+                </div>
+
+                <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5 text-sm text-zinc-300 sm:flex-row sm:items-center sm:justify-between">
+                    <p>{tFooter("copyright", { year: new Date().getFullYear() })}</p>
+                    <nav aria-label={tFooter("legalNavigationLabel")}>
+                        <ul className="flex flex-wrap gap-x-5 gap-y-1">
+                            {legalLinks.map((link) => (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
+                                        className="inline-flex min-h-10 items-center rounded-sm underline-offset-4 transition-colors hover:text-gold-400 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
                                     >
                                         {link.label}
                                     </Link>
                                 </li>
                             ))}
-                            <li>
-                                <Link
-                                    href="/services"
-                                    className="inline-flex items-center gap-1 text-sm font-medium text-gold-500 transition-colors hover:text-gold-400"
-                                >
-                                    {tFooter("viewAllServices")}
-                                </Link>
-                            </li>
                         </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="home-eyebrow mb-6 text-white">{tFooter("companyTitle")}</h3>
-                        <ul className="space-y-3">
-                            {companyLinks.map((item) => (
-                                <li key={item.href}>
-                                    <Link
-                                        href={item.href}
-                                        className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="home-eyebrow mb-6 text-white">{tFooter("resourcesTitle")}</h3>
-                        <ul className="space-y-3">
-                            {resourceLinks.map((item) => (
-                                <li key={item.href}>
-                                    <Link
-                                        href={item.href}
-                                        className="text-sm text-zinc-400 transition-colors hover:text-gold-500"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="space-y-8">
-                        <div>
-                            <h3 className="home-eyebrow mb-6 text-white">{tFooter("contactTitle")}</h3>
-                            <ul className="space-y-4">
-                                <li className="group flex items-start gap-3 text-sm text-zinc-400">
-                                    <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />
-                                    <span>{addressText}</span>
-                                </li>
-                                <li className="group flex items-center gap-3 text-sm text-zinc-400">
-                                    <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />
-                                    <a href={phoneHref} className="transition-colors hover:text-white">
-                                        {phoneText}
-                                    </a>
-                                </li>
-                                <li className="group flex items-center gap-3 text-sm text-zinc-400">
-                                    <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500 group-hover:text-gold-400" />
-                                    <a href={emailHref} className="transition-colors hover:text-white">
-                                        {emailText}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="pt-8 border-t border-brand-800">
-                    <p className="footer-disclaimer mx-auto max-w-4xl text-center text-[13px] font-normal leading-relaxed text-zinc-500">
-                        <span className="font-medium text-zinc-400">{tFooter("disclaimerLabel")}</span>{" "}
-                        {tFooter("disclaimerBody")}
-                    </p>
-                </div>
-
-                <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-brand-800 pt-8 md:flex-row">
-                    <p className="text-center text-xs text-zinc-500 md:text-left">
-                        {siteSettings?.copyrightText || tFooter("copyright", { year: new Date().getFullYear() })}
-                    </p>
-
-                    <div className="flex gap-3">
-                        {socialLinks.map((social, index) => (
-                            <a
-                                key={`${social.label}-${index}`}
-                                href={social.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-700 bg-brand-800 text-zinc-300 shadow-sm transition-all hover:-translate-y-0.5 hover:border-gold-500 hover:bg-white/10 hover:text-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
-                                aria-label={tFooter("followOn", { platform: social.label })}
-                            >
-                                <social.icon aria-hidden="true" className="h-6 w-6" />
-                            </a>
-                        ))}
-                    </div>
-
-                    <div className="flex gap-6 text-xs text-zinc-500">
-                        {(() => {
-                            const pages = [...(legalPages || [])];
-                            if (!pages.some((page: { slug?: string }) => page.slug === "privacy-policy")) {
-                                pages.push({ title: tFooter("privacy"), slug: "privacy-policy" });
-                            }
-
-                            return pages.map((page: { title: string; slug: string }) => (
-                                <Link
-                                    key={page.slug}
-                                    href={`/legal/${page.slug}`}
-                                    className="transition-colors hover:text-gold-500"
-                                >
-                                    {page.title}
-                                </Link>
-                            ));
-                        })()}
-                    </div>
+                    </nav>
                 </div>
             </div>
         </footer>

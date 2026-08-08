@@ -5,6 +5,9 @@ export interface SanitySEO {
   metaDescription?: string;
   openGraphImage?: SanityImage;
   keywords?: string[];
+  canonicalUrl?: string;
+  noIndex?: boolean;
+  structuredDataType?: string;
 }
 
 export interface SanityImage {
@@ -59,6 +62,77 @@ export type LocalizedBlock = {
   [key: string]: SanityBlock[] | undefined;
 };
 
+export interface ServicePage extends SanityDocument {
+  title: string;
+  slug: { current: string };
+  canonicalPath: string;
+  accentColor?: string;
+  service?: { _id?: string; catalogSlug?: string };
+  hero: {
+    eyebrow: string;
+    headline: string;
+    highlight?: string;
+    subheadline: string;
+    primaryCta: { label: string; href: string };
+    secondaryCta?: { label?: string; href?: string };
+    trustItems?: Array<{ value: string; label: string }>;
+    microcopy?: string;
+    visual?: {
+      type?: "dashboard-mockup" | "image" | "video" | "none";
+      image?: SanityImage;
+      imageAlt?: string;
+      videoUrl?: string;
+      videoMimeType?: string;
+      videoPoster?: SanityImage;
+      videoPosterAlt?: string;
+      videoLabel?: string;
+      dashboardEyebrow?: string;
+      dashboardTitle?: string;
+      dashboardStatus?: string;
+      dashboardMetrics?: Array<{ label: string; value: string; emphasized?: boolean }>;
+    };
+  };
+  eligibility?: {
+    eyebrow?: string;
+    heading?: string;
+    description?: string;
+    badge?: string;
+    items?: string[];
+    primaryGroup?: { heading?: string; items?: string[] };
+    secondaryGroup?: { heading?: string; items?: string[] };
+    disqualifierHeading?: string;
+    disqualifier?: string;
+    cta?: { label?: string; href?: string; microcopy?: string };
+  };
+  comparison: {
+    eyebrow?: string;
+    heading: string;
+    description?: string;
+    withoutLabel?: string;
+    withLabel?: string;
+    pairs: Array<{ category?: string; problem: string; solution: string; outcome?: string }>;
+    conclusion?: string;
+    linkLabel?: string;
+    href?: string;
+  };
+  process: { eyebrow?: string; heading: string; description?: string; steps: Array<{ title: string; duration?: string; description: string }> };
+  included: { eyebrow?: string; heading: string; description?: string; items: string[]; pricing?: { headline?: string; detail?: string } };
+  video?: {
+    eyebrow?: string;
+    heading?: string;
+    description?: string;
+    url?: string;
+    poster?: SanityImage;
+    posterAlt?: string;
+    captionsUrl?: string;
+    caption?: string;
+  };
+  proof?: { eyebrow?: string; heading?: string; quote?: string; attribution?: string; linkLabel?: string; href?: string };
+  faqSection: { eyebrow?: string; heading: string; items: Array<{ question: string; answer: string }> };
+  closing: { heading: string; description?: string; label: string; href: string };
+  seo?: SanitySEO;
+}
+
 export interface Service extends SanityDocument {
   title: string;
   slug: { current: string };
@@ -69,16 +143,11 @@ export interface Service extends SanityDocument {
   order?: number;
   seo?: SanitySEO;
   faq?: Array<{ q: string; a: string; question?: string; answer?: string }>;
-  roadmap?: Array<{ stepNumber: string; title: string; description: string }>;
+  roadmap?: Array<{ title: string; duration?: string; description: string }>;
   eligibilityPros?: string[];
-  eligibilityCons?: string[];
-  comparisonPoints?: Array<{ feature: string; diy?: string; bigFirm?: string; unionNational?: string }>;
   trustSignals?: string[];
   impactGoal?: string | LocalizedString;
-  problemAgitation?: { title: string; description: string };
-  badge?: string;
   keyBenefit?: string | LocalizedString;
-  eligibility?: string | LocalizedString;
   fullDescription?: SanityBlock[];
   videoFileUrlEn?: string;
   videoFileUrlEs?: string;
@@ -90,10 +159,49 @@ export interface Service extends SanityDocument {
   videoThumbnail?: SanityImage;
   startingPrice?: string;
   targetAudience?: string;
+  targetKeyword?: string;
+  category?: string;
+  accentColor?: string;
+  strategyVideoUrl?: string;
+  heroHeadline?: string;
+  heroHighlight?: string;
+  heroCta?: { label?: string; href?: string };
+  heroSecondaryCta?: { label?: string; anchorTarget?: string };
+  heroTrustStats?: Array<{ value: string; label: string }>;
+  heroMicrocopy?: string;
+  heroVisual?: {
+    type?: "dashboard-mockup" | "image" | "video" | "none";
+    image?: SanityImage;
+    videoUrl?: string;
+    videoMimeType?: string;
+    videoPoster?: SanityImage;
+    videoPosterAlt?: string;
+    videoLabel?: string;
+    dashboardEyebrow?: string;
+    dashboardTitle?: string;
+    dashboardStatus?: string;
+    dashboardMetrics?: Array<{ label: string; value: string; emphasized?: boolean }>;
+  };
   features?: string[];
-  whyChooseUsTitle?: string;
-  whyChooseUsDescription?: string;
   schema_faq?: Array<{ question: string; answer: string }>;
+  pageSections?: {
+    eligibility?: { eyebrow?: string; heading?: string; description?: string };
+    comparison?: {
+      eyebrow?: string;
+      heading?: string;
+      description?: string;
+      withoutLabel?: string;
+      withLabel?: string;
+      pairs?: Array<{ problem: string; solution: string }>;
+    };
+    process?: { eyebrow?: string; heading?: string; description?: string };
+    included?: { eyebrow?: string; heading?: string; description?: string };
+    pricing?: { headline?: string; detail?: string };
+    video?: { eyebrow?: string; heading?: string };
+    proof?: { eyebrow?: string; heading?: string; quote?: string; attribution?: string; linkLabel?: string; href?: string };
+    faq?: { eyebrow?: string; heading?: string };
+    closing?: { heading?: string; description?: string; label?: string; href?: string };
+  };
 }
 
 export interface TeamMember extends SanityDocument {

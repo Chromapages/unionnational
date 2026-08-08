@@ -1,26 +1,14 @@
-import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
-import { Footer } from "@/components/layout/Footer";
-import TaxPlanningClient from "./TaxPlanningClient";
-import { Metadata } from "next";
+import { CmsServicePage, getCmsServiceMetadata } from "@/components/services/CmsServicePage";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-    return {
-        title: "Tax Planning & Consulting | Union National Tax",
-        description: "Year-round strategic tax planning designed to identify savings before you pay. Proactive, personalized advice for business owners and high-income earners.",
-    };
+const cmsSlug = "tax-planning";
+const canonicalPath = "/tax-planning";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    return getCmsServiceMetadata({ cmsSlug, locale, canonicalPath });
 }
 
-export default async function TaxPlanningPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
-
-    return (
-        <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
-            <HeaderWrapper />
-            <main id="main-content">
-                <TaxPlanningClient />
-            </main>
-            <Footer />
-        </div>
-    );
+export default async function TaxPlanningPage({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    return <CmsServicePage cmsSlug={cmsSlug} locale={locale} canonicalPath={canonicalPath} />;
 }

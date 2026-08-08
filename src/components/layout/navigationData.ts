@@ -93,6 +93,12 @@ export const fallbackServices: ServiceSummary[] = [
 export const getServiceHref = (service: ServiceSummary) => {
   if (service.slug?.current) {
     const slug = service.slug.current;
+
+    // Sanity retains this legacy service slug, while the public route is the
+    // canonical shared-template page.
+    if (["tax-planning-consulting", "tax-planning-consulting-services"].includes(slug)) {
+      return "/tax-planning";
+    }
     
     // Industry Pages
     if (["construction", "restaurants", "real-estate", "e-commerce"].includes(slug)) {
@@ -105,7 +111,8 @@ export const getServiceHref = (service: ServiceSummary) => {
         "tax-planning",
         "strategic-bookkeeping",
         "new-business-formation",
-        "s-corp-tax-advantage"
+        "s-corp-tax-advantage",
+        "payroll-services"
     ];
 
     if (rootRoutes.includes(slug)) {
@@ -113,8 +120,15 @@ export const getServiceHref = (service: ServiceSummary) => {
     }
 
     // Special case for Tax Filing
-    if (slug === "tax-filing-and-preparation-services") {
-        return "/tax-preparation-and-filing";
+    if ([
+      "tax-filing",
+      "tax-filing-preparation",
+      "tax-filing-and-preparation-services",
+      "tax-preparation-filing",
+      "tax-preparation-and-filing",
+      "tax-preparation-and-filing-services",
+    ].includes(slug)) {
+      return "/tax-preparation-and-filing";
     }
 
     return `/services/${slug}`;

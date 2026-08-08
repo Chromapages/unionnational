@@ -5,6 +5,7 @@ import { blogPost } from './blogPost'
 import { blogCategory } from './blogCategory'
 import { blogSettings } from './blogSettings'
 import { service } from './service'
+import { servicePage } from './servicePage'
 import { product } from './product'
 import { shopSettings } from './shopSettings'
 import { siteSettings } from './siteSettings'
@@ -37,6 +38,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     blogCategory,
     blogSettings,
     service,
+    servicePage,
     product,
     shopSettings,
     siteSettings,

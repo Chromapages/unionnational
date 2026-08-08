@@ -110,7 +110,7 @@ export default async function RootLayout(props: {
   return (
     <html lang={locale} className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${outfit.variable} font-body antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden`}
+        className={`${inter.variable} ${outfit.variable} font-body antialiased selection:bg-gold-500 selection:text-white overflow-x-clip`}
         suppressHydrationWarning
       >
         <MetaPixel />

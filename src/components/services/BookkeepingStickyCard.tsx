@@ -18,7 +18,7 @@ const messages = {
     },
     proof: {
         title: "Built for the work ahead",
-        body: "Join 200+ businesses using current financial data to make sharper decisions.",
+        body: "Current books give your tax strategy the timely data it needs to act before year-end.",
         detailLabel: "What clients value",
         detail: "A close that is measured in days, not weeks.",
     },
@@ -53,7 +53,7 @@ export function BookkeepingStickyCard() {
         <aside className="hidden lg:block">
             <div className="sticky top-28 space-y-4">
                 <p className="rounded-2xl border border-gold-500/25 bg-gold-500/10 p-5 text-sm leading-relaxed text-brand-950">
-                    <span className="font-heading text-2xl font-bold text-gold-400">200+</span> businesses served with current financial data.
+                    <span className="font-heading text-2xl font-bold text-gold-700">3 days</span> to close the books for our featured $1.2M contractor result.
                 </p>
                 <div className="rounded-3xl border border-gold-500/20 bg-brand-950 p-8 shadow-2xl">
                     <h2 className="font-heading text-2xl font-bold tracking-tighter text-white">{message.title}</h2>

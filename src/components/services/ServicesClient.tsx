@@ -22,7 +22,6 @@ export interface Service {
     icon: string;
     features: string[];
     impactGoal: string;
-    badge?: string;
     category?: string;
     startingPrice?: string;
     isPopular?: boolean;
@@ -47,12 +46,6 @@ export function ServicesClient({ services }: ServicesClientProps) {
         const Icon = getIcon(service.icon);
         return (
             <div className={`group relative bg-white rounded-2xl p-5 md:p-8 shadow-sm border border-zinc-200 hover:shadow-xl hover:border-gold-200 transition-all duration-300 flex flex-col h-full ${className}`}>
-                {service.badge && (
-                    <div className="absolute top-3 right-3 md:top-4 md:right-4 bg-gold-100 text-gold-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                        Recommended
-                    </div>
-                )}
-
                 <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-brand-50 flex items-center justify-center mb-4 md:mb-6 group-hover:bg-brand-900 transition-colors duration-300">
                     <Icon className="w-6 h-6 md:w-7 md:h-7 text-brand-900 group-hover:text-gold-500 transition-colors duration-300" />
                 </div>

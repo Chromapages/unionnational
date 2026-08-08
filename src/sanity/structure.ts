@@ -6,6 +6,7 @@ export const structure: StructureResolver = (S) =>
     .title('Content')
     .items([
       S.documentTypeListItem('service').title('Services'),
+      S.documentTypeListItem('servicePage').title('Service Pages'),
       S.documentTypeListItem('testimonial').title('Testimonials'),
       S.documentTypeListItem('faq').title('FAQs'),
       S.documentTypeListItem('caseStudy').title('Case Studies'),
@@ -129,7 +130,7 @@ export const structure: StructureResolver = (S) =>
         
         const hiddenTypes = [
           'teamPage', 'teamMember', 'blogPost', 'blogCategory', 'blogSettings', 
-          'service', 'product', 'shopSettings', 'siteSettings', 'testimonial', 
+          'service', 'servicePage', 'product', 'shopSettings', 'siteSettings', 'testimonial', 
           'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 
           'caseStudy', 'pricingTier', 'legalPage', 'playbook', 'playbookChapter', 
           'industryVertical', 'comparisonTable'

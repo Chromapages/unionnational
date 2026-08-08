@@ -69,7 +69,11 @@
     },
     "Footer": {
         "defaultCompanyName": "Union National Tax",
-        "brandBio": "Specialized tax strategies for construction, real estate, and service-based businesses. Keep more of what you earn with proactive planning.",
+        "brandBio": "Proactive tax strategy and financial clarity for contractors and service-based business owners.",
+        "navigationLabel": "Footer navigation",
+        "legalNavigationLabel": "Legal",
+        "homeLinkLabel": "Union National Tax home",
+        "advisoryTitle": "Advisory",
         "complianceTitle": "Compliance & Implementation",
         "companyTitle": "Company",
         "resourcesTitle": "Resources",
@@ -78,17 +82,28 @@
         "team": "Team",
         "disclaimerLabel": "Disclaimer:",
         "disclaimerBody": "The information on this website is for general informational purposes only and does not constitute tax, legal, accounting, or financial advice. Use of this site does not create a professional relationship. Please consult a qualified professional for advice specific to your situation.",
-        "followOn": "Follow us on {platform}",
+        "followOn": "Follow us on {platform} (opens in a new tab)",
         "fallbackAddress": "Utah, United States",
         "fallbackPhone": "(801) 555-0123",
         "fallbackEmail": "hello@unionnationaltax.com",
         "complianceLinks": {
             "taxPrep": "Tax Filing & Preparation",
-            "newBusinessFormation": "New Business Formation"
+            "newBusinessFormation": "New Business Formation",
+            "payroll": "Payroll Services"
         },
+        "advisoryLinks": {
+            "scorp": "S-Corp Tax Advantage",
+            "taxPlanning": "Tax Planning",
+            "bookkeeping": "Strategic Bookkeeping",
+            "fractionalCfo": "Fractional CFO"
+        },
+        "resourceCenter": "Resource Center",
+        "credentialLabel": "Enrolled Agent",
+        "credentialDetail": "Federally licensed by the IRS",
         "copyright": "© {year} Union National Tax. All rights reserved.",
         "privacy": "Privacy Policy",
-        "terms": "Terms of Service"
+        "terms": "Terms of Service",
+        "disclaimer": "Disclaimer"
     },
     "Common": {
         "learnMore": "Learn More",
@@ -337,24 +352,37 @@
             }
         },
         "ServicesSection": {
-            "eyebrow": "Our Expertise",
-            "title": "Comprehensive Financial Solutions.",
-            "titleHighlight": "Financial Solutions.",
-            "subtitle": "Design a financial operating system that works for your business. From basic compliance to strategic growth tools.",
-            "learnMore": "Learn More",
-            "pillarBadge": "Advisory Pillar",
-            "serviceCta": "Explore Strategy",
-            "viewAllCta": "View All Services",
-            "industries": {
-                "construction": {
-                    "title": "Construction",
-                    "description": "Entity, payroll, and cash-flow strategy for operators with moving parts."
+            "eyebrow": "What we help you achieve",
+            "title": "Four outcomes. One connected financial strategy.",
+            "subtitle": "Start with the pressure point that matters now, then see the service designed to address it.",
+            "listLabel": "Financial outcomes and the services that support them",
+            "outcomes": {
+                "scorp": {
+                    "service": "S-Corp Tax Advantage",
+                    "title": "Keep more of what you earn—when the structure fits",
+                    "description": "Evaluate whether an S-Corp election and coordinated payroll strategy could reduce avoidable self-employment tax.",
+                    "link": "Explore S-Corp Tax Advantage"
                 },
-                "restaurants": {
-                    "title": "Restaurants",
-                    "description": "Tax planning support for tight-margin hospitality businesses that need better visibility."
+                "taxPlanning": {
+                    "service": "Proactive Tax Planning",
+                    "title": "Make tax decisions before deadlines close",
+                    "description": "Plan entity, deduction, retirement, and timing decisions while there is still time to act.",
+                    "link": "Explore Proactive Tax Planning"
+                },
+                "bookkeeping": {
+                    "service": "Strategic Bookkeeping",
+                    "title": "Trust the numbers behind every decision",
+                    "description": "Maintain current, decision-ready books that support tax planning, pricing, cash-flow visibility, and compliance.",
+                    "link": "Explore Strategic Bookkeeping"
+                },
+                "fractionalCfo": {
+                    "service": "Fractional CFO",
+                    "title": "Plan cash, hiring, and growth with confidence",
+                    "description": "Use forecasting, financial modeling, and leadership-level guidance to make larger business decisions.",
+                    "link": "Explore Fractional CFO Services"
                 }
-            }
+            },
+            "viewAllCta": "Compare all services"
         },
         "NationwideServiceSection": {
             "badge": "Virtual First Service",
@@ -434,53 +462,65 @@
             "noTestimonials": "Client testimonials coming soon"
         },
         "WhyUsSection": {
-            "eyebrow": "Why Work With Us",
-            "fallbackTitle": "Stop overpaying. Start planning.",
-            "fallbackSubtitle": "Most CPAs compile history. We build forward-looking strategy that protects your wealth.",
-            "statusQuoLabel": "The status quo",
-            "traditionalCpaTitle": "The Traditional CPA",
-            "traditionalCpaDescription": "Reactive filing structures that document wealth loss rather than preventing it.",
-            "proactiveDefenseLabel": "Proactive defense",
-            "cfoPartnershipTitle": "The CFO Partnership",
-            "cfoPartnershipDescription": "Continuous strategizing, structuring, and reporting designed to build and preserve asset value.",
-            "problems": {
-                "flyingBlind": {
-                    "title": "Flying Blind",
-                    "description": "No real-time visibility into your tax position until April rolls around."
+            "eyebrow": "Proactive by design",
+            "title": "The tax return records what happened. Strategy happens earlier.",
+            "subtitle": "Year-round planning gives you time to evaluate options before deadlines close them.",
+            "caption": "How tax support changes when planning starts before the deadline.",
+            "dimensionLabel": "What changes",
+            "traditionalLabel": "Traditional tax support",
+            "proactiveLabel": "Proactive tax strategy",
+            "rows": {
+                "timing": {
+                    "dimension": "Timing",
+                    "traditional": "Files after the year closes",
+                    "proactive": "Plans while decisions are still open"
                 },
-                "taxSurprises": {
-                    "title": "Tax Surprises",
-                    "description": "April deadlines are too late to make meaningful savings happen."
+                "scope": {
+                    "dimension": "Scope",
+                    "traditional": "Confirms compliance",
+                    "proactive": "Evaluates entity, deduction, retirement, and S-Corp opportunities before deadlines"
                 },
-                "complianceDrag": {
-                    "title": "Compliance Drag",
-                    "description": "Your CPA spends more time checking boxes than building strategy."
+                "cadence": {
+                    "dimension": "Cadence",
+                    "traditional": "Contact is mostly seasonal",
+                    "proactive": "Schedules planning checkpoints throughout the year"
+                },
+                "decisionSupport": {
+                    "dimension": "Decision support",
+                    "traditional": "Reports what happened",
+                    "proactive": "Uses current numbers to guide tax and business decisions"
                 }
             },
-            "differentiators": {
-                "proactiveStrategy": {
-                    "title": "Proactive Strategy",
-                    "description": "Monthly checkpoints to save before the year ends."
+            "conclusion": "More time to plan means fewer decisions made under deadline pressure.",
+            "primaryCta": "See how proactive tax planning works",
+            "secondaryCta": "Check your S-Corp fit"
+        },
+        "HowItWorksSection": {
+            "eyebrow": "A clear path forward",
+            "title": "From your current setup to a year-round tax plan",
+            "subtitle": "See what happens first, what we evaluate, and the concrete plan you leave with.",
+            "listLabel": "How our strategy process works",
+            "stepLabel": "Step {number} of {total}",
+            "outcomeLabel": "Outcome",
+            "steps": {
+                "start": {
+                    "title": "Start with a strategy call",
+                    "description": "Share how the business is structured, how income flows, and what has changed this year.",
+                    "outcome": "A focused review of your current situation"
                 },
-                "directAccess": {
-                    "title": "Direct Access",
-                    "description": "Talk directly to your assigned tax expert, never a call center."
+                "opportunities": {
+                    "title": "See the opportunities worth evaluating",
+                    "description": "We assess S-Corp eligibility and other proactive tax-planning opportunities, then prioritize what deserves action.",
+                    "outcome": "A prioritized set of planning opportunities"
                 },
-                "sCorpSpecialists": {
-                    "title": "S-Corp Specialists",
-                    "description": "We optimize entity structures to maximize tax savings."
+                "plan": {
+                    "title": "Put your yearly plan into motion",
+                    "description": "Receive documented decisions, deadlines, responsibilities, and a cadence for revisiting the strategy.",
+                    "outcome": "A year-round action plan"
                 }
             },
-            "ctaTitle": "Ready for a partner that actually plans?",
-            "ctaSubtitle": "Analyze your structure and find potential leaks before tax season.",
-            "ctaButton": "Book Free Call",
-            "ctaButtonAria": "Book your free strategy call",
-            "stats": {
-                "averageTaxReduction": "Average Tax Reduction",
-                "clientSavingsLastYear": "Client Savings Last Year",
-                "businessesServed": "Businesses Served",
-                "yearsExperience": "Years Experience"
-            }
+            "cta": "Start with a Strategy Call",
+            "ctaSupport": "The call gives us the context needed to make the review useful."
         },
         "FAQSection": {
             "eyebrow": "Got Questions?",

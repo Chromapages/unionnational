@@ -66,7 +66,11 @@
     "Footer": {
         "defaultCompanyName": "Union National Tax",
         "complianceTitle": "Cumplimiento e implementación",
-        "brandBio": "Estrategias fiscales especializadas para construcción, bienes raíces y negocios de servicios. Conserve más de lo que gana con una planificación proactiva.",
+        "brandBio": "Estrategia fiscal proactiva y claridad financiera para contratistas y propietarios de negocios de servicios.",
+        "navigationLabel": "Navegación del pie de página",
+        "legalNavigationLabel": "Información legal",
+        "homeLinkLabel": "Inicio de Union National Tax",
+        "advisoryTitle": "Asesoría",
         "servicesTitle": "Servicios",
         "companyTitle": "Empresa",
         "resourcesTitle": "Recursos",
@@ -75,17 +79,28 @@
         "team": "Equipo",
         "disclaimerLabel": "Aviso:",
         "disclaimerBody": "La información de este sitio web es solo para fines informativos generales y no constituye asesoría fiscal, legal, contable ni financiera. El uso de este sitio no crea una relación profesional. Consulte a un profesional calificado para recibir orientación específica para su situación.",
-        "followOn": "Síganos en {platform}",
+        "followOn": "Síganos en {platform} (se abre en una pestaña nueva)",
         "fallbackAddress": "Utah, Estados Unidos",
         "fallbackPhone": "(801) 555-0123",
         "fallbackEmail": "hello@unionnationaltax.com",
         "complianceLinks": {
             "taxPrep": "Declaración y preparación de impuestos",
-            "newBusinessFormation": "Formación de nuevos negocios"
+            "newBusinessFormation": "Formación de nuevos negocios",
+            "payroll": "Servicios de nómina"
         },
+        "advisoryLinks": {
+            "scorp": "Ventaja fiscal de la corporación S",
+            "taxPlanning": "Planificación fiscal",
+            "bookkeeping": "Contabilidad estratégica",
+            "fractionalCfo": "CFO fraccional"
+        },
+        "resourceCenter": "Centro de recursos",
+        "credentialLabel": "Agente inscrito",
+        "credentialDetail": "Con licencia federal del IRS",
         "copyright": "© {year} Union National Tax. Todos los derechos reservados.",
         "privacy": "Política de Privacidad",
-        "terms": "Términos de Servicio"
+        "terms": "Términos de Servicio",
+        "disclaimer": "Aviso legal"
     },
     "Common": {
         "learnMore": "Más Información",
@@ -311,24 +326,37 @@
             }
         },
         "ServicesSection": {
-            "eyebrow": "Nuestra Experiencia",
-            "title": "Soluciones Financieras Integrales.",
-            "titleHighlight": "Financieras Integrales.",
-            "subtitle": "Diseñe un sistema financiero que funcione para su negocio. Desde cumplimiento básico hasta herramientas de crecimiento estratégico.",
-            "learnMore": "Más Información",
-            "pillarBadge": "Pilar de Asesoría",
-            "serviceCta": "Explorar estrategia",
-            "viewAllCta": "Ver todos los servicios",
-            "industries": {
-                "construction": {
-                    "title": "Construcción",
-                    "description": "Estrategia de entidad, nómina y flujo de caja para operadores con muchas variables."
+            "eyebrow": "Lo que le ayudamos a lograr",
+            "title": "Cuatro resultados. Una estrategia financiera conectada.",
+            "subtitle": "Empiece por la necesidad más urgente y vea el servicio diseñado para atenderla.",
+            "listLabel": "Resultados financieros y los servicios que los respaldan",
+            "outcomes": {
+                "scorp": {
+                    "service": "Ventaja Fiscal S-Corp",
+                    "title": "Conserve más de lo que gana cuando la estructura sea adecuada",
+                    "description": "Evalúe si una elección S-Corp y una estrategia de nómina coordinada podrían reducir impuestos evitables sobre el trabajo por cuenta propia.",
+                    "link": "Explorar Ventaja Fiscal S-Corp"
                 },
-                "restaurants": {
-                    "title": "Restaurantes",
-                    "description": "Apoyo fiscal para negocios de hospitalidad con márgenes ajustados que necesitan mayor visibilidad."
+                "taxPlanning": {
+                    "service": "Planificación Fiscal Proactiva",
+                    "title": "Tome decisiones fiscales antes de que cierren los plazos",
+                    "description": "Planifique decisiones de entidad, deducciones, jubilación y fechas mientras todavía haya tiempo para actuar.",
+                    "link": "Explorar Planificación Fiscal Proactiva"
+                },
+                "bookkeeping": {
+                    "service": "Contabilidad Estratégica",
+                    "title": "Confíe en las cifras detrás de cada decisión",
+                    "description": "Mantenga libros actualizados y listos para decidir que respalden la planificación fiscal, los precios, el flujo de caja y el cumplimiento.",
+                    "link": "Explorar Contabilidad Estratégica"
+                },
+                "fractionalCfo": {
+                    "service": "CFO Fraccional",
+                    "title": "Planifique el efectivo, las contrataciones y el crecimiento con confianza",
+                    "description": "Use pronósticos, modelos financieros y orientación ejecutiva para tomar decisiones empresariales de mayor alcance.",
+                    "link": "Explorar Servicios de CFO Fraccional"
                 }
-            }
+            },
+            "viewAllCta": "Comparar todos los servicios"
         },
         "NationwideServiceSection": {
             "badge": "Servicio Virtual Primero",
@@ -408,53 +436,65 @@
             "noTestimonials": "Próximamente publicaremos testimonios de clientes"
         },
         "WhyUsSection": {
-            "eyebrow": "Por qué trabajar con nosotros",
-            "fallbackTitle": "Deje de pagar de más. Empiece a planificar.",
-            "fallbackSubtitle": "La mayoría de los CPAs documentan el pasado. Nosotros construimos una estrategia que protege su patrimonio hacia el futuro.",
-            "statusQuoLabel": "La situación actual",
-            "traditionalCpaTitle": "El CPA tradicional",
-            "traditionalCpaDescription": "Estructuras reactivas de presentación que registran la pérdida de patrimonio en lugar de prevenirla.",
-            "proactiveDefenseLabel": "Defensa proactiva",
-            "cfoPartnershipTitle": "La alianza de CFO",
-            "cfoPartnershipDescription": "Estrategia, estructura e informes continuos diseñados para construir y proteger el valor de sus activos.",
-            "problems": {
-                "flyingBlind": {
-                    "title": "Sin visibilidad",
-                    "description": "No tiene visibilidad en tiempo real de su situación fiscal hasta que llega abril."
+            "eyebrow": "Proactivo por diseño",
+            "title": "La declaración registra lo que pasó. La estrategia ocurre antes.",
+            "subtitle": "La planificación durante todo el año le da tiempo para evaluar opciones antes de que cierren los plazos.",
+            "caption": "Cómo cambia el apoyo fiscal cuando la planificación comienza antes de la fecha límite.",
+            "dimensionLabel": "Lo que cambia",
+            "traditionalLabel": "Apoyo fiscal tradicional",
+            "proactiveLabel": "Estrategia fiscal proactiva",
+            "rows": {
+                "timing": {
+                    "dimension": "Momento",
+                    "traditional": "Presenta después de que cierra el año",
+                    "proactive": "Planifica mientras las decisiones siguen abiertas"
                 },
-                "taxSurprises": {
-                    "title": "Sorpresas fiscales",
-                    "description": "Los vencimientos de abril llegan demasiado tarde para generar ahorros importantes."
+                "scope": {
+                    "dimension": "Alcance",
+                    "traditional": "Confirma el cumplimiento",
+                    "proactive": "Evalúa oportunidades de entidad, deducciones, jubilación y S-Corp antes de los plazos"
                 },
-                "complianceDrag": {
-                    "title": "Fricción de cumplimiento",
-                    "description": "Su CPA pasa más tiempo marcando casillas que construyendo estrategia."
+                "cadence": {
+                    "dimension": "Cadencia",
+                    "traditional": "El contacto es principalmente estacional",
+                    "proactive": "Programa revisiones de planificación durante todo el año"
+                },
+                "decisionSupport": {
+                    "dimension": "Apoyo para decisiones",
+                    "traditional": "Informa lo que ocurrió",
+                    "proactive": "Usa cifras actuales para orientar decisiones fiscales y del negocio"
                 }
             },
-            "differentiators": {
-                "proactiveStrategy": {
-                    "title": "Estrategia proactiva",
-                    "description": "Revisiones mensuales para ahorrar antes de que termine el año."
+            "conclusion": "Más tiempo para planificar significa menos decisiones tomadas bajo presión.",
+            "primaryCta": "Vea cómo funciona la planificación fiscal proactiva",
+            "secondaryCta": "Revise si una S-Corp es adecuada"
+        },
+        "HowItWorksSection": {
+            "eyebrow": "Un camino claro hacia adelante",
+            "title": "De su estructura actual a un plan fiscal para todo el año",
+            "subtitle": "Vea qué sucede primero, qué evaluamos y con qué plan concreto se queda.",
+            "listLabel": "Cómo funciona nuestro proceso de estrategia",
+            "stepLabel": "Paso {number} de {total}",
+            "outcomeLabel": "Resultado",
+            "steps": {
+                "start": {
+                    "title": "Comience con una llamada de estrategia",
+                    "description": "Comparta cómo está estructurado el negocio, cómo fluyen los ingresos y qué ha cambiado este año.",
+                    "outcome": "Una revisión enfocada de su situación actual"
                 },
-                "directAccess": {
-                    "title": "Acceso directo",
-                    "description": "Hable directamente con su experto fiscal asignado, nunca con un centro de llamadas."
+                "opportunities": {
+                    "title": "Vea las oportunidades que vale la pena evaluar",
+                    "description": "Evaluamos la elegibilidad para una S-Corp y otras oportunidades de planificación fiscal proactiva, y luego priorizamos lo que merece acción.",
+                    "outcome": "Un conjunto priorizado de oportunidades de planificación"
                 },
-                "sCorpSpecialists": {
-                    "title": "Especialistas en S-Corp",
-                    "description": "Optimizamos la estructura de su entidad para maximizar el ahorro fiscal."
+                "plan": {
+                    "title": "Ponga en marcha su plan anual",
+                    "description": "Reciba decisiones documentadas, fechas límite, responsabilidades y un ritmo para revisar la estrategia.",
+                    "outcome": "Un plan de acción para todo el año"
                 }
             },
-            "ctaTitle": "¿Listo para un aliado que realmente planifica?",
-            "ctaSubtitle": "Analice su estructura y detecte fugas potenciales antes de la temporada fiscal.",
-            "ctaButton": "Reservar llamada gratuita",
-            "ctaButtonAria": "Reserve su llamada de estrategia gratuita",
-            "stats": {
-                "averageTaxReduction": "Reducción fiscal promedio",
-                "clientSavingsLastYear": "Ahorros logrados el año pasado",
-                "businessesServed": "Negocios atendidos",
-                "yearsExperience": "Años de experiencia"
-            }
+            "cta": "Comience con una llamada de estrategia",
+            "ctaSupport": "La llamada nos da el contexto necesario para que la revisión sea útil."
         },
         "FAQSection": {
             "eyebrow": "¿Tiene preguntas?",

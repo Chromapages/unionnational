@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { SERVICES_QUERY, PRICING_TIERS_QUERY } from "@/sanity/lib/queries";
+import { SERVICES_QUERY, PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,18 @@ import { TrustStack } from "@/components/ui/TrustStack";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { CTASection } from "@/components/home/CTASection";
+
+type ServicesPageContent = {
+    heroTitle?: string;
+    heroSubtitle?: string;
+    heroBadge?: string;
+    ctaTitle?: string;
+    ctaSubtitle?: string;
+    ctaButtonText?: string;
+    ctaButtonUrl?: string;
+    ctaBackgroundImage?: { asset?: unknown; alt?: string };
+};
 
 // Lazy load below-the-fold components
 const ServicesClient = dynamic(() => import("@/components/services/ServicesClient").then(mod => ({ default: mod.ServicesClient })), {
@@ -63,10 +75,12 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
     const params = await props.params;
     const locale = params.locale;
     const t = await getTranslations({ locale, namespace: "ServicesPage" });
-    const [{ data: services }, { data: pricingTiers }] = await Promise.all([
+    const [{ data: services }, { data: pricingTiers }, { data: servicesPageData }] = await Promise.all([
         sanityFetch({ query: SERVICES_QUERY, params: { locale } }),
-        sanityFetch({ query: PRICING_TIERS_QUERY, params: { locale } })
+        sanityFetch({ query: PRICING_TIERS_QUERY, params: { locale } }),
+        sanityFetch({ query: SERVICES_PAGE_QUERY, params: { locale } }),
     ]);
+    const pageContent = servicesPageData as ServicesPageContent | null;
 
     // Pull FAQ items from translations (static; CMS schema doesn't have FAQ field yet)
     const faqItems = t.raw("FAQ.items") as Array<{ question: string; answer: string }>;
@@ -112,18 +126,15 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                     <div className="max-w-7xl mx-auto relative">
                         <div className="max-w-3xl">
                             <RevealOnScroll>
+                                {pageContent?.heroBadge && <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-gold-300">{pageContent.heroBadge}</p>}
                                 {/* H1 - outcome-focused headline */}
                                 <h1 className="text-[2.125rem] sm:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-4 sm:mb-6 leading-[0.98] sm:leading-[0.9] font-heading">
-                                    <span className="sm:hidden">
-                                        {t("Hero.titleLine1")}
-                                        <span className="block">{t("Hero.titleLine2")}</span>
-                                    </span>
-                                    <span className="hidden sm:inline">{t("Hero.title")}</span>
+                                    {pageContent?.heroTitle || <><span className="sm:hidden">{t("Hero.titleLine1")}<span className="block">{t("Hero.titleLine2")}</span></span><span className="hidden sm:inline">{t("Hero.title")}</span></>}
                                 </h1>
 
                                 {/* Subtitle */}
                                 <p className="text-base sm:text-xl text-brand-50/80 mb-6 sm:mb-10 leading-relaxed font-sans max-w-xl">
-                                    {t("Hero.subtitle")}
+                                    {pageContent?.heroSubtitle || t("Hero.subtitle")}
                                 </p>
 
                                 <div className="flex flex-col">
@@ -209,23 +220,7 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
                 </Suspense>
 
                 {/* Disclaimer — moved to after incentive content, not mid-flow */}
-                <section className="bg-brand-900 px-6 py-16 text-center md:py-24">
-                    <div className="mx-auto max-w-3xl">
-                        <h2 className="font-heading text-3xl font-bold tracking-tight text-white md:text-4xl">
-                            {t("ClosingCTA.title")}
-                        </h2>
-                        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/70 md:text-lg">
-                            {t("ClosingCTA.subtitle")}
-                        </p>
-                        <Link
-                            href="/intake"
-                            className="mt-8 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-gold-500 px-6 py-3 font-heading font-bold text-brand-900 transition-colors hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
-                        >
-                            {t("ClosingCTA.cta")}
-                            <ArrowRight className="h-5 w-5" aria-hidden="true" />
-                        </Link>
-                    </div>
-                </section>
+                <CTASection data={pageContent || undefined} />
             </main>
 
             <Footer />

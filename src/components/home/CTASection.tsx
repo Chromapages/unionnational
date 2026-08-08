@@ -46,6 +46,8 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
     // restrained gold accent, one dominant CTA. No gradient stacks, no decorative
     // overlays, no image backgrounds.
     if (variant === "homepageWireframe") {
+        const homepageTitle = "Ready for a smarter tax strategy?";
+        const homepageSubtitle = "For contractors and service-based business owners: review your current structure, identify planning opportunities, and determine the right next step.";
         return (
             <section
                 id="contact"
@@ -72,12 +74,12 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                     id="cta-heading"
                                     className="text-4xl md:text-5xl font-bold text-white leading-[1.1] font-heading tracking-tight"
                                 >
-                                    {title}
+                                    {homepageTitle}
                                 </h2>
 
                                 {/* Supporting copy */}
                                 <p className="mt-5 text-lg text-slate-400 leading-relaxed font-sans max-w-lg">
-                                    {subtitle}
+                                    {homepageSubtitle}
                                 </p>
                             </div>
 
@@ -88,7 +90,7 @@ export function CTASection({ data, variant = "default" }: CTASectionProps) {
                                     className="inline-flex min-h-[56px] items-center justify-center gap-3 rounded-full bg-gold-500 px-10 py-4 text-brand-950 font-bold font-heading text-base tracking-wide transition-all duration-200 hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
                                 >
                                     <Calendar className="h-5 w-5 shrink-0" aria-hidden="true" />
-                                    <span>{buttonText}</span>
+                                    <span>Book a Strategy Call</span>
                                 </Link>
 
                                 {/* Trust microcopy */}

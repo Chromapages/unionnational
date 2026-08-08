@@ -17,6 +17,7 @@ import { locales, defaultLocale } from "@/i18n/config";
 import { WhyUsSection } from "@/components/home/WhyUsSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 
 export const dynamicParams = true;
 
@@ -89,12 +90,6 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
 
   return (
     <>
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-gold-500 focus:text-brand-900 focus:rounded-lg"
-      >
-        Skip to main content
-      </a>
       <ExitIntentModal>
         <main id="main-content" className="min-h-dvh w-full bg-brand-900 flex flex-col">
         <JsonLd siteSettings={siteSettingsData} homePageData={homeData} />
@@ -108,18 +103,22 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           </ErrorBoundary>
 
           <ErrorBoundary name="Trust Bar">
-            <TrustBar logos={homeData?.trustLogos} />
+            <TrustBar />
           </ErrorBoundary>
 
           {/* Why Us Section - merged Problem + Differentiation + Nationwide */}
           <ErrorBoundary name="Why Us Section">
-            <WhyUsSection data={homeData} />
+            <WhyUsSection />
+          </ErrorBoundary>
+
+          <ErrorBoundary name="How It Works">
+            <HowItWorksSection />
           </ErrorBoundary>
 
           {/* Services Section - already shows 2 priority services */}
           <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
             <ErrorBoundary name="Services Section">
-              <ServicesSection services={servicesData} data={homeData} />
+              <ServicesSection />
             </ErrorBoundary>
           </Suspense>
 
@@ -133,10 +132,10 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           {/* Final CTA - single button */}
           <CTASection data={homeData} variant="homepageWireframe" />
         </div>
+        </main>
         <ErrorBoundary name="Footer">
           <Footer />
         </ErrorBoundary>
-      </main>
       </ExitIntentModal>
     </>
   );

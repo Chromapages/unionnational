@@ -27,13 +27,13 @@ export const seo = defineType({
             name: "metaTitle",
             title: "Meta Title",
             type: "localizedString",
-            validation: (Rule) => Rule.custom(localizedMaxLength(60)).warning(),
+            validation: (Rule) => Rule.required().custom(localizedMaxLength(60)).warning(),
         }),
         defineField({
             name: "metaDescription",
             title: "Meta Description",
             type: "localizedText",
-            validation: (Rule) => Rule.custom(localizedMaxLength(160)).warning(),
+            validation: (Rule) => Rule.required().custom(localizedMaxLength(160)).warning(),
         }),
         defineField({
             name: "openGraphImage",
@@ -74,7 +74,7 @@ export const seo = defineType({
             title: "Keywords",
             type: "array",
             of: [{ type: "localizedString" }],
-            options: {},
+            validation: (Rule) => Rule.unique(),
         }),
     ],
 })

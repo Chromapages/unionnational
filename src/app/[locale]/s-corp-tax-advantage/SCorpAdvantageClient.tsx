@@ -40,15 +40,9 @@ interface SCorpAdvantageClientProps {
         shortDescription?: string;
         impactGoal?: string;
         fullDescription?: SanityBlock[];
-        problemAgitation?: {
-            title?: string;
-            description?: string;
-        };
         faq?: Array<{ q?: string; question?: string; a?: string; answer?: string }>;
         roadmap?: Array<{ stepNumber?: string; title?: string; description?: string }>;
         eligibilityPros?: string[];
-        eligibilityCons?: string[];
-        comparisonPoints?: Array<{ feature: string; diy?: string; bigFirm?: string; unionNational?: string }>;
         trustSignals?: string[];
     };
 }
@@ -71,18 +65,14 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
     }));
 
     const roadmap = (service?.roadmap?.length ? service.roadmap : FALLBACK_ROADMAP).map((step: any, i: number) => ({
-        stepNumber: step.stepNumber || FALLBACK_ROADMAP[i]?.stepNumber || (i + 1).toString().padStart(2, '0'),
+        stepNumber: (i + 1).toString().padStart(2, '0'),
         title: step.title || FALLBACK_ROADMAP[i]?.title,
         description: step.description || FALLBACK_ROADMAP[i]?.description
     }));
 
     const criteriaPros = (service?.eligibilityPros && service.eligibilityPros.length > 0) ? service.eligibilityPros : FALLBACK_CRITERIA_PROS;
-    const criteriaCons = (service?.eligibilityCons && service.eligibilityCons.length > 0) ? service.eligibilityCons : FALLBACK_CRITERIA_CONS;
-    
-    const comparisonPoints = (service?.comparisonPoints?.length ? service.comparisonPoints : FALLBACK_COMPARISON).map((item: any, i: number) => ({
-        ...FALLBACK_COMPARISON[i],
-        ...item
-    }));
+    const criteriaCons = FALLBACK_CRITERIA_CONS;
+    const comparisonPoints = FALLBACK_COMPARISON;
 
     const trustSignals = (service?.trustSignals && service.trustSignals.length > 0) ? service.trustSignals : FALLBACK_TRUST_SIGNALS;
 
@@ -90,8 +80,8 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
     const heroDescription = service?.shortDescription || SCORP_ADVANTAGE_HERO_DESCRIPTION;
     const impactGoal = service?.impactGoal || SCORP_ADVANTAGE_IMPACT_GOAL;
 
-    const agitationTitle = (service?.problemAgitation?.title) || SCORP_ADVANTAGE_AGITATION_TITLE;
-    const agitationDesc = (service?.problemAgitation?.description) || SCORP_ADVANTAGE_AGITATION_DESC;
+    const agitationTitle = SCORP_ADVANTAGE_AGITATION_TITLE;
+    const agitationDesc = SCORP_ADVANTAGE_AGITATION_DESC;
 
     const scrollToEstimator = () => {
         estimatorRef.current?.scrollIntoView({ behavior: "smooth" });

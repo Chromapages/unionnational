@@ -1,14 +1,14 @@
 import { CmsServicePage, getCmsServiceMetadata } from "@/components/services/CmsServicePage";
 
-const cmsSlug = "fractional-cfo";
-const canonicalPath = "/fractional-cfo";
+const cmsSlug = "payroll-services";
+const canonicalPath = "/payroll-services";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     return getCmsServiceMetadata({ cmsSlug, locale, canonicalPath });
 }
 
-export default async function FractionalCFOPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function PayrollServicesPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     return <CmsServicePage cmsSlug={cmsSlug} locale={locale} canonicalPath={canonicalPath} />;
 }

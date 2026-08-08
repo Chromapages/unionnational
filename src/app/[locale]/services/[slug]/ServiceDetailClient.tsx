@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ServiceSidebar } from "@/components/services/ServiceSidebar";
-import { ComparisonTable } from "@/components/services/ComparisonTable";
 import { ServiceFAQ } from "@/components/services/ServiceFAQ";
 import { RelatedServices } from "@/components/services/RelatedServices";
 import { TaxPrepGrid } from "@/components/pricing/TaxPrepGrid";
@@ -74,6 +73,11 @@ interface ServiceDetailClientProps {
 }
 
 export default function ServiceDetailClient({ service, relatedServices, tiers, breadcrumbItems }: ServiceDetailClientProps) {
+    const eligibilitySnippet = [
+        typeof service.keyBenefit === "string" ? service.keyBenefit : service.keyBenefit?.en,
+        ...(service.eligibilityPros || []),
+    ].filter((item): item is string => Boolean(item)).slice(0, 4);
+
     return (
         <>
             {/* ===== HERO SECTION (Standard Detail) ===== */}
@@ -82,18 +86,6 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
 
                 <div className="relative z-10 max-w-7xl mx-auto flex flex-col items-center text-center">
                     <Breadcrumbs items={breadcrumbItems} className="mb-8 self-start" />
-                    {service.badge && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="mb-6"
-                        >
-                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-600 text-xs font-bold uppercase tracking-widest">
-                                {service.badge}
-                            </span>
-                        </motion.div>
-                    )}
-
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -148,12 +140,17 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
                                 </div>
                             )}
 
-                            {service.eligibility && (
+                            {eligibilitySnippet.length > 0 && (
                                 <div className="mb-12 space-y-4">
                                     <h3 className="text-xl font-bold text-brand-900 font-heading">Is this right for you?</h3>
-                                    <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-200 text-zinc-600 leading-relaxed italic">
-                                        &quot;{typeof service.eligibility === 'string' ? service.eligibility : (service.eligibility as any)?.en || ''}&quot;
-                                    </div>
+                                    <ul className="space-y-3 rounded-2xl border border-zinc-200 bg-zinc-50 p-6 text-zinc-600">
+                                        {eligibilitySnippet.map((item) => (
+                                            <li key={item} className="flex items-start gap-3 leading-relaxed">
+                                                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-gold-500" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             )}
 
@@ -216,28 +213,6 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
                             </section>
                         )}
 
-                        {/* Comparison Table */}
-                        {(service.whyChooseUsTitle || service.whyChooseUsDescription || (service.comparisonPoints && service.comparisonPoints.length > 0)) && (
-                            <section id="comparison" className="scroll-mt-24">
-                                <h2 className="text-3xl font-bold text-brand-900 mb-4 font-heading">
-                                    {service.whyChooseUsTitle || "Why Choose Union National?"}
-                                </h2>
-                                {service.whyChooseUsDescription && (
-                                    <p className="text-lg text-zinc-600 leading-relaxed mb-8">
-                                        {service.whyChooseUsDescription}
-                                    </p>
-                                )}
-                                {service.comparisonPoints && service.comparisonPoints.length > 0 && (
-                                    <ComparisonTable points={service.comparisonPoints.map((p: any) => ({
-                                        feature: p.feature,
-                                        diy: !!p.diy,
-                                        bigFirm: !!p.bigFirm,
-                                        unionNational: !!p.unionNational
-                                    }))} />
-                                )}
-                            </section>
-                        )}
-
                         {/* FAQ Section */}
                         {service.faq && service.faq.length > 0 && (
                             <section id="faq" className="scroll-mt-24">
@@ -266,7 +241,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
                             targetAudience={service.targetAudience}
                             keyBenefit={typeof service.keyBenefit === 'string' ? service.keyBenefit : (service.keyBenefit as any)?.en || undefined}
                             hasOverview={!!service.fullDescription || !!service.shortDescription}
-                            hasComparison={!!service.whyChooseUsTitle || !!service.whyChooseUsDescription || (!!service.comparisonPoints && service.comparisonPoints.length > 0)}
+                            hasComparison={false}
                             hasFaq={!!service.faq && service.faq.length > 0}
                         />
                     </div>

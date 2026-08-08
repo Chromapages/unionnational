@@ -26,13 +26,14 @@ type FloatingNavbarProps = {
 
 // Desktop primary nav
 const primaryNavLinks = [
-    { translationKey: "about", href: "/about" },
-    { translationKey: "shop", href: "/shop" },
+    { label: "Industries", href: "/industries" },
+    { label: "About", href: "/about" },
+    { label: "Resources", href: "/resources" },
 ];
 
 const navbarStyles = {
-    cta: "hidden md:inline-flex items-center px-5 py-2.5 rounded-md font-bold text-sm text-brand-900 bg-gold-500 hover:bg-gold-400 active:scale-95 transition-all duration-200 font-heading tracking-tight",
-    menuButton: "flex md:flex items-center justify-center p-2 rounded-md border border-gold-500/30 bg-gold-500/10 text-white hover:bg-gold-500/20 transition-all duration-200",
+    cta: "hidden md:inline-flex min-h-11 items-center px-5 py-2.5 rounded-full font-bold text-sm text-brand-950 bg-gold-500 hover:bg-gold-400 transition-colors duration-200 font-heading whitespace-nowrap",
+    menuButton: "flex lg:hidden min-h-11 min-w-11 items-center justify-center p-2 rounded-md border border-gold-500/30 bg-gold-500/10 text-white hover:bg-gold-500/20 transition-all duration-200",
 } as const;
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
@@ -67,7 +68,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
     const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
-    const ctaText = siteSettings?.ctaButtonText || t("bookCall");
+    const ctaText = "Book a Strategy Call";
     const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
     const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
     const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
@@ -87,7 +88,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                     {/* Inner row: logo + nav + utilities */}
                     <div
                         className="flex items-center justify-between px-5 lg:px-6"
-                        style={{ minHeight: "68px" }}
+                        style={{ minHeight: "76px" }}
                     >
                         {/* ── Left: Logo ── */}
                         <Link
@@ -114,20 +115,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             aria-label="Main navigation"
                             className="hidden lg:flex items-center gap-0.5"
                         >
-                            {/* Home */}
-                            <Link
-                                href="/"
-                                className={`
-                                    relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
-                                    ${isLinkActive("/") ? "text-gold-400" : "text-white/75 hover:text-white"}
-                                `}
-                            >
-                                {isLinkActive("/") && (
-                                    <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
-                                )}
-                                <span className="relative">{t("home")}</span>
-                            </Link>
-
                             {/* Services — strongest active treatment */}
                             <ServicesDropdown services={services} isActive={isServicesActive} />
 
@@ -135,7 +122,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 const isActive = isLinkActive(link.href);
                                 return (
                                     <Link
-                                        key={link.translationKey}
+                                        key={link.label}
                                         href={link.href}
                                         className={`
                                             relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
@@ -145,7 +132,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         {isActive && (
                                             <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
                                         )}
-                                        <span className="relative">{t(link.translationKey)}</span>
+                                        <span className="relative">{link.label}</span>
                                     </Link>
                                 );
                             })}
@@ -156,7 +143,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             {/* Phone — visible on lg+, call icon on mobile */}
                             <a
                                 href={phoneHref}
-                                className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-md bg-gold-500/10 border border-gold-500/20 text-sm text-gold-400 hover:bg-gold-500/20 hover:text-gold-300 transition-colors duration-200 font-sans font-medium"
+                                className="hidden xl:flex items-center gap-2 px-2 py-2 text-sm text-white/65 hover:text-white transition-colors duration-200 font-sans font-medium"
                                 aria-label="Call us"
                             >
                                 <Phone size={16} aria-hidden="true" className="text-gold-400" />
@@ -173,7 +160,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             </a>
 
                             {/* Language toggle */}
-                            <LocaleSwitcher />
+                            <div className="hidden xl:block"><LocaleSwitcher /></div>
 
                             {/* Primary CTA — always visible, sticky in fixed header */}
                             <Link

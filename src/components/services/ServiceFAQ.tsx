@@ -36,6 +36,8 @@ export function ServiceFAQ({ items }: ServiceFAQProps) {
                     >
                         <button
                             onClick={() => setOpenIndex(isOpen ? null : index)}
+                            aria-expanded={isOpen}
+                            aria-controls={`service-faq-panel-${index}`}
                             className="w-full flex items-center justify-between p-6 text-left"
                         >
                             <span className={cn(
@@ -55,6 +57,9 @@ export function ServiceFAQ({ items }: ServiceFAQProps) {
                         <AnimatePresence initial={false}>
                             {isOpen && (
                                 <motion.div
+                                    id={`service-faq-panel-${index}`}
+                                    role="region"
+                                    aria-label={item.question}
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}

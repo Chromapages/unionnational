@@ -10,12 +10,14 @@ type TrustStackProps = {
     ariaLabel: string;
     className?: string;
     compactOnMobile?: boolean;
+    accentColor?: string;
 };
 
-export function TrustStack({ items, ariaLabel, className, compactOnMobile = false }: TrustStackProps) {
+export function TrustStack({ items, ariaLabel, className, compactOnMobile = false, accentColor }: TrustStackProps) {
     return (
         <dl
             aria-label={ariaLabel}
+            style={accentColor ? { borderColor: accentColor } : undefined}
             className={cn(
                 compactOnMobile
                     ? "grid grid-cols-3 divide-x divide-white/15 border-y border-white/10 py-3 text-center sm:gap-4 sm:divide-x-0 sm:border-white/15 sm:py-5 sm:text-left"

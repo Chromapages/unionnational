@@ -149,6 +149,10 @@
     section[id], div[id] {
         scroll-margin-top: calc(var(--header-height) + 1.5rem);
     }
+    :focus-visible {
+        outline: 3px solid #D4AF37;
+        outline-offset: 3px;
+    }
 }
 
 @layer utilities {

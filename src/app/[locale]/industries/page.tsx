@@ -30,8 +30,8 @@ type Industry = {
 const industries: Industry[] = [
     {
         id: "construction",
-        title: "Construction & Real Estate",
-        description: "From job costing to S-Corp optimization, we help contractors keep more of their profits and scale with clarity.",
+        title: "Construction & Service Businesses",
+        description: "From job costing to S-Corp optimization, we help contractors and service businesses keep more profit and scale with clarity.",
         icon: Hammer,
         href: "/industries/construction",
         color: "gold",
