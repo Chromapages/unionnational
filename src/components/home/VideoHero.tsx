@@ -1,59 +1,156 @@
 "use client";
 
-import { useRef } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HeroVideoPlayer } from "@/components/home/HeroVideoPlayer";
 
 interface VideoHeroProps {
     data?: {
+        heroTitleLocalized?: string;
+        heroSubtitleLocalized?: string;
+        heroCtaTextLocalized?: string;
         heroVideoUrl?: string;
+        heroBackgroundPosterUrl?: string;
         heroPlayerVideoUrl?: string;
         heroPlayerPosterUrl?: string;
     };
 }
 
+type HeroEventName =
+    | "hero_primary_cta_click"
+    | "hero_video_start";
+
 export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
-    const backgroundVideoRef = useRef<HTMLVideoElement>(null);
+    const t = useTranslations("HomeHero");
+    const locale = useLocale();
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
+    const [backgroundVideoReady, setBackgroundVideoReady] = useState(false);
+    const [backgroundVideoFailed, setBackgroundVideoFailed] = useState(false);
+    const videoStartTrackedRef = useRef(false);
+
     const backgroundVideoUrl = data?.heroVideoUrl;
     const playerVideoUrl = data?.heroPlayerVideoUrl || backgroundVideoUrl;
+    const title = data?.heroTitleLocalized?.trim() || t("title");
+    const subtitle = data?.heroSubtitleLocalized?.trim() || t("subtitle");
+    const primaryCta = data?.heroCtaTextLocalized?.trim() || t("primaryCta");
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+        updatePreference();
+        mediaQuery.addEventListener("change", updatePreference);
+        return () => mediaQuery.removeEventListener("change", updatePreference);
+    }, []);
+
+    useEffect(() => {
+        setBackgroundVideoReady(false);
+        setBackgroundVideoFailed(false);
+    }, [backgroundVideoUrl]);
+
+    const trackHeroEvent = (event: HeroEventName, destination: string) => {
+        const browserWindow = window as unknown as {
+            dataLayer?: Record<string, unknown>[];
+        };
+        browserWindow.dataLayer ??= [];
+        browserWindow.dataLayer.push({
+            event,
+            locale,
+            placement: "homepage_hero",
+            destination,
+        });
+    };
+
+    const handleVideoStart = () => {
+        if (videoStartTrackedRef.current) return;
+        videoStartTrackedRef.current = true;
+        trackHeroEvent("hero_video_start", "foreground_video");
+    };
 
     return (
-        <section className="relative isolate overflow-hidden bg-brand-900 py-16 sm:py-20 lg:py-28" aria-labelledby="hero-heading">
-            {backgroundVideoUrl && (
-                <video ref={backgroundVideoRef} src={backgroundVideoUrl} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover opacity-30" />
-            )}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950 via-brand-900/90 to-brand-900/75" aria-hidden="true" />
-            <div className="mx-auto grid max-w-screen-xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(560px,1fr)] lg:items-center lg:gap-16 lg:px-8">
-                <div className="max-w-[680px]">
-                    <p className="home-eyebrow text-gold-400">Proactive Tax Strategy for Service Businesses</p>
-                    <h1 id="hero-heading" className="mt-5 max-w-[12ch] font-heading text-4xl font-bold leading-[1.03] tracking-[-.035em] text-white sm:text-5xl lg:text-7xl">
-                        Stop overpaying the IRS. Build a smarter business.
+        <section
+            className="relative isolate flex min-h-[650px] overflow-hidden bg-brand-900 py-14 sm:py-16 lg:min-h-[680px] lg:py-16 xl:min-h-[700px]"
+            aria-labelledby="hero-heading"
+        >
+            {data?.heroBackgroundPosterUrl ? (
+                <Image
+                    src={data.heroBackgroundPosterUrl}
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    aria-hidden="true"
+                    className="absolute inset-0 -z-30 object-cover"
+                />
+            ) : null}
+
+            {backgroundVideoUrl && !prefersReducedMotion && !backgroundVideoFailed ? (
+                <video
+                    src={backgroundVideoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    onLoadedData={() => setBackgroundVideoReady(true)}
+                    onError={() => setBackgroundVideoFailed(true)}
+                    className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${backgroundVideoReady ? "opacity-20" : "opacity-0"}`}
+                />
+            ) : null}
+
+            <div
+                className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(2,22,20,0.98)_0%,rgba(5,42,38,0.94)_48%,rgba(7,52,47,0.82)_100%)]"
+                aria-hidden="true"
+            />
+
+            <div
+                className={`mx-auto grid w-full max-w-screen-xl items-center gap-12 px-5 sm:px-6 lg:gap-12 lg:px-8 xl:gap-16 ${
+                    playerVideoUrl
+                        ? "lg:grid-cols-[minmax(0,1.08fr)_minmax(500px,0.92fr)]"
+                        : "lg:grid-cols-1"
+                }`}
+            >
+                <div className="max-w-[630px]">
+                    <h1
+                        id="hero-heading"
+                        className="max-w-[14ch] text-balance font-heading text-[clamp(3.25rem,4.6vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.04em] text-white"
+                    >
+                        {title}
                     </h1>
-                    <p className="mt-5 max-w-[58ch] text-lg leading-relaxed text-slate-300">
-                        Proactive tax strategy and S-Corp planning for contractors and service-based business owners — built to reduce tax surprises and support better decisions throughout the year.
+                    <p className="mt-6 max-w-[55ch] text-lg leading-8 text-slate-200 sm:text-xl">
+                        {subtitle}
                     </p>
-                    <div className="mt-7 flex flex-wrap gap-3">
-                        <Link href="/book" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold-500 px-[1.125rem] py-3.5 font-heading font-bold text-brand-950 transition-colors hover:bg-gold-400">
-                            Book a Strategy Call <ArrowRight className="h-4 w-4" aria-hidden="true" />
+
+                    <div className="mt-8">
+                        <Link
+                            href="/scorp-estimator"
+                            onClick={() =>
+                                trackHeroEvent("hero_primary_cta_click", `/${locale}/scorp-estimator`)
+                            }
+                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold-500 px-6 py-3.5 font-heading text-sm font-bold text-brand-950 shadow-[0_10px_30px_-14px_rgba(212,175,55,0.9)] transition-colors hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 motion-reduce:transition-none"
+                        >
+                            {primaryCta}
+                            <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                         </Link>
-                        <a href="#how-it-works" className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/40 px-[1.125rem] py-3.5 font-semibold text-white transition-colors hover:border-white hover:bg-white/10">See How It Works</a>
                     </div>
-                    <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-slate-300">In your strategy call, we’ll review your current structure, identify potential planning opportunities, and help you determine the right next step.</p>
-                    <p className="mt-3 text-sm font-semibold text-gold-300">Best for established contractors and service-based businesses seeking proactive tax guidance beyond year-end filing.</p>
-                    <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold text-slate-300" aria-label="Firm credentials">
-                        <li>IRS Enrolled Agent</li>
-                        <li aria-hidden="true" className="text-gold-400">·</li>
-                        <li>200+ Contractors Served</li>
-                        <li aria-hidden="true" className="text-gold-400">·</li>
-                        <li>Avg. Annual Savings $23,420</li>
-                    </ul>
                 </div>
-                {playerVideoUrl && (
-                    <div className="w-full max-w-xl lg:max-w-none">
-                        <HeroVideoPlayer src={playerVideoUrl} poster={data?.heroPlayerPosterUrl} ariaLabel="See how Union National Tax works" unavailableMessage="Video unavailable. Book a strategy call to learn how we work." />
+
+                {playerVideoUrl ? (
+                    <div className="w-full self-center lg:justify-self-end">
+                        <HeroVideoPlayer
+                            src={playerVideoUrl}
+                            poster={data?.heroPlayerPosterUrl}
+                            ariaLabel={t("videoLabel")}
+                            unavailableMessage={t("unavailable")}
+                            onPlay={handleVideoStart}
+                        />
                     </div>
-                )}
+                ) : null}
             </div>
         </section>
     );

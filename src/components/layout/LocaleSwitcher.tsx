@@ -7,9 +7,10 @@ import { useSynchronizedLocale } from "@/i18n/use-synchronized-locale";
 type LocaleSwitcherProps = {
   className?: string;
   mobileDrawer?: boolean;
+  onLocaleChange?: () => void;
 };
 
-export function LocaleSwitcher({ className, mobileDrawer = false }: LocaleSwitcherProps) {
+export function LocaleSwitcher({ className, mobileDrawer = false, onLocaleChange }: LocaleSwitcherProps) {
   const t = useTranslations("Header");
   const { locale, isPending, syncLocale } = useSynchronizedLocale();
 
@@ -19,9 +20,12 @@ export function LocaleSwitcher({ className, mobileDrawer = false }: LocaleSwitch
   return (
     <button
       type="button"
-      onClick={() => syncLocale(nextLocale)}
+      onClick={() => {
+        onLocaleChange?.();
+        syncLocale(nextLocale);
+      }}
       disabled={isPending}
-      aria-label={targetLabel}
+      aria-label={`${locale.toUpperCase()} — ${targetLabel}`}
       className={cn(
         "group inline-flex items-center border transition-all duration-200 disabled:cursor-wait disabled:opacity-60",
         mobileDrawer

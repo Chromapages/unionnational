@@ -35,17 +35,27 @@ export const homePage = defineType({
         }),
         defineField({
             name: "heroVideoUrl",
-            title: "Hero Background Video URL",
-            type: "url",
+            title: "Hero Background Video File / URL",
+            type: "file",
             group: "hero",
-            description: "URL al stream HLS o archivo mp4.",
+            options: { accept: "video/*" },
+            description: "Upload a video file (MP4, WebM, MOV) or asset for the hero background video.",
+        }),
+        defineField({
+            name: "heroBackgroundPoster",
+            title: "Hero Background Poster",
+            type: "image",
+            group: "hero",
+            options: { hotspot: true },
+            description: "Static background frame shown before the hero cover video loads or when motion is reduced.",
         }),
         defineField({
             name: "heroPlayerVideoUrl",
-            title: "Hero Player Video URL",
-            type: "url",
+            title: "Hero Player Video File / URL",
+            type: "file",
             group: "hero",
-            description: "Foreground HTML5 video for the homepage hero. Use an MP4 or WebM URL.",
+            options: { accept: "video/*" },
+            description: "Upload a video file (MP4, WebM, MOV) for the homepage hero player.",
         }),
         defineField({
             name: "heroPlayerPoster",
@@ -64,29 +74,6 @@ export const homePage = defineType({
             group: "hero",
             initialValue: { en: "See If You're Overpaying", es: "Vea Si Está Pagando de Más" },
         }),
-        defineField({
-            name: "heroCtaUrl",
-            title: "Hero Primary CTA Video URL",
-            type: "url",
-            validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http"] }),
-            group: "hero",
-            description: "Video a abrir en modal al hacer clic.",
-        }),
-        defineField({
-            name: "heroSecondaryCtaText",
-            title: "Hero Secondary CTA Text",
-            type: "localizedString",
-            group: "hero",
-            initialValue: { en: "Book a Discovery Evaluation", es: "Reserve Una Evaluación de Descubrimiento" },
-        }),
-        defineField({
-            name: "heroSecondaryCtaUrl",
-            title: "Hero Secondary CTA URL",
-            type: "url",
-            validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
-            group: "hero",
-        }),
-
         // Trust Bar
         defineField({
             name: "trustLogos",

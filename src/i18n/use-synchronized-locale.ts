@@ -32,6 +32,12 @@ function parseStoredLocale(value: string | null): SupportedLocale | null {
   }
 }
 
+export function buildLocaleNavigationHref(pathname: string, search = "", hash = "") {
+  const normalizedSearch = search && !search.startsWith("?") ? `?${search}` : search;
+  const normalizedHash = hash && !hash.startsWith("#") ? `#${hash}` : hash;
+  return `${pathname}${normalizedSearch}${normalizedHash}`;
+}
+
 export function useSynchronizedLocale() {
   const locale = useLocale() as SupportedLocale;
   const router = useRouter();
@@ -55,7 +61,12 @@ export function useSynchronizedLocale() {
       }
 
       startTransition(() => {
-        router.replace(pathname, { locale: nextLocale });
+        const href = buildLocaleNavigationHref(
+          pathname,
+          window.location.search,
+          window.location.hash,
+        );
+        router.replace(href, { locale: nextLocale });
       });
     },
     [pathname, router, startTransition]
@@ -111,7 +122,12 @@ export function useSynchronizedLocale() {
       setDocumentLanguage(nextLocale);
 
       startTransition(() => {
-        router.replace(pathname, { locale: nextLocale });
+        const href = buildLocaleNavigationHref(
+          pathname,
+          window.location.search,
+          window.location.hash,
+        );
+        router.replace(href, { locale: nextLocale });
       });
 
       if (typeof window !== "undefined") {

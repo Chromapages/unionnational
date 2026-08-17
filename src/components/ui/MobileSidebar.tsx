@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -15,52 +16,38 @@ import {
     Briefcase,
     CircleHelp,
     BookOpen,
+    type LucideIcon,
 } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { getBookingHref } from "@/lib/booking";
+import { getBookingCtaText, getBookingHref } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
+import {
+    isNavigationPathActive,
+    mobileNavigationSections,
+    type NavigationIconName,
+} from "@/components/layout/navigationData";
 
 interface MobileSidebarProps {
     isOpen: boolean;
     onClose: () => void;
     siteSettings?: {
         companyName?: string;
-        ctaButtonText?: string;
+        ctaButtonTextLocalized?: string;
         ctaButtonUrl?: string;
-        phone?: string;
     };
 }
 
-// Grouped nav items: [label, items]
-const navSections = [
-    {
-        id: "main",
-        label: null,
-        items: [
-            { id: "home", translationKey: "home", href: "/", icon: Home },
-            { id: "services", translationKey: "services", href: "/services", icon: FileText },
-            { id: "industries", translationKey: "industries", href: "/industries", icon: Briefcase },
-            { id: "about", translationKey: "about", href: "/about", icon: Users },
-        ],
-    },
-    {
-        id: "support",
-        label: null,
-        items: [
-            { id: "faq", translationKey: "faq", href: "/faq", icon: CircleHelp },
-            { id: "contact", translationKey: "contact", href: "/contact", icon: Phone },
-        ],
-    },
-    {
-        id: "more",
-        label: null,
-        items: [
-            { id: "resources", translationKey: "resources", href: "/resources", icon: BookOpen },
-            { id: "shop", translationKey: "shop", href: "/shop", icon: ShoppingBag },
-        ],
-    },
-];
+const navigationIcons: Record<NavigationIconName, LucideIcon> = {
+    Home,
+    FileText,
+    Briefcase,
+    BookOpen,
+    Users,
+    Phone,
+    CircleHelp,
+    ShoppingBag,
+};
 
 const overlayVariants = {
     hidden: { opacity: 0 },
@@ -117,10 +104,13 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
     const t = useTranslations("Header");
     const pathname = usePathname();
     const previousPathnameRef = useRef(pathname);
-    const ctaText = siteSettings?.ctaButtonText || t("bookCall");
+    const previousFocusRef = useRef<HTMLElement | null>(null);
+    const asideRef = useRef<HTMLElement>(null);
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
+    const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+    const ctaText = getBookingCtaText(siteSettings?.ctaButtonTextLocalized, t("bookCall"));
     const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
-    const phoneNumber = siteSettings?.phone || "(801) 890-1040";
-    const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
+    useEffect(() => setPortalTarget(document.body), []);
 
     useEffect(() => {
         if (isOpen && previousPathnameRef.current !== pathname) {
@@ -141,22 +131,75 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
     }, [isOpen]);
 
     useEffect(() => {
-        const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === "Escape" && isOpen) onClose();
+        if (!isOpen) return;
+
+        previousFocusRef.current = document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
+
+        const backgroundElements = Array.from(
+            document.querySelectorAll<HTMLElement>("header, main, footer"),
+        ).filter((element) => !element.contains(asideRef.current));
+        const previousInertState = backgroundElements.map((element) => ({
+            element,
+            wasInert: element.hasAttribute("inert"),
+        }));
+
+        backgroundElements.forEach((element) => element.setAttribute("inert", ""));
+        const focusFrame = requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+        return () => {
+            cancelAnimationFrame(focusFrame);
+            previousInertState.forEach(({ element, wasInert }) => {
+                if (!wasInert) element.removeAttribute("inert");
+            });
+
+            const previousFocus = previousFocusRef.current;
+            requestAnimationFrame(() => {
+                if (previousFocus?.isConnected) previousFocus.focus();
+            });
         };
-        document.addEventListener("keydown", handleEscape);
-        return () => document.removeEventListener("keydown", handleEscape);
-    }, [isOpen, onClose]);
+    }, [isOpen]);
 
     const isActive = useCallback(
-        (href: string) => {
-            if (href === "/") return pathname === "/";
-            return pathname.startsWith(href);
-        },
+        (href: string) => isNavigationPathActive(pathname, href),
         [pathname]
     );
 
-    return (
+    const handleDialogKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            onClose();
+            return;
+        }
+
+        if (event.key !== "Tab") return;
+
+        const focusableElements = Array.from(
+            asideRef.current?.querySelectorAll<HTMLElement>(
+                'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+            ) || [],
+        ).filter((element) => !element.hasAttribute("disabled"));
+
+        if (focusableElements.length === 0) {
+            event.preventDefault();
+            return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        if (event.shiftKey && document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
+        }
+    };
+
+    if (!portalTarget) return null;
+
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <>
@@ -173,12 +216,17 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                     />
 
                     <motion.aside
+                        ref={asideRef}
                         key="sidebar"
                         variants={sidebarVariants}
                         initial="hidden"
                         animate="visible"
                         exit="exit"
                         id="mobile-navigation"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={t("mobileNavigationAria")}
+                        onKeyDown={handleDialogKeyDown}
                         className="fixed top-0 right-0 bottom-0 z-[70] w-[88vw] max-w-[380px] flex flex-col"
                     >
                         <div className="flex h-full w-full flex-col bg-brand-950 border-l border-gold-500/20 shadow-[-4px_0_40px_rgba(0,0,0,0.5)]">
@@ -189,6 +237,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                     {siteSettings?.companyName || t("menuTitle")}
                                 </span>
                                 <button
+                                    ref={closeButtonRef}
                                     type="button"
                                     onClick={onClose}
                                     className="rounded-lg p-2 text-white/50 hover:text-white hover:bg-white/5 transition-all active:scale-95"
@@ -209,11 +258,11 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                     animate="visible"
                                     className="space-y-6"
                                 >
-                                    {navSections.map((section) => (
+                                    {mobileNavigationSections.map((section) => (
                                         <div key={section.id}>
                                             <ul className="space-y-0.5">
                                                 {section.items.map((item) => {
-                                                    const Icon = item.icon;
+                                                    const Icon = navigationIcons[item.icon];
                                                     const active = isActive(item.href);
                                                     return (
                                                         <motion.li key={item.id} variants={itemVariants}>
@@ -257,20 +306,12 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                     animate="visible"
                                     className="mt-6 pt-5 border-t border-white/5"
                                 >
-                                    <LocaleSwitcher mobileDrawer />
+                                    <LocaleSwitcher mobileDrawer onLocaleChange={onClose} />
                                 </motion.div>
                             </nav>
 
-                            {/* Footer: phone + CTA — sticky at bottom */}
+                            {/* Footer: one clear primary action — sticky at bottom */}
                             <div className="shrink-0 border-t border-white/5 p-5 space-y-3">
-                                <a
-                                    href={phoneHref}
-                                    className="flex items-center justify-center gap-2.5 py-3 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm font-medium"
-                                >
-                                    <Phone className="h-4 w-4 text-gold-400/70" aria-hidden="true" />
-                                    {phoneNumber}
-                                </a>
-
                                 <Link
                                     href={ctaUrl}
                                     onClick={onClose}
@@ -284,6 +325,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                     </motion.aside>
                 </>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        portalTarget,
     );
 }

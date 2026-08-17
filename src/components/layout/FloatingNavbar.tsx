@@ -3,42 +3,42 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Menu as MenuIcon, Phone } from "lucide-react";
+import { Menu as MenuIcon } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
+import { DesktopOverflowMenu } from "./DesktopOverflowMenu";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import { Link, usePathname } from "@/i18n/navigation";
-import type { ServiceSummary } from "./navigationData";
+import {
+    desktopPrimaryNavigation,
+    desktopSecondaryNavigation,
+    isNavigationPathActive,
+    isServicePath,
+    type ServiceSummary,
+} from "./navigationData";
 import { LocaleSwitcher } from "./LocaleSwitcher";
-import { getBookingHref } from "@/lib/booking";
+import { getBookingCtaText, getBookingHref } from "@/lib/booking";
 
 type FloatingNavbarProps = {
     siteSettings?: {
         logo?: { asset?: { url?: string } };
         logoAlt?: { asset?: { url?: string } };
         companyName?: string;
-        ctaButtonText?: string;
+        ctaButtonTextLocalized?: string;
         ctaButtonUrl?: string;
-        phone?: string;
-        phoneNumber?: string;
     };
     services?: ServiceSummary[];
 };
 
-// Desktop primary nav
-const primaryNavLinks = [
-    { label: "Industries", href: "/industries" },
-    { label: "About", href: "/about" },
-    { label: "Resources", href: "/resources" },
-];
-
 const navbarStyles = {
-    cta: "hidden md:inline-flex min-h-11 items-center px-5 py-2.5 rounded-full font-bold text-sm text-brand-950 bg-gold-500 hover:bg-gold-400 transition-colors duration-200 font-heading whitespace-nowrap",
-    menuButton: "flex lg:hidden min-h-11 min-w-11 items-center justify-center p-2 rounded-md border border-gold-500/30 bg-gold-500/10 text-white hover:bg-gold-500/20 transition-all duration-200",
+    cta: "hidden md:inline-flex min-h-11 items-center whitespace-nowrap rounded-full bg-gold-500 px-5 py-2.5 font-heading text-sm font-bold text-brand-950 transition-colors duration-200 hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none",
+    menuButton: "flex xl:hidden min-h-11 min-w-11 items-center justify-center rounded-md border border-gold-500/30 bg-gold-500/10 p-2 text-white transition-colors duration-200 hover:bg-gold-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none",
 } as const;
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
     const t = useTranslations("Header");
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [logoFailed, setLogoFailed] = useState(false);
+    const [openDesktopMenu, setOpenDesktopMenu] = useState<"services" | "more" | null>(null);
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
 
@@ -57,21 +57,37 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         return () => observer.disconnect();
     }, []);
 
-    const isLinkActive = (href: string) => {
-        if (href === "/") return pathname === "/";
-        return pathname.startsWith(href);
-    };
-
-    const isServicesActive = pathname.startsWith("/services") || pathname.startsWith("/industries");
+    const isServicesActive = isServicePath(pathname);
 
     const handleToggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
+    const handleServicesOpenChange = useCallback(
+        (isOpen: boolean) => setOpenDesktopMenu(isOpen ? "services" : null),
+        [],
+    );
+    const handleMoreOpenChange = useCallback(
+        (isOpen: boolean) => setOpenDesktopMenu(isOpen ? "more" : null),
+        [],
+    );
 
     const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
-    const ctaText = "Book a Strategy Call";
+    const companyName = siteSettings?.companyName || t("defaultCompanyName");
+    const ctaText = getBookingCtaText(siteSettings?.ctaButtonTextLocalized, t("bookCall"));
     const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
-    const phoneNumber = siteSettings?.phone || siteSettings?.phoneNumber || "(801) 890-1040";
-    const phoneHref = `tel:${phoneNumber.replace(/[^0-9+]/g, "")}`;
+    useEffect(() => setLogoFailed(false), [logoUrl]);
+
+    useEffect(() => {
+        const wideDesktop = window.matchMedia("(min-width: 1536px)");
+        const closeResponsiveOverflow = () => {
+            if (wideDesktop.matches) {
+                setOpenDesktopMenu((current) => current === "more" ? null : current);
+            }
+        };
+
+        closeResponsiveOverflow();
+        wideDesktop.addEventListener("change", closeResponsiveOverflow);
+        return () => wideDesktop.removeEventListener("change", closeResponsiveOverflow);
+    }, []);
 
     return (
         <>
@@ -84,7 +100,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                     boxShadow: "0 1px 24px -4px rgba(2, 9, 8, 0.25)",
                 }}
             >
-                <div className="max-w-screen-xl mx-auto">
+                <div className="mx-auto max-w-screen-2xl">
                     {/* Inner row: logo + nav + utilities */}
                     <div
                         className="flex items-center justify-between px-5 lg:px-6"
@@ -94,45 +110,84 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         <Link
                             href="/"
                             aria-label={t("logoHomeAria", {
-                                company: siteSettings?.companyName || t("defaultCompanyName"),
+                                company: companyName,
                             })}
-                            className="flex items-center shrink-0 mr-6"
+                            className="mr-6 flex shrink-0 items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
                         >
-                            <div className="relative" style={{ width: "172px", height: "42px" }}>
-                                <Image
-                                    src={logoUrl}
-                                    alt={siteSettings?.companyName || t("defaultCompanyName")}
-                                    fill
-                                    className="object-contain"
-                                    sizes="172px"
-                                    priority
-                                />
+                            <div className="relative flex items-center justify-center rounded bg-white/[0.03]" style={{ width: "172px", height: "42px" }}>
+                                {logoFailed ? (
+                                    <span className="px-2 text-center font-heading text-sm font-bold leading-tight text-white">
+                                        {companyName}
+                                    </span>
+                                ) : (
+                                    <Image
+                                        src={logoUrl}
+                                        alt={companyName}
+                                        fill
+                                        className="object-contain"
+                                        sizes="172px"
+                                        priority
+                                        onError={() => setLogoFailed(true)}
+                                    />
+                                )}
                             </div>
                         </Link>
 
                         {/* ── Center: Desktop Nav (lg+) ── */}
                         <nav
-                            aria-label="Main navigation"
-                            className="hidden lg:flex items-center gap-0.5"
+                            aria-label={t("mainNavigationAria")}
+                            className="hidden xl:flex items-center gap-0.5"
                         >
                             {/* Services — strongest active treatment */}
-                            <ServicesDropdown services={services} isActive={isServicesActive} />
+                            <ServicesDropdown
+                                services={services}
+                                isActive={isServicesActive}
+                                isOpen={openDesktopMenu === "services"}
+                                onOpenChange={handleServicesOpenChange}
+                            />
 
-                            {primaryNavLinks.map((link) => {
-                                const isActive = isLinkActive(link.href);
+                            {desktopPrimaryNavigation.map((link) => {
+                                const isActive = isNavigationPathActive(pathname, link.href);
                                 return (
                                     <Link
-                                        key={link.label}
+                                        key={link.translationKey}
                                         href={link.href}
+                                        aria-current={isActive ? "page" : undefined}
                                         className={`
-                                            relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
+                                            relative whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none
                                             ${isActive ? "text-gold-400" : "text-white/75 hover:text-white"}
                                         `}
                                     >
                                         {isActive && (
-                                            <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
+                                            <span aria-hidden="true" className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
                                         )}
-                                        <span className="relative">{link.label}</span>
+                                        <span className="relative">{t(link.translationKey)}</span>
+                                    </Link>
+                                );
+                            })}
+
+                            <DesktopOverflowMenu
+                                items={desktopSecondaryNavigation}
+                                isOpen={openDesktopMenu === "more"}
+                                onOpenChange={handleMoreOpenChange}
+                            />
+
+                            {desktopSecondaryNavigation.map((link) => {
+                                const isActive = isNavigationPathActive(pathname, link.href);
+                                return (
+                                    <Link
+                                        key={link.id}
+                                        href={link.href}
+                                        aria-current={isActive ? "page" : undefined}
+                                        className={`
+                                            relative hidden whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none 2xl:inline-flex
+                                            ${isActive ? "text-gold-400" : "text-white/75 hover:text-white"}
+                                        `}
+                                    >
+                                        {isActive && (
+                                            <span aria-hidden="true" className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
+                                        )}
+                                        <span className="relative">{t(link.translationKey)}</span>
                                     </Link>
                                 );
                             })}
@@ -140,27 +195,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
                         {/* ── Right: Utilities + CTA ── */}
                         <div className="flex items-center gap-3">
-                            {/* Phone — visible on lg+, call icon on mobile */}
-                            <a
-                                href={phoneHref}
-                                className="hidden xl:flex items-center gap-2 px-2 py-2 text-sm text-white/65 hover:text-white transition-colors duration-200 font-sans font-medium"
-                                aria-label="Call us"
-                            >
-                                <Phone size={16} aria-hidden="true" className="text-gold-400" />
-                                {phoneNumber}
-                            </a>
-
-                            {/* Mobile call button — replaces phone on small screens */}
-                            <a
-                                href={phoneHref}
-                                aria-label="Call us"
-                                className="flex lg:hidden items-center justify-center p-2 rounded-md bg-gold-500/10 border border-gold-500/30 text-gold-400 hover:bg-gold-500/20 hover:text-gold-300 transition-all duration-200"
-                            >
-                                <Phone size={18} aria-hidden="true" />
-                            </a>
-
                             {/* Language toggle */}
-                            <div className="hidden xl:block"><LocaleSwitcher /></div>
+                            <div className="hidden 2xl:block"><LocaleSwitcher /></div>
 
                             {/* Primary CTA — always visible, sticky in fixed header */}
                             <Link
@@ -187,7 +223,13 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             </header>
 
             {/* Shared layout offset for the fixed header. */}
-            <div aria-hidden="true" style={{ height: "var(--header-height)", minHeight: "var(--header-height)" }} />
+            <div
+                aria-hidden="true"
+                style={{
+                    height: "var(--header-height, 76px)",
+                    minHeight: "var(--header-height, 76px)",
+                }}
+            />
 
             <MobileSidebar
                 isOpen={sidebarOpen}

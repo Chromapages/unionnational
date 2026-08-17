@@ -1,16 +1,11 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
-import { ChevronDown, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
 import { EABadge } from "@/components/ui/EABadge";
 import { Link } from "@/i18n/navigation";
+import { FooterNavigation, type FooterNavigationGroup, type FooterNavigationLink } from "@/components/layout/FooterNavigation";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
-
-type FooterLink = {
-    href: string;
-    label: string;
-    emphasized?: boolean;
-};
 
 export async function Footer() {
     const locale = await getLocale();
@@ -59,7 +54,7 @@ export async function Footer() {
     const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || tFooter("fallbackEmail");
     const emailHref = formatMailtoHref(siteSettings?.email) || formatMailtoHref(emailText) || "mailto:hello@unionnationaltax.com";
 
-    const navigationGroups: Array<{ title: string; links: FooterLink[] }> = [
+    const navigationGroups: FooterNavigationGroup[] = [
         {
             title: tFooter("advisoryTitle"),
             links: [
@@ -97,7 +92,7 @@ export async function Footer() {
         },
     ];
 
-    const legalLinks: FooterLink[] = [
+    const legalLinks: FooterNavigationLink[] = [
         { label: tFooter("disclaimer"), href: "/legal/disclaimer" },
         { label: tFooter("privacy"), href: "/legal/privacy-policy" },
         { label: tFooter("terms"), href: "/legal/terms-of-service" },
@@ -119,23 +114,6 @@ export async function Footer() {
             { icon: Youtube, href: "https://www.youtube.com/@JasonAstwood", label: "YouTube" },
             { icon: Instagram, href: "https://www.instagram.com/unionnationaltax/?hl=en", label: "Instagram" },
         ];
-
-    const renderLinkList = (links: FooterLink[]) => (
-        <ul className="space-y-1.5">
-            {links.map((link) => (
-                <li key={link.href}>
-                    <Link
-                        href={link.href}
-                        className={`inline-flex min-h-10 items-center text-sm leading-snug underline-offset-4 transition-colors hover:text-gold-400 hover:underline focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 ${
-                            link.emphasized ? "font-semibold text-gold-400" : "text-zinc-300"
-                        }`}
-                    >
-                        {link.label}
-                    </Link>
-                </li>
-            ))}
-        </ul>
-    );
 
     return (
         <footer id="site-footer" className="border-t border-white/10 bg-brand-900">
@@ -212,30 +190,10 @@ export async function Footer() {
                         </div>
                     </div>
 
-                    <nav aria-label={tFooter("navigationLabel")} className="lg:col-span-8">
-                        <div className="hidden grid-cols-4 gap-x-6 md:grid">
-                            {navigationGroups.map((group) => (
-                                <section key={group.title} aria-labelledby={`footer-${group.title.replace(/\s+/g, "-").toLowerCase()}`}>
-                                    <h2 id={`footer-${group.title.replace(/\s+/g, "-").toLowerCase()}`} className="home-eyebrow mb-4 text-white">
-                                        {group.title}
-                                    </h2>
-                                    {renderLinkList(group.links)}
-                                </section>
-                            ))}
-                        </div>
-
-                        <div className="divide-y divide-white/10 border-y border-white/10 md:hidden">
-                            {navigationGroups.map((group) => (
-                                <details key={group.title} className="group">
-                                    <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 [&::-webkit-details-marker]:hidden">
-                                        {group.title}
-                                        <ChevronDown aria-hidden="true" className="h-5 w-5 shrink-0 text-gold-500 transition-transform group-open:rotate-180" />
-                                    </summary>
-                                    <div className="pb-4 pl-1">{renderLinkList(group.links)}</div>
-                                </details>
-                            ))}
-                        </div>
-                    </nav>
+                    <FooterNavigation
+                        groups={navigationGroups}
+                        navigationLabel={tFooter("navigationLabel")}
+                    />
                 </div>
 
                 <div className="mt-10 border-t border-white/10 pt-6">

@@ -110,6 +110,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
     ...,
     "tagline": coalesce(tagline[$locale], tagline.en, tagline),
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),
+    "ctaButtonTextLocalized": ctaButtonText[$locale],
     "copyrightText": coalesce(copyrightText[$locale], copyrightText.en, copyrightText),
     logo {
       asset->,
@@ -165,14 +166,15 @@ export const FOOTER_LEGAL_PAGES_QUERY = defineQuery(`
 export const HOME_PAGE_QUERY = defineQuery(`
   * [_type == "homePage"][0] {
     "heroTitle": coalesce(heroTitle[$locale], heroTitle.en, heroTitle),
+    "heroTitleLocalized": heroTitle[$locale],
     "heroSubtitle": coalesce(heroSubtitle[$locale], heroSubtitle.en, heroSubtitle),
-    heroVideoUrl,
-    heroPlayerVideoUrl,
+    "heroSubtitleLocalized": heroSubtitle[$locale],
+    "heroVideoUrl": coalesce(heroVideoUrl.asset->url, heroVideoUrl),
+    "heroBackgroundPosterUrl": heroBackgroundPoster.asset->url,
+    "heroPlayerVideoUrl": coalesce(heroPlayerVideoUrl.asset->url, heroPlayerVideoUrl),
     "heroPlayerPosterUrl": heroPlayerPoster.asset->url,
     "heroCtaText": coalesce(heroCtaText[$locale], heroCtaText.en, heroCtaText),
-    heroCtaUrl,
-    "heroSecondaryCtaText": coalesce(heroSecondaryCtaText[$locale], heroSecondaryCtaText.en, heroSecondaryCtaText),
-    heroSecondaryCtaUrl,
+    "heroCtaTextLocalized": heroCtaText[$locale],
     trustLogos[] {
       asset ->,
       alt

@@ -6,12 +6,11 @@ import type { ServiceSummary } from "./navigationData";
 
 type HeaderLayoutProps = {
     siteSettings?: {
+        logo?: { asset?: { url?: string } };
         logoAlt?: { asset?: { url?: string } };
         companyName?: string;
-        ctaButtonText?: string;
+        ctaButtonTextLocalized?: string;
         ctaButtonUrl?: string;
-        phone?: string;
-        phoneNumber?: string;
     };
     services?: ServiceSummary[];
 };

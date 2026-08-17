@@ -1,3 +1,55 @@
+export type NavigationIconName =
+  | "Home"
+  | "FileText"
+  | "Briefcase"
+  | "BookOpen"
+  | "Users"
+  | "Phone"
+  | "CircleHelp"
+  | "ShoppingBag";
+
+export type SiteNavigationItem = {
+  id: string;
+  translationKey: string;
+  href: string;
+  icon: NavigationIconName;
+  desktopPlacement: "logo" | "dropdown" | "primary" | "secondary" | "hidden";
+  mobileSection: "main" | "support" | "more";
+};
+
+/**
+ * Canonical public navigation inventory. Desktop and drawer presentations
+ * derive from this list so routes, labels, and active matching cannot drift.
+ */
+export const siteNavigationItems: readonly SiteNavigationItem[] = [
+  { id: "home", translationKey: "home", href: "/", icon: "Home", desktopPlacement: "logo", mobileSection: "main" },
+  { id: "services", translationKey: "services", href: "/services", icon: "FileText", desktopPlacement: "dropdown", mobileSection: "main" },
+  { id: "industries", translationKey: "industries", href: "/industries", icon: "Briefcase", desktopPlacement: "primary", mobileSection: "main" },
+  { id: "resources", translationKey: "resources", href: "/resources", icon: "BookOpen", desktopPlacement: "secondary", mobileSection: "more" },
+  { id: "about", translationKey: "about", href: "/about", icon: "Users", desktopPlacement: "secondary", mobileSection: "main" },
+  { id: "contact", translationKey: "contact", href: "/contact", icon: "Phone", desktopPlacement: "secondary", mobileSection: "support" },
+  { id: "faq", translationKey: "faq", href: "/faq", icon: "CircleHelp", desktopPlacement: "hidden", mobileSection: "support" },
+  { id: "shop", translationKey: "shop", href: "/shop", icon: "ShoppingBag", desktopPlacement: "hidden", mobileSection: "more" },
+] as const;
+
+export const desktopPrimaryNavigation = siteNavigationItems.filter(
+  (item) => item.desktopPlacement === "primary",
+);
+
+export const desktopSecondaryNavigation = siteNavigationItems.filter(
+  (item) => item.desktopPlacement === "secondary",
+);
+
+export const mobileNavigationSections = (["main", "support", "more"] as const).map((id) => ({
+  id,
+  items: siteNavigationItems.filter((item) => item.mobileSection === id),
+}));
+
+export const isNavigationPathActive = (pathname: string, href: string) => {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
+
 export type ServiceSummary = {
   _id?: string;
   title?: string;
@@ -26,7 +78,7 @@ export const fallbackServices: ServiceSummary[] = [
     category: "Financial Control",
   },
   {
-    title: "Tax Planning Consulting",
+    title: "Tax Planning",
     slug: { current: "tax-planning" },
     icon: "Target",
     shortDescription: "Implement proactive tax-saving strategies to legally minimize your liability, optimize deductions, and shield business wealth.",
@@ -40,7 +92,7 @@ export const fallbackServices: ServiceSummary[] = [
     category: "Financial Control",
   },
   {
-    title: "Tax Filing & Preparation",
+    title: "Tax Preparation & Filing",
     slug: { current: "tax-filing-and-preparation-services" },
     icon: "FileText",
     shortDescription: "Accurate, compliant, optimized filing",
@@ -90,6 +142,22 @@ export const fallbackServices: ServiceSummary[] = [
   },
 ];
 
+export const canonicalServicePaths: string[] = [
+  "/services",
+  "/fractional-cfo",
+  "/tax-planning",
+  "/strategic-bookkeeping",
+  "/new-business-formation",
+  "/s-corp-tax-advantage",
+  "/payroll-services",
+  "/tax-preparation-and-filing",
+];
+
+export const isServicePath = (pathname: string) =>
+  canonicalServicePaths.some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`),
+  );
+
 export const getServiceHref = (service: ServiceSummary) => {
   if (service.slug?.current) {
     const slug = service.slug.current;
@@ -106,14 +174,9 @@ export const getServiceHref = (service: ServiceSummary) => {
     }
 
     // Root-level High Performance Service Pages
-    const rootRoutes = [
-        "fractional-cfo",
-        "tax-planning",
-        "strategic-bookkeeping",
-        "new-business-formation",
-        "s-corp-tax-advantage",
-        "payroll-services"
-    ];
+    const rootRoutes = canonicalServicePaths
+      .filter((path) => path !== "/services" && path !== "/tax-preparation-and-filing")
+      .map((path) => path.slice(1));
 
     if (rootRoutes.includes(slug)) {
         return `/${slug}`;
@@ -135,6 +198,32 @@ export const getServiceHref = (service: ServiceSummary) => {
   }
 
   return "/services";
+};
+
+/**
+ * Sanity can return a valid but incomplete service list while content is being
+ * drafted or unpublished. Preserve CMS copy for routes it supplies, then fill
+ * each missing navigation route from the stable local inventory.
+ */
+export const mergeServiceNavigationData = (services?: ServiceSummary[]) => {
+  if (!services?.length) return [...fallbackServices];
+
+  const providedByHref = new Map(
+    services
+      .map((service) => [getServiceHref(service), service] as const)
+      .filter(([href]) => href !== "/services"),
+  );
+  const fallbackHrefs = new Set(fallbackServices.map(getServiceHref));
+  const mergedFallbacks = fallbackServices.map((fallback) => {
+    const href = getServiceHref(fallback);
+    const provided = providedByHref.get(href);
+    return provided ? { ...fallback, ...provided } : fallback;
+  });
+  const additionalServices = [...providedByHref.entries()]
+    .filter(([href]) => !fallbackHrefs.has(href))
+    .map(([, service]) => service);
+
+  return [...mergedFallbacks, ...additionalServices];
 };
 
 /**
