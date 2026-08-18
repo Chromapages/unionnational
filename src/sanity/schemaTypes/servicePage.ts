@@ -89,7 +89,7 @@ export const servicePage = defineType({
                             description: "Upload an MP4 or WebM file for the hero player.",
                             options: { accept: "video/mp4,video/webm" },
                             hidden: ({ parent }) => parent?.type !== "video",
-                            validation: (Rule) => Rule.custom((value, context) => context.parent?.type === "video" && !value?.asset ? "Upload a video file when Video Player is selected." : true),
+                            validation: (Rule) => Rule.custom((value, context) => (context.parent as { type?: string } | undefined)?.type === "video" && !value?.asset ? "Upload a video file when Video Player is selected." : true),
                         }),
                         defineField({ name: "videoPoster", title: "Video Poster Image", type: "image", options: { hotspot: true }, fields: [localizedStringField("alt", "Alternative Text")], hidden: ({ parent }) => parent?.type !== "video" }),
                         defineField({ name: "videoLabel", title: "Video Player Label", type: "localizedString", description: "Optional accessible label for the player.", hidden: ({ parent }) => parent?.type !== "video" }),
