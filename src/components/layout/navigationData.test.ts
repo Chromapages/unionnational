@@ -14,8 +14,8 @@ describe("navigationData", () => {
     const mobileIds = mobileNavigationSections.flatMap((section) => section.items.map((item) => item.id));
 
     expect(desktopPrimaryNavigation.map((item) => item.id)).toEqual(["industries"]);
-    expect(desktopSecondaryNavigation.map((item) => item.id)).toEqual(["resources", "about", "contact"]);
-    expect(desktopIds).toEqual(["industries", "resources", "about", "contact"]);
+    expect(desktopSecondaryNavigation.map((item) => item.id)).toEqual(["resources", "about", "shop"]);
+    expect(desktopIds).toEqual(["industries", "resources", "about", "shop"]);
     expect(mobileNavigationSections.map((section) => ({
       id: section.id,
       items: section.items.map((item) => item.id),

@@ -27,9 +27,9 @@ export const siteNavigationItems: readonly SiteNavigationItem[] = [
   { id: "industries", translationKey: "industries", href: "/industries", icon: "Briefcase", desktopPlacement: "primary", mobileSection: "main" },
   { id: "resources", translationKey: "resources", href: "/resources", icon: "BookOpen", desktopPlacement: "secondary", mobileSection: "more" },
   { id: "about", translationKey: "about", href: "/about", icon: "Users", desktopPlacement: "secondary", mobileSection: "main" },
-  { id: "contact", translationKey: "contact", href: "/contact", icon: "Phone", desktopPlacement: "secondary", mobileSection: "support" },
+  { id: "contact", translationKey: "contact", href: "/contact", icon: "Phone", desktopPlacement: "hidden", mobileSection: "support" },
   { id: "faq", translationKey: "faq", href: "/faq", icon: "CircleHelp", desktopPlacement: "hidden", mobileSection: "support" },
-  { id: "shop", translationKey: "shop", href: "/shop", icon: "ShoppingBag", desktopPlacement: "hidden", mobileSection: "more" },
+  { id: "shop", translationKey: "shop", href: "/shop", icon: "ShoppingBag", desktopPlacement: "secondary", mobileSection: "more" },
 ] as const;
 
 export const desktopPrimaryNavigation = siteNavigationItems.filter(
