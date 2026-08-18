@@ -26,13 +26,26 @@ type HeroEventName =
 export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
     const t = useTranslations("HomeHero");
     const locale = useLocale();
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const [backgroundVideoReady, setBackgroundVideoReady] = useState(false);
     const [backgroundVideoFailed, setBackgroundVideoFailed] = useState(false);
     const videoStartTrackedRef = useRef(false);
+    const backgroundVideoRef = useRef<HTMLVideoElement>(null);
 
-    const backgroundVideoUrl = data?.heroVideoUrl;
-    const playerVideoUrl = data?.heroPlayerVideoUrl || backgroundVideoUrl;
+    const rawBackgroundVideoUrl = data?.heroVideoUrl;
+    const backgroundVideoUrl =
+        typeof rawBackgroundVideoUrl === "string"
+            ? rawBackgroundVideoUrl
+            : (rawBackgroundVideoUrl as unknown as { asset?: { url?: string }; url?: string })?.asset?.url ||
+              (rawBackgroundVideoUrl as unknown as { url?: string })?.url;
+
+    const rawPlayerVideoUrl = data?.heroPlayerVideoUrl;
+    const playerVideoUrl =
+        (typeof rawPlayerVideoUrl === "string"
+            ? rawPlayerVideoUrl
+            : (rawPlayerVideoUrl as unknown as { asset?: { url?: string }; url?: string })?.asset?.url ||
+              (rawPlayerVideoUrl as unknown as { url?: string })?.url) || backgroundVideoUrl;
+
     const title = data?.heroTitleLocalized?.trim() || t("title");
     const subtitle = data?.heroSubtitleLocalized?.trim() || t("subtitle");
     const primaryCta = data?.heroCtaTextLocalized?.trim() || t("primaryCta");
@@ -49,7 +62,31 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
     useEffect(() => {
         setBackgroundVideoReady(false);
         setBackgroundVideoFailed(false);
-    }, [backgroundVideoUrl]);
+
+        const video = backgroundVideoRef.current;
+        if (!video || !backgroundVideoUrl || prefersReducedMotion) return;
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+
+        const handleReady = () => setBackgroundVideoReady(true);
+
+        if (video.readyState >= 2) {
+            handleReady();
+        }
+
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise
+                .then(handleReady)
+                .catch(() => {
+                    if (video.readyState >= 2) {
+                        handleReady();
+                    }
+                });
+        }
+    }, [backgroundVideoUrl, prefersReducedMotion]);
 
     const trackHeroEvent = (event: HeroEventName, destination: string) => {
         const browserWindow = window as unknown as {
@@ -89,15 +126,19 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
 
             {backgroundVideoUrl && !prefersReducedMotion && !backgroundVideoFailed ? (
                 <video
+                    ref={backgroundVideoRef}
                     src={backgroundVideoUrl}
                     autoPlay
                     muted
                     loop
                     playsInline
-                    preload="metadata"
+                    preload="auto"
                     aria-hidden="true"
                     tabIndex={-1}
+                    onCanPlay={() => setBackgroundVideoReady(true)}
                     onLoadedData={() => setBackgroundVideoReady(true)}
+                    onLoadedMetadata={() => setBackgroundVideoReady(true)}
+                    onPlay={() => setBackgroundVideoReady(true)}
                     onError={() => setBackgroundVideoFailed(true)}
                     className={`absolute inset-0 -z-20 h-full w-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${backgroundVideoReady ? "opacity-20" : "opacity-0"}`}
                 />
