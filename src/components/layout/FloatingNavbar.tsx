@@ -114,7 +114,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             })}
                             className="mr-6 flex shrink-0 items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
                         >
-                            <div className="relative flex items-center justify-center rounded bg-white/[0.03]" style={{ width: "172px", height: "42px" }}>
+                            <div className="relative flex items-center justify-center" style={{ width: "172px", height: "42px" }}>
                                 {logoFailed ? (
                                     <span className="px-2 text-center font-heading text-sm font-bold leading-tight text-white">
                                         {companyName}
