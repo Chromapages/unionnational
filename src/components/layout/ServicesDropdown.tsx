@@ -97,12 +97,28 @@ export const ServicesDropdown = ({
   const firstService = serviceGroups.flatMap((group) => group.services)[0];
   const firstServiceKey = firstService?._id || firstService?.slug?.current || firstService?.title;
 
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cancelHoverCloseTimer = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    return () => cancelHoverCloseTimer();
+  }, []);
+
   useEffect(() => {
     if (!isOpen) return;
 
     const handlePointerDown = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Node | null;
-      if (target && !containerRef.current?.contains(target)) updateOpen(false);
+      if (target && !containerRef.current?.contains(target)) {
+        cancelHoverCloseTimer();
+        updateOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handlePointerDown);
@@ -121,28 +137,37 @@ export const ServicesDropdown = ({
   }, [isOpen]);
 
   useEffect(() => {
+    cancelHoverCloseTimer();
     openedByHoverRef.current = false;
     updateOpen(false);
   }, [pathname]);
 
   const handleClose = () => {
+    cancelHoverCloseTimer();
     openedByHoverRef.current = false;
     shouldFocusFirstLinkRef.current = false;
     updateOpen(false);
   };
 
   const handlePointerEnter = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || isOpen) return;
+    if (event.pointerType !== "mouse") return;
 
+    cancelHoverCloseTimer();
     openedByHoverRef.current = true;
     updateOpen(true);
   };
 
   const handlePointerLeave = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === "mouse") handleClose();
+    if (event.pointerType !== "mouse") return;
+
+    cancelHoverCloseTimer();
+    hoverTimeoutRef.current = setTimeout(() => {
+      handleClose();
+    }, 200);
   };
 
   const handleTriggerClick = () => {
+    cancelHoverCloseTimer();
     // A mouse entering the trigger opens the panel before its click fires. Keep
     // that first click open; subsequent clicks still toggle as users expect.
     if (openedByHoverRef.current) {
@@ -157,25 +182,26 @@ export const ServicesDropdown = ({
   const handleButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
       event.preventDefault();
+      cancelHoverCloseTimer();
       shouldFocusFirstLinkRef.current = true;
       updateOpen(true);
     }
 
     if (event.key === "Escape") {
       event.preventDefault();
-      updateOpen(false);
+      handleClose();
     }
   };
 
   const handleContainerBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     const nextTarget = event.relatedTarget as Node | null;
-    if (!nextTarget || !containerRef.current?.contains(nextTarget)) updateOpen(false);
+    if (!nextTarget || !containerRef.current?.contains(nextTarget)) handleClose();
   };
 
   const handlePanelKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
-      updateOpen(false);
+      handleClose();
       buttonRef.current?.focus();
     }
   };
@@ -283,8 +309,10 @@ export const ServicesDropdown = ({
           id={menuId}
           role="region"
           aria-labelledby={buttonId}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
           onKeyDown={handlePanelKeyDown}
-          className="fixed left-1/2 z-30 w-[min(62rem,calc(100vw-2rem))] -translate-x-1/2 overflow-y-auto overscroll-contain pt-3"
+          className="fixed left-1/2 z-30 w-[min(62rem,calc(100vw-2rem))] -translate-x-1/2 overflow-y-auto overscroll-contain pt-3 before:absolute before:-top-4 before:left-0 before:right-0 before:h-4 before:content-['']"
           style={{
             top: "var(--header-height, 76px)",
             maxHeight: "calc(100dvh - var(--header-height, 76px) - 1rem)",

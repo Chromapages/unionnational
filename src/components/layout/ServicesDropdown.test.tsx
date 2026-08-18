@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ServicesDropdown } from "./ServicesDropdown";
@@ -134,5 +134,25 @@ describe("ServicesDropdown", () => {
     expect(screen.getByRole("link", { name: "Tax Planning" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Fractional CFO" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Strategic Bookkeeping" })).toBeInTheDocument();
+  });
+
+  it("remains open during hover grace delay when mouse leaves container", async () => {
+    vi.useFakeTimers();
+    render(<ServicesDropdown />);
+
+    const trigger = screen.getByRole("button", { name: "Services" });
+    fireEvent.pointerEnter(trigger.parentElement!, { pointerType: "mouse" });
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    fireEvent.pointerLeave(trigger.parentElement!, { pointerType: "mouse" });
+    // Still open immediately during grace delay
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+    await act(async () => {
+      vi.advanceTimersByTime(250);
+    });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+    vi.useRealTimers();
   });
 });
