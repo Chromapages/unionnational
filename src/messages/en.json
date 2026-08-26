@@ -16,6 +16,7 @@
         "healthAssessmentButtonAria": "Open the business health assessment",
         "openMenu": "Open menu",
         "closeMenu": "Close menu",
+        "toggleMenu": "Toggle menu",
         "menuTitle": "Menu",
         "mobileNavigationAria": "Mobile navigation",
         "skipToContent": "Skip to content",
@@ -231,8 +232,13 @@
         "title": "Stop overpaying the IRS. Build a smarter business.",
         "subtitle": "See whether an S-Corp election, proactive tax planning, and CFO-level guidance could help you keep more of what you earn.",
         "primaryCta": "See If an S-Corp Could Save You Money",
+        "secondaryCta": "Explore Services",
         "videoLabel": "Watch the tax strategy overview",
-        "unavailable": "The overview video is unavailable right now. Please try again later."
+        "unavailable": "The overview video is unavailable right now. Please try again later.",
+        "trustCredential": "IRS Enrolled Agent (Highest Credential)",
+        "trustVolume": "200+ Contractors Served",
+        "trustExperience": "15+ Years Experience",
+        "trustAdvisory": "15+ Years Experience"
     },
     "HomePage": {
         "VideoHero": {
@@ -518,7 +524,24 @@
             },
             "conclusion": "More time to plan means fewer decisions made under deadline pressure.",
             "primaryCta": "See how proactive tax planning works",
-            "secondaryCta": "Check your S-Corp fit"
+            "secondaryCta": "Check your S-Corp fit",
+            "recommendedBadge": "Recommended",
+            "emptyFallback": "Comparison details are being updated.",
+            "evidence": {
+                "step1": {
+                    "label": "Review current position",
+                    "body": "Examine entity structure, current revenue, and tax baseline before the year closes."
+                },
+                "step2": {
+                    "label": "Identify decisions before deadlines",
+                    "body": "Surface deductions, retirement contributions, and S-Corp distribution strategies in advance."
+                },
+                "step3": {
+                    "label": "Plan and revisit throughout the year",
+                    "body": "Maintain regular checkpoints to adjust strategy as operations and tax regulations evolve."
+                },
+                "disclaimer": "Informational planning workflow. Individual tax outcomes depend on verified entity structure and timely implementation."
+            }
         },
         "HowItWorksSection": {
             "eyebrow": "A clear path forward",
@@ -531,21 +554,23 @@
                 "start": {
                     "title": "Start with a strategy call",
                     "description": "Share how the business is structured, how income flows, and what has changed this year.",
-                    "outcome": "A focused review of your current situation"
+                    "outcome": "Documented diagnosis of entity structure and tax baseline"
                 },
                 "opportunities": {
                     "title": "See the opportunities worth evaluating",
                     "description": "We assess S-Corp eligibility and other proactive tax-planning opportunities, then prioritize what deserves action.",
-                    "outcome": "A prioritized set of planning opportunities"
+                    "outcome": "Prioritized strategy roadmap with quantified potential tax savings"
                 },
                 "plan": {
                     "title": "Put your yearly plan into motion",
                     "description": "Receive documented decisions, deadlines, responsibilities, and a cadence for revisiting the strategy.",
-                    "outcome": "A year-round action plan"
+                    "outcome": "Year-round implementation schedule with quarterly review milestones"
                 }
             },
+            "cadenceLoop": "Ongoing Cadence: We revisit your numbers every quarter to adapt your strategy as revenue and tax laws evolve.",
+            "swipeHint": "Swipe to explore steps",
             "cta": "Start with a Strategy Call",
-            "ctaSupport": "The call gives us the context needed to make the review useful."
+            "ctaSupport": "30-minute discovery call • No preparation required • Direct with an Enrolled Agent"
         },
         "FAQSection": {
             "eyebrow": "Got Questions?",
@@ -553,12 +578,15 @@
             "subtitle": "Everything you need to know about our services, pricing, and tax strategies."
         },
         "ExitIntentModal": {
-            "title": "Before you go, check your tax blind spots.",
-            "subtitle": "A quick health check can surface missed savings opportunities and planning gaps in minutes.",
-            "cta": "Take the Health Check",
-            "dismiss": "No thanks",
+            "title": "Check your business tax blind spots in 2 minutes.",
+            "subtitle": "Answer 7 quick questions to uncover hidden tax savings—no call required.",
+            "cta": "Check Your Tax Blind Spots",
+            "meta": "7 questions • Instant health score • 100% confidential",
+            "dismiss": "No thanks, I'll review later",
             "close": "Close health check prompt",
-            "closeModal": "Close"
+            "closeModal": "Close modal",
+            "mobileTitle": "Check Your Tax Blind Spots",
+            "mobileSubtitle": "7 quick questions • 2 min assessment"
         },
         "FloatingTaxButton": {
             "buttonAria": "Open tax health check panel",

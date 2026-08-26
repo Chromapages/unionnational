@@ -36,7 +36,7 @@ export function LocaleSwitcher({ className, mobileDrawer = false, onLocaleChange
     >
       {mobileDrawer ? (
         <>
-          <span className="text-sm font-medium text-white/80">
+          <span className="text-sm font-medium text-slate-100">
             {locale === "en" ? "English" : "Español"}
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-gold-400">
@@ -44,7 +44,7 @@ export function LocaleSwitcher({ className, mobileDrawer = false, onLocaleChange
           </span>
         </>
       ) : (
-        <span className="font-heading text-xs font-bold uppercase tracking-widest text-white/80 group-hover:text-white transition-colors">
+        <span className="font-heading text-xs font-bold uppercase tracking-widest text-slate-200 group-hover:text-white transition-colors">
           {locale.toUpperCase()}
         </span>
       )}

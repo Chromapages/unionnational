@@ -8,8 +8,11 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['src/test/e2e/**', 'node_modules/**'],
     alias: {
       '@': path.resolve(__dirname, './src'),
+      'next/navigation': path.resolve(__dirname, './node_modules/next/navigation.js'),
     },
     coverage: {
       provider: 'v8',

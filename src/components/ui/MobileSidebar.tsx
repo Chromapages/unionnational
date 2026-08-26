@@ -240,7 +240,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                     ref={closeButtonRef}
                                     type="button"
                                     onClick={onClose}
-                                    className="rounded-lg p-2 text-white/50 hover:text-white hover:bg-white/5 transition-all active:scale-95"
+                                    className="rounded-lg p-2 text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                                     aria-label={t("closeMenu")}
                                 >
                                     <X className="h-5 w-5" aria-hidden="true" />
@@ -270,16 +270,16 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                                                 href={item.href}
                                                                 onClick={onClose}
                                                                 className={cn(
-                                                                    "no-tap-highlight flex items-center gap-3.5 rounded-xl px-4 py-3.5 transition-all duration-150 active:scale-[0.98]",
+                                                                    "no-tap-highlight flex items-center gap-3.5 rounded-xl px-4 py-3.5 transition-all duration-150 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300",
                                                                     active
                                                                         ? "bg-gold-500/15 text-gold-400"
-                                                                        : "text-white/60 hover:bg-white/5 hover:text-white"
+                                                                        : "text-slate-200 hover:bg-white/5 hover:text-white"
                                                                 )}
                                                                 aria-current={active ? "page" : undefined}
                                                             >
                                                                 <Icon
                                                                     aria-hidden="true"
-                                                                    className={cn("h-4 w-4 shrink-0", active ? "text-gold-400" : "text-white/30")}
+                                                                    className={cn("h-4 w-4 shrink-0", active ? "text-gold-400" : "text-slate-400")}
                                                                 />
                                                                 <span className="flex-1 text-sm font-medium">
                                                                     {t(item.translationKey)}
@@ -288,7 +288,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                                                     <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0" />
                                                                 )}
                                                                 {!active && (
-                                                                    <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 text-white/20 shrink-0" />
+                                                                    <ChevronRight aria-hidden="true" className="h-3.5 w-3.5 text-slate-400/60 shrink-0" />
                                                                 )}
                                                             </Link>
                                                         </motion.li>
@@ -315,7 +315,7 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                                 <Link
                                     href={ctaUrl}
                                     onClick={onClose}
-                                    className="no-tap-highlight flex w-full items-center justify-center gap-2 rounded-xl bg-gold-500 py-3.5 font-bold text-sm text-brand-900 shadow-lg shadow-gold-500/25 transition-all hover:bg-gold-400 active:scale-[0.98] font-heading tracking-tight"
+                                    className="no-tap-highlight flex w-full items-center justify-center gap-2 rounded-xl bg-gold-500 py-3.5 font-bold text-sm text-brand-900 shadow-lg shadow-gold-500/25 transition-all hover:bg-gold-400 active:scale-[0.98] font-heading tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 focus-visible:ring-offset-2 focus-visible:ring-offset-brand-950"
                                 >
                                     <Calendar className="h-4 w-4" aria-hidden="true" />
                                     {ctaText}

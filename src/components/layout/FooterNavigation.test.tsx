@@ -62,7 +62,7 @@ describe("FooterNavigation", () => {
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
     expect(trigger).toHaveFocus();
-    expect(screen.getByRole("link", { name: "Tax Planning" })).toHaveAttribute("href", "/tax-planning");
+    expect(screen.getAllByRole("link", { name: "Tax Planning" })[0]).toHaveAttribute("href", "/tax-planning");
   });
 
   it("hides a closed panel immediately when reduced motion is requested", async () => {

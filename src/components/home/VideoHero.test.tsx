@@ -19,6 +19,7 @@ vi.mock("next-intl", () => ({
       title: "Stop overpaying the IRS. Build a smarter business.",
       subtitle: "Reduce tax surprises with proactive S-Corp planning and year-round guidance.",
       primaryCta: "See If an S-Corp Could Save You Money",
+      secondaryCta: "Explore Services",
       videoLabel: "See how Union National Tax works",
       unavailable: "Video unavailable. Start the assessment to find your next step.",
     };
@@ -55,9 +56,13 @@ describe("VideoHero", () => {
     const primary = screen.getByRole("link", { name: /Check My S-Corp Savings/ });
     expect(primary).toHaveAttribute("href", "/scorp-estimator");
     expect(primary).toHaveClass("bg-gold-500");
-    expect(screen.getAllByRole("link")).toHaveLength(1);
+
+    const secondary = screen.getByRole("link", { name: /Explore Services/i });
+    expect(secondary).toHaveAttribute("href", "#services");
+
+    expect(screen.getAllByRole("link")).toHaveLength(2);
     expect(screen.queryByText("Avg. Annual Savings $23,420")).not.toBeInTheDocument();
-    expect(screen.queryByRole("list", { name: "Firm credentials" })).not.toBeInTheDocument();
+    expect(screen.getByRole("list", { name: "Firm credentials" })).toBeInTheDocument();
   });
 
   it("uses same-locale message fallbacks when localized CMS copy is absent", () => {

@@ -1,17 +1,47 @@
-import { BadgeCheck, BriefcaseBusiness, Users } from "lucide-react";
+import { Fragment } from "react";
+import { BadgeCheck, CalendarCheck, Users } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-export function TrustBar() {
-    const proof = [
-        { icon: BadgeCheck, label: "IRS Enrolled Agent" },
-        { icon: Users, label: "200+ Contractors Served" },
-        { icon: BriefcaseBusiness, label: "Proactive, year-round planning" },
+interface TrustItem {
+    icon: LucideIcon;
+    label: string;
+}
+
+export const TrustBar = (): React.JSX.Element => {
+    const t = useTranslations("HomeHero");
+
+    const proof: TrustItem[] = [
+        { icon: BadgeCheck, label: t("trustCredential") },
+        { icon: Users, label: t("trustVolume") },
+        { icon: CalendarCheck, label: t("trustExperience") },
     ];
 
     return (
-        <section className="border-b border-slate-200 bg-white py-6" aria-label="Firm credentials">
-            <div className="mx-auto grid max-w-screen-xl gap-4 px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
-                {proof.map(({ icon: Icon, label }) => <div key={label} className="flex items-center justify-center gap-3 text-sm font-semibold text-brand-900"><Icon className="h-5 w-5 text-gold-700" aria-hidden="true" />{label}</div>)}
+        <section className="relative isolate bg-white py-5 sm:py-6" aria-label="Firm credentials">
+            <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                <ul
+                    role="list"
+                    className="flex flex-col items-center justify-center gap-3.5 sm:flex-row sm:flex-wrap md:flex-nowrap md:justify-center md:gap-8 lg:gap-12"
+                >
+                    {proof.map(({ icon: Icon, label }, idx) => (
+                        <Fragment key={label}>
+                            {idx > 0 && (
+                                <li
+                                    className="hidden h-4 w-px bg-slate-200 md:block"
+                                    aria-hidden="true"
+                                    role="presentation"
+                                />
+                            )}
+                            <li className="flex shrink-0 items-center justify-center gap-3 text-center sm:text-left text-sm font-semibold text-brand-900">
+                                <Icon className="h-5 w-5 shrink-0 text-gold-700" aria-hidden="true" />
+                                <span className="whitespace-nowrap">{label}</span>
+                            </li>
+                        </Fragment>
+                    ))}
+                </ul>
             </div>
         </section>
     );
-}
+};
+

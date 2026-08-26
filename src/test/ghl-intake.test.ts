@@ -18,18 +18,22 @@ vi.mock("@/lib/config/env", () => ({
 vi.mock("@/lib/observability/api-handler", () => ({
     createApiHandler: () => ({
         log: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
+        error: vi.fn(),
         json: (body: unknown, opts?: { status?: number; headers?: Record<string, string> }) =>
             new Response(JSON.stringify(body), { status: opts?.status ?? 200 }),
+        jsonError: (message: string, status = 500) =>
+            new Response(JSON.stringify({ error: message }), { status }),
         rateLimitHeaders: () => ({}),
         traceId: "test-trace-id",
     }),
     getClientIp: () => "127.0.0.1",
+    checkRateLimit: () => ({ limited: false, remaining: 59, resetAt: Date.now() + 60000 }),
     parseJsonBody: async (req: Request) => {
         try {
             const data = await req.json();
-            return { data, error: null };
+            return { data, raw: data, error: null };
         } catch {
-            return { data: null, error: new Response(JSON.stringify({ error: "Bad JSON" }), { status: 400 }) };
+            return { data: null, raw: null, error: new Response(JSON.stringify({ error: "Bad JSON" }), { status: 400 }) };
         }
     },
     logRedacted: vi.fn(),
@@ -218,6 +222,7 @@ describe("POST /api/ghl-intake", () => {
     });
 
     it("returns 200 for whitespace-only honeypot", async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ ok: true }), { status: 200 }));
         const payload = { ...minimalPayload(), _hpt: "   " };
 
         const req = buildIntakeRequest(payload);
@@ -228,6 +233,7 @@ describe("POST /api/ghl-intake", () => {
     });
 
     it("returns 200 for empty string honeypot", async () => {
+        fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({ ok: true }), { status: 200 }));
         const payload = { ...minimalPayload(), _hpt: "" };
 
         const req = buildIntakeRequest(payload);

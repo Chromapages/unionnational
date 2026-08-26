@@ -57,6 +57,7 @@ describe("ServicesDropdown", () => {
     render(<ServicesDropdown />);
 
     const trigger = screen.getByRole("button", { name: "Services" });
+    expect(trigger).toHaveAttribute("aria-haspopup", "true");
     fireEvent.pointerEnter(trigger.parentElement!, { pointerType: "mouse" });
     expect(trigger).toHaveAttribute("aria-expanded", "true");
 

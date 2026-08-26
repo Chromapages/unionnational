@@ -14,27 +14,28 @@ vi.mock("@/lib/stripe", () => ({
     }),
 }));
 
+let mockEnv: Record<string, string | undefined> = {
+    STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
+    GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/shop-webhook",
+};
+
 vi.mock("@/lib/config/env", () => ({
-    getEnv: (key: string) => {
-        const env: Record<string, string> = {
-            STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
-            GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/shop-webhook",
-        };
-        return env[key];
-    },
+    getEnv: (key: string) => mockEnv[key],
 }));
 
 vi.mock("@/lib/observability/api-handler", () => ({
     createApiHandler: () => ({
         log: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
+        error: vi.fn(),
         json: (body: unknown, opts?: { status?: number }) =>
             new Response(JSON.stringify(body), { status: opts?.status ?? 200 }),
-        jsonError: (message: string, status: number) =>
+        jsonError: (message: string, status = 500) =>
             new Response(JSON.stringify({ error: message }), { status }),
         rateLimitHeaders: () => ({}),
         traceId: "test-trace-id",
     }),
     getClientIp: () => "127.0.0.1",
+    checkRateLimit: () => ({ limited: false, remaining: 59, resetAt: Date.now() + 60000 }),
 }));
 
 vi.mock("@/lib/observability/request-metrics", () => ({
@@ -101,9 +102,13 @@ const physicalSessionEvent = {
             amount_total: 7900,
             metadata: {
                 ...minimalSessionEvent.data.object.metadata,
+                items: JSON.stringify([
+                    { p: "prod-1", s: "test-digital", sh: false, t: "digital", q: 1 },
+                    { p: "prod-2", s: "test-physical", sh: true, t: "physical", q: 1 },
+                ]),
                 fulfillment_status: "pending",
                 has_physical: "true",
-                has_digital: "false",
+                has_digital: "true",
             },
         },
     },
@@ -112,10 +117,17 @@ const physicalSessionEvent = {
 // ─── Tests ──────────────────────────────────────────────────────────────────
 
 describe("POST /api/shop/webhook", () => {
-    beforeEach(() => {
+    beforeEach(async () => {
         vi.clearAllMocks();
         mockStripeWebhookConstructEvent.mockReset();
         mockStripeCheckoutSessionsUpdate.mockReset();
+        mockEnv = {
+            STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
+            GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/shop-webhook",
+        };
+        const { writeClient } = await import("@/sanity/lib/client");
+        vi.mocked(writeClient.fetch).mockResolvedValue(null as any);
+        vi.mocked(writeClient.create).mockResolvedValue({} as any);
     });
 
     it("returns 200 with received:true when Stripe signature is valid and event is processed", async () => {
@@ -172,7 +184,7 @@ describe("POST /api/shop/webhook", () => {
         // Simulate an already-processed event
         const { writeClient } = await import("@/sanity/lib/client");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-vi.mocked(writeClient.fetch).mockImplementation(() => Promise.resolve({ _id: "existing-id", status: "processed" }) as any);
+        vi.mocked(writeClient.fetch).mockImplementation(() => Promise.resolve({ _id: "existing-id", status: "processed" }) as any);
 
         const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
 
@@ -208,17 +220,7 @@ vi.mocked(writeClient.fetch).mockImplementation(() => Promise.resolve({ _id: "ex
     });
 
     it("marks fulfillment_status as pending_manual when GHL webhook URL is not configured", async () => {
-        // Override the env mock for this specific test
-        vi.resetModules();
-        vi.doMock("@/lib/config/env", () => ({
-            getEnv: (key: string) => {
-                const env: Record<string, string | undefined> = {
-                    STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
-                    GHL_SHOP_PURCHASE_WEBHOOK_URL: undefined,
-                };
-                return env[key];
-            },
-        }));
+        mockEnv.GHL_SHOP_PURCHASE_WEBHOOK_URL = undefined;
 
         mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
 

@@ -31,7 +31,6 @@ type FloatingNavbarProps = {
 
 const navbarStyles = {
     cta: "hidden md:inline-flex min-h-11 items-center whitespace-nowrap rounded-full bg-gold-500 px-5 py-2.5 font-heading text-sm font-bold text-brand-950 transition-colors duration-200 hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none",
-    menuButton: "flex xl:hidden min-h-11 min-w-11 items-center justify-center rounded-md border border-gold-500/30 bg-gold-500/10 p-2 text-white transition-colors duration-200 hover:bg-gold-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none",
 } as const;
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
@@ -155,7 +154,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         aria-current={isActive ? "page" : undefined}
                                         className={`
                                             relative whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none
-                                            ${isActive ? "text-gold-400" : "text-white/75 hover:text-white"}
+                                            ${isActive ? "text-gold-400" : "text-slate-200 hover:text-white"}
                                         `}
                                     >
                                         {isActive && (
@@ -181,7 +180,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         aria-current={isActive ? "page" : undefined}
                                         className={`
                                             relative hidden whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none 2xl:inline-flex
-                                            ${isActive ? "text-gold-400" : "text-white/75 hover:text-white"}
+                                            ${isActive ? "text-gold-400" : "text-slate-200 hover:text-white"}
                                         `}
                                     >
                                         {isActive && (
@@ -209,13 +208,14 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
                             {/* Hamburger — only shown when sidebar is closed on mobile */}
                             <button
+                                type="button"
                                 onClick={handleToggleSidebar}
-                                aria-label={sidebarOpen ? t("closeMenu") : t("openMenu")}
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-slate-200 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 xl:hidden"
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
-                                className={navbarStyles.menuButton}
+                                aria-label={sidebarOpen ? t("closeMenu") : t("openMenu")}
                             >
-                                <MenuIcon size={20} aria-hidden="true" />
+                                <MenuIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
                         </div>
                     </div>

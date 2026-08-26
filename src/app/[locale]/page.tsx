@@ -90,8 +90,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
 
   return (
     <>
-      <ExitIntentModal>
-        <main id="main-content" className="min-h-dvh w-full bg-brand-900 flex flex-col">
+      <main id="main-content" className="min-h-dvh w-full bg-brand-900 flex flex-col">
         <JsonLd siteSettings={siteSettingsData} homePageData={homeData} />
         <ErrorBoundary name="Header">
           <HeaderWrapper />
@@ -132,11 +131,11 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           {/* Final CTA - single button */}
           <CTASection data={homeData} variant="homepageWireframe" />
         </div>
-        </main>
-        <ErrorBoundary name="Footer">
-          <Footer />
-        </ErrorBoundary>
-      </ExitIntentModal>
+      </main>
+      <ErrorBoundary name="Footer">
+        <Footer />
+      </ErrorBoundary>
+      <ExitIntentModal />
     </>
   );
 }

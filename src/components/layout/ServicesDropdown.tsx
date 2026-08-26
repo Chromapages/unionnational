@@ -236,14 +236,14 @@ export const ServicesDropdown = ({
           onClick={handleClose}
           aria-current={isCurrent ? "page" : undefined}
           className={cn(
-            "group/item flex min-h-12 items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500",
+            "group/item flex min-h-12 items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
             isCurrent
               ? "border-gold-500/50 bg-gold-500/15 text-gold-300"
               : isRecommended
                 ? "border-gold-500/35 bg-gold-500/10 text-white hover:border-gold-400/60 hover:bg-gold-500/15"
                 : isSupporting
-                  ? "border-transparent text-white/80 hover:border-white/10 hover:bg-white/5 hover:text-white"
-                  : "border-transparent text-white hover:border-white/10 hover:bg-white/5",
+                  ? "border-transparent text-slate-200 hover:border-white/10 hover:bg-white/5 hover:text-white"
+                  : "border-transparent text-slate-100 hover:border-white/10 hover:bg-white/5 hover:text-white",
           )}
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-gold-500/30 bg-gold-500/10 text-gold-500">
@@ -275,17 +275,16 @@ export const ServicesDropdown = ({
         type="button"
         id={buttonId}
         className={cn(
-          "group relative flex items-center gap-1.5 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200",
-          isServicesActive
-            ? "bg-gold-500/15 text-gold-400 ring-1 ring-gold-500/30"
-            : isOpen
-              ? "bg-gold-500/10 text-gold-400 ring-1 ring-gold-500/20"
-              : "text-white/75 hover:bg-gold-500/10 hover:text-white hover:ring-1 hover:ring-gold-500/20",
-          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500",
+          "group relative flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200",
+          isServicesActive || isOpen
+            ? "text-gold-400"
+            : "text-slate-200 hover:text-white",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
         )}
         onClick={handleTriggerClick}
         onKeyDown={handleButtonKeyDown}
         aria-expanded={isOpen}
+        aria-haspopup="true"
         aria-controls={menuId}
       >
         <span className="relative z-10">{t("services")}</span>
@@ -297,7 +296,7 @@ export const ServicesDropdown = ({
         <span
           aria-hidden="true"
           className={cn(
-            "absolute bottom-0.5 left-3 right-3 h-0.5 rounded-full bg-gold-500 transition-transform duration-200",
+            "absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-gold-500 transition-transform duration-200",
             isServicesActive || isOpen ? "scale-x-100" : "scale-x-0",
             "group-hover:scale-x-100",
           )}
@@ -333,7 +332,7 @@ export const ServicesDropdown = ({
                   href="/services"
                   onClick={handleClose}
                   aria-current={pathname === "/services" ? "page" : undefined}
-                  className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-gold-500/40 px-5 text-sm font-semibold text-gold-300 transition-colors hover:border-gold-400 hover:bg-gold-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 sm:self-auto"
+                  className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-gold-500/40 px-5 text-sm font-semibold text-gold-300 transition-colors hover:border-gold-400 hover:bg-gold-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 sm:self-auto"
                 >
                   {t("servicesDropdownViewAll")}
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />

@@ -141,14 +141,22 @@ export function DesktopOverflowMenu({ items, isOpen, onOpenChange }: DesktopOver
         className={cn(
           "group relative flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none",
           hasActiveItem || isOpen
-            ? "bg-gold-500/10 text-gold-400 ring-1 ring-gold-500/20"
-            : "text-white/75 hover:bg-gold-500/10 hover:text-white",
+            ? "text-gold-400"
+            : "text-slate-200 hover:text-white",
         )}
       >
-        <span>{t("more")}</span>
+        <span className="relative z-10">{t("more")}</span>
         <ChevronDown
           aria-hidden="true"
-          className={cn("h-4 w-4 transition-transform motion-reduce:transition-none", isOpen && "rotate-180")}
+          className={cn("relative z-10 h-4 w-4 transition-transform motion-reduce:transition-none", isOpen && "rotate-180")}
+        />
+        <span
+          aria-hidden="true"
+          className={cn(
+            "absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-gold-500 transition-transform duration-200",
+            hasActiveItem || isOpen ? "scale-x-100" : "scale-x-0",
+            "group-hover:scale-x-100",
+          )}
         />
       </button>
 
@@ -176,7 +184,7 @@ export function DesktopOverflowMenu({ items, isOpen, onOpenChange }: DesktopOver
                       "flex min-h-11 items-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
                       isCurrent
                         ? "bg-gold-500/15 text-gold-300"
-                        : "text-white/75 hover:bg-white/5 hover:text-white",
+                        : "text-slate-200 hover:bg-white/5 hover:text-white",
                     )}
                   >
                     {t(item.translationKey)}

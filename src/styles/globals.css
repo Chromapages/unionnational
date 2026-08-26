@@ -397,7 +397,6 @@
     animation-play-state: paused;
 }
 
-/* Slower scroll for testimonials */
 .animate-scroll-slow {
     animation: scroll 60s linear infinite;
 }
@@ -406,9 +405,33 @@
     animation-play-state: paused;
 }
 
+/* Infinite flowing marquee for hero trust badges */
+@keyframes hero-marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-hero-marquee {
+    animation: hero-marquee 24s linear infinite;
+}
+
+.animate-hero-marquee:hover,
+.animate-hero-marquee:focus-within {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-hero-marquee {
+        animation: none;
+    }
+}
+
 /* Gradient animation for CTA banners */
 @keyframes gradient-x {
-
     0%,
     100% {
         background-position: 0% 50%;
@@ -584,7 +607,6 @@ chat-widget[data-footer-visible] {
 
 /* Hide GHL Chat Widget on mobile (conflicts with bottom tab bar) */
 @media (max-width: 767px) {
-
     chat-widget,
     #chat-widget-container,
     #lc-chat-widget-container,

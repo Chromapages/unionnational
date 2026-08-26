@@ -1,41 +1,77 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Play } from "lucide-react";
+import type { KeyboardEvent } from "react";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface HeroVideoPlayerProps {
     src: string;
     poster?: string;
+    captionsSrc?: string;
+    captionsLang?: string;
+    captionsLabel?: string;
     ariaLabel: string;
     unavailableMessage: string;
     onPlay?: () => void;
 }
 
-export function HeroVideoPlayer({
+export const HeroVideoPlayer = ({
     src,
     poster,
+    captionsSrc,
+    captionsLang = "en",
+    captionsLabel = "English",
     ariaLabel,
     unavailableMessage,
     onPlay,
-}: HeroVideoPlayerProps) {
-    const hasReportedPlayRef = useRef(false);
+}: HeroVideoPlayerProps): React.JSX.Element => {
+    const hasReportedPlayRef = useRef<boolean>(false);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [hasMediaError, setHasMediaError] = useState(false);
-    const [hasStarted, setHasStarted] = useState(false);
+    const [hasMediaError, setHasMediaError] = useState<boolean>(false);
+    const [isMuted, setIsMuted] = useState<boolean>(true);
 
     useEffect(() => {
         setHasMediaError(false);
-        setHasStarted(false);
-    }, [src]);
+        setIsMuted(true);
 
-    const startPlayback = () => {
         const video = videoRef.current;
         if (!video) return;
 
-        void video.play().then(
-            () => video.focus(),
-            () => setHasStarted(false),
-        );
+        video.muted = true;
+        video.defaultMuted = true;
+
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // Autoplay may be restricted by browser policy; user can interact to play
+            });
+        }
+    }, [src]);
+
+    const handleToggleMute = () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const nextMutedState = !isMuted;
+        video.muted = nextMutedState;
+        setIsMuted(nextMutedState);
+
+        if (video.paused) {
+            void video.play();
+        }
+    };
+
+    const handlePlay = () => {
+        if (hasReportedPlayRef.current) return;
+        hasReportedPlayRef.current = true;
+        onPlay?.();
+    };
+
+    const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === " " || event.key === "Enter") {
+            event.preventDefault();
+            handleToggleMute();
+        }
     };
 
     if (hasMediaError) {
@@ -50,52 +86,49 @@ export function HeroVideoPlayer({
     }
 
     return (
-        <div className="relative aspect-video overflow-hidden rounded-2xl border border-white/15 bg-brand-950 shadow-lg shadow-brand-950/40 focus-within:ring-2 focus-within:ring-gold-400 focus-within:ring-offset-2 focus-within:ring-offset-brand-900">
+        <div
+            className="group relative aspect-video overflow-hidden rounded-2xl border border-white/15 bg-brand-950 shadow-lg shadow-brand-950/40 transition-all duration-300 hover:border-gold-500/30 hover:shadow-xl hover:shadow-brand-950/60 focus-within:ring-2 focus-within:ring-gold-400 focus-within:ring-offset-2 focus-within:ring-offset-brand-900"
+            tabIndex={0}
+            aria-label={ariaLabel}
+            onKeyDown={handleKeyDown}
+        >
             <video
                 ref={videoRef}
                 src={src}
                 poster={poster}
-                controls={hasStarted}
+                autoPlay
                 muted
+                loop
                 playsInline
-                preload="metadata"
-                aria-label={hasStarted ? ariaLabel : undefined}
-                aria-hidden={!hasStarted}
-                tabIndex={hasStarted ? 0 : -1}
-                className="h-full w-full object-contain"
-                onPlay={() => {
-                    setHasStarted(true);
-                    if (!hasReportedPlayRef.current) {
-                        hasReportedPlayRef.current = true;
-                        onPlay?.();
-                    }
-                }}
+                preload="auto"
+                controls={!isMuted}
+                aria-label={ariaLabel}
+                className="h-full w-full object-cover"
+                onPlay={handlePlay}
                 onError={() => setHasMediaError(true)}
             >
+                {captionsSrc ? (
+                    <track
+                        kind="captions"
+                        src={captionsSrc}
+                        srcLang={captionsLang}
+                        label={captionsLabel}
+                        default
+                    />
+                ) : null}
                 {unavailableMessage}
             </video>
-            {!hasStarted && (
+
+            {isMuted ? (
                 <button
                     type="button"
-                    className="group absolute inset-0 flex items-center justify-center overflow-hidden bg-brand-950/20 focus-visible:outline-none"
-                    aria-label={ariaLabel}
-                    onClick={startPlayback}
+                    onClick={handleToggleMute}
+                    className="absolute bottom-4 right-4 z-20 flex items-center gap-2 rounded-full border border-white/20 bg-brand-950/80 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md transition-all hover:bg-gold-500 hover:text-brand-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400"
                 >
-                    {poster && (
-                        // A plain image keeps remote CMS posters available even when Next image hosts are restricted.
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                            src={poster}
-                            alt=""
-                            className="absolute inset-0 h-full w-full object-cover"
-                        />
-                    )}
-                    <span className="absolute inset-0 bg-gradient-to-t from-brand-950/65 via-brand-950/10 to-transparent" />
-                    <span className="relative flex size-14 items-center justify-center rounded-full border border-white/30 bg-gold-400 text-brand-950 shadow-xl transition-transform duration-200 group-hover:scale-105 group-focus-visible:scale-105">
-                        <Play className="ml-1 size-6 fill-current" aria-hidden="true" />
-                    </span>
+                    <VolumeX className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span>Click for Sound</span>
                 </button>
-            )}
+            ) : null}
         </div>
     );
-}
+};

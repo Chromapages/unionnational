@@ -2,16 +2,17 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { TRUST_METRICS } from "@/lib/constants/trust-metrics";
 
 interface VSLTrustBarProps {
   stats?: { value: string; label: string }[];
 }
 
-export function VSLTrustBar({ stats }: VSLTrustBarProps) {
+export const VSLTrustBar = ({ stats }: VSLTrustBarProps): React.JSX.Element => {
   const defaultStats = [
-    { value: "$10M+", label: "Debt Resolved" },
-    { value: "500+", label: "Clients Served" },
-    { value: "20+", label: "Years Experience" },
+    { value: TRUST_METRICS.volume.debtResolved, label: "Debt Resolved" },
+    { value: TRUST_METRICS.volume.cumulativeClients, label: "Clients Served" },
+    { value: TRUST_METRICS.experience.yearsFormatted, label: "Years Experience" },
     { value: "98%", label: "Success Rate" },
     { value: "IRS", label: "Certified Team" },
   ];

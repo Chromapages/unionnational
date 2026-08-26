@@ -17,12 +17,12 @@ Object.defineProperty(window, 'matchMedia', {
 })
 
 // Mock IntersectionObserver
-const IntersectionObserverMock = vi.fn(() => ({
-  disconnect: vi.fn(),
-  observe: vi.fn(),
-  takeRecords: vi.fn(),
-  unobserve: vi.fn(),
-}))
+class IntersectionObserverMock {
+  disconnect = vi.fn();
+  observe = vi.fn();
+  takeRecords = vi.fn();
+  unobserve = vi.fn();
+}
 
 vi.stubGlobal('IntersectionObserver', IntersectionObserverMock)
 
@@ -37,4 +37,16 @@ vi.mock('next/navigation', () => ({
     get: vi.fn(),
   }),
   usePathname: () => '',
+}))
+
+vi.mock('@/i18n/navigation', () => ({
+  usePathname: () => '',
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  Link: () => null,
+  redirect: vi.fn(),
+  getPathname: vi.fn(),
 }))

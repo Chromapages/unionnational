@@ -17,6 +17,7 @@
         "healthAssessmentButtonAria": "Abrir la evaluación de salud del negocio",
         "openMenu": "Abrir menú",
         "closeMenu": "Cerrar menú",
+        "toggleMenu": "Alternar menú",
         "menuTitle": "Menú",
         "mobileNavigationAria": "Navegación móvil",
         "skipToContent": "Ir al contenido principal",
@@ -31,7 +32,7 @@
         "mainNavigationAria": "Navegación principal",
         "servicesDropdownHeading": "¿Con qué necesita ayuda?",
         "servicesDropdownSubheading": "Comience con el resultado que más le importa a su negocio.",
-        "servicesDropdownEyebrow": "Navegaci\u00f3n guiada por asesor\u00eda",
+        "servicesDropdownEyebrow": "Navegación guiada por asesoría",
         "servicesDropdownTitle": "Elija la ruta de servicio correcta.",
         "servicesDropdownDescription": "Comience con una ruta recomendada y luego explore las opciones clave de servicio.",
         "servicesDropdownBadge": "Dise\u00f1ado para due\u00f1os",
@@ -225,11 +226,16 @@
         }
     },
     "HomeHero": {
-        "title": "Deje de pagarle de m\u00e1s al IRS. Construya un negocio m\u00e1s inteligente.",
-        "subtitle": "Vea si una elecci\u00f3n S-Corp, la planificaci\u00f3n fiscal proactiva y la asesor\u00eda de nivel CFO pueden ayudarle a conservar m\u00e1s de lo que gana.",
-        "primaryCta": "Vea Si una S-Corp Podr\u00eda Ahorrarle Dinero",
+        "title": "Deje de pagarle de más al IRS. Construya un negocio más inteligente.",
+        "subtitle": "Vea si una elección S-Corp, la planificación fiscal proactiva y la asesoría de nivel CFO pueden ayudarle a conservar más de lo que gana.",
+        "primaryCta": "Vea Si una S-Corp Podría Ahorrarle Dinero",
+        "secondaryCta": "Explorar Servicios",
         "videoLabel": "Vea el resumen de estrategia fiscal",
-        "unavailable": "El video de resumen no est\u00e1 disponible en este momento. Intente de nuevo m\u00e1s tarde."
+        "unavailable": "El video de resumen no está disponible en este momento. Intente de nuevo más tarde.",
+        "trustCredential": "Agente Registrado ante el IRS (Máxima Credencial)",
+        "trustVolume": "200+ Contratistas Atendidos",
+        "trustExperience": "15+ Años de Experiencia",
+        "trustAdvisory": "15+ Años de Experiencia"
     },
     "HomePage": {
         "VideoHero": {
@@ -492,7 +498,24 @@
             },
             "conclusion": "Más tiempo para planificar significa menos decisiones tomadas bajo presión.",
             "primaryCta": "Vea cómo funciona la planificación fiscal proactiva",
-            "secondaryCta": "Revise si una S-Corp es adecuada"
+            "secondaryCta": "Revise si una S-Corp es adecuada",
+            "recommendedBadge": "Recomendado",
+            "emptyFallback": "Los detalles de la comparación se están actualizando.",
+            "evidence": {
+                "step1": {
+                    "label": "Revisar posición actual",
+                    "body": "Examine la estructura de su entidad, ingresos actuales y línea base tributaria antes del cierre de año."
+                },
+                "step2": {
+                    "label": "Identificar decisiones antes de fechas límite",
+                    "body": "Identifique deducciones, aportes de jubilación y estrategias de distribución de S-Corp por adelantado."
+                },
+                "step3": {
+                    "label": "Planificar y revisar durante todo el año",
+                    "body": "Mantenga puntos de control periódicos para ajustar la estrategia según evolucionen sus operaciones y normas fiscales."
+                },
+                "disclaimer": "Flujo de trabajo de planificación informativo. Los resultados fiscales individuales dependen de la estructura de su entidad y su implementación oportuna."
+            }
         },
         "HowItWorksSection": {
             "eyebrow": "Un camino claro hacia adelante",
@@ -505,21 +528,23 @@
                 "start": {
                     "title": "Comience con una llamada de estrategia",
                     "description": "Comparta cómo está estructurado el negocio, cómo fluyen los ingresos y qué ha cambiado este año.",
-                    "outcome": "Una revisión enfocada de su situación actual"
+                    "outcome": "Diagnóstico documentado de la estructura de la entidad y línea base tributaria"
                 },
                 "opportunities": {
                     "title": "Vea las oportunidades que vale la pena evaluar",
                     "description": "Evaluamos la elegibilidad para una S-Corp y otras oportunidades de planificación fiscal proactiva, y luego priorizamos lo que merece acción.",
-                    "outcome": "Un conjunto priorizado de oportunidades de planificación"
+                    "outcome": "Hoja de ruta estratégica priorizada con ahorros fiscales potenciales cuantificados"
                 },
                 "plan": {
                     "title": "Ponga en marcha su plan anual",
                     "description": "Reciba decisiones documentadas, fechas límite, responsabilidades y un ritmo para revisar la estrategia.",
-                    "outcome": "Un plan de acción para todo el año"
+                    "outcome": "Cronograma de implementación anual con hitos de revisión trimestrales"
                 }
             },
+            "cadenceLoop": "Ritmo Continuo: Revisamos sus cifras cada trimestre para adaptar su estrategia según evolucionen sus ingresos y las normas fiscales.",
+            "swipeHint": "Deslice para explorar los pasos",
             "cta": "Comience con una llamada de estrategia",
-            "ctaSupport": "La llamada nos da el contexto necesario para que la revisión sea útil."
+            "ctaSupport": "Llamada de 30 minutos • Sin preparación previa requerida • Directo con un Enrolled Agent"
         },
         "FAQSection": {
             "eyebrow": "¿Tiene preguntas?",
@@ -527,12 +552,15 @@
             "subtitle": "Todo lo que necesita saber sobre nuestros servicios, precios y estrategias fiscales."
         },
         "ExitIntentModal": {
-            "title": "Antes de irse, revise sus puntos ciegos fiscales.",
-            "subtitle": "Una evaluación rápida puede revelar oportunidades de ahorro y vacíos de planificación en minutos.",
-            "cta": "Hacer la revisión",
-            "dismiss": "No por ahora",
+            "title": "Revise los puntos ciegos fiscales de su negocio en 2 minutos.",
+            "subtitle": "Responda 7 preguntas rápidas para descubrir ahorros fiscales—sin llamadas.",
+            "cta": "Revisar puntos ciegos fiscales",
+            "meta": "7 preguntas • Puntuación instantánea • 100% confidencial",
+            "dismiss": "No por ahora, revisaré más tarde",
             "close": "Cerrar aviso de revisión fiscal",
-            "closeModal": "Cerrar"
+            "closeModal": "Cerrar modal",
+            "mobileTitle": "Revise sus puntos ciegos fiscales",
+            "mobileSubtitle": "7 preguntas rápidas • Evaluación de 2 min"
         },
         "FloatingTaxButton": {
             "buttonAria": "Abrir panel de revisión fiscal",

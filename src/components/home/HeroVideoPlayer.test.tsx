@@ -7,7 +7,7 @@ describe("HeroVideoPlayer", () => {
         vi.restoreAllMocks();
     });
 
-    it("renders the poster-first video without attempting playback on mount or canplay", () => {
+    it("renders the video configured for muted autoplay", () => {
         const playSpy = vi
             .spyOn(HTMLMediaElement.prototype, "play")
             .mockImplementation(() => Promise.resolve());
@@ -23,16 +23,18 @@ describe("HeroVideoPlayer", () => {
 
         const video = container.querySelector("video") as HTMLVideoElement;
         expect(video).toHaveAttribute("poster", "/hero.jpg");
-        expect(video).toHaveAttribute("preload", "metadata");
-        expect(playSpy).not.toHaveBeenCalled();
-
-        fireEvent.canPlay(video);
-
-        expect(playSpy).not.toHaveBeenCalled();
-        expect(screen.getByRole("button", { name: "Watch how Union National works" })).toBeVisible();
+        expect(video.muted).toBe(true);
+        expect(video.loop).toBe(true);
+        expect(video.playsInline).toBe(true);
+        expect(playSpy).toHaveBeenCalled();
+        expect(screen.getByRole("button", { name: /Click for Sound/i })).toBeVisible();
     });
 
-    it("preserves the accessible video configuration", () => {
+    it("unmutes and displays controls when clicking the sound toggle button", () => {
+        const playSpy = vi
+            .spyOn(HTMLMediaElement.prototype, "play")
+            .mockImplementation(() => Promise.resolve());
+
         const { container } = render(
             <HeroVideoPlayer
                 src="/hero.mp4"
@@ -43,13 +45,14 @@ describe("HeroVideoPlayer", () => {
         );
 
         const video = container.querySelector("video") as HTMLVideoElement;
-        expect(video.controls).toBe(false);
         expect(video.muted).toBe(true);
-        expect(video.playsInline).toBe(true);
-        expect(video).toHaveAttribute("preload", "metadata");
+        expect(video.controls).toBe(false);
 
-        fireEvent.play(video);
+        fireEvent.click(screen.getByRole("button", { name: /Click for Sound/i }));
+
+        expect(video.muted).toBe(false);
         expect(video.controls).toBe(true);
+        expect(playSpy).toHaveBeenCalled();
     });
 
     it("reports play only once per mounted player session", () => {
@@ -82,25 +85,6 @@ describe("HeroVideoPlayer", () => {
         fireEvent.play(container.querySelector("video") as HTMLVideoElement);
 
         expect(onPlay).toHaveBeenCalledTimes(1);
-    });
-
-    it("starts playback from the keyboard-operable poster control", () => {
-        const playSpy = vi
-            .spyOn(HTMLMediaElement.prototype, "play")
-            .mockImplementation(() => Promise.resolve());
-
-        render(
-            <HeroVideoPlayer
-                src="/hero.mp4"
-                poster="/hero.jpg"
-                ariaLabel="Watch how Union National works"
-                unavailableMessage="Video unavailable"
-            />,
-        );
-
-        fireEvent.click(screen.getByRole("button", { name: "Watch how Union National works" }));
-
-        expect(playSpy).toHaveBeenCalledTimes(1);
     });
 
     it("shows the fallback status when the media errors", () => {
