@@ -2,7 +2,7 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { VideoHero } from "@/components/home/VideoHero";
 import { TrustBar } from "@/components/home/TrustBar";
-import { CTASection } from "@/components/home/CTASection";
+import { HomepageCTASection } from "@/components/home/HomepageCTASection";
 import { ExitIntentModal } from "@/components/home/ExitIntentModal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -101,13 +101,13 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
             <VideoHero data={homeData} />
           </ErrorBoundary>
 
-          <ErrorBoundary name="Trust Bar">
-            <TrustBar />
-          </ErrorBoundary>
-
-          {/* Why Us Section - merged Problem + Differentiation + Nationwide */}
+          {/* First post-hero proof: proactive operating model versus reactive tax preparation. */}
           <ErrorBoundary name="Why Us Section">
             <WhyUsSection />
+          </ErrorBoundary>
+
+          <ErrorBoundary name="Trust Bar">
+            <TrustBar />
           </ErrorBoundary>
 
           <ErrorBoundary name="How It Works">
@@ -117,7 +117,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           {/* Services Section - already shows 2 priority services */}
           <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
             <ErrorBoundary name="Services Section">
-              <ServicesSection />
+              <ServicesSection services={servicesData} />
             </ErrorBoundary>
           </Suspense>
 
@@ -129,7 +129,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           </Suspense>
 
           {/* Final CTA - single button */}
-          <CTASection data={homeData} variant="homepageWireframe" />
+          <HomepageCTASection data={homeData} />
         </div>
       </main>
       <ErrorBoundary name="Footer">

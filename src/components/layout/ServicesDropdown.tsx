@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { ArrowRight, ChevronDown, type LucideIcon } from "lucide-react";
@@ -39,9 +39,8 @@ export const ServicesDropdown = ({
     if (controlledIsOpen === undefined) setInternalIsOpen(nextIsOpen);
     onOpenChange?.(nextIsOpen);
   };
-  const instanceId = useId();
-  const menuId = `${instanceId}-services-panel`;
-  const buttonId = `${instanceId}-services-button`;
+  const menuId = "header-services-panel";
+  const buttonId = "header-services-button";
   const isServicesActive = forcedIsActive ?? pathname.startsWith("/services");
   const serviceData = mergeServiceNavigationData(services);
 

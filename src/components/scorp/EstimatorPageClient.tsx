@@ -82,16 +82,7 @@ export function EstimatorPageClient() {
 
             sessionStorage.setItem("scorp-estimator-result", JSON.stringify(resultPayload));
 
-            const params = new URLSearchParams({
-                firstName: data.firstName,
-                businessName: data.businessName,
-                netProfit: String(data.estimatedNetProfit),
-                savings: String(estimate.estimatedSavings),
-                salary: String(estimate.suggestedSalary),
-                distributions: String(estimate.distributions),
-            });
-
-            router.push(`/scorp-estimator/results?${params.toString()}`);
+            router.push("/scorp-estimator/results");
         } catch (submissionError) {
             setError(submissionError instanceof Error ? submissionError.message : "We could not submit your estimate. Please try again.");
         } finally {

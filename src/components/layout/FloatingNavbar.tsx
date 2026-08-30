@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, type MouseEvent } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Menu as MenuIcon } from "lucide-react";
+import { Calendar, Menu as MenuIcon } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
 import { DesktopOverflowMenu } from "./DesktopOverflowMenu";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
@@ -40,6 +40,8 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const [openDesktopMenu, setOpenDesktopMenu] = useState<"services" | "more" | null>(null);
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
+    const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
+    const bookingNavigationInProgressRef = useRef(false);
 
     useEffect(() => {
         const header = headerRef.current;
@@ -58,8 +60,20 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
     const isServicesActive = isServicePath(pathname);
 
-    const handleToggleSidebar = useCallback(() => setSidebarOpen((prev) => !prev), []);
+    const handleOpenSidebar = useCallback(() => setSidebarOpen(true), []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
+
+    const handleBookingClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+        if (bookingNavigationInProgressRef.current) {
+            event.preventDefault();
+            return;
+        }
+
+        bookingNavigationInProgressRef.current = true;
+        window.setTimeout(() => {
+            bookingNavigationInProgressRef.current = false;
+        }, 750);
+    }, []);
     const handleServicesOpenChange = useCallback(
         (isOpen: boolean) => setOpenDesktopMenu(isOpen ? "services" : null),
         [],
@@ -92,7 +106,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         <>
             <header
                 ref={headerRef}
-                className="fixed top-0 left-0 right-0 z-[1200]"
+                className="fixed top-0 left-0 right-0 z-[1200] pt-[env(safe-area-inset-top)]"
                 style={{
                     backgroundColor: "rgb(13, 46, 43)",
                     borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
@@ -102,8 +116,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                 <div className="mx-auto max-w-screen-2xl">
                     {/* Inner row: logo + nav + utilities */}
                     <div
-                        className="flex items-center justify-between px-5 lg:px-6"
-                        style={{ minHeight: "76px" }}
+                        className="flex min-h-16 items-center justify-between px-4 sm:px-5 lg:px-6"
                     >
                         {/* ── Left: Logo ── */}
                         <Link
@@ -111,9 +124,9 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             aria-label={t("logoHomeAria", {
                                 company: companyName,
                             })}
-                            className="mr-6 flex shrink-0 items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
+                            className="mr-0 flex min-h-11 shrink-0 items-center rounded-sm touch-manipulation sm:mr-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
                         >
-                            <div className="relative flex items-center justify-center" style={{ width: "172px", height: "42px" }}>
+                            <div className="relative flex h-[42px] w-[144px] items-center justify-center min-[360px]:w-[172px]">
                                 {logoFailed ? (
                                     <span className="px-2 text-center font-heading text-sm font-bold leading-tight text-white">
                                         {companyName}
@@ -124,7 +137,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         alt={companyName}
                                         fill
                                         className="object-contain"
-                                        sizes="172px"
+                                        sizes="(min-width: 360px) 172px, 144px"
                                         priority
                                         onError={() => setLogoFailed(true)}
                                     />
@@ -197,9 +210,23 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             {/* Language toggle */}
                             <div className="hidden 2xl:block"><LocaleSwitcher /></div>
 
+                            {/* Mobile conversion CTA — compact to preserve logo and menu touch targets. */}
+                            <Link
+                                href={ctaUrl}
+                                onClick={handleBookingClick}
+                                aria-label={t("bookCall")}
+                                title={t("bookCall")}
+                                className="inline-flex h-12 w-auto shrink-0 touch-manipulation items-center justify-center gap-1.5 rounded-md px-2 text-gold-300 transition-[background-color,color,transform] hover:bg-white/10 hover:text-gold-200 active:scale-[0.96] active:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none md:hidden"
+                            >
+                                <Calendar className="h-5 w-5 shrink-0" aria-hidden="true" />
+                                <span className="text-xs font-bold">{t("bookShort")}</span>
+                                <span className="sr-only">{t("bookCall")}</span>
+                            </Link>
+
                             {/* Primary CTA — always visible, sticky in fixed header */}
                             <Link
                                 href={ctaUrl}
+                                onClick={handleBookingClick}
                                 className={navbarStyles.cta}
                                 style={{ boxShadow: "0 2px 10px -2px rgba(212, 175, 55, 0.5)" }}
                             >
@@ -208,12 +235,13 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
                             {/* Hamburger — only shown when sidebar is closed on mobile */}
                             <button
+                                ref={mobileMenuButtonRef}
                                 type="button"
-                                onClick={handleToggleSidebar}
-                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-slate-200 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 xl:hidden"
+                                onClick={handleOpenSidebar}
+                                className="flex h-12 w-12 shrink-0 touch-manipulation items-center justify-center rounded-md text-slate-200 transition-[background-color,color,transform] hover:bg-white/5 hover:text-white active:scale-[0.96] active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none xl:hidden"
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
-                                aria-label={sidebarOpen ? t("closeMenu") : t("openMenu")}
+                                aria-label={t("openMenu")}
                             >
                                 <MenuIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
@@ -234,6 +262,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             <MobileSidebar
                 isOpen={sidebarOpen}
                 onClose={handleCloseSidebar}
+                returnFocusRef={mobileMenuButtonRef}
                 siteSettings={siteSettings}
             />
         </>

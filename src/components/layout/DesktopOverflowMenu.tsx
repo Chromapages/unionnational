@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -17,13 +17,12 @@ type DesktopOverflowMenuProps = {
 export function DesktopOverflowMenu({ items, isOpen, onOpenChange }: DesktopOverflowMenuProps) {
   const t = useTranslations("Header");
   const pathname = usePathname();
-  const instanceId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const shouldFocusFirstLinkRef = useRef(false);
-  const panelId = `${instanceId}-desktop-overflow-panel`;
-  const triggerId = `${instanceId}-desktop-overflow-trigger`;
+  const panelId = "header-desktop-overflow-panel";
+  const triggerId = "header-desktop-overflow-trigger";
   const hasActiveItem = items.some((item) => isNavigationPathActive(pathname, item.href));
 
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

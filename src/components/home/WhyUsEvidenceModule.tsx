@@ -77,33 +77,33 @@ export const WhyUsEvidenceModule = ({
         return null;
     }
 
+    const headingId = `${trackingId}-heading`;
+
     return (
-        <aside
+        <section
             data-testid="why-us-evidence-module"
             data-evidence-variant={variant}
             data-tracking-id={trackingId}
-            aria-label={heading || "Planning process and evidence"}
-            className="col-span-1 border-t border-slate-200/80 pt-8 lg:col-span-12"
+            aria-label={heading ? undefined : "Planning process and evidence"}
+            aria-labelledby={heading ? headingId : undefined}
+            className="col-span-1 border-t-2 border-gold-200/80 pt-6 sm:pt-8 lg:col-span-12"
         >
             {eyebrow || heading ? (
-                <div className="mb-5">
+                <div className="mb-6">
                     {eyebrow ? (
-                        <p className="font-mono text-xs font-semibold uppercase tracking-wider text-gold-800">
+                        <p className="home-eyebrow text-gold-800">
                             {eyebrow}
                         </p>
                     ) : null}
                     {heading ? (
-                        <h3 className="mt-1 font-heading text-lg font-bold text-brand-900">
+                        <h2 id={headingId} className="mt-4 max-w-3xl font-heading text-[1.75rem] font-semibold leading-[1.08] tracking-[-0.025em] text-brand-900 sm:text-[2rem]">
                             {heading}
-                        </h3>
+                        </h2>
                     ) : null}
                 </div>
             ) : null}
 
-            <ol
-                role="list"
-                className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3 lg:gap-6"
-            >
+            <ol className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3 lg:gap-6">
                 {visibleItems.map((item, index) => {
                     const stepNumber = String(index + 1).padStart(2, "0");
                     return (
@@ -119,9 +119,9 @@ export const WhyUsEvidenceModule = ({
                                     >
                                         {stepNumber}
                                     </span>
-                                    <h4 className="font-heading text-sm font-bold text-brand-950">
+                                    <h3 className="font-heading text-sm font-bold text-brand-950">
                                         {item.label}
-                                    </h4>
+                                    </h3>
                                 </div>
                                 <p className="mt-2.5 break-words text-xs leading-relaxed text-slate-600 sm:text-sm">
                                     {item.body}
@@ -148,6 +148,6 @@ export const WhyUsEvidenceModule = ({
                     {legalDisclaimer}
                 </p>
             ) : null}
-        </aside>
+        </section>
     );
 };

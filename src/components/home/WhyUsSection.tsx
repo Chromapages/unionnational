@@ -2,6 +2,7 @@ import React from "react";
 import { getTranslations } from "next-intl/server";
 import { WhyUsConversionArea } from "./WhyUsConversionArea";
 import { WhyUsEvidenceModule, type WhyUsEvidenceModuleProps } from "./WhyUsEvidenceModule";
+import { MobileCarouselPagination } from "./MobileCarouselPagination";
 import type { LucideIcon } from "lucide-react";
 
 export interface ComparisonRow {
@@ -52,18 +53,18 @@ export const WhyUsSection = async ({
     return (
         <section
             id="proactive-by-design"
-            className="border-y border-slate-200 bg-slate-50 py-16 sm:py-20 lg:py-24"
+            className="border-y border-slate-200 bg-slate-50 pt-16 pb-8 sm:py-20 lg:py-24"
             aria-labelledby="why-us-heading"
         >
             <div className="mx-auto w-full max-w-screen-2xl px-5 sm:px-6 lg:px-6">
-                <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
                     {/* Header */}
-                    <div className="col-span-1 lg:col-span-12">
+                    <div className="col-span-1 mb-2 lg:col-span-12 lg:mb-0">
                         <p className="home-eyebrow text-gold-800">{t("eyebrow")}</p>
-                        <h2 id="why-us-heading" className="home-section-heading mt-5 max-w-4xl text-brand-900">
+                        <h2 id="why-us-heading" className="home-section-heading mt-4 max-w-4xl text-brand-900">
                             {t("title")}
                         </h2>
-                        <p className="home-supporting-copy mt-5 max-w-3xl text-slate-700">
+                        <p className="home-supporting-copy mt-4 max-w-3xl text-slate-700">
                             {t("subtitle")}
                         </p>
                     </div>
@@ -136,35 +137,52 @@ export const WhyUsSection = async ({
                                 </div>
 
                                 {/* Mobile Semantic Key-Value Cards */}
-                                <ul role="list" className="space-y-4 md:hidden" aria-label={t("caption")}>
-                                    {resolvedRows.map((item) => {
+                                <ul
+                                    role="list"
+                                    id="why-us-mobile-comparison-carousel"
+                                    className="-mx-4 flex snap-x snap-mandatory items-stretch gap-6 overflow-x-auto px-4 touch-pan-x no-scrollbar md:hidden"
+                                    aria-label={t("caption")}
+                                >
+                                    {resolvedRows.map((item, index) => {
                                         const titleId = `why-us-card-title-${item.id}`;
+                                        const isFirstCard = index === 0;
                                         return (
                                             <li
                                                 key={item.id}
+                                                data-carousel-item
                                                 aria-labelledby={titleId}
-                                                className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5"
+                                                className="w-[85vw] max-w-[340px] shrink-0 snap-center rounded-xl border border-slate-200 bg-white p-4"
                                             >
                                                 <h3 id={titleId} className="font-heading text-base font-bold text-brand-900">
                                                     {String(item.label)}
                                                 </h3>
-                                                <dl className="mt-3 space-y-3 sm:mt-4">
-                                                    <div className="rounded-xl bg-slate-100 p-3.5 sm:p-4">
-                                                        <dt className="text-xs font-bold uppercase tracking-[0.1em] text-slate-700">
+                                                <dl className="mt-4 space-y-4">
+                                                    <div className="rounded-xl bg-slate-100 p-4">
+                                                        <dt className={isFirstCard
+                                                            ? "text-xs font-bold uppercase tracking-[0.1em] text-slate-700"
+                                                            : "text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-700"
+                                                        }>
                                                             {t("traditionalLabel")}
                                                         </dt>
                                                         <dd className="mt-1.5 break-words text-sm leading-relaxed text-slate-700">
                                                             {String(item.traditionalText)}
                                                         </dd>
                                                     </div>
-                                                    <div className="rounded-xl border border-gold-200 bg-gold-50/70 p-3.5 sm:p-4">
+                                                    <div className="rounded-xl bg-gold-50/70 p-4">
                                                         <div className="flex items-center justify-between gap-2">
-                                                            <dt className="text-xs font-bold uppercase tracking-[0.1em] text-gold-900">
+                                                            <dt className={isFirstCard
+                                                                ? "text-xs font-bold uppercase tracking-[0.1em] text-gold-900"
+                                                                : "text-[11px] font-semibold uppercase tracking-[0.08em] text-gold-800"
+                                                            }>
                                                                 {t("proactiveLabel")}
                                                             </dt>
                                                             {showRecommendedBadge ? (
-                                                                <span className="inline-flex min-h-6 items-center rounded-full bg-gold-200/90 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-950">
-                                                                    {recommendedLabel}
+                                                                <span className={isFirstCard
+                                                                    ? "inline-flex min-h-6 items-center rounded-full bg-gold-200/90 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-950"
+                                                                    : "inline-flex min-h-6 items-center rounded-full bg-gold-100 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-gold-900"
+                                                                }>
+                                                                    <span aria-hidden="true">{recommendedLabel}</span>
+                                                                    <span className="sr-only">{recommendedLabel}</span>
                                                                 </span>
                                                             ) : null}
                                                         </div>
@@ -177,6 +195,10 @@ export const WhyUsSection = async ({
                                         );
                                     })}
                                 </ul>
+                                <MobileCarouselPagination
+                                    carouselId="why-us-mobile-comparison-carousel"
+                                    items={resolvedRows.map((item) => ({ id: item.id, label: String(item.label) }))}
+                                />
                             </>
                         )}
                     </div>
@@ -186,8 +208,8 @@ export const WhyUsSection = async ({
                         <WhyUsEvidenceModule
                             enabled={evidenceModule?.enabled ?? true}
                             variant={evidenceModule?.variant ?? "process_strip"}
-                            eyebrow={evidenceModule?.eyebrow}
-                            heading={evidenceModule?.heading}
+                            eyebrow={evidenceModule?.eyebrow ?? t("evidence.eyebrow")}
+                            heading={evidenceModule?.heading ?? t("evidence.heading")}
                             items={
                                 evidenceModule?.items ?? [
                                     {
@@ -217,14 +239,16 @@ export const WhyUsSection = async ({
                         />
                     )}
 
-                    {/* Shared Lower Conversion Area */}
-                    <WhyUsConversionArea
-                        conclusion={t("conclusion")}
-                        primaryCtaText={t("primaryCta")}
-                        secondaryCtaText={t("secondaryCta")}
-                        primaryHref={primaryHref}
-                        secondaryHref={secondaryHref}
-                    />
+                    {/* Desktop-only conversion area; mobile continues directly into the next named section. */}
+                    <div className="hidden md:contents">
+                        <WhyUsConversionArea
+                            conclusion={t("conclusion")}
+                            primaryCtaText={t("primaryCta")}
+                            secondaryCtaText={t("secondaryCta")}
+                            primaryHref={primaryHref}
+                            secondaryHref={secondaryHref}
+                        />
+                    </div>
                 </div>
             </div>
         </section>

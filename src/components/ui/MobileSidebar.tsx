@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useRef, useState } from "react";
+import { useEffect, useCallback, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +31,7 @@ import {
 interface MobileSidebarProps {
     isOpen: boolean;
     onClose: () => void;
+    returnFocusRef: RefObject<HTMLButtonElement | null>;
     siteSettings?: {
         companyName?: string;
         ctaButtonTextLocalized?: string;
@@ -100,11 +101,10 @@ const sectionVariants = {
     visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
 };
 
-export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarProps) {
+export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }: MobileSidebarProps) {
     const t = useTranslations("Header");
     const pathname = usePathname();
     const previousPathnameRef = useRef(pathname);
-    const previousFocusRef = useRef<HTMLElement | null>(null);
     const asideRef = useRef<HTMLElement>(null);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
@@ -122,20 +122,15 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
     }, [isOpen, onClose, pathname]);
 
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-        return () => { document.body.style.overflow = ""; };
+        if (!isOpen) return;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => { document.body.style.overflow = previousOverflow; };
     }, [isOpen]);
 
     useEffect(() => {
         if (!isOpen) return;
-
-        previousFocusRef.current = document.activeElement instanceof HTMLElement
-            ? document.activeElement
-            : null;
 
         const backgroundElements = Array.from(
             document.querySelectorAll<HTMLElement>("header, main, footer"),
@@ -154,12 +149,11 @@ export function MobileSidebar({ isOpen, onClose, siteSettings }: MobileSidebarPr
                 if (!wasInert) element.removeAttribute("inert");
             });
 
-            const previousFocus = previousFocusRef.current;
             requestAnimationFrame(() => {
-                if (previousFocus?.isConnected) previousFocus.focus();
+                if (returnFocusRef.current?.isConnected) returnFocusRef.current.focus();
             });
         };
-    }, [isOpen]);
+    }, [isOpen, returnFocusRef]);
 
     const isActive = useCallback(
         (href: string) => isNavigationPathActive(pathname, href),

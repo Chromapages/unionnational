@@ -37,7 +37,10 @@ function mockMedia({ reducedMotion = false } = {}) {
 }
 
 describe("FooterNavigation", () => {
-  beforeEach(() => mockMedia());
+  beforeEach(() => {
+    mockMedia();
+    (window as Window & { dataLayer?: Record<string, unknown>[] }).dataLayer = [];
+  });
 
   it("renders collapsed mobile groups with associated semantic controls", () => {
     render(<FooterNavigation groups={groups} navigationLabel="Footer navigation" />);
@@ -49,7 +52,7 @@ describe("FooterNavigation", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "false");
     expect(panel).toHaveAttribute("aria-labelledby", trigger.id);
     expect(panel).toHaveAttribute("hidden");
-    expect(trigger.className).toContain("min-h-11");
+    expect(trigger.className).toContain("min-h-12");
   });
 
   it("opens with Enter, exposes existing links, and keeps focus on the trigger", async () => {
@@ -65,6 +68,22 @@ describe("FooterNavigation", () => {
     expect(screen.getAllByRole("link", { name: "Tax Planning" })[0]).toHaveAttribute("href", "/tax-planning");
   });
 
+  it("records category expansion and stable child-navigation identifiers without link payload data", async () => {
+    const user = userEvent.setup();
+    render(<FooterNavigation groups={groups} navigationLabel="Footer navigation" />);
+
+    await user.click(screen.getByRole("button", { name: "Advisory" }));
+
+    expect((window as Window & { dataLayer?: Record<string, unknown>[] }).dataLayer).toContainEqual({
+      event: "footer_navigation_group_expand",
+      surface: "global_footer",
+      destination_id: "footer_group_0",
+      category_id: "footer_group_0",
+    });
+    expect(screen.getAllByRole("link", { name: "Tax Planning" })[0])
+      .toHaveAttribute("data-footer-category-id", "footer_group_0");
+  });
+
   it("hides a closed panel immediately when reduced motion is requested", async () => {
     mockMedia({ reducedMotion: true });
     const user = userEvent.setup();
@@ -77,11 +96,11 @@ describe("FooterNavigation", () => {
     expect(document.getElementById(trigger.getAttribute("aria-controls") || "")).toHaveAttribute("hidden");
   });
 
-  it("server-renders the established md desktop grid with every link expanded", () => {
+  it("server-renders the established lg desktop grid with every link expanded", () => {
     render(<FooterNavigation groups={groups} navigationLabel="Footer navigation" />);
 
     const desktopNavigation = screen.getByTestId("footer-desktop-navigation");
-    expect(desktopNavigation).toHaveClass("md:grid");
+    expect(desktopNavigation).toHaveClass("lg:grid");
     expect(desktopNavigation).toHaveTextContent("Tax Planning");
     expect(desktopNavigation.querySelector("button")).not.toBeInTheDocument();
   });

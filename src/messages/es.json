@@ -11,6 +11,7 @@
         "healthCheck": "Revisión de Salud",
         "resources": "Guías y herramientas",
         "bookCall": "Reservar llamada de estrategia",
+        "bookShort": "Reservar",
         "defaultCompanyName": "Union National Tax",
         "logoHomeAria": "Inicio de {company}",
         "contactButtonAria": "Ver la información de contacto",
@@ -48,10 +49,10 @@
         "servicesGroupOther": "Más servicios",
         "servicesGroupOtherDescription": "Explore apoyo adicional para su negocio.",
         "serviceLabels": {
-            "taxPlanning": "Planificación fiscal",
-            "sCorp": "Ventaja fiscal S-Corp",
-            "bookkeeping": "Contabilidad estratégica",
-            "fractionalCfo": "CFO fraccional",
+            "taxPlanning": "Planificación Fiscal Proactiva",
+            "sCorp": "Ventaja Fiscal S-Corp",
+            "bookkeeping": "Contabilidad Estratégica",
+            "fractionalCfo": "CFO Fraccional",
             "formation": "Formación de nuevos negocios",
             "payroll": "Servicios de nómina",
             "taxPreparation": "Preparación y declaración de impuestos"
@@ -85,15 +86,20 @@
     "Footer": {
         "defaultCompanyName": "Union National Tax",
         "complianceTitle": "Cumplimiento e implementación",
-        "brandBio": "Estrategia fiscal proactiva y claridad financiera para contratistas y propietarios de negocios de servicios.",
         "navigationLabel": "Navegación del pie de página",
+        "socialNavigationLabel": "Canales sociales",
         "legalNavigationLabel": "Información legal",
         "homeLinkLabel": "Inicio de Union National Tax",
         "advisoryTitle": "Asesoría",
         "servicesTitle": "Servicios",
         "companyTitle": "Empresa",
+        "companyAndIndustriesTitle": "Empresa e industrias",
         "resourcesTitle": "Recursos",
+        "resourcesAndShopTitle": "Recursos y tienda",
         "contactTitle": "Contáctenos",
+        "phoneLabel": "Teléfono",
+        "emailLabel": "Correo electrónico",
+        "officeDetails": "Detalles de la oficina",
         "viewAllServices": "Ver Todos los Servicios",
         "team": "Equipo",
         "disclaimerLabel": "Aviso:",
@@ -108,20 +114,29 @@
             "payroll": "Servicios de nómina"
         },
         "advisoryLinks": {
-            "scorp": "Ventaja fiscal de la corporación S",
-            "taxPlanning": "Planificación fiscal",
-            "bookkeeping": "Contabilidad estratégica",
-            "fractionalCfo": "CFO fraccional"
+            "scorp": "Ventaja Fiscal S-Corp",
+            "taxPlanning": "Planificación Fiscal Proactiva",
+            "bookkeeping": "Contabilidad Estratégica",
+            "fractionalCfo": "CFO Fraccional"
         },
         "resourceCenter": "Centro de recursos",
         "credentialLabel": "Agente inscrito",
         "credentialDetail": "Con licencia federal del IRS",
-        "copyright": "© {year} Union National Tax. Todos los derechos reservados.",
+        "copyrightTextFallback": "Union National Tax. Todos los derechos reservados.",
         "privacy": "Política de Privacidad",
         "terms": "Términos de Servicio",
-        "disclaimer": "Aviso legal"
+        "disclaimer": "Aviso legal",
+        "readDisclaimer": "Leer aviso legal",
+        "closeDisclaimer": "Cerrar aviso legal"
     },
     "Common": {
+        "featuredResult": "Resultado destacado",
+        "before": "Antes",
+        "after": "Después",
+        "outcome": "Resultado",
+        "readMoreClientResults": "Ver más resultados de clientes y casos de estudio",
+        "trustedByBusinessOwners": "Más de 1,000 dueños de negocios atendidos",
+        "verifiedClient": "Cliente verificado",
         "learnMore": "Más Información",
         "getStarted": "Comenzar",
         "viewAll": "Ver Todo"
@@ -360,31 +375,44 @@
             "eyebrow": "Lo que le ayudamos a lograr",
             "title": "Cuatro resultados. Una estrategia financiera conectada.",
             "subtitle": "Empiece por la necesidad más urgente y vea el servicio diseñado para atenderla.",
+            "recommendedBadge": "Recomendado",
             "listLabel": "Resultados financieros y los servicios que los respaldan",
             "outcomes": {
                 "scorp": {
                     "service": "Ventaja Fiscal S-Corp",
-                    "title": "Conserve más de lo que gana cuando la estructura sea adecuada",
+                    "title": "Reduzca su carga fiscal",
                     "description": "Evalúe si una elección S-Corp y una estrategia de nómina coordinada podrían reducir impuestos evitables sobre el trabajo por cuenta propia.",
                     "link": "Explorar Ventaja Fiscal S-Corp"
                 },
                 "taxPlanning": {
                     "service": "Planificación Fiscal Proactiva",
-                    "title": "Tome decisiones fiscales antes de que cierren los plazos",
+                    "title": "Planifique antes de los plazos",
                     "description": "Planifique decisiones de entidad, deducciones, jubilación y fechas mientras todavía haya tiempo para actuar.",
                     "link": "Explorar Planificación Fiscal Proactiva"
                 },
                 "bookkeeping": {
                     "service": "Contabilidad Estratégica",
-                    "title": "Confíe en las cifras detrás de cada decisión",
+                    "title": "Conozca sus cifras",
                     "description": "Mantenga libros actualizados y listos para decidir que respalden la planificación fiscal, los precios, el flujo de caja y el cumplimiento.",
                     "link": "Explorar Contabilidad Estratégica"
                 },
                 "fractionalCfo": {
                     "service": "CFO Fraccional",
-                    "title": "Planifique el efectivo, las contrataciones y el crecimiento con confianza",
+                    "title": "Lidere con claridad",
                     "description": "Use pronósticos, modelos financieros y orientación ejecutiva para tomar decisiones empresariales de mayor alcance.",
                     "link": "Explorar Servicios de CFO Fraccional"
+                },
+                "formation": {
+                    "service": "Formación de nuevos negocios",
+                    "title": "Comience bien estructurado",
+                    "description": "Elija y establezca la entidad comercial, los registros y la base operativa que requiere su próxima etapa.",
+                    "link": "Explorar Formación de nuevos negocios"
+                },
+                "payroll": {
+                    "service": "Servicios de nómina",
+                    "title": "Pague con precisión",
+                    "description": "Administre nóminas, declaraciones y procesos de cumplimiento confiables sin agregar carga administrativa a su negocio.",
+                    "link": "Explorar Servicios de nómina"
                 }
             },
             "viewAllCta": "Comparar todos los servicios"
@@ -502,6 +530,8 @@
             "recommendedBadge": "Recomendado",
             "emptyFallback": "Los detalles de la comparación se están actualizando.",
             "evidence": {
+                "eyebrow": "Lo que sigue",
+                "heading": "Convierta la información proactiva en un plan de trabajo",
                 "step1": {
                     "label": "Revisar posición actual",
                     "body": "Examine la estructura de su entidad, ingresos actuales y línea base tributaria antes del cierre de año."
@@ -624,6 +654,16 @@
             "ctaPrimary": "Programar Consulta Gratuita"
         },
         "CTASection": {
+            "globalEyebrow": "Consulta de estrategia",
+            "homepageEyebrow": "Para contratistas y empresas de servicios",
+            "homepageTitle": "¿Listo para una estrategia fiscal más inteligente?",
+            "homepageSubtitle": "Revise su estructura actual, identifique oportunidades de planificación y determine el siguiente paso adecuado.",
+            "homepageButtonText": "Reservar una llamada de estrategia",
+            "homepageReassurance": "Consulta gratuita de 45 minutos · Sin compromiso",
+            "homepageSchedulingNote": "A continuación, elija una fecha y hora. Su cita se confirma después de completar la programación.",
+            "externalBookingNote": "Abre la página de reserva en una nueva pestaña.",
+            "openingSchedulingCalendar": "Abriendo el calendario de programación…",
+            "opensInNewTab": "(se abre en una pestaña nueva)",
             "badge": "Aceptando Nuevos Clientes para la Temporada Fiscal {year}",
             "fallbackTitle": "Deje de Pagar en Exceso. Empiece a Construir Patrimonio.",
             "fallbackSubtitle": "Únase a más de 500 propietarios de negocios que ahorran un promedio de $40k/año. Reserve su llamada de estrategia gratuita de 15 minutos para desbloquear sus ahorros potenciales.",
@@ -635,6 +675,13 @@
             "strategySessionNote": "Sesión estratégica gratuita de 30 minutos",
             "poweredBy": "Impulsado por Union National"
         }
+    },
+    "Booking": {
+        "meetingMeta": "Consulta gratuita de 45 minutos · Sin compromiso",
+        "calendarIntro": "Elija una fecha y hora disponibles a continuación. El calendario le guiará por los datos necesarios y confirmará su cita después de completar la programación.",
+        "calendarSupport": "¿Necesita ayuda para programar?",
+        "calendarSupportLink": "Contáctenos.",
+        "calendarPrivacyLink": "Política de privacidad"
     },
     "AboutPage": {
         "metadata": {

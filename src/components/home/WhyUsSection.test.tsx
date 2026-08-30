@@ -29,6 +29,8 @@ vi.mock("next-intl/server", () => ({
       secondaryCta: "Check your S-Corp fit",
       recommendedBadge: "Recommended",
       emptyFallback: "Comparison details are being updated.",
+      "evidence.eyebrow": "What happens next",
+      "evidence.heading": "Turn proactive insight into a working plan",
       "evidence.step1.label": "Review current position",
       "evidence.step1.body": "Examine entity structure, current revenue, and tax baseline before the year closes.",
       "evidence.step2.label": "Identify decisions before deadlines",
@@ -111,6 +113,80 @@ describe("WhyUsSection", () => {
     expect(badges.length).toBeGreaterThanOrEqual(2);
   });
 
+  it("visually de-emphasizes repeated mobile card labels without removing their semantic context", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const mobileList = screen.getByRole("list", {
+      name: "How tax support changes when planning starts before the deadline.",
+    });
+    const cards = mobileList.querySelectorAll("li");
+
+    expect(cards).toHaveLength(4);
+    expect(cards[0].querySelectorAll("dt")[0]).toHaveClass("text-xs");
+    expect(cards[1].querySelectorAll("dt")[0]).toHaveClass("text-[11px]", "text-slate-700");
+    expect(cards[1]).toHaveTextContent("Traditional tax support");
+    expect(cards[1]).toHaveTextContent("Proactive tax strategy");
+    expect(cards[1]).toHaveTextContent("Recommended");
+  });
+
+  it("uses one outer-card border while keeping both mobile comparison states borderless", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const mobileList = screen.getByRole("list", {
+      name: "How tax support changes when planning starts before the deadline.",
+    });
+    const cards = mobileList.querySelectorAll("li");
+
+    cards.forEach((card) => {
+      expect(card).toHaveClass("rounded-xl", "border", "border-slate-200");
+      expect(card.querySelector(".bg-slate-100")).not.toHaveClass("border");
+      expect(card.querySelector(".bg-gold-50\\/70")).not.toHaveClass("border");
+    });
+  });
+
+  it("uses the mobile 8px spacing rhythm throughout the comparison and process handoff", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const section = screen.getByRole("region", {
+      name: "The tax return records what happened. Strategy happens earlier.",
+    });
+    const mobileList = screen.getByRole("list", {
+      name: "How tax support changes when planning starts before the deadline.",
+    });
+    const firstCard = mobileList.querySelector("li");
+    const process = screen.getByTestId("why-us-evidence-module");
+
+    expect(section.querySelector(".grid.grid-cols-1.gap-6")).toBeInTheDocument();
+    expect(mobileList).toHaveClass("flex", "snap-x", "snap-mandatory", "gap-6", "overflow-x-auto", "touch-pan-x");
+    expect(mobileList).toHaveAttribute("id", "why-us-mobile-comparison-carousel");
+    expect(firstCard).toHaveClass("p-4");
+    expect(firstCard?.querySelector("dl")).toHaveClass("mt-4", "space-y-4");
+    expect(firstCard?.querySelector(".bg-slate-100")).toHaveClass("p-4");
+    expect(firstCard?.querySelector(".bg-gold-50\\/70")).toHaveClass("p-4");
+    expect(process).toHaveClass("pt-6");
+    expect(process).not.toHaveClass("-mt-2");
+  });
+
+  it("renders mobile comparison cards as a swipeable scroll-snap carousel", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const mobileList = screen.getByRole("list", {
+      name: "How tax support changes when planning starts before the deadline.",
+    });
+    const cards = mobileList.querySelectorAll("li");
+
+    expect(cards).toHaveLength(4);
+    cards.forEach((card) => {
+      expect(card).toHaveClass("w-[85vw]", "max-w-[340px]", "shrink-0", "snap-center");
+      expect(card).toHaveAttribute("data-carousel-item");
+    });
+    expect(screen.getByLabelText("Comparison card pagination")).toBeInTheDocument();
+  });
+
   it("renders fallback notification when customRows is empty array", async () => {
     const jsx = await WhyUsSection({ customRows: [] });
     render(jsx);
@@ -181,6 +257,18 @@ describe("WhyUsSection", () => {
     expect(screen.getByText("Review current position")).toBeInTheDocument();
     expect(screen.getByText("Identify decisions before deadlines")).toBeInTheDocument();
     expect(screen.getByText("Plan and revisit throughout the year")).toBeInTheDocument();
+    expect(screen.getByRole("heading", {
+      level: 2,
+      name: "Turn proactive insight into a working plan",
+    })).toBeInTheDocument();
+  });
+
+  it("keeps the lower conversion cluster out of the mobile flow", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const primaryCta = screen.getByRole("link", { name: "See how proactive tax planning works" });
+    expect(primaryCta.closest(".hidden")).toHaveClass("hidden", "md:contents");
   });
 
   it("safely hides evidence module when evidenceModule={null} or enabled: false", async () => {

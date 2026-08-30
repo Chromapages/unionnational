@@ -10,7 +10,7 @@ export function GhlExternalTracking() {
       id="ghl-external-tracking"
       src="https://link.agent-crm.com/js/external-tracking.js"
       data-tracking-id={GHL_TRACKING_ID}
-      strategy="afterInteractive"
+      strategy="lazyOnload"
     />
   );
 }

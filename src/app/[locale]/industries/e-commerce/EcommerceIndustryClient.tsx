@@ -233,7 +233,6 @@ export default function EcommerceIndustryClient() {
             </section>
 
             <CTASection 
-                variant="homepageWireframe"
                 data={{
                     ctaTitle: "Protect Your Margins.",
                     ctaSubtitle: "Stop guessing at your tax liability. Join the elite brands using the Digital-First CFO Partnership to protect profits and scale.",

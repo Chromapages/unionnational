@@ -90,10 +90,17 @@ export const FAQ_QUERY = defineQuery(`
 export const TESTIMONIALS_QUERY = defineQuery(`
   * [_type == "testimonial" && isPublished == true] | order(displayOrder asc) {
     _id,
+    format,
+    displayOrder,
     clientName,
     "clientTitle": coalesce(clientTitle[$locale], clientTitle.en, clientTitle),
     "quote": coalesce(quote[$locale], quote.en, quote),
     clientCompany,
+    verifiedClient,
+    "eyebrowLabel": coalesce(eyebrowLabel[$locale], eyebrowLabel.en, eyebrowLabel),
+    "before": coalesce(before[$locale], before.en, before),
+    "after": coalesce(after[$locale], after.en, after),
+    "outcome": coalesce(outcome[$locale], outcome.en, outcome),
     rating,
     isFeatured,
     image {
@@ -112,6 +119,9 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),
     "ctaButtonTextLocalized": ctaButtonText[$locale],
     "copyrightText": coalesce(copyrightText[$locale], copyrightText.en, copyrightText),
+    "footerCredentialLabel": coalesce(footerCredentialLabel[$locale], footerCredentialLabel.en, footerCredentialLabel),
+    "footerCredentialDetail": coalesce(footerCredentialDetail[$locale], footerCredentialDetail.en, footerCredentialDetail),
+    "footerDisclaimerSummary": coalesce(footerDisclaimerSummary[$locale], footerDisclaimerSummary.en, footerDisclaimerSummary),
     logo {
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
@@ -210,6 +220,8 @@ export const HOME_PAGE_QUERY = defineQuery(`
     "ctaSubtitle": coalesce(ctaSubtitle[$locale], ctaSubtitle.en, ctaSubtitle),
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),
     ctaButtonUrl,
+    "ctaAvailabilityText": coalesce(ctaAvailabilityText[$locale], ctaAvailabilityText.en, ctaAvailabilityText),
+    ctaAvailabilityEndDate,
     ctaBackgroundImage {
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)

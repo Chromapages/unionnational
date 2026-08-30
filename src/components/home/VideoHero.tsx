@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight, BadgeCheck, CalendarCheck, Users } from "lucide-react";
+import { ArrowRight, BadgeCheck, CalendarCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HeroVideoPlayer } from "@/components/home/HeroVideoPlayer";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface VideoHeroProps {
     data?: {
@@ -30,13 +31,23 @@ type HeroEventName =
     | "hero_secondary_cta_click"
     | "hero_video_start";
 
+const splitSupportingCopy = (value: string): [string, string | null] => {
+    const match = value.match(/^(.*?)(\s+(?:for|para)\s+.+)$/i);
+    return match ? [match[1], match[2]] : [value, null];
+};
+
 export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
     const t = useTranslations("HomeHero");
     const locale = useLocale();
+    const isDesktop = useMediaQuery("(min-width: 1024px)");
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const [backgroundVideoReady, setBackgroundVideoReady] = useState(false);
     const [backgroundVideoFailed, setBackgroundVideoFailed] = useState(false);
+    const [heroImageLoaded, setHeroImageLoaded] = useState(false);
+    const [heroImageFailed, setHeroImageFailed] = useState(false);
+    const [mobileVideoRequested, setMobileVideoRequested] = useState(false);
     const videoStartTrackedRef = useRef(false);
+    const navigationInProgressRef = useRef(false);
     const backgroundVideoRef = useRef<HTMLVideoElement>(null);
 
     const rawBackgroundVideoUrl = data?.heroVideoUrl;
@@ -58,17 +69,27 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
         resolvedBackgroundVideoUrl && resolvedBackgroundVideoUrl !== playerVideoUrl
             ? resolvedBackgroundVideoUrl
             : undefined;
+    const heroImageUrl = data?.heroBackgroundPosterUrl || data?.heroPlayerPosterUrl;
 
     const title = data?.heroTitleLocalized?.trim() || t("title");
     const subtitle = data?.heroSubtitleLocalized?.trim() || t("subtitle");
     const primaryCta = data?.heroCtaTextLocalized?.trim() || t("primaryCta");
     const secondaryCta = t("secondaryCta");
+    const [serviceSummary, audienceSummary] = splitSupportingCopy(subtitle);
 
     const trustItems: TrustBadgeItem[] = [
         { icon: BadgeCheck, label: t("trustCredential") },
-        { icon: Users, label: t("trustVolume") },
         { icon: CalendarCheck, label: t("trustExperience") },
     ];
+
+    useEffect(() => {
+        setHeroImageLoaded(false);
+        setHeroImageFailed(false);
+    }, [heroImageUrl]);
+
+    useEffect(() => {
+        setMobileVideoRequested(false);
+    }, [playerVideoUrl]);
 
     useEffect(() => {
         const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -84,7 +105,7 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
         setBackgroundVideoFailed(false);
 
         const video = backgroundVideoRef.current;
-        if (!video || !backgroundVideoUrl || prefersReducedMotion) return;
+        if (!video || !backgroundVideoUrl || prefersReducedMotion || !isDesktop) return;
 
         video.muted = true;
         video.defaultMuted = true;
@@ -106,7 +127,7 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
                     }
                 });
         }
-    }, [backgroundVideoUrl, prefersReducedMotion]);
+    }, [backgroundVideoUrl, isDesktop, prefersReducedMotion]);
 
     const trackHeroEvent = (event: HeroEventName, destination: string) => {
         const browserWindow = window as unknown as {
@@ -127,24 +148,41 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
         trackHeroEvent("hero_video_start", "foreground_video");
     };
 
+    const handleHeroNavigation = (event: MouseEvent<HTMLAnchorElement>, eventName: HeroEventName, destination: string) => {
+        if (navigationInProgressRef.current) {
+            event.preventDefault();
+            return;
+        }
+
+        navigationInProgressRef.current = true;
+        trackHeroEvent(eventName, destination);
+        window.setTimeout(() => {
+            navigationInProgressRef.current = false;
+        }, 750);
+    };
+
     return (
         <section
-            className="relative isolate flex min-h-[650px] overflow-hidden bg-brand-900 py-14 sm:py-16 lg:min-h-[680px] lg:py-16 xl:min-h-[700px]"
+            className="relative isolate overflow-hidden bg-brand-900 pt-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:py-16 lg:flex lg:min-h-[680px] lg:py-16 xl:min-h-[700px]"
             aria-labelledby="hero-heading"
         >
-            {data?.heroBackgroundPosterUrl ? (
+            {isDesktop && heroImageUrl && !heroImageFailed ? (
                 <Image
-                    src={data.heroBackgroundPosterUrl}
+                    src={heroImageUrl}
                     alt=""
-                    fill
-                    priority={!data?.heroPlayerPosterUrl}
-                    sizes="(min-width: 1024px) 100vw, 0vw"
+                    width={1600}
+                    height={900}
+                    preload
+                    loading="eager"
+                    sizes="100vw"
                     aria-hidden="true"
-                    className="hidden lg:block absolute inset-0 -z-30 object-cover"
+                    onLoad={() => setHeroImageLoaded(true)}
+                    onError={() => setHeroImageFailed(true)}
+                    className={`absolute inset-0 -z-30 h-full w-full object-cover object-[68%_center] transition-opacity duration-500 motion-reduce:transition-none ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
                 />
             ) : null}
 
-            {backgroundVideoUrl && !prefersReducedMotion && !backgroundVideoFailed ? (
+            {isDesktop && backgroundVideoUrl && !prefersReducedMotion && !backgroundVideoFailed ? (
                 <>
                     <video
                         ref={backgroundVideoRef}
@@ -184,57 +222,78 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
             ) : null}
 
             <div
-                className="absolute inset-0 -z-10 bg-[#051A18] lg:bg-transparent lg:bg-[linear-gradient(90deg,#051A18_0%,#051A18_58%,rgba(5,26,24,0.92)_100%)]"
+                className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(3,16,14,0.9)_0%,rgba(5,26,24,0.82)_52%,rgba(3,16,14,0.96)_100%)] lg:bg-[linear-gradient(90deg,rgba(5,26,24,0.92)_0%,rgba(5,26,24,0.82)_58%,rgba(5,26,24,0.62)_100%)]"
                 aria-hidden="true"
             />
 
             <div
-                className={`mx-auto grid w-full max-w-screen-2xl items-center gap-8 sm:gap-10 lg:gap-12 px-5 sm:px-6 lg:px-6 xl:gap-16 ${
+                className={`mx-auto grid w-full max-w-screen-2xl items-center gap-8 px-4 sm:gap-10 sm:px-6 lg:gap-12 lg:px-6 xl:gap-16 ${
                     playerVideoUrl
                         ? "lg:grid-cols-12"
                         : "lg:grid-cols-1"
                 }`}
             >
-                <div className={playerVideoUrl ? "lg:col-span-5" : "max-w-[680px]"}>
+                <div className={playerVideoUrl ? "min-w-0 lg:col-span-5" : "min-w-0 max-w-[680px]"}>
                     <h1
                         id="hero-heading"
-                        className="max-w-[14ch] text-balance font-heading text-[clamp(3.25rem,4.6vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.04em] text-white"
+                        className="max-w-full break-words font-heading text-[clamp(2rem,8vw,3.5rem)] font-bold leading-[1.02] tracking-[-0.04em] text-white lg:max-w-[14ch]"
                     >
                         {title}
                     </h1>
-                    <p className="mt-6 max-w-[55ch] text-lg leading-8 text-slate-200 sm:text-xl">
-                        {subtitle}
+                    <p className="mt-4 max-w-[34ch] text-pretty text-lg leading-7 text-slate-200 sm:mt-6 sm:max-w-[55ch] sm:leading-8 sm:text-xl">
+                        <span className="font-medium text-slate-100">{serviceSummary}</span>
+                        {audienceSummary ? <span className="text-slate-200">{audienceSummary}</span> : null}
                     </p>
 
-                    <div className="mt-8 flex flex-wrap items-center gap-4 sm:gap-6">
+                    <div className="mt-6 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-6">
                         <Link
                             href="/scorp-estimator"
-                            onClick={() =>
-                                trackHeroEvent("hero_primary_cta_click", `/${locale}/scorp-estimator`)
-                            }
-                            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold-500 px-6 py-3.5 font-heading text-sm font-bold text-brand-950 shadow-[0_10px_30px_-14px_rgba(212,175,55,0.9)] transition-colors hover:bg-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 motion-reduce:transition-none"
+                            onClick={(event) => handleHeroNavigation(event, "hero_primary_cta_click", `/${locale}/scorp-estimator`)}
+                            className="inline-flex min-h-12 min-w-11 max-w-full touch-manipulation items-center justify-center gap-2 rounded-full bg-gold-500 px-6 py-3.5 text-center font-heading text-sm font-bold leading-snug text-brand-950 shadow-[0_10px_30px_-14px_rgba(212,175,55,0.9)] transition-[background-color,transform] hover:bg-gold-400 active:scale-[0.98] active:bg-gold-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 motion-reduce:transition-none"
                         >
-                            {primaryCta}
+                            <span className="min-w-0 break-words">{primaryCta}</span>
                             <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                         </Link>
                         <Link
                             href="#services"
-                            onClick={() =>
-                                trackHeroEvent("hero_secondary_cta_click", `/${locale}#services`)
-                            }
-                            className="group inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-slate-300 underline decoration-slate-500/60 underline-offset-4 transition-colors hover:text-gold-400 hover:decoration-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 motion-reduce:transition-none"
+                            onClick={(event) => handleHeroNavigation(event, "hero_secondary_cta_click", `/${locale}#services`)}
+                            className="group -ml-2 inline-flex min-h-12 max-w-full touch-manipulation items-center gap-1.5 px-2 text-sm font-semibold leading-snug text-slate-300 underline decoration-slate-500/60 underline-offset-4 transition-[color,opacity] hover:text-gold-400 hover:decoration-gold-400 active:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 motion-reduce:transition-none"
                         >
-                            <span>{secondaryCta}</span>
-                            <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                            <span className="min-w-0 break-words">{secondaryCta}</span>
+                            <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none" aria-hidden="true" />
                         </Link>
                     </div>
 
-                    {/* Infinite Flowing Trust Signals Carousel */}
+                    {playerVideoUrl ? (
+                        <div className="mt-6 w-full lg:hidden">
+                            {mobileVideoRequested ? (
+                                <HeroVideoPlayer
+                                    src={playerVideoUrl}
+                                    poster={data?.heroPlayerPosterUrl}
+                                    ariaLabel={t("videoLabel")}
+                                    unavailableMessage={t("unavailable")}
+                                    onPlay={handleVideoStart}
+                                />
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={() => setMobileVideoRequested(true)}
+                                    data-testid="mobile-hero-video-trigger"
+                                    className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/25 px-4 py-3 text-sm font-semibold text-slate-100 transition-colors hover:border-gold-400 hover:text-gold-300 active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 motion-reduce:transition-none"
+                                >
+                                    {t("videoLabel")}
+                                    <ArrowRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                                </button>
+                            )}
+                        </div>
+                    ) : null}
+
+                    {/* Desktop-only trust signals; mobile credentials appear in the trust bar below the hero. */}
                     <div
-                        className="mt-8 relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]"
+                        className="relative mt-8 hidden w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)] lg:block"
                     >
                         <div
-                            className="flex w-max items-center gap-4 animate-hero-marquee hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:gap-3 motion-reduce:[mask-image:none]"
+                            className="flex w-full flex-wrap items-center gap-3 lg:w-max lg:flex-nowrap lg:gap-4 lg:animate-hero-marquee lg:hover:[animation-play-state:paused] lg:focus-within:[animation-play-state:paused] motion-reduce:animate-none"
                             role="list"
                             aria-label="Firm credentials"
                         >
@@ -243,10 +302,10 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
                                 <div
                                     key={`trust-primary-${idx}`}
                                     role="listitem"
-                                    className="inline-flex shrink-0 items-center gap-2 rounded-full border border-gold-500/25 bg-brand-950/70 px-3.5 py-1.5 text-xs font-medium text-slate-200 backdrop-blur-sm transition-colors hover:border-gold-400 hover:text-white"
+                                    className="inline-flex min-h-10 max-w-full items-center gap-2 rounded-full border border-gold-500/25 bg-brand-950/70 px-4 py-2 text-xs font-medium text-slate-100 backdrop-blur-sm transition-colors hover:border-gold-400 hover:text-white lg:shrink-0"
                                 >
                                     <item.icon className="h-4 w-4 shrink-0 text-gold-400" aria-hidden="true" />
-                                    <span className="whitespace-nowrap">{item.label}</span>
+                                    <span className="min-w-0 break-words">{item.label}</span>
                                 </div>
                             ))}
                             {/* Duplicate Sets for Seamless 50% TranslateX Loop: Hidden from screen readers */}
@@ -254,7 +313,7 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
                                 <div
                                     key={`trust-duplicate-${idx}`}
                                     aria-hidden="true"
-                                    className="inline-flex shrink-0 items-center gap-2 rounded-full border border-gold-500/25 bg-brand-950/70 px-3.5 py-1.5 text-xs font-medium text-slate-200 backdrop-blur-sm transition-colors hover:border-gold-400 hover:text-white"
+                                    className="hidden lg:inline-flex lg:shrink-0 lg:items-center lg:gap-2 lg:rounded-full lg:border lg:border-gold-500/25 lg:bg-brand-950/70 lg:px-3.5 lg:py-1.5 lg:text-xs lg:font-medium lg:text-slate-200 lg:backdrop-blur-sm lg:transition-colors lg:hover:border-gold-400 lg:hover:text-white"
                                 >
                                     <item.icon className="h-4 w-4 shrink-0 text-gold-400" aria-hidden="true" />
                                     <span className="whitespace-nowrap">{item.label}</span>
@@ -265,7 +324,7 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
                 </div>
 
                 {playerVideoUrl ? (
-                    <div className="w-full self-center lg:col-span-7 lg:justify-self-end">
+                    <div className="hidden w-full self-center lg:col-span-7 lg:block lg:justify-self-end">
                         <HeroVideoPlayer
                             src={playerVideoUrl}
                             poster={data?.heroPlayerPosterUrl}

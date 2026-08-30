@@ -80,6 +80,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<SCorpEstimatorFormData>(defaultData);
     const [error, setError] = useState("");
+    const contentStep = [2, 3, 4, 1][step - 1];
 
     const updateField = <K extends keyof SCorpEstimatorFormData>(field: K, value: SCorpEstimatorFormData[K]) => {
         setFormData((current) => ({ ...current, [field]: value }));
@@ -87,7 +88,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
     };
 
     const validateStep = () => {
-        if (step === 1) {
+        if (contentStep === 1) {
             if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim()) {
                 return "First name, last name, and email are required.";
             }
@@ -96,7 +97,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
             }
         }
 
-        if (step === 3 && formData.estimatedNetProfit < 0) {
+        if (contentStep === 3 && formData.estimatedNetProfit < 0) {
             return "Estimated net profit must be zero or higher.";
         }
 
@@ -113,6 +114,8 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
     };
 
     const submit = async () => {
+        if (isLoading) return;
+
         const validationError = validateStep();
         if (validationError) {
             setError(validationError);
@@ -122,7 +125,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
     };
 
     return (
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md md:p-8">
+        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-md md:p-8" aria-busy={isLoading}>
             <div className="mb-8">
                 <div className="flex items-center justify-between text-sm font-semibold text-gray-600">
                     <span>Step {step} of 4</span>
@@ -144,11 +147,11 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
                 aria-hidden="true"
             />
 
-            {step === 1 && (
+            {contentStep === 1 && (
                 <div>
-                    <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">Business Profile</p>
-                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">Let&apos;s start with your basic information.</h2>
-                    <p className="mt-3 text-gray-600 leading-relaxed">Your estimate is personalized to your business - no generic numbers here.</p>
+                    <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">Assessment delivery</p>
+                    <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">Where should we send your assessment?</h2>
+                    <p className="mt-3 text-gray-600 leading-relaxed">These details are required only when you submit the assessment.</p>
 
                     <div className="mt-8 grid gap-5 md:grid-cols-2">
                         <div>
@@ -164,18 +167,18 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
                             <input id="email" type="email" className={fieldClass()} value={formData.email} onChange={(event) => updateField("email", event.target.value)} required />
                         </div>
                         <div>
-                            <label htmlFor="phone" className="font-semibold text-gray-900">Phone</label>
+                            <label htmlFor="phone" className="font-semibold text-gray-900">Phone (optional)</label>
                             <input id="phone" type="tel" className={fieldClass()} value={formData.phone} onChange={(event) => updateField("phone", event.target.value)} />
                         </div>
                         <div className="md:col-span-2">
-                            <label htmlFor="businessName" className="font-semibold text-gray-900">Business name</label>
+                            <label htmlFor="businessName" className="font-semibold text-gray-900">Business name (optional)</label>
                             <input id="businessName" className={fieldClass()} value={formData.businessName} onChange={(event) => updateField("businessName", event.target.value)} />
                         </div>
                     </div>
                 </div>
             )}
 
-            {step === 2 && (
+            {contentStep === 2 && (
                 <div>
                     <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">Business Structure</p>
                     <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">How is your business currently structured?</h2>
@@ -208,7 +211,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
                 </div>
             )}
 
-            {step === 3 && (
+            {contentStep === 3 && (
                 <div>
                     <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">Revenue & Profit</p>
                     <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">What does your business generate?</h2>
@@ -256,7 +259,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
                 </div>
             )}
 
-            {step === 4 && (
+            {contentStep === 4 && (
                 <div>
                     <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">Pain Point & Intent</p>
                     <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">What&apos;s the most important thing you want to fix?</h2>
@@ -314,7 +317,7 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
                     {isLoading ? (
                         <>
                             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                            Calculating...
+                            Submitting your assessment...
                         </>
                     ) : (
                         <>

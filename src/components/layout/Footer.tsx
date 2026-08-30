@@ -1,17 +1,48 @@
 import Image from "next/image";
+import { unstable_cache } from "next/cache";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
 import { EABadge } from "@/components/ui/EABadge";
 import { Link } from "@/i18n/navigation";
 import { FooterNavigation, type FooterNavigationGroup, type FooterNavigationLink } from "@/components/layout/FooterNavigation";
-import { sanityFetch } from "@/sanity/lib/live";
+import { FooterAnalytics } from "@/components/layout/FooterAnalytics";
+import { FooterDisclaimerModal } from "@/components/layout/FooterDisclaimerModal";
+import { fetchWithLocale, type SanityLocale } from "@/sanity/lib/client";
 import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 
+type FooterSettings = {
+    companyName?: string;
+    address?: unknown;
+    phone?: string;
+    email?: string;
+    logo?: { asset?: { url?: string }; alt?: string };
+    logoAlt?: { asset?: { url?: string }; alt?: string };
+    socialLinks?: { linkedin?: string; facebook?: string; youtube?: string; instagram?: string; twitter?: string };
+    showOfficeAddressInFooter?: boolean;
+    credentialVerifiedBy?: string;
+    credentialVerifiedAt?: string;
+    contactDetailsVerifiedBy?: string;
+    contactDetailsVerifiedAt?: string;
+    socialLinksVerifiedBy?: string;
+    socialLinksVerifiedAt?: string;
+    footerCredentialLabel?: string;
+    footerCredentialDetail?: string;
+    footerDisclaimerSummary?: string;
+    copyrightText?: string;
+};
+
+const getCachedFooterSettings = (locale: SanityLocale) =>
+    unstable_cache(
+        () => fetchWithLocale<FooterSettings | null>(SITE_SETTINGS_QUERY, locale),
+        ["footer-site-settings", locale],
+        { revalidate: 900 },
+    )();
+
 export async function Footer() {
-    const locale = await getLocale();
+    const locale = await getLocale() as SanityLocale;
     const tFooter = await getTranslations({ locale, namespace: "Footer" });
     const tHeader = await getTranslations({ locale, namespace: "Header" });
-    const { data: siteSettings } = await sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } });
+    const siteSettings = await getCachedFooterSettings(locale);
 
     const formatAddress = (address: unknown): string | null => {
         if (!address) return null;
@@ -48,24 +79,30 @@ export async function Footer() {
         return trimmed.length ? `mailto:${trimmed}` : null;
     };
 
-    const addressText = formatAddress(siteSettings?.address) || tFooter("fallbackAddress");
-    const phoneText = (typeof siteSettings?.phone === "string" && siteSettings.phone.trim()) || tFooter("fallbackPhone");
-    const phoneHref = formatTelHref(siteSettings?.phone) || formatTelHref(phoneText) || "tel:+18015550123";
-    const emailText = (typeof siteSettings?.email === "string" && siteSettings.email.trim()) || tFooter("fallbackEmail");
-    const emailHref = formatMailtoHref(siteSettings?.email) || formatMailtoHref(emailText) || "mailto:hello@unionnationaltax.com";
+    const hasVerifiedCredential = Boolean(siteSettings?.credentialVerifiedBy && siteSettings?.credentialVerifiedAt);
+    const hasVerifiedContact = Boolean(siteSettings?.contactDetailsVerifiedBy && siteSettings?.contactDetailsVerifiedAt);
+    const addressText = hasVerifiedContact ? formatAddress(siteSettings?.address) : null;
+    const phoneText = hasVerifiedContact && typeof siteSettings?.phone === "string" && siteSettings.phone.trim() ? siteSettings.phone.trim() : null;
+    const phoneHref = formatTelHref(phoneText);
+    const emailText = hasVerifiedContact && typeof siteSettings?.email === "string" && siteSettings.email.trim() ? siteSettings.email.trim() : null;
+    const emailHref = formatMailtoHref(emailText);
+    const showOfficeAddress = siteSettings?.showOfficeAddressInFooter === true && Boolean(addressText);
+    const hasPhoneOrEmail = Boolean(phoneHref) || Boolean(emailHref);
 
     const navigationGroups: FooterNavigationGroup[] = [
         {
+            id: "advisory",
             title: tFooter("advisoryTitle"),
             links: [
                 { label: tFooter("advisoryLinks.scorp"), href: "/s-corp-tax-advantage" },
                 { label: tFooter("advisoryLinks.taxPlanning"), href: "/tax-planning" },
                 { label: tFooter("advisoryLinks.bookkeeping"), href: "/strategic-bookkeeping" },
                 { label: tFooter("advisoryLinks.fractionalCfo"), href: "/fractional-cfo" },
-                { label: tFooter("viewAllServices"), href: "/services", emphasized: true },
+                { label: tFooter("viewAllServices"), href: "/services", emphasized: true, analyticsEvent: "footer_service_directory_navigate", destinationId: "services_directory", preserveCampaign: true },
             ],
         },
         {
+            id: "compliance",
             title: tFooter("complianceTitle"),
             links: [
                 { label: tFooter("complianceLinks.taxPrep"), href: "/tax-preparation-and-filing" },
@@ -74,28 +111,29 @@ export async function Footer() {
             ],
         },
         {
-            title: tFooter("companyTitle"),
+            id: "company_industries",
+            title: tFooter("companyAndIndustriesTitle"),
             links: [
                 { label: tHeader("about"), href: "/about" },
                 { label: tFooter("team"), href: "/team" },
                 { label: tHeader("industries"), href: "/industries" },
-                { label: tHeader("contact"), href: "/contact" },
             ],
         },
         {
-            title: tFooter("resourcesTitle"),
+            id: "resources_shop",
+            title: tFooter("resourcesAndShopTitle"),
             links: [
-                { label: tFooter("resourceCenter"), href: "/resources" },
-                { label: tHeader("faq"), href: "/faq" },
-                { label: tHeader("shop"), href: "/shop" },
+                { label: tFooter("resourceCenter"), href: "/resources", analyticsEvent: "footer_resource_navigate", destinationId: "resource_center" },
+                { label: tHeader("faq"), href: "/faq", analyticsEvent: "footer_resource_navigate", destinationId: "faq" },
+                { label: tHeader("shop"), href: "/shop", analyticsEvent: "footer_resource_navigate", destinationId: "shop" },
             ],
         },
     ];
 
     const legalLinks: FooterNavigationLink[] = [
-        { label: tFooter("disclaimer"), href: "/legal/disclaimer" },
-        { label: tFooter("privacy"), href: "/legal/privacy-policy" },
-        { label: tFooter("terms"), href: "/legal/terms-of-service" },
+        { label: tFooter("disclaimer"), href: "/legal/disclaimer", analyticsEvent: "footer_legal_access", destinationId: "disclaimer" },
+        { label: tFooter("privacy"), href: "/legal/privacy-policy", analyticsEvent: "footer_legal_access", destinationId: "privacy_policy" },
+        { label: tFooter("terms"), href: "/legal/terms-of-service", analyticsEvent: "footer_legal_access", destinationId: "terms_of_service" },
     ];
 
     const configuredSocialLinks = [
@@ -106,112 +144,148 @@ export async function Footer() {
         { icon: Twitter, href: siteSettings?.socialLinks?.twitter, label: "Twitter" },
     ].filter((link): link is typeof link & { href: string } => Boolean(link.href));
 
-    const socialLinks = configuredSocialLinks.length > 0
+    const socialLinks = siteSettings?.socialLinksVerifiedBy && siteSettings?.socialLinksVerifiedAt
         ? configuredSocialLinks
-        : [
-            { icon: Linkedin, href: "https://www.linkedin.com/in/jason-astwood-ea-lutcf-fscp-8337a476/", label: "LinkedIn" },
-            { icon: Facebook, href: "https://www.facebook.com/UnionNationalTax", label: "Facebook" },
-            { icon: Youtube, href: "https://www.youtube.com/@JasonAstwood", label: "YouTube" },
-            { icon: Instagram, href: "https://www.instagram.com/unionnationaltax/?hl=en", label: "Instagram" },
-        ];
+        : [];
+    const copyrightText = (siteSettings?.copyrightText || tFooter("copyrightTextFallback"))
+        .replace(/^(?:©\s*(?:\{year\}|\d{4})\s*)+/i, "")
+        .trim();
 
     return (
         <footer id="site-footer" className="border-t border-white/10 bg-brand-900">
-            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-                <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-                    <div className="lg:col-span-4">
+            <FooterAnalytics />
+            <div className="footer-authority-rail mx-auto w-full max-w-screen-2xl px-4 pt-8 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+                <div className="footer-authority-primary">
+                    <div className="max-w-[20rem]">
+                        <div className="space-y-3">
                         <Link
                             href="/"
                             aria-label={tFooter("homeLinkLabel")}
-                            className="relative block h-16 w-full max-w-[22rem] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-500"
+                            className="relative block h-12 w-full max-w-[18rem] rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-500"
                         >
                             {siteSettings?.logo?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logo.asset.url}
-                                    alt={siteSettings.logo.alt || siteSettings.companyName || tFooter("defaultCompanyName")}
+                                    alt=""
                                     fill
                                     className="object-contain object-left"
                                 />
                             ) : siteSettings?.logoAlt?.asset?.url ? (
                                 <Image
                                     src={siteSettings.logoAlt.asset.url}
-                                    alt={siteSettings.logoAlt.alt || siteSettings.companyName || tFooter("defaultCompanyName")}
+                                    alt=""
                                     fill
                                     className="object-contain object-left"
                                 />
                             ) : (
                                 <Image
-                                    src="/images/logo.png"
-                                    alt={tFooter("defaultCompanyName")}
+                                    src="/images/Untitled design.svg"
+                                    alt=""
                                     fill
                                     className="object-contain object-left brightness-0 invert opacity-90"
                                 />
                             )}
                         </Link>
 
-                        <p className="mt-5 max-w-sm text-sm leading-6 text-zinc-300">
-                            {tFooter("brandBio")}
-                        </p>
-
-                        <EABadge
-                            className="mt-5"
-                            label={tFooter("credentialLabel")}
-                            detail={tFooter("credentialDetail")}
-                        />
-
-                        <div className="mt-6 space-y-1 text-sm text-zinc-300">
-                            <Link href="/contact" className="group flex min-h-10 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
-                                <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
-                                <span>{addressText}</span>
-                            </Link>
-                            <a href={phoneHref} className="group flex min-h-10 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
-                                <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
-                                <span>{phoneText}</span>
-                            </a>
-                            <a href={emailHref} className="group flex min-h-10 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
-                                <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
-                                <span className="break-all">{emailText}</span>
-                            </a>
+                        {hasVerifiedCredential ? (
+                            <EABadge
+                                compact
+                                label={siteSettings?.footerCredentialLabel || tFooter("credentialLabel")}
+                                detail={siteSettings?.footerCredentialDetail || tFooter("credentialDetail")}
+                            />
+                        ) : null}
                         </div>
 
-                        <div className="mt-5 flex flex-wrap gap-2">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-zinc-200 transition-all hover:-translate-y-0.5 hover:border-gold-500 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
-                                    aria-label={tFooter("followOn", { platform: social.label })}
-                                >
-                                    <social.icon aria-hidden="true" className="h-5 w-5" />
-                                </a>
-                            ))}
-                        </div>
+                        {showOfficeAddress ? (
+                            <address className="mt-4 not-italic text-sm text-zinc-300">
+                                <Link href="/contact" data-footer-event="footer_contact_activate" data-footer-destination-id="office_details" className="group flex min-h-11 items-center gap-3 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
+                                    <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
+                                    <span>
+                                        <span className="block text-xs font-semibold uppercase tracking-wide text-zinc-400">{tFooter("officeDetails")}</span>
+                                        <span className="mt-0.5 block">{addressText}</span>
+                                    </span>
+                                </Link>
+                            </address>
+                        ) : null}
+
+                        {hasPhoneOrEmail ? (
+                            <address className="mt-4 not-italic">
+                                <div className="space-y-2 text-sm text-zinc-300">
+                                    {phoneHref && phoneText ? (
+                                        <a href={phoneHref} data-footer-event="footer_contact_activate" data-footer-destination-id="phone" className="group -mx-2 flex min-h-12 items-center gap-3 rounded-md px-2 transition-[background-color,color,transform] duration-150 hover:bg-white/5 hover:text-white active:scale-[0.99] active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none">
+                                            <Phone aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
+                                            <span className="min-w-0">
+                                                <span className="block text-xs font-semibold uppercase tracking-wide text-zinc-400">{tFooter("phoneLabel")}</span>
+                                                <span className="mt-0.5 block">{phoneText}</span>
+                                            </span>
+                                        </a>
+                                    ) : null}
+                                    {emailHref && emailText ? (
+                                        <a href={emailHref} data-footer-event="footer_contact_activate" data-footer-destination-id="email" className="group -mx-2 flex min-h-12 items-center gap-3 rounded-md px-2 transition-[background-color,color,transform] duration-150 hover:bg-white/5 hover:text-white active:scale-[0.99] active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none">
+                                            <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-gold-500" />
+                                            <span className="min-w-0">
+                                                <span className="block text-xs font-semibold uppercase tracking-wide text-zinc-400">{tFooter("emailLabel")}</span>
+                                                <span className="mt-0.5 block break-all">{emailText}</span>
+                                            </span>
+                                        </a>
+                                    ) : null}
+                                </div>
+                            </address>
+                        ) : null}
+
+                        <Link href="/contact" data-footer-event="footer_contact_activate" data-footer-destination-id="contact_page" className="mt-4 inline-flex min-h-11 items-center font-semibold text-zinc-200 underline decoration-gold-500 underline-offset-4 transition-colors duration-150 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none">
+                            {tFooter("contactTitle")}
+                        </Link>
+
+                        {socialLinks.length > 0 ? (
+                            <nav aria-label={tFooter("socialNavigationLabel")} className="mt-4">
+                                <ul className="flex flex-wrap gap-2">
+                                    {socialLinks.map((social) => (
+                                        <li key={social.label}>
+                                            <a
+                                                href={social.href}
+                                                data-footer-event="footer_social_exit"
+                                                data-footer-destination-id={social.label.toLowerCase()}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-400 bg-white/5 text-zinc-200 transition-colors hover:border-gold-500 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+                                                aria-label={tFooter("followOn", { platform: social.label })}
+                                            >
+                                                <social.icon aria-hidden="true" className="h-5 w-5" />
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                        ) : null}
                     </div>
 
-                    <FooterNavigation
-                        groups={navigationGroups}
-                        navigationLabel={tFooter("navigationLabel")}
+                    <div className="min-w-0">
+                        <FooterNavigation
+                            groups={navigationGroups}
+                            navigationLabel={tFooter("navigationLabel")}
+                        />
+                    </div>
+                </div>
+
+                <div className="mt-5 border-t border-white/10 pt-3">
+                    <FooterDisclaimerModal
+                        label={tFooter("readDisclaimer")}
+                        closeLabel={tFooter("closeDisclaimer")}
+                        content={siteSettings?.footerDisclaimerSummary || tFooter("disclaimerBody")}
                     />
                 </div>
 
-                <div className="mt-10 border-t border-white/10 pt-6">
-                    <p className="max-w-3xl text-sm font-normal leading-6 text-zinc-300">
-                        <span className="font-semibold text-white">{tFooter("disclaimerLabel")}</span>{" "}
-                        {tFooter("disclaimerBody")}
-                    </p>
-                </div>
-
-                <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5 text-sm text-zinc-300 sm:flex-row sm:items-center sm:justify-between">
-                    <p>{tFooter("copyright", { year: new Date().getFullYear() })}</p>
-                    <nav aria-label={tFooter("legalNavigationLabel")}>
-                        <ul className="flex flex-wrap gap-x-5 gap-y-1">
+                <div className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 text-sm text-zinc-300 lg:flex-row lg:items-center lg:justify-between">
+                    <nav aria-label={tFooter("legalNavigationLabel")} className="lg:order-2">
+                        <ul className="flex flex-col items-start gap-1">
                             {legalLinks.map((link) => (
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="inline-flex min-h-10 items-center rounded-sm underline-offset-4 transition-colors hover:text-gold-400 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500"
+                                        data-footer-event={link.analyticsEvent}
+                                        data-footer-destination-id={link.destinationId}
+                                        className="inline-flex min-h-11 max-w-full items-center rounded-sm text-pretty text-zinc-200 underline decoration-white/20 underline-offset-4 transition-colors duration-150 hover:text-gold-400 hover:decoration-gold-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none"
                                     >
                                         {link.label}
                                     </Link>
@@ -219,6 +293,7 @@ export async function Footer() {
                             ))}
                         </ul>
                     </nav>
+                    <p className="lg:order-1">© {new Date().getFullYear()} {copyrightText}</p>
                 </div>
             </div>
         </footer>

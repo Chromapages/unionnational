@@ -241,7 +241,6 @@ export default function RealEstateIndustryClient() {
 
             {/* 7. Final CTA */}
             <CTASection 
-                variant="homepageWireframe"
                 data={{
                     ctaTitle: "Scale Your Legacy Wealth.",
                     ctaSubtitle: "Stop leaving your equity on the table. Join the elite investors using the Wealth Architect Partnership to build tax-free legacy wealth.",

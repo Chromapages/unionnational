@@ -58,6 +58,8 @@ describe("WhyUsEvidenceModule", () => {
     expect(screen.getByText("01")).toBeInTheDocument();
     expect(screen.getByText("02")).toBeInTheDocument();
     expect(screen.getByText("03")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: "Review current position" })).toBeInTheDocument();
+    expect(screen.getByRole("list").tagName).toBe("OL");
 
     expect(
       screen.getByText("Informational planning workflow disclaimer.")

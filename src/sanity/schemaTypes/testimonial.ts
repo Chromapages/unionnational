@@ -1,12 +1,39 @@
 import { defineField, defineType } from "sanity";
 import { MessageSquareQuote } from "lucide-react";
 
+const hasText = (value: unknown): boolean => {
+    if (typeof value === "string") return value.trim().length > 0;
+    if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+
+    return Object.values(value as Record<string, unknown>).some(
+        (translation) => typeof translation === "string" && translation.trim().length > 0,
+    );
+};
+
+const validateAttribution = (_value: unknown, context: { parent?: unknown }) => {
+    const testimonial = context.parent as Record<string, unknown> | undefined;
+    if (testimonial?.format === "case-study") return true;
+    const hasRoleAndCompany = hasText(testimonial?.clientTitle) && hasText(testimonial?.clientCompany);
+
+    return hasRoleAndCompany || testimonial?.verifiedClient === true
+        ? true
+        : "Provide both a client role and company, or mark this as a Verified Client before publishing.";
+};
+
 export const testimonial = defineType({
     name: "testimonial",
     title: "Testimonial",
     type: "document",
     icon: MessageSquareQuote,
     fields: [
+        defineField({
+            name: "format",
+            title: "Result Format",
+            type: "string",
+            options: { list: [{ title: "Quote", value: "quote" }, { title: "Case Study", value: "case-study" }] },
+            validation: (Rule) => Rule.required(),
+            initialValue: "quote",
+        }),
         defineField({
             name: "clientName",
             title: "Client Name",
@@ -17,18 +44,24 @@ export const testimonial = defineType({
             name: "clientTitle",
             title: "Client Job Title",
             type: "localizedString",
+            validation: (Rule) => Rule.custom(validateAttribution),
         }),
         defineField({
             name: "clientCompany",
             title: "Client Company",
             type: "string",
+            validation: (Rule) => Rule.custom(validateAttribution),
         }),
         defineField({
             name: "quote",
             title: "Quote",
             type: "localizedText",
-            validation: (Rule) => Rule.required(),
+            validation: (Rule) => Rule.custom((value, context) => (context.parent as Record<string, unknown> | undefined)?.format === "case-study" || hasText(value) || "Quote-format testimonials require quote text."),
         }),
+        defineField({ name: "eyebrowLabel", title: "Case Study Eyebrow", type: "localizedString", validation: (Rule) => Rule.custom((value, context) => (context.parent as Record<string, unknown> | undefined)?.format !== "case-study" || hasText(value) || "Case studies require an eyebrow label.") }),
+        defineField({ name: "before", title: "Case Study: Before", type: "localizedText", validation: (Rule) => Rule.custom((value, context) => (context.parent as Record<string, unknown> | undefined)?.format !== "case-study" || hasText(value) || "Case studies require a Before field.") }),
+        defineField({ name: "after", title: "Case Study: After", type: "localizedText", validation: (Rule) => Rule.custom((value, context) => (context.parent as Record<string, unknown> | undefined)?.format !== "case-study" || hasText(value) || "Case studies require an After field.") }),
+        defineField({ name: "outcome", title: "Case Study: Outcome", type: "localizedText", validation: (Rule) => Rule.custom((value, context) => (context.parent as Record<string, unknown> | undefined)?.format !== "case-study" || hasText(value) || "Case studies require an Outcome field.") }),
         defineField({
             name: "rating",
             title: "Rating (1-5)",
@@ -85,7 +118,8 @@ export const testimonial = defineType({
             name: "verifiedClient",
             title: "Verified Client?",
             type: "boolean",
-            description: "Active para mostrar el distintivo de 'Cliente Verificado' y generar confianza.",
+            description: "Required when the client role and company cannot be disclosed. Displays the localized Verified Client attribution.",
+            validation: (Rule) => Rule.required(),
             initialValue: true,
         }),
         defineField({

@@ -1,6 +1,13 @@
 import { defineField, defineType } from "sanity";
 import { Home } from "lucide-react";
 
+const hasLocalizedText = (value: unknown): boolean => {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+    return Object.values(value as Record<string, unknown>).some(
+        (translation) => typeof translation === "string" && translation.trim().length > 0,
+    );
+};
+
 export const homePage = defineType({
     name: "homePage",
     title: "Home Page",
@@ -309,6 +316,32 @@ export const homePage = defineType({
             type: "url",
             validation: (Rule) => Rule.uri({ allowRelative: true, scheme: ["https", "http", "mailto", "tel"] }),
             group: "cta",
+        }),
+        defineField({
+            name: "ctaAvailabilityText",
+            title: "CTA Availability Message",
+            type: "localizedString",
+            group: "cta",
+            description: "Optional operational availability message. It is hidden automatically after the end date.",
+            validation: (Rule) => Rule.custom((value, context) => {
+                const parent = context.parent as Record<string, unknown> | undefined;
+                return !hasLocalizedText(value) || parent?.ctaAvailabilityEndDate
+                    ? true
+                    : "Set an availability end date whenever an availability message is published.";
+            }),
+        }),
+        defineField({
+            name: "ctaAvailabilityEndDate",
+            title: "CTA Availability End Date",
+            type: "date",
+            group: "cta",
+            description: "The message stops rendering after this date. Clear both fields when advisory capacity closes.",
+            validation: (Rule) => Rule.custom((value, context) => {
+                const parent = context.parent as Record<string, unknown> | undefined;
+                return !hasLocalizedText(parent?.ctaAvailabilityText) || value
+                    ? true
+                    : "An availability message requires an end date.";
+            }),
         }),
         defineField({
             name: "ctaBackgroundImage",

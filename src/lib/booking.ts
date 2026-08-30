@@ -51,3 +51,18 @@ export function getBookingHref(configuredUrl?: string | null): string {
 
     return url;
 }
+
+export function isExternalBookingHref(href: string): boolean {
+    try {
+        const canonicalUrl = new URL(publicEnv.baseUrl);
+        return new URL(href, canonicalUrl).origin !== canonicalUrl.origin;
+    } catch {
+        return false;
+    }
+}
+
+export function isCtaAvailabilityActive(text?: string, endDate?: string, now = Date.now()): boolean {
+    if (!text?.trim() || !endDate) return false;
+    const expiration = Date.parse(`${endDate}T23:59:59.999Z`);
+    return Number.isFinite(expiration) && now <= expiration;
+}

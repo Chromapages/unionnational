@@ -5,8 +5,9 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import * as Icons from "lucide-react";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
-import { mapCategory } from "@/components/layout/navigationData";
+import { getServiceHref, mapCategory } from "@/components/layout/navigationData";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { getCoreServiceCards } from "@/lib/services/coreServiceCards";
 
 // Helper to resolve icon string to component
 const getIcon = (iconName: string) => {
@@ -26,6 +27,9 @@ export interface Service {
     startingPrice?: string;
     isPopular?: boolean;
     accentColor?: string;
+    showInOutcomes?: boolean;
+    outcomesOrder?: number;
+    isFlagship?: boolean;
 }
 
 interface ServicesClientProps {
@@ -34,6 +38,8 @@ interface ServicesClientProps {
 
 export function ServicesClient({ services }: ServicesClientProps) {
     const t = useTranslations("Header");
+    const homeT = useTranslations("HomePage.ServicesSection");
+    const coreCardsByHref = new Map(getCoreServiceCards(homeT, services).map((card) => [card.exploreLinkHref, card]));
 
     const categories = [
         { id: "Tax Strategy", labelKey: "servicesDropdownTaxStrategyLabel" },
@@ -43,19 +49,23 @@ export function ServicesClient({ services }: ServicesClientProps) {
 
     // Internal Card Component for reuse
     const ServiceCard = ({ service, className }: { service: Service; className?: string }) => {
-        const Icon = getIcon(service.icon);
+        const coreCard = coreCardsByHref.get(getServiceHref(service));
+        const Icon = getIcon(coreCard?.icon || service.icon);
+        const serviceHref = coreCard?.exploreLinkHref || getServiceHref(service);
         return (
-            <div className={`group relative bg-white rounded-2xl p-5 md:p-8 shadow-sm border border-zinc-200 hover:shadow-xl hover:border-gold-200 transition-all duration-300 flex flex-col h-full ${className}`}>
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-brand-50 flex items-center justify-center mb-4 md:mb-6 group-hover:bg-brand-900 transition-colors duration-300">
-                    <Icon className="w-6 h-6 md:w-7 md:h-7 text-brand-900 group-hover:text-gold-500 transition-colors duration-300" />
+            <div className={`relative bg-white rounded-2xl p-5 md:p-8 shadow-sm border border-zinc-200 flex flex-col h-full ${className}`}>
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-brand-50 flex items-center justify-center mb-4 md:mb-6">
+                    <Icon className="w-6 h-6 md:w-7 md:h-7 text-brand-900" />
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-bold text-brand-900 mb-2 md:mb-3 font-heading group-hover:text-gold-600 transition-colors">
-                    {service.title}
+                {coreCard ? <p className="text-xs font-bold uppercase tracking-[0.1em] text-gold-800 mb-2">{coreCard.categoryLabel}</p> : null}
+
+                <h3 className="text-xl md:text-2xl font-bold text-brand-900 mb-2 md:mb-3 font-heading">
+                    {coreCard?.heading || service.title}
                 </h3>
 
                 <p className="h-10 overflow-hidden text-sm leading-5 text-zinc-600 mb-4 md:mb-6 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
-                    {service.shortDescription}
+                    {coreCard?.description || service.shortDescription}
                 </p>
 
                 {service.startingPrice && (
@@ -75,10 +85,10 @@ export function ServicesClient({ services }: ServicesClientProps) {
                 </ul>
 
                 <Link
-                    href={`/services/${service.slug.current}`}
-                    className="mt-auto w-full min-h-11 py-2.5 md:py-3 rounded-xl border border-brand-200 text-brand-900 font-semibold flex items-center justify-center gap-2 group-hover:bg-brand-900 group-hover:text-white group-hover:border-brand-900 transition-all font-heading tracking-tight"
+                    href={serviceHref}
+                    className="mt-auto w-full min-h-11 py-2.5 md:py-3 rounded-xl border border-brand-200 text-brand-900 font-semibold flex items-center justify-center gap-2 transition-all hover:bg-brand-900 hover:text-white hover:border-brand-900 font-heading tracking-tight"
                 >
-                    View Details
+                    {coreCard?.exploreLinkLabel || "View Details"}
                     <ArrowRight className="w-4 h-4" />
                 </Link>
             </div>

@@ -142,9 +142,13 @@
 @layer base {
     html {
         scroll-behavior: smooth;
+        max-width: 100%;
+        overflow-x: hidden;
     }
     body {
         @apply bg-white text-brand-900 antialiased;
+        max-width: 100%;
+        overflow-x: hidden;
     }
     section[id], div[id] {
         scroll-margin-top: calc(var(--header-height) + 1.5rem);
@@ -156,6 +160,39 @@
 }
 
 @layer utilities {
+    #site-footer :is(a, button) {
+        scroll-margin-block-start: calc(var(--header-height, 76px) + 1rem);
+    }
+
+    #site-footer nav a:not([aria-label]),
+    #site-footer address a {
+        text-decoration-line: underline;
+        text-decoration-color: rgb(255 255 255 / 0.28);
+        text-decoration-thickness: 1px;
+    }
+
+    #site-footer nav a:not([aria-label]):hover,
+    #site-footer address a:hover {
+        color: #DCC46C;
+        text-decoration-color: #DCC46C;
+    }
+
+    #site-footer :is(a, button):active {
+        color: #E4D187;
+    }
+
+    #site-footer :is(a, button):focus-visible {
+        outline: 3px solid #E4D187;
+        outline-offset: 3px;
+        box-shadow: 0 0 0 2px #051A18;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #site-footer :is(a, button) {
+            transition-duration: 0s !important;
+        }
+    }
+
     /* Homepage typography system: hero, section, card, and CTA are the only heading tiers. */
     .home-eyebrow {
         font-family: var(--font-inter), sans-serif;
@@ -214,6 +251,81 @@
         font-family: var(--font-outfit), sans-serif;
         font-weight: 600;
         letter-spacing: 0.01em;
+    }
+
+    .cta-decision-rail {
+        container-type: inline-size;
+    }
+
+    .cta-decision-section {
+        padding-top: 3rem;
+        padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .cta-decision-gutter {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+
+    @media (min-width: 40rem) {
+        .cta-decision-section {
+            padding-top: 4rem;
+            padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+        }
+
+        .cta-decision-gutter {
+            padding-left: max(1.5rem, env(safe-area-inset-left));
+            padding-right: max(1.5rem, env(safe-area-inset-right));
+        }
+    }
+
+    .footer-authority-rail {
+        container-type: inline-size;
+    }
+
+    .footer-authority-primary {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    @container (min-width: 62rem) {
+        .footer-authority-primary {
+            grid-template-columns: minmax(18rem, 0.95fr) minmax(0, 2.05fr);
+            align-items: start;
+            gap: clamp(2.5rem, 4cqi, 3rem);
+        }
+    }
+
+    .cta-decision-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+    }
+
+    .cta-decision-action {
+        width: 100%;
+        max-width: 28rem;
+        scroll-margin-top: calc(var(--header-height) + 1.5rem);
+        scroll-margin-bottom: max(1.5rem, calc(1.5rem + env(safe-area-inset-bottom, 0px)));
+    }
+
+    @container (min-width: 52rem) {
+        .cta-decision-grid {
+            grid-template-columns: minmax(0, 7fr) minmax(18rem, 5fr);
+            align-items: end;
+            gap: clamp(2rem, 4cqi, 3rem);
+        }
+
+        .cta-decision-action {
+            justify-self: end;
+        }
+    }
+
+    @media (min-width: 64rem) {
+        .cta-decision-section {
+            padding-top: 5rem;
+            padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+        }
     }
 
     @media (min-width: 768px) {
@@ -422,6 +534,19 @@
 .animate-hero-marquee:hover,
 .animate-hero-marquee:focus-within {
     animation-play-state: paused;
+}
+
+@keyframes trust-bar-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - 1rem));
+    }
+}
+
+.animate-trust-bar-marquee {
+    animation: trust-bar-marquee 24s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

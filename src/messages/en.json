@@ -10,6 +10,7 @@
         "healthCheck": "Health Check",
         "resources": "Guides & Tools",
         "bookCall": "Book a Strategy Call",
+        "bookShort": "Book",
         "defaultCompanyName": "Union National Tax",
         "logoHomeAria": "{company} home",
         "contactButtonAria": "View contact information",
@@ -47,7 +48,7 @@
         "servicesGroupOther": "More services",
         "servicesGroupOtherDescription": "Explore additional support for your business.",
         "serviceLabels": {
-            "taxPlanning": "Tax Planning",
+            "taxPlanning": "Proactive Tax Planning",
             "sCorp": "S-Corp Tax Advantage",
             "bookkeeping": "Strategic Bookkeeping",
             "fractionalCfo": "Fractional CFO",
@@ -88,15 +89,20 @@
     },
     "Footer": {
         "defaultCompanyName": "Union National Tax",
-        "brandBio": "Proactive tax strategy and financial clarity for contractors and service-based business owners.",
         "navigationLabel": "Footer navigation",
+        "socialNavigationLabel": "Social channels",
         "legalNavigationLabel": "Legal",
         "homeLinkLabel": "Union National Tax home",
         "advisoryTitle": "Advisory",
         "complianceTitle": "Compliance & Implementation",
         "companyTitle": "Company",
+        "companyAndIndustriesTitle": "Company & Industries",
         "resourcesTitle": "Resources",
+        "resourcesAndShopTitle": "Resources & Shop",
         "contactTitle": "Contact Us",
+        "phoneLabel": "Phone",
+        "emailLabel": "Email",
+        "officeDetails": "Office details",
         "viewAllServices": "View All Services",
         "team": "Team",
         "disclaimerLabel": "Disclaimer:",
@@ -112,19 +118,28 @@
         },
         "advisoryLinks": {
             "scorp": "S-Corp Tax Advantage",
-            "taxPlanning": "Tax Planning",
+            "taxPlanning": "Proactive Tax Planning",
             "bookkeeping": "Strategic Bookkeeping",
             "fractionalCfo": "Fractional CFO"
         },
         "resourceCenter": "Resource Center",
         "credentialLabel": "Enrolled Agent",
         "credentialDetail": "Federally licensed by the IRS",
-        "copyright": "© {year} Union National Tax. All rights reserved.",
+        "copyrightTextFallback": "Union National Tax. All rights reserved.",
         "privacy": "Privacy Policy",
         "terms": "Terms of Service",
-        "disclaimer": "Disclaimer"
+        "disclaimer": "Disclaimer",
+        "readDisclaimer": "Read Disclaimer",
+        "closeDisclaimer": "Close disclaimer"
     },
     "Common": {
+        "featuredResult": "Featured result",
+        "before": "Before",
+        "after": "After",
+        "outcome": "Outcome",
+        "readMoreClientResults": "Read more client results and case studies",
+        "trustedByBusinessOwners": "1,000+ business owners served",
+        "verifiedClient": "Verified Client",
         "learnMore": "Learn More",
         "getStarted": "Get Started",
         "viewAll": "View All"
@@ -386,31 +401,44 @@
             "eyebrow": "What we help you achieve",
             "title": "Four outcomes. One connected financial strategy.",
             "subtitle": "Start with the pressure point that matters now, then see the service designed to address it.",
+            "recommendedBadge": "Recommended",
             "listLabel": "Financial outcomes and the services that support them",
             "outcomes": {
                 "scorp": {
                     "service": "S-Corp Tax Advantage",
-                    "title": "Keep more of what you earn—when the structure fits",
+                    "title": "Lower your tax burden",
                     "description": "Evaluate whether an S-Corp election and coordinated payroll strategy could reduce avoidable self-employment tax.",
                     "link": "Explore S-Corp Tax Advantage"
                 },
                 "taxPlanning": {
                     "service": "Proactive Tax Planning",
-                    "title": "Make tax decisions before deadlines close",
+                    "title": "Plan before deadlines",
                     "description": "Plan entity, deduction, retirement, and timing decisions while there is still time to act.",
                     "link": "Explore Proactive Tax Planning"
                 },
                 "bookkeeping": {
                     "service": "Strategic Bookkeeping",
-                    "title": "Trust the numbers behind every decision",
+                    "title": "Know your numbers",
                     "description": "Maintain current, decision-ready books that support tax planning, pricing, cash-flow visibility, and compliance.",
                     "link": "Explore Strategic Bookkeeping"
                 },
                 "fractionalCfo": {
                     "service": "Fractional CFO",
-                    "title": "Plan cash, hiring, and growth with confidence",
+                    "title": "Lead with clarity",
                     "description": "Use forecasting, financial modeling, and leadership-level guidance to make larger business decisions.",
                     "link": "Explore Fractional CFO Services"
+                },
+                "formation": {
+                    "service": "New Business Formation",
+                    "title": "Start structured",
+                    "description": "Choose and establish the business entity, registrations, and operating foundation your next stage requires.",
+                    "link": "Explore New Business Formation"
+                },
+                "payroll": {
+                    "service": "Payroll Services",
+                    "title": "Pay people accurately",
+                    "description": "Run dependable payroll, filings, and compliance processes without adding administrative drag to your business.",
+                    "link": "Explore Payroll Services"
                 }
             },
             "viewAllCta": "Compare all services"
@@ -528,6 +556,8 @@
             "recommendedBadge": "Recommended",
             "emptyFallback": "Comparison details are being updated.",
             "evidence": {
+                "eyebrow": "What happens next",
+                "heading": "Turn proactive insight into a working plan",
                 "step1": {
                     "label": "Review current position",
                     "body": "Examine entity structure, current revenue, and tax baseline before the year closes."
@@ -650,6 +680,16 @@
             "ctaPrimary": "Book a Tax Strategy Call"
         },
         "CTASection": {
+            "globalEyebrow": "Strategy consultation",
+            "homepageEyebrow": "For contractors and service businesses",
+            "homepageTitle": "Ready for a smarter tax strategy?",
+            "homepageSubtitle": "Review your current structure, identify planning opportunities, and determine the right next step.",
+            "homepageButtonText": "Book a Strategy Call",
+            "homepageReassurance": "Free 45-minute consultation · No obligation",
+            "homepageSchedulingNote": "Choose a date and time next. Your appointment is confirmed after you complete scheduling.",
+            "externalBookingNote": "Opens the booking page in a new tab.",
+            "openingSchedulingCalendar": "Opening scheduling calendar…",
+            "opensInNewTab": "(opens in a new tab)",
             "badge": "Accepting New Advisory Clients for {year}",
             "fallbackTitle": "Ready to stop overpaying?",
             "fallbackSubtitle": "Book a 30-minute tax strategy call. We'll review your situation, identify where you may be overpaying, and explain what strategic support could look like for your business.",
@@ -661,6 +701,13 @@
             "strategySessionNote": "Free 30-minute strategy session",
             "poweredBy": "Powered by Union National"
         }
+    },
+    "Booking": {
+        "meetingMeta": "Free 45-minute consultation · No obligation",
+        "calendarIntro": "Choose an available date and time below. The calendar guides you through any required details and confirms your appointment after you complete scheduling.",
+        "calendarSupport": "Need help scheduling?",
+        "calendarSupportLink": "Contact us.",
+        "calendarPrivacyLink": "Privacy Policy"
     },
     "AboutPage": {
         "metadata": {

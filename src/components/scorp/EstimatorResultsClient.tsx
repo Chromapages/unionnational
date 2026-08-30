@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SavingsResultCard } from "@/components/scorp/SavingsResultCard";
 import { formatCurrency } from "@/lib/scorp-advantage/calculator";
 
@@ -15,20 +15,40 @@ type StoredResult = {
     distributions: number;
 };
 
-function numberParam(value: string | null): number {
-    return value ? Number(value) : 0;
-}
-
 export function EstimatorResultsClient() {
-    const params = useSearchParams();
-    const result: StoredResult = {
-        firstName: params.get("firstName") || "",
-        businessName: params.get("businessName") || "",
-        estimatedNetProfit: numberParam(params.get("netProfit")),
-        estimatedSavings: numberParam(params.get("savings")),
-        suggestedSalary: numberParam(params.get("salary")),
-        distributions: numberParam(params.get("distributions")),
-    };
+    const [result, setResult] = useState<StoredResult | null | undefined>(undefined);
+
+    useEffect(() => {
+        try {
+            const stored = sessionStorage.getItem("scorp-estimator-result");
+            if (!stored) {
+                setResult(null);
+                return;
+            }
+
+            const parsed = JSON.parse(stored) as StoredResult;
+            const values = [parsed.estimatedNetProfit, parsed.estimatedSavings, parsed.suggestedSalary, parsed.distributions];
+            setResult(values.every(Number.isFinite) ? parsed : null);
+        } catch {
+            setResult(null);
+        }
+    }, []);
+
+    if (result === undefined) {
+        return <p role="status" className="rounded-2xl bg-white p-8 text-gray-600 shadow-md">Loading your estimate...</p>;
+    }
+
+    if (result === null) {
+        return (
+            <section className="rounded-2xl border border-gray-100 bg-white p-8 shadow-md">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">Start your S-Corp estimate</h1>
+                <p className="mt-4 leading-relaxed text-gray-600">We couldn&apos;t find a saved assessment in this browser session.</p>
+                <Link href="/scorp-estimator" className="mt-6 inline-flex rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white hover:bg-indigo-700">
+                    Start the assessment
+                </Link>
+            </section>
+        );
+    }
 
     const isLowFit = result.estimatedSavings === 0;
 
