@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useLocale } from "next-intl";
 import { ArrowRight, BookOpen, FileText } from "lucide-react";
 import { extractString } from "@/lib/utils";
+import { InnerPageHeader } from "@/components/layout/InnerPageHeader";
 
 interface FeaturedResource {
     _type: string;
@@ -39,28 +40,15 @@ export function ResourceHero({ title, subtitle, featuredResource }: ResourceHero
     const isLeadMagnet = featuredResource?._type === "playbook";
 
     return (
-        <section className="relative bg-brand-900 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-900" />
-
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-                <div className="w-full h-full bg-[radial-gradient(#d4af37_1px,transparent_1px)] bg-[size:24px_24px]" />
-            </div>
-
-            <div className="relative w-full px-4 sm:px-6 py-20 lg:py-32">
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-heading">
-                        {extractString(title, locale)}
-                    </h1>
-                    <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
-                        {extractString(subtitle, locale)}
-                    </p>
-                </div>
-
-                {featuredResource && (
-                    <div className="w-full">
+        <>
+            <InnerPageHeader
+                eyebrow="Guides & Tools"
+                title={extractString(title, locale)}
+                description={extractString(subtitle, locale)}
+            />
+            {featuredResource ? (
+                <section className="bg-brand-900 px-4 pb-8 sm:px-6">
+                    <div className="mx-auto max-w-screen-2xl">
                         <div className="bg-brand-800/50 backdrop-blur-sm border border-gold-500/20 rounded-2xl overflow-hidden">
                             <div className="grid lg:grid-cols-2 gap-0">
                                 {imageUrl && (
@@ -116,8 +104,8 @@ export function ResourceHero({ title, subtitle, featuredResource }: ResourceHero
                             </div>
                         </div>
                     </div>
-                )}
-            </div>
-        </section>
+                </section>
+            ) : null}
+        </>
     );
 }

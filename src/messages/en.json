@@ -704,7 +704,7 @@
     },
     "Booking": {
         "meetingMeta": "Free 45-minute consultation · No obligation",
-        "calendarIntro": "Choose an available date and time below. The calendar guides you through any required details and confirms your appointment after you complete scheduling.",
+        "calendarIntro": "Pick a date and time — we'll confirm your call instantly.",
         "calendarSupport": "Need help scheduling?",
         "calendarSupportLink": "Contact us.",
         "calendarPrivacyLink": "Privacy Policy"

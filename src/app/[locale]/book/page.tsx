@@ -1,5 +1,6 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
+import { InnerPageHeader } from "@/components/layout/InnerPageHeader";
 import { BookingCalendar } from "@/components/booking/BookingCalendar";
 import { BookingReturnLink } from "@/components/booking/BookingReturnLink";
 import { Link } from "@/i18n/navigation";
@@ -28,25 +29,19 @@ export default async function BookPage(props: { params: Promise<{ locale: string
             <link rel="preconnect" href="https://link.agent-crm.com" crossOrigin="anonymous" />
             <HeaderWrapper />
             <main id="main-content" className="min-h-screen bg-white selection:bg-gold-500/30">
-                <section className="bg-brand-900 px-4 pb-7 pt-12 text-white sm:px-6 md:pb-8 md:pt-12">
-                    <div className="mx-auto max-w-screen-2xl">
+                <InnerPageHeader
+                    navigation={
                         <nav aria-label="Return navigation">
                             <BookingReturnLink
                                 href={safeReturnTo}
                                 label={returnsToStrategyOverview ? "Back to strategy overview" : "Back to home"}
                             />
                         </nav>
-                        <div className="mt-4 max-w-[46rem]">
-                            <h1 className="font-heading text-4xl font-bold leading-[1.08] tracking-tight text-white md:text-[2.75rem]">
-                                Choose a time for your <span className="text-gold-400 md:whitespace-nowrap">tax strategy call</span>
-                            </h1>
-                            <p className="mt-3 text-sm font-semibold text-brand-100 md:text-base">{t("meetingMeta")}</p>
-                            <p className="mt-4 max-w-[46rem] text-base leading-relaxed text-brand-100/80 md:text-lg">
-                                {t("calendarIntro")}
-                            </p>
-                        </div>
-                    </div>
-                </section>
+                    }
+                    title={<>Choose a time for your <span className="text-gold-400 md:whitespace-nowrap">tax strategy call</span></>}
+                    metadata={t("meetingMeta")}
+                    description={t("calendarIntro")}
+                />
 
                 <section className="px-4 py-6 sm:px-6" aria-labelledby="booking-calendar-heading">
                     <div className="mx-auto max-w-screen-2xl">
