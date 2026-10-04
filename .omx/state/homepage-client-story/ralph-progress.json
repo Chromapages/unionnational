@@ -1,0 +1,14 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The reused Torres construction image has a different subject from the reference photo."
+  ],
+  "suggestions": [
+    "Use an approved client-site photograph if the exact image subject is required."
+  ],
+  "reasoning": "At 2048px the card begins at y=165px with a 440px height and matching three-panel proportions. English and Spanish are readable at desktop and mobile widths; the tablet quote spans the full card.",
+  "next_actions": []
+}

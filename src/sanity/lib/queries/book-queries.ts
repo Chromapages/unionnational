@@ -13,7 +13,7 @@ export const BOOK_LANDING_QUERY = defineQuery(`
     "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
     "fullDescription": coalesce(fullDescription[$locale], fullDescription.en, fullDescription),
     format,
-    "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    features,
     "badge": coalesce(badge[$locale], badge.en, badge),
     "leadMagnetTag": leadMagnetTag,
     "serviceLane": serviceLane,
@@ -54,7 +54,7 @@ export const BOOK_LANDING_QUERY = defineQuery(`
       count(relatedServices) > 0 => relatedServices[]-> {
         _id,
         "title": coalesce(title[$locale], title.en, title),
-        "slug": slug.current,
+        slug { current },
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         icon
       }
@@ -68,6 +68,7 @@ export const BOOK_LANDING_QUERY = defineQuery(`
         price,
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         format,
+        editions[] { _key, name, price, format, description, stripePriceId, stripeProductId },
         "badge": coalesce(badge[$locale], badge.en, badge),
         category
       }

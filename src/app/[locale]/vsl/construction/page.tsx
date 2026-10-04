@@ -1,6 +1,8 @@
 import { sanityFetch } from "@/sanity/lib/live";
 import { VSL_PAGE_QUERY } from "@/sanity/lib/queries";
 import ConstructionVSLClient from "./ConstructionVSLClient";
+import type { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 // Generate static params for SSG
 export async function generateStaticParams() {
@@ -12,10 +14,14 @@ export async function generateStaticParams() {
 
 export const revalidate = 60;
 
-export const metadata = {
-    title: "Construction Partner Program | Union National Tax",
-    description: "Stop bleeding cash on job costing & labor. The Hybrid CFO + COO Model used by elite construction firms.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Construction Partner Program | Union National Tax",
+        description: "Stop bleeding cash on job costing & labor. The Hybrid CFO + COO Model used by elite construction firms.",
+        alternates: localizedAlternates(locale, "/vsl/construction"),
+    };
+}
 
 export default async function ConstructionVSLPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;

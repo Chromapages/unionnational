@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getClientResults, validateQuoteAttribution } from "./clientResults";
+import { getClientResults, validateQuoteAttribution, type ClientResultSource } from "./clientResults";
 
 const translate = (key: string) => ({
     "featuredResult": "Featured result",
@@ -19,6 +19,7 @@ describe("client results data layer", () => {
             name: "Michael Torres",
             company: "Torres Built Construction",
         });
+        if (featured.format !== "case-study") throw new Error("Featured result must be a case study");
         expect(featured.before).toBeTruthy();
         expect(featured.after).toBeTruthy();
         expect(featured.outcome).toBeTruthy();
@@ -47,7 +48,7 @@ describe("client results data layer", () => {
     });
 
     it("rejects a quote with a bare name and no verified-client status", () => {
-        const incompleteQuote = {
+        const incompleteQuote: ClientResultSource = {
             format: "quote" as const,
             quote: "Helpful team.",
             clientName: "Carla Bassano",

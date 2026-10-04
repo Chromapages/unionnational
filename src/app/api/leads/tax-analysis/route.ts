@@ -1,12 +1,33 @@
 import { NextResponse } from "next/server";
-import { checkRateLimit, getClientIdentifier } from "@/lib/security/rate-limiter";
+import { z } from "zod";
+import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
+import { normalizeRevenue } from "@/lib/ghl/contract";
+import { forwardToGhl, isLeadTimeout, readLeadJson } from "@/lib/intake/shared";
+
+const TaxLead = z.object({
+    name: z.string().trim().min(1).max(200),
+    email: z.string().trim().email().max(254),
+    phone: z.string().trim().min(10).max(30),
+    businessType: z.string().trim().min(1).max(100),
+    revenueRange: z.string().trim().min(1).max(50),
+    source: z.string().trim().max(100).optional(),
+    locale: z.enum(["en", "es"]).default("en"),
+    submission_id: z.string().uuid().optional(),
+});
 
 export async function POST(request: Request) {
-    const traceId = getTraceId();
-    const identifier = getClientIdentifier(request);
-    const rateLimitResult = await checkRateLimit(identifier);
+    const traceId = getTraceId(request.headers);
+    const parsed = await readLeadJson(request);
+    if (!parsed.ok) return NextResponse.json({ success: false, error: parsed.error }, { status: parsed.status });
+    const validation = TaxLead.safeParse(parsed.value);
+    if (!validation.success) return NextResponse.json({ success: false, error: "Invalid tax-analysis request" }, { status: 400 });
+    const data = validation.data;
+    let annualRevenueBand;
+    try { annualRevenueBand = normalizeRevenue(data.revenueRange); }
+    catch { return NextResponse.json({ success: false, error: "Ambiguous revenue range" }, { status: 400 }); }
+    const rateLimitResult = await checkRateLimit(contactRateLimitKey(data.email), 5, 60_000);
 
     if (!rateLimitResult.success) {
         return NextResponse.json(
@@ -22,77 +43,32 @@ export async function POST(request: Request) {
         );
     }
 
-    try {
-        const data = await request.json();
-
-        const requiredFields = ["name", "email", "phone", "businessType", "revenueRange"];
-        for (const field of requiredFields) {
-            if (!data[field]) {
-                return NextResponse.json(
-                    { error: `Missing required field: ${field}` },
-                    { status: 400 }
-                );
-            }
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(data.email)) {
-            return NextResponse.json(
-                { error: "Invalid email address" },
-                { status: 400 }
-            );
-        }
-
-        logger.info("Tax analysis lead captured", {
-            traceId,
-            businessType: data.businessType,
-            revenueRange: data.revenueRange,
-            source: data.source ?? "unt-tax-analysis",
-        });
-
-        const ghlPayload = {
+    const ghlPayload = {
             name: data.name,
             email: data.email,
             phone: data.phone,
             business_type: data.businessType,
             revenue_range: data.revenueRange,
+            annual_revenue_band: annualRevenueBand,
             source: data.source || "unt-tax-analysis",
+            locale: data.locale,
+            submission_id: data.submission_id,
             timestamp: new Date().toISOString(),
         };
 
-        const ghlWebhookUrl = getEnv("GHL_TAX_ANALYSIS_WEBHOOK_URL");
+    const ghlWebhookUrl = getEnv("GHL_TAX_ANALYSIS_WEBHOOK_URL");
+    if (!ghlWebhookUrl) return NextResponse.json({ success: false, error: "Lead capture unavailable" }, { status: 503 });
 
-        if (ghlWebhookUrl) {
-            try {
-                const ghlResponse = await fetch(ghlWebhookUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(ghlPayload),
-                });
-
-                if (!ghlResponse.ok) {
-                    logger.error("GHL webhook error", {
-                        traceId,
-                        status: ghlResponse.status,
-                        statusText: ghlResponse.statusText,
-                    });
-                } else {
-                    logger.info("GHL webhook success", { traceId });
-                }
-            } catch (webhookError) {
-                logger.error("GHL webhook failed", {
-                    traceId,
-                    error: webhookError instanceof Error ? webhookError.message : "Unknown error",
-                });
-            }
+    try {
+        const response = await forwardToGhl(ghlPayload, ghlWebhookUrl, data.submission_id);
+        if (!response.ok) {
+            logger.warn("Tax analysis webhook rejected", { traceId, status: response.status });
+            return NextResponse.json({ success: false, error: "Lead delivery failed" }, { status: 502 });
         }
-
+        logger.info("Tax analysis lead accepted", { traceId });
         return NextResponse.json({ success: true });
     } catch (error) {
-        logger.error("Tax analysis lead error", {
-            traceId,
-            error: error instanceof Error ? error.message : "Unknown error",
-        });
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        logger.error("Tax analysis lead delivery unavailable", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });
+        return NextResponse.json({ success: false, error: "Lead delivery unavailable" }, { status: isLeadTimeout(error) ? 504 : 502 });
     }
 }

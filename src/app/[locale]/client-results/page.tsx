@@ -4,6 +4,16 @@ import { getClientResults } from "@/lib/testimonials/clientResults";
 import { TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Client Results | Union National Tax",
+        alternates: localizedAlternates(locale, "/client-results"),
+    };
+}
 
 export default async function ClientResultsPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -14,7 +24,7 @@ export default async function ClientResultsPage({ params }: { params: Promise<{ 
     return (
         <div className="min-h-dvh bg-slate-50 text-brand-900">
             <HeaderWrapper />
-            <main className="py-16 sm:py-20" aria-labelledby="client-results-heading">
+            <main id="main-content" tabIndex={-1} className="py-16 sm:py-20" aria-labelledby="client-results-heading">
                 <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
                     <p className="home-eyebrow text-gold-800">Client results</p>
                     <h1 id="client-results-heading" className="home-section-heading mt-4">{t("readMoreClientResults")}</h1>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTraceId, createLogger, redactObject, logger } from "./logger";
 import type { LogContext } from "./logger";
+import { getClientIdentifier, MAX_IN_MEMORY_RATE_LIMIT_ENTRIES } from "../security/rate-limiter";
 
 export interface ApiHandlerDeps {
   module: string;
@@ -23,12 +24,8 @@ export interface ApiHandlerResult {
 }
 
 export function getClientIp(request: Request): string {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  return (
-    forwardedFor?.split(",")[0]?.trim() ||
-    request.headers.get("x-real-ip") ||
-    "unknown"
-  );
+  const identifier = getClientIdentifier(request);
+  return identifier === "anonymous" ? "unknown" : identifier;
 }
 
 type RateEntry = {
@@ -37,6 +34,7 @@ type RateEntry = {
 };
 
 const defaultRateLimitStore = new Map<string, RateEntry>();
+const nextCleanupByStore = new WeakMap<Map<string, RateEntry>, number>();
 
 export function checkRateLimit(
   ip: string,
@@ -45,9 +43,20 @@ export function checkRateLimit(
   windowMs: number = 60 * 1000
 ): { limited: boolean; remaining: number; resetAt: number } {
   const now = Date.now();
+  let nextCleanupAt = nextCleanupByStore.get(store) ?? 0;
+  if (now >= nextCleanupAt) {
+    for (const [key, record] of store) {
+      if (record.resetAt <= now) store.delete(key);
+    }
+    nextCleanupAt = now + 1000;
+    nextCleanupByStore.set(store, nextCleanupAt);
+  }
   const entry = store.get(ip);
 
   if (!entry || entry.resetAt <= now) {
+    if (!entry && store.size >= MAX_IN_MEMORY_RATE_LIMIT_ENTRIES) {
+      return { limited: true, remaining: 0, resetAt: nextCleanupAt };
+    }
     store.set(ip, { count: 1, resetAt: now + windowMs });
     return { limited: false, remaining: max - 1, resetAt: now + windowMs };
   }

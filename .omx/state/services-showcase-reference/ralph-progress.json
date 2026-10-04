@@ -1,0 +1,13 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The mountain scene is a lightweight local illustration rather than the reference photograph.",
+    "Minor font and icon details follow the site's existing design system."
+  ],
+  "suggestions": [],
+  "reasoning": "The header, four outcome selectors, shared detail panel, scenic quote area, and comparison bar closely match the reference at 1536px. The section measures 1027px against the 1024px reference, with working selections and links.",
+  "next_actions": []
+}

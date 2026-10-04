@@ -1,0 +1,11 @@
+{
+  "score": 97,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "The page preserves brand styling and meets rendered EN/ES layout, deduplication, keyboard, target-size and contrast gates. Published content and dates are unchanged; real destination defects were repaired, and the newsletter is truthfully labeled as an email request.",
+  "next_actions": [],
+  "completed_at": "2026-10-01"
+}

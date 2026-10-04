@@ -10,6 +10,27 @@ export interface CommerceEditionLike {
     stripePriceId?: string;
 }
 
+export const storefrontBookCopyKeys: Record<string, string> = {
+    "the-s-corp-playbook": "scorp", "the-3m-s-to-freedom": "growth",
+    "the-proactive-cfo-solution": "cfo", "the-retirement-crisis-in-america": "retirement",
+    "the-money-making-blueprint-for-construction-companies": "construction",
+    "the-restaurant-profit-blueprint": "restaurant", "why-the-rich-dont-pay-taxes": "realEstate",
+};
+
+export function hasPublishedProductDescription(description: unknown): description is string {
+    return typeof description === "string" && !!description.trim()
+        && !/^(?:description(?:\s+is)?\s+coming\s+soon|coming\s+soon|descripci[oó]n\s+(?:pr[oó]ximamente|pendiente))[.!\s]*$/i.test(description.trim());
+}
+
+export function formatProductPrice(price: number) {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: Number.isInteger(price) ? 0 : 2, maximumFractionDigits: 2 }).format(price);
+}
+
+export function getDefaultProductEdition<T extends ProductEdition>(editions: T[]) {
+    const valid = editions.filter(edition => typeof edition.price === "number" && Number.isFinite(edition.price) && edition.price >= 0);
+    return valid.find(edition => classifyFulfillment(edition.format, edition.name) === "digital" && /pdf/i.test(safeLower(edition.name) + " " + safeLower(edition.description))) || valid[0];
+}
+
 export const safeLower = (value: unknown): string => {
     if (typeof value === "string") return value.toLowerCase().trim();
     if (value && typeof value === "object" && !Array.isArray(value)) {

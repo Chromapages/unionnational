@@ -2,9 +2,11 @@
 
 import { ArrowRight, Calendar } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "@/i18n/navigation";
-import { BOOKING_ROUTE, isExternalBookingHref } from "@/lib/booking";
+import { Link, usePathname } from "@/i18n/navigation";
+import { BOOKING_ROUTE, isExternalBookingHref, normalizeBookingReturnTo } from "@/lib/booking";
 import { trackBookingFunnelEvent } from "@/lib/analytics/bookingFunnel";
+
+const NAVIGATION_RECOVERY_MS = 10000;
 
 interface BookingCtaLinkProps {
     href: string;
@@ -13,18 +15,27 @@ interface BookingCtaLinkProps {
     externalLabel: string;
     placement?: string;
     descriptionId?: string;
+    viewTargetId?: string;
+    prominent?: boolean;
+    showCalendarIcon?: boolean;
 }
 
-export function BookingCtaLink({ href, label, openingLabel, externalLabel, placement = "global_cta", descriptionId }: BookingCtaLinkProps) {
+export function BookingCtaLink({ href, label, openingLabel, externalLabel, placement = "global_cta", descriptionId, viewTargetId = "contact", prominent = false, showCalendarIcon = true }: BookingCtaLinkProps) {
     const [isNavigating, setIsNavigating] = useState(false);
     const hasTrackedView = useRef(false);
     const hasTrackedActivation = useRef(false);
     const isExternal = isExternalBookingHref(href);
+    const pathname = usePathname();
     const stateClass = isNavigating
         ? "bg-gold-400 ring-2 ring-gold-200 pointer-events-none cursor-progress"
-        : "bg-gold-500 hover:bg-gold-400 active:bg-gold-600";
+        : prominent
+          ? "bg-[linear-gradient(105deg,#e6ba32_0%,#f0cd61_50%,#dfb83e_100%)] hover:brightness-105 active:brightness-95"
+          : "bg-gold-500 hover:bg-gold-400 active:bg-gold-600";
     const destination = useMemo(() => {
-        const baseDestination = href === BOOKING_ROUTE ? `${BOOKING_ROUTE}?returnTo=%2F%23contact` : href;
+        const sourcePath = normalizeBookingReturnTo(pathname || "/") || "/";
+        const baseDestination = href === BOOKING_ROUTE
+            ? `${BOOKING_ROUTE}?returnTo=${encodeURIComponent(sourcePath === "/" ? "/#contact" : sourcePath)}`
+            : href;
         if (typeof window === "undefined") return baseDestination;
 
         const currentUrl = new URL(window.location.href);
@@ -36,10 +47,10 @@ export function BookingCtaLink({ href, label, openingLabel, externalLabel, place
         }
 
         return isExternal ? bookingUrl.toString() : `${bookingUrl.pathname}${bookingUrl.search}${bookingUrl.hash}`;
-    }, [href, isExternal]);
+    }, [href, isExternal, pathname]);
 
     useEffect(() => {
-        const section = document.getElementById("contact");
+        const section = document.getElementById(viewTargetId);
         if (!section || hasTrackedView.current) return;
         const trackView = () => {
             if (hasTrackedView.current) return;
@@ -60,7 +71,18 @@ export function BookingCtaLink({ href, label, openingLabel, externalLabel, place
         }, { threshold: 0.4 });
         observer.observe(section);
         return () => observer.disconnect();
-    }, []);
+    }, [placement, viewTargetId]);
+
+    useEffect(() => {
+        if (!isNavigating) return;
+        const timer = window.setTimeout(() => setIsNavigating(false), NAVIGATION_RECOVERY_MS);
+        const restoreOnPageShow = () => setIsNavigating(false);
+        window.addEventListener("pageshow", restoreOnPageShow);
+        return () => {
+            window.clearTimeout(timer);
+            window.removeEventListener("pageshow", restoreOnPageShow);
+        };
+    }, [isNavigating]);
 
     return (
         <Link
@@ -73,7 +95,8 @@ export function BookingCtaLink({ href, label, openingLabel, externalLabel, place
             aria-describedby={descriptionId}
             data-state={isNavigating ? "pending" : "ready"}
             onClick={(event) => {
-                if (isNavigating) {
+                const navigatesInThisTab = !isExternal && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+                if (isNavigating && navigatesInThisTab) {
                     event.preventDefault();
                     return;
                 }
@@ -84,13 +107,13 @@ export function BookingCtaLink({ href, label, openingLabel, externalLabel, place
                         destination_type: isExternal ? "external" : "internal",
                     });
                 }
-                setIsNavigating(true);
+                if (navigatesInThisTab && !event.defaultPrevented) setIsNavigating(true);
             }}
-            className={`grid min-h-14 w-full touch-manipulation grid-cols-[1fr_auto_1fr] items-center rounded-full px-5 py-3 text-base font-bold tracking-wide text-brand-950 transition-[background-color,box-shadow] duration-150 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-brand-950 focus-visible:outline-offset-[-5px] focus-visible:ring-[3px] focus-visible:ring-gold-300 focus-visible:ring-offset-4 focus-visible:ring-offset-black motion-reduce:transition-none font-heading ${stateClass}`}
+            className={`${prominent ? "flex min-h-16 justify-center gap-3 px-4 py-4 text-base sm:gap-8 sm:px-6 sm:text-xl 2xl:min-h-[5.625rem] 2xl:text-[1.65rem]" : showCalendarIcon ? "grid min-h-14 grid-cols-[1fr_auto_1fr] px-5 py-3 text-base" : "grid min-h-14 grid-cols-[1fr_auto] gap-3 px-6 py-4 text-base"} w-full touch-manipulation items-center rounded-full font-bold tracking-wide text-brand-950 transition-[background-color,box-shadow] duration-150 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-brand-950 focus-visible:outline-offset-[-5px] focus-visible:ring-[3px] focus-visible:ring-gold-300 focus-visible:ring-offset-4 focus-visible:ring-offset-black motion-reduce:transition-none font-heading ${stateClass}`}
         >
-            <Calendar className="h-5 w-5 shrink-0 justify-self-start" aria-hidden="true" />
+            {showCalendarIcon ? <Calendar className={prominent ? "size-6 shrink-0 sm:size-8" : "h-5 w-5 shrink-0 justify-self-start"} aria-hidden="true" /> : null}
             <span className="min-w-0 text-center">{label}</span>
-            <ArrowRight className="h-5 w-5 shrink-0 justify-self-end" aria-hidden="true" />
+            <ArrowRight className={prominent ? "size-6 shrink-0 sm:size-8" : "h-5 w-5 shrink-0 justify-self-end"} aria-hidden="true" />
             {isExternal ? <span className="sr-only">{externalLabel}</span> : null}
             {isNavigating ? <span className="sr-only" role="status">{openingLabel}</span> : null}
         </Link>

@@ -24,7 +24,8 @@ export const EntityTypeEnum = z.enum([
     "S_CORP",
     "C_CORP",
     "PARTNERSHIP",
-    "NOT_YET_FORMED"
+    "NOT_YET_FORMED",
+    "OTHER"
 ]);
 
 export const IndustryEnum = z.enum([
@@ -56,6 +57,12 @@ export const PrimaryServiceEnum = z.enum([
     "CONSTRUCTION_CFO_PARTNERSHIP"
 ]);
 
+export const PreferredNextStepEnum = z.enum([
+    "BOOK_STRATEGY_CALL",
+    "EMAIL_SUMMARY_REQUESTED",
+    "CALLBACK_REQUESTED",
+]);
+
 export const LeadMagnetTypeEnum = z.enum([
     "SCORP_ESTIMATOR",
     "TAX_SAVINGS_ANALYSIS",
@@ -74,11 +81,11 @@ export const LeadMagnetTypeEnum = z.enum([
 // ─── PAYLOAD SCHEMAS ─────────────────────────────────────────────────────────
 
 export const ContactSchema = z.object({
-    first_name: z.string().min(1, "First name is required"),
-    last_name: z.string().optional(),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().optional(),
-    tags: z.array(z.string()).optional(),
+    first_name: z.string().trim().min(1, "First name is required").max(100),
+    last_name: z.string().trim().max(100).optional(),
+    email: z.string().trim().email("Invalid email address").max(254),
+    phone: z.string().max(30).optional(),
+    tags: z.array(z.string().max(100)).max(20).optional(),
 });
 
 export const BusinessSchema = z.object({
@@ -87,6 +94,10 @@ export const BusinessSchema = z.object({
     entity_type: EntityTypeEnum.optional(),
     industry: IndustryEnum.optional(),
     current_software: z.string().optional(),
+    business_type: z.string().max(100).optional(),
+    state_location: z.string().max(100).optional(),
+    employee_count_band: z.string().max(50).optional(),
+    revenue_range_label: z.string().max(50).optional(),
 });
 
 export const IntentSchema = z.object({
@@ -95,6 +106,7 @@ export const IntentSchema = z.object({
     urgency: UrgencyEnum.optional(),
     pain_points: z.array(z.string()).optional(),
     services_of_interest: z.array(z.string()).optional(),
+    preferred_next_step: PreferredNextStepEnum.optional(),
     high_intent: z.boolean().optional(),
 });
 
@@ -114,6 +126,9 @@ export const MetaSchema = z.object({
     locale: z.string().default("en"),
     user_agent: z.string().optional(),
     ip_hash: z.string().optional(),
+    source_page: z.string().max(200).optional(),
+    book_slug: z.string().max(100).optional(),
+    submission_id: z.string().uuid().optional(),
 });
 
 export const ResultsSchema = z.object({
@@ -136,6 +151,7 @@ export const GhlPayloadSchema = z.object({
     tracking: TrackingSchema.optional(),
     meta: MetaSchema,
     results: ResultsSchema.optional(),
+    answers: z.record(z.string(), z.union([z.string().max(500), z.number(), z.boolean()])).optional(),
 });
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -147,6 +163,7 @@ export type Industry = z.infer<typeof IndustryEnum>;
 export type Urgency = z.infer<typeof UrgencyEnum>;
 export type PrimaryService = z.infer<typeof PrimaryServiceEnum>;
 export type LeadMagnetType = z.infer<typeof LeadMagnetTypeEnum>;
+export type PreferredNextStep = z.infer<typeof PreferredNextStepEnum>;
 
 // ─── NORMALIZERS & HELPERS ───────────────────────────────────────────────────
 
@@ -154,8 +171,14 @@ export type LeadMagnetType = z.infer<typeof LeadMagnetTypeEnum>;
  * Normalizes common frontend industry strings to canonical GHL Enums
  */
 export const normalizeIndustry = (input: string): Industry => {
-    const raw = input.toUpperCase().replace(/\s+/g, "_");
-    const found = IndustryEnum.safeParse(raw);
+    const aliases: Record<string, Industry> = {
+        RESTAURANT: "HOSPITALITY",
+        "REAL-ESTATE": "REAL_ESTATE",
+        "E-COMMERCE": "E_COMMERCE",
+    };
+    const raw = input.trim().toUpperCase();
+    if (aliases[raw]) return aliases[raw];
+    const found = IndustryEnum.safeParse(raw.replace(/\s+/g, "_"));
     return found.success ? found.data : "OTHER";
 };
 
@@ -163,12 +186,64 @@ export const normalizeIndustry = (input: string): Industry => {
  * Normalizes revenue strings (e.g. "$1M-$3M") to canonical GHL Enums
  */
 export const normalizeRevenue = (input: string): RevenueBand => {
-    const raw = input.toUpperCase();
-    if (raw.includes("5M")) return "5M_PLUS";
-    if (raw.includes("3M")) return "3M_5M";
-    if (raw.includes("1M")) return "1M_3M";
-    if (raw.includes("500K")) return "500K_1M";
-    if (raw.includes("250K")) return "100K_500K";
-    if (raw.includes("100K")) return "100K_500K";
-    return "UNDER_100K";
+    const raw = input.trim().toUpperCase();
+    const exact: Record<string, RevenueBand> = {
+        "UNDER $100K": "UNDER_100K",
+        "$0-$100K": "UNDER_100K",
+        "$100K-$500K": "100K_500K",
+        "$100K–$250K": "100K_500K",
+        "$250K–$500K": "100K_500K",
+        "$500K-$1M": "500K_1M",
+        "$500K–$1M": "500K_1M",
+        "$1M-$3M": "1M_3M",
+        "$1M–$3M": "1M_3M",
+        "$3M-$5M": "3M_5M",
+        "$3M–$5M": "3M_5M",
+        "$5M+": "5M_PLUS",
+        "500K_1M": "500K_1M",
+        "1M_3M": "1M_3M",
+        "3M_5M": "3M_5M",
+        "5M_PLUS": "5M_PLUS",
+        "UNDER_100K": "UNDER_100K",
+        "100K_500K": "100K_500K",
+    };
+    if (exact[raw]) return exact[raw];
+    throw new Error(`Unsupported revenue range: ${input}`);
+};
+
+export const normalizeEntityType = (input: string): EntityType => {
+    const exact: Record<string, EntityType> = {
+        "Sole Proprietorship": "SOLE_PROP",
+        "LLC (Single)": "LLC_SINGLE",
+        "LLC (Multi)": "LLC_MULTI",
+        "S-Corp": "S_CORP",
+        "C-Corp": "C_CORP",
+        Other: "OTHER",
+    };
+    const result = exact[input];
+    if (!result) throw new Error(`Unsupported entity type: ${input}`);
+    return result;
+};
+
+export const normalizeUrgency = (input: string): Urgency => {
+    const exact: Record<string, Urgency> = {
+        "Immediate (This month)": "IMMEDIATE",
+        "1-3 Months": "THIS_QUARTER",
+        "Looking for next year": "PLANNING_ONLY",
+        "Just researching": "JUST_CURIOUS",
+    };
+    const result = exact[input];
+    if (!result) throw new Error(`Unsupported urgency: ${input}`);
+    return result;
+};
+
+export const normalizePreferredNextStep = (input: string): PreferredNextStep => {
+    const exact: Record<string, PreferredNextStep> = {
+        "Book Strategy Call Now": "BOOK_STRATEGY_CALL",
+        "Receive Email Summary": "EMAIL_SUMMARY_REQUESTED",
+        "Wait for callback": "CALLBACK_REQUESTED",
+    };
+    const result = exact[input];
+    if (!result) throw new Error(`Unsupported next step: ${input}`);
+    return result;
 };

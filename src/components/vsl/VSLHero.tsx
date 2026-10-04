@@ -50,7 +50,7 @@ export function VSLHero({
                         animate={{ opacity: 1, y: 0 }}
                         className="mb-8 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 backdrop-blur-sm"
                     >
-                        <span className="text-[11px] font-bold text-emerald-400 tracking-[0.2em] uppercase font-mono">
+                        <span className="text-[11px] font-bold text-emerald-400 tracking-[0.2em] uppercase font-body">
                             {badge}
                         </span>
                     </motion.div>

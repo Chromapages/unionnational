@@ -1,0 +1,12 @@
+{
+  "score": 94,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Rendered target-page draft preserves the brand and passes viewport containment, hierarchy, CTA and retained-FAQ checks. This visual pass does not approve financial claims or establish full task completion.",
+  "next_actions": ["Obtain five client/compliance decisions", "Reconcile remaining site-wide claim sources", "Restore approved price, proof and FAQ content"],
+  "phase": "awaiting-client-content",
+  "task_complete": false,
+  "active": false
+}

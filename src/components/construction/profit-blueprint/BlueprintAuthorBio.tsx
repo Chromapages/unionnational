@@ -163,16 +163,16 @@ export function BlueprintAuthorBio({ author }: BlueprintAuthorBioProps) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-gold-500 hover:bg-gold-400 text-brand-900 font-black uppercase text-xs tracking-wider rounded-full transition-colors w-full sm:w-auto justify-center"
-                                    aria-label="Book a Free 15-Minute Call with Jason Astwood (opens in a new tab)"
+                                    aria-label="Book a Free 30-Minute Call with Jason Astwood (opens in a new tab)"
                                 >
                                     <Calendar className="w-4 h-4" />
-                                    Book a Free 15-Min Call
+                                    Book a Free 30-Min Call
                                 </a>
                             </div>
                             <div className="flex flex-col xs:flex-row items-center xs:items-center justify-center lg:justify-start gap-3 xs:gap-4 mt-4 text-[10px] text-slate-500">
                                 <div className="flex items-center gap-1.5 justify-center xs:justify-start">
                                     <Video className="w-3.5 h-3.5 flex-shrink-0" />
-                                    <span>Video call · 15 min · No prep needed</span>
+                                    <span>Video call · 30 min · No prep needed</span>
                                 </div>
                                 <a
                                     href={BOOKING_ROUTE}

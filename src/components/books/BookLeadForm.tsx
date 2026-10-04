@@ -7,6 +7,9 @@ import * as z from "zod";
 import { motion } from "framer-motion";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLocale } from "next-intl";
+import { PrimaryServiceEnum, type GhlPayload } from "@/lib/ghl/contract";
+import { submitGhlLead } from "@/lib/ghl/submit-lead";
 
 const formSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -26,6 +29,8 @@ interface BookLeadFormProps {
 }
 
 export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }: BookLeadFormProps) {
+    const locale = useLocale();
+    const [submissionId] = useState(() => crypto.randomUUID());
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -44,7 +49,8 @@ export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }
 
         const tags = leadMagnetTag ? [leadMagnetTag] : [];
 
-        const payload = {
+        const parsedService = PrimaryServiceEnum.safeParse(serviceLane?.toUpperCase().replace(/-/g, "_"));
+        const payload: GhlPayload = {
             event_type: "BOOK_DOWNLOAD_SUBMITTED",
             contact: {
                 first_name: data.firstName,
@@ -58,29 +64,23 @@ export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }
             },
             intent: {
                 lead_magnet_type: "BOOK_DOWNLOAD",
-                primary_service_interest: serviceLane ? serviceLane.toUpperCase().replace(/-/g, "_") as z.infer<typeof z.enum> : undefined,
+                primary_service_interest: parsedService.success ? parsedService.data : undefined,
             },
+            answers: serviceLane ? { service_lane: serviceLane } : undefined,
             meta: {
                 version: "1.0",
                 submitted_at: new Date().toISOString(),
+                locale,
+                source_page: `/books/${bookSlug}`,
+                book_slug: bookSlug,
+                submission_id: submissionId,
             },
         };
 
-        try {
-            const response = await fetch("/api/ghl/intake", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) throw new Error("Failed to submit");
-            setIsSuccess(true);
-        } catch (error) {
-            console.error("Book download form submission error:", error);
-            setErrorMessage("There was an error submitting your request. Please try again.");
-        } finally {
-            setIsSubmitting(false);
-        }
+        const result = await submitGhlLead(payload);
+        if (result.success) setIsSuccess(true);
+        else setErrorMessage(result.message);
+        setIsSubmitting(false);
     };
 
     if (isSuccess) {
@@ -94,10 +94,10 @@ export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }
                     <CheckCircle2 className="w-8 h-8 text-green-700" />
                 </div>
                 <h3 className="text-2xl font-heading font-bold text-brand-900 mb-3">
-                    Check Your Inbox
+                    Request Received
                 </h3>
                 <p className="text-slate-600">
-                    Your download link is on the way. Check your email shortly.
+                    We received your book request. Email delivery has not been confirmed.
                 </p>
             </motion.div>
         );
@@ -109,7 +109,7 @@ export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }
                 Get Your Free Copy
             </h3>
             <p className="text-sm text-slate-500 mb-8">
-                Enter your details and we&apos;ll send the book directly to your inbox.
+                Enter your details to request a copy of this book.
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
@@ -194,7 +194,7 @@ export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }
                 </div>
 
                 {errorMessage && (
-                    <p className="text-sm text-red-600 bg-red-50 rounded-xl p-4">{errorMessage}</p>
+                    <p role="alert" className="text-sm text-red-600 bg-red-50 rounded-xl p-4">{errorMessage}</p>
                 )}
 
                 <button
@@ -208,7 +208,7 @@ export function BookLeadForm({ bookSlug, leadMagnetTag, serviceLane, className }
                             Sending...
                         </>
                     ) : (
-                        "Send Me the Book"
+                        errorMessage ? "Retry Request" : "Request a Copy"
                     )}
                 </button>
 

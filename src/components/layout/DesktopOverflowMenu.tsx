@@ -120,7 +120,7 @@ export function DesktopOverflowMenu({ items, isOpen, onOpenChange }: DesktopOver
   return (
     <div
       ref={containerRef}
-      className="relative 2xl:hidden"
+      className="strategy-overflow-menu relative min-[1440px]:hidden"
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
       onBlurCapture={handleBlur}

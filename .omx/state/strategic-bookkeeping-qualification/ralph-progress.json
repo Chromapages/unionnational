@@ -1,0 +1,16 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "passed": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The desktop sticky interval is brief because the intro and panel group have similar heights; it still remains anchored while the panel scan begins."
+  ],
+  "suggestions": [
+    "Keep the 1180px desktop split breakpoint so the nested qualification cards never become cramped.",
+    "Recheck card balance if future CMS copy becomes substantially longer in either language."
+  ],
+  "reasoning": "The rendered section matches the intended qualification-module hierarchy: a bounded wide grid, anchored intro and CTA, paired criteria panels, and a distinct exclusion zone. Desktop, tablet, and mobile states retain strong scan order and comfortable line lengths.",
+  "next_actions": []
+}

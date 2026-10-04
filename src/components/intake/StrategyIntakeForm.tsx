@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -23,7 +23,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { normalizeIndustry, normalizeRevenue } from "@/lib/ghl/contract";
+import { useLocale } from "next-intl";
+import { normalizeEntityType, normalizeIndustry, normalizePreferredNextStep, normalizeRevenue, normalizeUrgency, type GhlPayload } from "@/lib/ghl/contract";
+import { submitGhlLead } from "@/lib/ghl/submit-lead";
 
 // --- Form Schema (Funnel Map 07 & CRM Pipeline 08 Optimized) ---
 const intakeSchema = z.object({
@@ -38,8 +40,7 @@ const intakeSchema = z.object({
     industry: z.string().min(1, "Please select an industry"),
     businessType: z.enum(['Service-Based', 'Product/E-commerce', 'Brick & Mortar', 'High-Growth Tech', 'Other']),
     state: z.string().min(2, "Required"),
-    revenueRange: z.enum(['$0-$100k', '$100k-$500k', '$500k-$1M', '$1M-$5M', '$5M+']),
-    yearsInBusiness: z.string().min(1, "Required"),
+    revenueRange: z.enum(['$0-$100k', '$100k-$500k', '$500k-$1M', '$1M-$3M', '$3M-$5M', '$5M+']),
     
     // Step 3: Entity & Financial Health
     entityType: z.enum(['Sole Proprietorship', 'LLC (Single)', 'LLC (Multi)', 'S-Corp', 'C-Corp', 'Other']),
@@ -60,10 +61,13 @@ const intakeSchema = z.object({
 type IntakeData = z.infer<typeof intakeSchema>;
 
 export const StrategyIntakeForm = () => {
+    const submissionId = useRef(crypto.randomUUID());
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const router = useRouter();
+    const locale = useLocale();
 
     const {
         register,
@@ -94,7 +98,7 @@ export const StrategyIntakeForm = () => {
     const handleNext = async () => {
         let fieldsToValidate: (keyof IntakeData)[] = [];
         if (step === 1) fieldsToValidate = ['firstName', 'lastName', 'email', 'phone', 'companyName'];
-        if (step === 2) fieldsToValidate = ['industry', 'businessType', 'state', 'revenueRange', 'yearsInBusiness'];
+        if (step === 2) fieldsToValidate = ['industry', 'businessType', 'state', 'revenueRange'];
         if (step === 3) fieldsToValidate = ['entityType', 'hasAccountant', 'booksStatus'];
         if (step === 4) fieldsToValidate = ['primaryPainPoint', 'servicesOfInterest'];
         if (step === 5) fieldsToValidate = ['urgency', 'investmentWillingness', 'preferredNextStep'];
@@ -112,38 +116,8 @@ export const StrategyIntakeForm = () => {
     };
 
     const onSubmit = async (data: IntakeData) => {
-        interface GHLPayload {
-            event_type: string;
-            contact: {
-                first_name: string;
-                last_name: string;
-                email: string;
-                phone: string;
-            };
-            business: {
-                business_name: string;
-                industry: string;
-                annual_revenue_band: string;
-                entity_type: string;
-            };
-            intent: {
-                primary_service_interest: string;
-                lead_magnet_type: string;
-                urgency: string;
-                pain_points: string[];
-                services_of_interest: string[];
-            };
-            meta: {
-                version: string;
-                submitted_at: string;
-            };
-            results: {
-                investment_readiness: string;
-                books_status: string;
-            };
-        }
-
-        const payload: GHLPayload = {
+        setSubmitError(null);
+        const payload: GhlPayload = {
             event_type: "GENERAL_INQUIRY_SUBMITTED",
             contact: {
                 first_name: data.firstName,
@@ -155,43 +129,41 @@ export const StrategyIntakeForm = () => {
                 business_name: data.companyName,
                 industry: normalizeIndustry(data.industry),
                 annual_revenue_band: normalizeRevenue(data.revenueRange),
-                entity_type: data.entityType.toUpperCase().replace(/\s+/g, "_"),
+                entity_type: normalizeEntityType(data.entityType),
+                business_type: data.businessType,
+                state_location: data.state,
+                revenue_range_label: data.revenueRange,
             },
             intent: {
-                primary_service_interest: "FRACTIONAL_CFO", // Default for intake
                 lead_magnet_type: "STRATEGY_INTAKE",
-                urgency: data.urgency.includes("Immediate") ? "IMMEDIATE" : "THIS_QUARTER",
+                urgency: normalizeUrgency(data.urgency),
                 pain_points: [data.primaryPainPoint],
                 services_of_interest: data.servicesOfInterest,
+                preferred_next_step: normalizePreferredNextStep(data.preferredNextStep),
+            },
+            answers: {
+                has_accountant: data.hasAccountant,
+                books_status: data.booksStatus,
+                interested_in_scorp: data.interestedInSCorp,
+                investment_willingness: data.investmentWillingness,
             },
             meta: {
                 version: "1.0",
-                submitted_at: new Date().toISOString()
-            },
-            results: {
-                investment_readiness: data.investmentWillingness,
-                books_status: data.booksStatus
+                submitted_at: new Date().toISOString(),
+                locale,
+                source_page: "/intake",
+                submission_id: submissionId.current,
             }
         };
 
-        try {
-            const response = await fetch("/api/ghl/intake", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-            
-            const result = await response.json();
-            
-            if (result.success && data.preferredNextStep === 'Book Strategy Call Now') {
-                router.push("/book");
-            } else {
-                setIsComplete(true);
-            }
-        } catch (error) {
-            console.error("Submission failed:", error);
-            setIsComplete(true);
+        const result = await submitGhlLead(payload);
+        if (!result.success) {
+            setSubmitError(result.message);
+            return;
         }
+
+        if (data.preferredNextStep === 'Book Strategy Call Now') router.push(`/${locale}/book`);
+        else setIsComplete(true);
     };
 
     const slideVariants = {
@@ -208,17 +180,17 @@ export const StrategyIntakeForm = () => {
                 </div>
                 <h2 className="text-4xl font-bold text-brand-900 font-heading mb-6 tracking-tighter uppercase">Assessment Received</h2>
                 <p className="text-xl text-brand-900/60 mb-12 leading-relaxed font-light">
-                    Our advisors are reviewing your profile. You will receive your preliminary strategy summary via email within 24 business hours.
+                    Your assessment and preferred next step were received. No appointment has been scheduled yet; you can book a time now if you prefer.
                 </p>
                 <div className="flex flex-col gap-4">
                     <button 
-                        onClick={() => router.push("/book")}
+                        onClick={() => router.push(`/${locale}/book`)}
                         className="bg-brand-900 text-white font-black px-10 py-5 rounded-2xl hover:bg-gold-500 hover:text-brand-900 transition-all text-xl shadow-xl shadow-brand-900/20"
                     >
                         Schedule Strategy Call Now
                     </button>
                     <button 
-                        onClick={() => router.push("/")}
+                        onClick={() => router.push(`/${locale}`)}
                         className="text-slate-400 font-bold hover:text-brand-900 transition-colors uppercase tracking-widest text-xs"
                     >
                         Return to Homepage
@@ -353,7 +325,7 @@ export const StrategyIntakeForm = () => {
                                     <div className="space-y-4 pt-4 border-t border-slate-100">
                                         <label className="text-[10px] font-black text-brand-900/50 uppercase tracking-[0.2em] ml-1 block mb-6">Gross Annual Revenue (High Fit Signal)</label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                            {['$0-$100k', '$100k-$500k', '$500k-$1M', '$1M-$5M', '$5M+'].map((range) => (
+                                            {['$0-$100k', '$100k-$500k', '$500k-$1M', '$1M-$3M', '$3M-$5M', '$5M+'].map((range) => (
                                                 <div 
                                                     key={range}
                                                     onClick={() => setValue("revenueRange", range as IntakeData['revenueRange'])}
@@ -570,6 +542,8 @@ export const StrategyIntakeForm = () => {
                         </motion.div>
                     </AnimatePresence>
 
+                    {submitError && <p role="alert" className="mt-8 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-900">{submitError}</p>}
+
                     {/* Footer Controls (Institutional Style) */}
                     <div className="flex justify-between items-center mt-20 pt-10 border-t border-slate-100 italic">
                         {step > 1 ? (
@@ -600,7 +574,7 @@ export const StrategyIntakeForm = () => {
                                 disabled={isSubmitting || !watch('preferredNextStep')}
                                 className="bg-brand-900 text-white font-black px-12 py-5 rounded-2xl flex items-center gap-4 hover:bg-gold-500 hover:text-brand-900 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.15)] enabled:animate-pulse disabled:opacity-50 text-sm uppercase tracking-widest"
                             >
-                                {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : "Submit Assessment"}
+                                {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : submitError ? "Retry Submission" : "Submit Assessment"}
                             </button>
                         )}
                     </div>

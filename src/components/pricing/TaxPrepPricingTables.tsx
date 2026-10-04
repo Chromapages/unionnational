@@ -84,10 +84,10 @@ export function TaxPrepPricingTables() {
                             <table className="w-full border-collapse text-left min-w-[800px]">
                                 <thead>
                                     <tr className="border-b border-white/5">
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Level</th>
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Best For</th>
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[45%]">What's Included</th>
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[15%] text-right">Starting Price</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Level</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Best For</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[45%]">What's Included</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[15%] text-right">Starting Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,10 +125,10 @@ export function TaxPrepPricingTables() {
                             <table className="w-full border-collapse text-left min-w-[800px]">
                                 <thead>
                                     <tr className="border-b border-white/5">
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Entity Type</th>
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Best For</th>
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[45%]">Includes</th>
-                                        <th className="py-4 font-heading text-white/50 font-bold uppercase tracking-wider text-xs w-[15%] text-right">Starting Price</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Entity Type</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[20%]">Best For</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[45%]">Includes</th>
+                                        <th className="py-4 font-body text-white/50 font-bold uppercase tracking-wider text-xs w-[15%] text-right">Starting Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>

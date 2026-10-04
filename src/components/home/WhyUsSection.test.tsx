@@ -8,35 +8,63 @@ vi.mock("next-intl/server", () => ({
       eyebrow: "Proactive by design",
       title: "The tax return records what happened. Strategy happens earlier.",
       subtitle: "Year-round planning gives you time to evaluate options before deadlines close them.",
+      headerInsightEyebrow1: "More insight",
+      headerInsightEyebrow2: "A stronger tomorrow",
+      headerInsightBody: "Proactive planning turns today's numbers into tomorrow's opportunities.",
+      advantageEyebrow: "The proactive advantage",
+      advantageTagline: "Same facts, a more strategic approach.",
       caption: "How tax support changes when planning starts before the deadline.",
       dimensionLabel: "What changes",
       traditionalLabel: "Traditional tax support",
+      traditionalSubtitle: "Reactive. After the fact.",
       proactiveLabel: "Proactive tax strategy",
+      proactiveSubtitle: "Strategic. Ongoing. Focused on what's next.",
       "rows.timing.dimension": "Timing",
       "rows.timing.traditional": "Files after the year closes",
+      "rows.timing.traditionalDetail": "Decisions are no longer available.",
       "rows.timing.proactive": "Plans while decisions are still open",
+      "rows.timing.proactiveDesktop": "Plans while decisions are still open",
+      "rows.timing.proactiveDetail": "Helps you act before deadlines.",
       "rows.scope.dimension": "Scope",
       "rows.scope.traditional": "Confirms compliance",
-      "rows.scope.proactive": "Evaluates entity and deduction opportunities before deadlines",
+      "rows.scope.traditionalDetail": "Focused on meeting requirements.",
+      "rows.scope.proactive": "Evaluates entity, deduction, retirement, and S-Corp opportunities before deadlines",
+      "rows.scope.proactiveDesktop": "Evaluates opportunities",
+      "rows.scope.proactiveDetail": "Entity, deduction, retirement, and S-Corp strategies.",
       "rows.cadence.dimension": "Cadence",
       "rows.cadence.traditional": "Contact is mostly seasonal",
+      "rows.cadence.traditionalDetail": "Typically once a year.",
       "rows.cadence.proactive": "Schedules planning checkpoints throughout the year",
+      "rows.cadence.proactiveDesktop": "Year-round planning checkpoints",
+      "rows.cadence.proactiveDetail": "Regular touchpoints keep you on track.",
       "rows.decisionSupport.dimension": "Decision support",
       "rows.decisionSupport.traditional": "Reports what happened",
-      "rows.decisionSupport.proactive": "Uses current numbers to guide decisions",
+      "rows.decisionSupport.traditionalDetail": "Looks backward at results.",
+      "rows.decisionSupport.proactive": "Uses current numbers to guide tax and business decisions",
+      "rows.decisionSupport.proactiveDesktop": "Uses current numbers to guide decisions",
+      "rows.decisionSupport.proactiveDetail": "Looks forward to what's possible.",
       conclusion: "More time to plan means fewer decisions made under deadline pressure.",
-      primaryCta: "See how proactive tax planning works",
+      primaryCta: "Explore proactive tax planning",
       secondaryCta: "Check your S-Corp fit",
       recommendedBadge: "Recommended",
       emptyFallback: "Comparison details are being updated.",
-      "evidence.eyebrow": "What happens next",
+      bannerEyebrow: "Plan further ahead",
+      bannerSubtitle: "Turn today's insight into tomorrow's opportunity with proactive tax strategy designed around your goals.",
+      "bannerPillars.strategy": "Strategy",
+      "bannerPillars.clarity": "Clarity",
+      "bannerPillars.opportunity": "Opportunity",
+      "evidence.eyebrow": "How proactive planning works",
+      "evidence.tagline": "A clearer path to a stronger future",
       "evidence.heading": "Turn proactive insight into a working plan",
-      "evidence.step1.label": "Review current position",
-      "evidence.step1.body": "Examine entity structure, current revenue, and tax baseline before the year closes.",
+      "evidence.step1.eyebrow": "Assess",
+      "evidence.step1.label": "Review your current position",
+      "evidence.step1.body": "Examine your entity structure, current revenue, and tax baseline.",
+      "evidence.step2.eyebrow": "Plan",
       "evidence.step2.label": "Identify decisions before deadlines",
-      "evidence.step2.body": "Surface deductions, retirement contributions, and S-Corp distribution strategies in advance.",
+      "evidence.step2.body": "Surface deductions, retirement contributions, and S-Corp opportunities in advance.",
+      "evidence.step3.eyebrow": "Adjust",
       "evidence.step3.label": "Plan and revisit throughout the year",
-      "evidence.step3.body": "Maintain regular checkpoints to adjust strategy as operations and tax regulations evolve.",
+      "evidence.step3.body": "Maintain regular checkpoints as your business and tax situation evolve.",
       "evidence.disclaimer": "Informational planning workflow. Individual tax outcomes depend on verified entity structure and timely implementation.",
     };
     return messages[key] || key;
@@ -73,118 +101,62 @@ describe("WhyUsSection", () => {
     expect(heading).toHaveAttribute("id", "why-us-heading");
   });
 
-  it("renders a semantic table on desktop with proper th scope and caption", async () => {
+  it("retains the mobile insight callout and advantage eyebrow bar", async () => {
     const jsx = await WhyUsSection();
     render(jsx);
 
-    const table = screen.getByRole("table");
-    expect(table).toBeInTheDocument();
-
-    const columnHeaders = screen.getAllByRole("columnheader");
-    expect(columnHeaders).toHaveLength(3);
-    expect(columnHeaders[0]).toHaveTextContent("What changes");
-    expect(columnHeaders[1]).toHaveTextContent("Traditional tax support");
-    expect(columnHeaders[2]).toHaveTextContent(/Proactive tax strategy/);
-
-    const rowHeaders = screen.getAllByRole("rowheader");
-    expect(rowHeaders).toHaveLength(4);
-    expect(rowHeaders[0]).toHaveTextContent("Timing");
-    expect(rowHeaders[1]).toHaveTextContent("Scope");
-    expect(rowHeaders[2]).toHaveTextContent("Cadence");
-    expect(rowHeaders[3]).toHaveTextContent("Decision support");
+    expect(screen.getByText("More insight")).toBeInTheDocument();
+    expect(screen.getByText("A stronger tomorrow")).toBeInTheDocument();
+    expect(screen.getByText("Proactive planning turns today's numbers into tomorrow's opportunities.")).toBeInTheDocument();
+    expect(screen.getByText("The proactive advantage")).toBeInTheDocument();
+    expect(screen.getByText("Same facts, a more strategic approach.")).toBeInTheDocument();
   });
 
-  it("renders semantic mobile card list with role='list'", async () => {
+  it("renders two distinct comparison cards with traditional and proactive details", async () => {
     const jsx = await WhyUsSection();
     render(jsx);
 
-    const mobileList = screen.getByRole("list", {
+    const traditionalCard = screen.getByTestId("traditional-tax-card");
+    const proactiveCard = screen.getByTestId("proactive-tax-card");
+
+    expect(traditionalCard).toBeInTheDocument();
+    expect(proactiveCard).toBeInTheDocument();
+
+    expect(traditionalCard).toHaveTextContent("Traditional tax support");
+    expect(traditionalCard).toHaveTextContent("Reactive. After the fact.");
+    expect(traditionalCard).toHaveTextContent("Files after the year closes");
+
+    expect(proactiveCard).toHaveTextContent("Proactive tax strategy");
+    expect(proactiveCard).toHaveTextContent("Strategic. Ongoing. Focused on what's next.");
+    expect(proactiveCard).toHaveTextContent("Plans while decisions are still open");
+
+    expect(screen.getAllByText("Timing")).toHaveLength(2);
+    expect(screen.getAllByText("Scope")).toHaveLength(2);
+    expect(screen.getAllByText("Cadence")).toHaveLength(2);
+    expect(screen.getAllByText("Decision support")).toHaveLength(2);
+  });
+
+  it("renders explicit recommended badge in proactive card header", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const badge = screen.getByText("Recommended");
+    expect(badge).toBeInTheDocument();
+    expect(badge.closest("span")).toHaveAttribute(
+      "aria-label",
+      "Proactive tax strategy (Recommended)"
+    );
+  });
+
+  it("renders comparison cards within a responsive grid container", async () => {
+    const jsx = await WhyUsSection();
+    render(jsx);
+
+    const region = screen.getByRole("region", {
       name: "How tax support changes when planning starts before the deadline.",
     });
-    expect(mobileList).toBeInTheDocument();
-    expect(mobileList).toHaveClass("md:hidden");
-  });
-
-  it("renders explicit recommended badge in proactive header and mobile cards", async () => {
-    const jsx = await WhyUsSection();
-    render(jsx);
-
-    const badges = screen.getAllByText("Recommended");
-    expect(badges.length).toBeGreaterThanOrEqual(2);
-  });
-
-  it("visually de-emphasizes repeated mobile card labels without removing their semantic context", async () => {
-    const jsx = await WhyUsSection();
-    render(jsx);
-
-    const mobileList = screen.getByRole("list", {
-      name: "How tax support changes when planning starts before the deadline.",
-    });
-    const cards = mobileList.querySelectorAll("li");
-
-    expect(cards).toHaveLength(4);
-    expect(cards[0].querySelectorAll("dt")[0]).toHaveClass("text-xs");
-    expect(cards[1].querySelectorAll("dt")[0]).toHaveClass("text-[11px]", "text-slate-700");
-    expect(cards[1]).toHaveTextContent("Traditional tax support");
-    expect(cards[1]).toHaveTextContent("Proactive tax strategy");
-    expect(cards[1]).toHaveTextContent("Recommended");
-  });
-
-  it("uses one outer-card border while keeping both mobile comparison states borderless", async () => {
-    const jsx = await WhyUsSection();
-    render(jsx);
-
-    const mobileList = screen.getByRole("list", {
-      name: "How tax support changes when planning starts before the deadline.",
-    });
-    const cards = mobileList.querySelectorAll("li");
-
-    cards.forEach((card) => {
-      expect(card).toHaveClass("rounded-xl", "border", "border-slate-200");
-      expect(card.querySelector(".bg-slate-100")).not.toHaveClass("border");
-      expect(card.querySelector(".bg-gold-50\\/70")).not.toHaveClass("border");
-    });
-  });
-
-  it("uses the mobile 8px spacing rhythm throughout the comparison and process handoff", async () => {
-    const jsx = await WhyUsSection();
-    render(jsx);
-
-    const section = screen.getByRole("region", {
-      name: "The tax return records what happened. Strategy happens earlier.",
-    });
-    const mobileList = screen.getByRole("list", {
-      name: "How tax support changes when planning starts before the deadline.",
-    });
-    const firstCard = mobileList.querySelector("li");
-    const process = screen.getByTestId("why-us-evidence-module");
-
-    expect(section.querySelector(".grid.grid-cols-1.gap-6")).toBeInTheDocument();
-    expect(mobileList).toHaveClass("flex", "snap-x", "snap-mandatory", "gap-6", "overflow-x-auto", "touch-pan-x");
-    expect(mobileList).toHaveAttribute("id", "why-us-mobile-comparison-carousel");
-    expect(firstCard).toHaveClass("p-4");
-    expect(firstCard?.querySelector("dl")).toHaveClass("mt-4", "space-y-4");
-    expect(firstCard?.querySelector(".bg-slate-100")).toHaveClass("p-4");
-    expect(firstCard?.querySelector(".bg-gold-50\\/70")).toHaveClass("p-4");
-    expect(process).toHaveClass("pt-6");
-    expect(process).not.toHaveClass("-mt-2");
-  });
-
-  it("renders mobile comparison cards as a swipeable scroll-snap carousel", async () => {
-    const jsx = await WhyUsSection();
-    render(jsx);
-
-    const mobileList = screen.getByRole("list", {
-      name: "How tax support changes when planning starts before the deadline.",
-    });
-    const cards = mobileList.querySelectorAll("li");
-
-    expect(cards).toHaveLength(4);
-    cards.forEach((card) => {
-      expect(card).toHaveClass("w-[85vw]", "max-w-[340px]", "shrink-0", "snap-center");
-      expect(card).toHaveAttribute("data-carousel-item");
-    });
-    expect(screen.getByLabelText("Comparison card pagination")).toBeInTheDocument();
+    expect(region).toBeInTheDocument();
+    expect(region).toHaveClass("grid", "grid-cols-1", "md:grid-cols-2");
   });
 
   it("renders fallback notification when customRows is empty array", async () => {
@@ -192,7 +164,8 @@ describe("WhyUsSection", () => {
     render(jsx);
 
     expect(screen.getByText("Comparison details are being updated.")).toBeInTheDocument();
-    expect(screen.queryByRole("table")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("traditional-tax-card")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("proactive-tax-card")).not.toBeInTheDocument();
   });
 
   it("supports custom empty fallback message", async () => {
@@ -226,9 +199,10 @@ describe("WhyUsSection", () => {
     });
     render(jsx);
 
-    const rowHeaders = screen.getAllByRole("rowheader");
-    expect(rowHeaders[0]).toHaveTextContent("First Dimension");
-    expect(rowHeaders[1]).toHaveTextContent("Second Dimension");
+    const traditionalCard = screen.getByTestId("traditional-tax-card");
+    const dts = traditionalCard.querySelectorAll("dt");
+    expect(dts[0]).toHaveTextContent("First Dimension");
+    expect(dts[1]).toHaveTextContent("Second Dimension");
   });
 
   it("handles extreme copy length safely without throwing", async () => {
@@ -245,7 +219,7 @@ describe("WhyUsSection", () => {
     });
     render(jsx);
 
-    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.getByTestId("traditional-tax-card")).toBeInTheDocument();
     expect(screen.getAllByText(veryLongText).length).toBeGreaterThan(0);
   });
 
@@ -254,7 +228,7 @@ describe("WhyUsSection", () => {
     render(jsx);
 
     expect(screen.getByTestId("why-us-evidence-module")).toBeInTheDocument();
-    expect(screen.getByText("Review current position")).toBeInTheDocument();
+    expect(screen.getByText("Review your current position")).toBeInTheDocument();
     expect(screen.getByText("Identify decisions before deadlines")).toBeInTheDocument();
     expect(screen.getByText("Plan and revisit throughout the year")).toBeInTheDocument();
     expect(screen.getByRole("heading", {
@@ -267,7 +241,7 @@ describe("WhyUsSection", () => {
     const jsx = await WhyUsSection();
     render(jsx);
 
-    const primaryCta = screen.getByRole("link", { name: "See how proactive tax planning works" });
+    const primaryCta = screen.getByRole("link", { name: "Explore proactive tax planning" });
     expect(primaryCta.closest(".hidden")).toHaveClass("hidden", "md:contents");
   });
 

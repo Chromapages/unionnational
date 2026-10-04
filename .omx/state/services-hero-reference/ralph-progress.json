@@ -1,0 +1,12 @@
+{
+  "score": 93,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The generated architectural linework differs in detail from the reference, while preserving its faint blueprint treatment at the edges."
+  ],
+  "suggestions": [],
+  "reasoning": "At 2048px the hero is 682px tall, matching the reference's approximate 683px height. The three-line gold-accented headline, numbered service paths, and edge labels align closely; English and Spanish desktop views at 1280px and 1440px show no overflow or page errors, and each path selects the matching service area.",
+  "next_actions": []
+}

@@ -1,0 +1,12 @@
+{
+  "score": 98,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The desktop CTA now fills the right column; typography and icons retain the site's design system."
+  ],
+  "suggestions": [],
+  "reasoning": "The CTA fills its desktop column at 1886px, 1536px, and 1280px, matching the marked-up reference. The 390px button remains contained. No horizontal overflow or runtime errors appeared.",
+  "next_actions": []
+}

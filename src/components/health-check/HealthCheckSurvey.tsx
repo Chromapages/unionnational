@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useLocale } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, PieChart, ShieldAlert, BarChart3, CheckCircle2 } from "lucide-react";
 
@@ -10,8 +11,9 @@ import { ResultDashboard } from "./ResultDashboard";
 import { useHealthScore, type HealthCategory } from "./useHealthScore";
 import { ResultVaultPreview } from "./ResultVaultPreview";
 import { SecureLeadCapture } from "./SecureLeadCapture";
+import { getHealthScoreCategory, type HealthScoreCategory } from "@/lib/intake/health-score";
 
-type Tier = "critical" | "stable" | "growth";
+type Tier = HealthScoreCategory;
 type ModuleStatus = "idle" | "active" | "complete";
 
 interface Option {
@@ -139,19 +141,25 @@ const leadCaptureStep = QUESTIONS.length + 1;
 const resultsStep = QUESTIONS.length + 2;
 
 export function HealthCheckSurvey() {
+    const locale = useLocale();
+    const submissionId = useRef(crypto.randomUUID());
+    const inFlight = useRef(false);
     const [step, setStep] = useState(0);
     const [direction, setDirection] = useState(0);
     const [answers, setAnswers] = useState<Record<number, number>>({});
     const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", phone: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    const answerTransition = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => () => {
+        if (answerTransition.current !== null) clearTimeout(answerTransition.current);
+    }, []);
 
     const scores = useHealthScore(answers, QUESTIONS);
 
-    const tier = useMemo<Tier>(() => {
-        if (scores.total <= 40) return "critical";
-        if (scores.total <= 70) return "stable";
-        return "growth";
-    }, [scores.total]);
+    const tier = getHealthScoreCategory(scores.total);
 
     const categoryTotals = useMemo(() => {
         return QUESTIONS.reduce<Record<HealthCategory, number>>(
@@ -211,12 +219,23 @@ export function HealthCheckSurvey() {
     }, []);
 
     const handleOptionSelect = useCallback((qId: number, value: number) => {
+        if (answerTransition.current !== null) return;
         setAnswers((prev) => ({ ...prev, [qId]: value }));
         setDirection(1);
-        setTimeout(() => setStep((prev) => prev + 1), 400);
+        setIsTransitioning(true);
+        answerTransition.current = setTimeout(() => {
+            answerTransition.current = null;
+            setIsTransitioning(false);
+            setStep(qId + 1);
+        }, 400);
     }, []);
 
     const handleBack = useCallback(() => {
+        if (answerTransition.current !== null) {
+            clearTimeout(answerTransition.current);
+            answerTransition.current = null;
+            setIsTransitioning(false);
+        }
         if (step > 0) {
             setDirection(-1);
             setStep((prev) => prev - 1);
@@ -226,7 +245,10 @@ export function HealthCheckSurvey() {
     const handleFormSubmit = useCallback(
         async (e: React.FormEvent) => {
             e.preventDefault();
+            if (inFlight.current) return;
+            inFlight.current = true;
             setIsSubmitting(true);
+            setSubmitError(null);
 
             try {
                 const response = await fetch("/api/survey", {
@@ -239,23 +261,23 @@ export function HealthCheckSurvey() {
                         phone: formData.phone,
                         answers,
                         score: scores.total,
+                        locale,
+                        submission_id: submissionId.current,
                     }),
                 });
 
                 const data = await response.json();
-
-                if (!data.success) {
-                    console.error("Survey submission failed:", data.error);
-                }
-            } catch (error) {
-                console.error("Survey submission error:", error);
+                if (!response.ok || data.success !== true) throw new Error("Survey delivery failed");
+                setDirection(1);
+                setStep(resultsStep);
+            } catch {
+                setSubmitError("We couldn't send your answers. They are still here; please try again.");
+            } finally {
+                inFlight.current = false;
+                setIsSubmitting(false);
             }
-
-            setIsSubmitting(false);
-            setDirection(1);
-            setStep(resultsStep);
         },
-        [answers, formData, scores.total]
+        [answers, formData, scores.total, locale]
     );
 
     const insightMetrics = [
@@ -377,6 +399,7 @@ export function HealthCheckSurvey() {
                     options={QUESTIONS[step - 1].options}
                     selectedValue={answers[QUESTIONS[step - 1].id]}
                     direction={direction}
+                    disabled={isTransitioning}
                     onSelect={(value) => handleOptionSelect(QUESTIONS[step - 1].id, value)}
                     onBack={handleBack}
                 />
@@ -390,6 +413,7 @@ export function HealthCheckSurvey() {
                         isSubmitting={isSubmitting}
                         onSubmit={handleFormSubmit}
                     />
+                    {submitError && <p role="alert" className="mt-4 text-rose-700">{submitError}</p>}
                 </motion.div>
             )}
 

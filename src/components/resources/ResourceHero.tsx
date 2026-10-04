@@ -1,9 +1,10 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import { ArrowRight, BookOpen, FileText } from "lucide-react";
 import { extractString } from "@/lib/utils";
 import { InnerPageHeader } from "@/components/layout/InnerPageHeader";
+import { resourceHref } from "./resourceHref";
 
 interface FeaturedResource {
     _type: string;
@@ -93,7 +94,7 @@ export function ResourceHero({ title, subtitle, featuredResource }: ResourceHero
                                     )}
                                     <div className="mt-8 flex flex-wrap gap-4">
                                         <Link
-                                            href={isLeadMagnet ? `/hub/s-corp-playbook` : `/blog/${featuredResource.slug}`}
+                                            href={resourceHref(featuredResource._type, featuredResource.slug)}
                                             className="inline-flex items-center justify-center rounded-xl bg-brand-900 px-6 py-3.5 text-sm font-bold uppercase tracking-widest text-white shadow-lg shadow-brand-900/20 transition hover:bg-gold-500 hover:text-brand-900"
                                         >
                                             {isLeadMagnet ? "Read Lead Magnet" : "Read Article"}

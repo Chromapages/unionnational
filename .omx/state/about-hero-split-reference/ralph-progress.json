@@ -1,0 +1,11 @@
+{
+  "score": 95,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "Reference composition is fitted to the established 94rem page grid; supplied image is used only for the right-edge decoration."
+  ],
+  "suggestions": [],
+  "reasoning": "People/practice split, live headline and copy, four practice points and keyboard team anchor match the brief. Sixteen responsive/enlarged-text states pass, and the supplied decorative crop now renders correctly without covering content.",
+  "next_actions": []
+}

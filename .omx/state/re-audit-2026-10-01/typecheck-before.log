@@ -1,0 +1,14 @@
+src/app/[locale]/resources/page.tsx(49,55): error TS7006: Parameter 'post' implicitly has an 'any' type.
+src/app/[locale]/resources/page.tsx(50,55): error TS7006: Parameter 'playbook' implicitly has an 'any' type.
+src/app/[locale]/shop/page.tsx(120,41): error TS2322: Type 'ShopDesktopProduct[]' is not assignable to type 'ShopClientProduct[]'.
+  Type 'ShopDesktopProduct' is not assignable to type 'ShopClientProduct'.
+    Types of property 'imageUrl' are incompatible.
+      Type 'string | null | undefined' is not assignable to type 'string | undefined'.
+        Type 'null' is not assignable to type 'string | undefined'.
+src/lib/testimonials/clientResults.test.ts(22,25): error TS2339: Property 'before' does not exist on type 'ClientResult'.
+  Property 'before' does not exist on type 'QuoteResult'.
+src/lib/testimonials/clientResults.test.ts(23,25): error TS2339: Property 'after' does not exist on type 'ClientResult'.
+  Property 'after' does not exist on type 'QuoteResult'.
+src/lib/testimonials/clientResults.test.ts(24,25): error TS2339: Property 'outcome' does not exist on type 'ClientResult'.
+  Property 'outcome' does not exist on type 'QuoteResult'.
+src/lib/testimonials/clientResults.test.ts(56,41): error TS2559: Type '{ format: "quote"; quote: string; clientName: string; }' has no properties in common with type 'Pick<ClientResultSource, "clientTitle" | "clientCompany" | "verifiedClient">'.

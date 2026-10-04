@@ -5,7 +5,7 @@
  */
 import type { FulfillmentType } from "@/lib/shop/types";
 import { STRIPE_PRICE_MAP } from "@/lib/shop/stripe-price-map";
-import { classifyFulfillment, requiresShippingForFulfillment } from "@/lib/shop/commerce";
+import { classifyFulfillment, normalizeEditionId, requiresShippingForFulfillment } from "@/lib/shop/commerce";
 import { extractString } from "@/lib/utils";
 
 const safeLower = (value: unknown): string => {
@@ -34,12 +34,14 @@ export interface ProductCheckoutRecord {
     slug: string;
     buyLink?: string;
     price: number;
+    format?: string;
     stripePriceId?: string;
     editions?: Array<{
         _key?: string;
         name: string;
         price: number;
         format?: string;
+        language?: string;
         stripePriceId?: string;
     }>;
     orderBump?: {
@@ -72,12 +74,14 @@ export const CHECKOUT_PRODUCTS_QUERY = `
     "slug": slug.current,
     buyLink,
     price,
+    format,
     stripePriceId,
     editions[]{
       _key,
       name,
       price,
       format,
+      language,
       stripePriceId
     },
     orderBump {
@@ -91,263 +95,108 @@ export const CHECKOUT_PRODUCTS_QUERY = `
   }
 `;
 
-export function findMatchingEdition(
-    product: ProductCheckoutRecord,
-    item: CheckoutCartItemPayload
-) {
-    if (!item.editionId || !product.editions?.length) return null;
+type CatalogEdition = NonNullable<ProductCheckoutRecord["editions"]>[number];
 
-    return (
-        product.editions.find((edition) => {
-            const normalizedName = safeLower(edition.name).replace(/\s+/g, "-");
-            return (
-                edition._key === item.editionId ||
-                normalizedName === item.editionId ||
-                `${product._id}-${normalizedName}` === item.editionId
-            );
-        }) ?? null
-    );
+export function findMatchingEdition(product: ProductCheckoutRecord, item: CheckoutCartItemPayload) {
+    const editions = product.editions ?? [];
+    if (item.editionId === undefined) return editions.length === 1 ? editions[0] : null;
+    if (typeof item.editionId !== "string" || !item.editionId) return null;
+
+    const matches = editions.filter((edition) => {
+        const legacyName = safeLower(edition.name).replace(/\s+/g, "-");
+        return [edition._key, normalizeEditionId(product._id, edition), legacyName, `${product._id}-${legacyName}`]
+            .includes(item.editionId);
+    });
+    // Generated aliases must not select between multiple catalog editions.
+    return matches.length === 1 ? matches[0] : null;
+}
+
+function validPriceId(priceId?: string): priceId is string {
+    return typeof priceId === "string" && /^price_[A-Za-z0-9]+$/.test(priceId);
 }
 
 function findMappedPrice(keys: string[]): string | null {
     for (const key of keys) {
-        if (STRIPE_PRICE_MAP[key]) {
-            return STRIPE_PRICE_MAP[key];
-        }
+        const price = STRIPE_PRICE_MAP[key];
+        if (validPriceId(price)) return price;
     }
     return null;
 }
 
-function isPlaceholderPriceId(priceId?: string | null): boolean {
-    return !priceId || priceId.includes("STRATEGY_STRATEGY");
+function mappedEditionPrice(product: ProductCheckoutRecord, edition: CatalogEdition): string | null {
+    // Static mappings describe English offers; another language needs its own CMS price.
+    const language = safeLower(edition.language);
+    if (language && language.split("-")[0] !== "en") return null;
+    const name = extractString(edition.name, "en");
+    const title = extractString(product.title, "en");
+    const shortTitle = title.replace(/^The\s+/i, "");
+    const fulfillment = classifyFulfillment(edition.format, edition.name);
+    const keys = [`${title} - ${name}`, `${shortTitle} - ${name}`];
+
+    if (fulfillment === "digital") {
+        keys.push(`${product.slug} - digital`, `${product.slug} - pdf`);
+        for (const prefix of [title, shortTitle]) keys.push(`${prefix} - Digital PDF`, `${prefix} - Digital PDF Copy`);
+    } else if (fulfillment === "physical") {
+        keys.push(`${product.slug} - physical`, `${product.slug} - hardcover`);
+        for (const prefix of [title, shortTitle]) keys.push(`${prefix} + Shipping & Handling`, `${prefix} - Hardcover`);
+    } else if (fulfillment === "audio") {
+        keys.push(`${product.slug} - audio`, `${title} - Audio`, `${shortTitle} - Audio`);
+    } else if (fulfillment === "bundle") {
+        keys.push(`${product.slug} - bundle`, `${title} Bundles + Shipping & Handling`, `${shortTitle} Bundles + Shipping & Handling`);
+    }
+    // Never fall back to generic names like "Digital PDF" or another edition's top-level price.
+    return findMappedPrice(keys);
 }
 
-function buildSlugFormatPriceKeys(productSlug: string, format?: string, editionName?: string): string[] {
-    const editionNameText = safeLower(editionName);
-    const fulfillmentType =
-        editionNameText.includes("bundle")
-            ? "bundle"
-            : editionNameText.includes("audio")
-              ? "audio"
-              : editionNameText.includes("digital") ||
-                  editionNameText.includes("pdf") ||
-                  editionNameText.includes("ebook") ||
-                  editionNameText.includes("e-book")
-                ? "digital"
-                : editionNameText.includes("hardcover") ||
-                    editionNameText.includes("physical") ||
-                    editionNameText.includes("print")
-                  ? "physical"
-                  : classifyFulfillment(format, editionName);
-    const searchText = `${safeLower(format)} ${safeLower(editionName)}`;
-    const keys = [];
-
-    if (fulfillmentType === "bundle" || searchText.includes("bundle")) {
-        keys.push(`${productSlug} - bundle`);
-    }
-
-    if (fulfillmentType === "physical") {
-        keys.push(`${productSlug} - physical`, `${productSlug} - hardcover`);
-    }
-
-    if (fulfillmentType === "digital") {
-        keys.push(`${productSlug} - digital`, `${productSlug} - pdf`);
-    }
-
-    if (fulfillmentType === "audio") {
-        keys.push(`${productSlug} - audio`);
-    }
-
-    return keys;
+function isOrderBump(product: ProductCheckoutRecord, item: CheckoutCartItemPayload): boolean {
+    return !!product.orderBump && typeof item.editionId === "string" &&
+        (item.editionId === "strategy-call" || item.editionId === product.orderBump._key);
 }
 
-export function getStripePriceId(
-    product: ProductCheckoutRecord,
-    item: CheckoutCartItemPayload,
-    matchingEdition = findMatchingEdition(product, item)
-): string | null {
-    const isOrderBump = item.editionId === "strategy-call" || (product.orderBump && product.orderBump._key === item.editionId);
-    if (isOrderBump && product.orderBump) {
-        return isPlaceholderPriceId(product.orderBump.stripePriceId)
-            ? null
-            : product.orderBump.stripePriceId ?? null;
-    }
-
-    const titleWithoutLeadingThe = product.title.replace(/^The\s+/i, "");
-    const mappedSlugFormatPriceId = findMappedPrice(
-        buildSlugFormatPriceKeys(
-            product.slug,
-            item.format || matchingEdition?.format,
-            item.editionName || matchingEdition?.name
-        )
-    );
-
-    if (mappedSlugFormatPriceId) {
-        return mappedSlugFormatPriceId;
-    }
-
-    // 1. Check if edition has stripePriceId in Sanity
-    if (item.editionId && product.editions?.length) {
-        if (matchingEdition?.stripePriceId) {
-            return matchingEdition.stripePriceId;
-        }
-
-        // 2. Fallback to static map using edition name or product title + edition name
-        if (matchingEdition?.name) {
-            const editionName = matchingEdition.name;
-            const editionFormat = matchingEdition.format || "";
-            const editionSearchText = `${safeLower(editionName)} ${safeLower(editionFormat)}`;
-            const isDigitalEdition =
-                editionSearchText.includes("digital") ||
-                editionSearchText.includes("pdf");
-            const isHardcoverEdition =
-                editionSearchText.includes("hardcover") ||
-                editionSearchText.includes("physical") ||
-                editionSearchText.includes("print");
-            const keysToTry = [
-                `${product.title} - ${editionName}`,
-                `${titleWithoutLeadingThe} - ${editionName}`,
-                ...(isDigitalEdition
-                    ? [
-                          ...buildSlugFormatPriceKeys(product.slug, editionFormat, editionName),
-                          `${product.title} - Digital PDF`,
-                          `${titleWithoutLeadingThe} - Digital PDF`,
-                          `${product.title} - Digital PDF Copy`,
-                          `${titleWithoutLeadingThe} - Digital PDF Copy`,
-                      ]
-                    : []),
-                ...(isHardcoverEdition
-                    ? [
-                          ...buildSlugFormatPriceKeys(product.slug, editionFormat, editionName),
-                          `${product.title} + Shipping & Handling`,
-                          `${titleWithoutLeadingThe} + Shipping & Handling`,
-                          `${product.title} - Hardcover`,
-                          `${titleWithoutLeadingThe} - Hardcover`,
-                          `${editionName} + Shipping & Handling`,
-                      ]
-                    : []),
-                `${product.title} + Shipping & Handling`,
-                `${titleWithoutLeadingThe} + Shipping & Handling`,
-                editionName,
-                `${editionName} + Shipping & Handling`,
-            ];
-
-            const mappedPriceId = findMappedPrice(keysToTry);
-            if (mappedPriceId) return mappedPriceId;
-        }
-    }
-
-    // 3. Generated fallback editions still encode the intended format in their ID.
-    if (item.editionId) {
-        const normalizedEditionId = item.editionId.toLowerCase();
-        const isDigitalEdition =
-            normalizedEditionId.includes("digital") ||
-            normalizedEditionId.includes("pdf");
-        const isHardcoverEdition =
-            normalizedEditionId.includes("hardcover") ||
-            normalizedEditionId.includes("physical") ||
-            normalizedEditionId.includes("print");
-        const fallbackEditionPriceId = findMappedPrice([
-            ...buildSlugFormatPriceKeys(product.slug, item.format, item.editionName),
-            ...(isDigitalEdition
-                ? [
-                      `${product.title} - Digital PDF`,
-                      `${titleWithoutLeadingThe} - Digital PDF`,
-                      `${product.title} - Digital PDF Copy`,
-                      `${titleWithoutLeadingThe} - Digital PDF Copy`,
-                  ]
-                : []),
-            ...(isHardcoverEdition
-                ? [
-                      `${product.title} + Shipping & Handling`,
-                      `${titleWithoutLeadingThe} + Shipping & Handling`,
-                      `${product.title} - Hardcover`,
-                      `${titleWithoutLeadingThe} - Hardcover`,
-                  ]
-                : []),
-        ]);
-
-        if (fallbackEditionPriceId) return fallbackEditionPriceId;
-    }
-
-    // 4. Check if top-level product has stripePriceId in Sanity
-    if (product.stripePriceId) {
-        return product.stripePriceId;
-    }
-
-    // 5. Final Fallbacks: try slug/format and product title variants directly in the map
-    const productTitleKeys = [
-        ...buildSlugFormatPriceKeys(product.slug, item.format, item.editionName),
-        product.title,
-        titleWithoutLeadingThe,
-        `${product.title} + Shipping & Handling`,
-        `${titleWithoutLeadingThe} + Shipping & Handling`,
-    ];
-
-    return findMappedPrice(productTitleKeys);
+function selectedEdition(product: ProductCheckoutRecord, item: CheckoutCartItemPayload): CatalogEdition | null {
+    if (product.editions?.length) return findMatchingEdition(product, item);
+    // ProductHero's legacy default ID denotes the server's top-level offer, never a client-defined format.
+    if (item.editionId !== undefined && item.editionId !== `${product._id}-default`) return null;
+    const format = extractString(product.format, "en");
+    if (classifyFulfillment(format, format) === "unknown") return null;
+    return { _key: `${product._id}-default`, name: format, format, price: product.price, stripePriceId: product.stripePriceId };
 }
 
-export function resolveCheckoutItem(
-    product: ProductCheckoutRecord,
-    item: CheckoutCartItemPayload
-): ResolvedCheckoutItem | null {
-    const isOrderBump = item.editionId === "strategy-call" || (product.orderBump && product.orderBump._key === item.editionId);
+export function getStripePriceId(product: ProductCheckoutRecord, item: CheckoutCartItemPayload): string | null {
+    if (isOrderBump(product, item)) {
+        const price = product.orderBump?.stripePriceId;
+        return validPriceId(price) ? price : null;
+    }
+    const edition = selectedEdition(product, item);
+    if (!edition) return null;
+    return validPriceId(edition.stripePriceId) ? edition.stripePriceId : mappedEditionPrice(product, edition);
+}
 
-    if (isOrderBump && product.orderBump) {
-        const priceId = isPlaceholderPriceId(product.orderBump.stripePriceId)
-            ? null
-            : product.orderBump.stripePriceId ?? null;
-
-        if (!priceId) return null;
-        
-        let resolvedName = "30-Min Tax Strategy Call with Jason";
-        if (typeof product.orderBump.name === "string") {
-            resolvedName = product.orderBump.name;
-        } else if (product.orderBump.name && typeof product.orderBump.name === "object") {
-            // Check for localized name
-            const localized = product.orderBump.name as Record<string, string>;
-            resolvedName = localized.en || resolvedName;
-        }
-
+export function resolveCheckoutItem(product: ProductCheckoutRecord, item: CheckoutCartItemPayload): ResolvedCheckoutItem | null {
+    if (isOrderBump(product, item)) {
+        const bump = product.orderBump!;
+        if (!validPriceId(bump.stripePriceId)) return null;
         return {
-            productId: product._id,
-            slug: product.slug,
-            title: product.title,
-            editionId: item.editionId,
-            editionName: resolvedName,
-            format: product.orderBump.format || "service",
-            fulfillmentType: "service",
-            requiresShipping: false,
-            stripePriceId: priceId,
-            quantity: item.quantity,
+            productId: product._id, slug: product.slug, title: product.title,
+            editionId: bump._key || "strategy-call",
+            editionName: extractString(bump.name, "en", "30-Min Tax Strategy Call with Jason"),
+            format: extractString(bump.format, "en", "service"),
+            fulfillmentType: "service", requiresShipping: false,
+            stripePriceId: bump.stripePriceId, quantity: item.quantity,
         };
     }
 
-    const matchingEdition = findMatchingEdition(product, item);
-    const priceId = getStripePriceId(product, item, matchingEdition);
-
-    if (!priceId) return null;
-
-    const editionName = matchingEdition?.name || item.editionName;
-    const format = matchingEdition?.format || item.format;
-    const fulfillmentType =
-        item.fulfillmentType && item.fulfillmentType !== "unknown"
-            ? item.fulfillmentType
-            : classifyFulfillment(format, editionName);
-    const requiresShipping =
-        item.requiresShipping ?? requiresShippingForFulfillment(fulfillmentType);
-
+    const edition = selectedEdition(product, item);
+    if (!edition) return null;
+    const stripePriceId = validPriceId(edition.stripePriceId) ? edition.stripePriceId : mappedEditionPrice(product, edition);
+    if (!stripePriceId) return null;
+    const fulfillmentType = classifyFulfillment(edition.format, edition.name);
     return {
-        productId: product._id,
-        slug: product.slug,
-        title: product.title,
-        editionId: item.editionId,
-        editionName,
-        format,
-        fulfillmentType,
-        requiresShipping,
-        stripePriceId: priceId,
-        quantity: item.quantity,
+        productId: product._id, slug: product.slug, title: product.title,
+        editionId: normalizeEditionId(product._id, edition),
+        editionName: extractString(edition.name, "en"), format: extractString(edition.format, "en"),
+        fulfillmentType, requiresShipping: requiresShippingForFulfillment(fulfillmentType),
+        stripePriceId, quantity: item.quantity,
     };
 }
 

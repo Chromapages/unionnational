@@ -13,6 +13,7 @@ import { SCorpElectionChecklist } from "./lead-magnets/SCorpElectionChecklist";
 
 import { TaxHealthScore } from "./lead-magnets/TaxHealthScore";
 import { RestaurantProfitLeakAssessment } from "@/components/intake/RestaurantProfitLeakAssessment";
+import { resourceHref } from "./resourceHref";
 
 interface Category {
     _id: string;
@@ -418,7 +419,7 @@ export function ResourceGrid({
                                     return (
                                         <Link
                                             key={resource._id}
-                                            href={isLeadMagnet ? `/hub/s-corp-playbook` : `/blog/${resource.slug}`}
+                                            href={resourceHref(resource._type, resource.slug)}
                                             className="group bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-gold-500/40 hover:shadow-xl hover:shadow-gold-500/10 transition-all duration-300"
                                         >
                                             {imageUrl && (

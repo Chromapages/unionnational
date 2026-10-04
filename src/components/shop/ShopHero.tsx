@@ -66,8 +66,7 @@ export function ShopHero({ title, subtitle, slides = [] }: ShopHeroProps) {
                             <div
                                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                                 style={{ backgroundImage: `url(${slide.imageUrl})` }}
-                                role="img"
-                                aria-label={slide.alt || "Shop Hero Background"}
+                                aria-hidden="true"
                             />
                             {/* Unified Dark Overlays */}
                             <div className="absolute inset-0 bg-brand-950/90" />
@@ -83,7 +82,7 @@ export function ShopHero({ title, subtitle, slides = [] }: ShopHeroProps) {
                 <button
                     onClick={scrollPrev}
                     className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/20 text-white/70 hover:bg-black/40 hover:text-white backdrop-blur-md border border-white/10 transition-all pointer-events-auto"
-                    aria-label="Previous slide"
+                    aria-label={t("previousSlide")}
                 >
                     <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
@@ -92,7 +91,7 @@ export function ShopHero({ title, subtitle, slides = [] }: ShopHeroProps) {
                 <button
                     onClick={scrollNext}
                     className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/20 text-white/70 hover:bg-black/40 hover:text-white backdrop-blur-md border border-white/10 transition-all pointer-events-auto"
-                    aria-label="Next slide"
+                    aria-label={t("nextSlide")}
                 >
                     <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
@@ -158,7 +157,7 @@ export function ShopHero({ title, subtitle, slides = [] }: ShopHeroProps) {
                                 ? "bg-gold-500 w-6"
                                 : "bg-white/40 hover:bg-white/60"
                         )}
-                        aria-label={`Go to slide ${index + 1}`}
+                        aria-label={t("goToSlide", { number: index + 1 })}
                     />
                 ))}
             </div>

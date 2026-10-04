@@ -103,6 +103,8 @@ export const ScorpEstimatorInputSchema = z.object({
     utm_content: z.string().optional(),
     utm_term: z.string().optional(),
     referrer_url: z.string().optional(),
+    locale: z.enum(["en", "es"]).optional(),
+    submission_id: z.string().uuid().optional(),
 });
 
 export type ScorpEstimatorInput = z.infer<typeof ScorpEstimatorInputSchema>;

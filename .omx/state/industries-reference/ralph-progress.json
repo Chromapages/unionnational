@@ -1,0 +1,13 @@
+{
+  "score": 91,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The generated construction photograph has a different angle from the reference but preserves its worker, site, and warm-light composition.",
+    "The proof strip uses the site's existing 15+ years claim in place of the reference's unsupported $28M+ savings claim."
+  ],
+  "suggestions": [],
+  "reasoning": "The desktop hierarchy, proportions, imagery, industry selector, feature panel, proof strip, and CTA closely match the reference. English and Spanish desktop renders have no overflow or page errors, and the mobile layout remains visible at narrow widths.",
+  "next_actions": []
+}

@@ -1,119 +1,49 @@
 "use client";
 
-import { useCartStore } from "@/store/useCartStore";
-import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
-import { buildCartItemKey } from "@/lib/shop/types";
-import { trackMetaEvent } from "@/components/seo/MetaPixel";
+import { useTranslations } from "next-intl";
+import { ShoppingBag } from "lucide-react";
+import { formatProductPrice } from "@/lib/shop/commerce";
 
 interface StickyBuyBarProps {
-    id: string;
-    slug: string;
-    title: string;
     price: number;
-    image: string;
     format: string;
-    buyLink?: string;
-    stripeProductId?: string;
-    stripePriceId?: string;
-    requiresFormatSelection?: boolean;
+    disabled?: boolean;
+    onAddToCart: () => void;
 }
 
-export function StickyBuyBar({ id, slug, title, price, image, format, buyLink, stripeProductId, stripePriceId, requiresFormatSelection = false }: StickyBuyBarProps) {
-    const [isVisible, setIsVisible] = useState(false);
-    const addItem = useCartStore((state) => state.addItem);
-    const toggleCart = useCartStore((state) => state.toggleCart);
+export function StickyBuyBar({ price, format, disabled = false, onAddToCart }: StickyBuyBarProps) {
+    const t = useTranslations("Shop.ProductHero");
+    const [mainActionVisible, setMainActionVisible] = useState(false);
+    const [footerVisible, setFooterVisible] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            // Show bar when scrolled past 600px (roughly when the main hero CTA is off-screen)
-            setIsVisible(window.scrollY > 600);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        const action = document.getElementById("product-add-to-cart");
+        const footer = document.getElementById("site-footer");
+        if (!action) return;
+        const headerHeight = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-height")) || 80;
+        const actionObserver = new IntersectionObserver(([entry]) => setMainActionVisible(entry.isIntersecting), { threshold: 0.5, rootMargin: "-" + headerHeight + "px 0px 0px 0px" });
+        actionObserver.observe(action);
+        const footerObserver = new IntersectionObserver(([entry]) => setFooterVisible(entry.isIntersecting));
+        if (footer) footerObserver.observe(footer);
+        const footerWatch = new MutationObserver(() => {
+            const loadedFooter = document.getElementById("site-footer");
+            if (loadedFooter) { footerObserver.observe(loadedFooter); footerWatch.disconnect(); }
+        });
+        if (!footer) footerWatch.observe(document.body, { childList: true, subtree: true });
+        return () => { actionObserver.disconnect(); footerObserver.disconnect(); footerWatch.disconnect(); };
     }, []);
 
-    const handleAddToCart = () => {
-        if (requiresFormatSelection) {
-            document.getElementById("product-purchase")?.scrollIntoView({ behavior: "smooth", block: "center" });
-            return;
-        }
-
-        addItem({
-            id: buildCartItemKey(id),
-            productId: id,
-            slug,
-            title,
-            price,
-            image,
-            format,
-            buyLink,
-            stripeProductId,
-            stripePriceId,
-        });
-        trackMetaEvent("AddToCart", {
-            content_id: slug,
-            content_type: "product",
-            value: price,
-            currency: "USD",
-        });
-        toggleCart();
-    };
-
-    const formatPrice = (p: number) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-        }).format(p);
-    };
-
-    return (
-        <AnimatePresence>
-            {isVisible && (
-                <motion.div
-                    initial={{ y: 100, opacity: 0, x: "-50%" }}
-                    animate={{ y: 0, opacity: 1, x: "-50%" }}
-                    exit={{ y: 100, opacity: 0, x: "-50%" }}
-                    transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                    className="fixed bottom-8 left-1/2 z-[80] w-[95%] max-w-lg bg-brand-900 py-3.5 px-6 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] border border-white/10"
-                >
-                    <div className="flex items-center justify-between gap-8">
-                        {/* Product Intent */}
-                        <div className="flex items-center gap-4 min-w-0">
-                            <div className="h-10 w-10 rounded-lg bg-brand-800 flex items-center justify-center shrink-0 border border-white/5 overflow-hidden">
-                                <img src={image} alt={title} className="w-full h-full object-contain" />
-                            </div>
-                            <div className="flex flex-col min-w-0">
-                                <h3 className="font-heading font-bold text-[13px] text-white tracking-tight truncate leading-tight">
-                                    {title}
-                                </h3>
-                                <span className="font-sans text-[8px] font-black uppercase tracking-[0.2em] text-gold-500/80">
-                                    {format}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Transaction Layer */}
-                        <div className="flex items-center gap-6 shrink-0">
-                            <div className="flex flex-col items-end">
-                                <span className="font-sans text-[8px] font-black uppercase tracking-widest text-white/30">Total Value</span>
-                                <span className="text-lg font-bold text-white tabular-nums leading-none mt-0.5">{formatPrice(price)}</span>
-                            </div>
-
-                            <button
-                                onClick={handleAddToCart}
-                                className="bg-gold-500 text-brand-900 hover:bg-gold-400 font-sans font-bold uppercase tracking-[0.1em] text-[10px] py-2.5 px-6 rounded-md shadow-sm active:scale-[0.96] transition-all flex items-center gap-2"
-                            >
-                                <ShoppingBag className="w-3.5 h-3.5" />
-                                {requiresFormatSelection ? "Select Format" : "Add to Cart"}
-                            </button>
-                        </div>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
+    if (mainActionVisible || footerVisible) return null;
+    return <aside id="product-sticky-bar" aria-label={t("addToCart")} className="fixed inset-x-0 bottom-0 z-[95] border-t border-brand-700 bg-brand-900 px-4 pt-3 pb-[max(.75rem,env(safe-area-inset-bottom))] text-white shadow-lg">
+        <div className="mx-auto flex w-full max-w-[94rem] items-center justify-between gap-4 sm:px-2 lg:px-4">
+            <div className="min-w-0">
+                <p className="text-sm font-semibold leading-snug text-white">{format}</p>
+                <p data-sticky-price={price} className="mt-1 font-data text-xl font-bold tabular-nums">{formatProductPrice(price)}</p>
+            </div>
+            <button id="sticky-add-to-cart" type="button" disabled={disabled} onClick={onAddToCart} className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-xl border border-gold-800 bg-gold-500 px-5 py-3 font-heading text-base font-bold text-brand-950 hover:bg-gold-400 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300">
+                <ShoppingBag className="size-5" aria-hidden="true" />{t("addToCart")}
+            </button>
+        </div>
+    </aside>;
 }

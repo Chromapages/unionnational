@@ -1,0 +1,580 @@
+﻿ M .claude/settings.local.json
+ M .github/workflows/quality.yml
+ M .omx/metrics.json
+ M .omx/state/autopilot-state.json
+ M .omx/state/hud-state.json
+ M .omx/state/notify-hook-state.json
+ M .omx/state/skill-active-state.json
+ M .omx/state/tmux-hook-state.json
+ M README.md
+ M "Union National Tax Design System.md"
+ M docs/client-results-data-model.md
+ M docs/testimonial-credibility-evidence.md
+ M eslint.config.mjs
+ M next.config.ts
+ M sanity.config.ts
+ M src/app/[locale]/about/page.tsx
+ M src/app/[locale]/blog/[slug]/page.tsx
+ M src/app/[locale]/blog/page.tsx
+ M src/app/[locale]/book/page.tsx
+ M src/app/[locale]/books/[slug]/page.tsx
+ M src/app/[locale]/client-results/page.tsx
+ M src/app/[locale]/construction-profitability-assessment/page.tsx
+ M src/app/[locale]/construction/apply/ApplicationForm.tsx
+ M src/app/[locale]/construction/apply/page.tsx
+ M src/app/[locale]/construction/booking/page.tsx
+ M src/app/[locale]/construction/downsell/page.tsx
+ M src/app/[locale]/construction/profit-blueprint/page.tsx
+ M src/app/[locale]/construction/profit-blueprint/success/page.tsx
+ M src/app/[locale]/construction/profitability-assessment/page.tsx
+ M src/app/[locale]/contact/actions.ts
+ M src/app/[locale]/contact/page.tsx
+ M src/app/[locale]/faq/page.tsx
+ M src/app/[locale]/health-check/page.tsx
+ M src/app/[locale]/hub/industries/[slug]/page.tsx
+ M src/app/[locale]/hub/industries/page.tsx
+ M src/app/[locale]/hub/page.tsx
+ M src/app/[locale]/hub/s-corp-playbook/[chapter]/page.tsx
+ M src/app/[locale]/hub/s-corp-playbook/page.tsx
+ M src/app/[locale]/industries/construction/ConstructionIndustryClient.tsx
+ M src/app/[locale]/industries/construction/page.tsx
+ M src/app/[locale]/industries/e-commerce/EcommerceIndustryClient.tsx
+ M src/app/[locale]/industries/e-commerce/page.tsx
+ M src/app/[locale]/industries/page.tsx
+ M src/app/[locale]/industries/real-estate/RealEstateIndustryClient.tsx
+ M src/app/[locale]/industries/real-estate/page.tsx
+ M src/app/[locale]/industries/restaurants/RestaurantIndustryClient.tsx
+ M src/app/[locale]/industries/restaurants/page.tsx
+ M src/app/[locale]/intake/page.tsx
+ M src/app/[locale]/layout.tsx
+ M src/app/[locale]/legal/[slug]/page.tsx
+ M src/app/[locale]/page.tsx
+ M src/app/[locale]/pricing/page.tsx
+ M src/app/[locale]/proactive-cfo-assessment/page.tsx
+ M src/app/[locale]/resources/page.tsx
+ M src/app/[locale]/restaurants/apply/RestaurantApplicationForm.tsx
+ M src/app/[locale]/restaurants/apply/page.tsx
+ M src/app/[locale]/restaurants/booking/page.tsx
+ M src/app/[locale]/restaurants/downsell/page.tsx
+ M src/app/[locale]/restaurants/profit-leak-assessment/page.tsx
+ M src/app/[locale]/s-corp-tax-advantage/SCorpAdvantageClient.tsx
+ M src/app/[locale]/scorp-estimator/page.tsx
+ M src/app/[locale]/services/[slug]/page.tsx
+ M src/app/[locale]/services/page.tsx
+ M src/app/[locale]/shop/[slug]/page.tsx
+ M src/app/[locale]/shop/cart/page.tsx
+ M src/app/[locale]/shop/page.tsx
+ M src/app/[locale]/shop/success/page.tsx
+ M src/app/[locale]/tax-savings-analysis/contractors/page.tsx
+ M src/app/[locale]/tax-savings-analysis/hospitality/page.tsx
+ M src/app/[locale]/tax-savings-analysis/page.tsx
+ M src/app/[locale]/tax-savings-analysis/real-estate/page.tsx
+ M src/app/[locale]/team/page.tsx
+ M src/app/[locale]/vsl/construction/page.tsx
+ M src/app/[locale]/vsl/page.tsx
+ M src/app/[locale]/vsl/real-estate/page.tsx
+ M src/app/[locale]/vsl/restaurants/page.tsx
+ M src/app/[locale]/vsl/tax-resolution/page.tsx
+ M src/app/api/ghl-intake/route.ts
+ M src/app/api/ghl/intake/route.ts
+ M src/app/api/leads/tax-analysis/route.ts
+ M src/app/api/revalidate/route.ts
+ M src/app/api/scorp-estimator/route.ts
+ M src/app/api/shop/checkout/route.ts
+ M src/app/api/shop/webhook/route.ts
+ M src/app/api/submit-application/route.ts
+ M src/app/api/submit-restaurant-application/route.ts
+ M src/app/api/survey/route.ts
+ M src/app/global-error.tsx
+ M src/app/readyz/route.ts
+ M src/app/scorp-advantage/layout.tsx
+ M src/app/scorp-advantage/page.tsx
+ M src/app/scorp-estimator/layout.tsx
+ M src/app/scorp-estimator/results/page.tsx
+ M src/app/sitemap.ts
+ M src/components/ChatWidget.tsx
+ M src/components/blog/BlogContent.tsx
+ M src/components/booking/BookingCalendar.tsx
+ M src/components/books/BookHero.tsx
+ M src/components/books/BookLandingClient.tsx
+ M src/components/books/BookLeadForm.tsx
+ M src/components/construction/profit-blueprint/BlueprintAuthorBio.tsx
+ M src/components/construction/profit-blueprint/CallBookingEmbed.tsx
+ M src/components/construction/profit-blueprint/ExitIntentChecklist.tsx
+ M src/components/construction/profit-blueprint/MathSection.tsx
+ M src/components/construction/profitability-assessment/ProfitabilityAssessmentForm.tsx
+ M src/components/contact/ClientLogoStrip.tsx
+ M src/components/contact/MultiStepContactForm.tsx
+ M src/components/contact/TeamMemberCard.tsx
+ M src/components/health-check/HealthCheckSurvey.tsx
+ M src/components/home/BentoGridSection.tsx
+ M src/components/home/BookingCtaLink.tsx
+ M src/components/home/CTASection.tsx
+ M src/components/home/DifferentiationSection.tsx
+ M src/components/home/FAQAccordion.tsx
+ M src/components/home/HeroVideoPlayer.test.tsx
+ M src/components/home/HeroVideoPlayer.tsx
+ M src/components/home/HomepageCTASection.tsx
+ M src/components/home/HowItWorksSection.test.tsx
+ M src/components/home/HowItWorksSection.tsx
+ M src/components/home/PricingPreview.tsx
+ M src/components/home/ServicesSection.test.tsx
+ M src/components/home/ServicesSection.tsx
+ M src/components/home/StatsSection.tsx
+ M src/components/home/TestimonialsSection.tsx
+ M src/components/home/VideoHero.tsx
+ M src/components/home/WhyUsConversionArea.test.tsx
+ M src/components/home/WhyUsConversionArea.tsx
+ M src/components/home/WhyUsEvidenceModule.test.tsx
+ M src/components/home/WhyUsEvidenceModule.tsx
+ M src/components/home/WhyUsSection.test.tsx
+ M src/components/home/WhyUsSection.tsx
+ M src/components/hub/GatedContentBox.tsx
+ M src/components/hub/PlaybookNav.tsx
+ M src/components/industries/IndustryHero.tsx
+ M src/components/intake/ConstructionAssessmentForm.tsx
+ M src/components/intake/ConstructionResults.tsx
+ M src/components/intake/RestaurantProfitLeakAssessment.tsx
+ M src/components/intake/StrategyIntakeForm.tsx
+ M src/components/layout/DesktopOverflowMenu.tsx
+ M src/components/layout/FloatingNavbar.tsx
+ M src/components/layout/Footer.tsx
+ M src/components/layout/FooterNavigation.tsx
+ M src/components/layout/LocaleSwitcher.tsx
+ M src/components/layout/ServicesDropdown.test.tsx
+ M src/components/layout/ServicesDropdown.tsx
+ M src/components/pricing/AdvisoryPricingCards.tsx
+ M src/components/pricing/OptionalServices.tsx
+ M src/components/pricing/PricingTrustSection.tsx
+ M src/components/pricing/TaxPrepGrid.tsx
+ M src/components/pricing/TaxPrepPricingTables.tsx
+ M src/components/resources/ResourceGrid.tsx
+ M src/components/resources/ResourceHero.tsx
+ M src/components/resources/calculators/CalculatorResultPanel.tsx
+ M src/components/resources/lead-magnets/TaxHealthScore.tsx
+ M src/components/scorp/EstimatorPageClient.tsx
+ M src/components/scorp/EstimatorResultsClient.tsx
+ M src/components/scorp/PricingTierCard.tsx
+ M src/components/scorp/ScorpEstimatorResult.tsx
+ M src/components/scorp/ScorpEstimatorShell.tsx
+ M src/components/seo/JsonLd.tsx
+ M src/components/seo/ShopPurchaseEvent.tsx
+ M src/components/services/CmsServicePage.tsx
+ M src/components/services/ComparisonSection.tsx
+ M src/components/services/MobileStickyCta.tsx
+ M src/components/services/QualificationCheckpoint.tsx
+ M src/components/services/RelatedServices.tsx
+ M src/components/services/ServiceFAQ.tsx
+ M src/components/services/ServiceHero.tsx
+ M src/components/services/ServicePageContainer.tsx
+ M src/components/services/ServicePageTemplate.tsx
+ M src/components/services/StrategyVideoSection.tsx
+ M src/components/shop/AuthorBio.tsx
+ M src/components/shop/BookOverview.tsx
+ M src/components/shop/CartPageClient.tsx
+ M src/components/shop/CartSidebar.tsx
+ M src/components/shop/FeatureBento.tsx
+ M src/components/shop/FeaturedProduct.tsx
+ M src/components/shop/ProductCard.tsx
+ M src/components/shop/ProductHero.tsx
+ M src/components/shop/ProductOfferSelector.tsx
+ M src/components/shop/SearchBar.tsx
+ M src/components/shop/ShopClient.tsx
+ M src/components/shop/ShopFAQ.tsx
+ M src/components/shop/ShopHero.tsx
+ M src/components/shop/ShopTestimonialStrip.tsx
+ M src/components/shop/TestimonialWall.tsx
+ M src/components/shop/TransactionCard.tsx
+ M src/components/shop/TrustMetrics.tsx
+ M src/components/tax-analysis/TaxAnalysisForm.tsx
+ M src/components/team/FounderSpotlight.tsx
+ M src/components/team/TeamGrid.tsx
+ M src/components/team/TeamHero.tsx
+ M src/components/team/TeamMemberCard.tsx
+ M src/components/team/TeamMemberModal.tsx
+ M src/components/ui/CartIcon.tsx
+ M src/components/ui/MobileSidebar.tsx
+ M src/components/ui/SectionHeader.tsx
+ M src/components/ui/StickyBuyBar.tsx
+ M src/components/ui/VideoPlayer.tsx
+ M src/components/vsl/VSLClientResults.tsx
+ M src/components/vsl/VSLFaq.tsx
+ M src/components/vsl/VSLFinalCta.tsx
+ M src/components/vsl/VSLHero.tsx
+ M src/components/vsl/VSLHowItWorks.tsx
+ M src/components/vsl/VSLMetricsBar.tsx
+ M src/components/vsl/VSLProblemStatement.tsx
+ M src/components/vsl/VSLTestimonial.tsx
+ M src/lib/booking.test.ts
+ M src/lib/booking.ts
+ M src/lib/config/env.test.ts
+ M src/lib/config/env.ts
+ M src/lib/ghl/contract.ts
+ M src/lib/intake/shared.ts
+ M src/lib/observability/logger.test.ts
+ M src/lib/observability/logger.ts
+ M src/lib/scorp/mapToGhlPayload.ts
+ M src/lib/scorp/schema.ts
+ M src/lib/security/rate-limiter.ts
+ M src/lib/shop/checkout-client.ts
+ M src/lib/shop/commerce.test.ts
+ M src/lib/shop/commerce.ts
+ M src/lib/shop/types.ts
+ M src/lib/testimonials/clientResults.test.ts
+ M src/messages/en.json
+ M src/messages/es.json
+ M src/middleware.ts
+ M src/sanity/lib/getSiteSettings.ts
+ M src/sanity/lib/queries/blog-queries.ts
+ M src/sanity/lib/queries/book-queries.ts
+ M src/sanity/lib/queries/resource-queries.ts
+ M src/sanity/lib/queries/shared-queries.ts
+ M src/sanity/lib/queries/shop-queries.ts
+ M src/sanity/lib/queries/team-queries.ts
+ M src/sanity/schemaTypes/aboutPage.ts
+ M src/sanity/schemaTypes/index.ts
+ M src/sanity/structure.ts
+ M src/styles/globals.css
+ M src/test/e2e/client-results-responsive.spec.ts
+ M src/test/revalidate.test.ts
+ M src/test/scorp-estimator.test.ts
+ M src/test/stripe-webhook.test.ts
+ M src/types/book.ts
+ M src/types/sanity.ts
+?? .agents/
+?? .omx/logs/dev-3001.stderr.log
+?? .omx/logs/dev-3001.stdout.log
+?? .omx/logs/notify-hook-2026-08-07.jsonl
+?? .omx/logs/notify-hook-2026-08-08.jsonl
+?? .omx/logs/tmux-hook-2026-07-22.jsonl
+?? .omx/logs/tmux-hook-2026-08-01.jsonl
+?? .omx/logs/tmux-hook-2026-08-04.jsonl
+?? .omx/logs/tmux-hook-2026-08-07.jsonl
+?? .omx/logs/tmux-hook-2026-08-08.jsonl
+?? .omx/logs/tmux-hook-2026-08-10.jsonl
+?? .omx/logs/tmux-hook-2026-08-11.jsonl
+?? .omx/logs/tmux-hook-2026-08-28.jsonl
+?? .omx/logs/tmux-hook-2026-09-22.jsonl
+?? .omx/logs/tmux-hook-2026-09-23.jsonl
+?? .omx/logs/tmux-hook-2026-09-24.jsonl
+?? .omx/logs/tmux-hook-2026-09-25.jsonl
+?? .omx/logs/tmux-hook-2026-09-26.jsonl
+?? .omx/logs/tmux-hook-2026-09-27.jsonl
+?? .omx/logs/tmux-hook-2026-09-28.jsonl
+?? .omx/logs/tmux-hook-2026-09-29.jsonl
+?? .omx/logs/tmux-hook-2026-09-30.jsonl
+?? .omx/logs/tmux-hook-2026-10-01.jsonl
+?? .omx/logs/tmux-hook-2026-10-02.jsonl
+?? .omx/logs/tmux-hook-2026-10-03.jsonl
+?? .omx/logs/tmux-hook-2026-10-04.jsonl
+?? .omx/logs/turns-2026-07-22.jsonl
+?? .omx/logs/turns-2026-08-01.jsonl
+?? .omx/logs/turns-2026-08-04.jsonl
+?? .omx/logs/turns-2026-08-07.jsonl
+?? .omx/logs/turns-2026-08-08.jsonl
+?? .omx/logs/turns-2026-08-10.jsonl
+?? .omx/logs/turns-2026-08-11.jsonl
+?? .omx/logs/turns-2026-08-28.jsonl
+?? .omx/logs/turns-2026-09-22.jsonl
+?? .omx/logs/turns-2026-09-23.jsonl
+?? .omx/logs/turns-2026-09-24.jsonl
+?? .omx/logs/turns-2026-09-25.jsonl
+?? .omx/logs/turns-2026-09-26.jsonl
+?? .omx/logs/turns-2026-09-27.jsonl
+?? .omx/logs/turns-2026-09-28.jsonl
+?? .omx/logs/turns-2026-09-29.jsonl
+?? .omx/logs/turns-2026-09-30.jsonl
+?? .omx/logs/turns-2026-10-01.jsonl
+?? .omx/logs/turns-2026-10-02.jsonl
+?? .omx/logs/turns-2026-10-03.jsonl
+?? .omx/logs/turns-2026-10-04.jsonl
+?? .omx/plans/2026-09-30-reviews-and-torres-story.md
+?? .omx/plans/2026-09-30-services-faq.md
+?? .omx/plans/2026-09-30-services-how-we-work.md
+?? .omx/plans/2026-09-30-services-shared-cta.md
+?? .omx/plans/2026-09-30-services-simplification.md
+?? .omx/plans/2026-10-01-industries-perspective.md
+?? .omx/plans/2026-10-01-re-audit-implementation.md
+?? .omx/plans/2026-10-01-resources-simplification.md
+?? .omx/plans/2026-10-01-resources-start-here.md
+?? .omx/plans/2026-10-02-shop-simplification.md
+?? .omx/plans/2026-10-03-s-corp-copy-and-claims.md
+?? .omx/plans/about-founder-profile-reference.md
+?? .omx/plans/about-hero-split-reference.md
+?? .omx/plans/about-number-inventory.md
+?? .omx/plans/about-page-consolidation.md
+?? .omx/plans/about-team-reference.md
+?? .omx/plans/about-work-reference.md
+?? .omx/plans/audit-s-corp-claims.mjs
+?? .omx/plans/book-overview-reference.md
+?? .omx/plans/book-product-simplification.md
+?? .omx/plans/book-purchase-reference.md
+?? .omx/plans/book-related-reference.md
+?? .omx/plans/booking-cta-state-model.md
+?? .omx/plans/booking-handoff-alignment.md
+?? .omx/plans/booking-page-simplification.md
+?? .omx/plans/cart-sidebar-reference.md
+?? .omx/plans/consumer-homepage-simplification.md
+?? .omx/plans/dedicated-team-directory.md
+?? .omx/plans/explore-industries-reference-cards.md
+?? .omx/plans/hero-redesign-plan.md
+?? .omx/plans/homepage-cta-cream-band.md
+?? .omx/plans/homepage-design-review-2026-09-29.md
+?? .omx/plans/homepage-heading-plan.md
+?? .omx/plans/homepage-hero-video-return.md
+?? .omx/plans/homepage-next-step-compact.md
+?? .omx/plans/homepage-outcome-tabs.md
+?? .omx/plans/homepage-positioning-and-proof.md
+?? .omx/plans/homepage-vertical-spacing-audit.md
+?? .omx/plans/industries-expertise-reference.md
+?? .omx/plans/industries-hub-simplification.md
+?? .omx/plans/inventory-service-routes.mjs
+?? .omx/plans/mobile-cta-rhythm.md
+?? .omx/plans/service-detail-shared-home-cta.md
+?? .omx/plans/services-annual-support-reference.md
+?? .omx/plans/services-priority-cards.md
+?? .omx/plans/shop-shared-cta.md
+?? .omx/plans/team-founder-reference-2026-10-03.md
+?? .omx/plans/team-hero-remove-ongoing-support.md
+?? .omx/state/about-caption/
+?? .omx/state/about-founder-profile-reference/
+?? .omx/state/about-hero-decor-removal/
+?? .omx/state/about-hero-split-reference/
+?? .omx/state/about-homepage-cta/
+?? .omx/state/about-page-consolidation/
+?? .omx/state/about-proof-strip-removal/
+?? .omx/state/about-reference/
+?? .omx/state/about-sizing/
+?? .omx/state/about-team-caption/
+?? .omx/state/about-team-reference/
+?? .omx/state/about-work-caption/
+?? .omx/state/about-work-reference/
+?? .omx/state/book-hero-match/
+?? .omx/state/book-highlights/
+?? .omx/state/book-overview-reference/
+?? .omx/state/book-product-simplification/
+?? .omx/state/book-purchase-reference/
+?? .omx/state/book-related-reference/
+?? .omx/state/booking-page-simplification/
+?? .omx/state/cart-sidebar-reference/
+?? .omx/state/client-results-reference/
+?? .omx/state/consumer-homepage/
+?? .omx/state/current-task-baseline.json
+?? .omx/state/dedicated-team-directory/
+?? .omx/state/explore-industries-reference-cards/
+?? .omx/state/font-audit/
+?? .omx/state/font-consistency-2026-09-26/
+?? .omx/state/font-consistency-2026-09-29/
+?? .omx/state/global-cta/
+?? .omx/state/hero-redesign/
+?? .omx/state/home-client-logo-strip/
+?? .omx/state/home-logo-grayscale/
+?? .omx/state/home-logo-heading-removal/
+?? .omx/state/homepage-clear-first-step/
+?? .omx/state/homepage-clear-path/
+?? .omx/state/homepage-client-story/
+?? .omx/state/homepage-cta-cream-band/
+?? .omx/state/homepage-footer/
+?? .omx/state/homepage-funnel/
+?? .omx/state/homepage-headings/
+?? .omx/state/homepage-hero-video-return/
+?? .omx/state/homepage-next-step/
+?? .omx/state/homepage-outcome-tabs/
+?? .omx/state/homepage-proactive-design/
+?? .omx/state/homepage-process-scale/
+?? .omx/state/homepage-services-outcomes/
+?? .omx/state/homepage-sizing-only/
+?? .omx/state/homepage-strategy-brief/
+?? .omx/state/homepage-vertical-spacing/
+?? .omx/state/homepage-what-you-get/
+?? .omx/state/homepage-width-navbar/
+?? .omx/state/how-it-works-reference/
+?? .omx/state/industries-expertise-reference/
+?? .omx/state/industries-hero-icons/
+?? .omx/state/industries-hero-match/
+?? .omx/state/industries-hub-simplification/
+?? .omx/state/industries-perspective/
+?? .omx/state/industries-reference/
+?? .omx/state/industries-shared-cta/
+?? .omx/state/industry-focus-reference/
+?? .omx/state/navbar-audit/
+?? .omx/state/navbar-global/
+?? .omx/state/navbar-polish/
+?? .omx/state/navbar-strategy-dock/
+?? .omx/state/other-industries-reference/
+?? .omx/state/page-hero-heights/
+?? .omx/state/person-cards/
+?? .omx/state/proactive-reference/
+?? .omx/state/product-sizing/
+?? .omx/state/ralph-progress.json
+?? .omx/state/re-audit-2026-10-01/
+?? .omx/state/resources-catalog-reference/
+?? .omx/state/resources-featured-reference/
+?? .omx/state/resources-hero-latest-post/
+?? .omx/state/resources-hero-match/
+?? .omx/state/resources-reference/
+?? .omx/state/resources-simplification/
+?? .omx/state/resources-start-here/
+?? .omx/state/reviews-and-client-insight/
+?? .omx/state/s-corp-copy-and-claims/
+?? .omx/state/service-detail-about-sizing/
+?? .omx/state/service-detail-scorp-template/
+?? .omx/state/service-detail-shared-cta/
+?? .omx/state/service-detail-shop-faq/
+?? .omx/state/services-annual-support-reference/
+?? .omx/state/services-challenges-reference/
+?? .omx/state/services-desktop-reference/
+?? .omx/state/services-faq-reference/
+?? .omx/state/services-faq/
+?? .omx/state/services-hero-height/
+?? .omx/state/services-hero-reference/
+?? .omx/state/services-how-we-work/
+?? .omx/state/services-packages-reference/
+?? .omx/state/services-priority-cards/
+?? .omx/state/services-process-reference/
+?? .omx/state/services-reference/
+?? .omx/state/services-shared-cta/
+?? .omx/state/services-showcase-reference/
+?? .omx/state/services-simplification/
+?? .omx/state/shared-service-hero-reference/
+?? .omx/state/shared-service-included-reference/
+?? .omx/state/shared-service-process-reference/
+?? .omx/state/shared-service-reference/
+?? .omx/state/shared-service-suitability-reference/
+?? .omx/state/shop-desktop-reference/
+?? .omx/state/shop-desktop-width/
+?? .omx/state/shop-faq/
+?? .omx/state/shop-hero/
+?? .omx/state/shop-library/
+?? .omx/state/shop-resource-reference/
+?? .omx/state/shop-shared-cta/
+?? .omx/state/shop-simplification/
+?? .omx/state/strategic-bookkeeping-comparison/
+?? .omx/state/strategic-bookkeeping-qualification/
+?? .omx/state/team-about-sizing/
+?? .omx/state/team-banner-removal/
+?? .omx/state/team-directory-reference/
+?? .omx/state/team-founder-reference/
+?? .omx/state/team-headline-width/
+?? .omx/state/team-hero-reference/
+?? .omx/state/team-hero-remove-support/
+?? docs/UNT-re-audit-handoff-2026-10-01.md
+?? docs/booking-provider-settings.md
+?? docs/lead-capture-contract-map.md
+?? docs/plans/2026-10-03-home-scorp-template.md
+?? docs/plans/2026-10-03-service-detail-about-sizing.md
+?? docs/plans/2026-10-03-service-detail-scorp-template.md
+?? docs/plans/2026-10-03-service-detail-shop-faq.md
+?? docs/plans/2026-10-03-services-faq-reference.md
+?? docs/plans/2026-10-03-shared-service-hero-reference.md
+?? docs/plans/2026-10-03-shared-service-included-reference.md
+?? docs/plans/2026-10-03-shared-service-process-ledger.md
+?? docs/plans/2026-10-03-shared-service-suitability-reference.md
+?? docs/plans/2026-10-03-team-directory-reference.md
+?? docs/plans/2026-10-03-team-hero-headline-width.md
+?? docs/plans/2026-10-03-team-hero-reference.md
+?? docs/plans/2026-10-04-full-website-audit.md
+?? docs/plans/2026-10-04-home-client-logo-strip.md
+?? docs/plans/2026-10-04-homepage-sizing-only.md
+?? docs/resources-client-decisions.md
+?? docs/s-corp-claims-inventory.md
+?? docs/s-corp-page-review.md
+?? docs/services-offer-clarity.md
+?? docs/shop-fulfillment-recovery.md
+?? hero-current-320.png
+?? hero-spacing-320.png
+?? lighthouse-hero-before.json
+?? playwright-report/
+?? public/images/about-hero-reference-decor.png
+?? public/images/industries-construction-site.webp
+?? public/images/resources-featured-hvac.webp
+?? public/images/resources-hero-desk.webp
+?? public/images/results-bookkeeping.jpg
+?? public/images/results-ecommerce.jpg
+?? public/images/results-forest.jpg
+?? public/images/results-manufacturing.jpg
+?? public/images/services-blueprint-hero.webp
+?? public/images/services-construction-hero.jpg
+?? public/images/services-mountain.svg
+?? public/images/services-process-construction.webp
+?? public/images/torres-construction.jpg
+?? scripts/check-about-consolidation.mjs
+?? scripts/check-book-product.mjs
+?? scripts/check-home-outcome-tabs.mjs
+?? scripts/check-industry-expertise.mjs
+?? scripts/check-lead-capture-16.mjs
+?? scripts/check-lead-capture.mjs
+?? scripts/check-localization.mjs
+?? scripts/check-services-priority.mjs
+?? src/app/[locale]/books/[slug]/page.test.ts
+?? src/app/[locale]/construction/profit-blueprint/success/page.test.ts
+?? src/app/[locale]/contact/actions.test.ts
+?? src/app/[locale]/hub/playbooks/
+?? src/app/[locale]/hub/s-corp-playbook/[chapter]/page.test.tsx
+?? src/app/[locale]/page.test.tsx
+?? src/app/[locale]/shop/success/page.test.tsx
+?? src/app/api/ghl/intake/route.test.ts
+?? src/app/api/leads/tax-analysis/route.test.ts
+?? src/app/api/revalidate/route.test.ts
+?? src/app/api/shop/checkout/route.test.ts
+?? src/app/api/submit-application/route.test.ts
+?? src/app/api/survey/route.test.ts
+?? src/app/readyz/route.test.ts
+?? src/app/sitemap.test.ts
+?? src/components/about/AboutDesktopExperience.tsx
+?? src/components/booking/BookingCalendar.test.tsx
+?? src/components/books/BookHero.test.tsx
+?? src/components/books/BookLandingClient.test.tsx
+?? src/components/books/BookLeadForm.test.tsx
+?? src/components/construction/profit-blueprint/ExitIntentChecklist.test.tsx
+?? src/components/contact/MultiStepContactForm.test.tsx
+?? src/components/home/ConsumerHome.tsx
+?? src/components/home/CtaTrustRow.tsx
+?? src/components/home/FAQAccordion.test.tsx
+?? src/components/home/FinalBookingCTA.tsx
+?? src/components/home/HomeHeroVideo.tsx
+?? src/components/home/HomeOutcomeTabs.tsx
+?? src/components/home/ServicesDesktopShowcase.tsx
+?? src/components/hub/GatedContentBox.test.tsx
+?? src/components/hub/PlaybookNav.test.tsx
+?? src/components/industries/ClientInsightSection.tsx
+?? src/components/industries/IndustriesDesktopExperience.tsx
+?? src/components/layout/Footer.test.tsx
+?? src/components/layout/SkipLink.test.tsx
+?? src/components/layout/SkipLink.tsx
+?? src/components/resources/ResourcesDesktopExperience.tsx
+?? src/components/resources/resourceCatalog.test.ts
+?? src/components/resources/resourceCatalog.ts
+?? src/components/resources/resourceHref.test.ts
+?? src/components/resources/resourceHref.ts
+?? src/components/seo/JsonLd.test.tsx
+?? src/components/seo/ShopPurchaseEvent.test.tsx
+?? src/components/services/ServiceFAQ.test.tsx
+?? src/components/services/ServiceIncludedSection.tsx
+?? src/components/services/ServicePageTemplate.test.ts
+?? src/components/services/ServiceProcessSection.tsx
+?? src/components/services/ServicesDesktopExperience.tsx
+?? src/components/shop/CartSidebar.test.tsx
+?? src/components/shop/ProductCard.test.tsx
+?? src/components/shop/ProductHero.test.tsx
+?? src/components/shop/ShopDesktopExperience.test.tsx
+?? src/components/shop/ShopDesktopExperience.tsx
+?? src/components/team/teamDirectory.test.ts
+?? src/components/team/teamDirectory.ts
+?? src/components/ui/CartIcon.test.tsx
+?? src/lib/fonts.ts
+?? src/lib/ghl/contract.test.ts
+?? src/lib/ghl/submit-lead.test.ts
+?? src/lib/ghl/submit-lead.ts
+?? src/lib/scorp/service-content.test.ts
+?? src/lib/scorp/service-content.ts
+?? src/lib/security/rate-limiter.test.ts
+?? src/lib/seo/
+?? src/lib/shop/checkout-client.test.ts
+?? src/middleware.test.ts
+?? src/sanity/lib/getSiteSettings.test.ts
+?? src/sanity/schemaTypes/stripeWebhookIdempotency.ts
+?? src/test/e2e/services-simplification.spec.ts
+?? test-results/
+?? tmp-home-3000-320.png
+?? tmp-home-320.png

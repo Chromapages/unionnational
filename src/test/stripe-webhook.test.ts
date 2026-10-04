@@ -1,329 +1,248 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { NextRequest } from "next/server";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { NextRequest } from "next/server";
 
-// Mock getStripe
-const mockStripeWebhookConstructEvent = vi.fn();
-const mockStripeCheckoutSessionsUpdate = vi.fn();
+type RecordValue = { _id: string; _rev: string; status: string; updatedAt: string; [key: string]: unknown };
+const records = new Map<string, RecordValue>();
+let revision = 0;
+let failProcessedCommit = false;
+let session: Record<string, unknown>;
+const constructEvent = vi.fn();
+const retrieveSession = vi.fn();
+const updateSession = vi.fn();
+const fetchLegacy = vi.fn();
+const settings: Record<string, string | undefined> = {};
 
 vi.mock("@/lib/stripe", () => ({
     getStripe: () => ({
-        webhooks: { constructEvent: mockStripeWebhookConstructEvent },
-        checkout: {
-            sessions: { update: mockStripeCheckoutSessionsUpdate },
-        },
+        webhooks: { constructEvent },
+        checkout: { sessions: { retrieve: retrieveSession, update: updateSession } },
     }),
 }));
-
-let mockEnv: Record<string, string | undefined> = {
-    STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
-    GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/shop-webhook",
-};
-
-vi.mock("@/lib/config/env", () => ({
-    getEnv: (key: string) => mockEnv[key],
-}));
-
+vi.mock("@/lib/config/env", () => ({ getEnv: (key: string) => settings[key] }));
 vi.mock("@/lib/observability/api-handler", () => ({
     createApiHandler: () => ({
         log: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
         error: vi.fn(),
-        json: (body: unknown, opts?: { status?: number }) =>
-            new Response(JSON.stringify(body), { status: opts?.status ?? 200 }),
-        jsonError: (message: string, status = 500) =>
-            new Response(JSON.stringify({ error: message }), { status }),
-        rateLimitHeaders: () => ({}),
-        traceId: "test-trace-id",
+        json: (body: unknown) => new Response(JSON.stringify(body), { status: 200 }),
+        jsonError: (message: string, status: number) => new Response(JSON.stringify({ error: message }), { status }),
+        traceId: "trace-test",
     }),
-    getClientIp: () => "127.0.0.1",
-    checkRateLimit: () => ({ limited: false, remaining: 59, resetAt: Date.now() + 60000 }),
 }));
-
 vi.mock("@/lib/observability/request-metrics", () => ({
-    incrementCounter: vi.fn(),
-    withLatencyAsync: async (label: string, fn: () => unknown) => fn(),
+    withLatencyAsync: (_name: string, fn: () => Promise<unknown>) => fn(),
 }));
-
-vi.mock("@/lib/observability/logger", () => ({
-    logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
-    getTraceId: () => "test-trace-id",
-}));
-
-vi.mock("@/sanity/lib/client", () => ({
-    client: { fetch: vi.fn() },
-    writeClient: {
-        fetch: vi.fn().mockResolvedValue(null),
-        create: vi.fn().mockResolvedValue({}),
-    },
-}));
-
-// ─── Fixtures ───────────────────────────────────────────────────────────────
-
-function buildWebhookRequest(body: string, headers: Record<string, string> = {}): Request {
-    return new Request("https://example.com/api/shop/webhook", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "stripe-signature": "t=12345,v1=abc_signature",
-            ...headers,
+const reserve = vi.fn(async (doc: RecordValue) => {
+    const existing = records.get(doc._id);
+    if (existing) return { ...existing };
+    const saved = { ...doc, _rev: `rev-${++revision}` };
+    records.set(doc._id, saved);
+    return { ...saved };
+});
+const patch = vi.fn((id: string) => {
+    let expectedRevision: string;
+    let changes: Record<string, unknown>;
+    const chain = {
+        ifRevisionId(value: string) { expectedRevision = value; return chain; },
+        set(value: Record<string, unknown>) { changes = value; return chain; },
+        async commit() {
+            if (changes.status === "processed" && failProcessedCommit) throw new Error("storage down after delivery");
+            const current = records.get(id);
+            if (!current || current._rev !== expectedRevision) throw new Error("revision conflict");
+            const saved = { ...current, ...changes, _rev: `rev-${++revision}` };
+            records.set(id, saved);
+            return { ...saved };
         },
-        body,
-    });
-}
+    };
+    return chain;
+});
+vi.mock("@/sanity/lib/client", () => ({ writeClient: { createIfNotExists: reserve, patch, fetch: fetchLegacy } }));
 
-const minimalSessionEvent = {
-    id: "evt_test123",
-    type: "checkout.session.completed",
-    data: {
-        object: {
-            id: "cs_test123",
-            amount_total: 4900,
-            currency: "usd",
-            metadata: {
-                items: JSON.stringify([{ p: "prod-1", s: "test-product", sh: false, t: "digital", q: 1 }]),
-                fulfillment_status: "pending",
-                has_physical: "false",
-                has_digital: "true",
-                item_count: "1",
-            },
-            customer_details: {
-                email: "test@example.com",
-                name: "Test User",
-            },
-        },
-    },
+const event = {
+    id: "evt_paid", type: "checkout.session.completed",
+    data: { object: { id: "cs_paid" } },
 };
+const request = () => new Request("https://example.com/api/shop/webhook", {
+    method: "POST", headers: { "stripe-signature": "signed" }, body: "{}",
+}) as NextRequest;
+const status = () => [...records.values()][0]?.status;
 
-const physicalSessionEvent = {
-    ...minimalSessionEvent,
-    data: {
-        object: {
-            ...minimalSessionEvent.data.object,
-            id: "cs_test_physical",
-            amount_total: 7900,
-            metadata: {
-                ...minimalSessionEvent.data.object.metadata,
-                items: JSON.stringify([
-                    { p: "prod-1", s: "test-digital", sh: false, t: "digital", q: 1 },
-                    { p: "prod-2", s: "test-physical", sh: true, t: "physical", q: 1 },
-                ]),
-                fulfillment_status: "pending",
-                has_physical: "true",
-                has_digital: "true",
-            },
-        },
-    },
-};
-
-// ─── Tests ──────────────────────────────────────────────────────────────────
-
-describe("POST /api/shop/webhook", () => {
-    beforeEach(async () => {
+describe("paid shop webhook ownership and recovery", () => {
+    beforeEach(() => {
+        records.clear();
+        revision = 0;
+        failProcessedCommit = false;
         vi.clearAllMocks();
-        mockStripeWebhookConstructEvent.mockReset();
-        mockStripeCheckoutSessionsUpdate.mockReset();
-        mockEnv = {
-            STRIPE_WEBHOOK_SECRET: "whsec_test_secret",
-            GHL_SHOP_PURCHASE_WEBHOOK_URL: "https://ghl.example.com/shop-webhook",
-        };
-        const { writeClient } = await import("@/sanity/lib/client");
-        vi.mocked(writeClient.fetch).mockResolvedValue(null as any);
-        vi.mocked(writeClient.create).mockResolvedValue({} as any);
-    });
-
-    it("returns 200 with received:true when Stripe signature is valid and event is processed", async () => {
-        mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
-
-        // Mock GHL webhook fetch inside fulfillOrder
-        global.fetch = vi.fn().mockResolvedValueOnce(
-            new Response(JSON.stringify({ ok: true }), { status: 200 })
-        );
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        const res = await POST(req as unknown as NextRequest);
-
-        expect(res.status).toBe(200);
-        const body = await res.json();
-        expect(body.received).toBe(true);
-    });
-
-    it("returns 400 when Stripe signature header is missing", async () => {
-        const req = new Request("https://example.com/api/shop/webhook", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(minimalSessionEvent),
-        });
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        const res = await POST(req as unknown as NextRequest);
-
-        expect(res.status).toBe(400);
-        const body = await res.json();
-        expect(body.error).toContain("signature");
-    });
-
-    it("returns 400 when Stripe signature is invalid", async () => {
-        mockStripeWebhookConstructEvent.mockImplementation(() => {
-            throw new Error("Invalid signature");
-        });
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        const res = await POST(req as unknown as NextRequest);
-
-        expect(res.status).toBe(400);
-        const body = await res.json();
-        expect(body.error).toContain("Invalid signature");
-    });
-
-    it("returns 200 with idempotent:true when event was already processed (idempotency)", async () => {
-        mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
-
-        // Simulate an already-processed event
-        const { writeClient } = await import("@/sanity/lib/client");
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        vi.mocked(writeClient.fetch).mockImplementation(() => Promise.resolve({ _id: "existing-id", status: "processed" }) as any);
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        const res = await POST(req as unknown as NextRequest);
-
-        expect(res.status).toBe(200);
-        const body = await res.json();
-        expect(body.idempotent).toBe(true);
-        // Fulfillment should not have been called
-        expect(mockStripeCheckoutSessionsUpdate).not.toHaveBeenCalled();
-    });
-
-    it("marks fulfillment_status as processing, then fulfilled when GHL succeeds", async () => {
-        mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
-
-        global.fetch = vi.fn().mockResolvedValueOnce(
-            new Response(JSON.stringify({ ok: true }), { status: 200 })
-        );
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        await POST(req as unknown as NextRequest);
-
-        // Should have been called twice: once to set "processing", once to set "fulfilled"
-        const updateCalls = mockStripeCheckoutSessionsUpdate.mock.calls;
-        expect(updateCalls.length).toBeGreaterThanOrEqual(2);
-
-        const lastUpdateCall = updateCalls[updateCalls.length - 1];
-        const lastMetadata = lastUpdateCall[1]?.metadata;
-        expect(lastMetadata?.fulfillment_status).toBe("fulfilled");
-    });
-
-    it("marks fulfillment_status as pending_manual when GHL webhook URL is not configured", async () => {
-        mockEnv.GHL_SHOP_PURCHASE_WEBHOOK_URL = undefined;
-
-        mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        await POST(req as unknown as NextRequest);
-
-        // Check that the session was updated with pending_manual status
-        const updateCalls = mockStripeCheckoutSessionsUpdate.mock.calls;
-        const pendingManualCall = updateCalls[updateCalls.length - 1];
-        const metadata = pendingManualCall[1]?.metadata;
-        expect(metadata?.fulfillment_status).toBe("pending_manual");
-    });
-
-    it("sets fulfillment_status to fulfilled_at when GHL fulfillment succeeds", async () => {
-        mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
-
-        global.fetch = vi.fn().mockResolvedValueOnce(
-            new Response(JSON.stringify({ ok: true }), { status: 200 })
-        );
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
-        const { POST } = await import("@/app/api/shop/webhook/route");
-        await POST(req as unknown as NextRequest);
-
-        const lastUpdateCall = mockStripeCheckoutSessionsUpdate.mock.calls[mockStripeCheckoutSessionsUpdate.mock.calls.length - 1];
-        const metadata = lastUpdateCall[1]?.metadata;
-        expect(metadata?.fulfilled_at).toBeDefined();
-        expect(metadata?.fulfillment_status).toBe("fulfilled");
-    });
-
-    it("does not re-fulfill an already-fulfilled order", async () => {
-        const alreadyFulfilledEvent = {
-            ...minimalSessionEvent,
-            data: {
-                object: {
-                    ...minimalSessionEvent.data.object,
-                    metadata: {
-                        ...minimalSessionEvent.data.object.metadata,
-                        fulfillment_status: "fulfilled",
-                    },
-                },
+        settings.STRIPE_WEBHOOK_SECRET = "whsec_test";
+        settings.GHL_SHOP_PURCHASE_WEBHOOK_URL = "https://ghl.example.test/order";
+        session = {
+            id: "cs_paid", payment_status: "paid", status: "complete", amount_total: 4900, currency: "usd",
+            customer_details: { email: "buyer@example.test", name: "Buyer" },
+            metadata: {
+                items: JSON.stringify([{ t: "digital", sh: false, q: 1 }]),
+                fulfillment_status: "pending", order_source: "unt_bookstore",
             },
         };
+        constructEvent.mockReturnValue(event);
+        fetchLegacy.mockResolvedValue(null);
+        retrieveSession.mockImplementation(async () => session);
+        updateSession.mockImplementation(async (_id, update) => {
+            session = { ...session, metadata: update.metadata };
+            return session;
+        });
+        global.fetch = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
+    });
 
-        mockStripeWebhookConstructEvent.mockReturnValue(alreadyFulfilledEvent);
-
-        const req = buildWebhookRequest(JSON.stringify(alreadyFulfilledEvent));
-
+    it("requires a signed, paid session before any fulfillment", async () => {
         const { POST } = await import("@/app/api/shop/webhook/route");
-        await POST(req as unknown as NextRequest);
+        expect((await POST(new Request("https://example.com/api/shop/webhook", { method: "POST" }) as NextRequest)).status).toBe(400);
+        constructEvent.mockImplementationOnce(() => { throw new Error("bad signature"); });
+        expect((await POST(request())).status).toBe(400);
+        session.payment_status = "unpaid";
+        expect((await POST(request())).status).toBe(200);
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(records.size).toBe(0);
+    });
 
-        // GHL fetch should NOT have been called
+    it("ignores a paid checkout from another Stripe flow", async () => {
+        session.metadata = { order_source: "other" };
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(records.size).toBe(0);
+    });
+
+    it("delivers after asynchronous payment succeeds", async () => {
+        constructEvent.mockReturnValueOnce({ ...event, id: "evt_async_paid", type: "checkout.session.async_payment_succeeded" });
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("processed");
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it("delivers once and treats a replay as idempotent", async () => {
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("processed");
+        expect((await POST(request())).status).toBe(200);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(records.size).toBe(1);
+        expect([...records.values()][0].stripeSessionId).toBeUndefined();
+        expect(session.metadata).toMatchObject({ fulfillment_status: "fulfilled" });
+        const [, options] = vi.mocked(global.fetch).mock.calls[0];
+        expect((options?.headers as Record<string, string>)["X-Idempotency-Key"]).toBe("cs_paid");
+        expect(JSON.parse(String(options?.body))).toMatchObject({ sessionId: "cs_paid", hasDigital: true, hasPhysical: false });
+    });
+
+    it("repairs failed Stripe metadata on replay without reposting fulfillment", async () => {
+        updateSession.mockRejectedValueOnce(new Error("Stripe metadata unavailable"));
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(503);
+        expect(status()).toBe("processed");
+        expect(session.metadata).toMatchObject({ fulfillment_status: "pending" });
+        expect((await POST(request())).status).toBe(200);
+        expect(session.metadata).toMatchObject({ fulfillment_status: "fulfilled" });
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    it("quarantines a non-2xx response without blind replay", async () => {
+        vi.mocked(global.fetch).mockResolvedValueOnce(new Response("rejected", { status: 503 }));
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(retrieveSession).toHaveBeenCalledTimes(2);
+    });
+
+    it("allows only one concurrent owner", async () => {
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        const responses = await Promise.all([POST(request()), POST(request())]);
+        expect(responses.map((response) => response.status).sort()).toEqual([200, 503]);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        expect(records.size).toBe(1);
+    });
+
+    it("does not deliver when storage cannot reserve or claim the order", async () => {
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        reserve.mockRejectedValueOnce(new Error("storage down"));
+        expect((await POST(request())).status).toBe(503);
+        patch.mockImplementationOnce(() => { throw new Error("storage down"); });
+        expect((await POST(request())).status).toBe(503);
         expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    it("sends correct payload to GHL webhook including hasDigital and hasPhysical flags", async () => {
-        mockStripeWebhookConstructEvent.mockReturnValue(physicalSessionEvent);
-
-        const fetchMock = vi.fn().mockResolvedValueOnce(
-            new Response(JSON.stringify({ ok: true }), { status: 200 })
-        );
-        global.fetch = fetchMock;
-
-        const req = buildWebhookRequest(JSON.stringify(physicalSessionEvent));
-
+    it("quarantines a delivery whose final storage write fails", async () => {
         const { POST } = await import("@/app/api/shop/webhook/route");
-        await POST(req as unknown as NextRequest);
-
-        expect(fetchMock).toHaveBeenCalled();
-        const [ghlUrl, ghlOptions] = fetchMock.mock.calls[0];
-        expect(ghlUrl).toBe("https://ghl.example.com/shop-webhook");
-
-        const ghlBody = JSON.parse(ghlOptions.body as string);
-        expect(ghlBody.event).toBe("shop_purchase_completed");
-        expect(ghlBody.email).toBe("test@example.com");
-        expect(ghlBody.hasDigital).toBe(true);
-        expect(ghlBody.hasPhysical).toBe(true);
-        expect(ghlBody.total).toBe(7900);
-        expect(ghlBody.currency).toBe("usd");
+        failProcessedCommit = true;
+        expect((await POST(request())).status).toBe(503);
+        expect(status()).toBe("processing");
+        failProcessedCommit = false;
+        const record = [...records.values()][0];
+        records.set(record._id, { ...record, updatedAt: new Date(Date.now() - 11 * 60 * 1000).toISOString() });
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    it("handles GHL webhook failure and still writes idempotency record", async () => {
-        mockStripeWebhookConstructEvent.mockReturnValue(minimalSessionEvent);
-
-        global.fetch = vi.fn().mockResolvedValueOnce(
-            new Response(JSON.stringify({ error: "Server error" }), { status: 500 })
-        );
-
-        const req = buildWebhookRequest(JSON.stringify(minimalSessionEvent));
-
+    it("keeps missing configuration visible and resumes when configured", async () => {
         const { POST } = await import("@/app/api/shop/webhook/route");
-        const res = await POST(req as unknown as NextRequest);
+        settings.GHL_SHOP_PURCHASE_WEBHOOK_URL = undefined;
+        expect((await POST(request())).status).toBe(503);
+        expect(status()).toBe("pending_manual");
+        expect(global.fetch).not.toHaveBeenCalled();
+        settings.GHL_SHOP_PURCHASE_WEBHOOK_URL = "https://ghl.example.test/order";
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("processed");
+    });
 
-        // The route still returns 200 even on fulfillment error (graceful degradation)
-        expect(res.status).toBe(200);
-        const body = await res.json();
-        expect(body.received).toBe(true);
+    it("holds ambiguous network outcomes and stale processing for review", async () => {
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        vi.mocked(global.fetch).mockRejectedValueOnce(new Error("timeout"));
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect((await POST(request())).status).toBe(200);
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+        records.clear();
+        reserve.mockImplementationOnce(async (doc) => {
+            const stale = { ...doc, _rev: "stale-rev", status: "processing", updatedAt: new Date(Date.now() - 11 * 60 * 1000).toISOString() };
+            records.set(doc._id, stale);
+            return stale;
+        });
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
 
-        // Idempotency record should still be written
-        const { writeClient } = await import("@/sanity/lib/client");
-        expect(writeClient.create).toHaveBeenCalled();
+    it("honors fulfillment recorded by an older deployment", async () => {
+        session.metadata = { ...(session.metadata as object), fulfillment_status: "fulfilled" };
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("processed");
+        expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it("holds ambiguous legacy records for review rather than redelivering", async () => {
+        fetchLegacy.mockResolvedValueOnce({ _id: "legacy-random-id" });
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it("holds a paid order with missing item metadata for review", async () => {
+        session.metadata = { order_source: "unt_bookstore", items: "[]" };
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it("holds malformed item metadata instead of sending incomplete fulfillment", async () => {
+        session.metadata = { order_source: "unt_bookstore", items: '[{"t":"digital","q":1},null]' };
+        const { POST } = await import("@/app/api/shop/webhook/route");
+        expect((await POST(request())).status).toBe(200);
+        expect(status()).toBe("pending_review");
+        expect(global.fetch).not.toHaveBeenCalled();
     });
 });

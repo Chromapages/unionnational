@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
-import { checkRateLimit, getClientIdentifier } from "@/lib/security/rate-limiter";
+import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
+import { ApplicationSchema, forwardToGhl, isLeadTimeout, readLeadJson } from "@/lib/intake/shared";
 
 export async function POST(request: Request) {
-    const traceId = getTraceId();
-    const identifier = getClientIdentifier(request);
-    const rateLimitResult = await checkRateLimit(identifier);
+    const traceId = getTraceId(request.headers);
+    const parsed = await readLeadJson(request);
+    if (!parsed.ok) return NextResponse.json({ success: false, error: parsed.error }, { status: parsed.status });
+    const validation = ApplicationSchema.safeParse(parsed.value);
+    if (!validation.success) return NextResponse.json({ success: false, error: "Invalid application" }, { status: 400 });
+    const data = validation.data;
+    const rateLimitResult = await checkRateLimit(contactRateLimitKey(data.email), 5, 60_000);
 
     if (!rateLimitResult.success) {
         return NextResponse.json(
@@ -22,36 +27,19 @@ export async function POST(request: Request) {
         );
     }
 
+    const ghlWebhookUrl = getEnv("GHL_APPLICATION_WEBHOOK_URL");
+    if (!ghlWebhookUrl) return NextResponse.json({ success: false, error: "Application capture unavailable" }, { status: 503 });
+
     try {
-        const data = await request.json();
-
-        const ghlWebhookUrl = getEnv("GHL_APPLICATION_WEBHOOK_URL");
-
-        if (ghlWebhookUrl) {
-            const response = await fetch(ghlWebhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                logger.error("GHL webhook error", {
-                    traceId,
-                    status: response.status,
-                    statusText: response.statusText,
-                });
-                throw new Error("Failed to sync with CRM");
-            }
-
-            logger.info("Application submitted", { traceId });
+        const response = await forwardToGhl({ ...data, source_page: `/${data.locale}/construction/apply`, annual_revenue_band: data.revenue }, ghlWebhookUrl, data.submissionId);
+        if (!response.ok) {
+            logger.warn("Construction application webhook rejected", { traceId, status: response.status });
+            return NextResponse.json({ success: false, error: "Application delivery failed" }, { status: 502 });
         }
-
+        logger.info("Construction application accepted", { traceId });
         return NextResponse.json({ success: true });
     } catch (error) {
-        logger.error("Application submission error", {
-            traceId,
-            error: error instanceof Error ? error.message : "Unknown error",
-        });
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        logger.error("Construction application delivery unavailable", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });
+        return NextResponse.json({ success: false, error: "Application delivery unavailable" }, { status: isLeadTimeout(error) ? 504 : 502 });
     }
 }

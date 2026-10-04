@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -20,10 +20,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ConstructionResults } from "./ConstructionResults";
-import { normalizeRevenue } from "@/lib/ghl/contract";
+import { useLocale } from "next-intl";
+import { normalizeRevenue, type GhlPayload } from "@/lib/ghl/contract";
+import { submitGhlLead } from "@/lib/ghl/submit-lead";
 
 const formSchema = z.object({
-    revenueRange: z.enum(['Under $250K', '$250K-$500K', '$500K-$1M', '$1M+']),
+    revenueRange: z.enum(['Under $100K', '$100K-$500K', '$500K-$1M', '$1M-$3M', '$3M-$5M', '$5M+']),
     jobCosting: z.enum(['No, we don&apos;t track job-by-job', 'Partially / Inconsistent', 'Yes, fully automated']),
     cashFlow: z.enum(['Never / We just check bank balance', 'Monthly / Quarterly', 'Weekly / Real-time']),
     estimating: z.enum(['Guesswork / Based on intuition', 'Mostly accurate, but we miss things', 'Highly accurate / Data-driven']),
@@ -48,10 +50,13 @@ const STEPS = [
 ];
 
 export const ConstructionAssessmentForm = () => {
+    const submissionId = useRef(crypto.randomUUID());
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const [finalResults, setFinalResults] = useState<{ score: number; label: string; urgency: string; highIntent: boolean } | null>(null);
+    const locale = useLocale();
 
     const {
         register,
@@ -72,9 +77,9 @@ export const ConstructionAssessmentForm = () => {
         let score = 0;
         
         // Revenue
-        if (data.revenueRange === '$250K-$500K') score += 5;
+        if (data.revenueRange === '$100K-$500K') score += 5;
         else if (data.revenueRange === '$500K-$1M') score += 10;
-        else if (data.revenueRange === '$1M+') score += 20;
+        else if (data.revenueRange === '$1M-$3M' || data.revenueRange === '$3M-$5M' || data.revenueRange === '$5M+') score += 20;
 
         // Job Costing
         if (data.jobCosting === 'Partially / Inconsistent') score += 10;
@@ -95,6 +100,11 @@ export const ConstructionAssessmentForm = () => {
         return score;
     };
 
+    const advanceStep = () => {
+        setDirection(1);
+        setStep(s => s + 1);
+    };
+
     const handleNext = async () => {
         let fields: (keyof FormData)[] = [];
         if (step === 1) fields = ['revenueRange'];
@@ -104,10 +114,7 @@ export const ConstructionAssessmentForm = () => {
         if (step === 5) fields = ['reviews'];
         
         const isValid = await trigger(fields);
-        if (isValid) {
-            setDirection(1);
-            setStep(s => s + 1);
-        }
+        if (isValid) advanceStep();
     };
 
     const handleBack = () => {
@@ -116,8 +123,9 @@ export const ConstructionAssessmentForm = () => {
     };
 
     const onSubmit = async (data: FormData) => {
+        setSubmitError(null);
         const score = calculateScore(data);
-        let urgency = "PLANNING_ONLY";
+        let urgency: "IMMEDIATE" | "THIS_QUARTER" | "PLANNING_ONLY" = "PLANNING_ONLY";
         let label = "Strong Foundation";
         
         if (score < 35) {
@@ -128,9 +136,9 @@ export const ConstructionAssessmentForm = () => {
             label = "Profit Leaks Present";
         }
 
-        const highIntent = (data.revenueRange === '$500K-$1M' || data.revenueRange === '$1M+') && score < 60;
+        const highIntent = !['Under $100K', '$100K-$500K'].includes(data.revenueRange) && score < 60;
 
-        const payload = {
+        const payload: GhlPayload = {
             event_type: "CONSTRUCTION_ASSESSMENT_SUBMITTED",
             contact: {
                 first_name: data.firstName,
@@ -156,23 +164,30 @@ export const ConstructionAssessmentForm = () => {
             results: {
                 fit_score: score,
                 assessment_label: label
+            },
+            answers: {
+                job_costing: data.jobCosting,
+                cash_flow: data.cashFlow,
+                estimating: data.estimating,
+                reviews: data.reviews,
+            },
+            meta: {
+                version: "1.0",
+                locale,
+                submitted_at: new Date().toISOString(),
+                source_page: "/construction-profitability-assessment",
+                submission_id: submissionId.current,
             }
         };
 
-        try {
-            const response = await fetch("/api/ghl-intake", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                setFinalResults({ score, label, urgency, highIntent });
-                setIsComplete(true);
-            }
-        } catch (error) {
-            console.error("Submission failed:", error);
+        const result = await submitGhlLead(payload);
+        if (!result.success) {
+            setSubmitError(result.message);
+            return;
         }
+
+        setFinalResults({ score, label, urgency, highIntent });
+        setIsComplete(true);
     };
 
     const slideVariants = {
@@ -230,13 +245,13 @@ export const ConstructionAssessmentForm = () => {
                             {/* Step 1: Revenue */}
                             {step === 1 && (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {['Under $250K', '$250K-$500K', '$500K-$1M', '$1M+'].map((range) => (
+                                    {['Under $100K', '$100K-$500K', '$500K-$1M', '$1M-$3M', '$3M-$5M', '$5M+'].map((range) => (
                                         <button
                                             key={range}
                                             type="button"
                                             onClick={() => {
-                                                setValue("revenueRange", range as FormData['revenueRange']);
-                                                handleNext();
+                                                setValue("revenueRange", range as FormData['revenueRange'], { shouldValidate: true });
+                                                advanceStep();
                                             }}
                                             className={cn(
                                                 "p-6 rounded-2xl border-2 transition-all text-left group",
@@ -260,8 +275,8 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("jobCosting", opt as FormData['jobCosting']);
-                                                handleNext();
+                                                setValue("jobCosting", opt as FormData['jobCosting'], { shouldValidate: true });
+                                                advanceStep();
                                             }}
                                             className={cn(
                                                 "w-full p-6 rounded-2xl border-2 transition-all text-left flex items-center justify-between group",
@@ -283,8 +298,8 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("cashFlow", opt as FormData['cashFlow']);
-                                                handleNext();
+                                                setValue("cashFlow", opt as FormData['cashFlow'], { shouldValidate: true });
+                                                advanceStep();
                                             }}
                                             className={cn(
                                                 "w-full p-6 rounded-2xl border-2 transition-all text-left flex items-center justify-between group",
@@ -306,8 +321,8 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("estimating", opt as FormData['estimating']);
-                                                handleNext();
+                                                setValue("estimating", opt as FormData['estimating'], { shouldValidate: true });
+                                                advanceStep();
                                             }}
                                             className={cn(
                                                 "w-full p-6 rounded-2xl border-2 transition-all text-left flex items-center justify-between group",
@@ -329,8 +344,8 @@ export const ConstructionAssessmentForm = () => {
                                             key={opt}
                                             type="button"
                                             onClick={() => {
-                                                setValue("reviews", opt as FormData['reviews']);
-                                                handleNext();
+                                                setValue("reviews", opt as FormData['reviews'], { shouldValidate: true });
+                                                advanceStep();
                                             }}
                                             className={cn(
                                                 "w-full p-6 rounded-2xl border-2 transition-all text-left flex items-center justify-between group",
@@ -381,6 +396,8 @@ export const ConstructionAssessmentForm = () => {
                         </motion.div>
                     </AnimatePresence>
 
+                    {submitError && <p role="alert" className="mt-8 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-900">{submitError}</p>}
+
                     {/* Controls */}
                     <div className="flex justify-between items-center mt-12 pt-8 border-t border-slate-100">
                         {step > 1 ? (
@@ -411,7 +428,7 @@ export const ConstructionAssessmentForm = () => {
                                 disabled={isSubmitting}
                                 className="bg-brand-900 text-white font-black px-10 py-4 rounded-xl flex items-center gap-3 hover:bg-gold-500 hover:text-brand-900 transition-all text-xs uppercase tracking-widest shadow-xl shadow-brand-900/20 disabled:opacity-50 animate-pulse"
                             >
-                                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Unlock Blueprint"}
+                                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : submitError ? "Retry Submission" : "Unlock Blueprint"}
                             </button>
                         )}
                     </div>

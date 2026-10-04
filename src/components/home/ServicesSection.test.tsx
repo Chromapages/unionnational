@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type { ServiceCard } from "@/lib/services/coreServiceCards";
@@ -14,6 +14,63 @@ vi.mock("next-intl/server", () => ({
             listLabel: "Financial outcomes and the services that support them",
             viewAllCta: "Compare all services",
             recommendedBadge: "Recommended",
+            "rightHeader.eyebrow": "A unified approach",
+            "rightHeader.title": "Different challenges. A unified approach.",
+            "rightHeader.description": "Whether you're looking to reduce taxes, get clearer numbers, make bigger decisions, or build a stronger foundation — every service fits into one connected strategy.",
+            "centerHub.eyebrow": "One connected",
+            "centerHub.title": "Financial picture",
+            "centerHub.subtitle1": "Integrated services.",
+            "centerHub.subtitle2": "Stronger outcomes.",
+            "learnMore": "Learn more",
+            "blocks.01.number": "01",
+            "blocks.01.eyebrow": "Lower your tax burden",
+            "blocks.01.title": "Keep more of what you earn.",
+            "blocks.01.subtitle": "Stop overpaying and keep more of what you earn.",
+            "blocks.02.number": "02",
+            "blocks.02.eyebrow": "Know your numbers",
+            "blocks.02.title": "Make confident decisions.",
+            "blocks.02.subtitle": "Financial visibility that drives smarter decisions.",
+            "blocks.03.number": "03",
+            "blocks.03.eyebrow": "Lead with clarity",
+            "blocks.03.title": "Make bigger moves with confidence.",
+            "blocks.03.subtitle": "Executive-level guidance to scale your business.",
+            "blocks.04.number": "04",
+            "blocks.04.eyebrow": "Build a stronger foundation",
+            "blocks.04.title": "Set your business up for what's next.",
+            "blocks.04.subtitle": "Get your business organized from day one.",
+            "comparisonBanner.eyebrow": "Not sure which service fits?",
+            "comparisonBanner.title": "Compare services and find the right fit.",
+            "comparisonBanner.subtitle": "Explore our interactive comparison tool to see how each service aligns with your business stage and goals.",
+            "comparisonBanner.cta": "Compare All Services",
+            "comparisonBanner.benefits.0": "Clearer decision-making",
+            "comparisonBanner.benefits.1": "A more efficient business",
+            "comparisonBanner.benefits.2": "A stronger financial future",
+            "footer.tagline": "Strategy creates options",
+            "footer.subtagline": "A more confident tomorrow",
+            "outcomes.scorp.title": "Lower your tax burden",
+            "outcomes.scorp.service": "S-Corp Tax Advantage",
+            "outcomes.scorp.description": "Evaluate whether an S-Corp election and coordinated payroll strategy could reduce avoidable self-employment tax.",
+            "outcomes.scorp.link": "Explore S-Corp Tax Advantage",
+            "outcomes.taxPlanning.title": "Plan before deadlines",
+            "outcomes.taxPlanning.service": "Proactive Tax Planning",
+            "outcomes.taxPlanning.description": "Plan entity, deduction, retirement, and timing decisions while there is still time to act.",
+            "outcomes.taxPlanning.link": "Explore Proactive Tax Planning",
+            "outcomes.bookkeeping.title": "Know your numbers",
+            "outcomes.bookkeeping.service": "Strategic Bookkeeping",
+            "outcomes.bookkeeping.description": "Maintain current, decision-ready books that support tax planning, pricing, cash-flow visibility, and compliance.",
+            "outcomes.bookkeeping.link": "Explore Strategic Bookkeeping",
+            "outcomes.fractionalCfo.title": "Lead with clarity",
+            "outcomes.fractionalCfo.service": "Fractional CFO",
+            "outcomes.fractionalCfo.description": "Use forecasting, financial modeling, and leadership-level guidance to make larger business decisions.",
+            "outcomes.fractionalCfo.link": "Explore Fractional CFO Services",
+            "outcomes.formation.title": "Start structured",
+            "outcomes.formation.service": "New Business Formation",
+            "outcomes.formation.description": "Choose and establish the business entity, registrations, and operating foundation your next stage requires.",
+            "outcomes.formation.link": "Explore New Business Formation",
+            "outcomes.payroll.title": "Pay people accurately",
+            "outcomes.payroll.service": "Payroll Services",
+            "outcomes.payroll.description": "Run dependable payroll, filings, and compliance processes without adding administrative drag to your business.",
+            "outcomes.payroll.link": "Explore Payroll Services",
         };
 
         return messages[key] || key;
@@ -123,5 +180,32 @@ describe("ServicesSection", () => {
             expect(link).toHaveClass("focus-visible:ring-[3px]");
             expect(link).toHaveClass("focus-visible:ring-brand-900");
         });
+    });
+
+    it("renders default 4-outcome blocks, split header, comparison banner, and footer tag", async () => {
+        const jsx = await ServicesSection();
+        render(jsx);
+
+        expect(screen.getByText("What we help you achieve")).toBeInTheDocument();
+        expect(screen.getByText("Different challenges. A unified approach.")).toBeInTheDocument();
+        const mobileCards = screen.getAllByRole("article");
+        expect(mobileCards).toHaveLength(4);
+        [
+            ["01", "Keep more of what you earn."],
+            ["02", "Make confident decisions."],
+            ["03", "Make bigger moves with confidence."],
+            ["04", "Set your business up for what's next."],
+        ].forEach(([number, title], index) => {
+            expect(within(mobileCards[index]).getByText(number)).toBeInTheDocument();
+            expect(within(mobileCards[index]).getByRole("heading", { level: 3, name: title })).toBeInTheDocument();
+        });
+        const desktopChoices = within(screen.getByRole("group", { name: "Financial outcomes and the services that support them" })).getAllByRole("button");
+        expect(desktopChoices).toHaveLength(4);
+        expect(desktopChoices[0]).toHaveAttribute("aria-pressed", "true");
+        expect(desktopChoices[0]).toHaveTextContent("Keep more of what you earn.");
+        expect(screen.getAllByText(/Financial picture/i)[0]).toBeInTheDocument();
+        expect(screen.getByText("Compare services and find the right fit.")).toBeInTheDocument();
+        expect(screen.getByText("Clearer decision-making")).toBeInTheDocument();
+        expect(screen.getAllByText("Strategy creates options")).not.toHaveLength(0);
     });
 });

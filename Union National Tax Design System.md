@@ -50,6 +50,13 @@ We reject the ephemeral "startup" look (glassmorphism, gradients, blur). We embr
 
 **Pairing:** Outfit (Headings) \+ Inter (Body)
 
+### Implementation contract
+
+- Load the public-site fonts from `src/lib/fonts.ts` in every root layout, including the global error document.
+- Use `font-heading` / `font-display` for Outfit, `font-body` / `font-sans` for Inter, and `font-data tabular-nums` for figures. Bold inline copy inherits the surrounding family.
+- Reference screenshots and the alternative design studies under `design-system/` do not override this font pairing. Adapt their layout using the brand fonts.
+- The generic `font-serif` Tailwind utility is disabled in `src/styles/globals.css` to prevent system serif fallbacks from returning. Reserve monospace for code.
+
 ### **Usage Rules**
 
 1. **H1 Display:** Always use tracking-tighter with Outfit. It creates a custom logotype feel.  

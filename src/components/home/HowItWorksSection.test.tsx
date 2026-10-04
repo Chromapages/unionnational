@@ -98,9 +98,9 @@ describe("HowItWorksSection", () => {
     const outcomeLabels = screen.getAllByText(/Outcome:/i);
     expect(outcomeLabels).toHaveLength(3);
 
-    // Assert that outcome label is rendered within a <dt>
+    // Assert that the mobile outcome label remains inside a <dt>
     outcomeLabels.forEach((label) => {
-      expect(label.tagName.toLowerCase()).toBe("dt");
+      expect(label.closest("dt")?.tagName.toLowerCase()).toBe("dt");
     });
 
     expect(screen.getByText("Documented diagnosis of entity structure and tax baseline")).toBeInTheDocument();

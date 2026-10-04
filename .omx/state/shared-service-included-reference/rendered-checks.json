@@ -1,0 +1,402 @@
+[
+  {
+    "label": "en/s-corp-tax-advantage desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 4,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 2,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "What's includedFrom election setup to ongoing planning, we help coordinate the key pieces of your S-Corp strategy.Initial setup01Election + Entity SetupCoordinate the S-Corp election and any required structure or implementation steps.02Reasonable CompensationDocument an appropriate owner salary based on your role and business.Ongoing support03Payroll + Owner BenefitsSet up or coordinate payroll and applicable owner-benefit considerations.04Quarterly Tax + Distribution PlanningPrepare projections throughout the year to guide estimates and distributions.A coordinated approach from election through year-round planning.",
+    "width": 1440
+  },
+  {
+    "label": "en/tax-planning desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 6,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your year-round planning systemThe core work and deliverables included with Tax Planning Consulting Services.What's included01Entity Optimization (S-Corp, LLC, C-Corp structuring)02Cost Segregation & Real Estate Tax Strategy03Executive Compensation & Retirement Structuring04Quarterly Proactive Strategy Sessions05R&D Tax Credit Utilization06State & Local Tax Nexus OptimizationFrom $1,800Your consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "en/strategic-bookkeeping desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 10,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "The monthly bookkeeping systemEverything below runs every month — not just at year-end.What's included01Monthly reconciliation of every bank, card, and loan account02Profit & loss, balance sheet, and cash flow statement each month03Chart of accounts built for your trade, not a generic template04Job, crew, or department-level cost tracking where it applies05Transactions categorized for tax deduction from day one06Payroll, loans, and owner draws reconciled to the books07Flags raised the month they happen, not the April after08Year-end package delivered filing-ready to your preparer09Secure client portal for documents and statements10QuickBooks maintained by certified Pro Advisors on staffPriced on complexity, not on forms.Your scope and monthly rate are confirmed after we review your current books. No hourly billing.",
+    "width": 1440
+  },
+  {
+    "label": "en/fractional-cfo desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 6,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your CFO decision systemThe core work and deliverables included with Fractional CFO Services.What's included01Strategic Cash Flow Forecasting & Management02Custom KPI Dashboards & Financial Modeling03Profitability & Margin Analysis by Product/Service04Capital Strategy (Debt, Equity, Line of Credit optimization)05Executive Board Meeting Facilitation06Exit Planning & Valuation PrepCustom PricingYour consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "en/payroll-services desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 9,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your payroll support systemThe core work and deliverables included with Payroll Services.What's included01Payroll processing (weekly, bi-weekly, semi-monthly, or monthly)02Federal and state payroll tax filings03New hire reporting04Quarterly payroll reports (Forms 941)05Annual payroll reporting (Forms W-2 and W-3)06Contractor payments and Form 1099 preparation07Unemployment tax reporting08Payroll compliance support09Coordination with bookkeeping and tax preparation$250/mo and $15 per employeeYour consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "en/new-business-formation desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 5,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your formation foundationThe core work and deliverables included with New Business Formation.What's included01Entity Selection Analysis (LLC vs. S-Corp vs. C-Corp)02Federal EIN Procurement & State Registration03Tax-Optimized Operating Agreement Blueprint04Initial S-Corp or Tax Election Filing (if applicable)05Compliance & State Licensing GuidanceCustom OutlineYour consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "en/tax-preparation-and-filing desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 6,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your filing support systemThe core work and deliverables included with Tax Preparation & Filing.What's included01Business (1120, 1120-S, 1065) & Personal (1040) Filing02Multi-State Tax Compliance & Nexus Filing03Section 179 & Bonus Depreciation Optimization04Quarterly Estimated Tax Payment Calculation05Sales & Use Tax Compliance Review06Dedicated IRS Audit Defense & RepresentationFrom $595Your consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "es/s-corp-tax-advantage desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 4,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "repeat(2, minmax(0px, 1fr))",
+    "documentOverflow": false,
+    "groups": 2,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Qué incluyeDesde la configuración de la elección hasta la planificación continua, coordinamos los elementos clave de su estrategia S-Corp.Configuración inicial01Elección + Configuración de la entidadCoordinar la elección S-Corp y los pasos necesarios de estructura o implementación.02Remuneración razonableDocumentar un salario adecuado para el propietario según su función y negocio.Apoyo continuo03Nómina + Beneficios del propietarioConfigurar o coordinar la nómina y las consideraciones aplicables a los beneficios del propietario.04Planificación trimestral de impuestos + DistribucionesPreparar proyecciones durante el año para orientar los pagos estimados y las distribuciones.Un enfoque coordinado desde la elección hasta la planificación durante todo el año.",
+    "width": 1440
+  },
+  {
+    "label": "es/tax-planning desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 6,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your year-round planning systemThe core work and deliverables included with Tax Planning Consulting Services.What's included01Entity Optimization (S-Corp, LLC, C-Corp structuring)02Cost Segregation & Real Estate Tax Strategy03Executive Compensation & Retirement Structuring04Quarterly Proactive Strategy Sessions05R&D Tax Credit Utilization06State & Local Tax Nexus OptimizationDesde $1,800Your consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "es/strategic-bookkeeping desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 10,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "El sistema de contabilidad mensualTodo lo siguiente ocurre cada mes —no solo al cierre del año.Qué incluye01Conciliación mensual de cada cuenta bancaria, tarjeta y préstamo02Estado de resultados, balance general y flujo de caja cada mes03Catálogo de cuentas diseñado para su oficio, no una plantilla genérica04Seguimiento de costos por obra, cuadrilla o departamento cuando aplica05Transacciones categorizadas para deducción fiscal desde el primer día06Nómina, préstamos y retiros del dueño conciliados con los libros07Alertas en el mes en que ocurren, no en el abril siguiente08Paquete de fin de año listo para declarar, entregado a su preparador09Portal seguro para documentos y estados de cuenta10QuickBooks gestionado por Pro Advisors certificados en el equipoPrecio según complejidad, no según formularios.Su alcance y tarifa mensual se confirman después de revisar sus libros actuales. Sin facturación por hora.",
+    "width": 1440
+  },
+  {
+    "label": "es/fractional-cfo desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 6,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your CFO decision systemThe core work and deliverables included with Fractional CFO Services.What's included01Strategic Cash Flow Forecasting & Management02Custom KPI Dashboards & Financial Modeling03Profitability & Margin Analysis by Product/Service04Capital Strategy (Debt, Equity, Line of Credit optimization)05Executive Board Meeting Facilitation06Exit Planning & Valuation PrepCustom PricingYour consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "es/payroll-services desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 9,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your payroll support systemThe core work and deliverables included with Payroll Services.What's included01Procesamiento de nómina (semanal, quincenal, semimensual o mensual)02Declaraciones de impuestos payroll federales y estatales03Informes de nuevos empleados04Informes trimestrales de nómina (Formularios 941)05Informes anuales de nómina (Formularios W-2 y W-3)06Pagos a contratistas y preparación del Formulario 109907Informes de impuestos de desempleo08Soporte de cumplimiento de nómina09Coordinación con contabilidad y preparación de impuestos$250/mes y $15 por empleadoYour consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "es/new-business-formation desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 5,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your formation foundationThe core work and deliverables included with New Business Formation.What's included01Entity Selection Analysis (LLC vs. S-Corp vs. C-Corp)02Federal EIN Procurement & State Registration03Tax-Optimized Operating Agreement Blueprint04Initial S-Corp or Tax Election Filing (if applicable)05Compliance & State Licensing GuidanceCustom OutlineYour consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "es/tax-preparation-and-filing desktop",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 6,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "672px 672px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "Your filing support systemThe core work and deliverables included with Tax Preparation & Filing.What's included01Business (1120, 1120-S, 1065) & Personal (1040) Filing02Multi-State Tax Compliance & Nexus Filing03Section 179 & Bonus Depreciation Optimization04Quarterly Estimated Tax Payment Calculation05Sales & Use Tax Compliance Review06Dedicated IRS Audit Defense & RepresentationDesde $595Your consultation confirms the appropriate scope before work begins.",
+    "width": 1440
+  },
+  {
+    "label": "es/s-corp-tax-advantage 390",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 4,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "343px",
+    "documentOverflow": false,
+    "groups": 2,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "40px 0px",
+    "text": "Qué incluyeDesde la configuración de la elección hasta la planificación continua, coordinamos los elementos clave de su estrategia S-Corp.Configuración inicial01Elección + Configuración de la entidadCoordinar la elección S-Corp y los pasos necesarios de estructura o implementación.02Remuneración razonableDocumentar un salario adecuado para el propietario según su función y negocio.Apoyo continuo03Nómina + Beneficios del propietarioConfigurar o coordinar la nómina y las consideraciones aplicables a los beneficios del propietario.04Planificación trimestral de impuestos + DistribucionesPreparar proyecciones durante el año para orientar los pagos estimados y las distribuciones.Un enfoque coordinado desde la elección hasta la planificación durante todo el año.",
+    "width": 390
+  },
+  {
+    "label": "es/strategic-bookkeeping 390",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 10,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "350px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "40px 0px",
+    "text": "El sistema de contabilidad mensualTodo lo siguiente ocurre cada mes —no solo al cierre del año.Qué incluye01Conciliación mensual de cada cuenta bancaria, tarjeta y préstamo02Estado de resultados, balance general y flujo de caja cada mes03Catálogo de cuentas diseñado para su oficio, no una plantilla genérica04Seguimiento de costos por obra, cuadrilla o departamento cuando aplica05Transacciones categorizadas para deducción fiscal desde el primer día06Nómina, préstamos y retiros del dueño conciliados con los libros07Alertas en el mes en que ocurren, no en el abril siguiente08Paquete de fin de año listo para declarar, entregado a su preparador09Portal seguro para documentos y estados de cuenta10QuickBooks gestionado por Pro Advisors certificados en el equipoPrecio según complejidad, no según formularios.Su alcance y tarifa mensual se confirman después de revisar sus libros actuales. Sin facturación por hora.",
+    "width": 390
+  },
+  {
+    "label": "es/strategic-bookkeeping 768",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 10,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "348px 348px",
+    "documentOverflow": false,
+    "groups": 1,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "40px 0px",
+    "text": "El sistema de contabilidad mensualTodo lo siguiente ocurre cada mes —no solo al cierre del año.Qué incluye01Conciliación mensual de cada cuenta bancaria, tarjeta y préstamo02Estado de resultados, balance general y flujo de caja cada mes03Catálogo de cuentas diseñado para su oficio, no una plantilla genérica04Seguimiento de costos por obra, cuadrilla o departamento cuando aplica05Transacciones categorizadas para deducción fiscal desde el primer día06Nómina, préstamos y retiros del dueño conciliados con los libros07Alertas en el mes en que ocurren, no en el abril siguiente08Paquete de fin de año listo para declarar, entregado a su preparador09Portal seguro para documentos y estados de cuenta10QuickBooks gestionado por Pro Advisors certificados en el equipoPrecio según complejidad, no según formularios.Su alcance y tarifa mensual se confirman después de revisar sus libros actuales. Sin facturación por hora.",
+    "width": 768
+  },
+  {
+    "label": "es/s-corp-tax-advantage 768",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 4,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "348px 348px",
+    "documentOverflow": false,
+    "groups": 2,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "40px 0px",
+    "text": "Qué incluyeDesde la configuración de la elección hasta la planificación continua, coordinamos los elementos clave de su estrategia S-Corp.Configuración inicial01Elección + Configuración de la entidadCoordinar la elección S-Corp y los pasos necesarios de estructura o implementación.02Remuneración razonableDocumentar un salario adecuado para el propietario según su función y negocio.Apoyo continuo03Nómina + Beneficios del propietarioConfigurar o coordinar la nómina y las consideraciones aplicables a los beneficios del propietario.04Planificación trimestral de impuestos + DistribucionesPreparar proyecciones durante el año para orientar los pagos estimados y las distribuciones.Un enfoque coordinado desde la elección hasta la planificación durante todo el año.",
+    "width": 768
+  },
+  {
+    "label": "en/s-corp-tax-advantage 390",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 4,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "343px",
+    "documentOverflow": false,
+    "groups": 2,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "40px 0px",
+    "text": "What's includedFrom election setup to ongoing planning, we help coordinate the key pieces of your S-Corp strategy.Initial setup01Election + Entity SetupCoordinate the S-Corp election and any required structure or implementation steps.02Reasonable CompensationDocument an appropriate owner salary based on your role and business.Ongoing support03Payroll + Owner BenefitsSet up or coordinate payroll and applicable owner-benefit considerations.04Quarterly Tax + Distribution PlanningPrepare projections throughout the year to guide estimates and distributions.A coordinated approach from election through year-round planning.",
+    "width": 390
+  },
+  {
+    "label": "en/s-corp-tax-advantage final",
+    "bodyFont": "Inter, \"Inter Fallback\", sans-serif",
+    "cards": 4,
+    "colors": {
+      "body": "rgb(73, 80, 87)",
+      "card": "rgb(255, 255, 255)",
+      "label": "rgb(128, 105, 33)",
+      "section": "oklab(0.977655 -0.00218749 0.0185743 / 0.2)",
+      "title": "rgb(13, 46, 43)"
+    },
+    "columns": "668.5px 668.5px",
+    "documentOverflow": false,
+    "groups": 2,
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": [],
+    "padding": "48px 0px",
+    "text": "What's includedFrom election setup to ongoing planning, we help coordinate the key pieces of your S-Corp strategy.Initial setup01Election + Entity SetupCoordinate the S-Corp election and any required structure or implementation steps.02Reasonable CompensationDocument an appropriate owner salary based on your role and business.Ongoing support03Payroll + Owner BenefitsSet up or coordinate payroll and applicable owner-benefit considerations.04Quarterly Tax + Distribution PlanningPrepare projections throughout the year to guide estimates and distributions.A coordinated approach from election through year-round planning.",
+    "width": 1440
+  }
+]

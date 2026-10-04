@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-
+import { inter, outfit } from "@/lib/fonts";
+import "@/styles/globals.css";
 
 export default function GlobalError({
     error,
@@ -16,8 +17,8 @@ export default function GlobalError({
     }, [error]);
 
     return (
-        <html>
-            <body className="flex flex-col items-center justify-center min-h-screen bg-brand-900 text-white p-4 font-sans">
+        <html lang="en">
+            <body className={`${inter.variable} ${outfit.variable} flex flex-col items-center justify-center min-h-screen bg-brand-900 text-white p-4 font-body`}>
                 <div className="max-w-md w-full text-center space-y-6">
                     <div className="h-20 w-20 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
                         <svg
@@ -52,7 +53,7 @@ export default function GlobalError({
                             Try again
                         </button>
                     </div>
-                    <p className="text-xs text-brand-400 font-mono mt-8 opacity-50">
+                    <p className="text-xs text-brand-400 font-body mt-8 opacity-50">
                         Error ID: {error.digest || "unknown"}
                     </p>
                 </div>

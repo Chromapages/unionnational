@@ -1,0 +1,99 @@
+{
+  "controls": [
+    {
+      "step": "initial",
+      "accessibleLogos": [
+        "Sports Illustrated",
+        "cbs",
+        "abc"
+      ],
+      "buttons": 1,
+      "focusVisible": false,
+      "headingCount": 0,
+      "height": 56,
+      "outline": "rgb(13, 46, 43) none 3px",
+      "pressed": "false",
+      "state": "running"
+    },
+    {
+      "step": "click pause",
+      "accessibleLogos": [
+        "Sports Illustrated",
+        "cbs",
+        "abc"
+      ],
+      "buttons": 1,
+      "focusVisible": false,
+      "headingCount": 0,
+      "height": 56,
+      "outline": "rgb(13, 46, 43) none 3px",
+      "pressed": "true",
+      "state": "paused"
+    },
+    {
+      "step": "click resume",
+      "accessibleLogos": [
+        "Sports Illustrated",
+        "cbs",
+        "abc"
+      ],
+      "buttons": 1,
+      "focusVisible": false,
+      "headingCount": 0,
+      "height": 56,
+      "outline": "rgb(13, 46, 43) none 3px",
+      "pressed": "false",
+      "state": "running"
+    },
+    {
+      "step": "space pause",
+      "accessibleLogos": [
+        "Sports Illustrated",
+        "cbs",
+        "abc"
+      ],
+      "buttons": 1,
+      "focusVisible": true,
+      "headingCount": 0,
+      "height": 56,
+      "outline": "rgb(128, 105, 33) solid 2px",
+      "pressed": "true",
+      "state": "paused"
+    },
+    {
+      "step": "enter resume",
+      "accessibleLogos": [
+        "Sports Illustrated",
+        "cbs",
+        "abc"
+      ],
+      "buttons": 1,
+      "focusVisible": true,
+      "headingCount": 0,
+      "height": 56,
+      "outline": "rgb(128, 105, 33) solid 2px",
+      "pressed": "false",
+      "state": "running"
+    }
+  ],
+  "widths": [
+    {
+      "captionVisible": false,
+      "controlHeight": 48,
+      "overflow": false,
+      "width": 390
+    },
+    {
+      "captionVisible": false,
+      "controlHeight": 56,
+      "overflow": false,
+      "width": 768
+    },
+    {
+      "captionVisible": false,
+      "controlHeight": 56,
+      "overflow": false,
+      "width": 1440
+    }
+  ]
+}

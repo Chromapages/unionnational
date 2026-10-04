@@ -1,0 +1,10 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["The site's current typography rule uses Outfit/Inter rather than the reference's serif headings.", "The existing 200+ contractors-served label is retained with the established proof figures."],
+  "suggestions": [],
+  "reasoning": "The 42/58 panel is 546px high at 1536px, matching the reference closely. The image caption, circular feature icons, real service links, industry-specific CTAs, and proof strip are complete. All four tabs and keyboard Home/ArrowRight controls work in English and Spanish; checked desktop and mobile layouts have no overflow or page errors.",
+  "next_actions": []
+}

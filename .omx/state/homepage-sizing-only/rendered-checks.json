@@ -1,0 +1,540 @@
+{
+  "layouts": [
+    {
+      "locale": "en",
+      "documentOverflow": false,
+      "heroBooking": "/en/book?returnTo=%2F",
+      "reviews": 3,
+      "sections": [
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "36px",
+          "id": "hero-heading",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": null,
+          "id": "proof",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "30px",
+          "id": "how-it-works",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "30px",
+          "id": "outcomes",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "30px",
+          "id": "client-results",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "28px",
+          "id": "contact",
+          "padding": "0px"
+        }
+      ],
+      "tabs": 3,
+      "width": 390
+    },
+    {
+      "locale": "en",
+      "documentOverflow": false,
+      "heroBooking": "/en/book?returnTo=%2F",
+      "reviews": 3,
+      "sections": [
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "hero-heading",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": null,
+          "id": "proof",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "how-it-works",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "outcomes",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "client-results",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "20px",
+          "heading": "28px",
+          "id": "contact",
+          "padding": "0px"
+        }
+      ],
+      "tabs": 3,
+      "width": 768
+    },
+    {
+      "locale": "en",
+      "documentOverflow": false,
+      "heroBooking": "/en/book?returnTo=%2F",
+      "reviews": 3,
+      "sections": [
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "57.6px",
+          "id": "hero-heading",
+          "padding": "48px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": null,
+          "id": "proof",
+          "padding": "48px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "44px",
+          "id": "how-it-works",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "44px",
+          "id": "outcomes",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "44px",
+          "id": "client-results",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "28px",
+          "id": "contact",
+          "padding": "0px"
+        }
+      ],
+      "tabs": 3,
+      "width": 1440
+    },
+    {
+      "locale": "es",
+      "documentOverflow": false,
+      "heroBooking": "/es/book?returnTo=%2F",
+      "reviews": 3,
+      "sections": [
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "36px",
+          "id": "hero-heading",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": null,
+          "id": "proof",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "30px",
+          "id": "how-it-works",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "30px",
+          "id": "outcomes",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "30px",
+          "id": "client-results",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "16px",
+          "heading": "28px",
+          "id": "contact",
+          "padding": "0px"
+        }
+      ],
+      "tabs": 3,
+      "width": 390
+    },
+    {
+      "locale": "es",
+      "documentOverflow": false,
+      "heroBooking": "/es/book?returnTo=%2F",
+      "reviews": 3,
+      "sections": [
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "hero-heading",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": null,
+          "id": "proof",
+          "padding": "40px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "how-it-works",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "outcomes",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "24px",
+          "heading": "36px",
+          "id": "client-results",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "20px",
+          "heading": "28px",
+          "id": "contact",
+          "padding": "0px"
+        }
+      ],
+      "tabs": 3,
+      "width": 768
+    },
+    {
+      "locale": "es",
+      "documentOverflow": false,
+      "heroBooking": "/es/book?returnTo=%2F",
+      "reviews": 3,
+      "sections": [
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "57.6px",
+          "id": "hero-heading",
+          "padding": "48px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": null,
+          "id": "proof",
+          "padding": "48px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "44px",
+          "id": "how-it-works",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "44px",
+          "id": "outcomes",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "44px",
+          "id": "client-results",
+          "padding": "0px"
+        },
+        {
+          "containerMax": "1504px",
+          "gutter": "32px",
+          "heading": "28px",
+          "id": "contact",
+          "padding": "0px"
+        }
+      ],
+      "tabs": 3,
+      "width": 1440
+    }
+  ],
+  "vertical": [
+    {
+      "locale": "en",
+      "font": "Outfit, \"Outfit Fallback\", sans-serif",
+      "padding": [
+        {
+          "containerPadding": "40px",
+          "section": "hero-heading",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "40px",
+          "section": "proof",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "how-it-works",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "outcomes",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "client-results",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "contact",
+          "sectionPadding": "24px"
+        }
+      ],
+      "width": 390
+    },
+    {
+      "locale": "en",
+      "font": "Outfit, \"Outfit Fallback\", sans-serif",
+      "padding": [
+        {
+          "containerPadding": "40px",
+          "section": "hero-heading",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "40px",
+          "section": "proof",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "how-it-works",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "outcomes",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "client-results",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "contact",
+          "sectionPadding": "36px"
+        }
+      ],
+      "width": 768
+    },
+    {
+      "locale": "en",
+      "font": "Outfit, \"Outfit Fallback\", sans-serif",
+      "padding": [
+        {
+          "containerPadding": "48px",
+          "section": "hero-heading",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "48px",
+          "section": "proof",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "how-it-works",
+          "sectionPadding": "48px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "outcomes",
+          "sectionPadding": "48px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "client-results",
+          "sectionPadding": "48px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "contact",
+          "sectionPadding": "48px"
+        }
+      ],
+      "width": 1440
+    },
+    {
+      "locale": "es",
+      "font": "Outfit, \"Outfit Fallback\", sans-serif",
+      "padding": [
+        {
+          "containerPadding": "40px",
+          "section": "hero-heading",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "40px",
+          "section": "proof",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "how-it-works",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "outcomes",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "client-results",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "contact",
+          "sectionPadding": "24px"
+        }
+      ],
+      "width": 390
+    },
+    {
+      "locale": "es",
+      "font": "Outfit, \"Outfit Fallback\", sans-serif",
+      "padding": [
+        {
+          "containerPadding": "40px",
+          "section": "hero-heading",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "40px",
+          "section": "proof",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "how-it-works",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "outcomes",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "client-results",
+          "sectionPadding": "40px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "contact",
+          "sectionPadding": "36px"
+        }
+      ],
+      "width": 768
+    },
+    {
+      "locale": "es",
+      "font": "Outfit, \"Outfit Fallback\", sans-serif",
+      "padding": [
+        {
+          "containerPadding": "48px",
+          "section": "hero-heading",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "48px",
+          "section": "proof",
+          "sectionPadding": "0px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "how-it-works",
+          "sectionPadding": "48px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "outcomes",
+          "sectionPadding": "48px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "client-results",
+          "sectionPadding": "48px"
+        },
+        {
+          "containerPadding": "0px",
+          "section": "contact",
+          "sectionPadding": "48px"
+        }
+      ],
+      "width": 1440
+    }
+  ]
+}

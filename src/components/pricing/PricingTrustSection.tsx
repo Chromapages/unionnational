@@ -12,7 +12,7 @@ export function PricingTrustSection() {
                     <div className="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <ShieldCheck className="w-6 h-6" />
                     </div>
-                    <blockquote className="text-2xl md:text-3xl font-heading text-brand-900 font-bold mb-4 leading-normal">
+                    <blockquote className="text-2xl md:text-3xl font-body text-brand-900 font-bold mb-4 leading-normal">
                         "We don’t charge by the hour or by the form.<br />
                         We charge for accuracy, protection, and peace of mind."
                     </blockquote>

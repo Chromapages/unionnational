@@ -17,7 +17,7 @@ function serializeError(error: unknown) {
 }
 
 function write(level: LogLevel, message: string, context: LogContext = {}) {
-  const payload = {
+  const payload = redactObject({
     timestamp: new Date().toISOString(),
     level,
     service: "union-national-tax",
@@ -25,7 +25,7 @@ function write(level: LogLevel, message: string, context: LogContext = {}) {
     userId: context.userId || "anonymous",
     message,
     ...context,
-  };
+  });
 
   const line = JSON.stringify(payload);
 
@@ -74,7 +74,6 @@ const EMAIL_REDACT = "[REDACTED_EMAIL]";
 const PHONE_REDACT = "[REDACTED_PHONE]";
 const NAME_REDACT = "[REDACTED_NAME]";
 const SCORE_REDACT = "[REDACTED_SCORE]";
-const ID_REDACT = "[REDACTED_ID]";
 const TEXT_REDACT = "[REDACTED_TEXT]";
 
 const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
@@ -129,108 +128,29 @@ export function redactLeadAnswer(value: unknown): unknown {
 
 export function redactObject(
   obj: Record<string, unknown>,
-  redactionFn: (v: unknown, k: string) => unknown = (v) => v
+  redactionFn?: (v: unknown, k: string) => unknown
 ): Record<string, unknown> {
-  const sensitiveKeys = [
-    "email",
-    "emailAddress",
-    "phone",
-    "phoneNumber",
-    "mobile",
-    "ssn",
-    "socialSecurity",
-    "itin",
-    "taxId",
-    "name",
-    "firstName",
-    "lastName",
-    "fullName",
-    "businessName",
-    "company",
-    "address",
-    "street",
-    "city",
-    "state",
-    "zip",
-    "zipCode",
-    "score",
-    "leadScore",
-    "creditScore",
-    "answer",
-    "response",
-    "taxIncome",
-    "revenue",
-    "profit",
-    "sales",
-    "dob",
-    "dateOfBirth",
-    "birthDate",
-    "driverLicense",
-    "dlNumber",
-    "password",
-    "passwordHash",
-    "token",
-    "accessToken",
-    "refreshToken",
-    "apiKey",
-    "secret",
-    "authorization",
-  ];
-
   const result: Record<string, unknown> = {};
-
   for (const [key, value] of Object.entries(obj)) {
-    const lowerKey = key.toLowerCase();
-
-    if (sensitiveKeys.some((sk) => lowerKey.includes(sk))) {
-      if (lowerKey.includes("email")) {
-        result[key] = typeof value === "string" ? redactEmail(value) : value;
-      } else if (
-        lowerKey.includes("phone") ||
-        lowerKey.includes("mobile")
-      ) {
-        result[key] =
-          typeof value === "string" ? redactPhone(value) : value;
-      } else if (
-        lowerKey.includes("ssn") ||
-        lowerKey.includes("socialSecurity")
-      ) {
-        result[key] =
-          typeof value === "string" ? redactSSN(value) : value;
-      } else if (lowerKey.includes("itin") || lowerKey.includes("taxId")) {
-        result[key] =
-          typeof value === "string" ? redactITIN(value) : value;
-      } else if (
-        lowerKey.includes("name") ||
-        lowerKey.includes("first") ||
-        lowerKey.includes("last") ||
-        lowerKey.includes("full") ||
-        lowerKey.includes("company") ||
-        lowerKey.includes("business")
-      ) {
-        result[key] =
-          typeof value === "string" ? redactName(value) : value;
-      } else if (
-        lowerKey.includes("score") ||
-        lowerKey.includes("income") ||
-        lowerKey.includes("revenue") ||
-        lowerKey.includes("profit") ||
-        lowerKey.includes("sales")
-      ) {
-        result[key] = redactScore(value);
-      } else {
-        result[key] = redactionFn(value, key);
-      }
-    } else if (Array.isArray(value)) {
+    const normalizedKey = key.replace(/[^a-z]/gi, "").toLowerCase();
+    if (/(email|phone|mobile|ssn|itin|taxid|name|company|address|street|city|zipcode|dob|birthdate|license|password|token|apikey|secret|authorization|answer|response|income|revenue|profit|sales|score)/.test(normalizedKey)) {
+      result[key] = "[REDACTED]";
+      continue;
+    }
+    if (Array.isArray(value)) {
       result[key] = value.map((item) =>
-        typeof item === "object" && item !== null
+        item && typeof item === "object"
           ? redactObject(item as Record<string, unknown>, redactionFn)
-          : item
+          : typeof item === "string"
+            ? redactITIN(redactSSN(redactPhone(redactEmail(item))))
+            : item
       );
-    } else if (typeof value === "object" && value !== null) {
+    } else if (value && typeof value === "object") {
       result[key] = redactObject(value as Record<string, unknown>, redactionFn);
+    } else if (typeof value === "string") {
+      result[key] = redactITIN(redactSSN(redactPhone(redactEmail(value))));
     } else {
-      result[key] = value;
+      result[key] = redactionFn ? redactionFn(value, key) : value;
     }
   }
 

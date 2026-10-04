@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { AlertCircle, ArrowLeft, ArrowRight, Building2, CheckCircle2, Handshake, Shield, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { submitContactForm } from "@/app/[locale]/contact/actions";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
@@ -29,10 +29,24 @@ type SubmissionState = { status: "idle" | "success" | "error"; message?: string 
 
 export function MultiStepContactForm({ title, subtitle }: { title?: string; subtitle?: string }) {
     const t = useTranslations("ContactPage.MultiStepForm");
+    const locale = useLocale();
+    const [submissionId] = useState(() => crypto.randomUUID());
     const [step, setStep] = useState<1 | 2 | 3>(1);
     const [submission, setSubmission] = useState<SubmissionState>({ status: "idle" });
     const [selectedGoal, setSelectedGoal] = useState<ConsultationGoal | null>(null);
     const [goalError, setGoalError] = useState(false);
+    const stepHeadingRef = useRef<HTMLHeadingElement>(null);
+    const successHeadingRef = useRef<HTMLHeadingElement>(null);
+    const previousStep = useRef(step);
+
+    useEffect(() => {
+        if (previousStep.current !== step) stepHeadingRef.current?.focus();
+        previousStep.current = step;
+    }, [step]);
+
+    useEffect(() => {
+        if (submission.status === "success") successHeadingRef.current?.focus();
+    }, [submission.status]);
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ContactData>({
         resolver: zodResolver(contactFormSchema),
@@ -61,6 +75,7 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
     const confirmGoal = () => {
         if (!selectedGoal) {
             setGoalError(true);
+            document.getElementById("consultation-goal-tax-reduction")?.focus();
             return;
         }
         setValue("goal", selectedGoal, { shouldValidate: true, shouldDirty: true });
@@ -71,13 +86,19 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
         setSubmission({ status: "idle" });
         const fd = new FormData();
         Object.entries(data).forEach(([key, value]) => fd.append(key, String(value ?? "")));
-        const result = await submitContactForm(null, fd);
-        if (result.status === "success") {
-            trackMetaEvent("Lead", { content_name: "Contact Form", content_category: data.goal });
-            setSubmission({ status: "success" });
-        } else if (result.status === "error") {
-            setSubmission({ status: "error", message: result.message });
-        } else {
+        fd.append("locale", locale);
+        fd.append("submissionId", submissionId);
+        try {
+            const result = await submitContactForm(null, fd);
+            if (result.status === "success") {
+                trackMetaEvent("Lead", { content_name: "Contact Form", content_category: data.goal });
+                setSubmission({ status: "success" });
+            } else if (result.status === "error") {
+                setSubmission({ status: "error", message: result.message });
+            } else {
+                setSubmission({ status: "error" });
+            }
+        } catch {
             setSubmission({ status: "error" });
         }
     };
@@ -91,7 +112,7 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
         return (
             <div className="flex min-h-[430px] flex-col items-center justify-center rounded-3xl border border-emerald-200 bg-white p-8 text-center shadow-2xl" role="status" aria-live="polite">
                 <CheckCircle2 className="h-14 w-14 text-emerald-600" aria-hidden="true" />
-                <h2 className="mt-5 font-heading text-3xl font-bold text-brand-900">{t("success.title")}</h2>
+                <h2 ref={successHeadingRef} tabIndex={-1} className="mt-5 font-heading text-3xl font-bold text-brand-900">{t("success.title")}</h2>
                 <p className="mt-3 max-w-md leading-7 text-slate-600">{t("success.message")}</p>
                 <p className="mt-5 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800">{t("success.responseTime")}</p>
             </div>
@@ -117,11 +138,11 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
 
                 {step === 1 && (
                         <div>
-                            <h2 className="font-heading text-2xl font-bold sm:text-3xl">{title || t("step1.fallbackTitle")}</h2>
+                            <h2 ref={stepHeadingRef} tabIndex={-1} className="font-heading text-2xl font-bold sm:text-3xl">{title || t("step1.fallbackTitle")}</h2>
                             <p className="mt-2 text-sm leading-6 text-slate-600">{subtitle || t("step1.fallbackSubtitle")}</p>
-                            <div className="mt-6 grid gap-3" role="radiogroup" aria-label={t("step1.fallbackTitle")}>
+                            <div className="mt-6 grid gap-3" role="radiogroup" aria-label={t("step1.fallbackTitle")} aria-invalid={goalError} aria-describedby={goalError ? "consultation-goal-error" : undefined}>
                                 {goals.map(({ id, label, helper, icon: Icon }) => (
-                                    <label key={id} htmlFor={`consultation-goal-${id}`} onClick={() => selectGoal(id)} className={cn("relative z-10 flex min-h-[72px] w-full cursor-pointer select-none items-start gap-3 rounded-xl border-2 p-4 text-left transition focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gold-500", selectedGoal === id ? "border-gold-500 bg-gold-50" : "border-slate-100 hover:border-gold-300")}>
+                                    <label key={id} htmlFor={`consultation-goal-${id}`} className={cn("relative z-10 flex min-h-[72px] w-full cursor-pointer select-none items-start gap-3 rounded-xl border-2 p-4 text-left transition focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-gold-500", selectedGoal === id ? "border-gold-500 bg-gold-50" : "border-slate-100 hover:border-gold-300")}>
                                         <input
                                             id={`consultation-goal-${id}`}
                                             type="radio"
@@ -137,7 +158,7 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
                                     </label>
                                 ))}
                             </div>
-                            {(goalError || errors.goal) && <p className="mt-3 flex items-center gap-2 text-sm text-rose-600" role="alert"><AlertCircle className="h-4 w-4" />{t("step1.errorMessage")}</p>}
+                            {(goalError || errors.goal) && <p id="consultation-goal-error" className="mt-3 flex items-center gap-2 text-sm text-rose-600" role="alert"><AlertCircle className="h-4 w-4" />{t("step1.errorMessage")}</p>}
                             <button type="button" onClick={confirmGoal} className="relative z-20 mt-6 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-900 px-5 font-bold text-white transition hover:bg-gold-500 hover:text-brand-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500">
                                 {t("step1.continueButton")}<ArrowRight className="h-4 w-4" aria-hidden="true" />
                             </button>
@@ -150,7 +171,7 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
                             <div className="rounded-2xl border border-gold-200 bg-gold-50 p-5">
                                 <CheckCircle2 className="h-8 w-8 text-gold-600" aria-hidden="true" />
                                 <p className="mt-4 text-xs font-bold uppercase tracking-widest text-gold-700">{t("confirmation.eyebrow")}</p>
-                                <h2 className="mt-2 font-heading text-2xl font-bold">{selected.label}</h2>
+                                <h2 ref={stepHeadingRef} tabIndex={-1} className="mt-2 font-heading text-2xl font-bold">{selected.label}</h2>
                                 <p className="mt-2 text-sm leading-6 text-slate-600">{selected.helper}</p>
                             </div>
                             <p className="mt-6 text-sm leading-6 text-slate-600">{t("confirmation.next")}</p>
@@ -161,17 +182,17 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
                 {step === 3 && (
                         <div>
                             <button type="button" onClick={() => goTo(2)} className="mb-4 flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-900 focus-visible:outline-2 focus-visible:outline-gold-500"><ArrowLeft className="h-4 w-4" />{t("step2.backButton")}</button>
-                            <h2 className="font-heading text-2xl font-bold">{t("step2.title")}</h2>
+                            <h2 ref={stepHeadingRef} tabIndex={-1} className="font-heading text-2xl font-bold">{t("step2.title")}</h2>
                             <p className="mt-2 text-sm text-slate-600">{t("step2.subtitle")}</p>
                             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                                <Field id="firstName" label={t("step2.labels.firstName")} error={errors.firstName?.message && t("validation.firstNameRequired")}><input id="firstName" autoComplete="given-name" {...register("firstName")} className={fieldClass(Boolean(errors.firstName))} placeholder={t("step2.placeholders.firstName")} /></Field>
-                                <Field id="lastName" label={t("step2.labels.lastName")} error={errors.lastName?.message && t("validation.lastNameRequired")}><input id="lastName" autoComplete="family-name" {...register("lastName")} className={fieldClass(Boolean(errors.lastName))} placeholder={t("step2.placeholders.lastName")} /></Field>
-                                <Field id="email" label={t("step2.labels.email")} error={errors.email?.message && t("validation.emailInvalid")}><input id="email" type="email" autoComplete="email" {...register("email")} className={fieldClass(Boolean(errors.email))} placeholder={t("step2.placeholders.email")} /></Field>
+                                <Field id="firstName" label={t("step2.labels.firstName")} error={errors.firstName?.message && t("validation.firstNameRequired")}><input id="firstName" autoComplete="given-name" {...register("firstName")} aria-invalid={Boolean(errors.firstName)} aria-describedby={errors.firstName ? "firstName-error" : undefined} className={fieldClass(Boolean(errors.firstName))} placeholder={t("step2.placeholders.firstName")} /></Field>
+                                <Field id="lastName" label={t("step2.labels.lastName")} error={errors.lastName?.message && t("validation.lastNameRequired")}><input id="lastName" autoComplete="family-name" {...register("lastName")} aria-invalid={Boolean(errors.lastName)} aria-describedby={errors.lastName ? "lastName-error" : undefined} className={fieldClass(Boolean(errors.lastName))} placeholder={t("step2.placeholders.lastName")} /></Field>
+                                <Field id="email" label={t("step2.labels.email")} error={errors.email?.message && t("validation.emailInvalid")}><input id="email" type="email" autoComplete="email" {...register("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} className={fieldClass(Boolean(errors.email))} placeholder={t("step2.placeholders.email")} /></Field>
                                 <Field id="phone" label={t("step2.labels.phone")}><input id="phone" type="tel" autoComplete="tel" {...register("phone")} className={fieldClass(false)} placeholder={t("step2.placeholders.phone")} /></Field>
                             </div>
                             <Field id="message" label={t("step2.labels.message")} className="mt-4"><textarea id="message" rows={2} {...register("message")} className={cn(fieldClass(false), "resize-y")} placeholder={t("step2.placeholders.message")} /></Field>
-                            <label className="mt-4 flex cursor-pointer items-start gap-3 text-xs leading-5 text-slate-600"><input type="checkbox" {...register("privacy")} className="mt-1 h-5 w-5 shrink-0 accent-brand-900" /><span>{t.rich("step2.privacyText", { privacyLink: (chunks) => <Link href="/legal/privacy-policy" className="font-semibold underline">{chunks}</Link> })}</span></label>
-                            {errors.privacy && <p className="mt-1 text-xs text-rose-600" role="alert">{t("validation.privacyRequired")}</p>}
+                            <label className="mt-4 flex cursor-pointer items-start gap-3 text-xs leading-5 text-slate-600"><input type="checkbox" {...register("privacy")} aria-invalid={Boolean(errors.privacy)} aria-describedby={errors.privacy ? "privacy-error" : undefined} className="mt-1 h-5 w-5 shrink-0 accent-brand-900" /><span>{t.rich("step2.privacyText", { privacyLink: (chunks) => <Link href="/legal/privacy-policy" className="font-semibold underline">{chunks}</Link> })}</span></label>
+                            {errors.privacy && <p id="privacy-error" className="mt-1 text-xs text-rose-600" role="alert">{t("validation.privacyRequired")}</p>}
                             {submission.status === "error" && <p className="mt-4 rounded-lg bg-rose-50 p-3 text-sm text-rose-700" role="alert">{submission.message || t("errorMessage")}</p>}
                             <button type="submit" disabled={isSubmitting} className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gold-500 px-5 font-bold text-brand-950 transition hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 disabled:opacity-60">{isSubmitting ? t("step2.sending") : t("step2.submitButton")} {!isSubmitting && <ArrowRight className="h-4 w-4" />}</button>
                             <p className="mt-3 text-center text-xs leading-5 text-slate-500">{t("microcopy")}</p>
@@ -185,5 +206,5 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
 }
 
 function Field({ id, label, error, className, children }: { id: string; label: string; error?: string | false; className?: string; children: React.ReactNode }) {
-    return <div className={className}><label htmlFor={id} className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600">{label}</label>{children}{error && <p className="mt-1 text-xs text-rose-600" role="alert">{error}</p>}</div>;
+    return <div className={className}><label htmlFor={id} className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-600">{label}</label>{children}{error && <p id={`${id}-error`} className="mt-1 text-xs text-rose-600" role="alert">{error}</p>}</div>;
 }

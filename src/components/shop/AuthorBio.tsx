@@ -50,7 +50,7 @@ export function AuthorBio({ author: propAuthor }: AuthorBioProps) {
                             <div className="mt-10 flex items-center gap-6">
                                 <div className="h-0.5 w-12 bg-gold-500/40" />
                                 <div className="flex flex-col">
-                                    <p className="font-black text-white font-heading text-sm sm:text-base uppercase tracking-[0.2em]">
+                                    <p className="font-black text-white font-body text-sm sm:text-base uppercase tracking-[0.2em]">
                                         {displayAuthor.name}
                                     </p>
                                     <p className="text-[10px] text-slate-400 uppercase tracking-[0.15em] mt-1 font-bold">

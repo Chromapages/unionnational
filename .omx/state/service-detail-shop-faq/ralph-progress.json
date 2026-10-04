@@ -1,0 +1,13 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "active": false,
+  "phase": "complete",
+  "differences": ["Service support copy and the existing service FAQ heading replace shop-specific copy."],
+  "suggestions": [],
+  "reasoning": "Service details reuse the same ShopFAQ markup and soft FAQAccordion, preserving the exact split, support panel, icon rows, contact treatment and brand fonts. Shop retains its original copy and five questions.",
+  "next_actions": [],
+  "verification": { "breakpoints": [390, 768, 1440], "horizontal_overflow": false, "keyboard": "Tab focus visible with 2px gold outline; Enter closes and Space reopens the first answer.", "minimum_observed_target_px": 80, "brand_on_warm_surface_contrast": 13.67, "white_contact_contrast": 14.56, "formal_checks": "Not run per standing instruction." }
+}

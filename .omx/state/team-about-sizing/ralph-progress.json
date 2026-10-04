@@ -1,0 +1,23 @@
+{
+  "score": 97,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Section heights remain content-driven because Team and About contain different layouts and content."],
+  "suggestions": [],
+  "reasoning": "Rendered inspection confirms matching content widths, responsive section spacing, and main heading scales. The Team page retains its split hero, founder layout, and compact directory.",
+  "next_actions": [],
+  "verification": {
+    "widths": [390, 768, 1440],
+    "team_section_padding_px": [40, 40, 48],
+    "about_section_padding_px": [40, 40, 48],
+    "team_hero_font_px": [36, 36, 57.6],
+    "about_hero_font_px": [36, 36, 57.6],
+    "team_main_section_heading_px": [30, 36, 44],
+    "about_main_section_heading_px": [30, 36, 44],
+    "hero_cta_height_px": 56,
+    "horizontal_overflow": false,
+    "screenshot": ".omx/state/team-about-sizing/preview.png"
+  }
+}

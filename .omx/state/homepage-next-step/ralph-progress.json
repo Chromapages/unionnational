@@ -1,0 +1,10 @@
+{
+  "score": 97,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "The 2048px card is 520px high, the booking button begins at y=332px, and the headline uses the reference's two-line break. English and Spanish desktop and mobile layouts render without horizontal overflow or page errors.",
+  "next_actions": []
+}

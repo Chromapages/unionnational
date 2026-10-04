@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useId, useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +14,7 @@ interface ServiceFAQProps {
 }
 
 export function ServiceFAQ({ items }: ServiceFAQProps) {
+    const id = useId();
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
     if (!items || items.length === 0) return null;
@@ -34,11 +34,13 @@ export function ServiceFAQ({ items }: ServiceFAQProps) {
                                 : "border-zinc-200 bg-white hover:border-zinc-300"
                         )}
                     >
-                        <button
+                        <h3><button
+                            type="button"
+                            id={`${id}-question-${index}`}
                             onClick={() => setOpenIndex(isOpen ? null : index)}
                             aria-expanded={isOpen}
-                            aria-controls={`service-faq-panel-${index}`}
-                            className="w-full flex items-center justify-between p-6 text-left"
+                            aria-controls={`${id}-panel-${index}`}
+                            className="w-full min-h-11 flex items-center justify-between p-6 text-left focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-brand-900"
                         >
                             <span className={cn(
                                 "font-medium text-lg pr-8",
@@ -50,27 +52,20 @@ export function ServiceFAQ({ items }: ServiceFAQProps) {
                                 "shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors",
                                 isOpen ? "bg-brand-900 text-white" : "bg-zinc-100 text-zinc-500 group-hover:bg-zinc-200"
                             )}>
-                                {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                                {isOpen ? <Minus className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
                             </span>
-                        </button>
+                        </button></h3>
 
-                        <AnimatePresence initial={false}>
-                            {isOpen && (
-                                <motion.div
-                                    id={`service-faq-panel-${index}`}
+                                <div
+                                    id={`${id}-panel-${index}`}
                                     role="region"
-                                    aria-label={item.question}
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: "auto", opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    aria-labelledby={`${id}-question-${index}`}
+                                    hidden={!isOpen}
                                 >
                                     <div className="px-6 pb-6 pt-0 text-zinc-600 leading-relaxed">
                                         {item.answer}
                                     </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                                </div>
                     </div>
                 );
             })}

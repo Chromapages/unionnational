@@ -1,0 +1,24 @@
+{
+  "score": 93,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Existing brand gold and Lucide icon shapes differ slightly from the generated reference."],
+  "suggestions": [],
+  "reasoning": "Visual comparison confirms the reference's three-line headline, split layout, gold CTA, pale icon circles, and benefit dividers. Existing brand fonts and icon library are intentionally preserved.",
+  "next_actions": [],
+  "verification": {
+    "desktop_width": 1440,
+    "desktop_headline_lines": 3,
+    "horizontal_overflow": { "en_390": false, "en_768": false, "en_1440": false, "es_390": false },
+    "cta_height": { "desktop": 68, "mobile": 60, "tablet": 60, "spanish_mobile": 60 },
+    "benefit_count": 3,
+    "keyboard_focus_visible": true,
+    "focus_outline_width": "2px",
+    "cta_destination": "#team-members",
+    "contrast_ratios": { "heading": 19.37, "body": 8.18, "eyebrow": 5.30, "cta_default": 11.21, "cta_hover": 12.70, "cta_active": 9.21, "icons": 13.10 },
+    "contrast_method": "WCAG relative-luminance calculation using repository CSS token values",
+    "screenshot": ".omx/state/team-hero-reference/desktop.png"
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { IndustryExpertise } from "@/components/industries/IndustriesDesktopExperience";
 import { 
     CheckCircle2,
     Zap,
@@ -16,7 +17,7 @@ import {
 import { IndustryHero } from "@/components/industries/IndustryHero";
 import { IndustryBento } from "@/components/industries/IndustryBento";
 import { ComparisonTable } from "@/components/industries/ComparisonTable";
-import { CTASection } from "@/components/home/CTASection";
+import { FinalBookingCTA } from "@/components/home/FinalBookingCTA";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
@@ -132,6 +133,8 @@ export default function RealEstateIndustryClient() {
             />
 
             {/* 3. The Challenges (Bento Grid) */}
+            <IndustryExpertise industryId="real-estate" />
+
             <IndustryBento 
                 eyebrow="The Investor's Tax Gap"
                 title="Why most portfolios"
@@ -240,14 +243,7 @@ export default function RealEstateIndustryClient() {
             </section>
 
             {/* 7. Final CTA */}
-            <CTASection 
-                data={{
-                    ctaTitle: "Scale Your Legacy Wealth.",
-                    ctaSubtitle: "Stop leaving your equity on the table. Join the elite investors using the Wealth Architect Partnership to build tax-free legacy wealth.",
-                    ctaButtonText: "Book Portfolio Audit",
-                    ctaButtonUrl: "/intake"
-                }}
-            />
+            <div className="homepage-rhythm"><FinalBookingCTA id="service-next-step" placement="real_estate_final_cta" /></div>
         </div>
     );
 }

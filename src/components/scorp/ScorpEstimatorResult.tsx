@@ -12,10 +12,10 @@ interface ScorpEstimatorResultProps {
 }
 
 const MESSAGES: Record<ScorpFitLevel, string> = {
-    LOW_FIT: "Your estimate suggests that S-Corp treatment may not be your strongest next move right now. That does not mean there is no planning opportunity. It means the better next step may be a broader tax-structure review before making an S-Corp election. The S-Corp Advantage booklet has been sent to your email.",
-    POSSIBLE_FIT: "Your responses suggest there may be a real S-Corp opportunity, but the fit depends on your actual numbers and implementation readiness. A focused review can help determine whether the savings outweigh payroll and compliance complexity. The S-Corp Advantage booklet has been sent to your email.",
-    STRONG_CANDIDATE: "Your responses suggest that you may be a strong candidate for S-Corp tax treatment. If your current business income is still being taxed primarily as sole proprietor income, there is a real possibility that you are overpaying in self-employment taxes. The S-Corp Advantage booklet has been sent to your email.",
-    HIGH_INTENT_SCORP: "Your responses suggest a strong S-Corp opportunity with enough business size or profitability to justify a deeper review now. The next step is to confirm the real savings range, compensation strategy, payroll readiness, and broader tax fit. The S-Corp Advantage booklet has been sent to your email."
+    LOW_FIT: "Your estimate suggests that S-Corp treatment may not be your strongest next move right now. That does not mean there is no planning opportunity. It means the better next step may be a broader tax-structure review before making an S-Corp election. Your assessment results are ready for review.",
+    POSSIBLE_FIT: "Your responses suggest there may be a real S-Corp opportunity, but the fit depends on your actual numbers and implementation readiness. A focused review can help determine whether the savings outweigh payroll and compliance complexity. Your assessment results are ready for review.",
+    STRONG_CANDIDATE: "Your responses suggest that you may be a strong candidate for S-Corp tax treatment. If your current business income is still being taxed primarily as sole proprietor income, there is a real possibility that you are overpaying in self-employment taxes. Your assessment results are ready for review.",
+    HIGH_INTENT_SCORP: "Your responses suggest a strong S-Corp opportunity with enough business size or profitability to justify a deeper review now. The next step is to confirm the real savings range, compensation strategy, payroll readiness, and broader tax fit. Your assessment results are ready for review."
 };
 
 const FIT_LABELS: Record<ScorpFitLevel, { label: string; color: string; icon: LucideIcon }> = {
@@ -47,7 +47,7 @@ export const ScorpEstimatorResult = ({ fitLevel, savingsRange }: ScorpEstimatorR
 
                 <div className="mb-10">
                     <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-[0.2em] mb-4">Estimated Potential Savings</h2>
-                    <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-brand-900 font-heading tracking-tighter leading-none">
+                    <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-brand-900 font-data tabular-nums tracking-tighter leading-none">
                         {savingsRange} <span className="text-xl md:text-2xl text-slate-400 align-middle">/yr</span>
                     </div>
                 </div>

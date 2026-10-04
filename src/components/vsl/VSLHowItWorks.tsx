@@ -37,7 +37,7 @@ export function VSLHowItWorks({ steps }: VSLHowItWorksProps) {
     <section className="py-24 md:py-32 bg-[#051A18] relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 relative">
         <div className="text-center mb-20">
-          <div className="font-mono text-[11px] font-bold text-gold-500 tracking-[0.2em] uppercase mb-4 animate-fade-in">
+          <div className="font-body text-[11px] font-bold text-gold-500 tracking-[0.2em] uppercase mb-4 animate-fade-in">
             The Process
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-white font-heading mb-6 tracking-tight animate-fade-in-up">
@@ -59,7 +59,7 @@ export function VSLHowItWorks({ steps }: VSLHowItWorksProps) {
             >
               <div className="bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm rounded-2xl p-8 h-full transition-all duration-300 hover:bg-white/[0.05] hover:border-white/[0.12] group">
                 {/* Background Large Number */}
-                <div className="absolute top-6 right-8 font-mono text-7xl font-black text-white/[0.03] leading-none pointer-events-none group-hover:text-gold-500/10 transition-colors">
+                <div className="absolute top-6 right-8 font-data tabular-nums text-7xl font-black text-white/[0.03] leading-none pointer-events-none group-hover:text-gold-500/10 transition-colors">
                   0{index + 1}
                 </div>
 

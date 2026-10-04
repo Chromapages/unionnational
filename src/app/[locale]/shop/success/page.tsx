@@ -3,30 +3,32 @@ import { CheckCircle2, ShoppingBag, ArrowRight, Mail, Download, Package } from "
 import { getStripe } from "@/lib/stripe";
 import { ShopPurchaseEvent } from "@/components/seo/ShopPurchaseEvent";
 import { ClearCartAfterPurchase } from "@/components/shop/ClearCartAfterPurchase";
+import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import type Stripe from "stripe";
+import { parseCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 interface SuccessPageProps {
     searchParams: Promise<{ session_id?: string }>;
 }
 
 interface MetadataItem {
+    p?: string;
+    e?: string;
+    ce?: string | null;
     t?: string;
     sh?: boolean;
     q?: number;
 }
 
 function parseMetadataItems(metadata?: Stripe.Metadata | null): MetadataItem[] {
-    if (!metadata?.items) return [];
-
-    try {
-        const parsed = JSON.parse(metadata.items);
-        return Array.isArray(parsed) ? parsed : [];
-    } catch {
-        return [];
-    }
+    return parseCheckoutItemsMetadata(metadata);
 }
 
 export default async function ShopSuccessPage({ searchParams }: SuccessPageProps) {
+    const t = await getTranslations("Shop.Success");
     const { session_id } = await searchParams;
     let session = null;
 
@@ -36,13 +38,12 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
             session = await stripe.checkout.sessions.retrieve(session_id, {
                 expand: ["line_items.data.price.product"],
             });
-        } catch (error) {
-            console.error("Error retrieving Stripe session:", error);
+        } catch {
+            console.error("Unable to verify Stripe checkout session");
         }
     }
 
-    const customerEmail = session?.customer_details?.email || "your email";
-    const amountTotal = session?.amount_total ? (session.amount_total / 100).toFixed(2) : null;
+    const amountTotal = session?.amount_total != null ? (session.amount_total / 100).toFixed(2) : null;
     const currency = session?.currency?.toUpperCase() || "USD";
     const metadataItems = parseMetadataItems(session?.metadata);
     const hasDigital = session?.metadata?.has_digital === "true" || metadataItems.some((item) => item.t === "digital" || item.t === "audio" || item.t === "bundle");
@@ -56,9 +57,12 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
         quantity: item.quantity || 1,
     })) || [];
 
-    if (!session) {
+    if (session?.payment_status !== "paid" || session.metadata?.order_source !== "unt_bookstore") {
+        const state = !session || session.metadata?.order_source !== "unt_bookstore"
+            ? "missing"
+            : session.status === "expired" ? "expired" : "pending";
         return (
-            <main className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
+            <main id="main-content" tabIndex={-1} className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
                 <div className="max-w-2xl text-center">
                     <div className="mb-8 flex justify-center">
                         <div className="bg-white p-6 rounded-3xl shadow-xl border border-amber-100">
@@ -66,17 +70,17 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                         </div>
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-brand-900 font-heading mb-5 tracking-tight">
-                        We could not verify this order yet.
+                        {t(`${state}Title`)}
                     </h1>
                     <p className="text-lg text-slate-600 mb-8">
-                        If you completed payment, check your email for the Stripe receipt or contact order support so we can look it up.
+                        {t(`${state}Body`)}
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link href="/shop/cart" className="w-full sm:w-auto px-8 py-4 bg-brand-900 text-gold-400 font-black uppercase tracking-[0.16em] rounded-2xl">
-                            Return to Cart
+                            {t("returnCart")}
                         </Link>
                         <Link href="/contact" className="w-full sm:w-auto px-8 py-4 bg-white border-2 border-slate-200 text-brand-900 font-bold rounded-2xl">
-                            Contact Support
+                            {t("contactSupport")}
                         </Link>
                     </div>
                 </div>
@@ -85,8 +89,12 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
     }
 
     return (
-        <main className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
-            <ClearCartAfterPurchase sessionId={session.id} />
+        <main id="main-content" tabIndex={-1} className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
+            <ClearCartAfterPurchase sessionId={session.id} purchasedItems={metadataItems.flatMap(item =>
+                typeof item.p === "string" && typeof item.q === "number" && Number.isInteger(item.q) && item.q > 0
+                    ? [{ productId: item.p, editionId: item.ce === null ? undefined : typeof item.ce === "string" ? item.ce : typeof item.e === "string" ? item.e : undefined, quantity: item.q }]
+                    : [],
+            )} />
             {session && amountTotal && (
                 <ShopPurchaseEvent 
                     orderId={session.id}
@@ -107,18 +115,20 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                 </div>
 
                 <h1 className="text-4xl md:text-6xl font-bold text-brand-900 font-heading mb-6 tracking-tight">
-                    Success! Order Confirmed.
+                    {t("paidTitle")}
                 </h1>
                 <p className="text-xl text-slate-600 mb-10 max-w-xl mx-auto leading-relaxed">
-                    Thank you for choosing Union National. Your payment was processed successfully, 
-                    and we&apos;ve sent your receipt to <span className="font-bold text-brand-900">{customerEmail}</span>.
+                    {t("paidBody")}
                 </p>
+                {session.metadata?.fulfillment_status !== "fulfilled" && (
+                    <p className="mb-8 text-sm text-amber-800" role="status">{t("fulfillmentPending")}</p>
+                )}
 
                 {/* Order Summary Card (Dynamic) */}
                 {session && (
                     <div className="mb-12 bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden text-left mx-auto max-w-lg">
                         <div className="bg-brand-900 px-8 py-4 flex justify-between items-center">
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-gold-400">Order Summary</span>
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-gold-400">{t("orderSummary")}</span>
                             <span className="text-xs font-bold text-white/60">ID: {session.id.slice(-8).toUpperCase()}</span>
                         </div>
                         <div className="p-8">
@@ -128,8 +138,8 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                                         <Package className="w-5 h-5 text-slate-400" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-bold text-brand-900">Total Charged</p>
-                                        <p className="text-xs text-slate-500">Secure Payment via Stripe</p>
+                                        <p className="text-sm font-bold text-brand-900">{t("totalCharged")}</p>
+                                        <p className="text-xs text-slate-500">{t("securePayment")}</p>
                                     </div>
                                 </div>
                                 <span className="text-2xl font-bold text-brand-900">${amountTotal}</span>
@@ -142,7 +152,7 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                                             <Mail className="w-4 h-4 text-gold-600" />
                                         </div>
                                         <p className="text-sm text-slate-600">
-                                            Digital access instructions will be sent to <span className="font-semibold">{customerEmail}</span>.
+                                            {t("digitalNote")}
                                         </p>
                                     </div>
                                 )}
@@ -152,7 +162,7 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                                             <Package className="w-4 h-4 text-brand-600" />
                                         </div>
                                         <p className="text-sm text-slate-600">
-                                            Physical items will be prepared for shipment using the address provided at checkout.
+                                            {t("physicalNote")}
                                         </p>
                                     </div>
                                 )}
@@ -167,9 +177,9 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                         <div className="w-12 h-12 bg-slate-900 text-gold-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                             <Mail className="w-6 h-6" />
                         </div>
-                        <h3 className="font-bold text-brand-900 mb-2">Check Your Email</h3>
+                        <h3 className="font-bold text-brand-900 mb-2">{t("orderHelpTitle")}</h3>
                         <p className="text-sm text-slate-500 leading-relaxed">
-                            A detailed confirmation and instructions for digital downloads are in your inbox.
+                            {t("orderHelpBody")}
                         </p>
                     </div>
                     {hasDigital ? (
@@ -177,9 +187,9 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                             <div className="w-12 h-12 bg-slate-900 text-gold-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                                 <Download className="w-6 h-6" />
                             </div>
-                            <h3 className="font-bold text-brand-900 mb-2">Digital Access</h3>
+                            <h3 className="font-bold text-brand-900 mb-2">{t("digitalTitle")}</h3>
                             <p className="text-sm text-slate-500 leading-relaxed">
-                                Your digital fulfillment instructions are tied to this confirmed Stripe order.
+                                {t("digitalBody")}
                             </p>
                         </div>
                     ) : (
@@ -187,9 +197,9 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                             <div className="w-12 h-12 bg-slate-900 text-gold-400 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                                 <Package className="w-6 h-6" />
                             </div>
-                            <h3 className="font-bold text-brand-900 mb-2">Shipping Prep</h3>
+                            <h3 className="font-bold text-brand-900 mb-2">{t("shippingTitle")}</h3>
                             <p className="text-sm text-slate-500 leading-relaxed">
-                                Your physical order will move into the fulfillment queue after payment confirmation.
+                                {t("shippingBody")}
                             </p>
                         </div>
                     )}
@@ -202,20 +212,20 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                         className="w-full sm:w-auto px-10 py-5 bg-brand-900 text-gold-400 font-black uppercase tracking-[0.2em] rounded-2xl shadow-2xl shadow-brand-900/20 hover:bg-brand-800 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3"
                     >
                         <ShoppingBag className="w-5 h-5" />
-                        Continue Shopping
+                        {t("continueShopping")}
                     </Link>
                     <Link
                         href="/"
                         className="w-full sm:w-auto px-10 py-5 bg-white border-2 border-slate-200 text-brand-900 font-bold rounded-2xl hover:bg-slate-50 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3"
                     >
-                        Return Home
+                        {t("returnHome")}
                         <ArrowRight className="w-5 h-5" />
                     </Link>
                 </div>
 
                 <div className="mt-20 pt-8 border-t border-slate-200/60 max-w-xl mx-auto">
                     <p className="text-sm text-slate-400">
-                        Need assistance? We&apos;re here to help. <Link href="/contact" className="text-brand-700 font-bold hover:text-gold-600 transition-colors">Contact Order Support</Link>
+                        {t("needAssistance")} <Link href="/contact" className="text-brand-700 font-bold hover:text-gold-600 transition-colors">{t("contactOrderSupport")}</Link>
                     </p>
                 </div>
             </div>

@@ -1,0 +1,10 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Actual CMS plan benefits differ from the mockup's example inclusions and are retained.", "The signature uses the existing italic serif, and the faint contour decoration is omitted."],
+  "suggestions": [],
+  "reasoning": "The editorial heading, progression row, equal plan cards, Growth recommendation, annual prices, full-width detail buttons, and integrated standards strip closely match the reference. English and Spanish desktop views at 1280px through 1536px have aligned pricing and buttons, valid localized pricing links, five standards, and no overflow or page errors. Mobile retains the previous layout.",
+  "next_actions": []
+}

@@ -2,7 +2,7 @@
 
 import { z } from "zod"
 import { logger } from "@/lib/observability/logger"
-import { checkRateLimit } from "@/lib/security/rate-limiter"
+import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter"
 import { normalizePhone, forwardToGhl } from "@/lib/intake/shared"
 
 const ContactFormSchema = z.object({
@@ -14,6 +14,8 @@ const ContactFormSchema = z.object({
     email: z.string().email("Invalid email address"),
     phone: z.string().optional(),
     message: z.string().optional(),
+    locale: z.enum(["en", "es"]).default("en"),
+    submissionId: z.string().uuid().optional(),
     privacy: z.literal(true, { message: "You must agree to the privacy policy" }),
 })
 
@@ -24,14 +26,16 @@ export async function submitContactForm(
     formData: FormData
 ): Promise<ContactFormState> {
     const raw = {
-        _hpt: formData.get("_hpt"),
+        _hpt: formData.get("_hpt") ?? undefined,
         goal: formData.get("goal"),
         clientType: formData.get("clientType"),
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
         email: formData.get("email"),
-        phone: formData.get("phone"),
-        message: formData.get("message"),
+        phone: formData.get("phone") ?? undefined,
+        message: formData.get("message") ?? undefined,
+        locale: formData.get("locale") || "en",
+        submissionId: formData.get("submissionId") || undefined,
         privacy: formData.get("privacy"),
     }
 
@@ -41,24 +45,23 @@ export async function submitContactForm(
         return { status: "success" }
     }
 
-    // Rate limit — static identifier since Server Actions lack an incoming Request
-    const rateLimit = await checkRateLimit("contact-form")
-    if (!rateLimit.success) {
-        logger.warn("Contact form rate limited")
-        return { status: "error", message: "Too many requests. Please try again later." }
-    }
-
     // Validate
     const parsed = ContactFormSchema.safeParse({
         ...raw,
         privacy: raw.privacy === "true" ? true : undefined,
     })
     if (!parsed.success) {
-        logger.warn("Contact form validation failed", { issues: parsed.error.issues })
+        logger.warn("Contact form validation failed")
         return { status: "error", message: "Invalid form data." }
     }
 
     const d = parsed.data
+    // ponytail: email-keyed quotas avoid spoofable proxy headers; add an edge challenge if rotating addresses becomes material.
+    const rateLimit = await checkRateLimit(contactRateLimitKey(d.email), 5, 60_000)
+    if (!rateLimit.success) {
+        logger.warn("Contact form rate limited")
+        return { status: "error", message: "Too many requests. Please try again later." }
+    }
 
     const goalToService: Record<string, string> = {
         "tax-reduction": "TAX_PLANNING",
@@ -70,9 +73,10 @@ export async function submitContactForm(
     const payload = {
         version: "1.0",
         eventType: "CONTACT_FORM_SUBMITTED",
-        sourcePage: "contact-page",
+        sourcePage: `/${d.locale}/contact`,
         leadMagnetType: "GENERAL",
         submittedAt: new Date().toISOString(),
+        submissionId: d.submissionId,
         contact: {
             firstName: d.firstName,
             lastName: d.lastName,
@@ -83,21 +87,23 @@ export async function submitContactForm(
             primaryServiceInterest: goalToService[d.goal] ?? "TAX_PLANNING",
             consultationType: "INITIAL_CONSULTATION",
             urgencyLevel: "MEDIUM",
+            clientType: d.clientType,
+            message: d.message,
         },
         tracking: {},
         meta: {
-            locale: "en",
+            locale: d.locale,
             userAgent: undefined,
         },
     }
 
     try {
-        const ghl = await forwardToGhl(payload)
+        const ghl = await forwardToGhl(payload, undefined, d.submissionId)
         if (!ghl.ok) {
             logger.error("GHL forward failed for contact form", null, { status: ghl.status })
             return { status: "error", message: "Submission failed. Please try again." }
         }
-        logger.info("Contact form submitted", { email: d.email, goal: d.goal })
+        logger.info("Contact form submitted", { goal: d.goal })
         return { status: "success" }
     } catch (err) {
         logger.error("Contact form error", err)

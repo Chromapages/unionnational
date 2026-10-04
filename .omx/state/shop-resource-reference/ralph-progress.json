@@ -1,0 +1,13 @@
+{
+  "score": 97,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The English section is 894px at 1774px, close to the 887px reference.",
+    "The existing product cover is a flat image; the reference shows a 3D book mockup."
+  ],
+  "suggestions": [],
+  "reasoning": "The desktop layout matches the reference hierarchy and scale. English and Spanish fit without overflow, and search, topics, all-resources, and featured-product links work.",
+  "next_actions": []
+}

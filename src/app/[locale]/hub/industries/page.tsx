@@ -4,13 +4,18 @@ import { HubHero } from "@/components/hub/HubHero";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-    title: "Industry Guides | Authority Hub",
-    description: "Industry-specific tax strategies and playbooks for construction, real estate, e-commerce, and more.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Industry Guides | Authority Hub",
+        description: "Industry-specific tax strategies and playbooks for construction, real estate, e-commerce, and more.",
+        alternates: localizedAlternates(locale, "/hub/industries"),
+    };
+}
 
 export default async function IndustriesPage(props: { params: Promise<{ locale: string }> }) {
     const { locale } = await props.params;

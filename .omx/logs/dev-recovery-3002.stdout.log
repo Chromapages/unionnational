@@ -1,0 +1,35 @@
+▲ Next.js 16.3.8 (webpack)
+- Local:         http://localhost:3002
+- Network:       http://10.0.0.157:3002
+- Environments: .env
+✓ Ready in 1083ms
+✓ Running next.config.ts took 441ms
+
+  We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+  The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+  	- include was updated to add '.next-recovery-3002-20261004-154447/types/**/*.ts'
+  	- include was updated to add '.next-recovery-3002-20261004-154447/dev/types/**/*.ts'
+
+- Experiments (use with caution):
+  · optimizePackageImports
+
+○ Compiling /[locale] ...
+ GET /en 200 in 25.1s (next.js: 22.3s, proxy.ts: 135ms, application-code: 2.6s)
+ GET /en 200 in 3.1s (next.js: 1358ms, proxy.ts: 19ms, application-code: 1739ms)
+ GET /en 200 in 213ms (next.js: 29ms, proxy.ts: 31ms, application-code: 153ms)
+ GET /en 200 in 162ms (next.js: 19ms, proxy.ts: 9ms, application-code: 133ms)
+ GET /favicon.ico 307 in 1669ms (next.js: 1631ms, application-code: 38ms)
+ GET /en 200 in 1304ms (next.js: 108ms, proxy.ts: 21ms, application-code: 1175ms)
+ GET /en 200 in 166ms (next.js: 12ms, proxy.ts: 10ms, application-code: 144ms)
+ GET /en 200 in 1105ms (next.js: 28ms, proxy.ts: 20ms, application-code: 1057ms)
+ GET /en/services 200 in 834ms (next.js: 6ms, proxy.ts: 5ms, generate-params: 0.0ms, application-code: 822ms)
+ GET /en/services 200 in 4.9s (next.js: 2.9s, proxy.ts: 5ms, generate-params: 1017ms, application-code: 1018ms)
+ GET /en/services 200 in 897ms (next.js: 6ms, proxy.ts: 6ms, generate-params: 6ms, application-code: 879ms)
+ GET /en/industries 200 in 3.9s (next.js: 3.2s, proxy.ts: 8ms, application-code: 666ms)
+ GET /en/resources 200 in 3.1s (next.js: 1036ms, proxy.ts: 6ms, generate-params: 1032ms, application-code: 1067ms)
+ GET /en/about 200 in 3.0s (next.js: 1879ms, proxy.ts: 7ms, application-code: 1088ms)
+ GET /en/shop 200 in 3.9s (next.js: 1908ms, proxy.ts: 5ms, generate-params: 1023ms, application-code: 914ms)
+ GET /en/book 200 in 3.0s (next.js: 2.6s, proxy.ts: 6ms, application-code: 380ms)
+ GET /en 200 in 357ms (next.js: 22ms, proxy.ts: 7ms, application-code: 329ms)
+ GET /en 200 in 607ms (next.js: 81ms, proxy.ts: 6ms, application-code: 520ms)

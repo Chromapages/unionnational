@@ -1,0 +1,19 @@
+{
+  "score": 100,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "The crossed-out recruitment banner is removed. The team directory now leads directly to the existing strategy-call section with standard section spacing.",
+  "next_actions": [],
+  "verification": {
+    "english_banner_present": false,
+    "spanish_banner_present": false,
+    "directory_card_count": 12,
+    "strategy_call_section_present": true,
+    "unused_careers_prop_query_and_translations_removed": true,
+    "screenshot": ".omx/state/team-banner-removal/preview.png"
+  }
+}

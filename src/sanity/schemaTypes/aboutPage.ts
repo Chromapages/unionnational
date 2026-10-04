@@ -11,6 +11,26 @@ export const aboutPage = defineType({
     ],
     fields: [
         defineField({
+            name: 'approvedFounderTitle', title: 'Client-approved founder title', type: 'localizedString', group: 'content',
+            description: 'Leave empty until the client resolves the conflicting founder titles. No default is selected.',
+        }),
+        defineField({
+            name: 'approvedFeaturedMembers', title: 'Client-approved featured people', type: 'array', group: 'content',
+            description: 'Select three or four client-facing people after client confirmation. Everyone else remains on Team.',
+            of: [{ type: 'reference', to: [{ type: 'teamMember' }], options: { filter: 'isFounder != true' } }],
+            validation: rule => rule.min(3).max(4).unique(),
+        }),
+        defineField({
+            name: 'approvedProofStats', title: 'Client-approved About proof set', type: 'array', group: 'content',
+            description: 'One approved set of three figures. Include scope, date and substantiation in Source. Empty fields render pending placeholders.',
+            of: [{ type: 'object', fields: [
+                defineField({ name: 'value', type: 'string', title: 'Approved display value', validation: rule => rule.required() }),
+                defineField({ name: 'label', type: 'localizedString', title: 'Scope / label', validation: rule => rule.required() }),
+                defineField({ name: 'source', type: 'text', title: 'Source, date and client approval', validation: rule => rule.required() }),
+            ] }],
+            validation: rule => rule.min(3).max(3),
+        }),
+        defineField({
             name: 'heroTitle',
             title: 'Hero Title',
             type: 'localizedString',

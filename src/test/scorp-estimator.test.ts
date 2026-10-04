@@ -16,6 +16,10 @@ vi.mock("@/lib/observability/logger", () => ({
     logger: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
     getTraceId: () => "test-trace-id",
 }));
+vi.mock("@/lib/security/rate-limiter", () => ({
+    contactRateLimitKey: (email: string) => email,
+    checkRateLimit: async () => ({ success: true, resetTime: Date.now() + 60_000 }),
+}));
 
 // ─── Mock GHL forwarding ────────────────────────────────────────────────────
 
@@ -447,27 +451,16 @@ describe("POST /api/scorp-estimator", () => {
         expect(res.status).toBe(200);
         const body = await res.json();
         expect(body.success).toBe(true);
+        expect(body.lead_captured).toBe(false);
         expect(body.fit_score).toBeDefined();
     });
 
-    it("returns 500 when unexpected error occurs during processing", async () => {
-        // Break the module import to force an error
-        vi.doMock("@/lib/scorp/calculateFitScore", () => {
-            throw new Error("Module broken for testing");
-        });
-
+    it("keeps the calculation but reports a failed lead after network rejection", async () => {
+        fetchMock.mockRejectedValueOnce(new TypeError("network failure"));
         const req = buildEstimatorRequest(validScorpInput);
-
-        try {
-            const { POST } = await import("@/app/api/scorp-estimator/route");
-            const res = await POST(req as unknown as NextRequest);
-
-            expect(res.status).toBe(500);
-            const body = await res.json();
-            expect(body.success).toBe(false);
-            expect(body.message).toBe("Failed to process estimate");
-        } finally {
-            vi.resetModules();
-        }
+        const { POST } = await import("@/app/api/scorp-estimator/route");
+        const res = await POST(req as unknown as NextRequest);
+        expect(res.status).toBe(200);
+        expect(await res.json()).toMatchObject({ success: true, lead_captured: false });
     });
 });

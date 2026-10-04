@@ -1,0 +1,2734 @@
+[
+  {
+    "source": "src/app/scorp-advantage/page.tsx:47",
+    "text": "text: \"Self-employment tax is 15.3%. S-Corp distributions aren't subject to it. The difference can be $10,000-$30,000 per year.\","
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:93",
+    "text": "price: \"Starting at $497\","
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:98",
+    "text": "price: \"Starting at $1,500\","
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:104",
+    "text": "price: \"Starting at $2,500\","
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:109",
+    "text": "price: \"Starting at $3,500/yr\","
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:128",
+    "text": "answer: \"For a business netting $80,000+, the savings routinely exceed the cost of the program in year one. The evaluation will tell you exactly where you stand - no guesswork.\","
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:133",
+    "text": "{ label: \"Example annual savings\", value: \"$17,595\", icon: TrendingUp },"
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:134",
+    "text": "{ label: \"Five-year projection\", value: \"$87,975\", icon: LineChart },"
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:135",
+    "text": "{ label: \"SE tax rate reviewed\", value: \"15.3%\", icon: Calculator },"
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:141",
+    "text": "{ label: \"Owner focus\", value: \"$80K+\" },"
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:325",
+    "text": "A concrete example: $17,595 kept in the business."
+  },
+  {
+    "source": "src/app/scorp-advantage/page.tsx:328",
+    "text": "Michael owns an HVAC company. His S-Corp nets $200,000 after expenses. With a reasonable salary of $85,000 and $115,000 in distributions, he saves $17,595 in payroll taxes. Legally. Every year. Over 5 years: $87,975 kept instead of paid to the IRS."
+  },
+  {
+    "source": "src/app/[locale]/blog/[slug]/page.tsx:151",
+    "text": "Our partners save an average of $20K annually in self-employment taxes. See your potential savings in 60 seconds."
+  },
+  {
+    "source": "src/app/[locale]/contact/page.tsx:62",
+    "text": "savings: settings?.heroStats?.savings ?? \"$2.3B\","
+  },
+  {
+    "source": "src/app/[locale]/restaurants/profit-leak-assessment/page.tsx:207",
+    "text": "desc: \"Many restaurants fail to capture Section 45B FICA Tip Credits — worth up to $10,000/year in federal tax savings for eligible operators.\","
+  },
+  {
+    "source": "src/app/[locale]/s-corp-tax-advantage/SCorpAdvantageClient.tsx:195",
+    "text": "<span className=\"text-2xl font-bold text-gold-500 font-data tabular-nums\">$12,000+</span>"
+  },
+  {
+    "source": "src/app/[locale]/s-corp-tax-advantage/SCorpAdvantageClient.tsx:200",
+    "text": "animate={{ width: \"75%\" }}"
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:15",
+    "text": "description: \"Most Utah contractors leave $20,000–$80,000 in tax savings unclaimed every year. Get your free segmented Tax Savings Analysis — built for construction businesses.\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:30",
+    "text": "titleHighlight=\"$20,000–$80,000\""
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:109",
+    "text": "subtitle=\"Most analyses reveal $15,000–$80,000 in typically-unclaimed deductions depending on business structure and revenue.\""
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:113",
+    "text": "range: \"$500K – $1M\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:114",
+    "text": "savings: \"$8,000–$25,000\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:118",
+    "text": "range: \"$1M – $3M\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:119",
+    "text": "savings: \"$20,000–$50,000\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:123",
+    "text": "range: \"$3M+\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/contractors/page.tsx:124",
+    "text": "savings: \"$40,000–$80,000+\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:15",
+    "text": "description: \"Most Utah restaurant and hospitality owners leave $15,000–$60,000 in tax savings unclaimed every year. Get your free segmented Tax Savings Analysis — built for hospitality.\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:30",
+    "text": "titleHighlight=\"$15,000–$60,000\""
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:113",
+    "text": "range: \"$500K – $1.5M Revenue\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:114",
+    "text": "savings: \"$10,000–$25,000\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:118",
+    "text": "range: \"$1.5M – $5M Revenue\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:119",
+    "text": "savings: \"$25,000–$65,000\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:123",
+    "text": "range: \"$5M+ Revenue\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/hospitality/page.tsx:124",
+    "text": "savings: \"$75,000–$150,000+\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/page.tsx:23",
+    "text": "description: \"Identify $20k–$80k in unclaimed deductions specific to job costing, equipment, and S-Corp optimization.\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:15",
+    "text": "description: \"Most Utah real estate investors leave $25,000–$100,000+ in tax savings unclaimed every year. Get your free segmented Tax Savings Analysis — built for real estate.\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:30",
+    "text": "titleHighlight=\"$25,000–$100,000+\""
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:109",
+    "text": "subtitle=\"Most analyses reveal $25,000–$100,000+ in typically-unclaimed deductions depending on portfolio size and structure.\""
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:113",
+    "text": "range: \"$500K – $1M Portfolio\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:114",
+    "text": "savings: \"$12,000–$35,000\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:118",
+    "text": "range: \"$1M – $5M Portfolio\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:119",
+    "text": "savings: \"$30,000–$75,000\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:123",
+    "text": "range: \"$5M+ Portfolio\","
+  },
+  {
+    "source": "src/app/[locale]/tax-savings-analysis/real-estate/page.tsx:124",
+    "text": "savings: \"$60,000–$150,000+\","
+  },
+  {
+    "source": "src/components/about/CompanyTimeline.tsx:14",
+    "text": "{ year: \"2021\", title: \"$25M Saved\", description: \"Milestone: $25M in client tax savings\" },"
+  },
+  {
+    "source": "src/components/construction/profit-blueprint/BlueprintAuthorBio.tsx:19",
+    "text": "{ value: \"$23,420\", label: \"Avg. Annual Client Tax Savings*\" },"
+  },
+  {
+    "source": "src/components/construction/profit-blueprint/BlueprintAuthorBio.tsx:129",
+    "text": "<em className=\"italic text-slate-200\">The Money-Making Blueprint for Construction Companies</em>, Jason distills a decade of frontline advisory work into an actionable framework any contractor can implement — whether they&apos;re doing $500K or $10M a year."
+  },
+  {
+    "source": "src/components/home/BentoGridSection.tsx:155",
+    "text": "const mainStat = stats?.[0] || { value: \"$2M+\", label: t('taxSavingsCard.defaultLabel') };"
+  },
+  {
+    "source": "src/components/home/SCorpCalculator.tsx:29",
+    "text": "// 1. Sole Prop / LLC: 15.3% SE Tax on 92.35% of net earnings"
+  },
+  {
+    "source": "src/components/home/SCorpCalculator.tsx:35",
+    "text": "// Rudimentary Reasonable Comp Logic: 40% of income or max 100k (simplified)"
+  },
+  {
+    "source": "src/components/resources/calculators/CalculatorResultPanel.tsx:62",
+    "text": "Includes Self-Employment Tax (15.3%) and estimated State/Federal Income Tax."
+  },
+  {
+    "source": "src/components/resources/calculators/CalculatorResultPanel.tsx:80",
+    "text": "You're losing <span className=\"font-bold text-brand-900\">{taxImpactPercent.toFixed(0)}%</span> of your job profit to taxes. A strategic S-Corp election or specialized deductions could save you over $10,000 annually."
+  },
+  {
+    "source": "src/components/resources/calculators/useJobCostCalculator.ts:28",
+    "text": "// In reality, SE tax is 15.3% on 92.35% of net profit, but we'll keep it illustrative"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/ConstructionTaxChecklist.tsx:138",
+    "text": "// Rough estimate: each deduction is worth $500-$5000 on average"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:18",
+    "text": "{ label: \"Under $50,000\", value: 0 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:19",
+    "text": "{ label: \"$50,000 - $80,000\", value: 1 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:20",
+    "text": "{ label: \"$80,000 - $150,000\", value: 3 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:21",
+    "text": "{ label: \"$150,000 - $300,000\", value: 5 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:22",
+    "text": "{ label: \"Over $300,000\", value: 7 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:30",
+    "text": "{ label: \"Under $5,000\", value: 1 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:31",
+    "text": "{ label: \"$5,000 - $12,000\", value: 3 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:32",
+    "text": "{ label: \"$12,000 - $25,000\", value: 5 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:33",
+    "text": "{ label: \"Over $25,000\", value: 7 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:41",
+    "text": "{ label: \"A small amount ($0-20k)\", value: 2 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:42",
+    "text": "{ label: \"Yes, significant ($20k-50k)\", value: 4 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:43",
+    "text": "{ label: \"Very significant (over $50k)\", value: 6 },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:68",
+    "text": "{ icon: TrendingUp, title: \"Save $8,000-$20,000+ Annually\", description: \"Most S-Corp owners see this level of savings\" },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpAdvantageGuide.tsx:69",
+    "text": "{ icon: Shield, title: \"Reduce SE Tax by 50%\", description: \"Only pay SE tax on salary, not distributions\" },"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpElectionChecklist.tsx:44",
+    "text": "question: \"Do you have $80,000+ in annual business income?\","
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpSavingsCalculator.tsx:21",
+    "text": "// Sole Prop / LLC: Self-employment tax on all net profit (15.3% on 92.35% of net)"
+  },
+  {
+    "source": "src/components/resources/lead-magnets/SCorpSavingsCalculator.tsx:31",
+    "text": "// Federal tax savings (rough estimate - assuming 22% bracket)"
+  },
+  {
+    "source": "src/components/scorp/BeforeAfterTable.tsx:17",
+    "text": "{ label: \"Salary (W-2)\", without: \"$0\", with: formatCurrency(salary) },"
+  },
+  {
+    "source": "src/components/scorp/BeforeAfterTable.tsx:18",
+    "text": "{ label: \"Distributions\", without: \"$0\", with: formatCurrency(distributions) },"
+  },
+  {
+    "source": "src/components/scorp/BeforeAfterTable.tsx:20",
+    "text": "{ label: \"Estimated Annual Savings\", without: \"$0\", with: formatCurrency(savings) },"
+  },
+  {
+    "source": "src/components/scorp/SavingsEstimatorForm.tsx:53",
+    "text": "{ label: \"Under $50K\", value: \"UNDER_50K\" },"
+  },
+  {
+    "source": "src/components/scorp/SavingsEstimatorForm.tsx:54",
+    "text": "{ label: \"$50K - $100K\", value: \"50K_100K\" },"
+  },
+  {
+    "source": "src/components/scorp/SavingsEstimatorForm.tsx:55",
+    "text": "{ label: \"$100K - $250K\", value: \"100K_250K\" },"
+  },
+  {
+    "source": "src/components/scorp/SavingsEstimatorForm.tsx:56",
+    "text": "{ label: \"$250K - $500K\", value: \"250K_500K\" },"
+  },
+  {
+    "source": "src/components/scorp/SavingsEstimatorForm.tsx:57",
+    "text": "{ label: \"$500K - $1M\", value: \"500K_1M\" },"
+  },
+  {
+    "source": "src/components/scorp/SavingsEstimatorForm.tsx:58",
+    "text": "{ label: \"Over $1M\", value: \"OVER_1M\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:54",
+    "text": "{ value: \"UNDER_100K\", label: \"Under $100K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:55",
+    "text": "{ value: \"100K_250K\", label: \"$100K – $250K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:56",
+    "text": "{ value: \"250K_500K\", label: \"$250K – $500K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:57",
+    "text": "{ value: \"500K_1M\", label: \"$500K – $1M\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:58",
+    "text": "{ value: \"1M_5M\", label: \"$1M – $5M\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:59",
+    "text": "{ value: \"5M_PLUS\", label: \"$5M+\" }"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:63",
+    "text": "{ value: \"UNDER_50K\", label: \"Under $50K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:64",
+    "text": "{ value: \"50K_100K\", label: \"$50K – $100K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:65",
+    "text": "{ value: \"100K_150K\", label: \"$100K – $150K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:66",
+    "text": "{ value: \"150K_250K\", label: \"$150K – $250K\" },"
+  },
+  {
+    "source": "src/components/scorp/ScorpEstimatorStepFinancials.tsx:67",
+    "text": "{ value: \"250K_PLUS\", label: \"$250K+\" }"
+  },
+  {
+    "source": "src/components/shop/ShopDesktopExperience.tsx:106",
+    "text": "<div className=\"relative isolate min-h-[23rem] overflow-hidden bg-[radial-gradient(ellipse_at_top_left,rgba(228,209,135,.18),transparent_75%)] md:min-h-[30rem]\">"
+  },
+  {
+    "source": "src/components/shop/ShopDesktopExperience.tsx:107",
+    "text": "<div className=\"absolute inset-y-9 right-[9%] w-[54%] pb-5 [transform:perspective(1000px)_rotateY(-8deg)]\">"
+  },
+  {
+    "source": "src/hooks/useTaxCalculator.ts:77",
+    "text": "* - Old tax = netIncome * 15.3% (self-employment tax rate)"
+  },
+  {
+    "source": "src/hooks/useTaxCalculator.ts:78",
+    "text": "* - Salary = 40% of netIncome (capped at minimum $40k if income > $40k)"
+  },
+  {
+    "source": "src/hooks/useTaxCalculator.ts:79",
+    "text": "* - New tax = salary * 15.3%"
+  },
+  {
+    "source": "src/hooks/useTaxCalculator.ts:109",
+    "text": "// Self-employment tax rate (Social Security 12.4% + Medicare 2.9%)"
+  },
+  {
+    "source": "src/lib/constants/trust-metrics.ts:54",
+    "text": "debtResolved: \"$10M+\","
+  },
+  {
+    "source": "src/lib/constants/trust-metrics.ts:55",
+    "text": "avgSavings: \"$2.4M+\","
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:9",
+    "text": "return \"$0 – $2,000\";"
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:13",
+    "text": "return \"$0 – $3,000\";"
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:18",
+    "text": "UNDER_50K: \"$1,000 – $3,000\","
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:19",
+    "text": "\"50K_100K\": \"$3,000 – $7,000\","
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:20",
+    "text": "\"100K_150K\": \"$7,000 – $12,000\","
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:21",
+    "text": "\"150K_250K\": \"$12,000 – $18,000\","
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:22",
+    "text": "\"250K_PLUS\": \"$18,000 – $30,000+\""
+  },
+  {
+    "source": "src/lib/scorp/calculateSavingsRange.ts:25",
+    "text": "return ranges[input.estimated_net_profit_range] || \"$0 - $1,000\";"
+  },
+  {
+    "source": "src/messages/en.json:576",
+    "text": "\"retainedEarnings\": \"+15.3% retained earnings vs Sole Prop\","
+  },
+  {
+    "source": "src/messages/en.json:1103",
+    "text": "\"meta\": \"7 questions • Instant health score • 100% confidential\","
+  },
+  {
+    "source": "src/messages/en.json:1193",
+    "text": "\"footerText\": \"No obligation. 100% Confidential.\","
+  },
+  {
+    "source": "src/messages/es.json:87",
+    "text": "\"subtitle\": \"La 'Bóveda Digital' para su patrimonio. Estrategias fiscales de grado institucional diseñadas para ahorrar a personas de altos ingresos $20k+ anualmente.\","
+  },
+  {
+    "source": "src/messages/es.json:580",
+    "text": "\"retainedEarnings\": \"+15.3% ganancias retenidas vs Propietario Único\","
+  },
+  {
+    "source": "src/messages/es.json:1076",
+    "text": "\"meta\": \"7 preguntas • Puntuación instantánea • 100% confidencial\","
+  },
+  {
+    "source": "src/sanity/schemaTypes/aboutPage.ts:46",
+    "text": "initialValue: { en: \"The only nationwide tax firm dedicated 100% to the construction industry. Combining aggressive S-Corp strategies with bulletproof IRS defense.\", es: \"La única firma fiscal a nivel nacional dedicada 100% a la industria de la construcción. Combinando estrategias agresivas de S-Corp con defensa inquebrantable ante el IRS.\" },"
+  },
+  {
+    "source": "src/sanity/schemaTypes/aboutPage.ts:182",
+    "text": "title: { en: \"The $10M Milestone\", es: \"El Hito de los $10M\" },"
+  },
+  {
+    "source": "src/sanity/schemaTypes/aboutPage.ts:183",
+    "text": "description: { en: \"Surpassed $10 Million in tax savings generated for our construction clients.\", es: \"Superamos los $10 millones en ahorros fiscales generados para nuestros clientes de construcción.\" }"
+  },
+  {
+    "source": "src/sanity/schemaTypes/caseStudy.ts:86",
+    "text": "description: 'ej. \"$23,400 por año\" o \"38% de reducción total\".',"
+  },
+  {
+    "source": "src/sanity/schemaTypes/contactSettings.ts:32",
+    "text": "{ name: 'savings', type: 'string', title: 'Total Tax Savings (e.g., \"$2.3B\")' },"
+  },
+  {
+    "source": "src/sanity/schemaTypes/homePage.ts:110",
+    "text": "{ name: \"value\", type: \"string\", title: \"Value (e.g. $10M+)\" },"
+  },
+  {
+    "source": "src/sanity/schemaTypes/testimonial.ts:100",
+    "text": "description: \"ej. '$12,400' - poderosa métrica de prueba social.\","
+  },
+  {
+    "source": "src/sanity/schemaTypes/testimonial.ts:129",
+    "text": "description: \"ej. 'Ahorró $23k con elección de S-Corp'. Breve y fácil de leer.\","
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:408",
+    "text": "{ question: 'How much can an S-Corp save on self-employment taxes?', answer: 'For a business owner earning $200,000 in net profit, switching to S-Corp status can save approximately $15,300 per year in self-employment taxes by splitting income into a salary and distributions.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:409",
+    "text": "{ question: 'What is the minimum salary for an S-Corp owner?', answer: 'The IRS requires S-Corp owners to pay themselves a \"reasonable salary\" for the work they perform. This must be at least what would be paid in an arm\\'s-length transaction for similar services, typically between $30,000-$60,000 for many professional roles.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:411",
+    "text": "{ question: 'At what income level does S-Corp election make sense?', answer: 'S-Corp election typically becomes advantageous when net profits exceed $80,000-$100,000 per year, as the tax savings on distributions outweigh the added compliance costs.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:420",
+    "text": "bodyEn: `If you're running a profitable business as a sole proprietor or LLC, you're likely overpaying in self-employment taxes. The self-employment tax rate is 15.3% on net earnings—and that's on top of your income tax. For high-earning consultants, contractors, and business owners, this can mean tens of thousands of dollars in unnecessary tax burden every single year."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:424",
+    "text": "Here's the basic concept: When you operate as a sole proprietor or single-member LLC, all the profit from your business flows directly to your personal tax return and is subject to self-employment tax. But when you elect S-Corp status, you can split your business income into two parts—a reasonable salary (subject to payroll taxes) and distributions (NOT subject to payroll taxes). The distributions flow through to your personal return but escape the 15.3% self-employment tax entirely."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:426",
+    "text": "Let's look at a real example. Say you're a consultant earning $200,000 per year in net profit. As a sole proprietor, you'd pay self-employment tax on the full $200,000—that's $30,600 in self-employment tax alone, before income tax."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:428",
+    "text": "Now let's say you make an S-Corp election and pay yourself a reasonable salary of $100,000. The remaining $100,000 comes to you as distributions. Your self-employment tax is now only $15,300—a savings of $15,300 compared to the sole proprietorship structure."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:436",
+    "text": "What about the added complexity? Yes, S-Corps require more administration. You need to run payroll, file quarterly payroll tax returns, and maintain corporate minutes. But for most profitable business owners, the tax savings far outweigh the added compliance costs. When you're saving $10,000, $20,000, or even $50,000 per year in taxes, paying a CPA a few thousand dollars extra to handle the compliance is still a net win."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:442",
+    "text": "If you're a business owner earning over $80,000 in net profit annually and you're currently operating as a sole proprietorship or single-member LLC, an S-Corp election could be one of the most impactful financial decisions you make this year. The potential tax savings are substantial, and the compliance requirements, while real, are manageable with proper planning.`,"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:453",
+    "text": "{ question: 'How much should I set aside for quarterly estimated taxes?', answer: 'Most financial advisors recommend setting aside 25-35% of your self-employment income for taxes. Your exact rate depends on your income bracket and whether you have other sources of income.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:454",
+    "text": "{ question: 'What happens if I don\\'t pay quarterly estimated taxes?', answer: 'The IRS charges penalties for underpayment, calculated at the federal short-term interest rate plus 3%. For 2024, this rate is around 8%, making it costly to skip quarterly payments.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:455",
+    "text": "{ question: 'Can I use last year\\'s tax bill to calculate quarterly payments?', answer: 'Yes, the \"prior year safe harbor\" method lets you pay 100% of last year\\'s total tax liability (110% if your AGI exceeded $150,000) divided by four. This protects you from penalties.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:466",
+    "text": "As a self-employed individual, you're responsible for paying taxes on your income as you earn it, not just at tax time. The IRS requires you to pay estimated taxes quarterly if you expect to owe at least $1,000 in taxes for the year. This includes both income tax and self-employment tax combined."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:474",
+    "text": "Here's a practical example. Let's say you expect to earn $150,000 in net profit this year, and you estimate $30,000 in deductions, leaving you with $120,000 in taxable income. After accounting for self-employment tax and income tax combined, you might owe roughly $35,000 for the year. Dividing by four, you'd need to pay $8,750 per quarter."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:482",
+    "text": "One key tip: Set aside a percentage of every payment you receive for taxes. Many financial advisors recommend saving 25-35% of your income for taxes, though your exact percentage depends on your bracket and situation. Creating a separate savings account and automating transfers makes this easier."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:497",
+    "text": "{ question: 'How much can I save with S-Corp vs LLC on $250,000 profit?', answer: 'On $250,000 net profit, an S-Corp with a $100,000 salary could save approximately $22,950 in self-employment taxes compared to a single-member LLC taxed as a sole proprietorship.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:499",
+    "text": "{ question: 'At what income level should I consider switching from LLC to S-Corp?', answer: 'S-Corp election typically becomes beneficial when net profits exceed $80,000-$100,000 annually, as the tax savings begin to outweigh the added compliance complexity and costs.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:516",
+    "text": "Imagine you run a consulting business with $250,000 in net profit. As a single-member LLC (sole proprietorship), you'd pay self-employment tax of 15.3% on the entire $250,000—that's $38,250. Add your income tax, and your total tax burden is substantial."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:518",
+    "text": "As an S-Corp, you pay yourself a reasonable salary of $100,000, which is subject to payroll taxes of $15,300. The remaining $150,000 flows to you as distributions, free from payroll taxes. You've just saved $22,950 in self-employment tax alone."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:526",
+    "text": "Third, S-Corps make less sense at lower income levels. The additional compliance costs might exceed the tax savings if your profit is below $80,000-$100,000. The break-even point depends on your specific situation, but as a general rule, S-Corp elections become advantageous when net profits exceed six figures."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:532",
+    "text": "The choice between LLC and S-Corp ultimately comes down to your profit level, desired lifestyle, and willingness to handle added compliance. If you're earning under $80,000 in net profit, the default LLC taxation probably makes the most sense. Above that threshold, especially above $100,000, an S-Corp election can produce significant tax savings that more than compensate for the added complexity."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:564",
+    "text": "Health insurance premiums. As a self-employed individual, you can deduct 100% of your health insurance premiums for yourself, your spouse, and dependents. This includes medical, dental, and vision insurance. The deduction is taken on Line 17 of Schedule 1, and it reduces your adjusted gross income (AGI), which can also lower other income-based limitations."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:566",
+    "text": "Retirement contributions. Solo 401(k)s, SEP-IRAs, and SIMPLE IRAs all allow significant tax-deductible contributions. A solo 401(k) lets you contribute both as an employee (up to $23,000 in 2024) and as an employer (up to 25% of compensation), potentially allowing six-figure contributions. SEP-IRAs permit contributions up to 25% of net self-employment income, with a $69,000 cap for 2024. These deductions reduce your taxable income substantially."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:594",
+    "text": "{ question: 'How much can I contribute to a solo 401(k) in 2024?', answer: 'In 2024, you can contribute up to $23,000 as an employee, plus up to 25% of net self-employment income as an employer contribution. With catch-up contributions (age 50+), you can contribute over $60,000.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:596",
+    "text": "{ question: 'What\\'s the main advantage of a solo 401(k) over a SEP-IRA?', answer: 'Solo 401(k)s allow employee deferrals ($23,000 in 2024) that SEP-IRAs don\\'t. For a self-employed person earning $100,000, this means up to $41,500 more in potential contributions.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:597",
+    "text": "{ question: 'Can I borrow from my solo 401(k)?', answer: 'Yes, solo 401(k)s permit loans up to 50% of your account balance or $50,000, whichever is less. The loan must be repaid with interest.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:610",
+    "text": "The contribution limits for 2024 are generous. As an employee, you can contribute up to $23,000 in salary deferrals (the same as a regular 401(k)). But as an employer, you can also make profit-sharing contributions of up to 25% of your net self-employment income. Combined, this can total over $50,000 per year in tax-deductible contributions—and if you're 50 or older, you get an additional $7,500 catch-up contribution, bringing the potential total to over $60,000."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:612",
+    "text": "Let's work through an example. Say you're a consultant with $200,000 in net self-employment income. As an employee, you defer $23,000. Your profit-sharing contribution is calculated as 25% of your net income minus the self-employment tax deduction. Roughly, you could add another $40,000-$45,000 in employer contributions. That's a potential $63,000 to $68,000 in total contributions—all tax-deductible."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:622",
+    "text": "One common mistake is not maximizing contributions. Many solo 401(k) holders contribute only the employee portion ($23,000) but forget the employer profit-sharing contribution. If you have a good year, maxing out the profit-sharing contribution can dramatically accelerate your retirement savings and reduce your tax bill at the same time."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:687",
+    "text": "{ question: 'What\\'s the best invoicing strategy for consultants?', answer: 'Invoice promptly upon completing work, make payment terms explicit (Net 30), and consider requiring deposits or milestone payments for large engagements exceeding $10,000.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:688",
+    "text": "{ question: 'How much should I set aside for taxes as a consultant?', answer: 'Set aside 25-30% of every payment you receive in a dedicated tax savings account. This prevents the shock of a large tax bill at filing time.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:689",
+    "text": "{ question: 'How can consultants accelerate payment collection?', answer: 'Send payment reminders before invoices are due, follow up immediately on overdue invoices, offer small discounts (2-3%) for early payment, and use clear, professional invoices with all necessary payment details.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:708",
+    "text": "Accelerate your payment collection. Send payment reminders before invoices are due (a simple \"just a reminder that invoice #X is due in 7 days\"). Follow up immediately when invoices become overdue. You might feel uncomfortable doing this, but it's a normal part of business, and your clients expect it. Consider offering small discounts (2-3%) for early payment to incentivize faster payment."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:716",
+    "text": "Plan for taxes. Set aside 25-30% of every payment you receive in a separate savings account. This money belongs to the IRS and your state—you're just holding it until tax day. When quarterly estimated tax payments are due, the money is already there. This discipline prevents the shock of a large tax bill you weren't prepared for."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:718",
+    "text": "Finally, consider your pricing strategy. If you're constantly cash-strapped despite having good clients, your rates may simply be too low. Raising your rates—even modestly—can dramatically improve cash flow without requiring you to find new clients or work more hours. Even a 10-15% rate increase can transform your business economics."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:820",
+    "text": "{ question: 'How much should a freelancer set aside for taxes?', answer: 'High-income freelancers typically set aside 30-35% of income for taxes, kept in a separate account and only accessed for quarterly estimated tax payments.' },"
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:842",
+    "text": "Separate business entities. At higher revenue levels, operating as an S-Corp becomes essential for tax savings. The self-employment tax savings alone can be $20,000-$50,000 per year for high earners. Combine this with the solo 401(k) for retirement savings."
+  },
+  {
+    "source": "src/scripts/create-10-blogs.ts:844",
+    "text": "Multiple bank accounts. At minimum, you need a business operating account, a tax reserve account (where you set aside 30% of every payment), and a profit distribution account. Some freelancers add a reinvestment account for business development spending. This structure makes cash flow management systematic rather than stressful."
+  },
+  {
+    "source": "scripts/seed-spanish-product-content.ts:87",
+    "text": "description: \"Use the S-Corp tax strategy that saves the average contractor $20K/year and the monthly tax set-aside system that ends the April surprise.\","
+  },
+  {
+    "source": "scripts/seed-spanish-product-content.ts:91",
+    "text": "description: \"Use la estrategia fiscal S-Corp que ahorra al contratista promedio $20K al año y el sistema mensual de reserva fiscal que elimina la sorpresa de abril.\","
+  },
+  {
+    "source": "CMS 22c20065-7eca-47c3-94a3-d4a445d8f9e4.fullDescription.en[1].children[1].text",
+    "text": " We treat your tax return as a legal document that must be both aggressive and ironclad. Our team of specialists meticulously audits your data before filing to ensure 100% accuracy, optimal entity treatment, and maximum utilization of credits like the R&D credit and Section 179 depreciation."
+  },
+  {
+    "source": "CMS 22c20065-7eca-47c3-94a3-d4a445d8f9e4.pageSections.pricing.headline.en",
+    "text": "From $595"
+  },
+  {
+    "source": "CMS 22c20065-7eca-47c3-94a3-d4a445d8f9e4.pageSections.pricing.headline.es",
+    "text": "Desde $595"
+  },
+  {
+    "source": "CMS 22c20065-7eca-47c3-94a3-d4a445d8f9e4.startingPrice.en",
+    "text": "From $595"
+  },
+  {
+    "source": "CMS 22c20065-7eca-47c3-94a3-d4a445d8f9e4.startingPrice.es",
+    "text": "Desde $595"
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[2].children[1].text",
+    "text": "Failure to File penalty of 5% of unpaid taxes per month"
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[2].children[2].text",
+    "text": ", up to 25% of your total bill. Missing a "
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[2].children[5].text",
+    "text": "Failure to Pay penalty of 0.5% per month"
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[7].children[1].text",
+    "text": " If you paid any contractor $600 or more in 2025, the 1099-NEC must be in their hands by this date — and filed with the IRS simultaneously.​"
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[46].children[0].text",
+    "text": "If you're self-employed, a freelancer, or a business owner who expects to owe more than $1,000 in taxes this year, you're required to make quarterly estimated payments. Here are all four due dates for 2026:"
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[62].children[1].text",
+    "text": "90% of your 2026 tax liability"
+  },
+  {
+    "source": "CMS 2968b3cc-936b-4ada-b3d7-5382fee07018.body.en[62].children[3].text",
+    "text": "100% of your 2025 tax liability"
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[0].children[0].text",
+    "text": "The S-Corp Decision That Could Save You $15,000 This Year — Or Cost You Dearly If Done Wrong"
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[1].children[0].text",
+    "text": "Here's the pitch you've probably heard: \"Elect S-Corp, save $15,000 in self-employment taxes.\""
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[2].children[0].text",
+    "text": "And the pitch is true. For most high-earning contractors and small business owners, it's accurate. On $300,000 of net income, switching from Sole Proprietorship to S-Corp can save you $14,000 to $18,000 per year in combined income and self-employment taxes. On $500,000, the savings hit $25,000+."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[8].children[0].text",
+    "text": "Self-employment tax runs 15.3% on net earnings from self-employment. That's the tax you're eliminating on the distribution portion of your income."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[9].children[0].text",
+    "text": "Example: $300K net income — As Sole Prop: 15.3% self-employment tax on all $300K = ~$45,900 in SE tax. As S-Corp with $90K salary + $210K distribution: 15.3% on $90K = ~$13,770 in SE tax, $0 on distribution. Savings: ~$32,000. Federal income tax works out roughly the same either way, so the net annual savings is $20K-$25K after income tax adjustments."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[13].children[0].text",
+    "text": "\"Reasonable\" is defined by what a similarly qualified person would earn in the same role for a comparable company. For an HVAC contractor running a $1M business, a reasonable salary in Orem, Utah is not $40,000. It's probably $90,000-$120,000."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[14].children[0].text",
+    "text": "The IRS has released guidance (Revenue Ruling 94-68) and more recently has increased S-Corp audit activity specifically targeting this issue. They've hired more auditors and improved data-matching so that returns where owner salary is less than 50% of total distributions flag for review."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[15].children[0].text",
+    "text": "The safe number: Your salary should be at least 50% of your total S-Corp distributions, or at minimum, equal to what the BLS Occupational Employment Statistics show for your role and region."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[17].children[0].text",
+    "text": "One of the most common mistakes: Taking a salary in January and February, then stopping and living on distributions for the rest of the year. The IRS sees this pattern regularly. If you paid yourself $15,000 for two months then nothing for ten months, that's a red flag even if the annual total adds up."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[23].children[0].text",
+    "text": "Payroll service requirements: Proper S-Corp execution requires payroll service, typically $500-$1,500/year. Budget this as part of the transition cost."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[26].children[0].text",
+    "text": "Role complexity — Is the work technically demanding? Simple bookkeeping tasks don't justify $150K. Running a full-service HVAC company with 10 technicians does."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[33].children[0].text",
+    "text": "Model a potential S-Corp structure. Salary at 50% of net income, distributions at 50%. Run the tax comparison."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[34].children[0].text",
+    "text": "If the savings exceed $10K, get an attorney to file the election. The election is made on Form 2553, and it must be filed by March 15 for the current tax year. If you miss that deadline, you wait another year."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.body[35].children[0].text",
+    "text": "Set up payroll correctly. Use a payroll service (Gusto, ADP, or similar) to run monthly salary. Budget $600-$1,200/year for this."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.excerpt",
+    "text": "S-Corp elections can save $15K+ annually on a $300K income, but the IRS is actively auditing S-Corp returns with unreasonable compensation. Here's exactly how to do it right in 2026."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.metaDescription",
+    "text": "S-Corp election saves $15K+ on $300K income but IRS is auditing unreasonable compensation. Here's the correct way to structure it for 2026."
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.metaTitle",
+    "text": "S-Corp Election: Save $15K or Face IRS Audit"
+  },
+  {
+    "source": "CMS 2Ja1vG7biIb634RK8z2pqh.title",
+    "text": "S-Corp Election: Save $15K or Trigger an IRS Audit"
+  },
+  {
+    "source": "CMS 2f1ac481-3d6f-479c-975f-f6a7e9b355d6.eligibilityPros[0].en",
+    "text": "You're a contractor, trades business, or service company doing $500K+ per year"
+  },
+  {
+    "source": "CMS 2f1ac481-3d6f-479c-975f-f6a7e9b355d6.eligibilityPros[0].es",
+    "text": "Eres un contratista, empresa de oficios o compañía de servicios con ingresos de $500K+ al año"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[13].children[2].text",
+    "text": " ($5/sq ft, up to 300 sq ft) or the "
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[21].children[1].text",
+    "text": "$2.56 million"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[21].children[2].text",
+    "text": ", with a phase-out beginning at around $4.09 million in total equipment purchases. For most independent contractors, that means you can write off your entire equipment purchase the year you buy it. "
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[21].children[3].text",
+    "text": "Bonus depreciation for 2026 is 20%"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[23].children[1].text",
+    "text": "100% of health, dental, and vision insurance premiums"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[27].children[1].text",
+    "text": " — Contribute up to 25% of net self-employment income (max ~$69,000 in 2026)"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[32].children[0].text",
+    "text": "Your cell phone and internet plan are partially or fully deductible if they're essential to your work. If you use your phone 70% for business, you deduct 70% of the bill. If your internet is used almost exclusively for work — common for remote contractors — you may be able to deduct the full amount."
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[36].children[1].text",
+    "text": "self-employment tax at a rate of 15.3%"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[36].children[2].text",
+    "text": " — that's 12.4% for Social Security and 2.9% for Medicare — on your net earnings. Unlike W-2 employees, you're covering both the employee "
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[37].children[1].text",
+    "text": "the IRS lets you deduct 50% of your self-employment tax"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[38].children[1].text",
+    "text": " If you paid $6,000 in self-employment tax this year, you can deduct $3,000 right off the top of your gross income. That's real money back in your pocket — and most contractors never claim it because they don't realize it exists."
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[44].children[1].text",
+    "text": "50% deductible"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[52].children[0].text",
+    "text": "If you pay any individual contractor $600 or more in a calendar year, you're required to issue them a "
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[53].children[0].text",
+    "text": "10. The 20% Qualified Business Income (QBI) Deduction"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[54].children[3].text",
+    "text": "up to 20% of their qualified business income"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[55].children[0].text",
+    "text": "For 2026, you qualify for the full 20% deduction if your taxable income is:"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[56].children[1].text",
+    "text": "$203,000"
+  },
+  {
+    "source": "CMS 497b5d33-a164-434d-be2f-802ad5530e0f.body.en[57].children[1].text",
+    "text": "$406,000"
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[5].children[1].text",
+    "text": "at least $1,000 in federal taxes"
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[5].children[4].text",
+    "text": " your self-employment tax (15.3%), which means most active 1099 contractors hit this threshold quickly."
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[30].children[1].text",
+    "text": ": Multiply net profit by 92.35%, then multiply that result by 15.3%. This is your SE tax."
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[31].children[0].text",
+    "text": "Deduct 50% of SE tax"
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[32].children[1].text",
+    "text": " ($15,000 single / $30,000 married filing jointly in 2026) or your itemized deductions."
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[35].children[1].text",
+    "text": " A contractor with $80,000 net profit pays roughly $11,304 in self-employment tax (15.3% × 92.35% × $80,000). After deducting half of SE tax ($5,652) and the standard deduction ($15,000), taxable income is approximately $59,348 — placing them in the 22% bracket. Total estimated annual tax: roughly $24,000, or "
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[35].children[2].text",
+    "text": "~$6,000 per quarter"
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[38].children[0].text",
+    "text": "If your 2025 AGI was $150,000 or less:"
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[38].children[1].text",
+    "text": " Pay 100% of your 2025 total tax liability, divided by 4 each quarter."
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[39].children[0].text",
+    "text": "If your 2025 AGI exceeded $150,000:"
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[39].children[1].text",
+    "text": " Pay 110% of your 2025 total tax liability, divided by 4 each quarter."
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[45].children[1].text",
+    "text": " Self-employment tax (15.3%) is often larger than your income tax bill. Always calculate both when estimating payments."
+  },
+  {
+    "source": "CMS 5fb8be79-1789-4286-92f4-14f524ee8dd8.body.en[55].children[1].text",
+    "text": "30% due in Q1, 40% in Q2, 0% in Q3, and 30% in Q4"
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[4].children[0].text",
+    "text": "OBBBA keeps the seven‑bracket individual structure (10% through 37%) but updates the thresholds and increases the standard deduction starting in 2026. That matters because most small business owners ultimately pay tax on business profit through their personal returns."
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[6].children[0].text",
+    "text": "A higher standard deduction (roughly mid‑$16k for single filers and low‑$32k for married filing jointly, with head of household in the mid‑$24k range)."
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[10].children[0].text",
+    "text": "The Qualified Business Income (QBI) deduction—up to 20% of qualified pass‑through income—was originally scheduled to sunset but is made permanent and adjusted under OBBBA starting in 2026."
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[14].children[0].text",
+    "text": "A new, inflation‑adjusted minimum QBI deduction (starting at a few hundred dollars for businesses with at least around $1,000 of QBI) helps smaller operators receive some benefit if they materially participate."
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[17].children[2].text",
+    "text": " in 2026. Instead of letting bonus depreciation phase down to lower percentages, the law restores 100% bonus depreciation for qualifying property."
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[19].children[0].text",
+    "text": "100% bonus depreciation"
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.body.en[32].children[0].text",
+    "text": "Mapping equipment, vehicle, and technology purchases around 100% bonus depreciation and Section 179 so you maximize deductions in the right year."
+  },
+  {
+    "source": "CMS 605c6f26-10b0-46ab-bcbd-3f286de28dab.excerpt.en",
+    "text": "See how the One Big Beautiful Bill Act reshapes small business taxes in 2026, from QBI and higher standard deductions to 100% bonus depreciation and refreshed credits you can use to lower your bill."
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[3].children[1].text",
+    "text": " — Pass-through business owners can deduct up to 20% of qualified business income indefinitely​"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[4].children[0].text",
+    "text": "100% Bonus Depreciation is restored and permanent"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[5].children[0].text",
+    "text": "Section 179 limit expanded to $2.56 million"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[5].children[1].text",
+    "text": " — Up significantly from $1.25 million in 2025​"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[7].children[1].text",
+    "text": " — 401(k) contributions up to $24,500; SIMPLE IRA up to $17,000​"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[10].children[1].text",
+    "text": "up to 20% of their net business income"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[10].children[2].text",
+    "text": ". If you earn $150,000 in qualified business income, that's potentially $30,000 off your taxable income.​"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[11].children[2].text",
+    "text": "minimum $400 deduction"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[11].children[3].text",
+    "text": " is guaranteed for anyone with at least $1,000 in QBI — so even lower-income business owners benefit."
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[16].children[0].text",
+    "text": "Strategy 2: Take Advantage of 100% Bonus Depreciation"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[17].children[1].text",
+    "text": "deduct 100% of the cost in the year it's placed in service"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[18].children[0].text",
+    "text": "This is a powerful cash flow tool. If your business invested $80,000 in new equipment in 2026, you can write off the entire amount this year instead of spreading it over 5–7 years."
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[27].children[1].text",
+    "text": "Section 179 allows up to $2.56 million in qualifying purchases to be immediately expensed"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[27].children[2].text",
+    "text": ", with a phase-out beginning at $4.09 million. Unlike bonus depreciation, Section 179 can't create a net operating loss — but it gives you more control over which assets to expense first.​"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[40].children[0].text",
+    "text": "Up to $24,500 + employer match"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[43].children[0].text",
+    "text": "Up to $17,000"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[46].children[0].text",
+    "text": "Up to 25% of compensation"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[49].children[0].text",
+    "text": "$275,000+ (actuarially determined)"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[51].children[0].text",
+    "text": "Every dollar contributed reduces your taxable income dollar-for-dollar. For a business owner in the 24% tax bracket, maxing out a Solo 401(k) saves over $5,800 in federal taxes alone — while building long-term wealth."
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[52].children[3].text",
+    "text": " for your business, you may qualify for a tax credit covering up to 100% of startup costs (up to $5,000/year for 3 years).​"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[54].children[0].text",
+    "text": "Self-employment tax (15.3%) is one of the biggest tax burdens for small business owners — and it's also one of the most reducible. "
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[56].children[0].text",
+    "text": "You earn $200,000 net profit from your business"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[57].children[0].text",
+    "text": "You pay yourself a reasonable salary of $80,000"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[58].children[0].text",
+    "text": "The remaining $120,000 is taken as a distribution"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[59].children[0].text",
+    "text": "You save self-employment taxes on that $120,000 — potentially $18,000+ per year"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[60].children[1].text",
+    "text": " An S-corp election makes the most sense once your net profit consistently exceeds $50,000–$60,000 annually. Below that threshold, the administrative costs may outweigh the savings. A fractional CFO or tax advisor can run a personalized breakeven analysis."
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[82].children[0].text",
+    "text": "Full 15.3%"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[86].children[0].text",
+    "text": "Full 15.3%"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[98].children[0].text",
+    "text": "Full 15.3%"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[106].children[1].text",
+    "text": " — Self-employed business owners can deduct 100% of health insurance premiums for themselves and their family"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[109].children[1].text",
+    "text": " — 50% of qualifying business meal expenses with clients or employees remain deductible"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[110].children[1].text",
+    "text": " — New businesses can deduct up to $5,000 in startup costs and $5,000 in organizational costs in the first year"
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.body.en[121].children[0].text",
+    "text": "2026 is a year of opportunity for small business owners who plan ahead. Between permanent QBI deductions, 100% bonus depreciation, expanded Section 179 limits, and smarter entity structuring, the tools to significantly reduce your tax burden are available right now."
+  },
+  {
+    "source": "CMS 7f51e8dd-45c0-4a0d-85c5-c25602f49c17.excerpt.en",
+    "text": "The One Big Beautiful Bill Act made several major tax provisions permanent in 2026, and small business owners who plan ahead stand to save thousands. From maximizing the 20% QBI deduction to full first-year equipment expensing, the tools to reduce your tax burden are available right now. Here's how to use them."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.en[0].children[0].text",
+    "text": "Reaching six figures as a freelancer is a significant achievement. But scaling to seven figures—$1 million or more in annual revenue—requires more than working harder or raising your rates. It requires systems, structures, and financial discipline that most solo practitioners never develop. Here's how top freelancers build sustainable, scalable wealth."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.en[2].children[0].text",
+    "text": "One common pathway is developing recurring revenue. Instead of billing by the hour, create retainer relationships with clients. A client paying $5,000 per month for ongoing advisory services generates $60,000 per year with less effort than billing $250 per hour for project work. Retainers provide predictability—for both your cash flow and theirs—and allow you to deliver deeper value."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.en[4].children[0].text",
+    "text": "Some seven-figure freelancers build agencies. They hire subcontractors or employees to deliver work while they focus on client relationships and business development. An agency generating $1 million in revenue with 30% profit margins produces $300,000 in take-home pay—significantly more than a solo consultant at the same revenue level."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.en[6].children[0].text",
+    "text": "Separate business entities. At higher revenue levels, operating as an S-Corp becomes essential for tax savings. The self-employment tax savings alone can be $20,000-$50,000 per year for high earners. Combine this with the solo 401(k) for retirement savings."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.en[7].children[0].text",
+    "text": "Multiple bank accounts. At minimum, you need a business operating account, a tax reserve account (where you set aside 30% of every payment), and a profit distribution account. Some freelancers add a reinvestment account for business development spending. This structure makes cash flow management systematic rather than stressful."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.es[0].children[0].text",
+    "text": "Reaching six figures as un trabajador independiente es un significant achievement. Pero scaling un seven figures—$1 million o más en annual ingresos—requires más que working harder o raising tu rates. Lo requires systems, structures, y financial discipline que la mayoríun solo practitioners nunca develop. Aquí está cómo principal freelancers build sustainable, scalable wealth."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.es[2].children[0].text",
+    "text": "One común pathway es developing recurring ingresos. Instead de billing por el hour, create retainer relationships con clientes. Un cliente paying $5,000 per mes para ongoing advisory services generates $60,000 por unño con menos effort que billing $250 per hour para project trabajar. Retainers provide predictability—para ambos tu flujo de caja y theirs—y allow tú un deliver deeper value."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.es[4].children[0].text",
+    "text": "Algunos seven-figure freelancers build agencies. Ellos hire subcontractors o empleados un deliver trabajar mientras ellos focus en cliente relationships y negocio development. Un agency generating $1 million en ingresos con 30% ganancia margins produces $300,000 en tomar-home pay—significantly más que un solo consultor en el mismo ingresos level."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.es[6].children[0].text",
+    "text": "Separate negocio entities. En más alto ingresos levels, operating as un S-Corp becomes esencial para impuesto ahorro. El impuesto de trabajo por cuenta propia ahorro alone puede be $20,000-$50,000 por unño para alto earners. Combine esto con el solo 401(k) para jubilación ahorro."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.body.es[7].children[0].text",
+    "text": "Multiple bank accounts. En minimum, tú necesita un negocio operating account, un impuesto reserve account (dónde tú set aside 30% de cada payment), y un ganancia distribución account. Algunos freelancers add un reinvestment account para negocio development spending. Esto structure hace gestión del flujo de caja systematic rather que stressful."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.coverImage.alt",
+    "text": "Union National Tax blog hero image featuring a premium dark green and gold financial blueprint scene for high-income freelancers, with growth markers from $100K to $1M, financial dashboards, a laptop, tablet, and headline text reading “The Financial Blueprint for High-Income Freelancers: From 6 Figures to 7 Figures.”"
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.faqItems[2].answer",
+    "text": "High-income freelancers typically set aside 30-35% of income for taxes, kept in a separate account and only accessed for quarterly estimated tax payments."
+  },
+  {
+    "source": "CMS 7w6UtaYGFCs1ynfwHzRsMd.featuredImage.alt",
+    "text": "Union National Tax blog hero image featuring a premium dark green and gold financial blueprint scene for high-income freelancers, with growth markers from $100K to $1M, financial dashboards, a laptop, tablet, and headline text reading “The Financial Blueprint for High-Income Freelancers: From 6 Figures to 7 Figures.”"
+  },
+  {
+    "source": "CMS 8dnoIGEnvmlOR57uyfOlcs.body.en[1].children[1].text",
+    "text": "2% (or greater) shareholders"
+  },
+  {
+    "source": "CMS 8dnoIGEnvmlOR57uyfOlcs.body.es[1].children[1].text",
+    "text": "accionistas del 2% (o más)"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[0].children[0].text",
+    "text": "Why Your HVAC Contractor Is Probably Losing $30K a Year to a Tax Mistake"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[3].children[0].text",
+    "text": "And that's just the first of three tax mistakes most HVAC contractors are making right now. Combined, they're leaving $20,000 to $40,000 on the table every single year. Money that could be going into your retirement, your equipment budget, or just your checking account."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[5].children[0].text",
+    "text": "Mistake #1: Wrong Entity Structure (The $15K Mistake)"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[7].children[0].text",
+    "text": "The math is simple. As a Sole Proprietor, every dollar of net income you earn is subject to both income tax and self-employment tax. On $300,000 of net income, you're paying roughly $75,000 in combined federal and self-employment taxes before you see a dime."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[8].children[0].text",
+    "text": "The S-Corp fix: Pay yourself a reasonable salary (say $80,000), and take the remaining $220,000 as distributions. Distributions are not subject to self-employment tax. You save roughly $14,000 annually on a $300K net income — without changing anything about how you run your business."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[9].children[0].text",
+    "text": "The catch: The salary has to be reasonable for your role. The IRS is watching. But if you're doing $1M in revenue and taking $60K salary, that's clearly too low and will draw scrutiny. Match the salary to the market rate for a field manager in your area, and you're fine."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[10].children[0].text",
+    "text": "Mistake #2: Missing Section 179 Deductions (The $10K Mistake)"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[21].children[0].text",
+    "text": "Cost segregation studies reclassify these components so they depreciate over 5, 7, or 15 years instead of 39. For a building worth $500,000, a proper cost segregation study might recapture $120,000 of depreciation in year one — a deduction you can take retroactively if the building was purchased in the last few years."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[25].children[0].text",
+    "text": "Get an S-Corp analysis. Pull your last three years of tax returns and have a CPA compare your current tax burden against what you'd owe as an S-Corp. Most contractors see $10K-$20K in annual savings. We do this analysis for free."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[27].children[0].text",
+    "text": "If you own commercial property, get a cost segregation study done. It's a one-time cost (usually $2,500-$5,000 for a typical contractor building) that unlocks five-figure deductions retroactively."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.body[29].children[0].text",
+    "text": "Most contractors don't have a tax problem. They have a \"didn't know to ask\" problem. These three fixes aren't exotic strategies. They're basic execution. The fact that you're reading this means you're ahead of 90% of your competitors who are still leaving this money on the table."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.excerpt",
+    "text": "Most HVAC contractors overpay taxes by $20K-$30K annually due to three fixable errors: wrong entity structure, missed Section 179 deductions, and poor cost segregation. Here's how to fix all three."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.metaDescription",
+    "text": "Most HVAC contractors overpay taxes by $20K-$30K. Learn the three specific errors causing this and exactly how to fix them before year-end."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.metaTitle",
+    "text": "HVAC Contractor Tax Mistakes Costing $30K/Year"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFRp1j4d.title",
+    "text": "Why Your HVAC Contractor Is Probably Losing $30K a Year to a Tax Mistake"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[3].children[0].text",
+    "text": "When you're operating as a sole proprietor or single-member LLC, every dollar your business earns is subject to self-employment tax — that's 15.3% on top of your income tax. On $150,000 in net profit, that's roughly $22,950 going to self-employment tax alone."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[4].children[0].text",
+    "text": "An S-Corp election changes the math. Once you make the election, you can pay yourself a reasonable salary — say $60,000 — and take the remaining $90,000 as a distribution, which is not subject to self-employment tax."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[7].children[0].text",
+    "text": "Here's a side-by-side comparison for a business earning $150,000 in net profit:"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[9].children[0].text",
+    "text": "Net Profit: $150,000 vs. $150,000"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[10].children[0].text",
+    "text": "Self-Employment Tax: $22,950 vs. $9,180"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[11].children[0].text",
+    "text": "Annual Savings: $13,770"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[12].children[0].text",
+    "text": "Even after accounting for the cost of payroll processing (often $500–$1,000/year), the net benefit is $8,000–$13,000 in your pocket — every year, not just once."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.en[15].children[0].text",
+    "text": "Your business net profit exceeds $40,000/year\nYou have clients or contracts outside your employer\nYou're already paying self-employment tax on freelance or side income\nYou want a clearer separation between personal and business finances"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[3].children[0].text",
+    "text": "Cuando operas como propietario individual o LLC de un solo miembro, cada dólar que tu negocio gana está sujeto al impuesto de trabajo por cuenta propia — eso es 15.3% adicional a tu impuesto sobre la renta. En $150,000 de ganancia neta, eso es aproximadamente $22,950 en impuestos de trabajo por cuenta propia solamente."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[4].children[0].text",
+    "text": "Una elección S-Corp cambia las cuentas. Una vez que haces la elección, puedes pagarte un salario razonable — digamos $60,000 — y tomar los $90,000 restantes como distribución, que no está sujeta al impuesto de trabajo por cuenta propia."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[7].children[0].text",
+    "text": "Aquí hay una comparación lado a lado para un negocio que gana $150,000 en ganancia neta:"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[9].children[0].text",
+    "text": "Ganancia Neta: $150,000 vs. $150,000"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[10].children[0].text",
+    "text": "Impuesto de Trabajo por Cuenta Propia: $22,950 vs. $9,180"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[11].children[0].text",
+    "text": "Ahorro Anual: $13,770"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[12].children[0].text",
+    "text": "Incluso después de considerar el costo del procesamiento de nómina (generalmente $500–$1,000 al año), el beneficio neto es de $8,000–$13,000 en tu bolsillo — cada año, no solo una vez."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.body.es[15].children[0].text",
+    "text": "La ganancia neta de tu negocio excede $40,000 al año\nTienes clientes o contratos fuera de tu empleador\nYa estás pagando impuesto de trabajo por cuenta propia sobre ingresos freelance o secundarios\nQuieres una separación más clara entre tus finanzas personales y las del negocio"
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.excerpt.en",
+    "text": "Most LLC owners and 1099 contractors are overpaying taxes by thousands every year — not because they lack deductions, but because they've structured their business wrong. Here's how an S-Corp election could put $8,000+ back in your pocket this year."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.excerpt.es",
+    "text": "La mayoría de los propietarios de LLC y contratistas 1099 están pagando de más en impuestos por miles de dólares cada año — no porque les falten deducciones, sino porque han estructurado mal su negocio. Así es como una elección S-Corp podría devolverles más de $8,000 este año."
+  },
+  {
+    "source": "CMS 8ejm7yxhwRT4gOeFSJ2VdV.seo.metaDescription",
+    "text": "Most LLC owners overpay thousands in taxes — not from missing deductions, but wrong structure. See how an S-Corp election can put $8,000+ back in your pocket."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[3].children[0].text",
+    "text": "A single-member LLC is taxed as a sole proprietorship by default. That means all profits flow through to your personal tax return, and you pay self-employment tax (15.3%) on the entire amount. No分离 between salary and distributions. No payroll tax savings."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[5].children[0].text",
+    "text": "The LLC's real advantage is liability protection and simplicity, not tax savings. If your business earns under $80,000-$100,000 in net profit, the entity structure matters less. Above that threshold, an LLC alone is leaving money on the table."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[8].children[0].text",
+    "text": "This is the key distinction. In an LLC, every dollar of profit is subject to 15.3% self-employment tax. In an S-Corp, only the salary portion is."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[9].children[0].text",
+    "text": "Example: Your business makes $180,000 net profit. With a single-member LLC, you pay self-employment tax on all $180,000 = ~$27,540 in additional tax."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[10].children[0].text",
+    "text": "If you elect S-Corp status and pay yourself a $70,000 salary and take $110,000 in distributions, you pay payroll tax on $70,000 only = ~$10,710. You save approximately $16,830 in self-employment tax."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[13].children[0].text",
+    "text": "A C-Corp pays corporate tax (21% flat rate) on profits, then you pay personal income tax again on distributions as dividends. This is double taxation, and it's generally inefficient for businesses making under $250,000-$300,000 in net profit."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[18].children[0].text",
+    "text": "Rule of thumb: Under $80K net profit — LLC default is fine. $80K-$250K — strongly consider S-Corp election. Over $250K — run the numbers on both S-Corp and C-Corp. Your tax professional should be modeling these scenarios annually."
+  },
+  {
+    "source": "CMS 8q3olrehLhYUlNPaYZvfDm.body.en[20].children[0].text",
+    "text": "The best time to make the S-Corp election is January 1 of the tax year — or within 75 days of year-end for the current year. If you're reading this in Q4 and you expect to hit the $80K threshold this year, talk to your tax pro now about making the election."
+  },
+  {
+    "source": "CMS 9f3d2c81-7d58-49d7-9af3-e0685f4b7062.body.en[4].children[0].text",
+    "text": "The Tax Cuts and Jobs Act created a 20% deduction for pass-through businesses — known as the Qualified Business Income (QBI) deduction. For construction companies structured as S-Corps, LLCs, or partnerships, this is real money."
+  },
+  {
+    "source": "CMS 9f3d2c81-7d58-49d7-9af3-e0685f4b7062.body.en[5].children[1].text",
+    "text": " On $300,000 of taxable business income, the QBI deduction can be worth $60,000 — off your taxable income, not just your tax liability."
+  },
+  {
+    "source": "CMS 9f3d2c81-7d58-49d7-9af3-e0685f4b7062.body.en[13].children[0].text",
+    "text": "You buy a new truck in November for $55,000. If you don't have a depreciation strategy in place, you might miss the window to expense it in the current year — or worse, you don't know you could have accelerated a purchase you were going to make anyway and moved the deduction forward."
+  },
+  {
+    "source": "CMS 9f3d2c81-7d58-49d7-9af3-e0685f4b7062.seo.metaDescription",
+    "text": "QBI deduction, equipment depreciation, and year-round tax planning can save Utah contractors $30K+. See three strategies construction companies overlook."
+  },
+  {
+    "source": "CMS BZ20yT0TZX0jrdmpXX64pT.body.en[11].children[0].text",
+    "text": "If your business nets over $80,000 a year, operating as an LLC (Sole Proprietorship) vs. an S-Corp is costing you roughly "
+  },
+  {
+    "source": "CMS BZ20yT0TZX0jrdmpXX64pT.body.en[11].children[1].text",
+    "text": "15.3%"
+  },
+  {
+    "source": "CMS BZ20yT0TZX0jrdmpXX64pT.body.es[11].children[0].text",
+    "text": "Si su negocio genera más de $80,000 al año, operar como una LLC (Propietario Único) frente a una S-Corp le está costando aproximadamente "
+  },
+  {
+    "source": "CMS BZ20yT0TZX0jrdmpXX64pT.body.es[11].children[1].text",
+    "text": "15.3%"
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.en[0].children[0].text",
+    "text": "If you're running a profitable business as a sole proprietor or LLC, you're likely overpaying in self-employment taxes. The self-employment tax rate is 15.3% on net earnings—and that's on top of your income tax. For high-earning consultants, contractors, and business owners, this can mean tens of thousands of dollars in unnecessary tax burden every single year."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.en[2].children[0].text",
+    "text": "Here's the basic concept: When you operate as a sole proprietor or single-member LLC, all the profit from your business flows directly to your personal tax return and is subject to self-employment tax. But when you elect S-Corp status, you can split your business income into two parts—a reasonable salary (subject to payroll taxes) and distributions (NOT subject to payroll taxes). The distributions flow through to your personal return but escape the 15.3% self-employment tax entirely."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.en[3].children[0].text",
+    "text": "Let's look at a real example. Say you're a consultant earning $200,000 per year in net profit. As a sole proprietor, you'd pay self-employment tax on the full $200,000—that's $30,600 in self-employment tax alone, before income tax."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.en[4].children[0].text",
+    "text": "Now let's say you make an S-Corp election and pay yourself a reasonable salary of $100,000. The remaining $100,000 comes to you as distributions. Your self-employment tax is now only $15,300—a savings of $15,300 compared to the sole proprietorship structure."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.en[8].children[0].text",
+    "text": "What about the added complexity? Yes, S-Corps require more administration. You need to run payroll, file quarterly payroll tax returns, and maintain corporate minutes. But for most profitable business owners, the tax savings far outweigh the added compliance costs. When you're saving $10,000, $20,000, or even $50,000 per year in taxes, paying a CPA a few thousand dollars extra to handle the compliance is still a net win."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.en[11].children[0].text",
+    "text": "If you're a business owner earning over $80,000 in net profit annually and you're currently operating as a sole proprietorship or single-member LLC, an S-Corp election could be one of the most impactful financial decisions you make this year. The potential tax savings are substantial, and the compliance requirements, while real, are manageable with proper planning."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.es[0].children[0].text",
+    "text": "Si tú're ejecutando un profitable negocio as un propietario individual o LLC, tú're probable pagando de más en self-employment impuestos. El impuesto de trabajo por cuenta propia rate es 15.3% en net earnings—y que's en principal de tu impuesto sobre la renta. Para alto-earning consultores, contratistas, y negocio propietarios, esto puede mean tens de miles de dólares en unnecessary carga fiscal cada single unño."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.es[2].children[0].text",
+    "text": "Aquí está el basic concept: Cuándo tú operate as un propietario individual o LLC de un solo miembro, todos el ganancia de tu negocio flows directly un tu personal declaración de impuestos y es subject un impuesto de trabajo por cuenta propia. Pero cuándo tú elect S-Corp status, tú puede split tu negocio ingreso en two partes—un reasonable salario (subject un nómina impuestos) y distribuciones (No subject un nómina impuestos). El distribuciones flow un través de un tu personal return pero escape el 15.3% impuesto de trabajo por cuenta propia entirely."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.es[3].children[0].text",
+    "text": "Let's mirar en un real ejemplo. Decir tú're un consultor earning $200,000 por unño en ganancia neta. As un propietario individual, tú'd pay impuesto de trabajo por cuenta propia en el full $200,000—que's $30,600 en impuesto de trabajo por cuenta propia alone, antes impuesto sobre la renta."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.es[4].children[0].text",
+    "text": "Ahora let's decir tú hacer un Elección S-Corp y pay ti mismo un reasonable salario de $100,000. El remaining $100,000 viene un tú as distribuciones. Tu impuesto de trabajo por cuenta propia es ahora solo $15,300—un ahorro de $15,300 compared un el sole proprietorship structure."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.es[8].children[0].text",
+    "text": "Qué sobre el added complexity? Yes, S-Corps require más administration. Tú necesita un ejecutar nómina, archivar trimestral nómina impuesto returns, y maintain corporate minutes. Pero para la mayoríun profitable negocio propietarios, el impuesto ahorro lejos outweigh el added cumplimiento costos. Cuándo tú're ahorrando $10,000, $20,000, o incluso $50,000 por unño en impuestos, paying un CPA un pocos thousand dólares extra un handle el cumplimiento es todavíun un net win."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.body.es[11].children[0].text",
+    "text": "Si tú're un dueño del negocio earning sobre $80,000 en ganancia neta annually y tú're actualmente operating as un sole proprietorship o LLC de un solo miembro, un Elección S-Corp podríun be one de el la mayoríun impactful financial decisions tú hacer esto unño. El potential impuesto ahorro son substantial, y el cumplimiento requirements, mientras real, son manageable con proper planning."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.faqItems[0].answer",
+    "text": "For a business owner earning $200,000 in net profit, switching to S-Corp status can save approximately $15,300 per year in self-employment taxes by splitting income into a salary and distributions."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.faqItems[1].answer",
+    "text": "The IRS requires S-Corp owners to pay themselves a \"reasonable salary\" for the work they perform. This must be at least what would be paid in an arm's-length transaction for similar services, typically between $30,000-$60,000 for many professional roles."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtVb.faqItems[3].answer",
+    "text": "S-Corp election typically becomes advantageous when net profits exceed $80,000-$100,000 per year, as the tax savings on distributions outweigh the added compliance costs."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.en[1].children[0].text",
+    "text": "As a self-employed individual, you're responsible for paying taxes on your income as you earn it, not just at tax time. The IRS requires you to pay estimated taxes quarterly if you expect to owe at least $1,000 in taxes for the year. This includes both income tax and self-employment tax combined."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.en[3].children[0].text",
+    "text": "Calculating your quarterly payment doesn't require you to be a math wizard. The simplest method is to look at last year's tax return and divide last year's total tax liability by four. This is called the \"prior year safe harbor\" method—it protects you from penalties as long as you pay at least 100% of last year's tax liability (110% if your AGI was over $150,000)."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.en[5].children[0].text",
+    "text": "Here's a practical example. Let's say you expect to earn $150,000 in net profit this year, and you estimate $30,000 in deductions, leaving you with $120,000 in taxable income. After accounting for self-employment tax and income tax combined, you might owe roughly $35,000 for the year. Dividing by four, you'd need to pay $8,750 per quarter."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.en[7].children[0].text",
+    "text": "What happens if you don't pay enough? The IRS charges a penalty for underpayment, calculated based on the federal short-term interest rate (which is currently elevated). For 2024, the underpayment penalty rate is around 8% annually. That might not sound terrible, but it's completely avoidable with proper planning."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.en[9].children[0].text",
+    "text": "One key tip: Set aside a percentage of every payment you receive for taxes. Many financial advisors recommend saving 25-35% of your income for taxes, though your exact percentage depends on your bracket and situation. Creating a separate savings account and automating transfers makes this easier."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.es[1].children[0].text",
+    "text": "As un self-employed individual, tú're responsible para paying impuestos en tu ingreso as tú earn lo, no solo en impuesto tiempo. El IRS requires tú un pay impuestos estimados trimestral si tú expect un owe en least $1,000 en impuestos para el unño. Esto includes ambos impuesto sobre la renta y impuesto de trabajo por cuenta propia combined."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.es[3].children[0].text",
+    "text": "Calculating tu trimestral payment doesn't require tú un be un math wizard. El simplest método es un mirar en último unño's declaración de impuestos y divide último unño's total impuesto liability por four. Esto es called el \"prior unño safe harbor\" método—lo protects tú de penalties as largo as tú pay en least 100% de último unño's impuesto liability (110% si tu AGI fue sobre $150,000)."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.es[5].children[0].text",
+    "text": "Aquí está un practical ejemplo. Let's decir tú expect un earn $150,000 en ganancia neta esto unño, y tú estimate $30,000 en deductions, leaving tú con $120,000 en taxable ingreso. Después contabilidad para impuesto de trabajo por cuenta propia y impuesto sobre la renta combined, tú might owe roughly $35,000 para el unño. Dividing por four, tú'd necesita un pay $8,750 per quarter."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.es[7].children[0].text",
+    "text": "Qué happens si tú don't pay suficiente? El IRS charges un penalty para underpayment, calculated based en el federal corto-term interest rate (cuál es actualmente elevated). Para 2024, el underpayment penalty rate es around 8% annually. Que might no sound terrible, pero lo's completely avoidable con proper planning."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.body.es[9].children[0].text",
+    "text": "One clave consejo: Set aside un porcentaje de cada payment tú receive para impuestos. Muchos financial advisors recommend ahorrando 25-35% de tu ingreso para impuestos, aunque tu exact porcentaje depends en tu bracket y situation. Creating un separate ahorro account y automating transfers hace esto easier."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.faqItems[1].answer",
+    "text": "Most financial advisors recommend setting aside 25-35% of your self-employment income for taxes. Your exact rate depends on your income bracket and whether you have other sources of income."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.faqItems[2].answer",
+    "text": "The IRS charges penalties for underpayment, calculated at the federal short-term interest rate plus 3%. For 2024, this rate is around 8%, making it costly to skip quarterly payments."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPtrX.faqItems[3].answer",
+    "text": "Yes, the \"prior year safe harbor\" method lets you pay 100% of last year's total tax liability (110% if your AGI exceeded $150,000) divided by four. This protects you from penalties."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.en[1].children[0].text",
+    "text": "Home office deduction. Myth: You can deduct any room in your home where you occasionally check email. Reality: The IRS requires that you use the space exclusively and regularly for business. A spare bedroom that doubles as a guest room doesn't qualify. The simplified method ($5 per square foot) is safer from audit risk than the regular method, but even the simplified method requires a genuine business use."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.en[3].children[0].text",
+    "text": "Business entertainment. Myth: Taking clients to dinner is fully deductible as a business expense. Reality: Business entertainment deductions were largely eliminated by the Tax Cuts and Jobs Act. Meals while traveling for business are still 50% deductible, but pure entertainment (tickets to sporting events, golf outings, etc.) is no longer deductible. Many people don't realize this change and claim disallowed deductions."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.en[6].children[0].text",
+    "text": "Home improvements for business. Myth: Renovating your home office is a deductible business expense. Reality: Only the portion of improvements attributable to the business use of your home qualifies. A $100,000 kitchen renovation doesn't become fully deductible just because you work from home occasionally. The deduction is limited to the square footage percentage of business use and only for direct business expenses, not capital improvements."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.en[7].children[0].text",
+    "text": "Charitable contributions. Myth: Donating to charity is always deductible and there's no limit. Reality: Charitable deductions are limited based on your AGI (typically 60% for cash donations). Excess contributions carry forward for five years. And you must receive something in return (like a dinner ticket or auction item) if the donation is $75 or more—the IRS requires acknowledgment for these \"quid pro quo\" contributions."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.es[1].children[0].text",
+    "text": "Home office deduction. Myth: Tú puede deducir any room en tu home dónde tú occasionally check email. Reality: El IRS requires que tú use el space exclusively y regularly para negocio. Un spare bedroom que doubles as un guest room doesn't calificar. El simplified método ($5 per square foot) es safer de auditoríun riesgo que el regular método, pero incluso el simplified método requires un genuine negocio use."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.es[3].children[0].text",
+    "text": "Negocio entertainment. Myth: Taking clientes un dinner es fully deductible as un negocio gasto. Reality: Negocio entertainment deductions fueron largely eliminated por el Impuesto Cuts y Jobs Act. Meals mientras traveling para negocio son todavíun 50% deductible, pero pure entertainment (tickets un sporting events, golf outings, etc.) es no longer deductible. Muchos people don't realize esto change y claim disallowed deductions."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.es[6].children[0].text",
+    "text": "Home improvements para negocio. Myth: Renovating tu home office es un deductible negocio gasto. Reality: Solo el portion de improvements attributable un el negocio use de tu home califica. Un $100,000 kitchen renovation doesn't become fully deductible solo porque tú trabajar de home occasionally. El deduction es limited un el square footage porcentaje de negocio use y solo para direct negocio gastos, no capital improvements."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.body.es[7].children[0].text",
+    "text": "Charitable contributions. Myth: Donating un charity es siempre deductible y there's no limit. Reality: Charitable deductions son limited based en tu AGI (típicamente 60% para cash donations). Excess contributions carry forward para five unños. Y tú must receive algo en return (como un dinner ticket o auction item) si el donation es $75 o más—el IRS requires acknowledgment para estos \"quid pro quo\" contributions."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.faqItems[1].answer",
+    "text": "Mostly no. The Tax Cuts and Jobs Act eliminated deductions for business entertainment (sports events, golf outings). Meals while traveling are still 50% deductible, but pure entertainment is not."
+  },
+  {
+    "source": "CMS Jl05JbWvbVsByEkDHuPyA3.faqItems[3].answer",
+    "text": "The simplified method ($5 per square foot, up to $1,500) is harder for the IRS to challenge because it's a mechanical calculation. The regular method requires calculating actual expenses and is scrutinized more closely."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[0].children[0].text",
+    "text": "Mistake #1: Wrong Entity Structure (The $15K Mistake)"
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[2].children[0].text",
+    "text": "The math is simple. As a Sole Proprietor, every dollar of net income you earn is subject to both income tax and self-employment tax. On $300,000 of net income, you are paying roughly $75,000 in combined federal and self-employment taxes before you see a dime."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[3].children[0].text",
+    "text": "The S-Corp fix: Pay yourself a reasonable salary (say $80,000), and take the remaining $220,000 as distributions. Distributions are not subject to self-employment tax. You save roughly $14,000 annually on a $300K net income without changing anything about how you run your business."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[4].children[0].text",
+    "text": "The catch: The salary has to be reasonable for your role. The IRS is watching. But if you are doing $1M in revenue and taking $60K salary, that is clearly too low and will draw scrutiny. Match the salary to the market rate for a field manager in your area, and you are fine."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[6].children[0].text",
+    "text": "Mistake #2: Missing Section 179 Deductions (The $10K Mistake)"
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[18].children[0].text",
+    "text": "Cost segregation studies reclassify these components so they depreciate over 5, 7, or 15 years instead of 39. For a building worth $500,000, a proper cost segregation study might recapture $120,000 of depreciation in year one - a deduction you can take retroactively if the building was purchased in the last few years."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[22].children[0].text",
+    "text": "1. Get an S-Corp analysis. Pull your last three years of tax returns and have a CPA compare your current tax burden against what you would owe as an S-Corp. Most contractors see $10K-$20K in annual savings. We do this analysis for free."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[24].children[0].text",
+    "text": "3. If you own commercial property, get a cost segregation study done. It is a one-time cost (usually $2,500-$5,000 for a typical contractor building) that unlocks five-figure deductions retroactively."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.body[26].children[0].text",
+    "text": "Most contractors do not have a tax problem. They have a 'did not know to ask' problem. These three fixes are not exotic strategies. They are basic execution. The fact that you are reading this means you are ahead of 90% of your competitors who are still leaving this money on the table."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.excerpt",
+    "text": "Most HVAC contractors overpay taxes by $20K-$30K annually due to three fixable errors: wrong entity structure, missed Section 179 deductions, and poor cost segregation."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih4465T.title",
+    "text": "Why Your HVAC Contractor Is Probably Losing $30K a Year to a Tax Mistake"
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih44VUQ.body[9].children[0].text",
+    "text": "The 20% qualified business income (QBI) deduction under Section 199A"
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih44VUQ.body[13].children[0].text",
+    "text": "Here's where the fear-mongering goes wrong: The QBI deduction (20% pass-through deduction) isn't actually the primary benefit small contractors rely on. And Congress has consistently extended these provisions at the last minute — it's their pattern."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih44VUQ.body[17].children[0].text",
+    "text": "The 2025/2026 legislation has increased Section 179 allowances and extended it for qualifying contractors. Service vehicles (over 6,000 lbs GVWR), diagnostic equipment, and tools all qualify at full purchase price. For a contractor buying $80,000 in equipment, that's $80,000 deducted against income this year. The S-Corp savings from proper entity structure plus Section 179 deductions alone often exceed $30,000 for a $500K revenue contractor."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih44VUQ.body[19].children[0].text",
+    "text": "The final 199A regulations (and subsequent updates) clarified that specified service businesses — including HVAC contractors — can still claim the full 20% QBI deduction if taxable income is below the threshold ($200,000 single, $400,000 married). Above those thresholds, the deduction begins to phase out — but only for owners in very high income brackets."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih44VUQ.body[20].children[0].text",
+    "text": "For a contractor netting $180,000, the QBI deduction is worth $36,000 — fully intact. That's not going away in any scenario currently on the table."
+  },
+  {
+    "source": "CMS NjFKn5TWxAiAPiVih44VUQ.body[22].children[0].text",
+    "text": "The 2025 inflation-adjusted depreciation allowances and bonus depreciation rules have been updated in favor of small businesses making capital investments. The 100% bonus depreciation has stepped down to 60% in 2026, but there's a small business exception that maintains 80% depreciation for businesses under $30M in gross receipts."
+  },
+  {
+    "source": "CMS TpOhUOMavJP0piqOdNnxgn.body[12].children[1].text",
+    "text": "$310 per form"
+  },
+  {
+    "source": "CMS TpOhUOMavJP0piqOdNnxgn.body[12].children[3].text",
+    "text": "$630 per form"
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.en[5].children[0].text",
+    "text": "  **The Cost:** 0.5% of the unpaid taxes for *each month* or part of a month the tax remains unpaid, up to 25%."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.en[6].children[0].text",
+    "text": "  **Interest:** Plus, you will be charged interest on the underpayment (currently hovering around 7-8%)."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.en[10].children[3].text",
+    "text": "5% per month"
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.en[10].children[4].text",
+    "text": "—than the penalty for not paying (0.5%)."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.en[14].children[2].text",
+    "text": " Protect yourself from the 5% \"Failure to File\" penalty."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.es[5].children[0].text",
+    "text": "  **El Costo:** 0.5% de los impuestos no pagados por *cada mes* o parte de un mes que el impuesto permanezca impago, hasta un 25%."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.es[6].children[0].text",
+    "text": "  **Interés:** Además, se le cobrarán intereses sobre el pago insuficiente (actualmente rondando el 7-8%)."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.es[10].children[3].text",
+    "text": "5% por mes"
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.es[10].children[4].text",
+    "text": "—que la multa por no pagar (0.5%)."
+  },
+  {
+    "source": "CMS UkQBLj7l7r27M1hWARMGtV.body.es[14].children[2].text",
+    "text": " Protéjase de la multa del 5% por \"Falta de Presentación\"."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[3].children[1].text",
+    "text": "$500K and $10M in revenue"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[41].children[0].text",
+    "text": "The two-step setup that eliminates 90% of tax surprises:"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[43].children[1].text",
+    "text": "25–30% of every payment received"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[44].children[0].text",
+    "text": "That's it. This takes 15 minutes to configure and permanently eliminates the most common cash flow crisis we see in growing businesses — the one where a $40K quarterly estimated tax bill arrives and the money is already spent."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[58].children[0].text",
+    "text": "Role: Fractional CFO (8–15 hours/month for businesses under $5M)"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[60].children[2].text",
+    "text": " is the right human layer on top of this tool stack. They run the monthly review, model financial scenarios, and provide the strategic input that turns data into decisions—without the $200K+ cost of a full-time hire."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[61].children[1].text",
+    "text": "$1,500–$4,000/month"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[69].children[0].text",
+    "text": "Under $500K"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[75].children[0].text",
+    "text": "$500K–$2M"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[81].children[0].text",
+    "text": "$2M–$10M"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[87].children[0].text",
+    "text": "$10M+"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[99].children[0].text",
+    "text": "The tax reserve account is funded at 25–30% of revenue"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.body.en[104].children[1].text",
+    "text": "\nThe tools themselves typically run $300–$800/month depending on team size and which layers you implement. Add a fractional CFO at $1,500–$3,500/month, and the total investment for a complete system is usually under $5,000/month—far less than a full-time hire and significantly less than the cost of financial blind spots."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfTw.excerpt.en",
+    "text": "The right financial technology stack doesn't just save time — it gives you the visibility to make better decisions faster. Here's what the modern CFO tool stack looks like for businesses between $500K and $10M in revenue."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[6].children[1].text",
+    "text": " — subject to payroll taxes (15.3% SE tax split between employer and employee)"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[9].children[2].text",
+    "text": " exists specifically to prevent owners from paying themselves a $1 salary and taking everything as distributions to eliminate payroll tax. The law requires that your W-2 salary reflect what a reasonable, arm's-length employer would pay someone to perform your same role in the same market."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[10].children[2].text",
+    "text": " If you own a $2M HVAC company and personally manage operations, run service calls, and handle sales — your reasonable compensation is very different from an owner who only handles board-level decisions and hired a GM to run day-to-day operations."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[18].children[1].text",
+    "text": " — A $30K salary with $270K in distributions on a $300K profit is a red flag, regardless of market data"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[19].children[2].text",
+    "text": ", which is required for S-Corps with more than $500K in gross receipts. Your numbers are visible—and they're compared against industry norms."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[23].children[0].text",
+    "text": "Salary is less than 30–35% of total S-Corp net income"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[30].children[1].text",
+    "text": "\nBoth the employer and employee portions of FICA are assessed on the reclassified amount—that's 15.3% on the reclassified wages."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[32].children[1].text",
+    "text": "\n20% of the underpayment on top of the taxes and interest."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[33].children[1].text",
+    "text": "\nIf payroll taxes weren't deposited on time, an additional 2–15% penalty applies."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[34].children[2].text",
+    "text": " An owner who took $200K in distributions annually for three years with a $40K salary — and whose reasonable compensation was later determined to be $100K — could face $90,000+ in back taxes, penalties, and interest across those three years."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[41].children[1].text",
+    "text": "at least 30–40% of total S-Corp net income (profit + salary)"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[53].children[0].text",
+    "text": "$65,000–$110,000"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[56].children[0].text",
+    "text": "$55,000–$90,000"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[59].children[0].text",
+    "text": "$80,000–$150,000"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[62].children[0].text",
+    "text": "$100,000–$180,000"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[65].children[0].text",
+    "text": "$75,000–$130,000"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[71].children[0].text",
+    "text": "Your salary is at least 30–40% of total S-Corp net income"
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[73].children[0].text",
+    "text": "Form 1125-E is accurately completed if your gross receipts exceed $500K."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.body.en[77].children[1].text",
+    "text": "\nNot officially—but a salary representing at least 30–40% of total net income (profit + salary) is widely considered defensible. Technical professionals with high market rates should lean higher."
+  },
+  {
+    "source": "CMS WEuNuhI85DeerGb0clUfoG.faqItems[1].answer",
+    "text": "Your salary should reflect what a reasonable person would earn for performing the same services in your role. A common rule of thumb: your salary should be at least 30-40% of your total S-Corp earnings (salary + distributions). In technical fields with higher market compensation, this percentage should be higher. Document your role and compensation annually to build a defensible record."
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[0].children[0].text",
+    "text": "If you've been in business as an LLC for a few years and you're consistently netting $80K or more, this is the article you didn't know you needed."
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[9].children[0].text",
+    "text": "If your business nets $180,000 and you pay yourself a $65,000 salary, the remaining $115,000 is a distribution. You just saved 15.3% on $115,000."
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[15].children[0].text",
+    "text": "15.3% on ALL net profit"
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[16].children[0].text",
+    "text": "15.3% on salary portion only"
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[28].children[0].text",
+    "text": "~$80K net income and above"
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[31].children[0].text",
+    "text": "Established contractors netting $80K+"
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[32].children[1].text",
+    "text": " Below $80K net, the S-Corp savings often don't outweigh the compliance cost. We won't recommend it unless it actually makes sense for your numbers. That's the standard we hold."
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.body.en[34].children[0].text",
+    "text": "Utah conforms to federal S-Corp treatment. There's no separate Utah S-Corp tax — your pass-through income flows through to your personal return, same as an LLC. The state tax rate tops out at 4.85% on personal income, which is relatively low."
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.excerpt.en",
+    "text": "Been running as an LLC for a few years and netting $80K+? You might be leaving $15,000–$30,000 on the table every year. Here's the honest comparison — in dollars, not legalese."
+  },
+  {
+    "source": "CMS a0402be4-a1bb-4aad-b1a7-7894285e6bda.seo.metaDescription",
+    "text": "Running an LLC in Utah and netting $80K+? You may be leaving $15K–$30K on the table. See the honest S-Corp vs. LLC comparison."
+  },
+  {
+    "source": "CMS b18b7b49-1b08-4e71-a327-e4c18f011bd0.eligibility.en",
+    "text": "Tax planning consulting services are designed for business owners, independent contractors, real estate investors, and high-net-worth individuals generating over $500,000 in revenue who want to minimize their tax liabilities proactively before year-end, rather than merely reacting during tax season."
+  },
+  {
+    "source": "CMS b18b7b49-1b08-4e71-a327-e4c18f011bd0.pageSections.pricing.headline.en",
+    "text": "From $1,800"
+  },
+  {
+    "source": "CMS b18b7b49-1b08-4e71-a327-e4c18f011bd0.pageSections.pricing.headline.es",
+    "text": "Desde $1,800"
+  },
+  {
+    "source": "CMS b18b7b49-1b08-4e71-a327-e4c18f011bd0.schema_faq[1].answer",
+    "text": "Depending on the business structure and revenue, a dedicated tax planner can save a business anywhere from $10,000 to over $100,000 annually through entity optimization, accelerated depreciation, and advanced deductions."
+  },
+  {
+    "source": "CMS b18b7b49-1b08-4e71-a327-e4c18f011bd0.startingPrice.en",
+    "text": "From $1,800"
+  },
+  {
+    "source": "CMS b18b7b49-1b08-4e71-a327-e4c18f011bd0.startingPrice.es",
+    "text": "Desde $1,800"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[1].children[0].text",
+    "text": "If you're an HVAC contractor pulling in $150K, $200K, $250K a year and watching a massive tax bill hit every April, you're not alone. You're also not helpless."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[5].children[0].text",
+    "text": "When you're a sole proprietor or single-member LLC, every dollar of net profit gets hit with 15.3% self-employment tax — before income tax even enters the picture."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[6].children[0].text",
+    "text": "Let's run the math on a $200,000 net profit year:"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[7].children[0].text",
+    "text": "$200,000 net profit"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[8].children[0].text",
+    "text": "× 15.3% self-employment tax = $30,600"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[15].children[0].text",
+    "text": "With an S-Corp, you pay yourself a reasonable salary — say $60,000 — and take the remaining $140,000 as distributions. Only the $60,000 salary is subject to self-employment tax."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[16].children[0].text",
+    "text": "The math on that same $200,000:"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[17].children[0].text",
+    "text": "Salary portion: $60,000 × 15.3% = "
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[17].children[1].text",
+    "text": "$9,180"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[18].children[0].text",
+    "text": "Distribution portion: $140,000 × 0% SE tax"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[19].children[0].text",
+    "text": "Your self-employment tax drops from $30,600 to $9,180"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[20].children[0].text",
+    "text": "That's $21,420 back in your pocket"
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.body.en[28].children[0].text",
+    "text": "If you're a contractor earning over $80K net and you've never had an S-Corp analysis done, there's a real chance you overpaid."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.coverImage.alt",
+    "text": "Industry guidance graphic for HVAC business owners titled \"Why Your HVAC Business Paid $30,000 More in Taxes Than Necessary This Year\" with a subheading about identifying critical tax strategies, overlooked deductions, and proactive planning. Features an HVAC technician reviewing tax documents at a desk, surrounded by a 2026 HVAC Industry Tax & Finance Guide, a profits reclaimed display showing $30,000, and a checklist of HVAC tax savings strategies. UNT branding in the lower left corner."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.featuredImage.alt",
+    "text": "Industry guidance graphic for HVAC business owners titled \"Why Your HVAC Business Paid $30,000 More in Taxes Than Necessary This Year\" with a subheading about identifying critical tax strategies, overlooked deductions, and proactive planning. Features an HVAC technician reviewing tax documents at a desk, surrounded by a 2026 HVAC Industry Tax & Finance Guide, a profits reclaimed display showing $30,000, and a checklist of HVAC tax savings strategies. UNT branding in the lower left corner."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.seo.metaDescription",
+    "text": "Running an HVAC business as an LLC? You may be overpaying by $20,000+ a year. Here's how an S-Corp election fixes it."
+  },
+  {
+    "source": "CMS b59f05f6-a179-4da7-acfd-5d866bbf42d3.title.en",
+    "text": "Why Your HVAC Business Paid $30,000 More in Taxes Than Necessary This Year"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.en[13].children[1].text",
+    "text": "net earnings from self-employment are $400 or more"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.en[35].children[1].text",
+    "text": "$184,500"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.en[63].children[0].text",
+    "text": "The IRS threshold for self-employment tax can be lower than many people expect. Net earnings of $400 or more can trigger self-employment tax."
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.en[88].children[3].text",
+    "text": "$400 or more"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.en[96].children[1].text",
+    "text": "$400 or more"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.es[13].children[1].text",
+    "text": "ganancias netas del trabajo por cuenta propia son de $400 o más"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.es[35].children[1].text",
+    "text": "$184,500"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.es[63].children[0].text",
+    "text": "El umbral del IRS para el impuesto sobre el trabajo por cuenta propia puede ser más bajo de lo que muchas personas esperan. Ganancias netas de $400 o más pueden activar el impuesto sobre el trabajo por cuenta propia."
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.es[88].children[3].text",
+    "text": "$400 o más"
+  },
+  {
+    "source": "CMS cc8edde3-b758-4482-b892-7f56c853ea09.body.es[94].children[2].text",
+    "text": "$400 o más"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[8].children[0].text",
+    "text": "$16,100"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[10].children[0].text",
+    "text": "$32,200"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[12].children[0].text",
+    "text": "$24,200"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[16].children[0].text",
+    "text": "No-Tips Tax Deduction (Up to $25,000)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[17].children[1].text",
+    "text": "up to $25,000 in qualified tip income"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[17].children[2].text",
+    "text": " from their taxable income. The deduction phases out once gross income exceeds $150,000 for single filers or $300,000 for joint filers."
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[18].children[0].text",
+    "text": "Overtime Pay Deduction (Up to $12,500 / $25,000)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[19].children[1].text",
+    "text": "$12,500 in qualified overtime pay"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[19].children[2].text",
+    "text": " ($25,000 for joint filers) from their taxable income. The same $150,000/$300,000 phase-out thresholds apply. Both the tip and overtime deductions are temporary, running "
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[20].children[0].text",
+    "text": "Senior Bonus Deduction ($6,000)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[21].children[3].text",
+    "text": "$6,000 deduction"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[22].children[0].text",
+    "text": "Car Loan Interest Deduction (Up to $10,000)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[23].children[1].text",
+    "text": "up to $10,000 in qualified interest"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[24].children[0].text",
+    "text": "Charitable Deduction Without Itemizing (Up to $1,000 / $2,000)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[25].children[1].text",
+    "text": "up to $1,000 in charitable donations"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[25].children[2].text",
+    "text": " ($2,000 for joint filers) as an above-the-line deduction."
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[29].children[1].text",
+    "text": " — Up to $7,000 ($8,000 if age 50+); deductibility phases out if you have a workplace retirement plan​"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[30].children[1].text",
+    "text": " — Up to $4,300 for self-only coverage, $8,550 for family coverage; plus $1,000 catch-up contribution if age 55+​"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[31].children[1].text",
+    "text": " — Up to $2,500 in interest paid on qualified student loans"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[32].children[1].text",
+    "text": " — 100% of premiums paid for yourself and your family if self-employed"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[34].children[1].text",
+    "text": " — Up to $300 for eligible K–12 teachers who pay out-of-pocket classroom expenses"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[38].children[0].text",
+    "text": "SALT Deduction — Now $40,000"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[39].children[1].text",
+    "text": "$40,000 per year"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[39].children[2].text",
+    "text": " (up from the previous $10,000 cap). The phase-out begins at a MAGI of $505,000, dropping to a hard floor of $10,000 for the highest earners. This is one of the biggest wins for homeowners and residents of high-tax states like California, New York, and New Jersey."
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[41].children[1].text",
+    "text": "$750,000"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[41].children[2].text",
+    "text": " in principal. If your mortgage was originated before December 15, 2017, the limit is $1,000,000. For most homeowners, mortgage interest plus property taxes alone can push itemized deductions above the standard deduction threshold.​"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[43].children[1].text",
+    "text": "7.5% of your AGI"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[45].children[1].text",
+    "text": "60% of your AGI"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[45].children[3].text",
+    "text": "30% of AGI"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[47].children[0].text",
+    "text": "Losses from federally declared disasters may be deductible when they exceed 10% of AGI plus $100. Given increased natural disaster activity in recent years, this is worth noting for residents in disaster-prone areas.​"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[54].children[0].text",
+    "text": "$24,500"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[55].children[0].text",
+    "text": "+$7,500"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[57].children[0].text",
+    "text": "$7,000"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[58].children[0].text",
+    "text": "+$1,000"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[60].children[0].text",
+    "text": "25% of compensation (max $70,000)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[63].children[0].text",
+    "text": "$4,300"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[64].children[0].text",
+    "text": "+$1,000 (Age 55+)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[66].children[0].text",
+    "text": "$8,550"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[67].children[0].text",
+    "text": "+$1,000 (Age 55+)"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[70].children[1].text",
+    "text": " — Up to $2,500 per eligible student for the first four years of higher education; 40% is refundable"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[71].children[1].text",
+    "text": " — Up to $2,000 per return for qualified tuition and related expenses"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[73].children[1].text",
+    "text": " — Credit (not deduction) for up to $3,000 in care expenses per child, $6,000 for two or more children"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[76].children[0].text",
+    "text": "Own a home with a mortgage above $300,000 and pay significant property taxes"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[77].children[0].text",
+    "text": "Live in a high-tax state and your SALT liability alone approaches $40,000"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.body.en[80].children[0].text",
+    "text": "Paid substantial mortgage interest + SALT + charitable donations totaling more than $16,100 (single) or $32,200 (joint)​"
+  },
+  {
+    "source": "CMS da44102d-4d17-4304-ad3c-e6912f3de507.excerpt.en",
+    "text": "In 2026, the One Big Beautiful Bill Act introduced brand-new deductions most individuals don't know about — including a $25,000 tip income deduction, a $40,000 SALT cap, and a $6,000 senior bonus deduction. Whether you take the standard deduction or itemize, this complete guide covers every tax deduction available to individuals so you can legally keep more of what you earn."
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.en[3].children[2].text",
+    "text": ", your net business profit is generally subject to both income tax and the full 15.3% self‑employment tax. It is simple and flexible, but as profits climb, the payroll tax bill climbs right alongside them."
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.en[11].children[1].text",
+    "text": "$60,000"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.en[12].children[1].text",
+    "text": "$60,000–$150,000+"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.en[15].children[2].text",
+    "text": " of up to 20% of qualified business income is now permanent and still applies to qualifying pass‑through businesses such as sole props, S‑corps, and many LLCs. That matters because both structures can qualify; the difference is how salary interacts with QBI."
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.en[18].children[1].text",
+    "text": ", so shifting some profit from wages to distributions can increase the slice that gets the 20% deduction."
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.en[39].children[1].text",
+    "text": "$60,000–$80,000"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.es[3].children[2].text",
+    "text": ", su beneficio neto comercial suele estar sujeto tanto al impuesto sobre la renta como al impuesto completo del 15.3% por trabajo por cuenta propia. Es simple y flexible, pero a medida que aumentan las ganancias, la factura de los impuestos sobre la nómina sube al mismo ritmo.​"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.es[11].children[1].text",
+    "text": "$60,000"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.es[12].children[1].text",
+    "text": "$60,000–$150,000+"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.es[15].children[2].text",
+    "text": " de hasta el 20% de los ingresos comerciales calificados es ahora permanente y sigue aplicándose a los negocios de paso que califiquen, como propietarios únicos, S-corps y muchas LLC. Esto es importante porque ambas estructuras pueden calificar; la diferencia radica en cómo interactúa el salario con la QBI.​"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.es[18].children[1].text",
+    "text": ", por lo que trasladar parte de las ganancias de salarios a distribuciones puede aumentar la parte que obtiene la deducción del 20%.​"
+  },
+  {
+    "source": "CMS ea2c3d37-52c8-49c4-9fff-d13451447833.body.es[38].children[1].text",
+    "text": "$60,000–$80,000"
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.eligibility.en",
+    "text": "The S-Corp strategy is ideal for growth-minded business owners, contractors, and real estate operators who are currently taxed as sole proprietors or single-member LLCs and are generating at least $80,000 in net profit. If you are paying standard 15.3% self-employment tax on your entire net income, your current structure is costing you money."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.eligibility.es",
+    "text": "La estrategia de S-Corp es ideal para dueños de negocios, contratistas y operadores de bienes raíces enfocados en el crecimiento, que actualmente tributan como Propietarios Únicos o LLC de un solo miembro y generan al menos $80,000 en ganancias netas. Si estás pagando el impuesto de autoempleo estándar del 15.3% sobre la totalidad de tus ingresos netos, tu estructura actual te está costando dinero."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.faq[0].answer.en",
+    "text": "While savings vary, a business netting $100,000 annually can often save between $7,000 and $9,000 per year in self-employment taxes by electing S-corp status and implementing a strategic, reasonable compensation split."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.faq[0].answer.es",
+    "text": "Aunque los ahorros varían, un negocio con ganancias netas de $100,000 al año puede ahorrar entre $7,000 y $9,000 anuales en impuestos de trabajo por cuenta propia al elegir el estatus de S-Corp e implementar una división estratégica de compensación razonable."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.faq[1].answer.en",
+    "text": "We generally advise evaluating an S-Corp election once your business consistently nets $80,000 or more in profit. At this threshold, the tax savings typically outpace the added costs of payroll administration and corporate tax returns."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.faq[1].answer.es",
+    "text": "Por lo general, recomendamos evaluar la elección de S-Corp una vez que su negocio genera consistentemente $80,000 o más en ganancias. En este umbral, el ahorro fiscal típicamente supera los costos adicionales de la administración de nómina y las declaraciones de impuestos corporativos."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.fullDescription.en[0].children[0].text",
+    "text": "Most business owners operating as sole proprietors or single-member LLCs are leaving thousands of dollars on the table every year. As your revenue scales, so does your 15.3% self-employment tax burden."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.fullDescription.es[0].children[0].text",
+    "text": "La mayoría de los dueños de negocios que operan como propietarios únicos o LLC de un solo miembro están dejando miles de dólares sobre la mesa cada año. A medida que sus ingresos crecen, también crece su carga del 15.3% de impuesto de autoempleo.\n\nEl Programa de Ventaja Fiscal S-Corp es nuestra estrategia insignia diseñada para limitar esa responsabilidad. No solo presentamos la elección de S-Corp; brindamos la asesoría continua necesaria para hacer la estructura defendible ante el IRS. Desde calcular su 'Compensación Razonable' exacta hasta integrar la nómina y proyectar sus distribuciones trimestrales, construimos el sistema financiero que le permite conservar más de sus ganancias bien ganadas.\n\n"
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.impactGoal.en",
+    "text": "Save $15k+ annually by restructuring how you pay yourself."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.impactGoal.es",
+    "text": "Ahorra $15,000 o más al año reestructurando cómo te pagas a ti mismo."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.keyBenefit.en",
+    "text": "Legally bypass the 15.3% self-employment tax on your business distributions."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.keyBenefit.es",
+    "text": "Evita legalmente el impuesto de autoempleo del 15.3% en las distribuciones de tu negocio."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.pageSections.closing.description.en",
+    "text": "Save $15k+ annually by restructuring how you pay yourself."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.schema_faq[0].answer",
+    "text": "The primary tax advantage of an S-Corp is the ability to bypass the 15.3% self-employment tax on a portion of the company's profits. Owners pay themselves a reasonable W-2 salary (subject to payroll taxes) and take the remaining profits as distributions, which are free from self-employment tax."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.schema_faq[1].answer",
+    "text": "A common threshold is $80,000 in net profit. Below this amount, the administrative costs of running an S-Corp—such as payroll processing and filing a corporate tax return—may outweigh the self-employment tax savings."
+  },
+  {
+    "source": "CMS f00389cd-eab4-4c88-b91f-5253af17ecbc.targetAudience",
+    "text": "Profitable service businesses netting $80,000+ annually."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.en[4].children[0].text",
+    "text": "Imagine you run a consulting business with $250,000 in net profit. As a single-member LLC (sole proprietorship), you'd pay self-employment tax of 15.3% on the entire $250,000—that's $38,250. Add your income tax, and your total tax burden is substantial."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.en[5].children[0].text",
+    "text": "As an S-Corp, you pay yourself a reasonable salary of $100,000, which is subject to payroll taxes of $15,300. The remaining $150,000 flows to you as distributions, free from payroll taxes. You've just saved $22,950 in self-employment tax alone."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.en[9].children[0].text",
+    "text": "Third, S-Corps make less sense at lower income levels. The additional compliance costs might exceed the tax savings if your profit is below $80,000-$100,000. The break-even point depends on your specific situation, but as a general rule, S-Corp elections become advantageous when net profits exceed six figures."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.en[12].children[0].text",
+    "text": "The choice between LLC and S-Corp ultimately comes down to your profit level, desired lifestyle, and willingness to handle added compliance. If you're earning under $80,000 in net profit, the default LLC taxation probably makes the most sense. Above that threshold, especially above $100,000, an S-Corp election can produce significant tax savings that more than compensate for the added complexity."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.es[4].children[0].text",
+    "text": "Imagine tú ejecutar un consulting negocio con $250,000 en ganancia neta. As un LLC de un solo miembro (sole proprietorship), tú'd pay impuesto de trabajo por cuenta propia de 15.3% en el entire $250,000—que's $38,250. Add tu impuesto sobre la renta, y tu total carga fiscal es substantial."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.es[5].children[0].text",
+    "text": "As un S-Corp, tú pay ti mismo un reasonable salario de $100,000, cuál es subject un nómina impuestos de $15,300. El remaining $150,000 flows un tú as distribuciones, free de nómina impuestos. Tú've solo saved $22,950 en impuesto de trabajo por cuenta propia alone."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.es[9].children[0].text",
+    "text": "Tercero, S-Corps hacer menos sense en más bajo ingreso levels. El additional cumplimiento costos might exceed el impuesto ahorro si tu ganancia es below $80,000-$100,000. El break-incluso point depends en tu specific situation, pero as un general regla, S-Corp elections become advantageous cuándo net ganancias exceed six figures."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.body.es[12].children[0].text",
+    "text": "El choice entre LLC y S-Corp ultimately viene down un tu ganancia level, desired lifestyle, y willingness un handle added cumplimiento. Si tú're earning bajo $80,000 en ganancia neta, el default LLC imposición fiscal probably hace el la mayoríun sense. Above que threshold, especially above $100,000, un Elección S-Corp puede produce significant impuesto ahorro que más que compensate para el added complexity."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.faqItems[1].answer",
+    "text": "On $250,000 net profit, an S-Corp with a $100,000 salary could save approximately $22,950 in self-employment taxes compared to a single-member LLC taxed as a sole proprietorship."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.faqItems[1].question",
+    "text": "How much can I save with S-Corp vs LLC on $250,000 profit?"
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8CNh.faqItems[3].answer",
+    "text": "S-Corp election typically becomes beneficial when net profits exceed $80,000-$100,000 annually, as the tax savings begin to outweigh the added compliance complexity and costs."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.en[1].children[0].text",
+    "text": "First, understand the basic rule: to deduct a business expense, it must be ordinary and necessary for your work. \"Ordinary\" means it's something commonly accepted in your field. \"Necessary\" means it's helpful and appropriate for your business. You don't need to be 100% certain the expense will be allowed—a reasonable belief is sufficient."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.en[3].children[0].text",
+    "text": "Home office deduction. If you use a portion of your home exclusively for business, you can deduct related expenses. The simplified method allows $5 per square foot (up to 300 square feet). The regular method calculates the actual percentage of your home used for business and applies that to all home expenses—mortgage interest, property taxes, utilities, insurance, repairs. For high-income areas with expensive homes, the regular method often produces a larger deduction."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.en[4].children[0].text",
+    "text": "Health insurance premiums. As a self-employed individual, you can deduct 100% of your health insurance premiums for yourself, your spouse, and dependents. This includes medical, dental, and vision insurance. The deduction is taken on Line 17 of Schedule 1, and it reduces your adjusted gross income (AGI), which can also lower other income-based limitations."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.en[5].children[0].text",
+    "text": "Retirement contributions. Solo 401(k)s, SEP-IRAs, and SIMPLE IRAs all allow significant tax-deductible contributions. A solo 401(k) lets you contribute both as an employee (up to $23,000 in 2024) and as an employer (up to 25% of compensation), potentially allowing six-figure contributions. SEP-IRAs permit contributions up to 25% of net self-employment income, with a $69,000 cap for 2024. These deductions reduce your taxable income substantially."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.en[9].children[0].text",
+    "text": "Marketing and business development. Professional website costs, business cards, marketing materials, advertising, and even some client entertainment expenses can be deducted. The key distinction for entertainment (now largely eliminated) versus meals is that meals are still 50% deductible when business-related."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.en[10].children[0].text",
+    "text": "Equipment and machinery. Section 179 of the tax code allows immediate deduction of equipment purchases (up to $1,160,000 for 2024, with phase-out starting at $2,890,000). This includes computers, machinery, office furniture, and tools. You can also elect to depreciate equipment over time instead of taking the immediate deduction."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.es[1].children[0].text",
+    "text": "Primero, understand el basic regla: un deducir un negocio gasto, lo must be ordinary y necessary para tu trabajar. \"Ordinary\" means lo's algo commonly accepted en tu field. \"Necessary\" means lo's helpful y appropriate para tu negocio. Tú don't necesita un be 100% cierto el gasto será allowed—un reasonable belief es suficiente."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.es[3].children[0].text",
+    "text": "Home office deduction. Si tú use un portion de tu home exclusively para negocio, tú puede deducir related gastos. El simplified método allows $5 per square foot (up un 300 square feet). El regular método calculates el actual porcentaje de tu home used para negocio y applies que un todos home gastos—mortgage interest, property impuestos, utilities, insurance, repairs. Para alto-ingreso areas con expensive homes, el regular método un menudo produces un larger deduction."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.es[4].children[0].text",
+    "text": "Health insurance premiums. As un self-employed individual, tú puede deducir 100% de tu health insurance premiums para ti mismo, tu spouse, y dependents. Esto includes medical, dental, y vision insurance. El deduction es taken en Line 17 de Agendar 1, y lo reduces tu adjusted gross ingreso (AGI), cuál puede también más bajo other ingreso-based limitations."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.es[5].children[0].text",
+    "text": "Contribuciones un la jubilación. Solo 401(k)s, SEP-IRAs, y Simple IRAs todos allow significant impuesto-deductible contributions. Un solo 401(k) lets tú contribute ambos as un empleado (up un $23,000 en 2024) y as un empleador (up un 25% de compensation), potentially allowing six-figure contributions. SEP-IRAs permit contributions up un 25% de net self-employment ingreso, con un $69,000 cap para 2024. Estos deductions reducir tu taxable ingreso substantially."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.es[9].children[0].text",
+    "text": "Marketing y negocio development. Profesional website costos, negocio cards, marketing materials, advertising, y incluso algunos cliente entertainment gastos puede be deducted. El clave distinction para entertainment (ahora largely eliminated) versus meals es que meals son todavíun 50% deductible cuándo negocio-related."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.body.es[10].children[0].text",
+    "text": "Equipment y machinery. Section 179 de el impuesto code allows immediate deduction de equipment purchases (up un $1,160,000 para 2024, con phase-out starting en $2,890,000). Esto includes computers, machinery, office furniture, y tools. Tú puede también elect un depreciate equipment sobre tiempo instead de taking el immediate deduction."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.faqItems[0].answer",
+    "text": "Yes, self-employed individuals can deduct 100% of their health, dental, and vision insurance premiums for themselves, their spouse, and dependents as an adjustment to income, reducing AGI."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.faqItems[1].answer",
+    "text": "The simplified method allows $5 per square foot (up to $1,500 for 300 sq ft). The regular method calculates actual expenses based on the percentage of your home used exclusively for business."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Cjt.faqItems[3].answer",
+    "text": "Absolutely. Solo 401(k)s, SEP-IRAs, and SIMPLE IRAs all allow tax-deductible contributions, with solo 401(k)s potentially allowing over $60,000 per year for those 50 and older."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.en[2].children[0].text",
+    "text": "The contribution limits for 2024 are generous. As an employee, you can contribute up to $23,000 in salary deferrals (the same as a regular 401(k)). But as an employer, you can also make profit-sharing contributions of up to 25% of your net self-employment income. Combined, this can total over $50,000 per year in tax-deductible contributions—and if you're 50 or older, you get an additional $7,500 catch-up contribution, bringing the potential total to over $60,000."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.en[3].children[0].text",
+    "text": "Let's work through an example. Say you're a consultant with $200,000 in net self-employment income. As an employee, you defer $23,000. Your profit-sharing contribution is calculated as 25% of your net income minus the self-employment tax deduction. Roughly, you could add another $40,000-$45,000 in employer contributions. That's a potential $63,000 to $68,000 in total contributions—all tax-deductible."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.en[6].children[0].text",
+    "text": "Another advantage of solo 401(k)s is the loan feature. You can borrow up to 50% of your account balance (maximum $50,000) as a loan from your own plan. This can be useful for business emergencies or major personal expenses, though the rules around plan loans are strict and must be followed carefully."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.en[8].children[0].text",
+    "text": "One common mistake is not maximizing contributions. Many solo 401(k) holders contribute only the employee portion ($23,000) but forget the employer profit-sharing contribution. If you have a good year, maxing out the profit-sharing contribution can dramatically accelerate your retirement savings and reduce your tax bill at the same time."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.es[2].children[0].text",
+    "text": "El contribution limits para 2024 son generous. As un empleado, tú puede contribute up un $23,000 en salario deferrals (el mismo as un regular 401(k)). Pero as un empleador, tú puede también hacer ganancia-sharing contributions de up un 25% de tu net self-employment ingreso. Combined, esto puede total sobre $50,000 por unño en impuesto-deductible contributions—y si tú're 50 o older, tú obtener un additional $7,500 catch-up contribution, bringing el potential total un sobre $60,000."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.es[3].children[0].text",
+    "text": "Let's trabajar un través de un ejemplo. Decir tú're un consultor con $200,000 en net self-employment ingreso. As un empleado, tú defer $23,000. Tu ganancia-sharing contribution es calculated as 25% de tu net ingreso minus el impuesto de trabajo por cuenta propia deduction. Roughly, tú podríun add another $40,000-$45,000 en empleador contributions. Que's un potential $63,000 un $68,000 en total contributions—todos impuesto-deductible."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.es[6].children[0].text",
+    "text": "Another ventaja de solo 401(k)s es el loan feature. Tú puede borrow up un 50% de tu account balance (maximum $50,000) as un loan de tu own plan. Esto puede be useful para negocio emergencies o major personal gastos, aunque el rules around plan loans son strict y must be followed carefully."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.body.es[8].children[0].text",
+    "text": "One común error es no maximizando contributions. Muchos solo 401(k) holders contribute solo el empleado portion ($23,000) pero forget el empleador ganancia-sharing contribution. Si tú tienen un bueno unño, maxing out el ganancia-sharing contribution puede dramatically accelerate tu jubilación ahorro y reducir tu factura de impuestos en el mismo tiempo."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.faqItems[0].answer",
+    "text": "In 2024, you can contribute up to $23,000 as an employee, plus up to 25% of net self-employment income as an employer contribution. With catch-up contributions (age 50+), you can contribute over $60,000."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.faqItems[2].answer",
+    "text": "Solo 401(k)s allow employee deferrals ($23,000 in 2024) that SEP-IRAs don't. For a self-employed person earning $100,000, this means up to $41,500 more in potential contributions."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8Div.faqItems[3].answer",
+    "text": "Yes, solo 401(k)s permit loans up to 50% of your account balance or $50,000, whichever is less. The loan must be repaid with interest."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.en[4].children[0].text",
+    "text": "Consider requiring deposits or milestone payments for large projects. For engagements exceeding $10,000, asking for 25-50% upfront significantly reduces your risk and improves cash flow. Many clients are accustomed to this arrangement, especially for large, long-term projects."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.en[5].children[0].text",
+    "text": "Accelerate your payment collection. Send payment reminders before invoices are due (a simple \"just a reminder that invoice #X is due in 7 days\"). Follow up immediately when invoices become overdue. You might feel uncomfortable doing this, but it's a normal part of business, and your clients expect it. Consider offering small discounts (2-3%) for early payment to incentivize faster payment."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.en[9].children[0].text",
+    "text": "Plan for taxes. Set aside 25-30% of every payment you receive in a separate savings account. This money belongs to the IRS and your state—you're just holding it until tax day. When quarterly estimated tax payments are due, the money is already there. This discipline prevents the shock of a large tax bill you weren't prepared for."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.en[10].children[0].text",
+    "text": "Finally, consider your pricing strategy. If you're constantly cash-strapped despite having good clients, your rates may simply be too low. Raising your rates—even modestly—can dramatically improve cash flow without requiring you to find new clients or work more hours. Even a 10-15% rate increase can transform your business economics."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.es[4].children[0].text",
+    "text": "Consider requiring deposits o milestone payments para grande projects. Para engagements exceeding $10,000, asking para 25-50% upfront significantly reduces tu riesgo y improves flujo de caja. Muchos clientes son accustomed un esto arrangement, especially para grande, largo-term projects."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.es[5].children[0].text",
+    "text": "Accelerate tu payment collection. Send payment reminders antes invoices son due (un simple \"solo un reminder que invoice #X es due en 7 days\"). Follow up immediately cuándo invoices become overdue. Tú might feel uncomfortable doing esto, pero lo's un normal parte de negocio, y tu clientes expect lo. Consider offering pequeño discounts (2-3%) para early payment un incentivize faster payment."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.es[9].children[0].text",
+    "text": "Plan para impuestos. Set aside 25-30% de cada payment tú receive en un separate ahorro account. Esto money belongs un el IRS y tu state—tú're solo holding lo until impuesto díun. Cuándo trimestral impuesto estimado payments son due, el money es ya there. Esto discipline prevents el shock de un grande factura de impuestos tú weren't prepared para."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.body.es[10].children[0].text",
+    "text": "Finally, consider tu pricing estrategia. Si tú're constantly cash-strapped despite having bueno clientes, tu rates mayo simply be también bajo. Raising tu rates—incluso modestly—puede dramatically improve flujo de caja sin requiring tú un find nuevo clientes o trabajar más hours. Incluso un 10-15% rate aumentar puede transform tu negocio economics."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.faqItems[1].answer",
+    "text": "Invoice promptly upon completing work, make payment terms explicit (Net 30), and consider requiring deposits or milestone payments for large engagements exceeding $10,000."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.faqItems[2].answer",
+    "text": "Set aside 25-30% of every payment you receive in a dedicated tax savings account. This prevents the shock of a large tax bill at filing time."
+  },
+  {
+    "source": "CMS g0IfLMaaBm3290uqwL8F6v.faqItems[3].answer",
+    "text": "Send payment reminders before invoices are due, follow up immediately on overdue invoices, offer small discounts (2-3%) for early payment, and use clear, professional invoices with all necessary payment details."
+  },
+  {
+    "source": "CMS homePage.seo.metaDescription.en",
+    "text": "Expert S Corp tax optimization for contractors. IRS Enrolled Agents help construction, real estate contractors save $23k+ annually. Free strategy call."
+  },
+  {
+    "source": "CMS homePage.seo.metaDescription.es",
+    "text": "Optimización fiscal S-Corp para contratistas: ahorra $23K+"
+  },
+  {
+    "source": "CMS homePage.seo.metaTitle.en",
+    "text": "S Corp Tax Planning | Save $20k+ | Union National Tax"
+  },
+  {
+    "source": "CMS homePage.seo.metaTitle.es",
+    "text": "Planificación fiscal para S-Corp | Ahorra $20K+"
+  },
+  {
+    "source": "CMS homePage.stats[0].value",
+    "text": "$23,420"
+  },
+  {
+    "source": "CMS homePage.stats[2].value",
+    "text": "94%"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[12].children[3].text",
+    "text": "51% of the time."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[49].children[1].text",
+    "text": "100% of health insurance premiums"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[58].children[0].text",
+    "text": "Up to 25% of net SE income (~$66,000 max)"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[68].children[1].text",
+    "text": "$1,000 or more"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[74].children[3].text",
+    "text": "25–30% of every job payment"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[86].children[1].text",
+    "text": "\nYes—if the tools are used exclusively for your HVAC business. Tools under $2,500 per item can often be expensed immediately under the de minimis safe harbor."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[87].children[1].text",
+    "text": "\nYes, if you have a dedicated space used exclusively for business. Use the simplified method ($5/sq ft, up to 300 sq ft) or the regular method (actual expenses × business-use percentage)."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.en[88].children[1].text",
+    "text": "\nYes. Self-employed individuals deduct 100% of health insurance premiums for themselves, a spouse, and dependents as an adjustment to income on Form 1040—above the line."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[12].children[3].text",
+    "text": "51% del tiempo."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[49].children[1].text",
+    "text": "100% de las primas de seguro de salud"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[58].children[0].text",
+    "text": "Hasta 25% del ingreso neto SE (~$66,000 máx)"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[68].children[1].text",
+    "text": "$1,000 o más"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[74].children[3].text",
+    "text": "25–30% de cada pago de trabajo"
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[86].children[1].text",
+    "text": "\nSí, si las herramientas se usan exclusivamente para tu negocio de HVAC. Las herramientas menores de $2,500 por artículo a menudo pueden registrarse como gasto inmediatamente bajo el refugio de minimis."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[87].children[1].text",
+    "text": "\nSí, si tienes un espacio dedicado usado exclusivamente para negocios. Usa el método simplificado ($5/pie cuadrado, hasta 300 pies cuadrados) o el método regular (gastos reales × porcentaje de uso comercial)."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.body.es[88].children[1].text",
+    "text": "\nSí. Las personas que trabajan por cuenta propia deducen el 100% de las primas de seguro de salud para ellos mismos, un cónyuge y dependientes como ajuste al ingreso en el Formulario 1040 — sobre la línea."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.faqItems[0].answer",
+    "text": "Yes — if the tools are used exclusively for your HVAC business. Tools under $2,500 per item can often be expensed immediately under the de minimis safe harbor."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.faqItems[1].answer",
+    "text": "Yes, if you have a dedicated space used exclusively for business. Use the simplified method (5% of home sq ft, up to 300 sq ft) or the regular method (actual expenses times business percentage)."
+  },
+  {
+    "source": "CMS i4oJGTLjqCsdGKitgZy09D.faqItems[2].answer",
+    "text": "Yes, self-employed individuals can deduct 100% of their health insurance premiums for themselves, a spouse, and dependents as an adjustment to income. This is taken on Form 1040, not Schedule C, and is above-the-line."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[0].children[0].text",
+    "text": "LLC vs. S-Corp Calculator: The $80,000 Profit Tipping Point"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[1].children[1].text",
+    "text": "$80,000 in net profit"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[2].children[0].text",
+    "text": "Below $80,000, the administrative costs of running an S-Corp (payroll, separate tax filings, bookkeeping) often outweigh the tax savings. But once you cross that $80k threshold, the math changes drastically."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[3].children[0].text",
+    "text": "The 15.3% Problem"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[4].children[1].text",
+    "text": "15.3% Self-Employment Tax"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[4].children[2].text",
+    "text": " on 100% of your profit."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[5].children[0].text",
+    "text": "  Profit: $100,000"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[6].children[0].text",
+    "text": "  SE Tax: ~$15,300"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[10].children[2].text",
+    "text": " Subject to 15.3% FICA tax."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[11].children[4].text",
+    "text": " from 15.3% FICA tax."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[12].children[0].text",
+    "text": "### The Math at $100k Profit"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[13].children[0].text",
+    "text": "If you elect S-Corp status and pay yourself a \"Reasonable Salary\" of $60,000:"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[14].children[0].text",
+    "text": "  You pay 15.3% tax on the $60,000 salary ($9,180)."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[15].children[0].text",
+    "text": "  You pay **0%** SE tax on the remaining $40,000 distribution."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[16].children[0].text",
+    "text": "  **Total Savings:** ~$6,120 per year."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[19].children[0].text",
+    "text": "  **Net Profit < $60k:** Stay an LLC."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[20].children[0].text",
+    "text": "  **Net Profit $60k-$80k:** Grey zone. Start planning."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.en[21].children[0].text",
+    "text": "  **Net Profit > $80k:** **Mandatory S-Corp territory.**"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[0].children[0].text",
+    "text": "Calculadora LLC vs. S-Corp: El Punto de Inflexión de $80,000 en Ganancias"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[1].children[1].text",
+    "text": "$80,000 en ganancias netas"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[2].children[0].text",
+    "text": "Por debajo de $80,000, los costos administrativos de administrar una S-Corp (nómina, declaraciones de impuestos separadas, contabilidad) a menudo superan los ahorros fiscales. Pero una vez que cruza ese umbral de $80k, las matemáticas cambian drásticamente."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[3].children[0].text",
+    "text": "El Problema del 15.3%"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[4].children[1].text",
+    "text": "15.3% de Impuesto sobre el Trabajo por Cuenta Propia"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[4].children[2].text",
+    "text": " sobre el 100% de sus ganancias."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[5].children[0].text",
+    "text": "  Ganancia: $100,000"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[6].children[0].text",
+    "text": "  Impuesto SE: ~$15,300"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[10].children[2].text",
+    "text": " Sujeto al 15.3% de impuesto FICA."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[11].children[4].text",
+    "text": " del 15.3% de impuesto FICA."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[12].children[0].text",
+    "text": "### Las Matemáticas con $100k de Ganancia"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[13].children[0].text",
+    "text": "Si elige el estado de S-Corp y se paga un \"Salario Razonable\" de $60,000:"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[14].children[0].text",
+    "text": "  Paga 15.3% de impuesto sobre el salario de $60,000 ($9,180)."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[15].children[0].text",
+    "text": "  Paga **0%** de impuesto SE sobre la distribución restante de $40,000."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[16].children[0].text",
+    "text": "  **Ahorro Total:** ~$6,120 por año."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[19].children[0].text",
+    "text": "  **Ganancia Neta < $60k:** Quédese como LLC."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[20].children[0].text",
+    "text": "  **Ganancia Neta $60k-$80k:** Zona gris. Comience a planificar."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.body.es[21].children[0].text",
+    "text": "  **Ganancia Neta > $80k:** **Territorio obligatorio de S-Corp.**"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.excerpt.en",
+    "text": "The Filter: We only want clients making $80k+. This article filters out the hobbyists so your sales team talks to qualified leads."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.excerpt.es",
+    "text": "El Filtro: Solo queremos clientes que ganen $80k+. Este artículo filtra a los aficionados para que su equipo de ventas hable con clientes potenciales calificados."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.seo.metaDescription",
+    "text": "The Filter: We only want clients making $80k+. This article filters out the hobbyists so your sales team talks to qualified leads."
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.seo.metaTitle",
+    "text": "LLC vs. S-Corp Calculator: The $80,000 Profit Tipping Point"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.title.en",
+    "text": "LLC vs. S-Corp Calculator: The $80,000 Profit Tipping Point"
+  },
+  {
+    "source": "CMS j8wRLgCMkJFzGEXummvo4v.title.es",
+    "text": "Calculadora LLC vs. S-Corp: El Punto de Inflexión de $80,000 en Ganancias"
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.closing.description.en",
+    "text": "Save $15k+ annually by restructuring how you pay yourself."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.faqSection.items[0].answer.en",
+    "text": "While savings vary, a business netting $100,000 annually can often save between $7,000 and $9,000 per year in self-employment taxes by electing S-corp status and implementing a strategic, reasonable compensation split."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.faqSection.items[0].answer.es",
+    "text": "Aunque los ahorros varían, un negocio con ganancias netas de $100,000 al año puede ahorrar entre $7,000 y $9,000 anuales en impuestos de trabajo por cuenta propia al elegir el estatus de S-Corp e implementar una división estratégica de compensación razonable."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.faqSection.items[1].answer.en",
+    "text": "We generally advise evaluating an S-Corp election once your business consistently nets $80,000 or more in profit. At this threshold, the tax savings typically outpace the added costs of payroll administration and corporate tax returns."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.faqSection.items[1].answer.es",
+    "text": "Por lo general, recomendamos evaluar la elección de S-Corp una vez que su negocio genera consistentemente $80,000 o más en ganancias. En este umbral, el ahorro fiscal típicamente supera los costos adicionales de la administración de nómina y las declaraciones de impuestos corporativos."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.hero.eyebrow.en",
+    "text": "Profitable service businesses netting $80,000+ annually."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.hero.subheadline.en",
+    "text": "Legally bypass the 15.3% self-employment tax on your business distributions."
+  },
+  {
+    "source": "CMS servicePage-s-corp-tax-advantage.hero.subheadline.es",
+    "text": "Evita legalmente el impuesto de autoempleo del 15.3% en las distribuciones de tu negocio."
+  },
+  {
+    "source": "CMS servicePage-tax-planning.included.pricing.headline.en",
+    "text": "From $1,800"
+  },
+  {
+    "source": "CMS servicePage-tax-planning.included.pricing.headline.es",
+    "text": "Desde $1,800"
+  },
+  {
+    "source": "CMS servicePage-tax-preparation-and-filing.included.pricing.headline.en",
+    "text": "From $595"
+  },
+  {
+    "source": "CMS servicePage-tax-preparation-and-filing.included.pricing.headline.es",
+    "text": "Desde $595"
+  },
+  {
+    "source": "CMS tG2GvC0R3oqeLqHiVkz4ph.body.en[5].children[0].text",
+    "text": "If your construction business is netting $150,000 or more per year after costs, an S-Corp election could save you $15,000-$25,000 annually in self-employment tax. That's not a rounding error — that's a truck payment, a crew bonus, or a equipment upgrade."
+  },
+  {
+    "source": "CMS tG2GvC0R3oqeLqHiVkz4ph.body.en[9].children[0].text",
+    "text": "For 2026, bonus depreciation remains at 40% (phasing down 20% per year through 2027). If you're buying a new excavator, compact track loader, or concrete saw for $85,000, you can deduct $34,000 immediately (40% bonus) plus the standard Section 179 deduction in year one."
+  },
+  {
+    "source": "CMS tG2GvC0R3oqeLqHiVkz4ph.body.en[14].children[0].text",
+    "text": "For a $500,000 commercial building, a proper cost segregation study can generate $80,000-$120,000 in additional first-year deductions. The cost of the study ($3,000-$8,000 typically) is almost always worth it."
+  },
+  {
+    "source": "CMS unt-s-corp-vs-llc-tax-structure.body.en[7].children[0].text",
+    "text": "If your business makes $150,000 profit: As an LLC, you pay self-employment tax on $150,000 (about $21,000). As an S-Corp paying yourself a $75,000 salary, you pay employment tax on $75,000 (about $11,000) plus income tax on all $150,000. The difference can be thousands per year."
+  },
+  {
+    "source": "CMS unt-s-corp-vs-llc-tax-structure.body.en[9].children[0].text",
+    "text": "LLC is often better when: Your profit is under $80,000 (the S-Corp savings may not justify the extra paperwork), You want simplicity, or You plan to bring on investors (C-Corp may be better)."
+  },
+  {
+    "source": "CMS unt-s-corp-vs-llc-tax-structure.body.en[11].children[0].text",
+    "text": "S-Corp often makes more sense when: Your profit exceeds $80,000-$100,000, You want to minimize employment taxes, You have consistent profits year after year, or You are already operating as an LLC and want to elect S-Corp status."
+  },
+  {
+    "source": "CMS weuEvaGQfCgFkzhcGV9vjN.body[0].children[0].text",
+    "text": "---\ntitle: Tax Law Changes 2026: What Small Businesses Need to Know\ndescription: The TCJA sunset is coming. Understand the critical tax law changes 2026 will bring for small business owners and discover how to protect your bottom line today.\nkeywords: tax law changes 2026, small business taxes, tax deductions, OBBBA tax changes, tax planning, business tax tips\ndate: 2026-02-16T23:59:42.282Z\n---\n\nOn January 1, 2026, the most significant tax holiday in recent history officially ends. As the Tax Cuts and Jobs Act (TCJA) provisions sunset, the **tax law\n\n# 2026 Tax Law Changes: What Small Business Owners Need to Know\n\nThe U.S. tax code faces a massive reset on December 31, 2025. The provisions of the Tax Cuts and Jobs Act (TCJA) will sunset, triggering an automatic reversion to pre-2018 rules. This expiration creates a fiscal cliff that demands immediate attention from every entrepreneur.\n\nSection 199A, the Qualified Business Income (QBI) deduction, disappears entirely. Currently, this provision allows eligible pass-through entities to deduct 20% of their qualified income. For a business owner netting $250,000, the loss of this deduction exposes an additional $50,000 to immediate taxation.\n\nIndividual income tax brackets will also tighten. The top marginal rate jumps from 37% to 39.6%, directly impacting **small business taxes** for S-Corps, partnerships, and sole proprietorships. Your tax liability increases even if your profit margins remain flat.\n\nWe also face a stricter compliance environment. Alongside the TCJA sunset, Congress introduces measures like the recent Beneficial Ownership Information (BOI) reporting and proposed **OBBBA tax changes**. These regulations increase the administrative burden and carry steep penalties for non-compliance.\n\nStandard deductions will effectively be cut in half. This shift forces many taxpayers to return to itemizing, complicating annual filing requirements. You must track expenses with greater precision to capture valid **tax deductions**.\n\nBonus depreciation continues its scheduled phase-out. The ability to write off 100% of equipment or software costs in the year of purchase is vanishing. By 2026, capital intensive businesses will face slower cost recovery schedules, hurting short-term cash flow.\n\nStrategic **tax planning** is your only defense against these rate hikes. Review your entity structure immediately. Converting to a C-Corporation may yield savings, as the corporate tax rate remains a flat 21% under current law.\n\nDo not wait until the calendar turns to address these **tax law changes 2026**. Accelerate income into the current lower-rate years where possible. Conversely, defer deductible expenses to future years when tax rates are higher to maximize their value.\n\nConsult with a CPA to model your tax liability under the 2026 rules using your current P&L. Applying these proactive **business tax tips** protects your working capital. Preparation prevents the expiration of the TCJA from becoming a financial crisis for your company.\n\n## Why Are Tax Laws Changing in 2026?\n\nCongress built an expiration date into the massive tax overhaul of 2017. The Tax Cuts and Jobs Act (TCJA) did not pass through the standard legislative process requiring 60 Senate votes. Instead, lawmakers utilized budget reconciliation to pass the bill with a simple majority.\n\nThis procedural maneuver triggered the Byrd Rule. This Senate rule prohibits reconciliation bills from increasing the federal deficit beyond a ten-year window. To comply, legislators made the corporate tax rate cut permanent but forced individual and pass-through provisions to \"sunset\" after December 31, 2025.\n\n### The Return of Pre-2018 Rates\nWe face a reversion to 2017 tax policy starting January 1, 2026. Unless Congress acts, the top marginal income tax rate snaps back from 37% to 39.6%. Income brackets will compress, pushing many earners into higher tax tiers more quickly.\n\nThis shift drastically alters the landscape for **tax law changes 2026**. The standard deduction will roughly be cut in half, forcing millions of taxpayers to switch back to itemizing. My firm is already modeling these scenarios for clients to prevent cash flow shocks.\n\n### The Impact on Small Business Taxes\nThe sunset provisions pose a severe threat to pass-through entities. The Section 199A Qualified Business Income (QBI) deduction currently allows eligible business owners to deduct 20% of their business income tax-free. This deduction expires completely in 2026.\n\nConsider a hypothetical S-Corp client, \"Apex Logistics,\" netting\n\n# How Will Income Tax Rates and Brackets Shift?\n\nThe sunset provisions of the Tax Cuts and Jobs Act (TCJA) create a looming fiscal cliff for business owners. On January 1, 2026, the current tax code reverts to pre-2018 levels unless Congress intervenes. You must prepare now for the **tax law changes 2026** will impose on your bottom line.\n\n### The Pass-Through Penalty\n\nPass-through entities—S-Corps, Partnerships, and Sole Proprietorships—face the steepest climb. Currently, the Section 199A Qualified Business Income (QBI) deduction allows owners to deduct 20% of their business income before calculating tax. This deduction evaporates entirely at midnight on December 31, 2025.\n\nThe expiration of the QBI deduction effectively raises the tax burden on **small business taxes** by double digits. A business owner currently paying an effective rate of 29.6% (37% top rate minus the 20% deduction) will see their rate jump to 39.6%. This represents a massive reduction in retained earnings.\n\nI recently modeled this scenario for a manufacturing client generating $2 million in net income. Without restructuring, his tax liability increases by over $200,000 annually starting in 2026. This capital destruction requires immediate **tax planning** to mitigate.\n\n### Corporate Rates vs. Individual Brackets\n\nC-Corporations occupy a different position in this equation. The TCJA permanently set the corporate tax rate at 21%, and this does not expire. The widening gap between the projected 39.6% individual rate and the flat 21% corporate rate demands a re-evaluation of your entity structure.\n\nThe following table illustrates the projected shift for the highest earners:\n\n| Metric | Current Law (2018–2025) | Projected Reversion (2026+) | Impact |\n| :--- | :--- | :--- | :--- |\n| **Top Individual Rate** | 37% | 39.6% | 2.6% Increase |\n| **Section 199A Deduction** | 20% Deduction | $0 (Expired) | Effective Rate Surge |\n| **Standard Deduction** | Nearly Doubled | Roughly Halved | More Itemizing Required |\n| **Corporate Tax Rate** | 21% | 21% | Remains Flat |\n\n\n\n# What Is Happening to the QBI Deduction (Section 199A)?\n\nThe single most valuable tax break for pass-through entities faces a hard expiration date. Unless Congress intervenes, the Section 199A Qualified Business Income (QBI) deduction sunsets on December 31, 2025. For sole proprietors, S-corporations, and partnerships, this creates an impending financial cliff.\n\nCurrently, Section 199A allows eligible business owners to deduct up to 20% of their qualified business income from their taxes. This effectively lowers the top marginal tax rate on business income from 37% to 29.6%. When the **tax law changes 2026** take effect, that 20% deduction vanishes, and individual income tax rates revert to pre-2018 levels.\n\n### The Mathematics of the Loss\n\nThe elimination of QBI does not just mean losing a deduction; it compounds with rising tax brackets.\n\nConsider a client I advised recently, a specialized engineering firm structured as an S-Corp with $600,000 in net profit. Under current law, they claim a $120,000 deduction, paying tax on only $480,000. If the QBI deduction expires, they pay tax on the full $600,000.\n\nWorse, the top marginal rate likely jumps from 37% back to 39.6%. That firm faces a double penalty: a larger taxable base multiplied by a higher tax rate. This scenario represents a tax increase of roughly $50,000 to $60,000 annually for the same operational performance.\n\n### Analyzing the Legislative Landscape\n\nBusiness owners must understand that the QBI deduction was never permanent. Legislators wrote it into the Tax Cuts and Jobs Act (TCJA) with a sunset provision to comply with budget reconciliation rules. This is similar to constraints seen in previous **OBBBA tax changes**, where temporary provisions eventually force Congress to act or let tax breaks expire.\n\nPolitics will dictate the future of **small business taxes**. Extending Section 199A costs the federal government hundreds of billions in revenue. Consequently, you cannot rely on a last-minute legislative rescue. Prudent **tax planning** requires assuming the deduction dies in 2026.\n\n### Strategic Pivots for Business Owners\n\nWaiting until late 2025 to adjust your strategy is a mistake. You need to stress-test your entity structure against the upcoming changes now.\n\n**Re-evaluate Entity Classification**\nThe flat 21% corporate tax rate for C-Corporations is permanent and does not sunset in 2026. If the pass-through rate jumps to 39.6% without the QBI buffer,\n\n## How Do OBBBA Tax Changes Impact Compliance?\n\nThe OBBBA legislation introduces a rigorous new standard for documentation and reporting. These provisions fundamentally alter how entities substantiate expenses and categorize revenue. Small business owners must prepare for a shift from simple expense tracking to evidentiary-level record keeping.\n\n### Heightened Reporting Standards\n\nOBBBA mandates granular reporting for specific expense categories previously grouped under general operating costs. You can no longer aggregate travel, meals, and client entertainment into a single ledger entry. The IRS now requires distinct itemization to align with the **OBBBA tax changes** taking effect.\n\nWe witnessed this shift during a recent audit defense for a mid-sized construction firm. The auditor disallowed $45,000 in deductions because the ledger lacked the specific \"business purpose\" descriptions mandated by the new provisions. To avoid this, update your chart of accounts immediately to reflect these separated categories.\n\n### The 2026 Sunset and Depreciation\n\nThe **tax law changes 2026** brings focus heavily on the reduction of accelerated depreciation schedules. Under the previous regime, businesses enjoyed 100% bonus depreciation, allowing immediate write-offs for capital assets. OBBBA provisions phase this out, forcing a return to Modified Accelerated Cost Recovery System (MACRS) tables.\n\nThis change directly impacts cash flow forecasting for **small business taxes**. If you plan to purchase heavy machinery or IT infrastructure, execute those acquisitions before the phase-out completes. Delaying capital expenditures past the deadline results in a slower recovery of costs and a higher immediate tax liability.\n\n### Substantiation of Pass-Through Deductions\n\nScrutiny on pass-through entities has intensified. The **tax deductions** associated with Qualified Business Income (QBI) now demand stricter wage and property basis calculations. The OBBBA framework requires precise attribution of W-2 wages to specific qualified trades or businesses, rather than the entity as a whole.\n\n**Case Study: Apex Logistics**\nConsider Apex Logistics, a client operating three distinct shipping divisions. Under old rules, they aggregated wage data to maximize their deduction. Under OBBBA compliance standards, we had to segregate payroll data for each division. This strategic move preserved their 20% deduction eligibility, saving the partners $32,000 in tax liability.\n\n### Strategic Moves for Compliance\n\nEffective **tax planning** now requires quarterly compliance reviews rather than a year-end scramble. Implement a digital receipt management system that captures vendor data, dates, and business intent at the point of sale. The IRS treats missing data as non-deductible personal expenses under the new guidelines.\n\nReview your entity classification election. For some LLCs, the OBBBA changes make S-Corporation status less advantageous due to reasonable compensation scrutiny. Consult a qualified advisor to run a comparative analysis based on your projected net income.\n\n### Essential Business Tax Tips for the New Regime\n\n1.  **Segregate Accounts:** Never commingle personal and business funds; OBBBA auditors view this as a primary piercing veil.\n2.  **Document Intent:** Annotate every calendar appointment with the specific business outcome discussed to support travel deductions.\n3.  **Review Vendor W-9s:** Ensure all contractor documentation is current to prevent backup withholding penalties.\n\nAdhering to these **business tax tips** builds a fortress around your returns. Compliance under OBBBA is not passive; it requires aggressive, real-time data management.\n\n## Which Business Deductions Are Expiring or Reducing?\n\nThe era of effortless, 100% upfront equipment write-offs is ending. Congress designed the Tax Cuts and Jobs Act (TCJA) with built-in expiration dates, and we are now sliding down the slope of those reductions. Business owners must adjust their capital expenditure strategies immediately to preserve cash flow.\n\n### The Slow Death of Bonus Depreciation\n\nBonus depreciation is the most critical area of erosion for **small business taxes**. Under the TCJA, businesses could deduct 100% of the cost of eligible property in the year of purchase. That provision expired at the end of 2022.\n\nWe are now in the phase-out period. For assets placed in service in 2024, the deduction drops to 60%. It falls further to 40% in 2025 and 20% in 2026. Unless Congress intervenes, bonus depreciation vanishes entirely in 2027.\n\nConsider a manufacturing client who buys a $500,000 machine today. In 2022, they deducted the full $500,000 against taxable income immediately. In 2024, that deduction shrinks to $300,000, leaving $200,000 to depreciate over the asset's useful life. This shift materially impacts tax liability and available working capital.\n\n### Section 179: The Strategic Alternative\n\nAs bonus depreciation fades, Section 179 becomes the primary lever for immediate **tax deductions**. Unlike bonus depreciation, Section 179 allows you to deduct the full purchase price of qualifying equipment and software, up to a specific limit. For 2024, the deduction limit is $1.22 million, with a phase-out threshold beginning at $3.05 million in total equipment purchases.\n\nHowever, Section 179 has strict limitations that bonus depreciation did not. You cannot use Section 179 to create a tax loss; you can only reduce your taxable income to zero. Any excess carries forward to future years.\n\n### Preparing for the 2026 Cliff\n\nThe most aggressive **tax law changes 2026** will bring involve the sunset of individual income tax cuts and the potential reversion of expensing limits. The scheduled expiration of TCJA provisions will likely tighten the belt on pass-through entities and sole proprietorships.\n\nWe also monitor legislative adjustments closely, including impacts from **OBBBA tax changes** and budget reconciliations that affect depreciation schedules. Legislative volatility requires businesses to accelerate purchases into 2024 and 2025 rather than waiting for 2026.\n\n### Actionable Tax Planning Steps\n\nEffective **tax planning** requires a proactive schedule\n\n# How Can Business Owners Start Tax Planning Now?\n\nThe sunset of the Tax Cuts and Jobs Act creates a fiscal cliff at the end of 2025. Business owners must pivot their strategies immediately to preserve capital. Waiting until the fourth quarter of 2025 guarantees missed opportunities and higher liabilities.\n\n### Flip the Script on Income Recognition\nConventional wisdom suggests deferring income to delay tax payments. The looming **tax law changes 2026** invert this logic. Capture revenue in 2025 to lock in current lower marginal rates before they likely revert to pre-2018 levels.\n\nMaximize the Section 199A Qualified Business Income (QBI) deduction while it exists. This provision allows eligible **small business taxes** to drop significantly via a 20% write-off on pass-through income. Accelerating invoices and collections into the 2025 calendar year secures this benefit before it potentially vanishes.\n\n**Action Item:** Review your accounts receivable in November 2025. Aggressively collect outstanding payments before December 31 to recognize that income under the favorable 2025 brackets.\n\n### Strategic Expense Timing\nValuable **tax deductions** gain power when tax rates rise. A deduction worth 21 cents on the dollar in 2025 might be worth 28 or 39.6 cents in 2026. Push significant operational costs or capital improvements into the 2026 tax year.\n\nConsider a recent scenario involving a manufacturing client planning a $150,000 equipment upgrade. We advised delaying the purchase from December 2025 to January 2026. This simple timing shift moves the deduction to a year where it offsets income taxed at a higher rate, effectively increasing the government's subsidy of the purchase.\n\n### Navigate OBBBA and\n\n## Should You Consider Changing Your Business Entity?\n\nThe looming sunset of the Tax Cuts and Jobs Act creates a critical decision point for business owners. Current **tax law changes 2026** projections indicate a return to higher individual income tax rates and the expiration of the 20% Qualified Business Income (QBI) deduction. This shift fundamentally alters the math for S-Corporations.\n\nPass-through entities have enjoyed a golden era. The QBI deduction effectively lowered the top marginal rate for S-Corp owners to under 30%. Once that deduction vanishes and top individual rates revert to 39.6%, the tax burden on flow-through income spikes significantly.\n\n### The C-Corporation Arbitrage\n\nC-Corporations currently pay a flat 21% federal tax rate. This rate is permanent under current law and does not expire in 2025. For businesses that reinvest profits rather than distributing them, the C-Corp structure offers a powerful shield against rising individual rates.\n\nConsider a manufacturing client generating $2 million in net income. As an S-Corp owner in 2026, they face the full force of increased individual rates on that entire sum. By converting to a C-Corp, the business pays 21% on the profit, leaving more capital available for equipment, inventory, or expansion.\n\nThis strategy works best for \"accumulators.\" If you strip every dollar of profit out of the company annually, double taxation on dividends negates the benefit. If you build equity, the C-Corp wins.\n\n### Section 1202: The Exit Strategy\n\nSmart **tax planning** looks beyond annual filings to the eventual exit. Qualified Small Business Stock (QSBS) under Section 1202 allows founders to exclude up to $10 million (or 10x basis) of gain from federal taxes upon sale. S-Corporations do not qualify for this exemption\n\n## Conclusion\n\nThe sunset of the Tax Cuts and Jobs Act, combined with new OBBBA regulations, creates a pivotal moment for small business finances. Waiting until the clock strikes midnight on December \n\n\n## Frequently Asked Questions\n\n\n### Will small business taxes go up in 2026?\n\nLearn more about will small business taxes go up in 2026? in our comprehensive guide.\n\n\n### What is the TCJA sunset provision?\n\nLearn more about what is the tcja sunset provision? in our comprehensive guide.\n\n\n### Is the QBI deduction going away in 2026?\n\nLearn more about is the qbi deduction going away in 2026? in our comprehensive guide.\n\n\n### How does bonus depreciation change in 2026?\n\nLearn more about how does bonus depreciation change in 2026? in our comprehensive guide.\n\n\n### What are the OBBBA tax changes for small businesses?\n\nLearn more about what are the obbba tax changes for small businesses? in our comprehensive guide.\n"
+  }
+]

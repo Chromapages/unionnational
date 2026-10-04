@@ -5,15 +5,22 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQList } from "@/components/faq/FAQList";
 import { sanityFetch } from "@/sanity/lib/live";
 import { FAQ_QUERY } from "@/sanity/lib/queries";
-import { getLocale } from "next-intl/server";
 import Link from "next/link";
+import { Link as LocalizedLink } from "@/i18n/navigation";
+import { BOOKING_ROUTE } from "@/lib/booking";
+import type { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export const revalidate = 3600; // Revalidate every hour
 
-export const metadata = {
-    title: "Frequently Asked Questions | Union National Tax",
-    description: "Find answers to common questions about our tax services, pricing, and strategies for contractors and business owners.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Frequently Asked Questions | Union National Tax",
+        description: "Find answers to common questions about our tax services, pricing, and strategies for contractors and business owners.",
+        alternates: localizedAlternates(locale, "/faq"),
+    };
+}
 
 export default async function FAQPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
@@ -66,12 +73,12 @@ export default async function FAQPage(props: { params: Promise<{ locale: string 
                                 Every business is unique. Our team of Enrolled Agents and CPAs is ready to discuss your specific situation.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <Link
-                                    href="/contact"
+                                <LocalizedLink
+                                    href={BOOKING_ROUTE}
                                     className="w-full sm:w-auto bg-gold-500 hover:bg-gold-600 text-brand-900 font-black py-5 px-10 rounded-2xl transition-all transform hover:scale-105 shadow-xl uppercase tracking-widest text-xs text-center"
                                 >
                                     Book Free Strategy Call
-                                </Link>
+                                </LocalizedLink>
                                 <Link
                                     href="mailto:support@unionnationaltax.com"
                                     className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 py-5 px-10 rounded-2xl transition-all font-bold text-xs uppercase tracking-widest text-center"

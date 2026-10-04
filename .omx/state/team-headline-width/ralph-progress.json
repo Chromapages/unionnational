@@ -1,0 +1,19 @@
+{
+  "score": 100,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "The headline now fills the existing left column, using two lines on desktop without changing typography or other hero content.",
+  "next_actions": [],
+  "verification": {
+    "viewports": [390, 768, 1440, 1896],
+    "heading_width_equals_column_width": true,
+    "heading_widths_px": [350, 712, 724.4375, 764.4375],
+    "line_counts": [3, 1, 2, 2],
+    "horizontal_overflow": false,
+    "screenshot": ".omx/state/team-headline-width/preview.png"
+  }
+}

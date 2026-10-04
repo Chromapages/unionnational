@@ -60,8 +60,8 @@ describe("WhyUsConversionArea", () => {
 
     // Primary has filled style and min-h-[48px] (>= 44px)
     expect(primaryLink.className).toContain("min-h-[48px]");
-    expect(primaryLink.className).toContain("bg-brand-900");
-    expect(primaryLink.className).toContain("text-white");
+    expect(primaryLink.className).toContain("bg-gold-500");
+    expect(primaryLink.className).toContain("text-brand-950");
 
     // Secondary has min-h-[44px] and underline decoration
     expect(secondaryLink.className).toContain("min-h-[44px]");

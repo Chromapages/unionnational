@@ -44,6 +44,7 @@ export const TEAM_MEMBERS_QUERY = defineQuery(`
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
     linkedinUrl,
+    "tags": tags[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     "certifications": certifications[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
   }
@@ -69,6 +70,18 @@ export const FOUNDER_QUERY = defineQuery(`
 
 export const ABOUT_PAGE_QUERY = defineQuery(`
   * [_type == "aboutPage"][0]{
+    "approvedFounderTitle": coalesce(approvedFounderTitle[$locale], approvedFounderTitle.en, approvedFounderTitle),
+    "approvedProofStats": approvedProofStats[]{value, "label": coalesce(label[$locale], label.en, label), source},
+    "approvedFeaturedMembers": approvedFeaturedMembers[]->{
+      _id, name,
+      "description": coalesce(description[$locale], description.en, description),
+      "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort),
+      "tags": tags[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+      "role": coalesce(role[$locale], role.en, role),
+      "credentials": coalesce(credentials[$locale], credentials.en, credentials),
+      "certifications": certifications[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+      image {asset->, "alt": coalesce(alt[$locale], alt.en, alt)}
+    },
     "valuesEyebrow": coalesce(valuesEyebrow[$locale], valuesEyebrow.en, valuesEyebrow),
     "valuesTitle": coalesce(valuesTitle[$locale], valuesTitle.en, valuesTitle),
     "values": values[]{
@@ -110,7 +123,8 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     ctaBackgroundImage {
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
-    }
+    },
+    seo { noIndex }
   }
 `)
 

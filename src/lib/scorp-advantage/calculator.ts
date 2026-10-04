@@ -1,33 +1,41 @@
 // src/lib/scorp-advantage/calculator.ts
+import { calculateEmploymentTaxComparison, ILLUSTRATIVE_SALARY_RATIO } from "./employment-tax";
+
 export type SCorpSavingsEstimate = {
+    applicable: boolean;
     estimatedSavings: number;
     suggestedSalary: number;
     distributions: number;
-    seRateSaved: number;
 };
 
-export function calculateSCorpSavings(netProfit: number): SCorpSavingsEstimate {
-    if (netProfit < 40000) {
+export function calculateSCorpSavings(netProfit: number, entityType?: string): SCorpSavingsEstimate {
+    if (!Number.isFinite(netProfit) || netProfit < 0 || netProfit > 1000000) {
+        throw new RangeError("Estimated net profit must be between $0 and $1,000,000.");
+    }
+    if (entityType === "S_CORP" || entityType === "C_CORP") {
         return {
+            applicable: false,
             estimatedSavings: 0,
-            suggestedSalary: netProfit,
+            suggestedSalary: 0,
             distributions: 0,
-            seRateSaved: 0,
         };
     }
 
-    const salaryRatio = netProfit < 100000 ? 0.6 : netProfit < 250000 ? 0.5 : 0.4;
-    const suggestedSalary = Math.round(netProfit * salaryRatio);
+    // Keep the legacy payload field name; this is an illustrative assumption, never a salary recommendation.
+    const suggestedSalary = Math.round(netProfit * ILLUSTRATIVE_SALARY_RATIO);
     const distributions = netProfit - suggestedSalary;
-    const seRateSaved = 0.153;
-    const estimatedSavings = Math.round(distributions * seRateSaved);
+    const { estimatedSavings } = calculateEmploymentTaxComparison(netProfit, suggestedSalary);
 
     return {
+        applicable: true,
         estimatedSavings,
         suggestedSalary,
         distributions,
-        seRateSaved,
     };
+}
+
+export function isHighIntent(input: Parameters<typeof calculateFitScore>[0]): boolean {
+    return input.urgencyLevel === "HIGH" || calculateFitScore(input) >= 70;
 }
 
 export function formatCurrency(value: number): string {

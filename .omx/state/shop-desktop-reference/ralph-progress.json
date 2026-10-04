@@ -1,0 +1,13 @@
+{
+  "score": 94,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The featured and library covers use the current CMS artwork rather than the concept artwork in the reference.",
+    "Multi-edition books show Choose Format, and the Retirement guide shows View Details because its checkout configuration is incomplete."
+  ],
+  "suggestions": [],
+  "reasoning": "The editorial hero, featured product, six-card library, problem topics, trust band, FAQs, dual CTA, and compact footer match the reference's hierarchy. English and Spanish ordering, filters, links, cover loading, and the mobile fallback were verified without overflow or repeatable page errors.",
+  "next_actions": []
+}

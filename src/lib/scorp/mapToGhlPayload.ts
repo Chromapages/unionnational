@@ -17,6 +17,8 @@ export const mapToGhlPayload = (
         event_type: "SCORP_ESTIMATOR_SUBMITTED",
         submitted_at: new Date().toISOString(),
         source_page: "/scorp-estimator", // Overridable if we ever move it
+        locale: input.locale || "en",
+        submission_id: input.submission_id,
         lead_magnet_type: "SCORP_ESTIMATOR",
         primary_service_interest: "S_CORP_STRATEGY",
         consultation_type: "SCORP_REVIEW",

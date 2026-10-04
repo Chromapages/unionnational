@@ -46,7 +46,7 @@ export function MathSection() {
                         <label htmlFor="revenue-slider" className="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">
                             Select Your Annual Revenue:
                         </label>
-                        <div className="text-3xl xs:text-4xl font-black text-brand-900 font-heading mb-4 tabular-nums">
+                        <div className="text-3xl xs:text-4xl font-black text-brand-900 font-data mb-4 tabular-nums">
                             {fmt(revenue)}
                         </div>
                         <input
@@ -142,7 +142,7 @@ export function MathSection() {
                             <p className="text-[9px] xs:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-500 mb-2 sm:mb-3">
                                 The Gap — Per Year
                             </p>
-                            <p className="text-4xl xs:text-5xl sm:text-7xl lg:text-8xl font-black text-brand-900 font-heading tracking-tighter sm:tracking-tight leading-none tabular-nums mb-3">
+                            <p className="text-4xl xs:text-5xl sm:text-7xl lg:text-8xl font-black text-brand-900 font-data tracking-tighter sm:tracking-tight leading-none tabular-nums mb-3">
                                 {fmt(deltaPerYear)}
                             </p>
                             <p className="text-sm sm:text-lg text-slate-700 font-light leading-relaxed max-w-xl mx-auto">
@@ -157,11 +157,11 @@ export function MathSection() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-8 sm:mb-10 px-4">
                         <div className="text-center px-4 py-4 sm:px-6 sm:py-5 rounded-xl sm:rounded-2xl bg-rose-50 border border-rose-200/60">
                             <p className="text-[10px] font-black uppercase tracking-widest text-rose-700 mb-1.5">Over 5 Years</p>
-                            <p className="text-2xl xs:text-3xl sm:text-4xl font-black text-rose-700 font-heading tabular-nums">{fmt(delta5Years)}</p>
+                            <p className="text-2xl xs:text-3xl sm:text-4xl font-black text-rose-700 font-data tabular-nums">{fmt(delta5Years)}</p>
                         </div>
                         <div className="text-center px-4 py-4 sm:px-6 sm:py-5 rounded-xl sm:rounded-2xl bg-rose-100/60 border border-rose-300/60">
                             <p className="text-[10px] font-black uppercase tracking-widest text-rose-800 mb-1.5">Over 10 Years</p>
-                            <p className="text-2xl xs:text-3xl sm:text-4xl font-black text-rose-900 font-heading tabular-nums">{fmt(delta10Years)}</p>
+                            <p className="text-2xl xs:text-3xl sm:text-4xl font-black text-rose-900 font-data tabular-nums">{fmt(delta10Years)}</p>
                         </div>
                     </div>
                 </RevealOnScroll>

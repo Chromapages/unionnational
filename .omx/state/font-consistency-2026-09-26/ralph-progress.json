@@ -1,0 +1,10 @@
+{
+  "score": 95,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Desktop section screenshots and Spanish desktop/mobile screenshots retain readable wrapping with Outfit headings and Inter copy. The 115-route browser sweep and nine focused rechecks confirm loaded brand fonts; inspected financial displays use Inter with tabular figures. No page-level horizontal overflow was observed.",
+  "threshold_pass": true,
+  "next_actions": []
+}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Check, Mail, ArrowRight, ArrowLeft, Send, Download, TrendingUp, AlertTriangle, Building, DollarSign, FileText, Calendar } from "lucide-react";
 import Link from "next/link";
@@ -72,12 +73,16 @@ const QUESTIONS = [
 ];
 
 export function TaxHealthScore() {
+    const locale = useLocale();
+    const submissionId = useRef(crypto.randomUUID());
+    const inFlight = useRef(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState<Answer[]>([]);
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const [showResults, setShowResults] = useState(false);
 
     const totalScore = answers.reduce((sum, a) => sum + a.score, 0);
@@ -108,7 +113,10 @@ export function TaxHealthScore() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (inFlight.current) return;
+        inFlight.current = true;
         setIsSubmitting(true);
+        setSubmitError(null);
 
         const firstName = name.trim().split(" ")[0] || "";
         const lastName = name.trim().split(" ").slice(1).join(" ") || "";
@@ -125,19 +133,21 @@ export function TaxHealthScore() {
                     answers,
                     score: percentage,
                     lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT",
+                    locale,
+                    source_page: window.location.pathname,
+                    submission_id: submissionId.current,
                 }),
             });
 
-            if (!response.ok) {
-                console.error("Submission failed");
-            }
-        } catch (err) {
-            console.error("Submission error:", err);
+            const result = await response.json();
+            if (!response.ok || result.success !== true) throw new Error("Survey delivery failed");
+            setIsComplete(true);
+        } catch {
+            setSubmitError("We couldn't send your answers. They are still here; please try again.");
+        } finally {
+            inFlight.current = false;
+            setIsSubmitting(false);
         }
-
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setIsSubmitting(false);
-        setIsComplete(true);
     };
 
     const getScoreLabel = () => {
@@ -159,7 +169,7 @@ export function TaxHealthScore() {
                         <Check className="w-10 h-10 text-green-600" />
                     </div>
                     <h2 className="text-3xl font-black text-brand-900 mb-2">Assessment Complete!</h2>
-                    <p className="text-slate-600 mb-8">Your results have been sent to <strong>{email}</strong></p>
+                    <p className="text-slate-600 mb-8">Your answers were received. Email delivery has not been confirmed.</p>
 
                     <div className="bg-white rounded-2xl p-8 border border-slate-200 max-w-md mx-auto mb-8">
                         <div className={`text-5xl font-black ${scoreLabel.color} mb-2`}>{percentage}%</div>
@@ -274,7 +284,7 @@ export function TaxHealthScore() {
                             className="bg-white rounded-3xl p-8 max-w-md w-full"
                         >
                             <h3 className="text-2xl font-bold text-brand-900 mb-2">Get Your Results</h3>
-                            <p className="text-slate-600 mb-6">Enter your email to receive your detailed tax health report.</p>
+                            <p className="text-slate-600 mb-6">Enter your email to request your detailed tax health report.</p>
 
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
@@ -299,12 +309,13 @@ export function TaxHealthScore() {
                                         placeholder="john@business.com"
                                     />
                                 </div>
+                                {submitError && <p role="alert" className="text-rose-700 text-sm">{submitError}</p>}
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
                                     className="w-full py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                                 >
-                                    {isSubmitting ? "Sending..." : <>View Results <Mail className="w-4 h-4" /></>}
+                                    {isSubmitting ? "Sending..." : <>{submitError ? "Retry Request" : "View Results"} <Mail className="w-4 h-4" /></>}
                                 </button>
                             </form>
                             <button

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackFooterInteraction } from "@/lib/analytics/footerInteractions";
 
@@ -27,19 +27,24 @@ interface FooterNavigationProps {
 
 function FooterLinkList({ links, campaignSearch, categoryId }: { links: FooterNavigationLink[]; campaignSearch: string; categoryId: string }) {
     return (
-        <ul className="space-y-1">
+        <ul className="space-y-2">
             {links.map((link) => (
-                <li key={link.href} className={link.emphasized ? "mt-2 border-t border-white/10 pt-2" : undefined}>
+                <li key={link.href} className={link.emphasized ? "mt-3 border-t border-[#1b3d36] pt-3" : undefined}>
                     <Link
                         href={link.preserveCampaign && campaignSearch ? `${link.href}?${campaignSearch}` : link.href}
                         data-footer-event={link.analyticsEvent || "footer_navigation_item_navigate"}
                         data-footer-destination-id={link.destinationId || link.href}
                         data-footer-category-id={categoryId}
-                        className={`inline-flex min-h-11 min-w-0 items-center text-pretty text-sm leading-snug underline-offset-4 transition-colors duration-150 hover:text-gold-400 hover:underline focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none ${
-                            link.emphasized ? "font-semibold text-gold-400" : "text-zinc-300"
+                        className={`group inline-flex min-h-8 items-center text-sm leading-snug no-underline transition-colors duration-150 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none ${
+                            link.emphasized
+                                ? "gap-1.5 font-semibold text-[#e2bb58] hover:text-[#f3db87]"
+                                : "text-slate-300 hover:text-white"
                         }`}
                     >
-                        {link.label}
+                        <span>{link.label}</span>
+                        {link.emphasized ? (
+                            <ArrowRight className="h-3.5 w-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                        ) : null}
                     </Link>
                 </li>
             ))}
@@ -105,8 +110,8 @@ function MobileFooterGroup({ group, index, campaignSearch }: { group: FooterNavi
                     type="button"
                     aria-expanded={expanded}
                     aria-controls={panelId}
-                    className={`flex min-h-12 w-full items-center justify-between gap-4 rounded-sm px-2 py-3 text-left text-sm font-semibold uppercase tracking-[0.12em] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none ${
-                        expanded ? "bg-white/[0.08] text-gold-300" : "text-white hover:bg-white/[0.04]"
+                    className={`flex min-h-12 w-full items-center justify-between gap-4 rounded-sm px-2 py-3 text-left text-xs font-bold uppercase tracking-[0.14em] transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none ${
+                        expanded ? "bg-white/[0.08] text-[#e2bb58]" : "text-[#e2bb58] hover:bg-white/[0.04]"
                     }`}
                     onClick={() => {
                         if (expanded) closePanel();
@@ -119,7 +124,7 @@ function MobileFooterGroup({ group, index, campaignSearch }: { group: FooterNavi
                     <span className="min-w-0 break-words">{group.title}</span>
                     <ChevronDown
                         aria-hidden="true"
-                        className={`h-5 w-5 shrink-0 text-gold-500 transition-transform duration-150 ease-out motion-reduce:transition-none ${expanded ? "rotate-180" : ""}`}
+                        className={`h-4 w-4 shrink-0 text-[#e2bb58] transition-transform duration-150 ease-out motion-reduce:transition-none ${expanded ? "rotate-180" : ""}`}
                     />
                 </button>
             </h2>
@@ -168,14 +173,17 @@ export function FooterNavigation({ groups, navigationLabel }: FooterNavigationPr
         <nav aria-label={navigationLabel} className="min-w-0">
             <div
                 data-testid="footer-desktop-navigation"
-                className="hidden items-start gap-x-8 lg:grid lg:grid-cols-[repeat(4,minmax(8rem,1fr))]"
+                className="hidden items-start gap-x-8 lg:grid lg:grid-cols-4"
             >
                 {groups.map((group, index) => {
                     const headingId = `footer-desktop-group-${index}`;
                     const categoryId = group.id || `footer_group_${index}`;
                     return (
                         <section key={group.title} aria-labelledby={headingId} className="min-w-0">
-                            <h2 id={headingId} className="home-eyebrow mb-3 text-pretty text-white">
+                            <h2
+                                id={headingId}
+                                className="font-heading mb-4 block border-b border-[#1b3d36] pb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#e2bb58]"
+                            >
                                 {group.title}
                             </h2>
                             <FooterLinkList links={group.links} campaignSearch={campaignSearch} categoryId={categoryId} />

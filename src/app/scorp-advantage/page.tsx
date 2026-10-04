@@ -2,6 +2,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { NextIntlClientProvider } from "next-intl";
+import { FinalBookingCTA } from "@/components/home/FinalBookingCTA";
+import messages from "@/messages/en.json";
 import {
     ArrowRight,
     BadgeDollarSign,
@@ -10,7 +13,6 @@ import {
     Calculator,
     CalendarCheck,
     CheckCircle2,
-    ClipboardCheck,
     FileText,
     Landmark,
     LineChart,
@@ -24,6 +26,8 @@ import { BeforeAfterTable } from "@/components/scorp/BeforeAfterTable";
 import { ObjectionAccordion } from "@/components/scorp/ObjectionAccordion";
 import { PricingTierCard } from "@/components/scorp/PricingTierCard";
 import { ProgramPhaseCard } from "@/components/scorp/ProgramPhaseCard";
+import { formatCurrency } from "@/lib/scorp-advantage/calculator";
+import { calculateEmploymentTaxComparison, EMPLOYMENT_TAX_ASSUMPTIONS } from "@/lib/scorp-advantage/employment-tax";
 
 export const metadata: Metadata = {
     title: "S-Corp Advantage Program | Union National Tax",
@@ -129,9 +133,10 @@ const objections = [
     },
 ];
 
+const exampleSavings = calculateEmploymentTaxComparison(200000, 85000).estimatedSavings;
 const heroMetrics = [
-    { label: "Example annual savings", value: "$17,595", icon: TrendingUp },
-    { label: "Five-year projection", value: "$87,975", icon: LineChart },
+    { label: "Illustrative annual difference", value: formatCurrency(exampleSavings), icon: TrendingUp },
+    { label: "Five-year unchanged illustration", value: formatCurrency(exampleSavings * 5), icon: LineChart },
     { label: "SE tax rate reviewed", value: "15.3%", icon: Calculator },
 ];
 
@@ -155,7 +160,8 @@ export default function SCorpAdvantagePage() {
             <header className="sticky top-0 z-40 border-b border-white/10 bg-brand-950/95 backdrop-blur-xl">
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
                     <Link href="/scorp-advantage" className="flex items-center gap-3" aria-label="Union National Tax S-Corp Advantage">
-                        <Image src="/images/logo.png" alt="Union National Tax" width={172} height={48} className="h-10 w-auto brightness-0 invert" priority />
+                        <Image src="/images/Untitled design.svg" alt="" width={40} height={40} className="h-10 w-10 object-contain" priority />
+                        <span className="font-heading text-lg font-bold text-white">Union National Tax</span>
                     </Link>
                     <nav aria-label="S-Corp navigation" className="flex items-center gap-3">
                         <Link href="/scorp-estimator" className="hidden rounded-xl border border-white/15 px-4 py-2 text-sm font-bold text-white transition hover:border-gold-500/40 hover:bg-white/10 sm:inline-flex">
@@ -177,7 +183,7 @@ export default function SCorpAdvantagePage() {
                     <div className="max-w-4xl">
                         <div className="mb-7 flex items-center gap-3">
                             <span className="h-px w-8 bg-gold-500/70" />
-                            <p className="font-heading text-xs font-bold uppercase tracking-[0.25em] text-gold-400">
+                            <p className="font-body text-xs font-bold uppercase tracking-[0.25em] text-gold-400">
                                 S-Corp Advantage Program
                             </p>
                         </div>
@@ -225,7 +231,7 @@ export default function SCorpAdvantagePage() {
                                         <div key={metric.label} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4">
                                             <div>
                                                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{metric.label}</p>
-                                                <p className="mt-1 font-heading text-3xl font-bold tracking-tight text-brand-950">{metric.value}</p>
+                                                <p className="mt-1 font-data tabular-nums text-3xl font-bold tracking-tight text-brand-950">{metric.value}</p>
                                             </div>
                                             <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-gold-500/15 bg-gold-500/10 text-gold-700">
                                                 <Icon className="h-5 w-5" aria-hidden="true" />
@@ -258,7 +264,7 @@ export default function SCorpAdvantagePage() {
                 <div className="mx-auto grid max-w-7xl gap-3 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-[0_22px_70px_rgba(15,23,42,0.08)] sm:grid-cols-2 lg:grid-cols-4">
                     {proofStats.map((stat) => (
                         <div key={stat.label} className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
-                            <p className="font-heading text-3xl font-bold tracking-tight text-brand-950">{stat.value}</p>
+                            <p className="font-data tabular-nums text-3xl font-bold tracking-tight text-brand-950">{stat.value}</p>
                             <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{stat.label}</p>
                         </div>
                     ))}
@@ -269,7 +275,7 @@ export default function SCorpAdvantagePage() {
                 <div className="mx-auto max-w-7xl">
                     <div className="mb-12 grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
                         <div>
-                            <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Where overpayment starts</p>
+                            <p className="font-body text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Where overpayment starts</p>
                             <h2 className="mt-4 font-heading text-4xl font-bold leading-[1.05] tracking-tight text-brand-950 md:text-6xl">
                                 Your structure should support cash flow, not quietly drain it.
                             </h2>
@@ -300,7 +306,7 @@ export default function SCorpAdvantagePage() {
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/20 to-transparent" />
                 <div className="mx-auto max-w-7xl">
                     <div className="max-w-3xl">
-                        <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-gold-700">The 3-Phase Program</p>
+                        <p className="font-body text-xs font-bold uppercase tracking-[0.22em] text-gold-700">The 3-Phase Program</p>
                         <h2 className="mt-4 font-heading text-4xl font-bold leading-[1.05] tracking-tight text-brand-950 md:text-6xl">
                             A structured path from entity review to implementation clarity.
                         </h2>
@@ -319,23 +325,24 @@ export default function SCorpAdvantagePage() {
             <section className="px-4 py-24 sm:px-6 lg:px-8">
                 <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
                     <div>
-                        <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Savings Example</p>
+                        <p className="font-body text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Savings Example</p>
                         <h2 className="mt-4 font-heading text-4xl font-bold leading-[1.05] tracking-tight text-brand-950 md:text-6xl">
-                            A concrete example: $17,595 kept in the business.
+                            An illustrative 2026 comparison: {formatCurrency(exampleSavings)} before other factors.
                         </h2>
                         <p className="mt-6 text-lg font-light leading-relaxed text-slate-600">
-                            Michael owns an HVAC company. His S-Corp nets $200,000 after expenses. With a reasonable salary of $85,000 and $115,000 in distributions, he saves $17,595 in payroll taxes. Legally. Every year. Over 5 years: $87,975 kept instead of paid to the IRS.
+                            For a hypothetical business with $200,000 profit before owner payroll, assume $85,000 in owner wages and $115,000 in distributions before employer payroll costs. The modeled employment-tax difference is {formatCurrency(exampleSavings)} for 2026. Multiplying the same inputs and 2026 rules by five gives {formatCurrency(exampleSavings * 5)}; this is not a forecast of future tax rules, wage limits, or business results, or a compensation recommendation.
                         </p>
+                        <p className="mt-4 text-sm leading-relaxed text-slate-600">{EMPLOYMENT_TAX_ASSUMPTIONS}</p>
                         <div className="mt-8 grid gap-3 sm:grid-cols-3">
                             {heroMetrics.map((metric) => (
                                 <div key={metric.label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                                    <p className="font-heading text-2xl font-bold text-brand-950">{metric.value}</p>
+                                    <p className="font-data tabular-nums text-2xl font-bold text-brand-950">{metric.value}</p>
                                     <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">{metric.label}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <BeforeAfterTable netProfit={200000} salary={85000} distributions={115000} savings={17595} />
+                    <BeforeAfterTable netProfit={200000} salary={85000} distributions={115000} savings={exampleSavings} />
                 </div>
             </section>
 
@@ -344,7 +351,7 @@ export default function SCorpAdvantagePage() {
                 <div className="relative mx-auto max-w-7xl">
                     <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
                         <div>
-                            <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-gold-400">Program Options</p>
+                            <p className="font-body text-xs font-bold uppercase tracking-[0.22em] text-gold-400">Program Options</p>
                             <h2 className="mt-4 font-heading text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
                                 Choose the level of guidance your structure requires.
                             </h2>
@@ -364,7 +371,7 @@ export default function SCorpAdvantagePage() {
             <section className="bg-white px-4 py-24 sm:px-6 lg:px-8">
                 <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_420px] lg:items-center">
                     <div>
-                        <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Advisor-Led Strategy</p>
+                        <p className="font-body text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Advisor-Led Strategy</p>
                         <h2 className="mt-4 font-heading text-4xl font-bold leading-[1.05] tracking-tight text-brand-950 md:text-6xl">Jason Astwood, EA</h2>
                         <p className="mt-6 max-w-3xl text-lg font-light leading-relaxed text-slate-600">
                             Jason Astwood helps profitable business owners connect tax structure to cash flow, compensation, and long-term wealth. His advisory process is built for owners who want clarity, control, and smarter decisions before tax season arrives.
@@ -406,7 +413,7 @@ export default function SCorpAdvantagePage() {
 
             <section className="px-4 py-24 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-4xl">
-                    <p className="font-heading text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Common Questions</p>
+                    <p className="font-body text-xs font-bold uppercase tracking-[0.22em] text-gold-700">Common Questions</p>
                     <h2 className="mt-4 font-heading text-4xl font-bold leading-[1.05] tracking-tight text-brand-950 md:text-6xl">
                         Good structure should create clarity, not confusion.
                     </h2>
@@ -416,29 +423,12 @@ export default function SCorpAdvantagePage() {
                 </div>
             </section>
 
-            <section className="bg-white px-4 py-24 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-brand-950 px-6 py-20 text-center text-white shadow-premium sm:rounded-[2.5rem]">
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-500 text-brand-950">
-                        <ClipboardCheck className="h-7 w-7" aria-hidden="true" />
-                    </div>
-                    <h2 className="mx-auto mt-8 max-w-4xl font-heading text-4xl font-bold leading-[1.05] tracking-tight md:text-6xl">
-                        Stop Overpaying. Start Keeping More.
-                    </h2>
-                    <p className="mx-auto mt-6 max-w-3xl text-xl font-light leading-relaxed text-slate-300">
-                        Get your personalized S-Corp savings estimate in 10 minutes - or book your evaluation directly with Jason.
-                    </p>
-                    <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                        <Link href="/scorp-estimator" className="inline-flex min-h-[60px] items-center justify-center gap-3 rounded-xl bg-gold-500 px-8 py-4 text-base font-black text-brand-950 shadow-xl shadow-gold-500/20 transition hover:bg-gold-400">
-                            Get My Free Savings Estimate
-                            <TrendingUp className="h-5 w-5" aria-hidden="true" />
-                        </Link>
-                        <Link href="/book" className="inline-flex min-h-[60px] items-center justify-center gap-3 rounded-xl border border-white/15 bg-white/5 px-8 py-4 text-base font-bold text-white transition hover:bg-white/10">
-                            Book My Evaluation
-                            <FileText className="h-5 w-5" aria-hidden="true" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
+            <NextIntlClientProvider locale="en" messages={{
+                ConsumerHome: { final: messages.ConsumerHome.final, hero: { primaryCta: messages.ConsumerHome.hero.primaryCta } },
+                HomePage: { CTASection: messages.HomePage.CTASection },
+            }}>
+                <div className="homepage-rhythm"><FinalBookingCTA id="service-next-step" placement="scorp_advantage_final_cta" label="Book an S-Corp Evaluation" /></div>
+            </NextIntlClientProvider>
         </main>
     );
 }

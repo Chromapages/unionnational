@@ -1,0 +1,30 @@
+import { expect, it } from "vitest";
+import { getCatalogResources, getIntentRecommendations, getResourceResults, selectFeaturedResources, type Resource } from "./resourceCatalog";
+
+it("keeps published resources unique, searchable and separated from their featured cards", () => {
+  const post = (slug: string, category = "tax-strategy"): Resource => ({ _id: slug, _type: "blogPost", slug, title: slug, publishedAt: "2026-05-29", categories: [{ title: category, slug: category }] });
+  const originals = [post("llc-vs-s-corp-vs-c-corp-real-tax-impact-2026", "s-corp-guide"), post("how-to-handle-an-irs-notice-before-you-panic-2026", "irs-compliance"), post("small-business-tax-planning-strategies-to-save-money-in-2026"), post("hvac-guide"), post("hvac-planning"), post("cash-flow-guide", "cash-flow-and-cfo"), post("restaurant-guide")];
+  const malformed = { ...post("bad-cms-title"), title: { en: "" } } as unknown as Resource;
+  const resources = getCatalogResources([...originals, { ...originals[0], _id: "duplicate" }, post(""), malformed], []);
+  expect(resources).toHaveLength(originals.length);
+  expect(resources.every(item => item.publishedAt === "2026-05-29")).toBe(true);
+  const featured = selectFeaturedResources(resources);
+  expect(featured).toHaveLength(3);
+  const all = getResourceResults(resources, featured, "all", "", "featured", "en");
+  expect(new Set([...all.featured, ...all.grid].map(item => item.slug)).size).toBe(resources.length);
+  expect(all.grid.filter(item => item.slug.includes("hvac")).map(item => all.grid.indexOf(item))).toEqual([0, 3]);
+  const search = getResourceResults(resources, featured, "all", "llc-vs", "featured", "en");
+  expect(search.count).toBe(1);
+  expect(search.featured).toHaveLength(1);
+  expect(search.grid).toHaveLength(0);
+  expect(getResourceResults(resources, featured, "finance", "", "featured", "en").count).toBe(1);
+  expect(getResourceResults(resources, featured, "operations", "", "featured", "en").count).toBe(0);
+  expect(getResourceResults(resources, featured, "all", "missing", "featured", "en").count).toBe(0);
+  const recommendations = getIntentRecommendations(resources, "structure");
+  expect(recommendations[0].slug).toBe(originals[0].slug);
+  expect(recommendations).toHaveLength(4);
+  expect(recommendations.every(item => resources.includes(item))).toBe(true);
+  const recommendedResults = getResourceResults(resources, recommendations, "all", "", "featured", "en");
+  expect(new Set([...recommendedResults.featured, ...recommendedResults.grid].map(item => item.slug)).size).toBe(resources.length);
+  expect(getIntentRecommendations([], "growth")).toHaveLength(0);
+});

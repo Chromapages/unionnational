@@ -1,0 +1,10 @@
+{
+  "score": 95,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Desktop and mobile screens retain readable wrapping. Browser computed styles confirm Outfit headings and Inter body, labels, testimonials, and figures on representative English, Spanish, service, shop, industries, pricing, and S Corp pages. The standalone S Corp logo now renders without a missing image request.",
+  "threshold_pass": true,
+  "next_actions": []
+}

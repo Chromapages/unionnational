@@ -3,15 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, type LucideIcon } from "lucide-react";
-import * as Icons from "lucide-react";
+import { ChartNoAxesCombined, ChevronDown, ChevronRight } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { getServiceHref, mergeServiceNavigationData, type ServiceSummary } from "./navigationData";
-
-const getIcon = (iconName?: string): LucideIcon => {
-  if (!iconName) return Icons.Briefcase;
-  return (Icons as unknown as Record<string, LucideIcon>)[iconName] || Icons.Briefcase;
-};
 
 type ServicesDropdownProps = {
   services?: ServiceSummary[];
@@ -50,22 +44,14 @@ export const ServicesDropdown = ({
 
   const groupDefinitions = [
     {
-      id: "tax",
-      title: t("servicesGroupTax"),
-      description: t("servicesGroupTaxDescription"),
-      hrefs: ["/s-corp-tax-advantage", "/tax-planning"],
+      id: "advisory",
+      title: t("servicesGroupAdvisory"),
+      hrefs: ["/s-corp-tax-advantage", "/tax-planning", "/strategic-bookkeeping", "/fractional-cfo"],
     },
     {
-      id: "numbers",
-      title: t("servicesGroupNumbers"),
-      description: t("servicesGroupNumbersDescription"),
-      hrefs: ["/fractional-cfo", "/strategic-bookkeeping"],
-    },
-    {
-      id: "compliance",
-      title: t("servicesGroupCompliance"),
-      description: t("servicesGroupComplianceDescription"),
-      hrefs: ["/new-business-formation", "/payroll-services", "/tax-preparation-and-filing"],
+      id: "implementation",
+      title: t("servicesGroupImplementation"),
+      hrefs: ["/tax-preparation-and-filing", "/new-business-formation", "/payroll-services"],
     },
   ];
 
@@ -87,7 +73,6 @@ export const ServicesDropdown = ({
     serviceGroups.push({
       id: "other",
       title: t("servicesGroupOther"),
-      description: t("servicesGroupOtherDescription"),
       hrefs: otherServices.map(getServiceHref),
       services: otherServices,
     });
@@ -218,15 +203,11 @@ export const ServicesDropdown = ({
     }
   };
 
-  const renderServiceLink = (service: ServiceSummary, groupId: string) => {
-    const ServiceIcon = getIcon(service.icon);
+  const renderServiceLink = (service: ServiceSummary) => {
     const href = getServiceHref(service);
     const serviceTitle = getServiceLabel(href, service.title);
     const serviceKey = service._id || service.slug?.current || serviceTitle;
     const isCurrent = pathname === href || pathname.startsWith(`${href}/`);
-    const isRecommended = href === "/s-corp-tax-advantage";
-    const isSupporting = groupId === "compliance";
-
     return (
       <li key={serviceKey}>
         <Link
@@ -235,27 +216,14 @@ export const ServicesDropdown = ({
           onClick={handleClose}
           aria-current={isCurrent ? "page" : undefined}
           className={cn(
-            "group/item flex min-h-12 items-center gap-3 rounded-xl border px-3 py-2.5 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
+            "group/item flex min-h-10 items-center justify-between gap-4 rounded-md px-2 py-1 text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
             isCurrent
-              ? "border-gold-500/50 bg-gold-500/15 text-gold-300"
-              : isRecommended
-                ? "border-gold-500/35 bg-gold-500/10 text-white hover:border-gold-400/60 hover:bg-gold-500/15"
-                : isSupporting
-                  ? "border-transparent text-slate-200 hover:border-white/10 hover:bg-white/5 hover:text-white"
-                  : "border-transparent text-slate-100 hover:border-white/10 hover:bg-white/5 hover:text-white",
+              ? "bg-gold-500/15 text-gold-300"
+              : "text-white hover:bg-white/5 hover:text-gold-200",
           )}
         >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-gold-500/30 bg-gold-500/10 text-gold-500">
-            <ServiceIcon size={18} aria-hidden="true" strokeWidth={1.5} />
-          </span>
-          <span className="min-w-0 text-sm font-semibold leading-snug transition-colors group-hover/item:text-gold-300">
-            <span className="block">{serviceTitle}</span>
-            {isRecommended ? (
-              <span className="mt-0.5 block text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-gold-400">
-                {t("servicesDropdownPrimaryLabel")}
-              </span>
-            ) : null}
-          </span>
+          <span>{serviceTitle}</span>
+          <ChevronRight className="h-4 w-4 shrink-0 text-gold-300 transition-transform group-hover/item:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
         </Link>
       </li>
     );
@@ -274,10 +242,10 @@ export const ServicesDropdown = ({
         type="button"
         id={buttonId}
         className={cn(
-          "group relative flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200",
+          "strategy-services-trigger group relative flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200",
           isServicesActive || isOpen
-            ? "text-gold-400"
-            : "text-slate-200 hover:text-white",
+            ? "bg-white/10 text-white"
+            : "text-white hover:bg-white/5",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
         )}
         onClick={handleTriggerClick}
@@ -292,14 +260,6 @@ export const ServicesDropdown = ({
           aria-hidden="true"
           className={cn("relative z-10 transition-transform duration-200", isOpen && "rotate-180")}
         />
-        <span
-          aria-hidden="true"
-          className={cn(
-            "absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-gold-500 transition-transform duration-200",
-            isServicesActive || isOpen ? "scale-x-100" : "scale-x-0",
-            "group-hover:scale-x-100",
-          )}
-        />
       </button>
 
       {isOpen ? (
@@ -310,61 +270,58 @@ export const ServicesDropdown = ({
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
           onKeyDown={handlePanelKeyDown}
-          className="fixed left-1/2 z-30 w-[min(62rem,calc(100vw-2rem))] -translate-x-1/2 overflow-y-auto overscroll-contain pt-3 before:absolute before:-top-4 before:left-0 before:right-0 before:h-4 before:content-['']"
+          className="fixed left-[calc(50%+6rem)] z-30 w-[min(59rem,calc(100vw-3rem))] -translate-x-1/2 overflow-y-auto overscroll-contain pt-2 before:absolute before:-top-4 before:left-0 before:right-0 before:h-4 before:content-['']"
           style={{
-            top: "var(--header-height, 76px)",
+            top: "calc(var(--header-height, 76px) - 0.5rem)",
             maxHeight: "calc(100dvh - var(--header-height, 76px) - 1rem)",
           }}
         >
-          <div className="overflow-hidden rounded-[1.5rem] border border-gold-500/40 bg-brand-500 shadow-2xl shadow-black/70 ring-1 ring-white/5">
-            <div className="px-6 py-6 lg:px-8">
-              <div className="flex flex-col gap-2 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
-                <div>
-                  <h2 className="font-heading text-2xl font-bold tracking-tight text-white">
-                    {t("servicesDropdownHeading")}
-                  </h2>
-                  <p className="mt-1.5 max-w-2xl text-sm leading-6 text-zinc-300">
-                    {t("servicesDropdownSubheading")}
-                  </p>
-                </div>
-                <Link
-                  href="/services"
-                  onClick={handleClose}
-                  aria-current={pathname === "/services" ? "page" : undefined}
-                  className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full border border-gold-500/40 px-5 text-sm font-semibold text-gold-300 transition-colors hover:border-gold-400 hover:bg-gold-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 sm:self-auto"
-                >
-                  {t("servicesDropdownViewAll")}
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-              </div>
-
-              <div className="mt-6 grid gap-6 md:grid-cols-[1fr_1fr_0.82fr]">
-                {serviceGroups.map((group) => (
+          <div className="overflow-hidden rounded-2xl border border-gold-600/60 bg-brand-500 shadow-2xl shadow-black/60">
+            <div className="grid grid-cols-[1fr_1fr_0.9fr] px-7 py-6">
+                {serviceGroups.slice(0, 2).map((group, index) => (
                   <section
                     key={group.id}
                     aria-labelledby={`${menuId}-${group.id}`}
-                    className={cn(
-                      group.id === "compliance" &&
-                        "rounded-xl border border-white/10 bg-white/[0.025] p-4 md:-my-1",
-                    )}
+                    className={cn("border-r border-white/20", index === 0 ? "pr-7" : "px-7")}
                   >
                     <h3
                       id={`${menuId}-${group.id}`}
-                      className={cn(
-                        "text-xs font-bold uppercase tracking-[0.14em]",
-                        group.id === "compliance" ? "text-zinc-300" : "text-gold-400",
-                      )}
+                      className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-300"
                     >
                       {group.title}
                     </h3>
-                    <p className="mt-2 min-h-10 text-sm leading-5 text-zinc-300">{group.description}</p>
-                    <ul className="mt-3 space-y-1">
-                      {group.services.map((service) => renderServiceLink(service, group.id))}
+                    <ul className="mt-3 space-y-0.5">
+                      {group.services.map(renderServiceLink)}
                     </ul>
                   </section>
                 ))}
+                <div className="flex flex-col justify-center gap-3 pl-7">
+                  <Link
+                    href="/services#services"
+                    onClick={handleClose}
+                    className="group flex min-h-12 items-center justify-between gap-3 rounded-lg border border-gold-300 px-4 text-sm font-medium text-gold-200 transition-colors hover:bg-gold-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300"
+                  >
+                    <ChartNoAxesCombined className="h-4 w-4" aria-hidden="true" />
+                    <span className="mr-auto">{t("servicesDropdownCompare")}</span>
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                  <Link
+                    href="/services"
+                    onClick={handleClose}
+                    aria-current={pathname === "/services" ? "page" : undefined}
+                    className="group flex min-h-12 items-center justify-between gap-3 rounded-lg bg-gold-300 px-4 text-sm font-semibold text-brand-950 transition-colors hover:bg-gold-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300"
+                  >
+                    {t("servicesDropdownViewAll")}
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
               </div>
-            </div>
+              {serviceGroups.slice(2).map((group) => (
+                <section key={group.id} aria-labelledby={`${menuId}-${group.id}`} className="border-t border-white/15 px-7 py-4">
+                  <h3 id={`${menuId}-${group.id}`} className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-300">{group.title}</h3>
+                  <ul className="mt-2 grid grid-cols-2 gap-x-8">{group.services.map(renderServiceLink)}</ul>
+                </section>
+              ))}
           </div>
         </div>
       ) : null}

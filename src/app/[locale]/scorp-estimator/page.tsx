@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 
-export default function ScorpEstimatorRedirect() {
-  redirect('/s-corp-tax-advantage');
+export default async function ScorpEstimatorRedirect({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  redirect(`/${locale}/s-corp-tax-advantage`);
 }

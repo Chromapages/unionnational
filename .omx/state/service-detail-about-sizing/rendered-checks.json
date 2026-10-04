@@ -1,0 +1,876 @@
+{
+  "about": [
+    {
+      "container": {
+        "max": "1504px",
+        "paddingLeft": "16px",
+        "paddingRight": "16px",
+        "width": 382
+      },
+      "heading": "30px",
+      "overflow": false,
+      "padding": "40px 0px",
+      "width": 390
+    },
+    {
+      "container": {
+        "max": "1504px",
+        "paddingLeft": "24px",
+        "paddingRight": "24px",
+        "width": 760
+      },
+      "heading": "36px",
+      "overflow": false,
+      "padding": "40px 0px",
+      "width": 768
+    },
+    {
+      "container": {
+        "max": "1504px",
+        "paddingLeft": "32px",
+        "paddingRight": "32px",
+        "width": 1432
+      },
+      "heading": "44px",
+      "overflow": false,
+      "padding": "48px 0px",
+      "width": 1440
+    }
+  ],
+  "services": [
+    {
+      "label": "s-corp-tax-advantage 390",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "s-corp-tax-advantage-hero",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "s-corp-tax-advantage-eligibility",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "s-corp-tax-advantage-process",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "included",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "30px",
+            "30px"
+          ],
+          "heading": "30px",
+          "id": "s-corp-tax-advantage-faq",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "24px 0px"
+        }
+      ],
+      "width": 390
+    },
+    {
+      "label": "s-corp-tax-advantage 768",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "s-corp-tax-advantage-hero",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "s-corp-tax-advantage-eligibility",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "s-corp-tax-advantage-process",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "included",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "36px",
+            "36px"
+          ],
+          "heading": "36px",
+          "id": "s-corp-tax-advantage-faq",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "20px",
+            "max": "1504px",
+            "right": "20px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "36px 0px"
+        }
+      ],
+      "width": 768
+    },
+    {
+      "label": "s-corp-tax-advantage 1440",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "57.6px",
+          "id": "s-corp-tax-advantage-hero",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "s-corp-tax-advantage-eligibility",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "s-corp-tax-advantage-process",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "included",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "44px",
+            "44px"
+          ],
+          "heading": "44px",
+          "id": "s-corp-tax-advantage-faq",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": true,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "48px 0px"
+        }
+      ],
+      "width": 1440
+    },
+    {
+      "label": "tax-planning 390",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "tax-planning-hero",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "tax-planning-eligibility",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "tax-planning-comparison",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "tax-planning-process",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "included",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": null,
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "30px",
+            "30px"
+          ],
+          "heading": "30px",
+          "id": "tax-planning-faq",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "24px 0px"
+        }
+      ],
+      "width": 390
+    },
+    {
+      "label": "tax-planning 768",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "tax-planning-hero",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "tax-planning-eligibility",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "tax-planning-comparison",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "tax-planning-process",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "included",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": null,
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "24px",
+            "max": "1504px",
+            "right": "24px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "36px",
+            "36px"
+          ],
+          "heading": "36px",
+          "id": "tax-planning-faq",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "20px",
+            "max": "1504px",
+            "right": "20px",
+            "width": 760
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "36px 0px"
+        }
+      ],
+      "width": 768
+    },
+    {
+      "label": "tax-planning 1440",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "57.6px",
+          "id": "tax-planning-hero",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "tax-planning-eligibility",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "tax-planning-comparison",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "tax-planning-process",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "included",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": null,
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "44px",
+            "44px"
+          ],
+          "heading": "44px",
+          "id": "tax-planning-faq",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": true,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "48px 0px"
+        }
+      ],
+      "width": 1440
+    },
+    {
+      "label": "es/bookkeeping desktop",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "43.2px",
+          "id": "strategic-bookkeeping-hero",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "strategic-bookkeeping-eligibility",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "strategic-bookkeeping-comparison",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "strategic-bookkeeping-process",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": "included",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "44px",
+          "id": null,
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "44px",
+            "44px"
+          ],
+          "heading": "44px",
+          "id": "strategic-bookkeeping-faq",
+          "padding": "48px 0px"
+        },
+        {
+          "container": {
+            "left": "32px",
+            "max": "1504px",
+            "right": "32px",
+            "width": 1432
+          },
+          "contentOverflow": true,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "48px 0px"
+        }
+      ],
+      "width": 1440
+    },
+    {
+      "label": "es/bookkeeping mobile",
+      "overflow": false,
+      "sections": [
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "36px",
+          "id": "strategic-bookkeeping-hero",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "strategic-bookkeeping-eligibility",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "strategic-bookkeeping-comparison",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "strategic-bookkeeping-process",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": "included",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "30px",
+          "id": null,
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": [
+            "30px",
+            "30px"
+          ],
+          "heading": "30px",
+          "id": "strategic-bookkeeping-faq",
+          "padding": "40px 0px"
+        },
+        {
+          "container": {
+            "left": "16px",
+            "max": "1504px",
+            "right": "16px",
+            "width": 382
+          },
+          "contentOverflow": false,
+          "faqTitles": null,
+          "heading": "28px",
+          "id": "service-next-step",
+          "padding": "24px 0px"
+        }
+      ],
+      "width": 390
+    }
+  ]
+}

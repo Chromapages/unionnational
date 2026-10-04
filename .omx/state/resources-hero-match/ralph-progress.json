@@ -1,0 +1,12 @@
+{
+  "score": 93,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The Resources hero keeps a search field above its numbered paths, reflecting this page's library purpose while retaining the shared visual styling."
+  ],
+  "suggestions": [],
+  "reasoning": "Resources now shares the dark blueprint, responsive hero height, split layout, gold-accented sans headline, and numbered paths used by Services and Industries. English desktop at 1280px, 1440px, and 2048px and Spanish at 1440px show no overflow or page errors; all three search shortcuts return results and the existing mobile hero remains visible.",
+  "next_actions": []
+}

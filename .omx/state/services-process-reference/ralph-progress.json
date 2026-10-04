@@ -1,0 +1,10 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["The existing Torres construction photograph is reused instead of the reference's exterior image and banner."],
+  "suggestions": [],
+  "reasoning": "The vertical timeline with step outputs, wide photo and company title, three result stages, and quote strip closely match the reference. English at 1280px, 1536px, and 2048px and Spanish at 1440px render four steps, one client-result panel, a loaded image, and no overflow or page errors. The existing mobile view remains active at 390px.",
+  "next_actions": []
+}

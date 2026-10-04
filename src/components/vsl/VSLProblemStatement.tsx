@@ -48,7 +48,7 @@ export function VSLProblemStatement({ headline, painPoints }: VSLProblemStatemen
                         viewport={{ once: true }}
                         className="flex flex-col"
                     >
-                        <div className="font-mono text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase mb-4">
+                        <div className="font-body text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase mb-4">
                             The Real Problem
                         </div>
                         <h2 className="text-4xl lg:text-5xl font-black text-white leading-tight mb-10 tracking-tight">
@@ -82,7 +82,7 @@ export function VSLProblemStatement({ headline, painPoints }: VSLProblemStatemen
                         className="relative"
                     >
                         <div className="relative z-20 bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl">
-                            <div className="font-mono text-[10px] text-slate-500 uppercase tracking-widest mb-4">
+                            <div className="font-body text-[10px] text-slate-500 uppercase tracking-widest mb-4">
                                 Client Case Study Breakdown
                             </div>
 
@@ -90,7 +90,7 @@ export function VSLProblemStatement({ headline, painPoints }: VSLProblemStatemen
                                 <div className="text-[11px] text-slate-400 uppercase tracking-widest mb-1">
                                     IRS Debt Before Resolution
                                 </div>
-                                <div className="text-4xl font-black text-red-500 font-mono tracking-tight">
+                                <div className="text-4xl font-black text-red-500 font-data tabular-nums tracking-tight">
                                     $184,500
                                 </div>
                                 <div className="text-[12px] text-red-500/60 mt-2 flex items-center gap-2">
@@ -105,7 +105,7 @@ export function VSLProblemStatement({ headline, painPoints }: VSLProblemStatemen
                                 <div className="text-[11px] text-slate-400 uppercase tracking-widest mb-1">
                                     Settled Debt After Negotiation
                                 </div>
-                                <div className="text-4xl font-black text-emerald-400 font-mono tracking-tight">
+                                <div className="text-4xl font-black text-emerald-400 font-data tabular-nums tracking-tight">
                                     $24,200
                                 </div>
                                 <div className="text-[13px] text-emerald-400 mt-3 font-semibold">

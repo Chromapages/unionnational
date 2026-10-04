@@ -2,11 +2,16 @@ import RestaurantApplicationForm from "./RestaurantApplicationForm";
 import { Metadata } from "next";
 import Link from "next/link";
 import { X } from "lucide-react";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
-export const metadata: Metadata = {
-    title: "Apply: Restaurant Partner Program | Union National Tax",
-    description: "Application for the Kitchen Command Center Partnership.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Apply: Restaurant Partner Program | Union National Tax",
+        description: "Application for the Kitchen Command Center Partnership.",
+        alternates: localizedAlternates(locale, "/restaurants/apply"),
+    };
+}
 
 export default async function RestaurantApplicationPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
@@ -39,7 +44,7 @@ export default async function RestaurantApplicationPage(props: { params: Promise
                 </div>
             </div>
 
-            <main className="flex-grow flex items-center justify-center pt-24 pb-20 px-4 sm:px-6 relative overflow-hidden">
+            <main id="main-content" tabIndex={-1} className="flex-grow flex items-center justify-center pt-24 pb-20 px-4 sm:px-6 relative overflow-hidden">
                 {/* Background Ambient Glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none"></div>
 

@@ -148,7 +148,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
 `)
 
 export const LEGAL_PAGE_QUERY = defineQuery(`
-  * [_type == "legalPage" && slug.current == $slug][0]{
+  * [_type == "legalPage" && isPublished == true && slug.current == $slug][0]{
     "title": coalesce(title[$locale], title.en, title),
     lastUpdated,
     "body": coalesce(body[$locale], body.en, body),

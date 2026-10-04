@@ -1,4 +1,62 @@
 {
+    "ServiceDetailPresentation": {
+        "processLink": "Vea cómo funciona el proceso",
+        "faqSupport": {
+            "eyebrow": "Apoyo",
+            "title": "¿Preguntas antes de elegir?",
+            "body": "Obtenga respuestas claras sobre el alcance del servicio, su adecuación y cómo trabajamos. Si necesita ayuda, hable con nosotros sobre su situación.",
+            "items": [
+                { "title": "Alcance del servicio", "body": "Conozca lo que incluye el servicio." },
+                { "title": "El apoyo adecuado", "body": "Hable sobre el apoyo que necesita su negocio." },
+                { "title": "Próximos pasos", "body": "Aclare cómo comenzar." }
+            ],
+            "stillQuestions": "¿Tiene más preguntas?",
+            "cta": "Contacte a nuestro equipo",
+            "faqLabel": "Preguntas frecuentes",
+            "answersTitle": "Preguntas comunes, respuestas claras.",
+            "answersBody": "Respuestas sobre el servicio y cómo trabajaremos juntos."
+        },
+        "includedScope": "Apoyo incluido",
+        "processOutput": "Resultado",
+        "processCtaHelp": "Una conversación enfocada. Un camino más claro.",
+        "scorp": {
+            "included": {
+                "description": "Desde la configuración de la elección hasta la planificación continua, coordinamos los elementos clave de su estrategia S-Corp.",
+                "note": "Un enfoque coordinado desde la elección hasta la planificación durante todo el año.",
+                "groups": [
+                    { "heading": "Configuración inicial", "items": [
+                        { "title": "Elección + Configuración de la entidad", "detail": "Coordinar la elección S-Corp y los pasos necesarios de estructura o implementación." },
+                        { "title": "Remuneración razonable", "detail": "Documentar un salario adecuado para el propietario según su función y negocio." }
+                    ] },
+                    { "heading": "Apoyo continuo", "items": [
+                        { "title": "Nómina + Beneficios del propietario", "detail": "Configurar o coordinar la nómina y las consideraciones aplicables a los beneficios del propietario." },
+                        { "title": "Planificación trimestral de impuestos + Distribuciones", "detail": "Preparar proyecciones durante el año para orientar los pagos estimados y las distribuciones." }
+                    ] }
+                ]
+            },
+            "items": [
+                { "title": "Ganancias", "detail": "¿Hay suficientes ganancias para justificar la estructura?" },
+                { "title": "Remuneración", "detail": "¿Cuál sería un salario razonable para el propietario?" },
+                { "title": "Nómina + Cumplimiento", "detail": "¿Cuánto costará la nómina y cuáles serán las obligaciones continuas?" }
+            ],
+            "summaryTitle": "Una respuesta más clara antes de elegir.",
+            "summaryDetail": "Análisis práctico. Asesores con experiencia. Una decisión con más confianza.",
+            "fitHighlight": "vale la pena evaluar una S-Corp",
+            "fitLink": "Vea cómo funciona la evaluación",
+            "processDetails": [
+                { "title": "Evaluación del ahorro", "reviewLabel": "Qué revisamos", "review": "Ingresos, remuneración razonable, impuestos de nómina, impuestos estatales y costos de implementación.", "output": "Rango de ahorro potencial y análisis del punto de equilibrio." },
+                { "title": "Compatibilidad + momento", "reviewLabel": "Qué decidimos", "review": "Compatibilidad estratégica, momento oportuno, remuneración del propietario y preparación para implementar.", "output": "Recomendación de avanzar o no y un plan de fechas." },
+                { "title": "Elección + configuración", "reviewLabel": "Qué sucede", "review": "Preparar y presentar el Formulario 2553 cuando corresponda, configurar la nómina, coordinar registros y alinear la contabilidad.", "output": "Presentación de la elección y configuración operativa coordinadas." },
+                { "title": "Alineación continua", "reviewLabel": "Qué continúa", "review": "Monitorear cambios fiscales, revisar la estrategia de remuneración y coordinar el cumplimiento continuo.", "output": "Revisión continua del cumplimiento y ajustes estratégicos." }
+            ],
+            "fitItems": [
+                { "title": "Ganancias constantes", "detail": "Su negocio genera ganancias recurrentes para el propietario que vale la pena evaluar." },
+                { "title": "Ahorro fiscal potencial", "detail": "Puede haber una oportunidad de reducir impuestos sobre el trabajo por cuenta propia después de una remuneración razonable." },
+                { "title": "Remuneración razonable", "detail": "Su negocio puede sostener salarios adecuados para el propietario y la nómina." },
+                { "title": "Cumplimiento continuo", "detail": "Está preparado para la nómina, las declaraciones y las obligaciones continuas de una S-Corp." }
+            ]
+        }
+    },
     "Header": {
         "home": "Inicio",
         "services": "Servicios",
@@ -29,17 +87,20 @@
         "moreOptions": "Más Opciones",
         "blog": "Blog",
         "language": "Idioma",
-        "servicesDropdownAriaLabel": "Men\u00fa de navegaci\u00f3n de servicios",
+        "servicesDropdownAriaLabel": "Menú de navegación de servicios",
         "mainNavigationAria": "Navegación principal",
         "servicesDropdownHeading": "¿Con qué necesita ayuda?",
         "servicesDropdownSubheading": "Comience con el resultado que más le importa a su negocio.",
         "servicesDropdownEyebrow": "Navegación guiada por asesoría",
         "servicesDropdownTitle": "Elija la ruta de servicio correcta.",
         "servicesDropdownDescription": "Comience con una ruta recomendada y luego explore las opciones clave de servicio.",
-        "servicesDropdownBadge": "Dise\u00f1ado para due\u00f1os",
+        "servicesDropdownBadge": "Diseñado para dueños",
         "servicesDropdownPrimaryLabel": "Punto de partida recomendado",
         "servicesDropdownPrimaryCta": "Explorar",
-        "servicesDropdownViewAll": "Encuentre el servicio adecuado",
+        "servicesDropdownViewAll": "Ver todos los servicios",
+        "servicesDropdownCompare": "Comparar servicios",
+        "servicesGroupAdvisory": "Asesoría",
+        "servicesGroupImplementation": "Implementación",
         "servicesGroupTax": "Planifique y ahorre en impuestos",
         "servicesGroupTaxDescription": "Reduzca sorpresas y conserve más de lo que gana.",
         "servicesGroupNumbers": "Conozca y controle sus números",
@@ -55,7 +116,7 @@
             "fractionalCfo": "CFO Fraccional",
             "formation": "Formación de nuevos negocios",
             "payroll": "Servicios de nómina",
-            "taxPreparation": "Preparación y declaración de impuestos"
+            "taxPreparation": "Declaración y preparación de impuestos"
         },
         "servicesDropdownTaxStrategyLabel": "Estrategia Fiscal",
         "servicesDropdownFinancialControlLabel": "Control Financiero",
@@ -63,15 +124,20 @@
         "servicesDropdownComplianceSupportLabel": "Soporte y Cumplimiento",
         "servicesDropdownPopular": "Popular",
         "servicesDropdownFallbackServiceTitle": "Servicio",
-        "servicesDropdownFallbackServiceDescription": "Soporte personalizado para due\u00f1os de negocios.",
-        "servicesDropdownQuickConstructionTitle": "Construcci\u00f3n",
+        "servicesDropdownFallbackServiceDescription": "Soporte personalizado para dueños de negocios.",
+        "servicesDropdownQuickConstructionTitle": "Construcción",
         "servicesDropdownQuickConstructionSubtitle": "Estrategia fiscal para contratistas",
         "servicesDropdownQuickRestaurantTitle": "Restaurantes",
-        "servicesDropdownQuickRestaurantSubtitle": "Sistemas de recuperaci\u00f3n de ganancias",
-        "servicesDropdownQuickRealEstateTitle": "Bienes Ra\u00edces",
-        "servicesDropdownQuickRealEstateSubtitle": "Planificaci\u00f3n fiscal para inversionistas",
-        "servicesDropdownQuickResolutionTitle": "Resoluci\u00f3n Fiscal",
-        "servicesDropdownQuickResolutionSubtitle": "Ayuda con problemas del IRS"
+        "servicesDropdownQuickRestaurantSubtitle": "Sistemas de recuperación de ganancias",
+        "servicesDropdownQuickRealEstateTitle": "Bienes Raíces",
+        "servicesDropdownQuickRealEstateSubtitle": "Planificación fiscal para inversionistas",
+        "servicesDropdownQuickResolutionTitle": "Resolución Fiscal",
+        "servicesDropdownQuickResolutionSubtitle": "Ayuda con problemas del IRS",
+        "servicesDropdownQuickPathsLabel": "Caminos rápidos por industria",
+        "categoryTaxStrategy": "Estrategia Fiscal",
+        "categoryFinancialControl": "Control Financiero",
+        "categorySpecializedAdvisory": "Asesoría Especializada",
+        "categoryComplianceSupport": "Soporte y Cumplimiento"
     },
     "Hero": {
         "titlePart1": "Deje de Pagar en Exceso.",
@@ -102,6 +168,11 @@
         "officeDetails": "Detalles de la oficina",
         "viewAllServices": "Ver Todos los Servicios",
         "team": "Equipo",
+        "whoWeHelp": "A quiénes ayudamos",
+        "tagline": "Orientación fiscal y financiera proactiva para las decisiones por delante, no solo el año atrás.",
+        "metaStarted": "30 minutos para comenzar",
+        "metaNoPrep": "Sin preparación requerida",
+        "metaAdvisor": "Trabaje con un Agente Inscrito",
         "disclaimerLabel": "Aviso:",
         "disclaimerBody": "La información de este sitio web es solo para fines informativos generales y no constituye asesoría fiscal, legal, contable ni financiera. El uso de este sitio no crea una relación profesional. Consulte a un profesional calificado para recibir orientación específica para su situación.",
         "followOn": "Síganos en {platform} (se abre en una pestaña nueva)",
@@ -142,6 +213,285 @@
         "viewAll": "Ver Todo"
     },
     "ServicesPage": {
+        "Desktop": {
+            "bookingLabel": "Reservar una llamada estratégica",
+            "hero": {
+                "eyebrow": "Servicios para empresas de construcción",
+                "title": "Apoyo fiscal y financiero para su negocio.",
+                "subtitle": "Elija ayuda para una necesidad específica o un plan anual de apoyo continuo."
+            },
+            "challenge": {
+                "title": "¿Qué necesita atención ahora?",
+                "subtitle": "Elija su principal inquietud y le mostraremos por dónde comenzar.",
+                "recommended": "Servicios recomendados",
+                "eyebrow": "Servicios para sus necesidades",
+                "priorityLabel": "Su prioridad",
+                "goalLabel": "Nuestro objetivo",
+                "investmentLabel": "Inversión desde",
+                "pricingLabel": "Precio",
+                "whyTitle": "¿Por qué estos servicios?",
+                "ranks": {
+                    "start": {
+                        "label": "Comience aquí",
+                        "detail": "El primer paso para esta necesidad."
+                    },
+                    "also": {
+                        "label": "También relevante",
+                        "detail": "Una opción que conviene evaluar."
+                    },
+                    "later": {
+                        "label": "Para más adelante",
+                        "detail": "Según evolucionen sus necesidades."
+                    }
+                },
+                "actions": {
+                    "tax-planning": "Explorar planificación fiscal",
+                    "s-corp-tax-advantage": "Explorar estrategia S-Corp",
+                    "tax-preparation-and-filing": "Explorar preparación fiscal",
+                    "strategic-bookkeeping": "Explorar contabilidad",
+                    "fractional-cfo": "Explorar CFO fraccional",
+                    "payroll-services": "Explorar nómina",
+                    "new-business-formation": "Explorar formación de empresas"
+                },
+                "explore": "Explorar servicio",
+                "details": "Detalles del servicio",
+                "customPrice": "Cotización personalizada",
+                "fromPrice": "Desde {price}",
+                "month": "mes",
+                "and": "y",
+                "perEmployee": "por empleado",
+                "priceScope": "Estos precios son para servicios individuales. El alcance y la cotización final se confirman antes de comenzar.",
+                "options": {
+                    "tax": {
+                        "title": "Pago demasiado en impuestos",
+                        "shortLabel": "Impuestos",
+                        "panelTitle": "Conserve más de lo que gana.",
+                        "panelDescription": "Revise su estructura empresarial y planifique las decisiones fiscales antes de los plazos.",
+                        "goal": "Ayudarle a evaluar oportunidades para reducir su carga fiscal y conservar más de lo que gana, de forma legal y estratégica.",
+                        "taglines": [
+                            "Orientación todo el año. Menos sorpresas.",
+                            "Encuentre la estructura adecuada.",
+                            "Declaraciones claras. Apoyo confiable."
+                        ],
+                        "benefits": [
+                            "Orientación estratégica",
+                            "Planificación anual",
+                            "Apoyo para sus metas"
+                        ],
+                        "whyBody": "Cada servicio cumple una función distinta al planificar sus impuestos y fortalecer su negocio.",
+                        "roles": [
+                            "Identifique oportunidades a tiempo.",
+                            "Evalúe su estructura y nómina.",
+                            "Cumpla sus obligaciones fiscales."
+                        ],
+                        "serviceNames": [
+                            "Planificación Fiscal Proactiva",
+                            "Ventaja Fiscal S-Corp",
+                            "Preparación y presentación de impuestos"
+                        ],
+                        "serviceDescriptions": [
+                            "Identifique oportunidades, anticípese y tome decisiones fiscales informadas.",
+                            "Evalúe si una estructura S-Corp se adapta a su negocio y nómina.",
+                            "Preparación y presentación tributaria precisa para empresas de construcción."
+                        ]
+                    },
+                    "numbers": {
+                        "title": "No confío en mis números",
+                        "shortLabel": "Números",
+                        "panelTitle": "Obtenga una visión más clara de sus números.",
+                        "panelDescription": "Obtenga libros actualizados, informes claros y datos fiables de flujo de caja.",
+                        "goal": "Ayudarle a entender sus finanzas con registros precisos, informes útiles y mayor visibilidad del flujo de caja.",
+                        "taglines": [
+                            "Libros precisos. Decisiones claras.",
+                            "Orientación financiera para lo que viene.",
+                            "Nómina confiable. Registros organizados."
+                        ],
+                        "benefits": [
+                            "Registros precisos",
+                            "Visibilidad financiera",
+                            "Informes para decidir"
+                        ],
+                        "whyBody": "La contabilidad, la asesoría financiera y la nómina contribuyen a una misma visión de sus finanzas.",
+                        "roles": [
+                            "Mantenga sus registros al día.",
+                            "Use los datos para tomar decisiones.",
+                            "Coordine la nómina y los informes."
+                        ],
+                        "serviceNames": [
+                            "Contabilidad Estratégica",
+                            "CFO Fraccional",
+                            "Servicios de Nómina"
+                        ],
+                        "serviceDescriptions": [
+                            "Libros actualizados e informes financieros más claros.",
+                            "Proyecciones y liderazgo financiero para decisiones complejas.",
+                            "Sistemas de nómina y registros de empleados confiables."
+                        ]
+                    },
+                    "decisions": {
+                        "title": "Tomo decisiones empresariales más grandes",
+                        "shortLabel": "Decisiones",
+                        "panelTitle": "Planifique su próxima decisión de negocio.",
+                        "panelDescription": "Evalúe crecimiento, contrataciones e inversiones con proyecciones y orientación financiera.",
+                        "goal": "Ayudarle a comparar opciones, entender sus efectos financieros y tomar decisiones empresariales informadas.",
+                        "taglines": [
+                            "Compare opciones. Planifique con confianza.",
+                            "Cifras confiables para sus planes.",
+                            "Decisiones fiscales que apoyan el crecimiento."
+                        ],
+                        "benefits": [
+                            "Modelos financieros",
+                            "Análisis de escenarios",
+                            "Orientación estratégica"
+                        ],
+                        "whyBody": "Las proyecciones, los libros precisos y la planificación fiscal dan una base conectada a sus decisiones.",
+                        "roles": [
+                            "Evalúe escenarios de crecimiento.",
+                            "Defina una base financiera fiable.",
+                            "Considere el impacto fiscal."
+                        ],
+                        "serviceNames": [
+                            "CFO Fraccional",
+                            "Contabilidad Estratégica",
+                            "Planificación Fiscal Proactiva"
+                        ],
+                        "serviceDescriptions": [
+                            "Proyecciones y apoyo para decisiones de liderazgo.",
+                            "Números confiables que revelan tendencias y rendimiento por proyecto.",
+                            "Planificación fiscal que acompaña su estrategia de crecimiento."
+                        ]
+                    },
+                    "operations": {
+                        "title": "Necesito que el negocio funcione bien",
+                        "shortLabel": "Operaciones",
+                        "panelTitle": "Establezca los sistemas adecuados.",
+                        "panelDescription": "Coordine la formación del negocio, la nómina y la declaración de impuestos.",
+                        "goal": "Ayudarle a establecer una estructura sólida y coordinar los procesos necesarios para operar su negocio.",
+                        "taglines": [
+                            "Establezca una buena base.",
+                            "Mantenga su nómina en orden.",
+                            "Un proceso claro para declarar."
+                        ],
+                        "benefits": [
+                            "Orientación empresarial",
+                            "Responsabilidades claras",
+                            "Próximos pasos prácticos"
+                        ],
+                        "whyBody": "La formación, la nómina y los impuestos conectan la estructura del negocio con sus obligaciones continuas.",
+                        "roles": [
+                            "Establezca la estructura del negocio.",
+                            "Coordine pagos y registros laborales.",
+                            "Organice sus declaraciones fiscales."
+                        ],
+                        "serviceNames": [
+                            "Formación de Empresas",
+                            "Servicios de Nómina",
+                            "Preparación y presentación de impuestos"
+                        ],
+                        "serviceDescriptions": [
+                            "Elija y establezca la estructura empresarial adecuada.",
+                            "Mantenga una nómina precisa, puntual y conforme a la ley.",
+                            "Presente impuestos con un proceso confiable para constructoras."
+                        ]
+                    }
+                }
+            },
+            "packages": {
+                "title": "Planes de apoyo anual",
+                "heading": "Elija el nivel de apoyo que necesita su negocio.",
+                "subtitle": "Tres niveles. El mismo compromiso con una planificación fiscal práctica y un negocio más sólido.",
+                "assuranceTitle": "Un alto estándar en cada nivel.",
+                "assuranceBody": "Orientación proactiva. Relaciones cercanas. Apoyo pensado para su negocio.",
+                "startingAt": "Desde",
+                "scopeTitle": "Los planes anuales reúnen servicios y apoyo.",
+                "helpTitle": "¿No sabe qué plan elegir?",
+                "helpBody": "Hablemos de su situación actual y sus metas.",
+                "priceScope": "Foundation incluye la declaración anual de impuestos; los precios individuales son para servicios contratados por separado. Cada plan anual reúne los servicios y el apoyo indicados, con el alcance confirmado antes de comenzar.",
+                "popular": "Recomendado",
+                "year": "año",
+                "foundation": {
+                    "name": "Fundación",
+                    "tagline": "Lo esencial, bien hecho.",
+                    "description": "Para negocios que necesitan declaración anual y una base de planificación fiscal.",
+                    "fallbackFeatures": [
+                        "Declaración anual de impuestos",
+                        "Planificación fiscal estratégica",
+                        "Protección ante auditorías por 3 años",
+                        "Portal seguro para clientes"
+                    ],
+                    "details": "Ver detalles de Fundación"
+                },
+                "growth": {
+                    "name": "Crecimiento",
+                    "tagline": "Anticípese durante todo el año.",
+                    "description": "Para negocios que necesitan preparación de impuestos y revisiones trimestrales.",
+                    "fallbackFeatures": [
+                        "Todo lo de Fundación, más:",
+                        "Preparación de impuestos incluida",
+                        "Revisiones trimestrales"
+                    ],
+                    "details": "Ver detalles de Crecimiento",
+                    "includes": "Incluye el apoyo de Foundation, más:",
+                    "welcomeBenefit": "Beneficio de bienvenida Growth: los clientes elegibles pueden recibir una estancia privada de hotel de 2–5 noches, sujeta a condiciones de elegibilidad y estancia."
+                },
+                "executive": {
+                    "name": "Ejecutivo",
+                    "tagline": "Orientación estratégica a su lado.",
+                    "description": "Para negocios más complejos que necesitan un asesor sénior dedicado y apoyo prioritario.",
+                    "fallbackFeatures": [
+                        "Todo lo de Crecimiento, más:",
+                        "Soporte prioritario",
+                        "Acceso a un asesor sénior dedicado"
+                    ],
+                    "details": "Ver detalles de Ejecutivo",
+                    "includes": "Incluye el apoyo de Growth, más:"
+                }
+            },
+            "process": {
+                "title": "Cómo trabajamos",
+                "heading": "Un proceso claro. Un mejor resultado.",
+                "planningCaption": "Planificación rigurosa\nResultados reales",
+                "supportingCaption": "Más que asesoría fiscal. Un negocio más sólido.",
+                "footerCaption": "Un mañana más estratégico",
+                "steps": [
+                    {
+                        "title": "Diagnosticar",
+                        "description": "Entender la situación actual."
+                    },
+                    {
+                        "title": "Priorizar",
+                        "description": "Identificar las oportunidades de mayor valor."
+                    },
+                    {
+                        "title": "Implementar",
+                        "description": "Poner en marcha las decisiones aprobadas."
+                    },
+                    {
+                        "title": "Revisar",
+                        "description": "Reevaluar a medida que cambia el negocio."
+                    }
+                ]
+            },
+            "results": {
+                "eyebrow": "Resultado de un cliente",
+                "title": "De declarar de forma reactiva a planificar cada trimestre.",
+                "imageHeadline": "Negocios\nsólidos\nconstruyen\nun mejor\nmañana.",
+                "imageFooter": "Para lo que viene",
+                "imageNote": "Escena de construcción ilustrativa",
+                "outcome": "Decisiones fiscales más claras, próximos pasos definidos y una rutina de planificación durante todo el año.",
+                "stages": [
+                    "Antes",
+                    "Qué cambió",
+                    "Resultado"
+                ],
+                "readStory": "Conozca la historia de Torres Built"
+            },
+            "closing": {
+                "title": "¿No sabe qué apoyo elegir?",
+                "body": "Hable de su negocio con nuestro equipo y encuentre el siguiente paso adecuado.",
+                "reassurance": "Sin compromiso. Solo una conversación."
+            }
+        },
         "metadata": {
             "title": "Servicios | Union National Tax",
             "description": "Servicios integrales de estrategia fiscal, contabilidad y CFO para empresas modernas."
@@ -161,23 +511,54 @@
         },
         "FAQ": {
             "eyebrow": "Preguntas Frecuentes",
-            "title": "Lo que nuestros clientes preguntan antes de inscribirse",
+            "title": "Preguntas antes de elegir.",
+            "subtitle": "Respuestas claras sobre el apoyo que necesita y cómo trabajaremos juntos.",
+            "guide": {
+                "eyebrow": "Guía para elegir",
+                "title": "Qué significa esta respuesta",
+                "context": "Orientación para: {question}",
+                "supportTitle": "¿Aún no sabe qué apoyo necesita?",
+                "supportBody": "Converse sobre su situación con nuestro equipo.",
+                "supportOptions": "Ver opciones de apoyo",
+                "points": [
+                    [
+                        { "title": "El ahorro depende de la situación y la implementación.", "body": "Las oportunidades dependen de la estructura de su entidad, la elegibilidad y las estrategias que implemente." },
+                        { "title": "Una llamada estratégica aclara el siguiente paso.", "body": "Revisamos su situación y sus números para recomendar oportunidades adecuadas para su negocio." },
+                        { "title": "Considere apoyo proactivo y continuo.", "body": "La planificación puede complementar las declaraciones con orientación fiscal y financiera durante todo el año." }
+                    ],
+                    [
+                        { "title": "Su CPA actual puede seguir participando.", "body": "Podemos trabajar junto a su CPA actual sin exigir que lo reemplace." },
+                        { "title": "Añada apoyo donde lo necesite.", "body": "La planificación fiscal, la orientación para construcción y el apoyo continuo pueden complementar su relación actual." },
+                        { "title": "Aclare las responsabilidades de cada proveedor.", "body": "Converse sobre cómo coordinarán la planificación, los informes y las declaraciones antes de elegir el apoyo." }
+                    ],
+                    [
+                        { "title": "El apoyo va más allá de las declaraciones.", "body": "Nuestros servicios incluyen planificación fiscal, contabilidad y orientación de CFO durante todo el año." },
+                        { "title": "Elija los servicios que necesita su negocio.", "body": "Atienda una necesidad específica o elija un plan anual para recibir apoyo continuo." },
+                        { "title": "Coordine con su apoyo fiscal actual.", "body": "Podemos conectar la planificación y la orientación financiera con su relación actual para declarar impuestos." }
+                    ],
+                    [
+                        { "title": "Empiece por sus objetivos y decisiones.", "body": "La complejidad del negocio y las próximas decisiones ayudan a determinar el nivel de apoyo adecuado." },
+                        { "title": "Declarar y planificar atienden necesidades distintas.", "body": "Revise si necesita preparación de declaraciones, planificación fiscal proactiva o ambas." },
+                        { "title": "Considere un CFO para las decisiones financieras.", "body": "Converse sobre si el flujo de caja, los informes y el crecimiento requieren orientación financiera continua." }
+                    ]
+                ]
+            },
             "items": [
                 {
                     "question": "¿Cuánto puedo realmente ahorrar con Union National Tax?",
-                    "answer": "La mayoría de nuestros clientes reducen su carga fiscal entre un 20 y 40% mediante estructuración proactiva — elecciones S-Corp, contribuciones a jubilaciones, segregación de costos y deducciones a nivel de entidad. Nuestros socios en construcción y restaurantes ahorran en promedio $350K–$400K anuales."
+                    "answer": "Cada negocio es diferente. El ahorro potencial depende de la estructura de su entidad, la elegibilidad y las estrategias que implemente. Durante una llamada estratégica, revisamos su situación y sus números para identificar oportunidades de planificación y recomendar próximos pasos adecuados para su negocio."
                 },
                 {
                     "question": "¿Qué pasa si ya estoy trabajando con un CPA?",
-                    "answer": "Complementamos a su CPA existente — no lo reemplazamos. Nosotros manejamos la estrategia prospectiva, planificación fiscal y trabajo de CFO; su CPA maneja la declaración de cumplimiento. A la mayoría de los CPAs de nuestros clientes les agradan los libros más limpios y la planificación proactiva que entregamos."
+                    "answer": "Podemos trabajar junto a su CPA actual y aportar planificación fiscal, orientación para construcción y apoyo durante todo el año."
                 },
                 {
                     "question": "¿Cuál es la diferencia entre su servicio y un CPA típico?",
-                    "answer": "La mayoría de los CPAs son reactivos — declaran lo que usted les entrega una vez al año. Nosotros somos asesores y trabajamos todo el año: revisiones trimestrales, contabilidad en tiempo real, estructuración de entidades y preparación proactiva para auditorías del IRS. Tratamos sus finanzas como lo haría un verdadero empresario."
+                    "answer": "Nuestros servicios incluyen planificación fiscal, contabilidad y orientación de CFO durante todo el año. Podemos coordinar esas necesidades junto con su apoyo actual para declarar impuestos."
                 },
                 {
                     "question": "¿Cómo sé si necesito servicios de CFO o solo presentación de impuestos?",
-                    "answer": "Si su negocio tiene más de $500K en ingresos, múltiples fuentes de ingreso, o pasa más de 10 horas al año en administración financiera — necesita más que simplemente presentar declaraciones. Programe un diagnóstico gratuito de 30 minutos y le diremos exactamente lo que necesita."
+                    "answer": "Revisamos sus objetivos, la complejidad del negocio y las próximas decisiones para recomendar declaración, planificación o apoyo de CFO."
                 }
             ]
         },
@@ -246,9 +627,10 @@
         "primaryCta": "Vea Si una S-Corp Podría Ahorrarle Dinero",
         "secondaryCta": "Explorar Servicios",
         "videoLabel": "Vea el resumen de estrategia fiscal",
+        "soundLabel": "Activar sonido",
         "unavailable": "El video de resumen no está disponible en este momento. Intente de nuevo más tarde.",
-        "trustCredential": "Agente Registrado ante el IRS (Máxima Credencial)",
-        "trustVolume": "200+ Contratistas Atendidos",
+        "trustCredential": "Agente Inscrito del IRS",
+        "trustVolume": "Más de 1,000 empresarios atendidos",
         "trustExperience": "15+ Años de Experiencia",
         "trustAdvisory": "15+ Años de Experiencia"
     },
@@ -319,7 +701,7 @@
             "fallbackBadges": [
                 {
                     "label": "Agente Inscrito",
-                    "sublabel": "Máxima credencial ante el IRS"
+                    "sublabel": "Licencia federal"
                 },
                 {
                     "label": "MBA",
@@ -374,7 +756,84 @@
         "ServicesSection": {
             "eyebrow": "Lo que le ayudamos a lograr",
             "title": "Cuatro resultados. Una estrategia financiera conectada.",
-            "subtitle": "Empiece por la necesidad más urgente y vea el servicio diseñado para atenderla.",
+            "subtitle": "Empiece por la necesidad más urgente y explore los servicios diseñados para ayudarle a lograrlo.",
+            "desktop": {
+                "subtitle": "Empiece por la necesidad más importante en este momento.",
+                "introFirst": "Elija la necesidad más importante en este momento.",
+                "introSecond": "Cada servicio atiende una necesidad específica y respalda la misma visión financiera.",
+                "featuredSubtitle": "Reduzca la exposición fiscal evitable mediante una mejor estructura y planificación proactiva.",
+                "scorpDescription": "Evalúe la estructura de su entidad y la estrategia de nómina para mejorar su posición fiscal.",
+                "taxPlanningDescription": "Tome decisiones fiscales mientras aún hay tiempo para actuar.",
+                "panelTagline": "Estrategia fiscal más inteligente",
+                "panelPromise": "Un futuro más sólido",
+                "motifPeople": "Personas.",
+                "motifPlans": "Planes.",
+                "motifPossibilities": "Posibilidades.",
+                "quoteEyebrow": "Un futuro más sólido",
+                "quotes": {
+                    "01": "La estrategia fiscal no se trata solo de este año. También se trata de lo que viene.",
+                    "02": "Las cifras claras convierten las decisiones de hoy en oportunidades para mañana.",
+                    "03": "La claridad financiera le permite dar el siguiente paso con confianza.",
+                    "04": "Una base más sólida hace posible lo que viene."
+                },
+                "closingFirst": "Cada servicio atiende una necesidad específica.",
+                "closingSecond": "Juntos, respaldan la misma visión financiera.",
+                "compareEyebrow": "¿No sabe cuál elegir?",
+                "compareDescription": "Compare servicios por objetivos, plazos, entregables y nivel de apoyo."
+            },
+            "rightHeader": {
+                "eyebrow": "Un enfoque unificado",
+                "title": "Diferentes desafíos. Un enfoque unificado.",
+                "description": "Ya sea que busque reducir impuestos, obtener números más claros, tomar decisiones más grandes o construir una base más sólida: cada servicio se integra en una estrategia conectada."
+            },
+            "centerHub": {
+                "eyebrow": "Una sola imagen",
+                "title": "Financiera conectada",
+                "subtitle1": "Servicios integrados.",
+                "subtitle2": "Mejores resultados."
+            },
+            "learnMore": "Más información",
+            "blocks": {
+                "01": {
+                    "number": "01",
+                    "eyebrow": "Reduzca su carga fiscal",
+                    "title": "Conserve más de lo que gana.",
+                    "subtitle": "Reduzca impuestos evitables con una estructura más inteligente y planificación proactiva."
+                },
+                "02": {
+                    "number": "02",
+                    "eyebrow": "Conozca sus cifras",
+                    "title": "Tome decisiones con confianza.",
+                    "subtitle": "Obtenga información financiera clara y precisa que le ayude a planificar, fijar precios y crecer."
+                },
+                "03": {
+                    "number": "03",
+                    "eyebrow": "Lidere con claridad",
+                    "title": "Dé pasos más grandes con seguridad.",
+                    "subtitle": "Convierta sus números en una estrategia para un crecimiento sostenible."
+                },
+                "04": {
+                    "number": "04",
+                    "eyebrow": "Construya una base más sólida",
+                    "title": "Prepare su empresa para lo que sigue.",
+                    "subtitle": "Establezca la estructura y los sistemas adecuados desde el inicio."
+                }
+            },
+            "comparisonBanner": {
+                "eyebrow": "¿No está seguro de qué servicio elegir?",
+                "title": "Compare servicios y encuentre la opción ideal.",
+                "subtitle": "Explore nuestra herramienta de comparación interactiva para ver cómo cada servicio se alinea con su etapa empresarial y sus metas.",
+                "cta": "Comparar todos los servicios",
+                "benefits": [
+                    "Toma de decisiones más clara",
+                    "Un negocio más eficiente",
+                    "Un futuro financiero más sólido"
+                ]
+            },
+            "footer": {
+                "tagline": "La estrategia crea opciones",
+                "subtagline": "Un mañana con mayor confianza"
+            },
             "recommendedBadge": "Recomendado",
             "listLabel": "Resultados financieros y los servicios que los respaldan",
             "outcomes": {
@@ -471,7 +930,7 @@
                 "initials": "JA"
             },
             "eaCard": {
-                "badge": "Máxima Credencial",
+                "badge": "Licencia federal",
                 "title": "¿Qué es un",
                 "titleHighlight": "Agente Inscrito?",
                 "description": "Especialistas fiscales <highlight>licenciados federalmente</highlight> con derechos ilimitados para representarlo ante el IRS.",
@@ -487,90 +946,207 @@
             }
         },
         "TestimonialsSection": {
-            "eyebrow": "Historias de Éxito de Clientes",
-            "title": "Confiado por Propietarios de Negocios de Alto Crecimiento",
-            "subtitle": "Escuche a fundadores y operadores que confían en nosotros con sus libros, impuestos y estrategia de crecimiento.",
+            "eyebrow": "Resultados de clientes",
+            "trustedBy": "Confiado por dueños de negocios",
+            "title": "Un mejor plan genera mejores decisiones.",
+            "subtitle": "Empresas reales. Resultados reales. Descubra cómo la orientación fiscal y financiera proactiva ayuda a los propietarios a reducir la complejidad, aumentar la rentabilidad y generar mayor libertad.",
+            "desktopSubtitle": "Descubra cómo la planificación proactiva convierte decisiones financieras reactivas en pasos más claros.",
             "verifiedClient": "Cliente verificado",
             "readFullStory": "Leer historia completa",
-            "noTestimonials": "Próximamente publicaremos testimonios de clientes"
+            "noTestimonials": "Próximamente publicaremos testimonios de clientes",
+            "stats": {
+                "ownersServed": "Dueños de Negocios Atendidos",
+                "recommendRate": "Nos Recomendaría",
+                "yearRound": "Todo el Año",
+                "strategicSupport": "Apoyo Estratégico, No Solo en Temporada de Impuestos",
+                "ownersServedValue": "1,000+",
+                "recommendRateValue": "98%",
+                "yearRoundAdvisory": "Asesoría durante todo el año",
+                "desktopSupport": "Apoyo estratégico más allá de la temporada fiscal."
+            },
+            "featured": {
+                "eyebrow": "Resultado de Cliente Destacado",
+                "company": "Torres Built Construction, LLC",
+                "industry": "Construcción | Negocio operado por su propietario",
+                "beforeLabel": "Antes",
+                "beforeText": "Declaración reactiva de impuestos y una estructura de entidad poco clara.",
+                "afterLabel": "Después",
+                "afterDesktopLabel": "Qué cambió",
+                "afterText": "Una estrategia S-Corp y planificación trimestral proactiva.",
+                "outcomeLabel": "Resultado",
+                "outcomeText": "Decisiones fiscales más claras y un camino definido para reducir cargas evitables.",
+                "perspectiveEyebrow": "Perspectiva del Cliente",
+                "perspectiveQuote": "Un plan práctico para eliminar el caos y construir una empresa más rentable y organizada.",
+                "authorName": "Michael Torres",
+                "authorRole": "Propietario y Contratista General",
+                "authorCompany": "Torres Built Construction, LLC",
+                "photoTagline": "Empresas más sólidas construyen mañanas más brillantes.",
+                "footerTagline": "Los planes sólidos construyen un futuro más brillante",
+                "servicesLabel": "Servicios utilizados",
+                "serviceOne": "Ventaja Fiscal S-Corp",
+                "serviceTwo": "Planificación Fiscal Proactiva"
+            },
+            "proof": {
+                "eyebrow": "Más resultados de clientes",
+                "viewAll": "Ver Todos los Resultados de Clientes",
+                "card1Service": "Planificación Fiscal",
+                "card1Quote": "Pasamos de la presentación reactiva a una estrategia durante todo el año.",
+                "card1Industry": "Comercio Electrónico | Retail",
+                "card2Service": "Contabilidad Estratégica",
+                "card2Quote": "Libros más claros, mejor visibilidad y decisiones con mayor confianza.",
+                "card2Industry": "Servicios Profesionales",
+                "card3Service": "CFO Fraccional",
+                "card3Quote": "Por fin tenemos una hoja de ruta financiera para el crecimiento.",
+                "card3Industry": "Manufactura"
+            },
+            "ctaStrip": {
+                "eyebrow": "Más Resultados de Clientes",
+                "title": "Vea cómo dueños de negocios en diversas industrias generan claridad y valor a largo plazo.",
+                "subtitle": "Explore historias reales de clientes, casos de estudio detallados y las estrategias detrás de su éxito.",
+                "buttonText": "Leer Resultados de Clientes y Casos de Estudio",
+                "desktopEyebrow": "Más historias de clientes",
+                "desktopTitle": "Explore casos detallados y las estrategias detrás de los resultados.",
+                "motifPeople": "Personas",
+                "motifPlans": "Planes",
+                "motifProgress": "Progreso"
+            }
         },
         "WhyUsSection": {
             "eyebrow": "Proactivo por diseño",
             "title": "La declaración registra lo que pasó. La estrategia ocurre antes.",
             "subtitle": "La planificación durante todo el año le da tiempo para evaluar opciones antes de que cierren los plazos.",
+            "headerInsightEyebrow1": "Mayor perspectiva",
+            "headerInsightEyebrow2": "Un futuro más sólido",
+            "headerInsightBody": "La planificación proactiva convierte las cifras de hoy en las oportunidades de mañana.",
+            "advantageEyebrow": "La ventaja proactiva",
+            "advantageTagline": "Mismos hechos, un enfoque más estratégico.",
             "caption": "Cómo cambia el apoyo fiscal cuando la planificación comienza antes de la fecha límite.",
             "dimensionLabel": "Lo que cambia",
             "traditionalLabel": "Apoyo fiscal tradicional",
+            "traditionalSubtitle": "Reactivo. Después de los hechos.",
             "proactiveLabel": "Estrategia fiscal proactiva",
+            "proactiveSubtitle": "Estratégica. Continua. Enfocada en lo que sigue.",
             "rows": {
                 "timing": {
                     "dimension": "Momento",
                     "traditional": "Presenta después de que cierra el año",
-                    "proactive": "Planifica mientras las decisiones siguen abiertas"
+                    "traditionalDetail": "Las decisiones ya no están disponibles.",
+                    "proactive": "Planifica mientras las decisiones siguen abiertas",
+                    "proactiveDesktop": "Planifica mientras las decisiones siguen abiertas",
+                    "proactiveDetail": "Le ayuda a actuar antes de los plazos."
                 },
                 "scope": {
                     "dimension": "Alcance",
                     "traditional": "Confirma el cumplimiento",
-                    "proactive": "Evalúa oportunidades de entidad, deducciones, jubilación y S-Corp antes de los plazos"
+                    "traditionalDetail": "Se centra en cumplir los requisitos.",
+                    "proactive": "Evalúa oportunidades de entidad, deducciones, jubilación y S-Corp antes de los plazos",
+                    "proactiveDesktop": "Evalúa oportunidades",
+                    "proactiveDetail": "Estrategias de entidad, deducciones, jubilación y S-Corp."
                 },
                 "cadence": {
                     "dimension": "Cadencia",
                     "traditional": "El contacto es principalmente estacional",
-                    "proactive": "Programa revisiones de planificación durante todo el año"
+                    "traditionalDetail": "Normalmente una vez al año.",
+                    "proactive": "Programa revisiones de planificación durante todo el año",
+                    "proactiveDesktop": "Revisiones de planificación durante todo el año",
+                    "proactiveDetail": "El contacto regular le ayuda a mantener el rumbo."
                 },
                 "decisionSupport": {
                     "dimension": "Apoyo para decisiones",
                     "traditional": "Informa lo que ocurrió",
-                    "proactive": "Usa cifras actuales para orientar decisiones fiscales y del negocio"
+                    "traditionalDetail": "Mira hacia atrás para evaluar resultados.",
+                    "proactive": "Usa cifras actuales para orientar decisiones fiscales y del negocio",
+                    "proactiveDesktop": "Usa cifras actuales para orientar decisiones",
+                    "proactiveDetail": "Mira hacia las posibilidades futuras."
                 }
             },
             "conclusion": "Más tiempo para planificar significa menos decisiones tomadas bajo presión.",
-            "primaryCta": "Vea cómo funciona la planificación fiscal proactiva",
+            "primaryCta": "Explorar planificación fiscal",
+            "secondaryPreText": "¿Considera una S-Corp? ",
             "secondaryCta": "Revise si una S-Corp es adecuada",
             "recommendedBadge": "Recomendado",
             "emptyFallback": "Los detalles de la comparación se están actualizando.",
+            "bannerEyebrow": "Planifique con mayor anticipación",
+            "bannerSubtitle": "Convierta las perspectivas de hoy en oportunidades de mañana con una estrategia fiscal proactiva diseñada para sus objetivos.",
+            "bannerPillars": {
+                "strategy": "Estrategia",
+                "clarity": "Claridad",
+                "opportunity": "Oportunidad"
+            },
             "evidence": {
-                "eyebrow": "Lo que sigue",
+                "eyebrow": "Cómo funciona la planificación proactiva",
+                "tagline": "Un camino más claro hacia un futuro más sólido",
                 "heading": "Convierta la información proactiva en un plan de trabajo",
                 "step1": {
-                    "label": "Revisar posición actual",
-                    "body": "Examine la estructura de su entidad, ingresos actuales y línea base tributaria antes del cierre de año."
+                    "eyebrow": "Evaluar",
+                    "label": "Revise su posición actual",
+                    "body": "Examine la estructura de su entidad, sus ingresos actuales y su base tributaria."
                 },
                 "step2": {
+                    "eyebrow": "Planificar",
                     "label": "Identificar decisiones antes de fechas límite",
-                    "body": "Identifique deducciones, aportes de jubilación y estrategias de distribución de S-Corp por adelantado."
+                    "body": "Identifique deducciones, aportes de jubilación y oportunidades de S-Corp con anticipación."
                 },
                 "step3": {
+                    "eyebrow": "Ajustar",
                     "label": "Planificar y revisar durante todo el año",
-                    "body": "Mantenga puntos de control periódicos para ajustar la estrategia según evolucionen sus operaciones y normas fiscales."
+                    "body": "Mantenga revisiones periódicas a medida que evolucionen su negocio y su situación fiscal."
                 },
                 "disclaimer": "Flujo de trabajo de planificación informativo. Los resultados fiscales individuales dependen de la estructura de su entidad y su implementación oportuna."
             }
         },
         "HowItWorksSection": {
             "eyebrow": "Un camino claro hacia adelante",
-            "title": "De su estructura actual a un plan fiscal para todo el año",
-            "subtitle": "Vea qué sucede primero, qué evaluamos y con qué plan concreto se queda.",
+            "title": "De su estructura actual a un plan fiscal para todo el año.",
+            "subtitle": "Vea qué sucede primero, qué evaluamos y con qué plan concreto se queda — para que pueda tomar decisiones mientras aún hay tiempo para actuar.",
             "listLabel": "Cómo funciona nuestro proceso de estrategia",
             "stepLabel": "Paso {number} de {total}",
             "outcomeLabel": "Resultado",
+            "desktopOutcomeLabel": "Se lleva",
+            "planningPathEyebrow": "Su camino de planificación",
+            "planningPathTagline": "Conversaciones reales. Planificación real. Progreso real.",
+            "metaDuration": "30 minutos",
+            "metaPrep": "Sin preparación previa requerida",
+            "metaAdvisor": "Directo con un Enrolled Agent",
+            "whyItWorksEyebrow": "Por qué funciona",
+            "whyItWorksTitle": "Más claridad. Más opciones. Menos decisiones de último momento.",
+            "whyItWorksPoints": [
+                "Comprenda su posición fiscal actual",
+                "Identifique oportunidades antes de las fechas límite",
+                "Obtenga un plan claro y práctico",
+                "Mantenga su estrategia actualizada todo el año"
+            ],
+            "whyItWorksPillars": {
+                "strategy": "Estrategia",
+                "creates": "Crea",
+                "options": "Opciones"
+            },
             "steps": {
                 "start": {
+                    "eyebrow": "Comprender",
                     "title": "Comience con una llamada de estrategia",
                     "description": "Comparta cómo está estructurado el negocio, cómo fluyen los ingresos y qué ha cambiado este año.",
-                    "outcome": "Diagnóstico documentado de la estructura de la entidad y línea base tributaria"
+                    "outcome": "Diagnóstico documentado de la estructura de la entidad y línea base tributaria."
                 },
                 "opportunities": {
+                    "eyebrow": "Explorar",
                     "title": "Vea las oportunidades que vale la pena evaluar",
                     "description": "Evaluamos la elegibilidad para una S-Corp y otras oportunidades de planificación fiscal proactiva, y luego priorizamos lo que merece acción.",
-                    "outcome": "Hoja de ruta estratégica priorizada con ahorros fiscales potenciales cuantificados"
+                    "outcome": "Hoja de ruta estratégica priorizada con ahorros fiscales potenciales cuantificados."
                 },
                 "plan": {
+                    "eyebrow": "Implementar",
                     "title": "Ponga en marcha su plan anual",
-                    "description": "Reciba decisiones documentadas, fechas límite, responsabilidades y un ritmo para revisar la estrategia.",
-                    "outcome": "Cronograma de implementación anual con hitos de revisión trimestrales"
+                    "description": "Reciba decisiones documentadas, fechas límite, responsabilidades y un ritmo para poner en marcha su estrategia.",
+                    "outcome": "Plan de implementación anual con pasos siguientes claros."
                 }
             },
+            "cadenceEyebrow": "Ritmo continuo",
+            "desktopCadenceEyebrow": "Revisión continua",
+            "cadenceTitle": "Revisar. Ajustar. Repetir.",
+            "cadenceDescription": "Revisamos sus cifras cada trimestre para adaptar su estrategia según evolucionen sus ingresos, operaciones y normas fiscales.",
+            "cadenceTagline": "Un plan que permanece con usted.",
+            "cadenceSupport": "Orientación continua para que siga tomando decisiones informadas durante todo el año.",
             "cadenceLoop": "Ritmo Continuo: Revisamos sus cifras cada trimestre para adaptar su estrategia según evolucionen sus ingresos y las normas fiscales.",
             "swipeHint": "Deslice para explorar los pasos",
             "cta": "Comience con una llamada de estrategia",
@@ -656,34 +1232,220 @@
         "CTASection": {
             "globalEyebrow": "Consulta de estrategia",
             "homepageEyebrow": "Para contratistas y empresas de servicios",
-            "homepageTitle": "¿Listo para una estrategia fiscal más inteligente?",
-            "homepageSubtitle": "Revise su estructura actual, identifique oportunidades de planificación y determine el siguiente paso adecuado.",
+            "homepageTitle": "¿Listo para tomar su próxima decisión fiscal\ncon más claridad?",
+            "homepageSubtitle": "Revise su estructura actual, descubra oportunidades de planificación y determine qué merece atención a continuación.",
             "homepageButtonText": "Reservar una llamada de estrategia",
-            "homepageReassurance": "Consulta gratuita de 45 minutos · Sin compromiso",
+            "homepageReassurance": "Consulta gratuita de 30 minutos · Sin compromiso",
+            "trustDurationTitle": "30 minutos",
+            "trustDurationDescription": "Llamada de estrategia enfocada",
+            "trustObligationTitle": "Sin compromiso",
+            "trustObligationDescription": "Explore si encaja primero",
+            "trustExpertTitle": "Acceso directo a un experto",
+            "trustExpertDescription": "Hable con un Agente Registrado",
             "homepageSchedulingNote": "A continuación, elija una fecha y hora. Su cita se confirma después de completar la programación.",
             "externalBookingNote": "Abre la página de reserva en una nueva pestaña.",
             "openingSchedulingCalendar": "Abriendo el calendario de programación…",
             "opensInNewTab": "(se abre en una pestaña nueva)",
             "badge": "Aceptando Nuevos Clientes para la Temporada Fiscal {year}",
-            "fallbackTitle": "Deje de Pagar en Exceso. Empiece a Construir Patrimonio.",
-            "fallbackSubtitle": "Únase a más de 500 propietarios de negocios que ahorran un promedio de $40k/año. Reserve su llamada de estrategia gratuita de 15 minutos para desbloquear sus ahorros potenciales.",
-            "fallbackButtonText": "Reservar Llamada de Estrategia",
+            "fallbackTitle": "¿Listo para tomar su próxima decisión fiscal\ncon más claridad?",
+            "fallbackSubtitle": "Revise su estructura actual, descubra oportunidades de planificación y determine qué merece atención a continuación.",
+            "fallbackButtonText": "Reservar una llamada de estrategia",
             "secondaryButton": "Hablar con un Experto",
             "footerText": "Sin compromiso. 100% confidencial.",
             "consultationNote": "Consulta gratuita de 30 minutos",
             "secondaryFooterText": "Orientación estratégica. Próximos pasos claros.",
             "strategySessionNote": "Sesión estratégica gratuita de 30 minutos",
             "poweredBy": "Impulsado por Union National"
+        },
+        "ThreeCorePaths": {
+            "eyebrow": "Su camino hacia el crecimiento",
+            "title": "Elija su objetivo principal.",
+            "subtitle": "Seleccione el camino que mejor corresponda a su etapa empresarial actual y sus metas financieras.",
+            "path1": {
+                "title": "Reducir mi carga fiscal",
+                "description": "Estrategia fiscal de grado institucional, optimización S-Corp y planificación a largo plazo para altos ingresos.",
+                "cta": "Reservar evaluación de descubrimiento",
+                "items": [
+                    "Optimización S-Corp",
+                    "Inversión pre-fiscal",
+                    "Reestructuración de entidad"
+                ]
+            },
+            "path2": {
+                "title": "Ganar control financiero",
+                "description": "Liderazgo CFO fraccional y contabilidad estratégica para convertir sus números en información accionable.",
+                "cta": "Tomar la evaluación CFO",
+                "items": [
+                    "Visibilidad del flujo de caja",
+                    "Reservas operativas",
+                    "Arquitectura de ganancias"
+                ]
+            },
+            "path3": {
+                "title": "Orientación especializada",
+                "description": "Experiencia profunda adaptada a los desafíos regulativos y operativos específicos de su industria.",
+                "cta": "Explorar industrias",
+                "items": [
+                    "Construcción",
+                    "Restaurantes",
+                    "Bienes Raíces"
+                ]
+            }
         }
     },
     "Booking": {
-        "meetingMeta": "Consulta gratuita de 45 minutos · Sin compromiso",
-        "calendarIntro": "Elija una fecha y hora disponibles a continuación. El calendario le guiará por los datos necesarios y confirmará su cita después de completar la programación.",
+        "calendar": {
+            "loading": "Cargando los horarios disponibles…",
+            "iframeTitle": "Calendario para reservar una llamada estratégica fiscal",
+            "loadError": "No se pudo cargar el calendario. Vuelva a intentarlo o contáctenos para programar su cita.",
+            "retry": "Volver a intentar con el calendario",
+            "contact": "Contáctenos para programar la cita"
+        },
+        "meetingMeta": "Gratis, 30 minutos, sin compromiso.",
+        "calendarIntro": "Elija una fecha y hora disponibles para una llamada estratégica fiscal gratuita de 30 minutos.",
         "calendarSupport": "¿Necesita ayuda para programar?",
         "calendarSupportLink": "Contáctenos.",
-        "calendarPrivacyLink": "Política de privacidad"
+        "calendarPrivacyLink": "Política de privacidad",
+        "calendarHeading": "Calendario de citas",
+        "returnNavigation": "Navegación de regreso",
+        "backStrategy": "Volver al resumen de estrategia",
+        "backPage": "Volver a la página anterior",
+        "backHome": "Volver al inicio",
+        "mobileTitleLead": "Elija una hora para su",
+        "mobileTitleAccent": "llamada estratégica fiscal",
+        "pageTitle": "Elija una hora para su llamada estratégica."
     },
     "AboutPage": {
+        "Desktop": {
+            "hero": {
+                "eyebrow": "Acerca de Union National Tax",
+                "titleLineOne": "Las Personas Detrás de",
+                "titleLineTwo": "Su Estrategia Financiera.",
+                "subtitle": "Combinamos experiencia fiscal profunda con experiencia empresarial real para ayudar a los propietarios a tomar mejores decisiones, reducir impuestos y construir un futuro financiero más sólido.",
+                "metrics": [
+                    {
+                        "title": "1,000+",
+                        "detail": "Propietarios atendidos"
+                    },
+                    {
+                        "title": "Asesoría durante todo el año",
+                        "detail": "No solo en temporada fiscal"
+                    },
+                    {
+                        "title": "Un equipo multidisciplinario",
+                        "detail": "Impuestos. Contabilidad. CFO. Operaciones."
+                    }
+                ],
+                "peopleLabel": "Las personas",
+                "practiceLabel": "Nuestra práctica",
+                "practiceTitle": "Un enfoque centrado en las personas.",
+                "practiceBody": "Más que experiencia fiscal. Nuestro equipo aporta experiencia empresarial, comunicación clara y compromiso con su éxito.",
+                "meetTeam": "Conozca al equipo",
+                "meetTeamDetail": "Conozca a las personas que lo hacen posible.",
+                "practiceItems": [
+                    {
+                        "title": "Profesionales con experiencia",
+                        "detail": "Conocimiento fiscal y experiencia empresarial real."
+                    },
+                    {
+                        "title": "Soluciones prácticas",
+                        "detail": "Asesoría basada en sus metas y desafíos reales."
+                    },
+                    {
+                        "title": "Comunicación clara",
+                        "detail": "Respuestas directas, sin tecnicismos."
+                    },
+                    {
+                        "title": "Alianza a largo plazo",
+                        "detail": "Un equipo que sigue presente más allá de la temporada fiscal."
+                    }
+                ]
+            },
+            "founder": {
+                "eyebrow": "Fundador y Director",
+                "titleStart": "Estrategia Basada en una",
+                "titleHighlight": "Precisión Inquebrantable.",
+                "description": "En Union National Tax creemos que preparar impuestos es solo el punto de partida. El verdadero valor está en la estrategia anterior a la presentación. Nuestra misión es unir el complejo código tributario con las necesidades ágiles de las empresas modernas.",
+                "credentialTitle": "Agente Inscrito del IRS",
+                "credentialDetail": "Experiencia fiscal en la que puede confiar."
+            },
+            "leadership": {
+                "eyebrow": "Nuestro equipo directivo",
+                "title": "Líderes Experimentados. Un Compromiso Compartido.",
+                "subtitle": "Nuestro equipo directivo guía la estrategia, el servicio y la experiencia del cliente para ayudarle a dar el siguiente paso.",
+                "summaries": [
+                    "Apoya decisiones de cumplimiento, estructura y asesoría fiscal.",
+                    "Conecta las operaciones empresariales con un servicio confiable.",
+                    "Coordina las relaciones con clientes y el apoyo continuo."
+                ]
+            },
+            "team": {
+                "eyebrow": "Nuestro equipo",
+                "title": "Especialistas Unidos por un Futuro Más Sólido.",
+                "intro": "Desde impuestos y contabilidad hasta atención al cliente y tecnología, nuestro equipo reúne la experiencia que necesita desde una misma visión financiera.",
+                "groups": [
+                    {
+                        "title": "Impuestos y asesoría",
+                        "detail": "Cumplimiento, planificación e informes financieros."
+                    },
+                    {
+                        "title": "Contabilidad y operaciones",
+                        "detail": "Libros confiables, servicio y coordinación."
+                    },
+                    {
+                        "title": "Crecimiento y tecnología",
+                        "detail": "Sistemas, alianzas y crecimiento empresarial."
+                    }
+                ],
+                "fullTeam": "Conozca a todo el equipo"
+            },
+            "approach": {
+                "eyebrow": "Cómo trabajamos",
+                "title": "Un proceso claro. Un futuro más sólido.",
+                "items": [
+                    {
+                        "title": "Planificar antes",
+                        "detail": "Identifique oportunidades antes de los plazos para tener más opciones.",
+                        "action": "Nos tomamos el tiempo para entender su negocio, sus metas y las próximas oportunidades y desafíos, y desarrollar una estrategia proactiva.",
+                        "outcomeTitle": "Prioridades fiscales y financieras",
+                        "outcomeDetail": "Una lista clara de oportunidades y prioridades adaptadas a su negocio."
+                    },
+                    {
+                        "title": "Ver el panorama completo",
+                        "detail": "Conecte impuestos, finanzas y metas empresariales.",
+                        "action": "Analizamos el panorama completo — impuestos, flujo de caja y metas empresariales — para identificar cómo funciona todo en conjunto.",
+                        "outcomeTitle": "Un panorama financiero claro",
+                        "outcomeDetail": "Una visión clara de su situación actual y de hacia dónde puede avanzar."
+                    },
+                    {
+                        "title": "Dejarlo por escrito",
+                        "detail": "Convierta la estrategia en recomendaciones claras que pueda aplicar.",
+                        "action": "Transformamos los hallazgos en un plan práctico y escrito, con recomendaciones específicas y próximos pasos.",
+                        "outcomeTitle": "Un plan documentado de próximos pasos",
+                        "outcomeDetail": "Recomendaciones claras y concretas que puede implementar con confianza."
+                    },
+                    {
+                        "title": "Seguir involucrados",
+                        "detail": "Apoyo todo el año, no solo en temporada fiscal."
+                    }
+                ],
+                "intro": "Desde la planificación proactiva hasta recomendaciones concretas, hacemos que las decisiones financieras complejas sean sencillas, estructuradas y enfocadas en sus metas.",
+                "motto": [
+                    "Conversaciones reales.",
+                    "Estrategias prácticas.",
+                    "Avances medibles."
+                ],
+                "actionLabel": "Qué hacemos",
+                "outcomeLabel": "Qué obtiene"
+            },
+            "closing": {
+                "eyebrow": "Construyamos lo que sigue",
+                "title": "Trabaje con un Equipo que Ve el Panorama Completo.",
+                "subtitle": "Reciba orientación de un equipo que comprende su negocio, sus metas y lo necesario para alcanzarlas.",
+                "cta": "Reservar llamada estratégica",
+                "note": "Un futuro financiero más inteligente comienza con una conversación."
+            }
+        },
         "metadata": {
             "title": "Nosotros | Union National Tax",
             "description": "Conozca a los arquitectos de la riqueza moderna. Nuestra misión es cerrar la brecha entre las complejas regulaciones del IRS y las necesidades ágiles de las empresas modernas."
@@ -746,6 +1508,71 @@
             "imageAlt": "Jason Astwood",
             "quote2": "La planificación no es un evento de una vez al año. Es una asociación que se compone con el tiempo.",
             "role": "Director y Estratega Jefe"
+        },
+        "Simplified": {
+            "founderHeading": "Nuestro fundador",
+            "titlePending": "Cargo pendiente de confirmación del cliente",
+            "memberPending": "Selección pendiente",
+            "selectionPending": "La selección del equipo destacado está pendiente de confirmación. Puede conocer al equipo completo mediante el enlace de arriba.",
+            "photoPending": "Foto pendiente de selección",
+            "proofPending": "Pendiente de confirmación",
+            "proofLabels": [
+                "Experiencia",
+                "Cantidad y alcance de clientes",
+                "Resultados de clientes"
+            ],
+            "mission": "En Union National Tax creemos que la preparación de impuestos es solo el punto de partida. Nuestra misión es conectar el complejo código fiscal con las necesidades de los negocios modernos, ayudando a los propietarios a tomar mejores decisiones, reducir impuestos y construir un futuro financiero más sólido."
+        },
+        "FounderProfile": {
+            "title": "Liderazgo. Experiencia. Un estándar más alto.",
+            "intro": "Conozca al fundador de Union National Tax y los principios que guían nuestro trabajo.",
+            "motto": [
+                "Experiencia fiscal.",
+                "Perspectiva empresarial.",
+                "Un futuro más sólido."
+            ],
+            "practiceLabel": "Nuestra práctica",
+            "storyLink": "Conozca la historia de Jason",
+            "points": [
+                {
+                    "title": "Experiencia fiscal",
+                    "detail": "Conocimiento técnico profundo de los detalles que marcan la diferencia."
+                },
+                {
+                    "title": "Perspectiva empresarial",
+                    "detail": "Experiencia empresarial real aplicada a sus metas."
+                },
+                {
+                    "title": "Apoyo continuo",
+                    "detail": "Compromiso con nuestros clientes más allá de la temporada fiscal."
+                }
+            ],
+            "practiceTitleLead": "Cómo mi experiencia",
+            "practiceTitleEnd": "aporta valor real a los clientes."
+        },
+        "TeamOverview": {
+            "title": "Las personas detrás del trabajo.",
+            "intro": "Un equipo de asesores, especialistas y profesionales de apoyo que ayudan a empresarios a planificar, decidir y avanzar.",
+            "motto": [
+                "Experiencia. Perspectiva.",
+                "Un futuro más sólido."
+            ],
+            "viewProfile": "Ver perfil",
+            "profilePending": "Perfil pendiente de selección confirmada",
+            "values": [
+                {
+                    "title": "Un equipo colaborativo",
+                    "detail": "Más perspectivas. Mejores soluciones."
+                },
+                {
+                    "title": "Experiencia especializada",
+                    "detail": "Experiencia real. Impacto real."
+                },
+                {
+                    "title": "Enfoque en el cliente",
+                    "detail": "Sus metas guían nuestro trabajo."
+                }
+            ]
         }
     },
     "ContactPage": {
@@ -767,28 +1594,6 @@
             "viewFaq": "Ver preguntas frecuentes",
             "verifiedClient": "Cliente verificado",
             "fallbackTitle": "Construyamos juntos su estrategia fiscal",
-            "fallbackSubtitle": "Ya sea que enfrente una auditoría compleja o busque reestructurarse, nuestros estrategas están listos para escuchar.",
-            "stats": {
-                "happyClients": "Clientes satisfechos",
-                "taxSaved": "Impuestos ahorrados",
-                "avgResponse": "Respuesta promedio",
-                "responseTimeValue": "2 horas"
-            }
-        },
-        "AlternativeCTA": {
-            "eyebrow": "Programación directa",
-            "fallbackTitle": "¿Prefiere programar de inmediato?",
-            "fallbackSubtitle": "Reserve una llamada estratégica gratuita de 15 minutos con nuestro equipo.",
-            "callDirectly": "O llámenos directamente",
-            "seeTimes": "Ver horarios disponibles"
-        },
-        "metadata": {
-            "title": "Contacto | Union National Tax",
-            "description": "Póngase en contacto con nuestro equipo de expertos fiscales. Programe una consulta o hable directamente con un estratega."
-        },
-        "Hero": {
-            "eyebrow": "Contacte a Union National Tax",
-            "fallbackTitle": "Construyamos juntos su estrategia fiscal",
             "fallbackSubtitle": "Ya sea que enfrente una auditoría compleja o quiera reestructurarse para crecer, nuestros estrategas están listos para escucharle.",
             "stats": {
                 "happyClients": "Clientes satisfechos",
@@ -800,14 +1605,13 @@
         "AlternativeCTA": {
             "eyebrow": "Programación inmediata",
             "fallbackTitle": "¿Prefiere agendar directamente?",
-            "fallbackSubtitle": "Evite el ir y venir por correo. Reserve una llamada estratégica gratuita de 15 minutos con nuestro equipo.",
-            "callDirectly": "O llámenos directamente"
+            "fallbackSubtitle": "Evite el ir y venir por correo. Reserve una llamada estratégica gratuita de 30 minutos con nuestro equipo.",
+            "callDirectly": "O llámenos directamente",
+            "seeTimes": "Ver horarios disponibles"
         },
-        "TrustBadges": {
-            "eaLicensed": "Licencia EA",
-            "encryption": "Encriptación de 256 bits",
-            "avgResponse": "Respuesta promedio de 2 h",
-            "irsRepresentation": "Representación ante el IRS"
+        "metadata": {
+            "title": "Contacto | Union National Tax",
+            "description": "Póngase en contacto con nuestro equipo de expertos fiscales. Programe una consulta o hable directamente con un estratega."
         },
         "TeamMemberCard": {
             "fallbackName": "Jason Astwood",
@@ -898,12 +1702,18 @@
                 "emailInvalid": "Por favor ingrese un correo electrónico válido",
                 "privacyRequired": "Debe aceptar la política de privacidad"
             }
+        },
+        "TrustBadges": {
+            "eaLicensed": "Licencia EA",
+            "encryption": "Encriptación de 256 bits",
+            "avgResponse": "Respuesta promedio de 2 h",
+            "irsRepresentation": "Representación ante el IRS"
         }
     },
     "TeamPage": {
         "metadata": {
-            "title": "Equipo | Union National Tax",
-            "description": "Conozca a nuestro equipo de CPAs, Agentes Inscritos y estrategas financieros dedicados a preservar el patrimonio para la economía moderna."
+            "title": "Nuestro equipo | Union National Tax",
+            "description": "Conozca al fundador, los asesores, especialistas y profesionales de apoyo de Union National Tax."
         },
         "fallbacks": {
             "heroBadge": "Nuestra Gente",
@@ -939,26 +1749,423 @@
         "ValuesSection": {
             "eyebrow": "Nuestro Ethos",
             "title": "Construido sobre tres pilares."
+        },
+        "profileClose": "Cerrar perfil",
+        "directory": {
+            "eyebrow": "Nuestro equipo",
+            "heroTitle": "Las personas detrás de su estrategia financiera.",
+            "heroSubtitle": "Conozca a los asesores, especialistas y profesionales de apoyo que convierten preguntas fiscales y financieras complejas en decisiones empresariales más claras.",
+            "meetTeam": "Conozca al equipo",
+            "practiceLabel": "Nuestra práctica, su impacto",
+            "practiceItems": [
+                { "title": "Experiencia fiscal", "detail": "Conocimiento profundo de los detalles que importan." },
+                { "title": "Perspectiva empresarial", "detail": "Consejos basados en decisiones del mundo real." },
+                { "title": "Apoyo continuo", "detail": "Un equipo que sigue a su lado más allá de la temporada fiscal." }
+            ],
+            "aboutLink": "Acerca de Union National Tax",
+            "founderLink": "Más sobre nuestro fundador",
+            "founderStory": "Conozca la historia de Jason",
+            "founderRole": "Fundador, Union National Tax",
+            "founderPerspective": {
+                "heading": "Perspectiva del fundador",
+                "quote": "La estrategia fiscal no se trata solo de lo que declara. Se trata del futuro que construye.",
+                "principles": ["Estrategias proactivas", "Enfoque empresarial", "Relaciones a largo plazo"]
+            },
+            "rosterTitle": "Conozca a todo el equipo.",
+            "rosterSubtitle": "Encuentre a la persona adecuada por función o especialidad. Asesores, contadores y profesionales de operaciones y atención al cliente unidos detrás de su estrategia financiera.",
+            "peopleEyebrow": "Nuestra gente",
+            "connectedTitleLead": "Distintas especialidades.",
+            "connectedTitleEnd": "Un equipo conectado.",
+            "connectedBody": "Desde impuestos y contabilidad hasta operaciones y atención al cliente, nuestro equipo está aquí para ayudarle a avanzar.",
+            "filterLabel": "Filtrar el equipo por función o especialidad",
+            "groups": { "all": "Todo el equipo", "tax": "Impuestos y contabilidad", "client": "Atención al cliente", "operations": "Operaciones y crecimiento", "leadership": "Liderazgo" },
+            "searchLabel": "Buscar integrantes por nombre, función o especialidad",
+            "searchPlaceholder": "Buscar en el equipo...",
+            "clearSearch": "Borrar búsqueda",
+            "resultCount": "{count, plural, =0 {No se encontraron personas} one {# persona encontrada} other {# personas encontradas}}",
+            "noResults": "No hay integrantes que coincidan con su búsqueda.",
+            "noResultsBody": "Pruebe otro nombre, función o especialidad, o borre los filtros.",
+            "resetFilters": "Borrar filtros",
+            "viewProfile": "Ver perfil",
+            "profileLabel": "Ver el perfil de {name}",
+            "empty": "Estamos actualizando el directorio del equipo.",
+            "photoMissing": "Foto no disponible"
         }
     },
+    "ConstructionBlueprint": {
+        "heroLead": "Deje de trabajar sin ganancias.",
+        "heroAccentMobile": "Incluya margen en cada oferta.",
+        "heroAccentDesktop": "El plan para recuperar el margen en cada oferta.",
+        "heroBody": "El Plan Para Generar Dinero muestra a los contratistas dónde se pierden las ganancias y cómo abordarlo.",
+        "benefits": [
+            "Detecte trabajos no rentables antes de presentar sus ofertas",
+            "Use proyecciones de flujo de caja para prepararse para la nómina",
+            "Fije precios teniendo en cuenta sus márgenes previstos"
+        ],
+        "heroCta": "Obtener el plan",
+        "heroCtaWithPrice": "Obtener el plan — ${price}",
+        "digitalFormat": "Formato PDF digital",
+        "byline": "Por Jason Astwood, EA · FSCP · LUTCF",
+        "credentials": "Agente Inscrito ante el IRS · Con licencia en los 50 estados"
+    },
+    "IndustriesMobile": {
+        "eyebrow": "Experiencia especializada",
+        "titleLead": "Asesoría específica",
+        "titleAccent": "para su industria.",
+        "intro": "Orientación fiscal y financiera para los costos, decisiones y obligaciones de su negocio.",
+        "closingTitle": "¿No ve su industria?",
+        "closingBody": "Trabajamos con empresarios de diversos sectores que buscan crecer. Reserve una llamada estratégica para ver si nuestro enfoque de asesoría se ajusta a su situación.",
+        "closingCta": "Reservar una llamada estratégica fiscal",
+        "pageTitle": "Impuestos y asesoría por industria"
+    },
     "Shop": {
+        "Page": {
+            "fallbackHeroTitle": "Explore nuestros recursos",
+            "fallbackHeroSubtitle": "Estrategias de expertos para sus impuestos y su patrimonio.",
+            "recoveryEyebrow": "¿Necesita otra opción?",
+            "recoveryBooking": "Reservar una llamada estratégica"
+        },
+        "Desktop": {
+            "hero": {
+                "eyebrow": "Centro de Recursos",
+                "title": "Conocimiento que rinde frutos en la temporada fiscal.",
+                "subtitle": "Libros prácticos sobre planificación fiscal, flujo de caja, operaciones y decisiones financieras a largo plazo.",
+                "searchLabel": "Buscar recursos",
+                "searchPlaceholder": "Busque recursos (p. ej., S-Corp, CFO, construcción, plantillas...)",
+                "searchButton": "Buscar",
+                "filterLabel": "Temas de recursos",
+                "browseLabel": "Explore por tema",
+                "viewAll": "Ver todos los recursos",
+                "proof": [
+                    {
+                        "title": "Prácticos y útiles",
+                        "detail": "Orientación real para decisiones reales."
+                    },
+                    {
+                        "title": "Experiencia de un Agente Inscrito",
+                        "detail": "Conocimiento fiscal y empresarial confiable."
+                    }
+                ],
+                "insightOne": "Ideas prácticas.",
+                "insightTwo": "Experiencia de asesoría.",
+                "insightThree": "Para empresarios.",
+                "strip": [
+                    {
+                        "title": "Recursos prácticos",
+                        "body": "Libros sobre impuestos, finanzas y negocios."
+                    },
+                    {
+                        "title": "Perspectivas reales",
+                        "body": "Basadas en experiencia de asesoría."
+                    },
+                    {
+                        "title": "Para empresarios",
+                        "body": "Orientación para decisiones financieras."
+                    },
+                    {
+                        "title": "Planifique con tiempo",
+                        "body": "Temas de crecimiento y jubilación."
+                    }
+                ]
+            },
+            "topics": {
+                "all": "Todos los recursos",
+                "tax": "Estrategia fiscal",
+                "scorp": "S-Corp",
+                "finance": "CFO y finanzas",
+                "construction": "Construcción",
+                "profit": "Rentabilidad",
+                "retirement": "Jubilación",
+                "templates": "Plantillas",
+                "courses": "Cursos en video"
+            },
+            "featured": {
+                "eyebrow": "Libro destacado",
+                "scorpCategory": "Estrategia fiscal  •  S-Corp",
+                "scorpDescription": "Una guía práctica para entender cuándo conviene una S-Corp, cómo funciona la compensación y qué estrategias fiscales pueden ayudarle a conservar más de lo que gana.",
+                "benefits": [
+                    "Guía digital (PDF)",
+                    "Acceso inmediato",
+                    "Léalo en cualquier dispositivo"
+                ],
+                "cta": "Obtener la guía",
+                "oneTime": "pago único",
+                "save": "Ahorre ${amount} ({percentage}% de descuento)",
+                "digitalFormat": "Formato digital",
+                "standardPrice": "Precio estándar",
+                "tagline": "Impuestos más inteligentes. Un futuro más brillante.",
+                "coverNote": "Orientación empresarial práctica",
+                "editionNote": "Elija su edición en la página del libro.",
+                "topics": [
+                    {
+                        "title": "Comprenda la estructura S-Corp",
+                        "body": "Explore cuándo puede ser adecuada esta opción."
+                    },
+                    {
+                        "title": "Revise la remuneración",
+                        "body": "Comprenda las consideraciones de remuneración."
+                    },
+                    {
+                        "title": "Explore la planificación fiscal",
+                        "body": "Conecte la estructura con las decisiones de planificación."
+                    },
+                    {
+                        "title": "Para empresarios",
+                        "body": "Explicaciones prácticas sobre impuestos empresariales."
+                    }
+                ]
+            },
+            "library": {
+                "eyebrow": "Libros y recursos",
+                "title": "Recursos prácticos para empresarios reales.",
+                "sortLabel": "Ordenar por:",
+                "sortFeatured": "Destacados",
+                "sortLow": "Precio: menor a mayor",
+                "sortHigh": "Precio: mayor a menor",
+                "sortName": "Nombre A–Z",
+                "sortRating": "Mejor calificados",
+                "bestseller": "Más vendido",
+                "businessGrowth": "Crecimiento empresarial",
+                "restaurants": "Restaurantes",
+                "addToCart": "Agregar al carrito",
+                "chooseFormat": "Elegir formato",
+                "viewDetails": "Ver detalles",
+                "showAll": "Ver los {count} recursos",
+                "empty": "No hay recursos que coincidan con su búsqueda.",
+                "mobileEmpty": "Ningún producto coincide con su búsqueda.",
+                "clear": "Borrar filtros",
+                "bookCategory": "Libro",
+                "allBooks": "Todos los libros",
+                "collectionCount": "{count, plural, one {# libro en esta colección} other {# libros en esta colección}}",
+                "collectionNote": "Orientación práctica para empresarios.",
+                "footerNote": "Libros para su próxima decisión financiera",
+                "results": "{count, plural, one {# libro} other {# libros}}",
+                "resultsWithFeatured": "{count, plural, one {# libro más} other {# libros más}} · Libro destacado arriba"
+            },
+            "goals": {
+                "eyebrow": "¿No sabe por dónde empezar?",
+                "title": "¿Qué quiere resolver?",
+                "subtitle": "Elija un objetivo para filtrar los libros. Selecciónelo de nuevo para verlos todos.",
+                "items": [
+                    {
+                        "title": "Reducir mis impuestos",
+                        "description": "S-Corps, deducciones y estrategias para todo el año."
+                    },
+                    {
+                        "title": "Mejorar la rentabilidad",
+                        "description": "Márgenes, precios y visibilidad financiera."
+                    },
+                    {
+                        "title": "Entender mis números",
+                        "description": "Contabilidad, CFO e informes financieros."
+                    },
+                    {
+                        "title": "Prepararme para crecer",
+                        "description": "Expansión, contratación y planificación a largo plazo."
+                    }
+                ]
+            },
+            "social": {
+                "label": "La confianza de los empresarios",
+                "eyebrow": "Empresarios confían en nosotros",
+                "checks": [
+                    "Prácticos y fáciles de entender",
+                    "Ejemplos de la vida real",
+                    "Creados con experiencia en asesoría",
+                    "La confianza de contratistas y empresarios"
+                ]
+            },
+            "faq": {
+                "eyebrow": "Preguntas frecuentes",
+                "title": "Preguntas antes de comenzar.",
+                "stillQuestions": "¿Tiene más preguntas?",
+                "contactBody": "Comuníquese con nuestro equipo para recibir orientación personal.",
+                "contactCta": "Contactar al equipo de ayuda",
+                "support": {
+                    "eyebrow": "Ayuda",
+                    "title": "¿Preguntas antes de hacer su pedido?",
+                    "body": "Encuentre respuestas sobre formatos, cómo elegir un libro, entregas y reembolsos. Si necesita más ayuda, nuestro equipo está a su disposición.",
+                    "cta": "Contacte con nuestro equipo",
+                    "faqLabel": "Preguntas frecuentes",
+                    "answersTitle": "Preguntas comunes, respuestas claras.",
+                    "answersBody": "Respuestas para ayudarle a elegir un libro y comprender las opciones de su pedido.",
+                    "items": [
+                        { "title": "Formatos de libros", "body": "Compare las ediciones disponibles." },
+                        { "title": "Recomendaciones", "body": "Elija según sus objetivos empresariales." },
+                        { "title": "Ayuda con pedidos", "body": "Confirme entregas y condiciones de reembolso." }
+                    ]
+                },
+                "items": [
+                    {
+                        "question": "¿Qué formatos están disponibles?",
+                        "answer": "Los formatos disponibles varían según el libro. Revise la lista de formatos y las opciones de edición antes de elegir. Los formatos del libro sobre jubilación aún necesitan confirmación."
+                    },
+                    {
+                        "question": "¿Con qué libro debo empezar?",
+                        "answer": "Elija un libro según su objetivo: planificación fiscal, visibilidad financiera, crecimiento empresarial o jubilación."
+                    },
+                    {
+                        "question": "¿Cumplen las estrategias con las normas del IRS?",
+                        "answer": "Estos libros ofrecen orientación educativa; la idoneidad de una estrategia depende de sus circunstancias y de las normas aplicables. Consulte su implementación con un profesional fiscal cualificado en lugar de considerar un libro como garantía de cumplimiento ante el IRS."
+                    },
+                    {
+                        "question": "¿Cómo recibiré mi pedido?",
+                        "answer": "Confirme con nuestro equipo el acceso digital y cualquier entrega física antes de hacer el pedido; los plazos dependen del libro y del formato."
+                    },
+                    {
+                        "question": "¿Cuáles son las condiciones de reembolso?",
+                        "answer": "Contacte con nuestro equipo antes de hacer el pedido para confirmar las condiciones de reembolso del libro y formato elegidos."
+                    }
+                ]
+            },
+            "closing": {
+                "label": "Elija su siguiente paso",
+                "selfEyebrow": "Hágalo usted mismo",
+                "selfTitle": "Explore la biblioteca de recursos",
+                "selfSubtitle": "Obtenga conocimientos prácticos y avance a su propio ritmo.",
+                "selfCta": "Explorar todos los recursos",
+                "helpEyebrow": "¿Necesita orientación personal?",
+                "helpTitle": "¿No sabe qué libro elegir?",
+                "helpSubtitle": "Hable sobre sus metas y reciba recomendaciones de expertos.",
+                "helpCta": "Reservar llamada estratégica"
+            },
+            "footer": {
+                "tagline": "Conocimiento práctico. Negocios más sólidos. Un futuro más brillante.",
+                "navigationLabel": "Enlaces del pie de página de la tienda",
+                "privacy": "Privacidad",
+                "terms": "Términos",
+                "contact": "Contacto"
+            },
+            "actions": {
+                "viewBook": "Ver libro"
+            },
+            "formats": {
+                "digital": "PDF",
+                "audio": "Audio",
+                "physical": "Tapa dura",
+                "bundle": "Paquete",
+                "pending": "Formatos pendientes de confirmación",
+                "label": "Ediciones disponibles"
+            },
+            "books": {
+                "scorp": {
+                    "category": "Estrategia fiscal · S-Corp",
+                    "description": "Una guía práctica sobre la elección de una S-Corp, la remuneración y estrategias fiscales para propietarios que evalúan su estructura."
+                },
+                "growth": {
+                    "category": "Crecimiento empresarial",
+                    "description": "Una guía sobre crecimiento, sistemas y las tres palancas principales que ayudan a construir una operación empresarial más escalable."
+                },
+                "cfo": {
+                    "category": "CFO y finanzas",
+                    "description": "Un marco práctico para comprender las cifras del negocio, gestionar el flujo de caja y tomar decisiones financieras informadas."
+                },
+                "retirement": {
+                    "category": "Jubilación",
+                    "description": "Una introducción a los ingresos de jubilación, la planificación fiscal y la gestión de riesgos para necesidades financieras a largo plazo."
+                },
+                "construction": {
+                    "category": "Construcción",
+                    "description": "Una guía para contratistas sobre costos por proyecto, cumplimiento de subcontratistas, depreciación de equipos, flujo de caja y planificación fiscal."
+                },
+                "restaurant": {
+                    "category": "Restaurantes",
+                    "description": "Una guía práctica sobre sistemas, operaciones y rentabilidad de restaurantes para construir un negocio que funcione con procesos consistentes."
+                },
+                "realEstate": {
+                    "category": "Estrategia fiscal · Bienes raíces",
+                    "description": "Descripción próximamente."
+                }
+            }
+        },
         "Cart": {
             "title": "Carrito de Compras",
             "empty": "Su carrito está vacío",
+            "eyebrow": "Revise su carrito",
+            "reviewTitle": "Revise sus recursos antes de pagar.",
+            "reviewBody": "Confirme el recurso, la cantidad y el formato antes de continuar al pago seguro.",
+            "cancelled": "El pago se canceló antes de completarse. Su carrito sigue disponible cuando esté listo.",
+            "emptyBody": "Agregue un recurso de la tienda para comenzar su compra.",
+            "recoveryTitle": "¿Necesita otra opción?",
+            "recoveryBody": "Hable con nuestro equipo si necesita ayuda para elegir el recurso adecuado.",
+            "recoveryCta": "Contactar al equipo de ayuda",
+            "removeItem": "Quitar {title} del carrito",
+            "decreaseQuantity": "Reducir la cantidad de {title}",
+            "increaseQuantity": "Aumentar la cantidad de {title}",
+            "lineTotal": "Total del artículo",
+            "orderSummary": "Resumen del pedido",
+            "secureCheckout": "Pago seguro",
+            "secureDescription": "Stripe cifra y procesa su pago de forma segura. No guardamos los datos de su tarjeta de crédito.",
+            "poweredByStripe": "Procesado por Stripe",
+            "startingCheckout": "Iniciando el pago...",
+            "checkoutError": "No se pudo iniciar el pago. Vuelva a intentarlo.",
             "continueShopping": "Continuar Comprando",
             "subtotal": "Subtotal",
             "shipping": "Envío",
             "free": "GRATIS",
             "total": "Total",
             "checkout": "Proceder al Pago",
-            "secureNote": "Pago Seguro en la Nube"
+            "secureNote": "Pago Seguro en la Nube",
+            "openCart": "Abrir carrito de compras",
+            "itemCount": "{count, plural, =0 {El carrito de compras está vacío} one {# artículo en el carrito de compras} other {# artículos en el carrito de compras}}",
+            "drawerCount": "{count, plural, =0 {No hay artículos en su carrito} one {# artículo en su carrito} other {# artículos en su carrito}}",
+            "itemHeading": "{count, plural, one {Su artículo} other {Sus artículos}}",
+            "closeCart": "Cerrar carrito de compras",
+            "removeLabel": "Quitar",
+            "digitalEdition": "Edición digital",
+            "printEdition": "Edición impresa",
+            "audioEdition": "Audiolibro",
+            "bundleEdition": "Impreso y digital",
+            "serviceEdition": "Servicio",
+            "resourceEdition": "Recurso",
+            "digitalDelivery": "Entrega digital",
+            "digitalDeliveryBody": "Estos artículos son digitales. No se necesita dirección de envío.",
+            "printDelivery": "Detalles de envío",
+            "printDeliveryBody": "La dirección de envío para los artículos impresos se solicita al pagar.",
+            "included": "Incluida",
+            "notRequired": "No es necesario",
+            "viewFullCart": "Ver carrito completo",
+            "cardPayments": "Pago con tarjeta",
+            "deliveryFormat": "Formato digital",
+            "selectedEditions": "Ediciones seleccionadas"
+        },
+        "Success": {
+            "missingTitle": "Aún no pudimos verificar este pedido.",
+            "missingBody": "Si completó el pago, consulte su recibo de Stripe o comuníquese con el equipo de pedidos.",
+            "pendingTitle": "El pago aún no está confirmado.",
+            "pendingBody": "Su carrito está guardado. Verifique el estado del pago antes de volver a intentarlo.",
+            "expiredTitle": "La sesión de pago venció.",
+            "expiredBody": "No se confirmó ningún pago. Su carrito está guardado y puede volver a intentarlo.",
+            "paidTitle": "Pago confirmado.",
+            "paidBody": "Su pago está confirmado. Guarde el número de pedido para solicitar ayuda mientras se prepara la entrega.",
+            "fulfillmentPending": "La entrega aún se está preparando. Si necesita ayuda, comuníquese con el equipo de pedidos e indique su número de pedido.",
+            "returnCart": "Volver al carrito",
+            "contactSupport": "Contactar al equipo de ayuda",
+            "orderSummary": "Resumen del pedido",
+            "totalCharged": "Total cobrado",
+            "securePayment": "Pago seguro mediante Stripe",
+            "digitalNote": "Recibirá los detalles de acceso digital cuando la entrega esté lista.",
+            "physicalNote": "Los artículos físicos se prepararán para su envío a la dirección proporcionada al pagar.",
+            "orderHelpTitle": "Guarde su número de pedido",
+            "orderHelpBody": "Comparta su número de pedido con el equipo de ayuda si necesita una actualización.",
+            "digitalTitle": "Acceso digital",
+            "digitalBody": "La entrega digital está vinculada a este pedido pagado mediante Stripe.",
+            "shippingTitle": "Preparación del envío",
+            "shippingBody": "Su pedido físico pasará a preparación después de confirmar el pago.",
+            "continueShopping": "Seguir comprando",
+            "returnHome": "Volver al inicio",
+            "needAssistance": "¿Necesita ayuda? Estamos aquí para ayudarle.",
+            "contactOrderSupport": "Contactar al equipo de pedidos"
         },
         "Hero": {
             "resourceCenter": "Centro de Recursos",
             "browseResources": "Explorar Recursos",
             "secureCheckout": "Pago Seguro",
             "instantAccess": "Acceso Instantáneo",
-            "expertVerified": "Verificado por Expertos"
+            "expertVerified": "Verificado por Expertos",
+            "previousSlide": "Diapositiva anterior",
+            "nextSlide": "Diapositiva siguiente",
+            "goToSlide": "Ir a la diapositiva {number}"
         },
         "Filter": {
             "all": "Todos los Recursos",
@@ -969,12 +2176,153 @@
         },
         "ProductCard": {
             "quickView": "Vista Rápida",
+            "viewBook": "Ver libro",
             "formatLabels": {
                 "ebook": "PDF",
                 "template": "Plantilla",
                 "course": "Video",
                 "bundle": "Paquete"
             }
+        },
+        "ProductPage": {
+            "chooseFormat": "Elija su formato",
+            "selected": "Seleccionado",
+            "selectedFormat": "Formato seleccionado",
+            "purchaseUnavailable": "Esta edición no está disponible para compra en línea.",
+            "contents": {
+                "pdf": "Una copia del libro en PDF."
+            },
+            "backToShop": "Volver a la tienda",
+            "learnTitle": "Qué aborda el libro",
+            "sourceTakeaways": "Leer las ideas clave del editor",
+            "sourceObjectives": "Leer los objetivos de aprendizaje",
+            "relatedTitle": "Libros relacionados",
+            "applyHelp": "¿Quiere ayuda para aplicarlo?",
+            "growthBullets": [
+                "Atraer clientes de mayor valor.",
+                "Fijar precios y posicionar sus ofertas para mejorar los márgenes.",
+                "Crear procesos, métricas y un equipo para que el negocio dependa menos de su participación constante."
+            ],
+            "growthHighlights": [
+                {
+                    "title": "Marco de crecimiento",
+                    "body": "Tres pilares de crecimiento."
+                },
+                {
+                    "title": "Sistemas escalables",
+                    "body": "Sistemas, delegación y métricas."
+                },
+                {
+                    "title": "Más libertad",
+                    "body": "Libertad de tiempo y financiera."
+                }
+            ],
+            "bookHighlights": {
+                "scorp": [
+                    { "title": "Estructura empresarial", "body": "Explore la idoneidad de una S-Corp." },
+                    { "title": "Remuneración", "body": "Comprenda las consideraciones de remuneración." },
+                    { "title": "Planificación fiscal", "body": "Estructura y estrategias de planificación." }
+                ],
+                "cfo": [
+                    { "title": "Conozca sus números", "body": "Comprenda las finanzas del negocio." },
+                    { "title": "Flujo de caja", "body": "Orientación para gestionar el flujo de caja." },
+                    { "title": "Decisiones financieras", "body": "Un marco práctico de CFO." }
+                ],
+                "retirement": [
+                    { "title": "Ingresos de jubilación", "body": "Explore sus necesidades de ingresos a largo plazo." },
+                    { "title": "Planificación fiscal", "body": "Consideraciones de planificación para la jubilación." },
+                    { "title": "Gestión de riesgos", "body": "Comprenda los riesgos financieros de la jubilación." }
+                ],
+                "construction": [
+                    { "title": "Costos por proyecto", "body": "Costos de proyectos y flujo de caja." },
+                    { "title": "Equipos", "body": "Consideraciones sobre depreciación de equipos." },
+                    { "title": "Planificación fiscal", "body": "Temas fiscales empresariales para contratistas." }
+                ],
+                "restaurant": [
+                    { "title": "Sistemas empresariales", "body": "Procesos consistentes para restaurantes." },
+                    { "title": "Operaciones", "body": "Orientación sobre operaciones de restaurantes." },
+                    { "title": "Rentabilidad", "body": "Explore la rentabilidad de su restaurante." }
+                ],
+                "general": [
+                    { "title": "Resumen del libro", "body": "Explore los detalles publicados del libro." },
+                    { "title": "Opciones de edición", "body": "Revise los formatos de este libro." },
+                    { "title": "Ayuda con pedidos", "body": "Contacte con nuestro equipo si tiene preguntas." }
+                ]
+            },
+            "editionContents": "Su edición seleccionada",
+            "stripeCheckout": "Pago con Stripe",
+            "cartCheckout": "Continúe desde su carrito.",
+            "question": "¿Tiene una pregunta?",
+            "faqLink": "Ver preguntas frecuentes",
+            "coverage": {
+                "headline": "Tres áreas clave. Un negocio más sólido y escalable.",
+                "intro": "Un marco práctico para atraer clientes de mayor valor, mejorar los márgenes y construir un negocio que le dé más libertad.",
+                "disclosureBody": "Una mirada más cercana a lo que aprenderá.",
+                "cards": [
+                    {
+                        "label": "Crecimiento de clientes",
+                        "description": "Explore cómo atraer clientes de mayor valor de forma constante y construir un negocio para los clientes adecuados.",
+                        "outcome": "Mejores clientes"
+                    },
+                    {
+                        "label": "Posicionamiento de ofertas",
+                        "description": "Use herramientas y pasos prácticos para mejorar los precios, la rentabilidad y el flujo de caja.",
+                        "outcome": "Márgenes más sólidos"
+                    },
+                    {
+                        "label": "Sistemas operativos",
+                        "description": "Conecte procesos, métricas y personas para que el negocio crezca sin que el propietario tenga que hacerlo todo.",
+                        "outcome": "Más libertad"
+                    }
+                ]
+            },
+            "related": {
+                "eyebrow": "Siga construyendo",
+                "intro": "Continúe con otra guía según lo que quiera mejorar.",
+                "signature": "Mejores estrategias. Un negocio más sólido.",
+                "guidanceLabel": "Orientación experta",
+                "guidanceTitle": "¿Necesita ayuda para aplicarlo?",
+                "guidanceBody": "Hable sobre cómo estas ideas se relacionan con su negocio e identifique un próximo paso práctico.",
+                "items": [
+                    {
+                        "title": "Aclare la estrategia adecuada",
+                        "body": "Analice lo que merece atención en su situación actual."
+                    },
+                    {
+                        "title": "Aplique ideas a su negocio",
+                        "body": "Revise las oportunidades según sus objetivos y plazos."
+                    },
+                    {
+                        "title": "Salga con próximos pasos",
+                        "body": "Identifique prioridades y un plan práctico para avanzar."
+                    }
+                ],
+                "duration": "Llamada de 30 minutos con un Agente Inscrito",
+                "footerLabels": [
+                    "Experiencia práctica",
+                    "Soluciones prácticas",
+                    "Para dueños de negocios"
+                ]
+            }
+        },
+        "ProductHero": {
+            "thumbnailsUp": "Desplazar miniaturas hacia arriba",
+            "thumbnailsDown": "Desplazar miniaturas hacia abajo",
+            "viewMedia": "Ver {type} {number}",
+            "video": "video",
+            "image": "imagen",
+            "thumbnail": "Miniatura {number}",
+            "videoTitle": "Video sobre {title}",
+            "addWishlist": "Guardar {title}",
+            "removeWishlist": "Quitar {title} de los recursos guardados",
+            "samplePages": "Páginas de muestra",
+            "preview": "Vista previa",
+            "samplePage": "Página de muestra {number}",
+            "author": "Autor",
+            "price": "Precio",
+            "discount": "{percentage}% de descuento",
+            "selectFormat": "Seleccione el formato de acceso",
+            "addToCart": "Agregar al carrito"
         },
         "TransactionCard": {
             "strategicAsset": "Activo Estratégico",
@@ -1008,6 +2356,10 @@
                 "description": "Optimizado fiscalmente para cumplimiento."
             },
             "defaultDescription": "Optimizado para la implementación."
+        },
+        "TestimonialStrip": {
+            "eyebrow": "Recursos de confianza",
+            "title": "Creados para el cumplimiento y el uso práctico."
         }
     },
     "BookLanding": {
@@ -1036,6 +2388,228 @@
         "meta": {
             "freeDownloadTitle": "{title} — Descarga Gratis | Union National Tax",
             "freeDownloadDescription": "Obtenga su copia gratis de {title} y comience a construir una estrategia fiscal real."
+        }
+    },
+    "ClientInsight": {
+        "eyebrow": "Experiencia de un cliente de construcción",
+        "title": "De declarar de forma reactiva a planificar todo el año.",
+        "introduction": "Torres Built Construction trabajó con Union National Tax en una estrategia S-Corp y planificación trimestral proactiva. La experiencia del cliente muestra cómo ese enfoque aportó más claridad a las decisiones fiscales y lo que merece atención después.",
+        "challengeLabel": "El punto de partida",
+        "challengeBody": "Declaración reactiva de impuestos, una estructura de entidad poco clara y visibilidad limitada para planificar.",
+        "assessmentLabel": "La estrategia",
+        "assessmentBody": "Una evaluación S-Corp y prioridades fiscales definidas formaron la estrategia para el negocio.",
+        "planningLabel": "El enfoque de planificación",
+        "planningBody": "La planificación trimestral proactiva incorporó la conversación fiscal a una rutina de todo el año, con próximos pasos definidos.",
+        "outcomeLabel": "Qué cambió",
+        "outcomeBody": "Decisiones fiscales más claras y un camino definido para reducir cargas evitables.",
+        "servicesLabel": "Servicios utilizados",
+        "clientPerspective": "La perspectiva del cliente",
+        "cta": "Hablemos de su negocio",
+        "ctaSupport": "Inicie una conversación sobre las decisiones que enfrenta su negocio.",
+        "summary": {
+            "eyebrow": "Resultado de la planificación",
+            "title": "Decisiones fiscales más claras",
+            "body": "Una estrategia S-Corp y planificación trimestral proactiva dieron a Torres Built decisiones fiscales más claras, próximos pasos definidos y una rutina de planificación para todo el año.",
+            "readStory": "Lea la historia del cliente",
+            "takeaways": [
+                "Estrategia S-Corp",
+                "Planificación trimestral",
+                "Próximos pasos definidos"
+            ]
+        }
+    },
+    "ConsumerHome": {
+        "logos": {
+            "label": "Logotipos destacados",
+            "pause": "Pausar el movimiento de los logotipos",
+            "resume": "Reanudar el movimiento de los logotipos"
+        },
+        "seo": {
+            "title": "Planificación fiscal para empresas | Union National Tax",
+            "description": "Revise oportunidades de ahorro fiscal con un Agente Inscrito del IRS y obtenga pasos claros para su negocio."
+        },
+        "hero": {
+            "eyebrow": "Planificación fiscal para contratistas y empresas de servicios",
+            "titleLead": "Deje de pagar impuestos de más.",
+            "titleAccent": "Construya un negocio más sólido.",
+            "subtitle": "Encuentre oportunidades de ahorro fiscal, tome decisiones con confianza y construya un plan para todo el año.",
+            "primaryCta": "Reserve una llamada estratégica",
+            "secondaryCta": "Vea cómo funciona",
+            "microproof": "Llamada de 30 minutos · Sin compromiso"
+        },
+        "proof": {
+            "label": "Por qué los empresarios confían en Union National Tax",
+            "credential": "Agente Inscrito del IRS",
+            "experience": "Más de 15 años de experiencia",
+            "owners": "Más de 1,000 empresarios atendidos"
+        },
+        "process": {
+            "eyebrow": "Resumen de la llamada estratégica",
+            "title": "Lo que revisaremos juntos",
+            "subtitle": "Una conversación enfocada en revisar su situación, identificar lo importante y definir un próximo paso claro.",
+            "review": {
+                "1": "Estructura del negocio",
+                "2": "Cifras actuales",
+                "3": "Cambios recientes en el negocio",
+                "4": "Metas y asuntos urgentes",
+                "label": "Su negocio hoy",
+                "description": "Revisaremos los detalles clave de su estructura actual y la situación de su negocio."
+            },
+            "evaluate": {
+                "1": "Oportunidades fiscales",
+                "2": "Decisiones sobre su entidad",
+                "3": "Plazos y fechas límite",
+                "4": "Prioridades financieras",
+                "label": "Lo que merece atención",
+                "description": "Evaluaremos oportunidades, riesgos y decisiones clave según sus metas y plazos."
+            },
+            "leaveWith": {
+                "1": "Una visión más clara",
+                "2": "Las oportunidades prioritarias",
+                "3": "Un plan práctico",
+                "label": "Lo que se lleva",
+                "description": "Se llevará claridad, prioridades y un plan práctico para lo que viene.",
+                "details": {
+                    "1": "de su situación actual",
+                    "2": "para avanzar",
+                    "3": "con próximos pasos concretos"
+                }
+            },
+            "booking": {
+                "title": "¿Listo para comenzar?",
+                "subtitle": "Reserve una llamada estratégica y conversemos sobre su negocio.",
+                "duration": "30 minutos",
+                "preparation": "Sin preparación previa",
+                "expert": "Hable con un Agente Inscrito"
+            }
+        },
+        "outcomes": {
+            "eyebrow": "Lo que obtiene",
+            "title": "Planificación fiscal, cuentas claras y mejores decisiones",
+            "subtitle": "Metas distintas. Un enfoque conectado. Descubra lo que es posible y el servicio que le ayuda a lograrlo.",
+            "outcomeLabel": "Resultado elegido",
+            "serviceLabel": "Servicio recomendado",
+            "relatedLabel": "También relevante",
+            "items": {
+                "1": {
+                    "title": "Conserve más de lo que gana.",
+                    "tabLabel": "Conserve más",
+                    "motto": "Conserve más hoy. Construya un futuro más sólido.",
+                    "description": "Aproveche las oportunidades fiscales mientras todavía hay tiempo para actuar.",
+                    "service": "Planificación fiscal proactiva",
+                    "serviceDescription": "Planificación estratégica para ayudarle a reducir su carga fiscal y conservar más de lo que gana.",
+                    "features": {
+                        "1": "Estructura y estrategia empresarial",
+                        "2": "Deducciones y créditos",
+                        "3": "Retiro y patrimonio",
+                        "4": "Decisiones fiscales a tiempo"
+                    },
+                    "link": "Explore la planificación fiscal"
+                },
+                "2": {
+                    "title": "Sepa dónde está su negocio.",
+                    "tabLabel": "Cuentas claras",
+                    "motto": "Cifras claras hoy. Decisiones más seguras mañana.",
+                    "description": "Mantenga cifras precisas y actualizadas para planificar con confianza.",
+                    "service": "Contabilidad estratégica",
+                    "serviceDescription": "Libros precisos y listos para tomar decisiones, con visibilidad sobre el rendimiento y el flujo de caja.",
+                    "features": {
+                        "1": "Contabilidad mensual",
+                        "2": "Informes financieros",
+                        "3": "Seguimiento del flujo de caja",
+                        "4": "Registros claros y organizados"
+                    },
+                    "link": "Explore la contabilidad"
+                },
+                "3": {
+                    "title": "Tome decisiones importantes con confianza.",
+                    "tabLabel": "Decida mejor",
+                    "motto": "Planifique lo que viene. Avance con confianza.",
+                    "description": "Use proyecciones y orientación financiera para planificar el crecimiento, las inversiones y lo que viene.",
+                    "service": "CFO fraccional",
+                    "serviceDescription": "Orientación estratégica y modelos financieros para ayudarle a tomar decisiones informadas y seguras.",
+                    "features": {
+                        "1": "Proyecciones y presupuestos",
+                        "2": "Análisis de escenarios",
+                        "3": "Crecimiento e inversión",
+                        "4": "Asesoría estratégica continua"
+                    },
+                    "link": "Explore el CFO fraccional"
+                }
+            },
+            "allServices": "Comparar todos los servicios",
+            "footerLine": "Estrategia fiscal. Libros precisos. Mejores decisiones. Un futuro financiero más sólido.",
+            "footerMotto": "Las mismas cifras. Un futuro más brillante."
+        },
+        "reviews": {
+            "eyebrow": "Reseñas de clientes",
+            "title": "Lo que dicen nuestros clientes.",
+            "subtitle": "Extractos traducidos de reseñas públicas en Google.",
+            "viewSource": "Ver en Google",
+            "sourceLabel": "Extracto traducido de Google",
+            "storyCta": "Conozca la historia de Torres Built",
+            "storySupport": "Explore la planificación detrás de la experiencia de un cliente de construcción.",
+            "items": {
+                "1": {
+                    "name": "Carla Bassano",
+                    "theme": "Confianza en el equipo",
+                    "quote": "Recomiendo ampliamente a Jason y a su equipo."
+                },
+                "2": {
+                    "name": "Jeanine Ibarra",
+                    "theme": "Atención bilingüe",
+                    "quote": "Es bilingüe, lo que hace que nuestra experiencia sea más fácil y rápida."
+                },
+                "3": {
+                    "name": "Marlene Neptune",
+                    "theme": "Atención y profesionalismo",
+                    "quote": "Excelente atención al cliente. Con conocimiento y profesionalismo."
+                }
+            }
+        },
+        "story": {
+            "eyebrow": "La historia de un cliente",
+            "title": "Cómo Torres Built empezó a planificar todo el año",
+            "moreStories": "Ver todos los resultados de clientes",
+            "photoDetail": "Empresa de construcción",
+            "challenge": {
+                "1": "Declaraciones fiscales reactivas",
+                "2": "Estructura empresarial poco clara",
+                "3": "Poca visibilidad para planificar",
+                "label": "El desafío"
+            },
+            "strategy": {
+                "1": "Evaluación de S-Corp",
+                "2": "Planificación trimestral",
+                "3": "Prioridades fiscales definidas",
+                "label": "La estrategia"
+            },
+            "result": {
+                "1": "Decisiones fiscales más claras",
+                "2": "Próximos pasos definidos",
+                "3": "Planificación durante todo el año",
+                "label": "El resultado"
+            },
+            "readStory": "Lea la historia de Torres Built"
+        },
+        "final": {
+            "eyebrow": "Su próximo paso",
+            "title": "Ya conoce las opciones.",
+            "nextTitle": "Ahora defina el próximo paso.",
+            "support": "Una llamada estratégica para revisar la situación de su negocio y lo que merece atención a continuación.",
+            "duration": {
+                "label": "30 minutos",
+                "detail": "Enfoque y eficiencia."
+            },
+            "preparation": {
+                "label": "Sin preparación",
+                "detail": "Venga tal como está."
+            },
+            "expert": {
+                "label": "Agente Inscrito",
+                "detail": "Hable con un experto fiscal."
+            },
+            "reassurance": "Sin presión de venta. Solo orientación práctica."
         }
     }
 }

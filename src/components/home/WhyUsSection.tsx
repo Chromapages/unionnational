@@ -1,15 +1,17 @@
 import React from "react";
 import { getTranslations } from "next-intl/server";
+import { Clock, FileText, Calendar, BarChart3, Star, type LucideIcon } from "lucide-react";
 import { WhyUsConversionArea } from "./WhyUsConversionArea";
 import { WhyUsEvidenceModule, type WhyUsEvidenceModuleProps } from "./WhyUsEvidenceModule";
-import { MobileCarouselPagination } from "./MobileCarouselPagination";
-import type { LucideIcon } from "lucide-react";
 
 export interface ComparisonRow {
     id: string;
     label: string;
     traditionalText: string;
     proactiveText: string;
+    traditionalDetail?: string;
+    desktopProactiveText?: string;
+    proactiveDetail?: string;
     priority?: number;
     optionalTraditionalIcon?: LucideIcon;
     optionalProactiveIcon?: LucideIcon;
@@ -25,6 +27,21 @@ export interface WhyUsSectionProps {
 }
 
 const comparisonKeys = ["timing", "scope", "cadence", "decisionSupport"] as const;
+
+const getDefaultRowIcon = (id: string): LucideIcon => {
+    switch (id) {
+        case "timing":
+            return Clock;
+        case "scope":
+            return FileText;
+        case "cadence":
+            return Calendar;
+        case "decisionSupport":
+            return BarChart3;
+        default:
+            return Clock;
+    }
+};
 
 export const WhyUsSection = async ({
     customRows,
@@ -44,6 +61,9 @@ export const WhyUsSection = async ({
                   label: t(`rows.${key}.dimension`),
                   traditionalText: t(`rows.${key}.traditional`),
                   proactiveText: t(`rows.${key}.proactive`),
+                  traditionalDetail: t(`rows.${key}.traditionalDetail`),
+                  desktopProactiveText: t(`rows.${key}.proactiveDesktop`),
+                  proactiveDetail: t(`rows.${key}.proactiveDetail`),
               }));
 
     const hasRows = resolvedRows.length > 0;
@@ -53,177 +73,180 @@ export const WhyUsSection = async ({
     return (
         <section
             id="proactive-by-design"
-            className="border-y border-slate-200 bg-slate-50 pt-16 pb-8 sm:py-20 lg:py-24"
+            className="border-y border-slate-200 bg-[#fbfbfb] pt-16 pb-12 sm:py-20 lg:bg-white lg:pt-10 lg:pb-16"
             aria-labelledby="why-us-heading"
         >
-            <div className="mx-auto w-full max-w-screen-2xl px-5 sm:px-6 lg:px-6">
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-12">
-                    {/* Header */}
-                    <div className="col-span-1 mb-2 lg:col-span-12 lg:mb-0">
-                        <p className="home-eyebrow text-gold-800">{t("eyebrow")}</p>
-                        <h2 id="why-us-heading" className="home-section-heading mt-4 max-w-4xl text-brand-900">
-                            {t("title")}
-                        </h2>
-                        <p className="home-supporting-copy mt-4 max-w-3xl text-slate-700">
-                            {t("subtitle")}
+            <div className="mx-auto w-full max-w-screen-2xl px-5 sm:px-6 lg:px-[clamp(3rem,4.5vw,4rem)]">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
+                    {/* Top Split Header */}
+                    <div className="col-span-1 grid grid-cols-1 gap-6 lg:col-span-12 lg:block lg:mb-0">
+                        <div className="lg:max-w-[50rem]">
+                            <div className="flex items-center gap-2.5 mb-3">
+                                <span className="h-[2px] w-8 bg-gold-600 shrink-0" aria-hidden="true" />
+                                <p className="font-body text-xs font-bold uppercase tracking-[0.16em] text-gold-800 sm:text-sm">
+                                    {t("eyebrow")}
+                                </p>
+                            </div>
+                            <h2 id="why-us-heading" className="font-heading text-3xl font-bold tracking-tight text-brand-950 sm:text-4xl lg:text-[2.65rem] leading-[1.12]">
+                                {t("title")}
+                            </h2>
+                            <p className="mt-4 max-w-2xl text-base sm:text-lg text-slate-600 leading-relaxed lg:max-w-[34rem]">
+                                {t("subtitle")}
+                            </p>
+                        </div>
+
+                        <div className="border-l border-slate-300 pl-6 py-1 lg:hidden">
+                            <p className="font-body text-xs font-bold uppercase tracking-[0.14em] text-slate-600">
+                                {t("headerInsightEyebrow1")}
+                            </p>
+                            <p className="font-body text-xs font-bold uppercase tracking-[0.14em] text-slate-600">
+                                {t("headerInsightEyebrow2")}
+                            </p>
+                            <p className="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                {t("headerInsightBody")}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Advantage Eyebrow Bar */}
+                    <div className="col-span-1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between lg:col-span-12">
+                        <div className="flex items-center gap-2.5">
+                            <span className="h-[2px] w-8 bg-gold-600 shrink-0" aria-hidden="true" />
+                            <p className="font-body text-xs font-bold uppercase tracking-[0.14em] text-gold-800 sm:text-sm">
+                                {t("advantageEyebrow")}
+                            </p>
+                        </div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-600 lg:hidden">
+                            {t("advantageTagline")}
                         </p>
                     </div>
 
-                    {/* Comparison Area */}
-                    <div className="col-span-1 lg:col-span-12">
+                    {/* Comparison Area: Side-by-Side Cards */}
+                    <div className="col-span-1 lg:col-span-12 lg:-mt-4">
                         {!hasRows ? (
                             <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-slate-600">
                                 <p className="text-sm font-medium">{fallbackMessage}</p>
                             </div>
                         ) : (
-                            <>
-                                {/* Desktop Semantic Table */}
-                                <div className="hidden overflow-hidden rounded-2xl border border-slate-200 bg-white md:block">
-                                    <table className="w-full table-fixed border-collapse">
-                                        <caption className="sr-only">{t("caption")}</caption>
-                                        <colgroup>
-                                            <col className="w-[20%]" />
-                                            <col className="w-[40%]" />
-                                            <col className="w-[40%]" />
-                                        </colgroup>
-                                        <thead className="bg-brand-900 text-left text-sm font-bold">
-                                            <tr>
-                                                <th scope="col" className="px-5 py-5 text-slate-200 lg:px-6">
-                                                    {t("dimensionLabel")}
-                                                </th>
-                                                <th scope="col" className="border-l border-white/10 px-5 py-5 text-slate-200 lg:px-6">
-                                                    {t("traditionalLabel")}
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="border-l border-gold-400/30 bg-brand-950 px-5 py-5 text-gold-300 lg:px-6"
-                                                >
-                                                    <div className="flex flex-col gap-1.5 xl:flex-row xl:items-center xl:justify-between xl:gap-3">
-                                                        <span>{t("proactiveLabel")}</span>
-                                                        {showRecommendedBadge ? (
-                                                            <span
-                                                                className="inline-flex min-h-6 w-fit items-center rounded-full border border-gold-400/30 bg-gold-500/20 px-2.5 py-0.5 text-xs font-semibold tracking-wide text-gold-300"
-                                                                aria-label={`${t("proactiveLabel")} (${recommendedLabel})`}
-                                                            >
-                                                                {recommendedLabel}
-                                                            </span>
-                                                        ) : null}
-                                                    </div>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {resolvedRows.map((item) => (
-                                                <tr
-                                                    key={item.id}
-                                                    className="border-t border-slate-200 first:border-t-0"
-                                                >
-                                                    <th
-                                                        scope="row"
-                                                        className="bg-slate-50 px-5 py-5 text-left font-heading text-sm font-bold uppercase tracking-[0.08em] text-slate-700 align-middle lg:px-6 lg:py-6"
+                            <div
+                                role="region"
+                                aria-label={t("caption")}
+                                className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:gap-6"
+                            >
+                                {/* Left Card: Traditional Tax Support */}
+                                <div
+                                    data-testid="traditional-tax-card"
+                                    className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-[#f6f7f8] shadow-sm lg:min-h-[28.75rem] lg:rounded-xl lg:bg-white"
+                                >
+                                    <div className="border-b border-slate-200/80 bg-white/70 px-6 py-5">
+                                        <h3 className="font-heading text-sm sm:text-base font-bold uppercase tracking-wider text-slate-900">
+                                            {t("traditionalLabel")}
+                                        </h3>
+                                        <p className="mt-1 text-xs sm:text-sm text-slate-600">
+                                            {t("traditionalSubtitle")}
+                                        </p>
+                                    </div>
+                                    <dl className="flex flex-1 flex-col justify-between divide-y divide-slate-200/80 p-3 sm:p-5 lg:px-4 lg:py-3">
+                                        {resolvedRows.map((item) => {
+                                            const Icon = item.optionalTraditionalIcon ?? getDefaultRowIcon(item.id);
+                                            return (
+                                                <div key={item.id} className="flex items-start gap-4 p-3 sm:p-4 lg:gap-6 lg:px-2 lg:py-3">
+                                                    <div
+                                                        aria-hidden="true"
+                                                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-200/80 text-slate-600 lg:h-12 lg:w-12"
                                                     >
+                                                        <Icon className="h-4 w-4 stroke-[2] lg:h-5 lg:w-5" />
+                                                    </div>
+                                                    <dt className="w-28 sm:w-36 shrink-0 pt-0.5 font-body text-xs font-bold uppercase tracking-wider text-slate-700 lg:min-h-11 lg:w-24 lg:border-r lg:border-slate-200 lg:pr-4">
                                                         {String(item.label)}
-                                                    </th>
-                                                    <td className="max-w-md break-words border-l border-slate-200 px-5 py-5 text-sm leading-relaxed text-slate-700 align-middle lg:px-6 lg:py-6 lg:text-base">
-                                                        {String(item.traditionalText)}
-                                                    </td>
-                                                    <td className="max-w-md break-words border-l border-gold-200 bg-gold-50/50 px-5 py-5 text-sm leading-relaxed text-slate-800 align-middle lg:px-6 lg:py-6 lg:text-base">
-                                                        {String(item.proactiveText)}
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
+                                                    </dt>
+                                                    <dd className="flex-1 pt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed break-words lg:text-base lg:leading-snug">
+                                                        <span className="block lg:text-brand-900">{String(item.traditionalText)}</span>
+                                                        {item.traditionalDetail ? <span className="mt-1 hidden text-sm text-slate-600 lg:block">{item.traditionalDetail}</span> : null}
+                                                    </dd>
+                                                </div>
+                                            );
+                                        })}
+                                    </dl>
                                 </div>
 
-                                {/* Mobile Semantic Key-Value Cards */}
-                                <ul
-                                    role="list"
-                                    id="why-us-mobile-comparison-carousel"
-                                    className="-mx-4 flex snap-x snap-mandatory items-stretch gap-6 overflow-x-auto px-4 touch-pan-x no-scrollbar md:hidden"
-                                    aria-label={t("caption")}
+                                {/* Right Card: Proactive Tax Strategy */}
+                                <div
+                                    data-testid="proactive-tax-card"
+                                    className="flex flex-col overflow-hidden rounded-2xl border-2 border-[#caa866] bg-[#fcfaf4] shadow-md lg:min-h-[28.75rem] lg:rounded-xl lg:border-gold-500"
                                 >
-                                    {resolvedRows.map((item, index) => {
-                                        const titleId = `why-us-card-title-${item.id}`;
-                                        const isFirstCard = index === 0;
-                                        return (
-                                            <li
-                                                key={item.id}
-                                                data-carousel-item
-                                                aria-labelledby={titleId}
-                                                className="w-[85vw] max-w-[340px] shrink-0 snap-center rounded-xl border border-slate-200 bg-white p-4"
-                                            >
-                                                <h3 id={titleId} className="font-heading text-base font-bold text-brand-900">
-                                                    {String(item.label)}
-                                                </h3>
-                                                <dl className="mt-4 space-y-4">
-                                                    <div className="rounded-xl bg-slate-100 p-4">
-                                                        <dt className={isFirstCard
-                                                            ? "text-xs font-bold uppercase tracking-[0.1em] text-slate-700"
-                                                            : "text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-700"
-                                                        }>
-                                                            {t("traditionalLabel")}
-                                                        </dt>
-                                                        <dd className="mt-1.5 break-words text-sm leading-relaxed text-slate-700">
-                                                            {String(item.traditionalText)}
-                                                        </dd>
+                                    <div className="bg-brand-950 px-6 py-5 text-white lg:bg-brand-500">
+                                        <div className="flex items-center justify-between gap-3">
+                                            <h3 className="font-heading text-sm sm:text-base font-bold uppercase tracking-wider text-white">
+                                                {t("proactiveLabel")}
+                                            </h3>
+                                            {showRecommendedBadge ? (
+                                                <span
+                                                    className="inline-flex items-center gap-1.5 rounded-full border border-gold-400/40 bg-brand-900 px-3 py-0.5 text-xs font-semibold text-gold-300"
+                                                    aria-label={`${t("proactiveLabel")} (${recommendedLabel})`}
+                                                >
+                                                    <Star className="h-3 w-3 fill-gold-400 text-gold-400" aria-hidden="true" />
+                                                    {recommendedLabel}
+                                                </span>
+                                            ) : null}
+                                        </div>
+                                        <p className="mt-1.5 text-xs sm:text-sm text-gold-200/80 font-normal">
+                                            {t("proactiveSubtitle")}
+                                        </p>
+                                    </div>
+                                    <dl className="flex flex-1 flex-col justify-between divide-y divide-[#ede2cb] p-3 sm:p-5 lg:px-4 lg:py-3">
+                                        {resolvedRows.map((item) => {
+                                            const Icon = item.optionalProactiveIcon ?? getDefaultRowIcon(item.id);
+                                            return (
+                                                <div key={item.id} className="flex items-start gap-4 p-3 sm:p-4 lg:gap-6 lg:px-2 lg:py-3">
+                                                    <div
+                                                        aria-hidden="true"
+                                                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100/90 text-amber-800 lg:h-12 lg:w-12"
+                                                    >
+                                                        <Icon className="h-4 w-4 stroke-[2] lg:h-5 lg:w-5" />
                                                     </div>
-                                                    <div className="rounded-xl bg-gold-50/70 p-4">
-                                                        <div className="flex items-center justify-between gap-2">
-                                                            <dt className={isFirstCard
-                                                                ? "text-xs font-bold uppercase tracking-[0.1em] text-gold-900"
-                                                                : "text-[11px] font-semibold uppercase tracking-[0.08em] text-gold-800"
-                                                            }>
-                                                                {t("proactiveLabel")}
-                                                            </dt>
-                                                            {showRecommendedBadge ? (
-                                                                <span className={isFirstCard
-                                                                    ? "inline-flex min-h-6 items-center rounded-full bg-gold-200/90 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-950"
-                                                                    : "inline-flex min-h-6 items-center rounded-full bg-gold-100 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-gold-900"
-                                                                }>
-                                                                    <span aria-hidden="true">{recommendedLabel}</span>
-                                                                    <span className="sr-only">{recommendedLabel}</span>
-                                                                </span>
-                                                            ) : null}
-                                                        </div>
-                                                        <dd className="mt-1.5 break-words text-sm leading-relaxed text-slate-800">
-                                                            {String(item.proactiveText)}
-                                                        </dd>
-                                                    </div>
-                                                </dl>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                                <MobileCarouselPagination
-                                    carouselId="why-us-mobile-comparison-carousel"
-                                    items={resolvedRows.map((item) => ({ id: item.id, label: String(item.label) }))}
-                                />
-                            </>
+                                                    <dt className="w-28 sm:w-36 shrink-0 pt-0.5 font-body text-xs font-bold uppercase tracking-wider text-slate-900 lg:min-h-11 lg:w-24 lg:border-r lg:border-gold-200 lg:pr-4">
+                                                        {String(item.label)}
+                                                    </dt>
+                                                    <dd className="flex-1 pt-0.5 text-xs sm:text-sm font-medium text-slate-800 leading-relaxed break-words lg:text-base lg:leading-snug">
+                                                        <span className="lg:hidden">{String(item.proactiveText)}</span>
+                                                        <span className="hidden lg:block">{String(item.desktopProactiveText ?? item.proactiveText)}</span>
+                                                        {item.proactiveDetail ? <span className="mt-1 hidden text-sm font-normal text-slate-700 lg:block">{item.proactiveDetail}</span> : null}
+                                                    </dd>
+                                                </div>
+                                            );
+                                        })}
+                                    </dl>
+                                </div>
+                            </div>
                         )}
                     </div>
 
-                    {/* Optional Evidence Module */}
+                    {/* Process / Evidence Module */}
                     {evidenceModule !== null && (
                         <WhyUsEvidenceModule
                             enabled={evidenceModule?.enabled ?? true}
                             variant={evidenceModule?.variant ?? "process_strip"}
                             eyebrow={evidenceModule?.eyebrow ?? t("evidence.eyebrow")}
+                            tagline={t("evidence.tagline")}
                             heading={evidenceModule?.heading ?? t("evidence.heading")}
                             items={
                                 evidenceModule?.items ?? [
                                     {
                                         id: "step-1",
+                                        stepEyebrow: t("evidence.step1.eyebrow"),
                                         label: t("evidence.step1.label"),
                                         body: t("evidence.step1.body"),
                                     },
                                     {
                                         id: "step-2",
+                                        stepEyebrow: t("evidence.step2.eyebrow"),
                                         label: t("evidence.step2.label"),
                                         body: t("evidence.step2.body"),
                                     },
                                     {
                                         id: "step-3",
+                                        stepEyebrow: t("evidence.step3.eyebrow"),
                                         label: t("evidence.step3.label"),
                                         body: t("evidence.step3.body"),
                                     },
@@ -239,12 +262,15 @@ export const WhyUsSection = async ({
                         />
                     )}
 
-                    {/* Desktop-only conversion area; mobile continues directly into the next named section. */}
+                    {/* Desktop/Tablet Conversion Banner */}
                     <div className="hidden md:contents">
                         <WhyUsConversionArea
                             conclusion={t("conclusion")}
                             primaryCtaText={t("primaryCta")}
                             secondaryCtaText={t("secondaryCta")}
+                            secondaryPreText={t("secondaryPreText")}
+                            eyebrow={t("bannerEyebrow")}
+                            subtitle={t("bannerSubtitle")}
                             primaryHref={primaryHref}
                             secondaryHref={secondaryHref}
                         />

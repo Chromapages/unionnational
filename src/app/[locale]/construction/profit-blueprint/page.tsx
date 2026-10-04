@@ -1,37 +1,38 @@
 import { Metadata } from "next";
-import { ArrowRight, CheckCircle2, ShieldCheck, Lock } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { CartSidebar } from "@/components/shop/CartSidebar";
-import { ConstructionBookSalesSection } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
+import { ConstructionBookSalesSection, type BookEdition } from "@/components/construction/profit-blueprint/ConstructionBookSalesSection";
 import { BlueprintFAQ } from "@/components/construction/profit-blueprint/BlueprintFAQ";
 import { ExitIntentChecklist } from "@/components/construction/profit-blueprint/ExitIntentChecklist";
 import { BlueprintMoreInfoForm } from "@/components/construction/profit-blueprint/BlueprintMoreInfoForm";
-import { MobileStickyCta } from "@/components/construction/profit-blueprint/MobileStickyCta";
 import { MathSection } from "@/components/construction/profit-blueprint/MathSection";
 import { BlueprintServicesAlternative } from "@/components/construction/profit-blueprint/BlueprintServicesAlternative";
 import HeroVideoEmbed from "@/components/construction/profit-blueprint/HeroVideoEmbed";
 import { PRODUCT_DETAIL_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/BlueprintAuthorBio";
-import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
 import { ServiceViewContent } from "@/components/seo/ServiceViewContent";
+import { CHECKOUT_PRODUCTS_QUERY, resolveCheckoutItem, type ProductCheckoutRecord } from "@/lib/shop/checkout";
+import { classifyFulfillment, normalizeEditionId } from "@/lib/shop/commerce";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
     const baseUrl = "https://unionnationaltax.com";
     const path = "/construction/profit-blueprint";
-    const canonicalUrl = locale === "es" ? `${baseUrl}/es${path}` : `${baseUrl}${path}`;
+    const canonicalUrl = `${baseUrl}/${locale}${path}`;
 
     const title = locale === "es"
         ? "Plan Para Generar Dinero en Empresas de Construcción | Guía de Costo de Trabajo y Control de Ganancias"
         : "Money-Making Blueprint for Construction Companies | Job Costing & Profit Control Guide";
 
     const description = locale === "es"
-        ? "Descargue el plan gratuito para contratistas de Union National Tax y aprenda cómo el costo de trabajo, el control del flujo de caja, la disciplina de estimación y la visibilidad de márgenes protegen las ganancias de las empresas de construcción."
-        : "Download the free contractor blueprint from Union National Tax and learn how job costing, cash flow control, estimating discipline, and margin visibility help construction companies protect profit.";
+        ? "Obtenga el plan para contratistas de Union National Tax y aprenda cómo el costo de trabajo, el control del flujo de caja, la disciplina de estimación y la visibilidad de márgenes protegen las ganancias de las empresas de construcción."
+        : "Get the contractor blueprint from Union National Tax and learn how job costing, cash flow control, estimating discipline, and margin visibility help construction companies protect profit.";
 
     return {
         title,
@@ -42,7 +43,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
         alternates: {
             canonical: canonicalUrl,
             languages: {
-                en: `${baseUrl}${path}`,
+                en: `${baseUrl}/en${path}`,
                 es: `${baseUrl}/es${path}`,
             },
         },
@@ -50,15 +51,12 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 }
 
 const FALLBACK_PRODUCT = {
-    _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
     title: {
         en: "The Money-Making Blueprint for Construction Companies",
         es: "El Plan Para Generar Dinero en Empresas de Construcción",
     },
     slug: "the-money-making-blueprint-for-construction-companies",
     imageUrl: "/images/og-construction.png",
-    price: 27,
-    compareAtPrice: 49,
     shortDescription: {
         en: "The ultimate implementation guide to job costing, cash flow control, and protecting your construction margins.",
         es: "La guía de implementación definitiva para el costo de trabajo, el control del flujo de efectivo y la protección de sus márgenes de construcción.",
@@ -69,7 +67,6 @@ const FALLBACK_PRODUCT = {
         es: "Edición para Contratistas",
     },
     category: "Financial Control",
-    rating: 5,
     author: {
         name: "Jason Astwood",
         role: "EA, FSCP, LUTCF",
@@ -80,105 +77,6 @@ const FALLBACK_PRODUCT = {
             es: "Jason Astwood ayuda a los propietarios de negocios rentables a conectar la estructura fiscal con el flujo de efectivo, la compensación y el patrimonio a largo plazo. Su proceso de asesoría está diseñado para propietarios que buscan claridad, control y decisiones más inteligentes antes de que llegue la temporada de impuestos.",
         },
     },
-    editions: [
-        {
-            _key: "bundle",
-            name: {
-                en: "Complete Bundle",
-                es: "Paquete Completo",
-            },
-            price: 79,
-            format: "bundle",
-            language: "en",
-            stripePriceId: "price_1TOlSoBBqB7ETKuVtDfASqwk",
-            stripeProductId: "prod_UNRJ66222da3Bv",
-            description: {
-                en: "Digital PDF + Physical Book + Audiobook + Bonus Templates.",
-                es: "PDF Digital + Libro Físico + Audiolibro + Plantillas Bonus.",
-            },
-        },
-        {
-            _key: "physical",
-            name: {
-                en: "Physical",
-                es: "Físico",
-            },
-            price: 39,
-            format: "physical",
-            language: "en",
-            stripePriceId: "price_1T2cpuBBqB7ETKuVPA63LBVd",
-            stripeProductId: "prod_U0I59FqHVgmIKe",
-            description: {
-                en: "Premium print edition.",
-                es: "Edición impresa de primera calidad.",
-            },
-        },
-        {
-            _key: "digital",
-            name: {
-                en: "Digital PDF",
-                es: "PDF Digital",
-            },
-            price: 27,
-            format: "digital",
-            language: "en",
-            stripePriceId: "price_1TOlYGBBqB7ETKuVjY3QWF1m",
-            stripeProductId: "prod_UNAGtZ3NgI4Aue",
-            description: {
-                en: "Instant digital download.",
-                es: "Descarga digital instantánea.",
-            },
-        },
-        {
-            _key: "audio",
-            name: {
-                en: "Audiobook",
-                es: "Audiolibro",
-            },
-            price: 27,
-            format: "audio",
-            language: "en",
-            stripePriceId: "price_1T2dAkBBqB7ETKuVZCP3OsnA",
-            stripeProductId: "prod_U0I8eAAAHeCBBA",
-            description: {
-                en: "Full audiobook edition for listening on the jobsite.",
-                es: "Audiolibro completo para escuchar en el sitio de trabajo.",
-            },
-        },
-        // TODO: replace placeholder Stripe IDs with real Spanish-locale Stripe product/price once published
-        // For now, only the Spanish Digital PDF edition is offered; bundle and physical will be added later
-        {
-            _key: "digital-es",
-            name: {
-                en: "Digital PDF (Spanish)",
-                es: "PDF Digital",
-            },
-            price: 27,
-            format: "digital",
-            language: "es",
-            stripePriceId: "price_1DIGITAL_ES_DIGITAL_ES",
-            stripeProductId: "prod_DIGITAL_ES_DIGITAL_ES",
-            description: {
-                en: "Instant digital download.",
-                es: "Descarga digital instantánea.",
-            },
-        },
-    ],
-    orderBump: {
-        _key: "strategy-call",
-        name: {
-            en: "30-Min Tax Strategy Call with Jason",
-            es: "Llamada de Estrategia Fiscal de 30 Minutos con Jason",
-        },
-        price: 97,
-        format: "service",
-        description: {
-            en: "Apply the blueprint to your business. 30 minutes with Jason, focused on your numbers.",
-            es: "Aplique el plan a su negocio. 30 minutos con Jason, enfocados en sus números.",
-        },
-        stripePriceId: "price_1STRATEGY_STRATEGY_STRATEGY",
-        stripeProductId: "prod_STRATEGY_STRATEGY_STRATEGY",
-    }
 };
 
 const FALLBACK_VIDEO_URL = "https://assets.cdn.filesafe.space/N5KQjySifAxlxhrrvY8g/media/69dae49fa4e6aa34cbdfcede.mp4";
@@ -201,18 +99,38 @@ const resolveLocalized = (value: unknown, locale: Locale): string | undefined =>
 export default async function ProfitBlueprintPage(props: { params: Promise<{ locale: string }> }) {
     const { locale: rawLocale } = await props.params;
     const locale: Locale = rawLocale === "es" ? "es" : "en";
+    const t = await getTranslations({ locale, namespace: "ConstructionBlueprint" });
+    const shopCopy = await getTranslations({ locale, namespace: "Shop.ProductPage" });
+    const footerCopy = await getTranslations({ locale, namespace: "Shop.Desktop.footer" });
 
     // Fetch construction book details from Sanity
     let product = null;
+    let catalogProduct: ProductCheckoutRecord | undefined;
     try {
-        const response = await sanityFetch({
-            query: PRODUCT_DETAIL_QUERY,
-            params: { slug: "the-money-making-blueprint-for-construction-companies", locale }
-        });
+        const [response, catalog] = await Promise.all([
+            sanityFetch({ query: PRODUCT_DETAIL_QUERY, params: { slug: "the-money-making-blueprint-for-construction-companies", locale } }),
+            sanityFetch({ query: CHECKOUT_PRODUCTS_QUERY, params: { slugs: ["the-money-making-blueprint-for-construction-companies"] } }),
+        ]);
         product = response?.data;
+        catalogProduct = (catalog?.data as ProductCheckoutRecord[] | null)?.find(record => record._id === product?._id);
     } catch (err) {
         console.error("Error fetching construction book product details:", err);
     }
+
+    const editions = (product?.editions || []).flatMap((edition: BookEdition) => {
+        if (!catalogProduct || !Number.isFinite(edition.price) || edition.price < 0) return [];
+        // A language-specific edition must have its own configured price; the generic map denotes the English offer.
+        if (edition.language === "es" && !/^price_[A-Za-z0-9]+$/.test(edition.stripePriceId || "")) return [];
+        const canonicalId = normalizeEditionId(catalogProduct._id, edition);
+        const resolved = resolveCheckoutItem(catalogProduct, {
+            productId: catalogProduct._id, slug: catalogProduct.slug, editionId: canonicalId, quantity: 1,
+        });
+        if (!resolved || resolved.fulfillmentType === "unknown" || resolved.fulfillmentType === "bundle") return [];
+        return [{ ...edition, _key: resolved.editionId || canonicalId, stripePriceId: resolved.stripePriceId }];
+    });
+    const localeEditions = editions.filter((edition: BookEdition) => !edition.language || edition.language === locale);
+    const selectedEdition = localeEditions.find((edition: BookEdition) => classifyFulfillment(edition.format, edition.name) === "physical") || localeEditions[0];
+    const canPurchase = !!product && !!selectedEdition;
 
     const productData = product ? {
         ...FALLBACK_PRODUCT,
@@ -231,8 +149,9 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             ...FALLBACK_PRODUCT.author,
             bioShort: resolveLocalized(FALLBACK_PRODUCT.author.bioShort, locale) || FALLBACK_PRODUCT.author.bioShort.en,
         },
-        editions: FALLBACK_PRODUCT.editions,
-        orderBump: product.orderBump || FALLBACK_PRODUCT.orderBump,
+        editions,
+        price: selectedEdition?.price,
+        orderBump: product.orderBump,
     } : {
         ...FALLBACK_PRODUCT,
         title: resolveLocalized(FALLBACK_PRODUCT.title, locale) || FALLBACK_PRODUCT.title.en,
@@ -244,57 +163,12 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
         },
     };
 
-    const testimonials = [
-        {
-            quote: "We were running 5% net margin, hit 12% in 4 months after applying the pricing and overhead formulas in Chapter 2. Made our annual profit target by September.",
-            name: "Dave K.",
-            company: "K-Con Concrete",
-            state: "TX",
-            revenue: "$2.4M",
-        },
-        {
-            quote: "Before this book, we had cash flow surprises every other month. The progressive billing workflow in Chapter 5 alone gave us back our weekends. Jason knows the trades.",
-            name: "Sarah L.",
-            company: "L&M Electrical",
-            state: "CO",
-            revenue: "$900K",
-        },
-        {
-            quote: "I was running 4% margin, hit 11% in 6 months using Jason's blueprint. The job costing template alone saved us $45k on our last commercial bid.",
-            name: "Mark T.",
-            company: "Astro Construction",
-            state: "AZ",
-            revenue: "$1.8M",
-        },
-        {
-            quote: "The S-Corp chapter paid for the book ten times over in year one. I had no idea I was overpaying in taxes by that much. The systems actually work.",
-            name: "Mike R.",
-            company: "Riley Framing",
-            state: "WA",
-            revenue: "$1.2M",
-        },
-        {
-            quote: "I took the assessment, then bought the book. Best $79 I ever spent. My markup calculator now prices every job at 18% minimum. No more losing bids.",
-            name: "Carlos M.",
-            company: "Mendoza Drywall",
-            state: "NM",
-            revenue: "$650K",
-        },
-        {
-            quote: "Cash flow used to keep me up at night. Now I know what's coming in 90 days. The cash flow forecasting chapter alone changed everything.",
-            name: "Jennifer S.",
-            company: "Summit HVAC",
-            state: "MT",
-            revenue: "$1.5M",
-        },
-    ];
-
     return (
         <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden pb-20 md:pb-0">
             <LocaleSwitcher className="fixed right-6 top-6 z-[1100] hidden min-h-11 items-center border-gold-500/50 bg-brand-900 px-4 shadow-lg shadow-brand-950/30 hover:border-gold-400 hover:bg-brand-800 md:inline-flex" />
             {/* Meta Pixel: ViewContent — fires once on page load for retargeting & funnel tracking */}
             <ServiceViewContent
-                serviceName="Money-Making Blueprint for Construction Companies"
+                serviceName={productData.title}
                 serviceId="construction-profit-blueprint"
             />
             <main id="main-content" className="flex-1">
@@ -314,29 +188,28 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                         <div className="order-last lg:order-first">
                             <h1 className="text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-black font-heading text-white leading-[1.05] mb-6 tracking-tight uppercase">
                                 <span className="block sm:hidden">
-                                    Stop Working for Free.
+                                    {t("heroLead")}
                                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black mt-1">
-                                        Put Margin in Every Bid.
+                                        {t("heroAccentMobile")}
                                     </span>
                                 </span>
                                 <span className="hidden sm:block">
-                                    Stop Working for Free.
+                                    {t("heroLead")}
                                     <span className="block text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic font-black mt-1">
-                                        The Blueprint That Puts Margin Back in Every Bid.
+                                        {t("heroAccentDesktop")}
                                     </span>
                                 </span>
                             </h1>
 
                             <p className="text-base sm:text-lg text-slate-300 mb-7 leading-relaxed max-w-xl font-light">
-                                The Money-Making Blueprint shows contractors exactly where profit disappears — and how to stop it.
+                                {t("heroBody")}
                             </p>
 
                             <ul className="space-y-3 mb-8">
                                 {[
-                                    "IRS-approved tax structure that saves contractors $20K/year",
-                                    "Stop losing money on bids — spot unprofitable jobs early",
-                                    "Cash flow forecasting to stop payroll surprises",
-                                    "Pricing discipline to protect your margins on every bid",
+                                    t("benefits.0"),
+                                    t("benefits.1"),
+                                    t("benefits.2"),
                                 ].map((item, i) => (
                                     <li key={i} className={i >= 2 ? "hidden sm:flex items-start gap-3 text-slate-300 text-sm sm:text-base" : "flex items-start gap-3 text-slate-300 text-sm sm:text-base"}>
                                         <CheckCircle2 size={18} className="text-gold-500 shrink-0 mt-0.5" />
@@ -345,41 +218,30 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                                 ))}
                             </ul>
 
-                            {/* Sleek Hero Testimonial Card — hidden on mobile to reduce height */}
-                            <div className="hidden sm:block bg-white/5 border border-white/10 rounded-2xl p-4 mb-7 max-w-xl">
-                                <p className="text-slate-200 text-sm italic leading-relaxed">
-                                    &ldquo;I was running 4% margin, hit 11% in 6 months using Jason&apos;s blueprint. The job costing template alone saved us $45k on our last commercial bid.&rdquo;
-                                </p>
-                                <div className="mt-3 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                                    <span>&mdash; Mark T., Astro Construction, AZ</span>
-                                    <span className="text-gold-500">★ ★ ★ ★ ★ ($1.8M Revenue)</span>
-                                </div>
-                            </div>
-
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
                                  <a
                                      id="hero-get-blueprint-link"
                                      href="#book-sales"
-                                     aria-label={locale === "es" ? "Obtener el Plan — $27" : "Get the Blueprint — $27"}
+                                     aria-label={canPurchase ? t("heroCtaWithPrice", { price: selectedEdition.price }) : shopCopy("purchaseUnavailable")}
                                      tabIndex={0}
                                      className="inline-flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-8 py-4 bg-gold-500 hover:bg-gold-600 active:scale-[0.98] active:bg-gold-600 text-white font-black uppercase tracking-wider rounded-full transition-all shadow-lg shadow-gold-500/30 w-full sm:w-auto text-center"
                                  >
                                      <span className="text-sm font-black flex items-center gap-1.5 justify-center">
-                                         {locale === "es" ? "Obtener el Plan" : "Get the Blueprint"}
-                                         <span className="inline sm:hidden">&nbsp;&mdash;&nbsp;$27</span>
+                                         {t("heroCta")}
+                                         {canPurchase && <span className="inline sm:hidden">&nbsp;&mdash;&nbsp;${selectedEdition.price}</span>}
                                          <ArrowRight size={16} className="shrink-0 sm:w-[18px] sm:h-[18px]" />
                                      </span>
                                      <span className="block sm:hidden text-[9px] font-bold text-white/80 uppercase tracking-widest leading-none mt-0.5">
-                                         {locale === "es" ? "Descarga PDF Instantánea" : "Instant PDF Download"}
+                                         {canPurchase ? resolveLocalized(selectedEdition.name, locale) : shopCopy("purchaseUnavailable")}
                                      </span>
                                  </a>
                              </div>
 
                             <div className="flex items-center gap-3 mt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                 <div className="h-px w-8 bg-gold-500/30" />
-                                <span>By Jason Astwood, EA · FSCP · LUTCF</span>
+                                <span>{t("byline")}</span>
                                 <span className="text-slate-600">·</span>
-                                <span>IRS Enrolled Agent · Licensed in all 50 states</span>
+                                <span>{t("credentials")}</span>
                             </div>
                         </div>
 
@@ -410,82 +272,12 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                 </div>
             </section>
 
-            {/* Trust Bar - instant credibility signal */}
-            <div className="bg-brand-900 border-b border-brand-800 py-4 overflow-hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    {/* Desktop View */}
-                    <div className="hidden sm:flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
-                        <div className="flex items-center gap-2">
-                            <span className="text-gold-500 font-black text-sm">★★★★★</span>
-                            <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
-                        </div>
-                        <div className="h-4 w-px bg-white/10" />
-                        <div className="flex items-center gap-2">
-                            <span className="text-gold-500 font-black text-xs">247</span>
-                            <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought This Month</span>
-                        </div>
-                        <div className="h-4 w-px bg-white/10" />
-                        <div className="flex items-center gap-2">
-                            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                            <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Money-Back Guarantee</span>
-                        </div>
-                        <div className="h-4 w-px bg-white/10" />
-                        <div className="flex items-center gap-2">
-                            <Lock className="w-4 h-4 text-white/40" />
-                            <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
-                        </div>
-                    </div>
-
-                    {/* Mobile View: Infinite Loop Marquee Carousel */}
-                    <div className="sm:hidden relative w-full overflow-hidden mask-gradient-x">
-                        <div className="flex gap-10 py-0.5 animate-scroll w-max whitespace-nowrap">
-                            {/* Original Set */}
-                            <div className="flex items-center gap-10 shrink-0">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-gold-500 font-black text-sm">★★★★★</span>
-                                    <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-gold-500 font-black text-xs">247</span>
-                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Guarantee</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Lock className="w-4 h-4 text-white/40" />
-                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
-                                </div>
-                            </div>
-
-                            {/* Duplicate Set for Seamless Loop */}
-                            <div className="flex items-center gap-10 shrink-0">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-gold-500 font-black text-sm">★★★★★</span>
-                                    <span className="text-white/80 text-xs font-bold uppercase tracking-wider">5.0 Rating</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-gold-500 font-black text-xs">247</span>
-                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Contractors Bought</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">30-Day Guarantee</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Lock className="w-4 h-4 text-white/40" />
-                                    <span className="text-white/60 text-xs font-bold uppercase tracking-wider">Secure Checkout</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {/* Book Sales Section - Buy Widget + Guarantee */}
-            <div>
-                <ConstructionBookSalesSection product={productData} />
+            <div id="book-sales">
+                {canPurchase ? <ConstructionBookSalesSection product={productData} /> : <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8" role="status">
+                    <p className="text-lg text-brand-900">{shopCopy("purchaseUnavailable")}</p>
+                    <Link href="/contact" className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand-900 underline underline-offset-4">{footerCopy("contact")}</Link>
+                </div>}
             </div>
 
             {/* Alternative path for contractors who want hands-on implementation support */}
@@ -524,93 +316,6 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
             <MathSection />
 
-            <section className="py-10 md:py-16 bg-slate-50 border-b border-slate-200">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <RevealOnScroll>
-                        <div className="text-center mb-8 sm:mb-12 max-w-3xl mx-auto">
-                            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-50 border border-gold-200/60 text-[9px] sm:px-4 sm:py-2 sm:text-[10px] font-black uppercase tracking-widest text-gold-700 mb-4 hover:scale-[1.02] active:scale-95 transition-all">
-                                <span className="text-gold-500">★★★★★</span>
-                                <span>
-                                    <span className="inline sm:hidden">
-                                        {locale === "es" ? "5.0 (247 opiniones)" : "5.0 (247 reviews)"}
-                                    </span>
-                                    <span className="hidden sm:inline">
-                                        {locale === "es" ? "5.0 · 247 contratistas" : "5.0 · 247 contractors"}
-                                    </span>
-                                </span>
-                            </span>
-                            <h2 className="text-2xl xs:text-3xl sm:text-4xl font-black font-heading text-brand-900 tracking-tighter sm:tracking-tight leading-[1.1] sm:leading-[1.05] uppercase">
-                                {locale === "es" ? "Lo Que Dicen Los Contratistas" : "What Contractors Are Saying"}
-                            </h2>
-                            <p className="text-slate-500 text-xs xs:text-sm max-w-md sm:max-w-xl mx-auto mt-4 px-4 leading-relaxed font-light">
-                                {locale === "es" 
-                                    ? "Contratistas reales. Resultados reales. Lea cómo las fórmulas del plan ayudaron a los dueños de empresas de construcción a proteger sus márgenes."
-                                    : "Real contractors. Real results. Read how the blueprint formulas helped trades owners protect their margins and grow their profits."}
-                            </p>
-                        </div>
-                    </RevealOnScroll>
-                    {/* Desktop & Tablet Grid View */}
-                    <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
-                        {testimonials.map((t, i) => (
-                            <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 relative shadow-sm flex flex-col gap-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
-                                        <span className="text-gold-700 font-black text-xs">
-                                            {t.name.split(" ").map(n => n[0]).join("")}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-bold text-brand-900">{t.name}</p>
-                                        <p className="text-[10px] text-slate-500">{t.company} · {t.state}</p>
-                                    </div>
-                                </div>
-                                <p className="text-slate-600 text-xs italic leading-relaxed flex-1">
-                                    &ldquo;{t.quote}&rdquo;
-                                </p>
-                                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500 border-t border-slate-100 pt-3">
-                                    <span className="text-gold-500">★ ★ ★ ★ ★</span>
-                                    <span>{t.revenue} Revenue</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Mobile Swiper/Carousel View */}
-                    <div className="block md:hidden px-2">
-                        <SwipeableCarousel
-                            slideClassName="w-[290px] xs:w-[320px] max-w-[85vw]"
-                            showArrows={false}
-                            showDots={true}
-                            gap={16}
-                        >
-                            {testimonials.map((t, i) => (
-                                <div key={i} className="bg-white p-5 rounded-2xl border border-slate-200 relative shadow-sm flex flex-col gap-4 h-full min-h-[230px] select-none text-left">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
-                                            <span className="text-gold-700 font-black text-xs">
-                                                {t.name.split(" ").map(n => n[0]).join("")}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-brand-900">{t.name}</p>
-                                            <p className="text-[10px] text-slate-500">{t.company} · {t.state}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-slate-600 text-xs italic leading-relaxed flex-1">
-                                        &ldquo;{t.quote}&rdquo;
-                                    </p>
-                                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500 border-t border-slate-100 pt-3">
-                                        <span className="text-gold-500">★ ★ ★ ★ ★</span>
-                                        <span>{t.revenue} Revenue</span>
-                                    </div>
-                                </div>
-                            ))}
-                        </SwipeableCarousel>
-                    </div>
-                </div>
-            </section>
-
-
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
 
@@ -627,7 +332,9 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             </main>
             <Footer />
             <CartSidebar />
-            <MobileStickyCta />
+            {canPurchase && <a href="#book-sales" className="fixed inset-x-4 bottom-4 z-40 flex min-h-14 items-center justify-center gap-3 rounded-full bg-brand-900 px-5 py-3 pb-[max(.75rem,env(safe-area-inset-bottom))] text-center font-bold text-gold-400 shadow-lg md:hidden">
+                {t("heroCtaWithPrice", { price: selectedEdition.price })}<ArrowRight className="size-4" aria-hidden="true" />
+            </a>}
         </div>
     );
 }

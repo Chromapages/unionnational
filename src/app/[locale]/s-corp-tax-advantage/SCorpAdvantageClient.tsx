@@ -191,8 +191,8 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                                     <div className="space-y-6">
                                         <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 group-hover:border-gold-500/30 transition-all">
                                             <div className="flex justify-between items-end mb-2">
-                                                <span className="text-xs text-slate-500 uppercase tracking-widest font-bold font-heading">Estimated Savings</span>
-                                                <span className="text-2xl font-bold text-gold-500 font-heading">$12,000+</span>
+                                                <span className="text-xs text-slate-500 uppercase tracking-widest font-bold font-body">Estimated Savings</span>
+                                                <span className="text-2xl font-bold text-gold-500 font-data tabular-nums">$12,000+</span>
                                             </div>
                                             <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                                                 <motion.div 
@@ -240,7 +240,7 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                         <div className="lg:col-span-6">
                             <RevealOnScroll>
                                 <div className="mb-6">
-                                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">
                                         The Structure Problem
                                     </span>
                                 </div>
@@ -286,7 +286,7 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                     <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
                         <RevealOnScroll>
                             <div className="mb-6">
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">
                                     Vertical Focus
                                 </span>
                             </div>
@@ -327,7 +327,7 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
                         <div className="p-8 lg:p-16 space-y-10">
                             <div className="space-y-4">
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">Candidate Criteria</span>
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">Candidate Criteria</span>
                                 <h3 className="text-3xl font-bold text-brand-900 font-heading tracking-tight">Elite Strategy Fit</h3>
                             </div>
                             <ul className="space-y-5">
@@ -368,7 +368,7 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                     <div className="text-center mb-16 lg:mb-20">
                         <RevealOnScroll>
                             <div className="mb-6">
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">The Roadmap</span>
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">The Roadmap</span>
                             </div>
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
                                 Phase-Based <span className="italic text-gold-500">Installation.</span>
@@ -404,7 +404,7 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                     <div className="text-center mb-16 lg:mb-20">
                         <RevealOnScroll>
                             <div className="mb-6">
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">Comparison</span>
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">Comparison</span>
                             </div>
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
                                 Institutional Strategy <br />
@@ -419,9 +419,9 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                                 <table className="w-full text-left border-collapse">
                                     <thead>
                                         <tr className="bg-brand-900 text-white">
-                                            <th className="p-6 lg:p-10 text-xs font-bold font-heading uppercase tracking-[0.2em] text-slate-400 border-r border-white/5">Focus Area</th>
-                                            <th className="p-6 lg:p-10 text-xs font-bold font-heading uppercase tracking-[0.2em] text-slate-400 border-r border-white/5">Generic Tax Prep</th>
-                                            <th className="p-6 lg:p-10 text-xs font-bold font-heading uppercase tracking-[0.2em] text-gold-500">S-Corp strategy</th>
+                                            <th className="p-6 lg:p-10 text-xs font-bold font-body uppercase tracking-[0.2em] text-slate-400 border-r border-white/5">Focus Area</th>
+                                            <th className="p-6 lg:p-10 text-xs font-bold font-body uppercase tracking-[0.2em] text-slate-400 border-r border-white/5">Generic Tax Prep</th>
+                                            <th className="p-6 lg:p-10 text-xs font-bold font-body uppercase tracking-[0.2em] text-gold-500">S-Corp strategy</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
@@ -451,7 +451,7 @@ export default function SCorpAdvantageClient({ service }: SCorpAdvantageClientPr
                     <div className="text-center mb-16 lg:mb-20">
                         <RevealOnScroll>
                             <div className="mb-6">
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">F.A.Q.</span>
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">F.A.Q.</span>
                             </div>
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-brand-900 font-heading leading-[1.1] mb-8">
                                 Honest <span className="italic text-gold-500">Answers.</span>

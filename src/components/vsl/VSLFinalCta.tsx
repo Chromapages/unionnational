@@ -21,7 +21,7 @@ export function VSLFinalCta({ headline, subtext, industry }: VSLFinalCtaProps) {
   };
 
   const defaultHeadline = `Ready to Resolve Your ${industryMap[industry] || "IRS Tax Debt"} Once and For All?`;
-  const defaultSubtext = "The first step is a 15-minute strategy call. We analyze your situation and tell you exactly what we can achieve. No pressure — just a plan.";
+  const defaultSubtext = "The first step is a 30-minute strategy call. We analyze your situation and tell you exactly what we can achieve. No pressure — just a plan.";
 
   return (
     <section className="py-24 md:py-40 bg-[#050A14] relative overflow-hidden border-t border-white/5">
@@ -36,7 +36,7 @@ export function VSLFinalCta({ headline, subtext, industry }: VSLFinalCtaProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="font-mono text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase mb-8">
+          <div className="font-body text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase mb-8">
             Final Step
           </div>
           <h2 className="text-4xl md:text-7xl font-black text-white font-heading mb-8 leading-[1.05] tracking-tighter">
@@ -63,7 +63,7 @@ export function VSLFinalCta({ headline, subtext, industry }: VSLFinalCtaProps) {
               </div>
               <div className="flex items-center gap-2.5">
                 <Clock className="w-5 h-5 text-emerald-500/60" />
-                15-MINUTE CALL
+                30-MINUTE CALL
               </div>
               <div className="flex items-center gap-2.5">
                 <Calendar className="w-5 h-5 text-emerald-500/60" />

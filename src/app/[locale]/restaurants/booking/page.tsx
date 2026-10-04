@@ -3,11 +3,16 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { X, CheckCircle2, Palmtree, Calendar } from "lucide-react";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
-export const metadata: Metadata = {
-    title: "VIP Booking: Restaurant Partner Program | Union National Tax",
-    description: "Schedule your Discovery Call to secure your Kitchen Command Center Partnership.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "VIP Booking: Restaurant Partner Program | Union National Tax",
+        description: "Schedule your Discovery Call to secure your Kitchen Command Center Partnership.",
+        alternates: localizedAlternates(locale, "/restaurants/booking"),
+    };
+}
 
 export default async function RestaurantBookingPage(props: { params: Promise<{ locale: string }> }) {
     await props.params;
@@ -39,7 +44,7 @@ export default async function RestaurantBookingPage(props: { params: Promise<{ l
                 </div>
             </div>
 
-            <main className="flex-grow pt-24 pb-20 px-4 sm:px-6 relative overflow-hidden">
+            <main id="main-content" tabIndex={-1} className="flex-grow pt-24 pb-20 px-4 sm:px-6 relative overflow-hidden">
                 {/* Background Ambient Glow */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 

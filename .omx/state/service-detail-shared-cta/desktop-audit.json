@@ -1,0 +1,226 @@
+{
+  "home": {
+    "background": "rgb(251, 249, 245)",
+    "border": "rgb(230, 225, 216)",
+    "heading": "You know the options. Now clarify the next step.",
+    "headingFont": "Outfit, \"Outfit Fallback\", sans-serif",
+    "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+    "radius": "14px",
+    "trustItems": 3
+  },
+  "before": [
+    {
+      "background": "rgb(5, 26, 24)",
+      "heading": "Ready to evaluate your S-Corp opportunity?",
+      "href": "/en/book",
+      "path": "/en/s-corp-tax-advantage"
+    },
+    {
+      "background": "rgb(5, 26, 24)",
+      "heading": "Ready to make tax strategy a year-round advantage?",
+      "href": "/en/book",
+      "path": "/en/tax-planning"
+    },
+    {
+      "background": "rgb(5, 26, 24)",
+      "heading": "See what your books have been hiding.",
+      "href": "/en/contact",
+      "path": "/en/strategic-bookkeeping"
+    },
+    {
+      "background": "rgb(5, 26, 24)",
+      "heading": "Ready to lead with greater financial clarity?",
+      "href": "/en/book",
+      "path": "/en/fractional-cfo"
+    },
+    {
+      "background": "rgb(5, 26, 24)",
+      "heading": "Ready for a filing process you can trust?",
+      "href": "/en/book",
+      "path": "/en/tax-preparation-and-filing"
+    },
+    {
+      "background": "rgb(5, 26, 24)",
+      "heading": "Ready to launch on the right foundation?",
+      "href": "/en/book",
+      "path": "/en/new-business-formation"
+    }
+  ],
+  "after": [
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": true,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Fs-corp-tax-advantage",
+      "instances": 1,
+      "label": "Book an S-Corp Evaluation",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/s-corp-tax-advantage",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": false,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Ftax-planning",
+      "instances": 1,
+      "label": "Book a Strategy Audit",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/tax-planning",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": false,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Fstrategic-bookkeeping",
+      "instances": 1,
+      "label": "Schedule your strategy session",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/strategic-bookkeeping",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": false,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Ffractional-cfo",
+      "instances": 1,
+      "label": "Book a CFO Strategy Call",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/fractional-cfo",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": false,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Ftax-preparation-and-filing",
+      "instances": 1,
+      "label": "Book a Filing Consultation",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/tax-preparation-and-filing",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": false,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Fnew-business-formation",
+      "instances": 1,
+      "label": "Book a Formation Consultation",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/new-business-formation",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "disclaimer": false,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Fpayroll-services",
+      "instances": 1,
+      "label": "Book a Payroll Consultation",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/payroll-services",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Findustries%2Fconstruction",
+      "instances": 1,
+      "label": "Book a Strategy Call",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/industries/construction",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Findustries%2Frestaurants",
+      "instances": 1,
+      "label": "Book a Strategy Call",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/industries/restaurants",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Findustries%2Freal-estate",
+      "instances": 1,
+      "label": "Book a Strategy Call",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/industries/real-estate",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Findustries%2Fe-commerce",
+      "instances": 1,
+      "label": "Book a Strategy Call",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/en/industries/e-commerce",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    },
+    {
+      "background": "rgb(251, 249, 245)",
+      "border": "rgb(230, 225, 216)",
+      "buttonHeight": 56,
+      "heading": "You know the options. Now clarify the next step.",
+      "href": "/en/book?returnTo=%2Fscorp-advantage",
+      "instances": 1,
+      "label": "Book an S-Corp Evaluation",
+      "panelClass": "grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6",
+      "path": "/scorp-advantage",
+      "radius": "14px",
+      "trustItems": 3,
+      "matchesHome": true
+    }
+  ]
+}

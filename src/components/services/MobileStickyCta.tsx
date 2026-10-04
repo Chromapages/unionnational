@@ -1,28 +1,31 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 
 type MobileStickyCtaProps = {
     anchorId: string;
     avoidId?: string;
+    endId?: string;
     href: string;
     label: string;
 };
 
-export function MobileStickyCta({ anchorId, avoidId, href, label }: MobileStickyCtaProps) {
+export function MobileStickyCta({ anchorId, avoidId, endId, href, label }: MobileStickyCtaProps) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         const anchor = document.getElementById(anchorId);
         const avoid = avoidId ? document.getElementById(avoidId) : null;
         const footer = document.getElementById("site-footer");
+        const end = endId ? document.getElementById(endId) : null;
         if (!anchor) return;
 
         let anchorIsVisible = true;
         let avoidIsVisible = false;
         let footerIsVisible = false;
-        const updateVisibility = () => setIsVisible(!anchorIsVisible && !avoidIsVisible && !footerIsVisible);
+        let endIsVisible = false;
+        const updateVisibility = () => setIsVisible(!anchorIsVisible && !avoidIsVisible && !footerIsVisible && !endIsVisible);
 
         const anchorObserver = new IntersectionObserver(([entry]) => {
             anchorIsVisible = entry.isIntersecting;
@@ -41,13 +44,19 @@ export function MobileStickyCta({ anchorId, avoidId, href, label }: MobileSticky
                 updateVisibility();
             }, { rootMargin: "0px 0px -72px" });
         if (footer) footerObserver.observe(footer);
+        const endObserver = new IntersectionObserver(([entry]) => {
+            endIsVisible = entry.isIntersecting;
+            updateVisibility();
+        });
+        if (end) endObserver.observe(end);
 
         return () => {
             anchorObserver.disconnect();
             avoidObserver.disconnect();
             footerObserver.disconnect();
+            endObserver.disconnect();
         };
-    }, [anchorId, avoidId]);
+    }, [anchorId, avoidId, endId]);
 
     return (
         <div data-mobile-sticky-cta className={`fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-brand-950/95 p-3 backdrop-blur md:hidden ${isVisible ? "flex" : "hidden"}`}>

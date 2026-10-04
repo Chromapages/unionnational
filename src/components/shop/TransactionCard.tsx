@@ -54,7 +54,7 @@ export function TransactionCard({
             <div className="flex items-end justify-between gap-3">
                 <div>
                     <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{t("strategicAsset")}</div>
-                    <div className="mt-2 text-4xl font-bold text-brand-900 font-heading tracking-tight">{formatPrice(price)}</div>
+                    <div className="mt-2 text-4xl font-bold text-brand-900 font-data tabular-nums tracking-tight">{formatPrice(price)}</div>
                 </div>
                 {compareAtPrice && (
                     <div className="text-right">

@@ -19,6 +19,7 @@ export interface BookTestimonial {
 export interface BookSEO {
     metaTitle?: string;
     metaDescription?: string;
+    noIndex?: boolean;
     openGraphImage?: {
         asset: { _ref: string };
     };

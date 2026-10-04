@@ -96,7 +96,7 @@ export function FooterDisclaimerModal({ label, closeLabel, content }: FooterDisc
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="footer-disclaimer-title"
-                        className="relative z-10 w-full max-w-xl rounded-2xl border border-white/10 bg-brand-900 p-6 shadow-2xl sm:p-8"
+                        className="relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-2xl border border-white/10 bg-brand-900 p-6 shadow-2xl sm:p-8"
                     >
                         <div className="flex items-start justify-between gap-4">
                             <h2 id="footer-disclaimer-title" className="font-heading text-2xl font-bold text-white">

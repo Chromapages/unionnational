@@ -1,0 +1,105 @@
+{
+  "caveat": "Local production build in Chrome; CRM/analytics/media hosts blocked except Sanity CDN; one load per route; no agreed budgets or field Core Web Vitals.",
+  "traces": [
+    {
+      "path": "/en",
+      "width": 390,
+      "status": 200,
+      "ttfbMs": 372,
+      "loadMs": 791,
+      "fcpMs": 1196,
+      "lcpMs": 1196,
+      "resourceTransferBytes": 676518
+    },
+    {
+      "path": "/en/services",
+      "width": 390,
+      "status": 200,
+      "ttfbMs": 41,
+      "loadMs": 362,
+      "fcpMs": 548,
+      "lcpMs": 616,
+      "resourceTransferBytes": 934035
+    },
+    {
+      "path": "/en/resources",
+      "width": 390,
+      "status": 200,
+      "ttfbMs": 54,
+      "loadMs": 436,
+      "fcpMs": 688,
+      "lcpMs": 728,
+      "resourceTransferBytes": 1173640
+    },
+    {
+      "path": "/en/shop",
+      "width": 390,
+      "status": 200,
+      "ttfbMs": 42,
+      "loadMs": 490,
+      "fcpMs": 760,
+      "lcpMs": 760,
+      "resourceTransferBytes": 728133
+    },
+    {
+      "path": "/en/book",
+      "width": 390,
+      "status": 200,
+      "ttfbMs": 34,
+      "loadMs": 355,
+      "fcpMs": 140,
+      "lcpMs": 140,
+      "resourceTransferBytes": 825115
+    },
+    {
+      "path": "/en",
+      "width": 1280,
+      "status": 200,
+      "ttfbMs": 36,
+      "loadMs": 346,
+      "fcpMs": 200,
+      "lcpMs": 200,
+      "resourceTransferBytes": 864174
+    },
+    {
+      "path": "/en/services",
+      "width": 1280,
+      "status": 200,
+      "ttfbMs": 33,
+      "loadMs": 289,
+      "fcpMs": 184,
+      "lcpMs": 240,
+      "resourceTransferBytes": 936056
+    },
+    {
+      "path": "/en/resources",
+      "width": 1280,
+      "status": 200,
+      "ttfbMs": 53,
+      "loadMs": 394,
+      "fcpMs": 316,
+      "lcpMs": 364,
+      "resourceTransferBytes": 1271994
+    },
+    {
+      "path": "/en/shop",
+      "width": 1280,
+      "status": 200,
+      "ttfbMs": 44,
+      "loadMs": 926,
+      "fcpMs": 192,
+      "lcpMs": 936,
+      "resourceTransferBytes": 1122775
+    },
+    {
+      "path": "/en/book",
+      "width": 1280,
+      "status": 200,
+      "ttfbMs": 30,
+      "loadMs": 340,
+      "fcpMs": 152,
+      "lcpMs": 224,
+      "resourceTransferBytes": 921853
+    }
+  ]
+}

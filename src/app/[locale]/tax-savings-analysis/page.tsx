@@ -5,23 +5,14 @@ import { ArrowRight, Hammer, Utensils, Building2, TrendingUp, ShieldCheck, Clock
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
-    const baseUrl = "https://unionnationaltax.com";
-    const path = "/tax-savings-analysis";
-    const canonicalUrl = locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
-
     return {
         title: "Free Tax Savings Analysis | Union National Tax",
         description: "Get a free, industry-specific Tax Savings Analysis. Discover unclaimed deductions and optimize your business structure.",
-        alternates: {
-            canonical: canonicalUrl,
-            languages: {
-                en: `${baseUrl}${path}`,
-                es: `${baseUrl}/es${path}`,
-            },
-        },
+        alternates: localizedAlternates(locale, "/tax-savings-analysis"),
     };
 }
 

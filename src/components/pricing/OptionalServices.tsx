@@ -184,7 +184,7 @@ function ServiceModal({ service, isOpen, onClose }: ServiceModalProps) {
 
                                 {/* Pricing */}
                                 <div className="flex items-baseline gap-2 mb-8 p-4 bg-brand-50/50 rounded-xl border border-brand-100">
-                                    <span className="text-3xl font-bold text-brand-900 font-heading">
+                                    <span className="text-3xl font-bold text-brand-900 font-data tabular-nums">
                                         {service.price}
                                     </span>
                                     {service.billingPeriod && (
@@ -278,7 +278,7 @@ function ServiceCard({ service, onClick }: ServiceCardProps) {
             {/* Footer: Price */}
             <div className="pt-6 border-t border-zinc-100 mt-auto relative z-10">
                 <div className="flex items-baseline gap-1.5 flex-wrap">
-                    <span className="text-2xl font-bold text-brand-900 font-heading">
+                    <span className="text-2xl font-bold text-brand-900 font-data tabular-nums">
                         {service.price}
                     </span>
                     {service.billingPeriod && (

@@ -97,8 +97,8 @@ export function SavingsEstimatorForm({ onSubmit, isLoading }: SavingsEstimatorFo
             }
         }
 
-        if (contentStep === 3 && formData.estimatedNetProfit < 0) {
-            return "Estimated net profit must be zero or higher.";
+        if (!Number.isFinite(formData.estimatedNetProfit) || formData.estimatedNetProfit < 0 || formData.estimatedNetProfit > 1000000) {
+            return "Estimated net profit must be between $0 and $1,000,000.";
         }
 
         return "";

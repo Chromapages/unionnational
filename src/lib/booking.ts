@@ -6,6 +6,12 @@ import { publicEnv } from "@/lib/config/env";
  */
 export const BOOKING_ROUTE = "/book";
 
+export function normalizeBookingReturnTo(value?: string): string | null {
+    if (!value || !/^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+)*)?\/?(?:#[a-z0-9_-]+)?$/i.test(value)) return null;
+    const path = value.replace(/^\/(?:en|es)(?=\/|#|$)/, "") || "/";
+    return /^\/book(?:\/|#|$)/.test(path) ? null : path;
+}
+
 export function getBookingCtaText(localizedText: string | null | undefined, fallbackText: string) {
     return localizedText?.trim() || fallbackText;
 }

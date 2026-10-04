@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { Check, X } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default async function ConstructionDownsellPage() {
     return (
@@ -22,7 +25,7 @@ export default async function ConstructionDownsellPage() {
                 </Link>
             </div>
 
-            <main className="flex-grow flex flex-col items-center justify-center p-6 relative z-10 text-center">
+            <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col items-center justify-center p-6 relative z-10 text-center">
 
                 <div className="max-w-xl w-full space-y-12">
 

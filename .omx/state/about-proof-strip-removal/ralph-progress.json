@@ -1,0 +1,9 @@
+{
+  "score": 98,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Crossed-out proof strip and unused rendering props removed. EN/ES browser inspection confirms founder immediately follows the hero, with headline retained and no horizontal overflow.",
+  "next_actions": []
+}

@@ -1,0 +1,8 @@
+{
+  "score": 96,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "The original CMS clip is restored in the right hero column on desktop and below the copy on smaller screens, with a stable 16:9 frame. Both locales pass six-width and enlarged-text geometry checks, pause/resume and sound controls, one video-start event, and localized media-error fallback. The sound shortcut appears only when its handlers are ready."
+}

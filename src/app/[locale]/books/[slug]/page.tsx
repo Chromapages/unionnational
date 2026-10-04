@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import BookLandingClient from "@/components/books/BookLandingClient";
 import { Book } from "@/types/book";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 60;
 
@@ -34,12 +35,12 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     if (!typedBook) return { title: "Book Not Found" };
 
     const { seo } = typedBook;
-    const metaTitle = seo?.metaTitle || `${typedBook.title} — Free Download | Union National Tax`;
+    const metaTitle = seo?.metaTitle || `${typedBook.title} — Free Download`;
     const metaDescription = seo?.metaDescription || typedBook.shortDescription || `Get your free copy of ${typedBook.title} and start building real tax strategy.`;
 
     let ogImageUrl = "";
     if (seo?.openGraphImage?.asset) {
-        ogImageUrl = `https://cdn.sanity.io/images/production/${seo.openGraphImage.asset._ref.replace("image-", "").replace("-png", ".png").replace("-jpg", ".jpg")}`;
+        ogImageUrl = urlFor(seo.openGraphImage).width(1200).height(630).url();
     } else {
         const ogUrl = new URL(`https://unionnationaltax.com/api/og`);
         ogUrl.searchParams.set("title", typedBook.title);
@@ -48,14 +49,23 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
         ogImageUrl = ogUrl.toString();
     }
 
+    const canonicalUrl = `https://unionnationaltax.com/${locale}/books/${slug}`;
     return {
         title: metaTitle,
         description: metaDescription,
+        ...(seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
+        alternates: {
+            canonical: canonicalUrl,
+            languages: {
+                en: `https://unionnationaltax.com/en/books/${slug}`,
+                es: `https://unionnationaltax.com/es/books/${slug}`,
+            },
+        },
         openGraph: {
             title: seo?.metaTitle || `${typedBook.title} — Free Download`,
             description: metaDescription,
             type: "article",
-            url: `https://unionnationaltax.com/books/${slug}`,
+            url: canonicalUrl,
             images: [
                 {
                     url: ogImageUrl,

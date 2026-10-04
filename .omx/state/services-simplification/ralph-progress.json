@@ -1,0 +1,11 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Manual EN/ES desktop and mobile review passed: one problem selector, preserved recommendation routes, keyboard navigation, exclusive service and FAQ disclosures, aligned annual prices, clear Foundation filing scope, qualified Growth hotel benefit, and working booking navigation. Final mobile tabs fit; secondary text contrast measures 7.63:1 on pale green. No body overflow or console errors in the final preview. Automated suites were not run under the workspace instruction.",
+  "next_actions": [],
+  "completed_at": "2026-09-30T22:00:22.8666983Z"
+}

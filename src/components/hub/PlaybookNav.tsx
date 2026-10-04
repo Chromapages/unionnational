@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ChevronRight, Lock, BookOpen } from "lucide-react";
 import { extractString } from "@/lib/utils";
@@ -20,16 +19,16 @@ interface PlaybookNavProps {
     currentChapterSlug?: string;
     className?: string;
     locale: string;
+    basePath?: string;
 }
 
-export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, className, locale }: PlaybookNavProps) {
-    const pathname = usePathname();
+export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, className, locale, basePath = "/hub/s-corp-playbook" }: PlaybookNavProps) {
 
     return (
         <nav className={cn("rounded-2xl border border-white/10 bg-brand-950/60 p-6", className)}>
             <div className="mb-6">
                 <Link
-                    href="/hub/s-corp-playbook"
+                    href={`/${locale}${basePath}`}
                     className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gold-400 transition-colors hover:text-gold-300"
                 >
                     <BookOpen className="h-4 w-4" />
@@ -38,9 +37,9 @@ export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, class
             </div>
 
             <div className="space-y-1">
-                {chapters.map((chapter, index) => {
+                {chapters.map((chapter) => {
                     const isActive = currentChapterSlug === chapter.slug;
-                    const chapterHref = `/hub/s-corp-playbook/${chapter.slug}`;
+                    const chapterHref = `/${locale}${basePath}/${encodeURIComponent(chapter.slug)}`;
 
                     return (
                         <Link
@@ -82,7 +81,7 @@ export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, class
 
             <div className="mt-6 pt-6 border-t border-white/10">
                 <p className="text-xs text-white/50">
-                    {chapters.length} chapters • Complete guide
+                    {locale === "es" ? `${chapters.length} capítulos • Guía completa` : `${chapters.length} chapters • Complete guide`}
                 </p>
             </div>
         </nav>

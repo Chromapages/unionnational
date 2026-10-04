@@ -1,0 +1,14 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "CMS article thumbnails use text-heavy illustrations while the concept shows mostly photographs; keeping the live article art preserves content identity.",
+    "The reference's resource counts exceed the 47 items actually available in this catalog.",
+    "The updates form opens a prefilled email request because this project has no newsletter subscription endpoint."
+  ],
+  "suggestions": [],
+  "reasoning": "The dark resource hero, filters, featured cards, 3-column article grid, pagination, and updates band closely match the reference. English and Spanish desktop views render at 1280px and 1440px without overflow or page errors; search, topic/format filters, list view, sorting, and pagination work with live content.",
+  "next_actions": []
+}

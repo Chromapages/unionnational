@@ -7,6 +7,7 @@ import { EstimatorResultsClient } from "@/components/scorp/EstimatorResultsClien
 export const metadata: Metadata = {
     title: "Your S-Corp Savings Estimate | Union National Tax",
     description: "Review your personalized S-Corp savings estimate and the next steps for an advisory-led evaluation.",
+    robots: { index: false, follow: false },
 };
 
 export default function SCorpEstimatorResultsPage() {

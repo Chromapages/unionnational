@@ -10,6 +10,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { ArrowRight, BookOpen, FileText } from "lucide-react";
 import { IndustryVertical, PlaybookChapter, Playbook } from "@/types/sanity";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export const revalidate = 60;
 
@@ -33,6 +34,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     return {
         title: `${typedIndustry.title} | Industry Guides`,
         description: typedIndustry.description,
+        ...(typedIndustry.seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
+        alternates: localizedAlternates(locale, `/hub/industries/${slug}`),
     };
 }
 

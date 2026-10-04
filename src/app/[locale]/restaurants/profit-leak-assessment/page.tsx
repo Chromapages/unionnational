@@ -14,16 +14,13 @@ import {
     DollarSign,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export async function generateMetadata(props: {
     params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
     const { locale } = await props.params;
     const baseUrl = "https://unionnationaltax.com";
-    const path = "/restaurants/profit-leak-assessment";
-    const canonicalUrl =
-        locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
-
     return {
         title: "Restaurant Profit Leak Assessment | Union National Tax",
         description:
@@ -31,13 +28,7 @@ export async function generateMetadata(props: {
         openGraph: {
             images: [`${baseUrl}/images/og-restaurant.png`],
         },
-        alternates: {
-            canonical: canonicalUrl,
-            languages: {
-                en: `${baseUrl}${path}`,
-                es: `${baseUrl}/es${path}`,
-            },
-        },
+        alternates: localizedAlternates(locale, "/restaurants/profit-leak-assessment"),
     };
 }
 
@@ -82,7 +73,7 @@ export default async function RestaurantProfitLeakAssessmentPage() {
 
             <div className="flex-1">
                 {/* Hero Section */}
-                <section className="relative pt-24 pb-20 lg:pt-32 lg:pb-32 overflow-hidden bg-brand-950">
+            <section id="main-content" tabIndex={-1} className="relative pt-24 pb-20 lg:pt-32 lg:pb-32 overflow-hidden bg-brand-950">
                     <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
                         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-gold-500 rounded-full blur-[120px]" />
                         <div className="absolute bottom-[0%] left-[-10%] w-[500px] h-[500px] bg-brand-500 rounded-full blur-[100px]" />

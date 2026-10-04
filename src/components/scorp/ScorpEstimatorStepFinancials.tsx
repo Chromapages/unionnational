@@ -4,8 +4,22 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { ScorpEstimatorInput } from "@/lib/scorp/schema";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import type { KeyboardEvent } from "react";
 
 type OptionDef = { value: string; label: string };
+
+function handleRadioKeyDown(event: KeyboardEvent<HTMLButtonElement>, options: string[], index: number, onSelect: (value: string) => void) {
+    let nextIndex: number;
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % options.length;
+    else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index - 1 + options.length) % options.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = options.length - 1;
+    else return;
+
+    event.preventDefault();
+    onSelect(options[nextIndex]);
+    event.currentTarget.closest('[role="radiogroup"]')?.querySelectorAll<HTMLButtonElement>('[role="radio"]')[nextIndex]?.focus();
+}
 
 function OptionGrid({
     label,
@@ -23,16 +37,21 @@ function OptionGrid({
     onSelect: (fieldName: keyof ScorpEstimatorInput, value: string) => void;
 }) {
     const labelId = `${fieldName}_label`;
+    const errorId = `${fieldName}_error`;
+    const tabStop = Math.max(0, options.findIndex(option => option.value === currentValue));
     return (
-        <div className="space-y-4" role="radiogroup" aria-labelledby={labelId}>
+        <div className="space-y-4" role="radiogroup" aria-labelledby={labelId} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined}>
             <label id={labelId} className="text-sm font-bold text-brand-500 uppercase tracking-wider block">{label}</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {options.map((opt) => (
+                {options.map((opt, index) => (
                     <button
                         key={opt.value}
                         type="button"
                         role="radio"
                         aria-checked={currentValue === opt.value}
+                        tabIndex={index === tabStop ? 0 : -1}
+                        aria-describedby={error ? errorId : undefined}
+                        onKeyDown={event => handleRadioKeyDown(event, options.map(option => option.value), index, value => onSelect(fieldName, value))}
                         onClick={() => onSelect(fieldName, opt.value)}
                         className={cn(
                             "text-left px-5 py-4 rounded-xl border transition-all font-body text-sm",
@@ -73,6 +92,8 @@ const READINESS_LEVELS = [
     { value: "HIGH", label: "Immediate Implementation", desc: "Ready to implement now" }
 ];
 
+const PAYROLL_OPTIONS = ["RUNNING_PAYROLL", "NOT_RUNNING_PAYROLL", "NOT_SURE"];
+
 const PAIN_POINTS = [
     { value: "OVERPAYING_TAXES", label: "Overpaying Taxes" },
     { value: "ENTITY_STRUCTURE_CONFUSION", label: "Structure Confusion" },
@@ -98,6 +119,8 @@ export const ScorpEstimatorStepFinancials = () => {
             shouldTouch: true
         });
     };
+    const payrollTabStop = Math.max(0, PAYROLL_OPTIONS.indexOf(currentPayroll));
+    const readinessTabStop = Math.max(0, READINESS_LEVELS.findIndex(level => level.value === currentReadiness));
 
     return (
         <motion.div
@@ -125,15 +148,18 @@ export const ScorpEstimatorStepFinancials = () => {
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-4" role="radiogroup" aria-labelledby="payroll_label">
+                <div className="space-y-4" role="radiogroup" aria-labelledby="payroll_label" aria-invalid={Boolean(errors.current_payroll_status)} aria-describedby={errors.current_payroll_status ? "current_payroll_status_error" : undefined}>
                     <label id="payroll_label" className="text-sm font-bold text-brand-500 uppercase tracking-wider block">Currently Running Payroll?</label>
                     <div className="flex flex-col sm:flex-row gap-3">
-                        {["RUNNING_PAYROLL", "NOT_RUNNING_PAYROLL", "NOT_SURE"].map((val) => (
+                        {PAYROLL_OPTIONS.map((val, index) => (
                             <button
                                 key={val}
                                 type="button"
                                 role="radio"
                                 aria-checked={currentPayroll === val}
+                                tabIndex={index === payrollTabStop ? 0 : -1}
+                                aria-describedby={errors.current_payroll_status ? "current_payroll_status_error" : undefined}
+                                onKeyDown={event => handleRadioKeyDown(event, PAYROLL_OPTIONS, index, value => handleSelect("current_payroll_status", value))}
                                 onClick={() => handleSelect("current_payroll_status", val)}
                                 className={cn(
                                     "flex-1 px-4 py-4 rounded-xl border transition-all font-body text-[10px] font-bold leading-tight",
@@ -146,6 +172,7 @@ export const ScorpEstimatorStepFinancials = () => {
                             </button>
                         ))}
                     </div>
+                    {errors.current_payroll_status && <p id="current_payroll_status_error" className="text-red-500 text-xs font-medium">{errors.current_payroll_status.message}</p>}
                 </div>
 
                 <div className="space-y-4">
@@ -164,15 +191,18 @@ export const ScorpEstimatorStepFinancials = () => {
                 </div>
             </div>
 
-            <div className="space-y-4" role="radiogroup" aria-labelledby="readiness_label">
+            <div className="space-y-4" role="radiogroup" aria-labelledby="readiness_label" aria-invalid={Boolean(errors.tax_payroll_readiness)} aria-describedby={errors.tax_payroll_readiness ? "tax_payroll_readiness_error" : undefined}>
                 <label id="readiness_label" className="text-sm font-bold text-brand-500 uppercase tracking-wider block">Implementation Readiness</label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {READINESS_LEVELS.map((level) => (
+                    {READINESS_LEVELS.map((level, index) => (
                         <button
                             key={level.value}
                             type="button"
                             role="radio"
                             aria-checked={currentReadiness === level.value}
+                            tabIndex={index === readinessTabStop ? 0 : -1}
+                            aria-describedby={errors.tax_payroll_readiness ? "tax_payroll_readiness_error" : undefined}
+                            onKeyDown={event => handleRadioKeyDown(event, READINESS_LEVELS.map(option => option.value), index, value => handleSelect("tax_payroll_readiness", value))}
                             onClick={() => handleSelect("tax_payroll_readiness", level.value)}
                             className={cn(
                                 "text-left p-6 rounded-2xl border transition-all font-body group",
@@ -191,6 +221,7 @@ export const ScorpEstimatorStepFinancials = () => {
                         </button>
                     ))}
                 </div>
+                {errors.tax_payroll_readiness && <p id="tax_payroll_readiness_error" className="text-red-500 text-xs font-medium">{errors.tax_payroll_readiness.message}</p>}
             </div>
         </motion.div>
     );

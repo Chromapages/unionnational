@@ -19,7 +19,7 @@ export function PricingTierCard({ tier, includes, price, isHighlighted = false }
             <p className={`mt-4 min-h-24 font-light leading-relaxed ${isHighlighted ? "text-slate-600" : "text-slate-300"}`}>{includes}</p>
             <div className={`mt-8 border-t pt-6 ${isHighlighted ? "border-slate-200" : "border-white/10"}`}>
                 <p className={`text-[10px] font-black uppercase tracking-widest ${isHighlighted ? "text-gold-700" : "text-gold-400"}`}>Investment</p>
-                <p className={`mt-2 font-heading text-2xl font-bold ${isHighlighted ? "text-brand-950" : "text-white"}`}>{price}</p>
+                <p className={`mt-2 font-data tabular-nums text-2xl font-bold ${isHighlighted ? "text-brand-950" : "text-white"}`}>{price}</p>
             </div>
         </article>
     );

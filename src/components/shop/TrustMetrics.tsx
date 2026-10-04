@@ -31,7 +31,7 @@ export function TrustMetrics({ metrics = defaultMetrics }: TrustMetricsProps) {
                     >
                         <Icon className="h-5 w-5 text-gold-500 transition-transform duration-300 group-hover:scale-110" strokeWidth={2} />
                         <div className="flex items-baseline gap-2.5">
-                            <span className="text-lg font-bold text-slate-900 tracking-tight font-heading">
+                            <span className="text-lg font-bold text-slate-900 tracking-tight font-data tabular-nums">
                                 {metric.value}
                             </span>
                             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 group-hover:text-slate-500 transition-colors pt-0.5">

@@ -1,0 +1,8 @@
+{
+  "score": 95,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["The reference's serif text is intentionally replaced with the requested Outfit/Inter brand typography; existing service copy and footer wording are retained."],
+  "suggestions": [],
+  "reasoning": "The three selectors, split outcome/service panel, green selected state with gold underline, checklist, related links, and curved decoration match the reference composition. All three states in both locales pass six-width checks, keyboard navigation, correct links, stable panel heights, and 200% text enlargement without clipping."
+}

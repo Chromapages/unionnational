@@ -5,8 +5,8 @@ const viewports = [
     { width: 375, columns: 1, padding: 20 },
     { width: 768, columns: 1, padding: 24 },
     { width: 1024, columns: 3, padding: 32 },
-    { width: 1280, columns: 3, padding: 32 },
-    { width: 1440, columns: 3, padding: 32 },
+    { width: 1280, columns: 3, padding: 0 },
+    { width: 1440, columns: 3, padding: 0 },
 ];
 
 test.use({ channel: process.env.PLAYWRIGHT_CHANNEL as "chrome" | undefined });

@@ -1,0 +1,524 @@
+{
+  "checks": [
+    {
+      "locale": "en",
+      "slug": "s-corp-tax-advantage",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "slug": "tax-planning",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "slug": "strategic-bookkeeping",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 6,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 6,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 6,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "slug": "fractional-cfo",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "slug": "payroll-services",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 3,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 3,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 3,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "slug": "new-business-formation",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "en",
+      "slug": "tax-preparation-and-filing",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "s-corp-tax-advantage",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "tax-planning",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "strategic-bookkeeping",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 6,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 6,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 6,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "fractional-cfo",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "payroll-services",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 3,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 3,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 3,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "new-business-formation",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "slug": "tax-preparation-and-filing",
+      "measurements": [
+        {
+          "width": 390,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 768,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        },
+        {
+          "width": 1440,
+          "overflow": false,
+          "contentIssues": [],
+          "ctaHeight": 56,
+          "topics": 3,
+          "fitCards": 4,
+          "steps": 4
+        }
+      ]
+    }
+  ],
+  "compactHeadlines": [
+    {
+      "font": "43.2px",
+      "id": "strategic-bookkeeping-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "en",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "fractional-cfo-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "en",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "new-business-formation-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "en",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "tax-preparation-and-filing-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "en",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "strategic-bookkeeping-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "es",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "fractional-cfo-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "es",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "new-business-formation-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "es",
+      "overflow": false
+    },
+    {
+      "font": "43.2px",
+      "id": "tax-preparation-and-filing-hero-heading",
+      "lines": 2.000010716735254,
+      "locale": "es",
+      "overflow": false
+    }
+  ]
+}

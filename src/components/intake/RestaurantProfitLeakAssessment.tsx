@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,7 +22,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RestaurantAssessmentResults } from "./RestaurantAssessmentResults";
-import { normalizeRevenue } from "@/lib/ghl/contract";
+import { useLocale } from "next-intl";
+import { normalizeRevenue, type GhlPayload } from "@/lib/ghl/contract";
+import { submitGhlLead } from "@/lib/ghl/submit-lead";
 
 const formSchema = z.object({
     primeCost: z.enum(["Never", "Occasionally", "Weekly"]),
@@ -32,7 +34,7 @@ const formSchema = z.object({
     financialRhythm: z.enum(["Never", "Monthly", "1–2 weeks", "Within days"]),
     cashFlow: z.enum(["Blind", "Reactive", "Real-time"]),
     taxCompliance: z.enum(["No", "Partially", "Yes, fully"]),
-    revenueRange: z.enum(["Under $500K", "$500K-$1M", "$1M+"]),
+    revenueRange: z.enum(["Under $100K", "$100K-$500K", "$500K-$1M", "$1M-$3M", "$3M-$5M", "$5M+"]),
     // Contact Info
     firstName: z.string().min(2, "First name is required"),
     lastName: z.string().min(2, "Last name is required"),
@@ -55,9 +57,12 @@ const STEPS = [
 ];
 
 export const RestaurantProfitLeakAssessment = () => {
+    const locale = useLocale();
+    const submissionId = useRef(crypto.randomUUID());
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const [finalResults, setFinalResults] = useState<{
         score: number;
         label: string;
@@ -138,8 +143,9 @@ export const RestaurantProfitLeakAssessment = () => {
     };
 
     const onSubmit = async (data: FormData) => {
+        setSubmitError(null);
         const score = calculateScore(data);
-        let urgency = "PLANNING_ONLY";
+        let urgency: "PLANNING_ONLY" | "IMMEDIATE" | "THIS_QUARTER" = "PLANNING_ONLY";
         let label = "Strong Foundation";
 
         if (score < 10) {
@@ -151,9 +157,9 @@ export const RestaurantProfitLeakAssessment = () => {
         }
 
         const highIntent =
-            (data.revenueRange === "$500K-$1M" || data.revenueRange === "$1M+") && score < 18;
+            !["Under $100K", "$100K-$500K"].includes(data.revenueRange) && score < 18;
 
-        const payload = {
+        const payload: GhlPayload = {
             event_type: "RESTAURANT_PROFIT_LEAK_ASSESSMENT_SUBMITTED",
             contact: {
                 first_name: data.firstName,
@@ -169,6 +175,7 @@ export const RestaurantProfitLeakAssessment = () => {
                 business_name: data.companyName,
                 industry: "HOSPITALITY",
                 annual_revenue_band: normalizeRevenue(data.revenueRange),
+                revenue_range_label: data.revenueRange,
             },
             intent: {
                 primary_service_interest: "RESTAURANT_CFO_PARTNERSHIP",
@@ -180,22 +187,29 @@ export const RestaurantProfitLeakAssessment = () => {
                 fit_score: score,
                 assessment_label: label,
             },
+            answers: {
+                prime_cost: data.primeCost,
+                food_cost: data.foodCost,
+                labor_burden: data.laborBurden,
+                menu_pricing: data.menuPricing,
+                financial_rhythm: data.financialRhythm,
+                cash_flow: data.cashFlow,
+                tax_compliance: data.taxCompliance,
+            },
+            meta: {
+                version: "1.0",
+                submitted_at: new Date().toISOString(),
+                source_page: "/restaurants/profit-leak-assessment",
+                locale,
+                submission_id: submissionId.current,
+            },
         };
 
-        try {
-            const response = await fetch("/api/ghl/intake", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                setFinalResults({ score, label, urgency, highIntent });
-                setIsComplete(true);
-            }
-        } catch (error) {
-            console.error("Submission failed:", error);
-        }
+        const result = await submitGhlLead(payload);
+        if (result.success) {
+            setFinalResults({ score, label, urgency, highIntent });
+            setIsComplete(true);
+        } else setSubmitError(result.message);
     };
 
     const slideVariants = {
@@ -488,7 +502,7 @@ export const RestaurantProfitLeakAssessment = () => {
                                             Annual Revenue
                                         </label>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                            {["Under $500K", "$500K-$1M", "$1M+"].map((range) => (
+                                            {["Under $100K", "$100K-$500K", "$500K-$1M", "$1M-$3M", "$3M-$5M", "$5M+"].map((range) => (
                                                 <button
                                                     key={range}
                                                     type="button"
@@ -604,6 +618,7 @@ export const RestaurantProfitLeakAssessment = () => {
                     </AnimatePresence>
 
                     {/* Controls */}
+                    {submitError && <p role="alert" className="mt-6 text-rose-700">{submitError}</p>}
                     <div className="flex justify-between items-center mt-12 pt-8 border-t border-slate-100">
                         {step > 1 ? (
                             <button
@@ -636,7 +651,7 @@ export const RestaurantProfitLeakAssessment = () => {
                                 {isSubmitting ? (
                                     <Loader2 className="w-5 h-5 animate-spin" />
                                 ) : (
-                                    "Unlock Your Analysis"
+                                    submitError ? "Retry Submission" : "Unlock Your Analysis"
                                 )}
                             </button>
                         )}

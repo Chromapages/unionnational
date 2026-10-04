@@ -33,9 +33,11 @@ Quote records require a client name and either both role and company or `isVerif
 
 ## Curation rule
 
-Editors choose the case-study card with `isFeatured`; if none is available, the documented Michael Torres fallback is used. Quote cards are ordered by `displayOrder`. The homepage renders one featured case study plus the first two valid quotes; `/client-results` renders the same complete result pool.
+For `/client-results`, editors choose the case-study card with `isFeatured`; if none is available, the documented Michael Torres fallback is used. Quote cards are ordered by `displayOrder`. The homepage uses three short source-checked Google excerpts in localized messages; see `docs/testimonial-credibility-evidence.md`. Who We Help renders the separate approved Torres client insight.
 
 ## Analytics
 
 - `testimonials_section_view` marks the homepage section.
-- `testimonials_read_more_click` marks the real `/client-results` directory link.
+- `testimonials_read_more_click` marks the homepage link to the responsive Torres story anchor on `/industries`.
+- `testimonial_source_click` identifies the Google source links. These attributes are tagging hooks, not a new analytics delivery service.
+- The story booking CTA uses the existing `strategy_call_cta_viewed` / `strategy_call_cta_activated` funnel with placement `industries_client_insight`.

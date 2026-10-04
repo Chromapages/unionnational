@@ -1,0 +1,14 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "active": false,
+  "phase": "complete",
+  "differences": ["Section heights remain content-driven, as on About.", "Hero headlines and the shared closing CTA retain their distinct hierarchy."],
+  "suggestions": [],
+  "reasoning": "Rendered service containers, gutters, vertical section padding and main headings match the measured About values at 390/768/1440px. The visual preview preserves the reference layouts with the corrected section scale.",
+  "next_actions": [],
+  "verification": { "maximum_container_width_px": 1504, "gutters_px": [16, 24, 32], "section_padding_px": [40, 40, 48], "main_heading_px": [30, 36, 44], "changed_section_overflow": false, "document_overflow": false, "formal_checks_run": false, "optional_video": "Source sizing updated; no video section available on inspected routes.", "existing_debt": "Shared closing CTA has a 3px internal overhang on the No preparation item at 1440px. The document does not overflow; this unchanged CTA is also shared with About." }
+}

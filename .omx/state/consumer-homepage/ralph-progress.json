@@ -1,0 +1,8 @@
+{
+  "score": 94,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Desktop and mobile layouts in both locales show the five-section path and consistent gold booking controls. The first-screen CTA stays visible, text contrast and target sizes pass the rendered checks, and the footer no longer repeats proof."
+}

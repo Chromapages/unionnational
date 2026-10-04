@@ -47,9 +47,9 @@ describe("WhyUsEvidenceModule", () => {
       />
     );
 
-    const module = screen.getByTestId("why-us-evidence-module");
-    expect(module).toBeInTheDocument();
-    expect(module).toHaveAttribute("data-evidence-variant", "process_strip");
+    const evidenceModule = screen.getByTestId("why-us-evidence-module");
+    expect(evidenceModule).toBeInTheDocument();
+    expect(evidenceModule).toHaveAttribute("data-evidence-variant", "process_strip");
 
     expect(screen.getByText("Review current position")).toBeInTheDocument();
     expect(screen.getByText("Identify decisions before deadlines")).toBeInTheDocument();

@@ -1,5 +1,6 @@
 "use client";
 
+import { IndustryExpertise } from "@/components/industries/IndustriesDesktopExperience";
 import { 
     CheckCircle2,
     Lock,
@@ -17,7 +18,7 @@ import Image from "next/image";
 import { IndustryHero } from "@/components/industries/IndustryHero";
 import { IndustryBento } from "@/components/industries/IndustryBento";
 import { ComparisonTable } from "@/components/industries/ComparisonTable";
-import { CTASection } from "@/components/home/CTASection";
+import { FinalBookingCTA } from "@/components/home/FinalBookingCTA";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
@@ -128,6 +129,8 @@ export default function EcommerceIndustryClient() {
                 ]}
             />
 
+            <IndustryExpertise industryId="e-commerce" />
+
             <IndustryBento 
                 eyebrow="The Digital-First Gap"
                 title="Why most brands"
@@ -232,14 +235,7 @@ export default function EcommerceIndustryClient() {
                 </div>
             </section>
 
-            <CTASection 
-                data={{
-                    ctaTitle: "Protect Your Margins.",
-                    ctaSubtitle: "Stop guessing at your tax liability. Join the elite brands using the Digital-First CFO Partnership to protect profits and scale.",
-                    ctaButtonText: "Book Growth Audit",
-                    ctaButtonUrl: "/intake"
-                }}
-            />
+            <div className="homepage-rhythm"><FinalBookingCTA id="service-next-step" placement="ecommerce_final_cta" /></div>
         </div>
     );
 }

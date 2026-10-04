@@ -1,0 +1,10 @@
+# Shop shared desktop CTA
+
+Replace only the existingShopclosinghelpbannerwithsharedFinalBookingCTAinsidehomepage-rhythm. Reuse identical layout,width,colors,copy,icons,bookingstate/analyticsandresponsivebehaviorfromhome/About. Useidshop-next-step, placementshop_final_ctaandHeader.bookCalllabel. Keepcatalog,FAQs,footerandcommercebehavior. AddShoptoexistingChatWidgetclosingCTAprotection. UpdateexistingShoptestmocksforlocale/pathhookdependency; do notrunbuild/lint/typecheck/test suites. BrowserverifyEN/ESdesktop/mobile, bookroute/returnTo, singleCTA, no overflow/clipping, focusandrealwidgetclearance.
+
+## Completion
+ShopclosingbannerreplacedbyexactsharedFinalBookingCTAwithhomepage-rhythm,idshop-next-step,shopanalyticsplacementandHeaderbookinglabel. Reused component/styles/translations; no new component/dependency. AddedShoptoexistingchatclosingCTAobserver. UpdatedShopDesktopExperience.test.tsxhookmocksforuseLocale/usePathname; testsnotrunperinstruction.
+
+BrowserverifiedEN/ESat390/768/1440/1920:eightfullyvisible-layoutcheckswithnooverflow/clipping,oneCTA,three reassuranceitemsandlocale/book?returnTo=%2Fshop. Englishmobile300x56;Spanishmobile300x80wrapslabelcleanly;tablet/desktop384x56. SpanishmobileactualwidgethiddenwhenCTAvisibleandbuttonuncovered. Desktop screenshotreviewed/savedshop-shared-cta.jpg;metricsinshop-shared-cta-checks.json. Catalog,FAQs,footerandcommercewerenotmodifiedbythischange; concurrentFAQeditsretained. No liveCMSwrites/build/lint/typecheck/tests.
+
+Changedsource:src/components/shop/ShopDesktopExperience.tsx;src/components/ChatWidget.tsx;src/components/shop/ShopDesktopExperience.test.tsx. Plan/verdictupdated. No remaining implementation work.

@@ -1,0 +1,10 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "At 1672px, the hero is 485px tall versus the previous 557px, a 13% reduction. At 1280px, English and Spanish fit within 432px. The change uses only minimum height and vertical padding; visual inspection found comfortable text fit and no browser errors or horizontal overflow.",
+  "next_actions": []
+}

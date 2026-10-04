@@ -1,0 +1,33 @@
+{
+  "score": 93,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Portraits and chips reflect actual CMS data rather than invented mockup specialties.", "The reference's career link is omitted because no careers URL is configured; the recruitment CTA uses the existing contact page."],
+  "suggestions": [],
+  "reasoning": "The final preview matches the reference's directory composition, compact portrait cards, summary panel, and recruitment banner. Five filters fit one desktop row, with a non-color selected-state checkmark; counts and portraits reflect actual data.",
+  "next_actions": [],
+  "verification": {
+    "column_counts": { "en_390": 1, "en_768": 2, "en_1440": 3, "es_390": 1 },
+    "horizontal_overflow": false,
+    "card_overflow": false,
+    "card_count": 12,
+    "group_counts": { "all": 12, "tax": 6, "client": 3, "operations": 3, "leadership": 4 },
+    "single_desktop_filter_row": true,
+    "minimum_control_height": 44,
+    "join_cta_height": 56,
+    "focus_visible": true,
+    "combined_tax_quickbooks_results": ["Nela", "Anna"],
+    "accent_search": { "query": "JOSÉ", "result": "Jose" },
+    "no_results_and_reset": true,
+    "profile_open_escape_focus_return": true,
+    "profile_deep_link": true,
+    "careers_destination": "/contact",
+    "contrast_ratios": { "selected_filter_and_join_cta": 14.56, "inactive_filter": 13.14, "credential_chips": 15.88, "panel_body": 7.59, "panel_eyebrow": 4.92, "search_border": 4.69 },
+    "regression_check_added": "src/components/team/teamDirectory.test.ts",
+    "regression_check_run": false,
+    "screenshot": ".omx/state/team-directory-reference/preview.png",
+    "screenshot_limit": "The final viewport preview succeeded; full-directory recapture timed out."
+  }
+}

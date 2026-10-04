@@ -10,8 +10,9 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { BookOpen, ArrowRight, Lock } from "lucide-react";
 import { extractString } from "@/lib/utils";
-import { Playbook, PlaybookChapter } from "@/types/sanity";
+import { Playbook } from "@/types/sanity";
 import Link from "next/link";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export const revalidate = 60;
 
@@ -35,6 +36,8 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     return {
         title: `${extractString(typedPlaybook.title, locale)} | Authority Hub`,
         description: extractString(typedPlaybook.description, locale),
+        alternates: localizedAlternates(locale, "/hub/s-corp-playbook"),
+        ...(typedPlaybook.seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
     };
 }
 
@@ -87,7 +90,7 @@ export default async function PlaybookPage(props: PageProps) {
                                     </span>
                                 </div>
                                 {typedPlaybook.gatedPdfUrl && (
-                                    <GatedPdfButton pdfUrl={typedPlaybook.gatedPdfUrl} />
+                                    <GatedPdfButton pdfUrl={typedPlaybook.gatedPdfUrl} locale={locale} />
                                 )}
                             </div>
                         </div>

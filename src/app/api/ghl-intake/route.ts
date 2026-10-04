@@ -1,10 +1,11 @@
 // src/app/api/ghl-intake/route.ts
-import { NextResponse } from "next/server";
 import { z } from "zod";
-import { calculateFitScore } from "@/lib/scorp-advantage/calculator";
+import { calculateFitScore, isHighIntent } from "@/lib/scorp-advantage/calculator";
 import { getEnv } from "@/lib/config/env";
-import { createApiHandler, getClientIp, parseJsonBody, logRedacted } from "@/lib/observability/api-handler";
+import { createApiHandler } from "@/lib/observability/api-handler";
 import { incrementCounter, withLatencyAsync } from "@/lib/observability/request-metrics";
+import { readLeadJson } from "@/lib/intake/shared";
+import { contactRateLimitKey } from "@/lib/security/rate-limiter";
 
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
@@ -62,6 +63,7 @@ const IntakePayloadSchema = z.object({
   meta: z.object({
     locale: z.string().trim().optional(),
     userAgent: z.string().trim().optional(),
+    submissionId: z.string().uuid().optional(),
   }).optional(),
 });
 
@@ -76,7 +78,7 @@ function normalizePhone(phone?: string): string | undefined {
   return phone.trim();
 }
 
-async function forwardToGhl(payload: unknown, traceId: string): Promise<Response> {
+async function forwardToGhl(payload: unknown, traceId: string, submissionId?: string): Promise<Response> {
   const webhookUrl = getEnv("GHL_WEBHOOK_URL");
 
   if (!webhookUrl) {
@@ -88,8 +90,10 @@ async function forwardToGhl(payload: unknown, traceId: string): Promise<Response
     headers: {
       "Content-Type": "application/json",
       "X-Trace-Id": traceId,
+      ...(submissionId ? { "X-Submission-Id": submissionId } : {}),
     },
     body: JSON.stringify(payload),
+    signal: AbortSignal.timeout(8_000),
   });
 
   return response;
@@ -102,37 +106,16 @@ export async function POST(request: Request) {
     rateLimitWindowMs: RATE_LIMIT_WINDOW_MS,
   });
 
-  const ip = getClientIp(request);
+  const parsed = await readLeadJson(request);
+  if (!parsed.ok) return handler.json({ success: false, error: parsed.error }, { status: parsed.status });
+  const rawBody = parsed.value as { _hpt?: unknown; event_type?: unknown; source_page?: unknown } | null;
 
-  const { checkRateLimit } = await import("@/lib/observability/api-handler");
-  const rateLimit = checkRateLimit(ip, undefined, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
-
-  if (rateLimit.limited) {
-    handler.log.warn("Rate limit exceeded", { ip });
-    incrementCounter("ghl_intake_rate_limited", { source: "ghl-intake" });
-    return handler.json(
-      { success: false, error: "Too many requests" },
-      {
-        status: 429,
-        headers: handler.rateLimitHeaders(rateLimit.remaining, rateLimit.resetAt),
-      }
-    );
-  }
-
-  const parsed = await parseJsonBody(request, handler.log);
-
-  if (parsed.error) {
-    return parsed.error;
-  }
-
-  const rawBody = parsed.raw as { _hpt?: unknown; event_type?: unknown; source_page?: unknown };
-
-  if (typeof rawBody._hpt === "string" && rawBody._hpt.trim().length > 0) {
+  if (rawBody && typeof rawBody._hpt === "string" && rawBody._hpt.trim().length > 0) {
     handler.log.info("Honeypot field submitted — treating as success");
     return handler.json({ success: true });
   }
 
-  const validation = IntakePayloadSchema.safeParse(parsed.data);
+  const validation = IntakePayloadSchema.safeParse(parsed.value);
 
   if (!validation.success) {
     handler.log.warn("Validation failed", { issues: validation.error.issues });
@@ -151,15 +134,29 @@ export async function POST(request: Request) {
   }
 
   const input = validation.data;
+  const { checkRateLimit } = await import("@/lib/observability/api-handler");
+  const rateLimit = checkRateLimit(contactRateLimitKey(input.contact.email), undefined, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
+  if (rateLimit.limited) {
+    handler.log.warn("Rate limit exceeded");
+    incrementCounter("ghl_intake_rate_limited", { source: "ghl-intake" });
+    return handler.json({ success: false, error: "Too many requests" }, {
+      status: 429,
+      headers: handler.rateLimitHeaders(rateLimit.remaining, rateLimit.resetAt),
+    });
+  }
   const estimatedNetProfit = input.business?.estimatedNetProfit || 0;
-  const fitScore = input.results?.fitScore ?? calculateFitScore({
+  const fitScore = calculateFitScore({
     estimatedNetProfit,
     urgencyLevel: input.intent?.urgencyLevel,
     entityType: input.business?.entityType,
     primaryPainPoint: input.intent?.primaryPainPoint,
   });
-  const highIntentFlag =
-    input.results?.highIntentFlag ?? (input.intent?.urgencyLevel === "HIGH" || fitScore >= 70);
+  const highIntentFlag = isHighIntent({
+    estimatedNetProfit,
+    urgencyLevel: input.intent?.urgencyLevel,
+    entityType: input.business?.entityType,
+    primaryPainPoint: input.intent?.primaryPainPoint,
+  });
 
   const payload = {
     version: "1.0",
@@ -191,20 +188,24 @@ export async function POST(request: Request) {
     meta: {
       locale: input.meta?.locale || "en",
       userAgent: input.meta?.userAgent || request.headers.get("user-agent") || undefined,
+      submissionId: input.meta?.submissionId,
     },
   };
 
-  logRedacted(handler.log, "GHL intake payload prepared", payload as Record<string, unknown>);
+  handler.log.info("GHL intake payload prepared", { eventType: payload.eventType, sourcePage: payload.sourcePage });
+
+  if (!getEnv("GHL_WEBHOOK_URL")) {
+    return handler.json({ success: false, error: "CRM forwarding unavailable" }, { status: 503 });
+  }
 
   try {
     const ghlResponse = await withLatencyAsync("ghl_intake_forward_ms", async () => {
-      return forwardToGhl(payload, handler.traceId);
+      return forwardToGhl(payload, handler.traceId, input.meta?.submissionId);
     }, { source: "ghl-intake" });
 
     if (!ghlResponse.ok) {
       handler.log.error("GHL forwarding failed", undefined, {
         status: ghlResponse.status,
-        body: await ghlResponse.text().catch(() => "unavailable"),
       });
       incrementCounter("ghl_intake_forward_failed", { source: "ghl-intake" });
       return handler.json(
@@ -213,7 +214,7 @@ export async function POST(request: Request) {
       );
     }
 
-    logRedacted(handler.log, "GHL intake success", payload as Record<string, unknown>);
+    handler.log.info("GHL intake accepted", { eventType: payload.eventType, sourcePage: payload.sourcePage });
     incrementCounter("ghl_intake_success", { source: "ghl-intake" });
     return handler.json({ success: true });
   } catch (err) {

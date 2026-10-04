@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 export function ChatWidget() {
     const pathname = usePathname();
+    const isBookingPage = /\/(?:en|es)\/book\/?$/.test(pathname || "");
     const isBlueprintPage = /\/(?:en|es)\/construction\/profit-blueprint\/?$/.test(pathname || "");
 
     useEffect(() => {
@@ -17,7 +18,10 @@ export function ChatWidget() {
         let observer: MutationObserver | undefined;
         let faqObserver: IntersectionObserver | undefined;
         let footerObserver: IntersectionObserver | undefined;
+        let ctaObserver: IntersectionObserver | undefined;
+        let purchaseObserver: MutationObserver | undefined;
         let footerIsVisible = false;
+        let aboutCtaIsVisible = false;
 
         const collapsePrompt = () => {
             const widget = document.querySelector("chat-widget");
@@ -26,10 +30,23 @@ export function ChatWidget() {
         };
 
         const positionWidget = () => {
+            if ((/\/(?:en|es)\/(?:about|team|shop(?:\/[^/]+)?)\/?$/.test(pathname || "") || document.getElementById("service-next-step")) && !ctaObserver) {
+                const aboutCta = document.querySelector("#about-next-step, #team-next-step, #shop-next-step, #product-add-to-cart, #service-next-step");
+                if (!aboutCta) return false;
+                ctaObserver = new IntersectionObserver(([entry]) => {
+                    aboutCtaIsVisible = entry.isIntersecting;
+                    setFooterSafeVisibility(footerIsVisible);
+                });
+                ctaObserver.observe(aboutCta);
+            }
             const widget = document.querySelector<HTMLElement>("chat-widget");
             const container = widget?.shadowRoot?.querySelector<HTMLElement>("#lc_text-widget");
             const bubble = widget?.shadowRoot?.querySelector<HTMLElement>("#lc_text-widget--btn");
 
+            if (widget && isBookingPage) {
+                setFooterSafeVisibility(footerIsVisible);
+                return true;
+            }
             if (!widget || !container) return false;
 
             widget.style.setProperty("position", "fixed", "important");
@@ -51,11 +68,17 @@ export function ChatWidget() {
             if (!widget) return;
 
             widget.toggleAttribute("data-footer-visible", footerIsVisible);
-            widget.style.setProperty("visibility", footerIsVisible ? "hidden" : "visible", "important");
-            widget.style.setProperty("pointer-events", footerIsVisible ? "none" : "auto", "important");
+            widget.toggleAttribute("data-about-cta-visible", aboutCtaIsVisible);
+            const hidden = isBookingPage || footerIsVisible || aboutCtaIsVisible || !!document.querySelector("#product-sticky-bar");
+            widget.style.setProperty("visibility", hidden ? "hidden" : "visible", "important");
+            widget.style.setProperty("pointer-events", hidden ? "none" : "auto", "important");
         };
 
         const handleScroll = () => collapsePrompt();
+        if (/\/(?:en|es)\/shop\/[^/]+\/?$/.test(pathname || "")) {
+            purchaseObserver = new MutationObserver(() => setFooterSafeVisibility(footerIsVisible));
+            purchaseObserver.observe(document.body, { childList: true, subtree: true });
+        }
         window.addEventListener("scroll", handleScroll, { passive: true, once: true });
 
         const faq = document.querySelector("#services-faq");
@@ -87,8 +110,10 @@ export function ChatWidget() {
             observer?.disconnect();
             faqObserver?.disconnect();
             footerObserver?.disconnect();
+            ctaObserver?.disconnect();
+            purchaseObserver?.disconnect();
         };
-    }, [pathname, isBlueprintPage]);
+    }, [pathname, isBlueprintPage, isBookingPage]);
 
     // The contact page has its own mobile action bar; loading the third-party
     // launcher there would cover one of its primary controls.

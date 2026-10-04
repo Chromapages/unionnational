@@ -109,7 +109,7 @@ export function TestimonialWall({ testimonials: propTestimonials, backgroundImag
                             <div className="pt-8 border-t border-white/5 flex items-center gap-5">
                                 <div className="h-0.5 w-8 bg-gold-500/50" />
                                 <div>
-                                    <p className="font-bold text-white text-base tracking-wide uppercase font-heading">{featured.clientName}</p>
+                                    <p className="font-bold text-white text-base tracking-wide uppercase font-body">{featured.clientName}</p>
                                     <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mt-1.5">
                                         {featured.clientTitle} {featured.clientCompany && `• ${featured.clientCompany}`}
                                     </p>

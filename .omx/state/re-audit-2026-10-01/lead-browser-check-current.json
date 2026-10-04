@@ -1,0 +1,110 @@
+[
+  {
+    "form": "construction",
+    "case": "400",
+    "network": "Every lead request intercepted locally; other write methods blocked.",
+    "requests": 1,
+    "payload": {
+      "event_type": "CONSTRUCTION_ASSESSMENT_SUBMITTED",
+      "contact": {
+        "first_name": "Audit",
+        "last_name": "Example",
+        "email": "audit@example.invalid",
+        "phone": "5550101234",
+        "tags": [
+          "unt-construction-blueprint",
+          "unt-fit-score-high"
+        ]
+      },
+      "business": {
+        "business_name": "Synthetic Audit LLC",
+        "industry": "CONSTRUCTION",
+        "annual_revenue_band": "500K_1M"
+      },
+      "intent": {
+        "primary_service_interest": "CONSTRUCTION_BLUEPRINT",
+        "lead_magnet_type": "CONSTRUCTION_ASSESSMENT",
+        "urgency": "PLANNING_ONLY",
+        "high_intent": false
+      },
+      "results": {
+        "fit_score": 70,
+        "assessment_label": "Strong Foundation"
+      },
+      "meta": {
+        "version": "1.0",
+        "locale": "en",
+        "submitted_at": "2026-10-01T15:21:18.379Z"
+      }
+    },
+    "url": "http://127.0.0.1:3533/en/construction-profitability-assessment",
+    "alerts": [
+      "Please review your answers, then try again.",
+      ""
+    ],
+    "received": false,
+    "formRemaining": true,
+    "retry": true,
+    "body": "\nWHAT'S INSIDE THE BLUEPRINT?\n\nEVERYTHING YOU NEED TO SECURE YOUR CONSTRUCTION EMPIRE.\n\nPROFIT PROTECTION\n\nLearn how to calculate and maintain a 20%+ net margin across every single job.\n\nCASH FLOW OS\n\nA proven system for managing progressive billing and material procurement without stress.\n\nTAX DOMINANCE\n\nAdvanced S-Corp and Cost Segregation strategies specifically for construction firms.\n\nFREQUENTLY ASKED QUESTIONS\nQ\nHOW LONG DOES THE ASSESSMENT TAKE?\n\nIt takes less than 3 minutes. The questions are designed to be answered from your current knowledge of your business.\n\nQ\nIS MY FINANCIAL DATA SECURE?\n\nAbsolutely. We use enterprise-grade encryption. Your results are only shared with our senior strategy team.\n\nQ\nDO I HAVE TO PAY FOR THE RESULTS?\n\nNo. The preliminary score and profit leak analysis are 100% free as part of our outreach to the construction industry.\n\nDON'T LEAVE YOUR MARGINS TO CHANCE.\nSTART YOUR FREE ASSESSMENT\n\nProactive tax and financial guidance for the decisions ahead — not just the year behind.\n\nContact Us\nADVISORY\nS-Corp Tax Advantage\nProactive Tax Planning\nStrategic Bookkeeping\nFractional CFO\nView All Services\nCOMPLIANCE & IMPLEMENTATION\nTax Filing & Preparation\nNew Business Formation\nPayroll Services\nCOMPANY\nAbout\nTeam\nWho We Help\nRESOURCES\nResource Center\nFAQ\nShop\n\n© 2026 Union National Tax. All Rights Reserved.\n\nDisclaimer\n|\nPrivacy Policy\nRead Disclaimer",
+    "expected": "retryable error",
+    "passed": true
+  },
+  {
+    "form": "strategy",
+    "case": "acknowledged",
+    "network": "Every lead request intercepted locally; other write methods blocked.",
+    "requests": 1,
+    "payload": {
+      "event_type": "GENERAL_INQUIRY_SUBMITTED",
+      "contact": {
+        "first_name": "Audit",
+        "last_name": "Example",
+        "email": "audit@example.invalid",
+        "phone": "5550101234"
+      },
+      "business": {
+        "business_name": "Synthetic Audit LLC",
+        "industry": "HOSPITALITY",
+        "annual_revenue_band": "1M_3M",
+        "entity_type": "LLC_SINGLE",
+        "business_type": "Service-Based",
+        "state_location": "Florida",
+        "revenue_range_label": "$1M-$3M"
+      },
+      "intent": {
+        "lead_magnet_type": "STRATEGY_INTAKE",
+        "urgency": "PLANNING_ONLY",
+        "pain_points": [
+          "Synthetic cash flow concern"
+        ],
+        "services_of_interest": [
+          "Proactive Tax Planning"
+        ],
+        "preferred_next_step": "EMAIL_SUMMARY_REQUESTED"
+      },
+      "answers": {
+        "has_accountant": "Yes, I have an accountant",
+        "books_status": "Books are current",
+        "interested_in_scorp": false,
+        "investment_willingness": "Maybe, depending on ROI"
+      },
+      "meta": {
+        "version": "1.0",
+        "submitted_at": "2026-10-01T15:21:28.428Z",
+        "locale": "es",
+        "source_page": "/intake",
+        "submission_id": "69cea8d0-ca2e-4c60-8c8a-c8d34be2db9d"
+      }
+    },
+    "url": "http://127.0.0.1:3533/es/intake",
+    "alerts": [
+      ""
+    ],
+    "received": true,
+    "formRemaining": false,
+    "retry": false,
+    "body": "Ir al contenido principal\nUnion National Tax\nServicios\nA quién ayudamos\nMás\nReserva una llamada de estrategia\nADVISORY-FIRST ASSESSMENT\nStart Your Tax Strategy Assessment\n\nComplete this brief profile and uncovered hidden tax savings that traditional accountants might miss.\n\nASSESSMENT RECEIVED\n\nYour assessment and preferred next step were received. No appointment has been scheduled yet; you can book a time now if you prefer.\n\nSchedule Strategy Call Now\nRETURN TO HOMEPAGE\n\nOrientación fiscal y financiera proactiva para las decisiones por delante, no solo el año atrás.\n\nContáctenos\nASESORÍA\nVentaja Fiscal S-Corp\nPlanificación Fiscal Proactiva\nContabilidad Estratégica\nCFO Fraccional\nVer Todos los Servicios\nCUMPLIMIENTO E IMPLEMENTACIÓN\nDeclaración y preparación de impuestos\nFormación de nuevos negocios\nServicios de nómina\nEMPRESA\nNosotros\nEquipo\nA quiénes ayudamos\nRECURSOS\nCentro de recursos\nPreguntas frecuentes\nTienda\n\n© 2026 Union National Tax. Todos los derechos reservados.\n\nAviso legal\n|\nPolítica de Privacidad\nLeer aviso legal",
+    "expected": "acknowledged success",
+    "passed": true
+  }
+]

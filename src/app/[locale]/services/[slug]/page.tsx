@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 import { CmsServicePage, getCmsServiceMetadata } from "@/components/services/CmsServicePage";
 import { SERVICE_PAGE_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function ServicePage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
     const { locale, slug } = await params;
     const canonicalPath = canonicalRedirects[slug];
-    if (canonicalPath) redirect(canonicalPath);
+    if (canonicalPath) permanentRedirect(`/${locale}${canonicalPath}`);
 
     return <CmsServicePage cmsSlug={slug} locale={locale} canonicalPath={`/services/${slug}`} />;
 }

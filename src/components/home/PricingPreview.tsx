@@ -12,7 +12,7 @@ export function PricingPreview() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <RevealOnScroll className="mb-16 max-w-3xl">
                     <div className="mb-4">
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-heading">
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-600 font-body">
                             Engagement Models
                         </span>
                     </div>

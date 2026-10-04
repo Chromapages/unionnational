@@ -1,29 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-    CheckCircle2,
-    ChevronDown,
-    ChevronRight,
-    ChevronUp,
-    Heart,
-    ShoppingCart,
-    Star,
-    Zap,
-    Trophy,
-    ShieldCheck,
-    Award,
-} from "lucide-react";
-
-import { Skeleton } from "@/components/ui/Skeleton";
-import { normalizeProductEdition } from "@/lib/shop/commerce";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useMemo, useState } from "react";
+import { BookOpen, ShoppingCart, Play, ChartNoAxesColumnIncreasing, Settings, Users, Package, ShieldCheck, ArrowRight, Building2, Coins, Target, CalendarDays, HardHat, Truck, Utensils, MessageCircle, type LucideIcon } from "lucide-react";
+import VideoEmbed from "@/components/ui/VideoEmbed";
+import { StickyBuyBar } from "@/components/ui/StickyBuyBar";
+import { ProductOfferSelector } from "./ProductOfferSelector";
+import { Link } from "@/i18n/navigation";
+import { normalizeProductEdition, getDefaultProductEdition, formatProductPrice, storefrontBookCopyKeys } from "@/lib/shop/commerce";
+import { extractString, cn } from "@/lib/utils";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
 import { buildCartItemKey } from "@/lib/shop/types";
-import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/useCartStore";
-import { useWishlistStore } from "@/store/useWishlistStore";
 
 export interface ProductEdition {
     id: string;
@@ -33,8 +22,7 @@ export interface ProductEdition {
     format: string;
     description?: string;
     stripePriceId?: string;
-    fulfillmentType?: "digital" | "physical" | "audio" | "bundle" | "service" | "unknown";
-    requiresShipping?: boolean;
+    stripeProductId?: string;
 }
 
 interface ProductHeroProps {
@@ -49,488 +37,128 @@ interface ProductHeroProps {
     buyLink?: string;
     stripeProductId?: string;
     stripePriceId?: string;
-    samplePages?: { url: string; metadata?: { lqip?: string } }[];
+    samplePages?: { url: string; metadata?: { lqip?: string } }[] | null;
     format: string;
     category?: string;
     badge?: string;
-    rating?: number;
-    author?: {
-        name: string;
-        role?: string;
-    };
+    author?: { name: string; role?: string };
     pageCount?: number;
     publisher?: string;
     publishDate?: string;
     isbn?: string;
-    editions?: ProductEdition[];
+    editions?: ProductEdition[] | null;
     videoUrl?: string;
     videoFileUrl?: string;
-    videoThumbnail?: {
-        url?: string;
-        alt?: string;
-    };
+    videoThumbnail?: { url?: string; alt?: string };
 }
 
+const formatOrder = { digital: 0, audio: 1, physical: 2, bundle: 3, service: 4, unknown: 5 };
+const bookHighlightIcons: Record<string, LucideIcon[]> = {
+    growth: [ChartNoAxesColumnIncreasing, Settings, Users],
+    scorp: [Building2, Users, ChartNoAxesColumnIncreasing],
+    cfo: [ChartNoAxesColumnIncreasing, Coins, Target],
+    retirement: [CalendarDays, Coins, ShieldCheck],
+    construction: [HardHat, Truck, ChartNoAxesColumnIncreasing],
+    restaurant: [Settings, Utensils, ChartNoAxesColumnIncreasing],
+    general: [BookOpen, Package, MessageCircle],
+};
+
 export function ProductHero({
-    id, slug, title, subtitle, defaultPrice, compareAtPrice,
-    image, imageMetadata, buyLink, stripeProductId, stripePriceId, samplePages = [], category, badge, rating = 5,
-    author,
-    editions: initialEditions = [],
-    videoUrl, videoFileUrl, videoThumbnail,
+    id, slug, title, subtitle, defaultPrice, image, imageMetadata, buyLink,
+    stripeProductId, stripePriceId, samplePages = [], format, category, author,
+    editions: initialEditions = [], videoUrl, videoFileUrl, videoThumbnail,
 }: ProductHeroProps) {
-    const addItem = useCartStore((state) => state.addItem);
-    const toggleCart = useCartStore((state) => state.toggleCart);
-    const toggleItem = useWishlistStore((state) => state.toggleItem);
-    const isWishlisted = useWishlistStore((state) => state.isWishlisted);
-    const wishlisted = isWishlisted(id);
+    const locale = useLocale();
+    const t = useTranslations("Shop.ProductHero");
+    const page = useTranslations("Shop.ProductPage");
+    const bookKey = storefrontBookCopyKeys[slug] || "general";
+    const highlightGroup = bookHighlightIcons[bookKey] ? bookKey : "general";
+    const highlightPrefix = highlightGroup === "growth" ? "growthHighlights" : "bookHighlights." + highlightGroup;
+    const addItem = useCartStore(state => state.addItem);
+    const setCartOpen = useCartStore(state => state.setIsOpen);
+    const editions = useMemo(() => {
+        const source = initialEditions?.length ? initialEditions : [{
+            id: id + "-default", name: format, format, price: defaultPrice, stripePriceId,
+        }];
+        return source.filter(edition => Number.isFinite(edition.price) && edition.price >= 0).map(edition => {
+            const normalized = normalizeProductEdition(id, edition);
+            const name = extractString(edition.name, locale);
+            let description = extractString(edition.description, locale).trim();
+            // Only the generic, unitemized bonus suffix is omitted; named CMS extras remain.
+            description = description.replace(/\s*\+\s*bonuses\.?$/i, ".");
+            if (normalized.fulfillmentType === "digital" && /pdf/i.test(name)) description = page("contents.pdf");
+            return { ...normalized, name, description, format: extractString(edition.format, locale) };
+        });
+    }, [initialEditions, id, format, defaultPrice, stripePriceId, locale, page]);
+    const defaultEdition = getDefaultProductEdition(editions);
+    const [selectedId, setSelectedId] = useState(defaultEdition?.id || "");
+    const selectedEdition = editions.find(edition => edition.id === selectedId) || defaultEdition;
+    const sortedEditions = [...editions].sort((a, b) => formatOrder[a.fulfillmentType] - formatOrder[b.fulfillmentType]);
+    const canAdd = !!selectedEdition && !!(selectedEdition.stripePriceId || stripePriceId || buyLink);
 
-    // Build editions from props, with a fallback for backwards compatibility
-    const editions: ProductEdition[] = (initialEditions && initialEditions.length > 0)
-        ? initialEditions.map(ed => normalizeProductEdition(id, ed))
-        : [
-            normalizeProductEdition(id, {
-                id: `${id}-digital`,
-                name: "Digital PDF",
-                price: defaultPrice,
-                format: "Digital PDF",
-                description: "Instant download. Read anywhere.",
-            }),
-            normalizeProductEdition(id, {
-                id: `${id}-hardcover`,
-                name: "Hardcover",
-                price: defaultPrice + 56, // Temporary fallback until Sanity is populated
-                format: "Physical Book",
-                description: "Premium hardbound edition.",
-            }),
-        ];
+    const media = [
+        ...(image ? [{ type: "image" as const, url: image, metadata: imageMetadata || undefined }] : []),
+        ...(samplePages || []).filter(sample => sample?.url).map(sample => ({ type: "image" as const, ...sample })),
+        ...((videoFileUrl || videoUrl) ? [{ type: "video" as const, url: (videoFileUrl || videoUrl)! }] : []),
+    ];
+    const [mediaIndex, setMediaIndex] = useState(0);
+    const activeMedia = media[mediaIndex] || media[0];
 
-    const [selectedEdition, setSelectedEdition] = useState<ProductEdition>(editions[0]);
-    const [mainContent, setMainContent] = useState<{ type: 'image' | 'video', url: string, metadata?: { lqip?: string } }>({ 
-        type: 'image', 
-        url: image,
-        metadata: imageMetadata || undefined
-    });
-    
-    const [imageLoaded, setImageLoaded] = useState(false);
-
-    const scrollThumbnails = (direction: "up" | "down") => {
-        const container = document.getElementById("thumbnail-scroll-container");
-        if (container) {
-            const scrollAmount = 100;
-            container.scrollBy({
-                top: direction === "up" ? -scrollAmount : scrollAmount,
-                behavior: "smooth"
-            });
-        }
-    };
-
-    // Build thumbnail list: video (if exists) + cover image + sample pages
-    const effectiveVideo = videoFileUrl || videoUrl;
-    const allMedia = [
-        ...(effectiveVideo ? [{ type: 'video' as const, url: effectiveVideo }] : []),
-        { type: 'image' as const, url: image, metadata: imageMetadata || undefined },
-        ...(samplePages?.filter(p => p && p.url).map(p => ({ type: 'image' as const, url: p.url, metadata: p.metadata })) || [])
-    ].slice(0, 9);
-
-    const handleAddToCart = useCallback((editionOverride?: ProductEdition) => {
-        const targetEdition = editionOverride || selectedEdition;
+    const handleAddToCart = useCallback(() => {
+        if (!selectedEdition || !canAdd) return;
         addItem({
-            id: buildCartItemKey(id, targetEdition.id),
-            productId: id,
-            editionId: targetEdition.id,
-            editionName: targetEdition.name,
-            slug,
-            title: `${title} — ${targetEdition.name}`,
-            price: targetEdition.price,
-            image,
-            format: targetEdition.format,
-            fulfillmentType: targetEdition.fulfillmentType,
-            requiresShipping: targetEdition.requiresShipping,
-            buyLink,
-            stripeProductId: stripeProductId || undefined,
-            stripePriceId: targetEdition.stripePriceId || stripePriceId || undefined,
+            id: buildCartItemKey(id, selectedEdition.id), productId: id,
+            editionId: selectedEdition.id, editionName: selectedEdition.name,
+            slug, title: title + " — " + selectedEdition.name,
+            price: selectedEdition.price, image, format: selectedEdition.format,
+            fulfillmentType: selectedEdition.fulfillmentType, requiresShipping: selectedEdition.requiresShipping,
+            buyLink, stripeProductId: selectedEdition.stripeProductId || stripeProductId,
+            stripePriceId: selectedEdition.stripePriceId || stripePriceId,
         });
-        trackMetaEvent("AddToCart", {
-            content_id: slug,
-            content_type: "product",
-            value: targetEdition.price,
-            currency: "USD",
-        });
-        toggleCart();
-    }, [selectedEdition, id, slug, title, image, buyLink, stripeProductId, stripePriceId, addItem, toggleCart]);
+        trackMetaEvent("AddToCart", { content_id: slug, content_type: "product", value: selectedEdition.price, currency: "USD" });
+        setCartOpen(true);
+    }, [selectedEdition, canAdd, addItem, setCartOpen, id, slug, title, image, buyLink, stripeProductId, stripePriceId]);
 
-    const handleWishlist = useCallback(() => {
-        toggleItem({ id, slug, title, price: selectedEdition.price, image, format: selectedEdition.format });
-    }, [id, slug, title, image, selectedEdition, toggleItem]);
-
-    const discountPct = compareAtPrice && compareAtPrice > selectedEdition.price
-        ? Math.round(((compareAtPrice - selectedEdition.price) / compareAtPrice) * 100)
-        : null;
-
-    const starCount = Math.round(rating);
-    return (
-        <section className="bg-slate-50 border-b border-slate-200 pt-10 pb-16">
-            <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-                <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
-
-                    {/* ─── LEFT COLUMN: Image Gallery ─────────────────────── */}
-                    <div className="w-full lg:w-[45%] flex gap-4 lg:gap-6 lg:sticky lg:top-24 items-start">
-
-                        {/* Thumbnail Strip (Institutional Standard) */}
-                        {allMedia.length > 1 && (
-                            <div className="hidden sm:flex flex-col items-center gap-3 shrink-0">
-                                <button 
-                                    onClick={() => scrollThumbnails("up")}
-                                    className="p-1.5 text-slate-400 hover:text-brand-900 transition-colors bg-white border border-slate-200 rounded-md shadow-sm"
-                                    aria-label="Scroll thumbnails up"
-                                >
-                                    <ChevronUp className="w-4 h-4" />
-                                </button>
-                                
-                                <div 
-                                    id="thumbnail-scroll-container"
-                                    className="flex flex-col gap-3 w-[80px] max-h-[450px] overflow-y-auto no-scrollbar scroll-smooth py-1"
-                                >
-                                    {allMedia.map((media, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => {
-                                                setImageLoaded(false);
-                                                setMainContent({ 
-                                                    type: media.type, 
-                                                    url: media.url, 
-                                                    metadata: 'metadata' in media ? media.metadata : undefined 
-                                                });
-                                            }}
-                                            aria-label={`View ${media.type} ${i + 1}`}
-                                            className={cn(
-                                                "w-full aspect-[3/4] shrink-0 rounded-md overflow-hidden border-2 transition-all duration-300 bg-white relative",
-                                                mainContent.url === media.url
-                                                    ? "border-gold-500 shadow-md ring-1 ring-gold-500/20"
-                                                    : "border-slate-100 hover:border-slate-300 opacity-70 hover:opacity-100"
-                                            )}
-                                        >
-                                            {media.type === 'video' ? (
-                                                <div className="w-full h-full bg-brand-900 flex items-center justify-center">
-                                                    <Zap className="w-5 h-5 text-gold-500 fill-gold-500" />
-                                                </div>
-                                            ) : (
-                                                <Image 
-                                                    src={media.url} 
-                                                    alt={`Thumbnail ${i + 1}`} 
-                                                    fill
-                                                    className="object-contain p-1"
-                                                    sizes="80px"
-                                                />
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <button 
-                                    onClick={() => scrollThumbnails("down")}
-                                    className="p-1.5 text-slate-400 hover:text-brand-900 transition-colors bg-white border border-slate-200 rounded-md shadow-sm"
-                                    aria-label="Scroll thumbnails down"
-                                >
-                                    <ChevronDown className="w-4 h-4" />
-                                </button>
-                            </div>
-                        )}
-
-                        {/* Main Image Container */}
-                        <div className="flex-1 flex flex-col items-center gap-8">
-                            <div className="w-full relative">
-                                {badge && (
-                                    <div className="absolute -top-4 -left-4 z-20">
-                                        <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-brand-900 text-gold-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-md shadow-xl border border-brand-800">
-                                            <Trophy className="w-3.5 h-3.5" />
-                                            {badge}
-                                        </span>
-                                    </div>
-                                )}
-
-                                <div className="relative group perspective-1000">
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            key={mainContent.url}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -20 }}
-                                            transition={{ duration: 0.4, ease: "easeOut" }}
-                                            className="w-full aspect-[3/4] max-w-sm mx-auto rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(13,46,43,0.15)] border border-slate-200 bg-white relative"
-                                        >
-                                            {mainContent.type === 'video' ? (
-                                                <div className="w-full h-full bg-brand-900">
-                                                    {mainContent.url.includes('cdn.sanity.io/files') || mainContent.url.endsWith('.mp4') ? (
-                                                        <video
-                                                            src={mainContent.url}
-                                                            className="w-full h-full object-contain"
-                                                            controls
-                                                            autoPlay
-                                                            poster={videoThumbnail?.url}
-                                                        />
-                                                    ) : (
-                                                        <iframe
-                                                            src={mainContent.url.includes('youtube.com') || mainContent.url.includes('youtu.be') 
-                                                                ? `https://www.youtube.com/embed/${mainContent.url.split('v=')[1]?.split('&')[0] || mainContent.url.split('/').pop()}?autoplay=1&rel=0`
-                                                                : mainContent.url
-                                                            }
-                                                            className="w-full h-full"
-                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                            allowFullScreen
-                                                        />
-                                                    )}
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    {!imageLoaded && (
-                                                        <Skeleton className="absolute inset-0 z-10" />
-                                                    )}
-                                                    <Image
-                                                        src={mainContent.url}
-                                                        alt={title}
-                                                        fill
-                                                        className={cn(
-                                                            "object-contain p-4 transition-all duration-700 hover:scale-105",
-                                                            imageLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
-                                                        )}
-                                                        onLoadingComplete={() => setImageLoaded(true)}
-                                                        placeholder={mainContent.metadata?.lqip ? "blur" : "empty"}
-                                                        blurDataURL={mainContent.metadata?.lqip}
-                                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                                                        priority
-                                                    />
-                                                </>
-                                            )}
-                                        </motion.div>
-                                    </AnimatePresence>
-                                    
-                                    {/* Interaction Prompts */}
-                                    <div className="absolute inset-x-0 bottom-6 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                                        <button className="px-4 py-2 bg-white/95 backdrop-blur rounded-lg text-[10px] font-bold uppercase tracking-widest text-brand-900 shadow-2xl border border-slate-200 hover:bg-gold-500 hover:text-white transition-colors">
-                                            Quick View
-                                        </button>
-                                        <button 
-                                            onClick={handleWishlist}
-                                            className={cn(
-                                                "p-2 bg-white/95 backdrop-blur rounded-lg shadow-2xl border border-slate-200 transition-colors",
-                                                wishlisted ? "text-red-600" : "text-brand-900 hover:text-red-600"
-                                            )}
-                                        >
-                                            <Heart className={cn("w-4 h-4", wishlisted && "fill-red-600")} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Trust Elements */}
-                            <div className="w-full max-w-sm mx-auto flex items-center justify-center gap-8 py-2 border-y border-slate-200/60">
-                                <div className="flex flex-col items-center gap-1">
-                                    <ShieldCheck className="w-5 h-5 text-gold-600" />
-                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Secure Vault</span>
-                                </div>
-                                <div className="flex flex-col items-center gap-1">
-                                    <Award className="w-5 h-5 text-gold-600" />
-                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Expert Choice</span>
-                                </div>
-                                <div className="flex flex-col items-center gap-1">
-                                    <Zap className="w-5 h-5 text-gold-600" />
-                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Instant Access</span>
-                                </div>
-                            </div>
-
-                            {/* Strategic Insights Carousel (Sneak Peek) */}
-                            {samplePages.length > 0 && (
-                                <div className="w-full max-w-sm mx-auto mt-10">
-                                    <div className="flex items-center justify-between mb-4 px-1">
-                                        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                                            Strategic Insights
-                                        </h3>
-                                        <span className="text-[10px] font-bold text-gold-600 flex items-center gap-1">
-                                            Sneak Peek <ChevronRight className="w-3 h-3" />
-                                        </span>
-                                    </div>
-                                    <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar scroll-smooth">
-                                        {samplePages.map((page, i) => (
-                                            <button
-                                                key={i}
-                                                onClick={() => {
-                                                    setImageLoaded(false);
-                                                    setMainContent({ type: 'image', url: page.url, metadata: page.metadata });
-                                                }}
-                                                className={cn(
-                                                    "w-24 aspect-[3/4] shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-300 bg-white relative group/sample",
-                                                    mainContent.url === page.url
-                                                        ? "border-gold-500 shadow-md scale-105"
-                                                        : "border-slate-100 hover:border-slate-300"
-                                                )}
-                                            >
-                                                <Image 
-                                                    src={page.url} 
-                                                    alt={`Sample Page ${i + 1}`} 
-                                                    fill
-                                                    className="object-cover group-hover/sample:scale-110 transition-transform duration-500"
-                                                    sizes="96px"
-                                                />
-                                                <div className="absolute inset-0 bg-black/0 group-hover/sample:bg-black/5 transition-colors" />
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* ─── RIGHT COLUMN: Buy Box (The Vault Card) ──────────── */}
-                    <div className="w-full lg:w-[55%]">
-                        <div className="bg-white border border-slate-200 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.04)] overflow-hidden">
-                            
-                            {/* Product Info Section */}
-                            <div className="p-8 lg:p-10 border-b border-slate-100">
-                                {category && (
-                                    <span className="inline-block text-[10px] font-black uppercase tracking-[0.3em] text-gold-600 mb-4 bg-gold-50 px-3 py-1 rounded-full">
-                                        {category}
-                                    </span>
-                                )}
-                                <h1 className="text-4xl lg:text-5xl font-bold text-brand-900 font-heading leading-[1.1] tracking-tighter mb-4">
-                                    {title}
-                                </h1>
-                                {subtitle && (
-                                    <p className="text-lg leading-relaxed text-slate-600 mb-6 font-sans">
-                                        {subtitle}
-                                    </p>
-                                )}
-                                
-                                <div className="flex flex-wrap items-center gap-6">
-                                    {author?.name && (
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-brand-900 font-bold">
-                                                {author.name.charAt(0)}
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-xs text-slate-400 font-bold uppercase tracking-wider leading-none mb-1">Author</span>
-                                                <span className="text-sm text-brand-900 font-bold">{author.name}</span>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Star Rating Block */}
-                                    <div className="flex flex-col">
-                                        <span className="text-xs text-slate-400 font-bold uppercase tracking-wider leading-none mb-1">Reader Rating</span>
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex gap-0.5" aria-label={`${starCount} out of 5 stars`}>
-                                                {[1, 2, 3, 4, 5].map((s) => (
-                                                    <Star
-                                                        key={s}
-                                                        className={cn(
-                                                            "w-3.5 h-3.5 transition-colors",
-                                                            s <= starCount ? "fill-gold-500 text-gold-500" : "text-slate-200 fill-slate-200"
-                                                        )}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <a href="#reviews" className="text-xs text-brand-700 font-bold hover:text-gold-600 transition-colors border-b border-brand-700/30">
-                                                Verified Reviews
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Transactional Section (Choice & Action) */}
-                            <div id="product-purchase" className="p-8 lg:p-10 bg-slate-50/50 scroll-mt-28">
-                                {/* Price Display */}
-                                <div className="mb-8">
-                                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-3">Investment</p>
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-5xl font-bold text-brand-900 font-sans tracking-tight tabular-nums">
-                                            ${selectedEdition.price.toFixed(2)}
-                                        </span>
-                                        <div className="flex flex-col">
-                                            {compareAtPrice && compareAtPrice > selectedEdition.price && (
-                                                <span className="text-lg text-slate-400 line-through font-sans tabular-nums">
-                                                    ${compareAtPrice.toFixed(2)}
-                                                </span>
-                                            )}
-                                            {discountPct && (
-                                                <span className="text-xs font-black text-emerald-600 uppercase tracking-widest">
-                                                    Institutional Savings {discountPct}%
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Format Tiles (Tactile) */}
-                                <div className="mb-10">
-                                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4">Select Access Format</p>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        {editions.map((ed) => (
-                                            <button
-                                                key={ed.id}
-                                                onClick={() => setSelectedEdition(ed)}
-                                                aria-pressed={selectedEdition.id === ed.id}
-                                                className={cn(
-                                                    "flex items-center justify-between px-6 py-5 rounded-xl border-2 transition-all duration-300 text-left relative overflow-hidden group/tile",
-                                                    selectedEdition.id === ed.id
-                                                        ? "border-gold-500 bg-white shadow-lg ring-4 ring-gold-500/5"
-                                                        : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
-                                                )}
-                                            >
-                                                <div className="flex flex-col relative z-10">
-                                                    <span className={cn(
-                                                        "text-[10px] font-black uppercase tracking-widest mb-1",
-                                                        selectedEdition.id === ed.id ? "text-gold-600" : "text-slate-400"
-                                                    )}>
-                                                        {ed.format}
-                                                    </span>
-                                                    <span className="text-base font-bold text-brand-900">{ed.name}</span>
-                                                </div>
-                                                <div className="text-right relative z-10">
-                                                    <span className={cn(
-                                                        "text-lg font-bold font-sans tabular-nums",
-                                                        selectedEdition.id === ed.id ? "text-brand-900" : "text-slate-600"
-                                                    )}>
-                                                        ${ed.price.toFixed(0)}
-                                                    </span>
-                                                </div>
-                                                {selectedEdition.id === ed.id && (
-                                                    <div className="absolute top-0 right-0 p-1.5 bg-gold-500 text-white rounded-bl-lg">
-                                                        <CheckCircle2 className="w-3 h-3" />
-                                                    </div>
-                                                )}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Main CTA Block */}
-                                <div className="space-y-4">
-                                    <button
-                                        onClick={() => handleAddToCart()}
-                                        className="w-full bg-gold-500 text-brand-900 py-6 rounded-xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_10px_25px_rgba(212,175,55,0.25)] hover:bg-gold-600 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
-                                    >
-                                        <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                        Secure This Asset
-                                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                    </button>
-                                    
-                                    <div className="flex items-center justify-center gap-6">
-                                        <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                            Instant Digital Vault Access
-                                        </div>
-                                        <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                            Expert-Backed Strategies
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    return <section className="border-b border-slate-200 bg-white py-10 lg:py-12">
+        <div className="mx-auto grid w-full max-w-[94rem] min-w-0 gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-10 lg:px-8 xl:gap-12">
+            <div className="min-w-0">
+                <div data-book-cover-stage className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-gold-50 to-slate-200 p-6 sm:p-8 lg:min-h-[36rem]">
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/5 border-t border-white/70 bg-white/60" />
+                    <div className={cn("relative aspect-[512/800] w-[78%] max-w-[22rem]", activeMedia?.type !== "video" && "[transform:perspective(1200px)_rotateY(-8deg)] drop-shadow-[14px_20px_18px_rgba(5,26,24,.25)]")}>
+                        {activeMedia?.type === "video" ? <VideoEmbed videoUrl={activeMedia.url} posterImage={videoThumbnail?.url} /> : activeMedia ? <Image src={activeMedia.url} alt={title} fill priority sizes="(max-width: 768px) 70vw, 352px" className="object-contain" placeholder={activeMedia.metadata?.lqip ? "blur" : "empty"} blurDataURL={activeMedia.metadata?.lqip} /> : <BookOpen className="absolute inset-0 m-auto size-16 text-brand-500" aria-hidden="true" />}
                     </div>
                 </div>
+                {media.length > 1 && <div className="mt-4 flex flex-wrap justify-center gap-3">{media.map((entry, index) => <button key={entry.url} type="button" aria-label={t("viewMedia", { type: entry.type === "video" ? t("video") : t("image"), number: index + 1 })} aria-pressed={mediaIndex === index} onClick={() => setMediaIndex(index)} className={cn("relative min-h-14 w-14 overflow-hidden rounded-lg border-2 bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700", mediaIndex === index ? "border-brand-500" : "border-slate-600")}>
+                    {entry.type === "video" ? <Play className="m-auto size-6 text-brand-500" aria-hidden="true" /> : <Image src={entry.url} alt="" fill sizes="56px" className="object-contain p-1" />}
+                </button>)}</div>}
+                <ul data-book-highlights className="grid grid-cols-3 gap-2 py-6 sm:gap-4 sm:py-8">
+                    {bookHighlightIcons[highlightGroup].map((Icon, index) => <li key={index} className="min-w-0 px-1 text-center [&:not(:first-child)]:border-l [&:not(:first-child)]:border-slate-200 sm:px-3">
+                        <span className="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-500 sm:size-16"><Icon className="size-6 sm:size-8" aria-hidden="true" /></span>
+                        <p className="font-heading text-sm font-bold leading-snug text-brand-900 sm:text-base">{page(highlightPrefix + "." + index + ".title")}</p>
+                        <p className="mt-1.5 text-xs leading-relaxed text-slate-700 sm:text-sm">{page(highlightPrefix + "." + index + ".body")}</p>
+                    </li>)}
+                </ul>
             </div>
-        </section>
-    );
+            <div className="min-w-0 pt-2 lg:pt-6">
+                {category && <p className="font-heading text-sm font-semibold uppercase tracking-[.08em] text-brand-900 after:mt-3 after:block after:h-px after:w-20 after:bg-gold-600">{category}</p>}
+                <h1 className="mt-5 font-heading text-[clamp(2.25rem,4vw,3.75rem)] font-bold leading-[1.08] tracking-[-.04em] text-brand-900">{title}</h1>
+                {subtitle && <p className="mt-5 text-lg leading-[1.45] text-slate-700 sm:text-xl">{subtitle}</p>}
+                {author?.name && <p className="mt-4 text-sm text-slate-700">{t("author")}: {author.name}</p>}
+                <div id="product-purchase" className="mt-6 scroll-mt-28 border-t border-slate-200 pt-5">
+                    {selectedEdition && <div className="mb-4"><span data-selected-price={selectedEdition.price} className="font-data text-4xl font-bold tabular-nums text-brand-900 sm:text-5xl">{formatProductPrice(selectedEdition.price)}</span><span data-selected-format className="sr-only">{selectedEdition.name}</span></div>}
+                    <ProductOfferSelector editions={sortedEditions} selectedId={selectedEdition?.id || ""} groupId={"format-" + id} onSelect={setSelectedId} />
+                    <button id="product-add-to-cart" type="button" disabled={!canAdd} onClick={handleAddToCart} className="mt-6 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl border border-gold-800 bg-gold-500 px-6 py-4 font-heading text-lg font-bold text-brand-950 hover:bg-gold-400 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700">
+                        <ShoppingCart className="size-6" aria-hidden="true" />{t("addToCart")}
+                    </button>
+                    {!canAdd && <p className="mt-3 text-sm leading-relaxed text-slate-700">{page("purchaseUnavailable")}</p>}
+                    {selectedEdition && <div data-purchase-support className="mt-6 grid gap-5 sm:grid-cols-2">
+                        <div className="flex min-w-0 items-start gap-3"><Package className="mt-1 size-7 shrink-0 text-brand-500" aria-hidden="true" /><div><p className="font-heading text-sm font-bold text-brand-900">{page("editionContents")}</p><p className="mt-1 text-sm leading-relaxed text-slate-700">{selectedEdition.description || selectedEdition.name}</p></div></div>
+                        {(selectedEdition.stripePriceId || stripePriceId) && <div className="flex min-w-0 items-start gap-3"><ShieldCheck className="mt-1 size-7 shrink-0 text-brand-500" aria-hidden="true" /><div><p className="font-heading text-sm font-bold text-brand-900">{page("stripeCheckout")}</p><p className="mt-1 text-sm leading-relaxed text-slate-700">{page("cartCheckout")}</p></div></div>}
+                    </div>}
+                    <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-slate-200 pt-4 text-sm text-slate-700"><span>{page("question")}</span><Link href="/faq" className="inline-flex min-h-11 items-center gap-2 rounded-sm font-heading font-semibold text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700">{page("faqLink")}<ArrowRight className="size-4" aria-hidden="true" /></Link></div>
+                </div>
+            </div>
+        </div>
+        {selectedEdition && <StickyBuyBar price={selectedEdition.price} format={selectedEdition.name} disabled={!canAdd} onAddToCart={handleAddToCart} />}
+    </section>;
 }

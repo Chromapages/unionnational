@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Loader2, CheckCircle2, Lock } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -19,6 +18,9 @@ export function ExitIntentChecklist() {
     const [isVisible, setIsVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [submissionError, setSubmissionError] = useState(false);
+    const layerRef = useRef<HTMLDivElement>(null);
+    const closeRef = useRef<HTMLButtonElement>(null);
 
     const {
         register,
@@ -41,9 +43,52 @@ export function ExitIntentChecklist() {
         return () => document.body.removeEventListener("mouseleave", handleMouseLeave);
     }, []);
 
+    useEffect(() => {
+        if (!isVisible || !layerRef.current) return;
+        const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        const previousOverflow = document.body.style.overflow;
+        const inerted: HTMLElement[] = [];
+        for (let node: HTMLElement | null = layerRef.current; node?.parentElement; node = node.parentElement) {
+            for (const sibling of node.parentElement.children) {
+                if (sibling !== node && sibling instanceof HTMLElement && !sibling.hasAttribute("inert")) {
+                    sibling.setAttribute("inert", "");
+                    inerted.push(sibling);
+                }
+            }
+        }
+        document.body.style.overflow = "hidden";
+        closeRef.current?.focus();
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                setIsVisible(false);
+            }
+            if (event.key !== "Tab") return;
+            const controls = layerRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])');
+            if (!controls?.length) return event.preventDefault();
+            const first = controls[0];
+            const last = controls[controls.length - 1];
+            if (event.shiftKey && (document.activeElement === first || !layerRef.current?.contains(document.activeElement))) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && (document.activeElement === last || !layerRef.current?.contains(document.activeElement))) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.body.style.overflow = previousOverflow;
+            inerted.forEach((element) => element.removeAttribute("inert"));
+            previousFocus?.focus();
+        };
+    }, [isVisible]);
+
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true);
         setIsSuccess(false);
+        setSubmissionError(false);
 
         const payload = {
             event_type: "CONSTRUCTION_CHECKLIST_SUBMITTED",
@@ -74,13 +119,13 @@ export function ExitIntentChecklist() {
 
             const result = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || result.success !== true) {
                 throw new Error(result.message || `Server error: ${response.status}`);
             }
 
             setIsSuccess(true);
-        } catch (error) {
-            console.error("Checklist submission error:", error);
+        } catch {
+            setSubmissionError(true);
             setIsSuccess(false);
         } finally {
             setIsSubmitting(false);
@@ -93,9 +138,24 @@ export function ExitIntentChecklist() {
     };
 
     return (
+        <>
+        <button
+            type="button"
+            onClick={() => {
+                sessionStorage.setItem("checklist_shown", "1");
+                setIsVisible(true);
+            }}
+            className="sr-only focus:not-sr-only focus:fixed focus:bottom-4 focus:left-4 focus:z-[9998] focus:rounded-lg focus:bg-gold-500 focus:px-4 focus:py-2 focus:font-bold focus:text-brand-900"
+        >
+            Request the Contractor Profit Leak Checklist
+        </button>
         <AnimatePresence>
             {isVisible && (
                 <motion.div
+                    ref={layerRef}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="checklist-dialog-title"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -113,6 +173,9 @@ export function ExitIntentChecklist() {
                     >
                         <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                         <button
+                            ref={closeRef}
+                            type="button"
+                            aria-label="Close checklist request"
                             onClick={handleClose}
                             className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
                         >
@@ -128,16 +191,16 @@ export function ExitIntentChecklist() {
                                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <CheckCircle2 className="w-8 h-8 text-green-700" />
                                 </div>
-                                <h3 className="text-2xl font-heading font-bold text-brand-900 mb-3">
-                                    Check Your Inbox
+                                <h3 id="checklist-dialog-title" className="text-2xl font-heading font-bold text-brand-900 mb-3">
+                                    Request Received
                                 </h3>
                                 <p className="text-slate-600">
-                                    Your Profit Leak Checklist is on the way.
+                                    Your checklist request was received.
                                 </p>
                             </motion.div>
                         ) : (
                             <>
-                                <h3 className="text-xl font-heading font-bold text-brand-900 mb-2">
+                                <h3 id="checklist-dialog-title" className="text-xl font-heading font-bold text-brand-900 mb-2">
                                     Before You Go — Get the Contractor Profit Leak Checklist
                                 </h3>
                                 <p className="text-sm text-slate-500 mb-8">
@@ -146,27 +209,38 @@ export function ExitIntentChecklist() {
 
                                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                                     <div>
+                                        <label htmlFor="checklist-first-name" className="sr-only">First name</label>
                                         <input
+                                            id="checklist-first-name"
                                             {...register("firstName")}
                                             type="text"
+                                            autoComplete="given-name"
+                                            aria-invalid={Boolean(errors.firstName)}
+                                            aria-describedby={errors.firstName ? "checklist-first-name-error" : undefined}
                                             placeholder="First name"
                                             className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-brand-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
                                         />
                                         {errors.firstName && (
-                                            <p className="mt-1 text-xs text-red-600">{errors.firstName.message}</p>
+                                            <p id="checklist-first-name-error" className="mt-1 text-xs text-red-600" role="alert">{errors.firstName.message}</p>
                                         )}
                                     </div>
                                     <div>
+                                        <label htmlFor="checklist-email" className="sr-only">Email address</label>
                                         <input
+                                            id="checklist-email"
                                             {...register("email")}
                                             type="email"
+                                            autoComplete="email"
+                                            aria-invalid={Boolean(errors.email)}
+                                            aria-describedby={errors.email ? "checklist-email-error" : undefined}
                                             placeholder="Email address"
                                             className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-brand-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500 transition-colors text-sm"
                                         />
                                         {errors.email && (
-                                            <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
+                                            <p id="checklist-email-error" className="mt-1 text-xs text-red-600" role="alert">{errors.email.message}</p>
                                         )}
                                     </div>
+                                    {submissionError && <p className="text-sm text-red-700" role="alert">We could not receive your request. Please try again.</p>}
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
@@ -192,5 +266,6 @@ export function ExitIntentChecklist() {
                 </motion.div>
             )}
         </AnimatePresence>
+        </>
     );
 }

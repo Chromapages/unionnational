@@ -1,0 +1,10 @@
+{
+  "score": 94,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["The site retains its existing Outfit/Inter typography and gold-green tokens, so glyph shapes differ slightly from the concept render."],
+  "suggestions": [],
+  "reasoning": "At 1774px the section is 944px high and its eyebrow starts 273px from the top, closely matching the reference. The taller cards, built-around details, and direct links are complete. All four active-industry states display the other three cards with valid localized destinations. English and Spanish desktop and the retained mobile layout show no overflow or page errors.",
+  "next_actions": []
+}

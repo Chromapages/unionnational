@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SavingsResultCard } from "@/components/scorp/SavingsResultCard";
-import { formatCurrency } from "@/lib/scorp-advantage/calculator";
+import { calculateSCorpSavings, formatCurrency } from "@/lib/scorp-advantage/calculator";
 
 type StoredResult = {
     firstName: string;
@@ -13,6 +13,8 @@ type StoredResult = {
     estimatedSavings: number;
     suggestedSalary: number;
     distributions: number;
+    entityType?: string;
+    applicable?: boolean;
 };
 
 export function EstimatorResultsClient() {
@@ -28,7 +30,9 @@ export function EstimatorResultsClient() {
 
             const parsed = JSON.parse(stored) as StoredResult;
             const values = [parsed.estimatedNetProfit, parsed.estimatedSavings, parsed.suggestedSalary, parsed.distributions];
-            setResult(values.every(Number.isFinite) ? parsed : null);
+            setResult(values.every(Number.isFinite)
+                ? { ...parsed, ...calculateSCorpSavings(parsed.estimatedNetProfit, parsed.entityType) }
+                : null);
         } catch {
             setResult(null);
         }
@@ -51,16 +55,19 @@ export function EstimatorResultsClient() {
     }
 
     const isLowFit = result.estimatedSavings === 0;
+    const isExistingCorporation = result.entityType === "S_CORP" || result.entityType === "C_CORP" || result.applicable === false;
 
-    if (isLowFit) {
+    if (isExistingCorporation || isLowFit) {
         return (
             <section className="rounded-2xl border border-gray-100 bg-white p-8 shadow-md">
                 <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">Structure Review</p>
                 <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 md:text-5xl">
-                    Your current profit level may not justify a formal S-Corp election yet.
+                    {isExistingCorporation ? "Your corporation calls for a structure review." : "Review the full costs before considering an election."}
                 </h1>
                 <p className="mt-6 text-xl leading-relaxed text-gray-600">
-                    Based on your current profit level, a formal S-Corp election may not generate enough savings to offset the added compliance costs yet. But there are other strategies we can explore. Book a free 15-minute discovery call to find out where you stand.
+                    {isExistingCorporation
+                        ? "This new-election illustration does not apply to an existing S or C corporation. A review can assess your current compensation, payroll, and entity structure."
+                        : "The stated assumptions show no positive employment-tax difference. This comparison does not assess compliance costs or your full tax situation. A review can examine the other factors before you make a decision."}
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                     <Link href="/book" className="rounded-lg bg-indigo-600 px-6 py-3 text-center font-semibold text-white hover:bg-indigo-700">
@@ -88,7 +95,7 @@ export function EstimatorResultsClient() {
                 <p className="text-sm font-bold uppercase tracking-widest text-indigo-200">Next Steps</p>
                 <h2 className="mt-4 text-3xl font-bold tracking-tight">Turn the estimate into a documented plan.</h2>
                 <p className="mt-4 max-w-2xl text-zinc-300 leading-relaxed">
-                    Your estimate points to approximately {formatCurrency(result.estimatedSavings)} in annual self-employment tax savings. The evaluation confirms compensation, structure, payroll readiness, and the implementation path before you make a decision.
+                    The stated assumptions show a modeled annual employment-tax difference of {formatCurrency(result.estimatedSavings)}, before the excluded factors and costs. An evaluation reviews compensation, structure, payroll readiness, and implementation before you make a decision.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                     <Link href="/book" className="rounded-lg bg-indigo-600 px-6 py-3 text-center font-semibold text-white hover:bg-indigo-700">

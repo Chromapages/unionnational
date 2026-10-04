@@ -1,0 +1,15 @@
+{
+  "score": 97,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "active": false,
+  "phase": "complete",
+  "differences": ["Proof strip now uses About's 40px/48px vertical padding."],
+  "suggestions": [],
+  "reasoning": "Exact pre-rewrite homepage source was recovered. File comparison confirms only the proof strip sizing differs. Original video hero, three outcome tabs, three review cards, section order and booking links are restored in both locales.",
+  "next_actions": [],
+  "verification": { "original_source_plus_sizing_only": true, "breakpoints": [390, 768, 1440], "max_container_px": 1504, "gutters_px": [16, 24, 32], "main_heading_px": [30, 36, 44], "main_vertical_padding_px": [40, 40, 48], "document_overflow": false, "hero_video_element_present": true, "formal_checks_run": false, "media_playback": "Not exercised; original CMS video wiring restored." },
+  "generated_screenshot": ".omx/state/homepage-sizing-only/homepage.png"
+}

@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useEffect, useRef, type MouseEvent } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Calendar, Menu as MenuIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { ArrowRight, Calendar, Menu as MenuIcon } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
 import { DesktopOverflowMenu } from "./DesktopOverflowMenu";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
@@ -35,11 +35,14 @@ const navbarStyles = {
 
 export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => {
     const t = useTranslations("Header");
+    const locale = useLocale();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [logoFailed, setLogoFailed] = useState(false);
+    const [isCompact, setIsCompact] = useState(false);
     const [openDesktopMenu, setOpenDesktopMenu] = useState<"services" | "more" | null>(null);
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
+    const scrollMarkerRef = useRef<HTMLSpanElement>(null);
     const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
     const bookingNavigationInProgressRef = useRef(false);
 
@@ -74,6 +77,14 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             bookingNavigationInProgressRef.current = false;
         }, 750);
     }, []);
+
+    useEffect(() => {
+        const marker = scrollMarkerRef.current;
+        if (!marker) return;
+        const observer = new IntersectionObserver(([entry]) => setIsCompact(!entry.isIntersecting));
+        observer.observe(marker);
+        return () => observer.disconnect();
+    }, []);
     const handleServicesOpenChange = useCallback(
         (isOpen: boolean) => setOpenDesktopMenu(isOpen ? "services" : null),
         [],
@@ -83,14 +94,16 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         [],
     );
 
-    const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url || "/images/logo.png";
+    const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url;
     const companyName = siteSettings?.companyName || t("defaultCompanyName");
-    const ctaText = getBookingCtaText(siteSettings?.ctaButtonTextLocalized, t("bookCall"));
-    const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
+    const isScorp = pathname === "/s-corp-tax-advantage";
+    const usesUnifiedBooking = isScorp || pathname === "/industries" || pathname === "/about" || pathname === "/team" || pathname.startsWith("/shop/");
+    const ctaText = isScorp ? (locale === "es" ? "Reservar una evaluación S-Corp" : "Book an S-Corp Evaluation") : usesUnifiedBooking ? t("bookCall") : getBookingCtaText(siteSettings?.ctaButtonTextLocalized, t("bookCall"));
+    const ctaUrl = usesUnifiedBooking ? "/book" : getBookingHref(siteSettings?.ctaButtonUrl);
     useEffect(() => setLogoFailed(false), [logoUrl]);
 
     useEffect(() => {
-        const wideDesktop = window.matchMedia("(min-width: 1536px)");
+        const wideDesktop = window.matchMedia(locale === "es" ? "(min-width: 1664px)" : "(min-width: 1440px)");
         const closeResponsiveOverflow = () => {
             if (wideDesktop.matches) {
                 setOpenDesktopMenu((current) => current === "more" ? null : current);
@@ -100,23 +113,21 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         closeResponsiveOverflow();
         wideDesktop.addEventListener("change", closeResponsiveOverflow);
         return () => wideDesktop.removeEventListener("change", closeResponsiveOverflow);
-    }, []);
+    }, [locale]);
 
     return (
         <>
+            <span ref={scrollMarkerRef} className="pointer-events-none absolute left-0 top-6 h-px w-px" aria-hidden="true" />
             <header
                 ref={headerRef}
-                className="fixed top-0 left-0 right-0 z-[1200] pt-[env(safe-area-inset-top)]"
-                style={{
-                    backgroundColor: "rgb(13, 46, 43)",
-                    borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: "0 1px 24px -4px rgba(2, 9, 8, 0.25)",
-                }}
+                data-compact={isCompact}
+                data-scorp={isScorp}
+                className="site-header fixed top-0 left-0 right-0 z-[1200] pt-[env(safe-area-inset-top)]"
             >
-                <div className="mx-auto max-w-screen-2xl">
+                <div className="strategy-dock mx-auto max-w-screen-2xl">
                     {/* Inner row: logo + nav + utilities */}
                     <div
-                        className="flex min-h-16 items-center justify-between px-4 sm:px-5 lg:px-6"
+                        className="strategy-dock-row flex min-h-16 items-center justify-between px-4 sm:px-5 lg:px-6"
                     >
                         {/* ── Left: Logo ── */}
                         <Link
@@ -124,10 +135,10 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                             aria-label={t("logoHomeAria", {
                                 company: companyName,
                             })}
-                            className="mr-0 flex min-h-11 shrink-0 items-center rounded-sm touch-manipulation sm:mr-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
+                            className="mr-0 flex min-h-11 shrink-0 items-center rounded-sm touch-manipulation sm:mr-6 xl:mr-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
                         >
-                            <div className="relative flex h-[42px] w-[144px] items-center justify-center min-[360px]:w-[172px]">
-                                {logoFailed ? (
+                            <div className="strategy-dock-logo relative flex h-[42px] w-[144px] items-center justify-center min-[360px]:w-[172px]">
+                                {!logoUrl || logoFailed ? (
                                     <span className="px-2 text-center font-heading text-sm font-bold leading-tight text-white">
                                         {companyName}
                                     </span>
@@ -148,7 +159,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         {/* ── Center: Desktop Nav (lg+) ── */}
                         <nav
                             aria-label={t("mainNavigationAria")}
-                            className="hidden xl:flex items-center gap-0.5"
+                            className="strategy-nav-dock hidden xl:flex items-center gap-0.5"
                         >
                             {/* Services — strongest active treatment */}
                             <ServicesDropdown
@@ -166,7 +177,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         href={link.href}
                                         aria-current={isActive ? "page" : undefined}
                                         className={`
-                                            relative whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none
+                                            strategy-nav-item strategy-primary-item relative whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none
                                             ${isActive ? "text-gold-400" : "text-slate-200 hover:text-white"}
                                         `}
                                     >
@@ -192,7 +203,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         href={link.href}
                                         aria-current={isActive ? "page" : undefined}
                                         className={`
-                                            relative hidden whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none 2xl:inline-flex
+                                            strategy-nav-item strategy-secondary-item relative hidden whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none min-[1440px]:inline-flex
                                             ${isActive ? "text-gold-400" : "text-slate-200 hover:text-white"}
                                         `}
                                     >
@@ -206,12 +217,12 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         </nav>
 
                         {/* ── Right: Utilities + CTA ── */}
-                        <div className="flex items-center gap-3">
+                        <div className="strategy-utilities flex items-center gap-3">
                             {/* Language toggle */}
-                            <div className="hidden 2xl:block"><LocaleSwitcher /></div>
+                            <div className="strategy-locale hidden min-[1440px]:block"><LocaleSwitcher dock /></div>
 
                             {/* Mobile conversion CTA — compact to preserve logo and menu touch targets. */}
-                            <Link
+                            {!usesUnifiedBooking && <Link
                                 href={ctaUrl}
                                 onClick={handleBookingClick}
                                 aria-label={t("bookCall")}
@@ -221,16 +232,16 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 <Calendar className="h-5 w-5 shrink-0" aria-hidden="true" />
                                 <span className="text-xs font-bold">{t("bookShort")}</span>
                                 <span className="sr-only">{t("bookCall")}</span>
-                            </Link>
+                            </Link>}
 
                             {/* Primary CTA — always visible, sticky in fixed header */}
                             <Link
                                 href={ctaUrl}
                                 onClick={handleBookingClick}
-                                className={navbarStyles.cta}
-                                style={{ boxShadow: "0 2px 10px -2px rgba(212, 175, 55, 0.5)" }}
+                                className={`${navbarStyles.cta} strategy-booking-cta`}
                             >
                                 {ctaText}
+                                <ArrowRight className="hidden h-5 w-5 xl:block" aria-hidden="true" />
                             </Link>
 
                             {/* Hamburger — only shown when sidebar is closed on mobile */}
@@ -251,13 +262,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             </header>
 
             {/* Shared layout offset for the fixed header. */}
-            <div
-                aria-hidden="true"
-                style={{
-                    height: "var(--header-height, 76px)",
-                    minHeight: "var(--header-height, 76px)",
-                }}
-            />
+            <div aria-hidden="true" data-scorp={isScorp} className="site-header-offset" />
 
             <MobileSidebar
                 isOpen={sidebarOpen}

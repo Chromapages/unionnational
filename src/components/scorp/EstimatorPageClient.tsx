@@ -2,22 +2,28 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { SavingsEstimatorForm, SCorpEstimatorFormData } from "@/components/scorp/SavingsEstimatorForm";
-import { calculateFitScore, calculateSCorpSavings } from "@/lib/scorp-advantage/calculator";
+import { calculateFitScore, calculateSCorpSavings, isHighIntent } from "@/lib/scorp-advantage/calculator";
+import { sanitizeReferrerUrl } from "@/lib/scorp-advantage/referrer";
 
 export function EstimatorPageClient() {
+    const submissionId = useRef(crypto.randomUUID());
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
     const handleSubmit = async (data: SCorpEstimatorFormData) => {
+        if (!Number.isFinite(data.estimatedNetProfit) || data.estimatedNetProfit < 0 || data.estimatedNetProfit > 1000000) {
+            setError("Estimated net profit must be between $0 and $1,000,000.");
+            return;
+        }
         setIsLoading(true);
         setError("");
 
-        const estimate = calculateSCorpSavings(data.estimatedNetProfit);
+        const estimate = calculateSCorpSavings(data.estimatedNetProfit, data.entityType);
         const fitScore = calculateFitScore(data);
-        const highIntentFlag = data.urgencyLevel === "HIGH" || fitScore >= 70 || estimate.estimatedSavings > 15000;
+        const highIntentFlag = isHighIntent(data);
 
         const resultPayload = {
             ...data,
@@ -64,19 +70,20 @@ export function EstimatorPageClient() {
                         fitScore,
                     },
                     tracking: {
-                        referrerUrl: document.referrer || undefined,
+                        referrerUrl: sanitizeReferrerUrl(document.referrer),
                         clientTimestamp: new Date().toISOString(),
                     },
                     meta: {
-                        locale: "en",
+                        locale: document.documentElement.lang === "es" ? "es" : "en",
                         userAgent: navigator.userAgent,
+                        submissionId: submissionId.current,
                     },
                 }),
             });
 
             const apiResult = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || apiResult.success !== true) {
                 throw new Error(apiResult.error || "We could not submit your estimate. Please try again.");
             }
 

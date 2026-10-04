@@ -1,0 +1,30 @@
+{
+  "scope": "desktop-navbar",
+  "score": 95,
+  "threshold": 90,
+  "threshold_passed": true,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The grouped Services panel is clearer and shorter than the reference dropdown.",
+    "The 1280px and 1440px desktop rows now remain on one line in both languages.",
+    "The compact header now handles 768px and 1024px cleanly while the full desktop row starts at 1280px.",
+    "English and Spanish labels, service groups, CTAs, and drawer navigation are now consistently localized.",
+    "The new panel uses three visitor-intent groups instead of an undifferentiated two-column service list."
+  ],
+  "suggestions": [],
+  "reasoning": "The navbar now presents a clear five-label hierarchy, a compact problem-oriented Services panel, correct tablet-to-desktop transitions, and consistent English and Spanish navigation without clipping or wrapping.",
+  "verification": {
+    "axe_wcag_a_aa_violations_with_panel_open": 0,
+    "arrow_down_opens_and_focuses_first_service": true,
+    "escape_closes_and_returns_focus": true,
+    "duplicate_ids": 0,
+    "incomplete_menu_roles": 0,
+    "root_service_parent_state": "passed",
+    "industry_parent_state": "passed",
+    "english_spanish_localization": "passed",
+    "viewports_checked": [768, 1024, 1280, 1440],
+    "horizontal_overflow": false
+  },
+  "next_actions": []
+}

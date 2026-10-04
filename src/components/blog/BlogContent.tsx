@@ -38,7 +38,7 @@ const components: PortableTextComponents = {
         h3: ({ children }: any) => <h3 className="text-xl md:text-2xl font-bold font-heading text-brand-900 mt-8 mb-4">{children}</h3>,
         normal: ({ children }: any) => <p className="text-lg leading-relaxed text-brand-900 mb-6 font-sans font-normal antialiased">{children}</p>,
         blockquote: ({ children }: any) => (
-            <blockquote className="border-l-4 border-gold-500 pl-6 py-2 my-8 italic text-xl text-brand-900/80 font-serif bg-slate-50 rounded-r-lg">
+            <blockquote className="border-l-4 border-gold-500 pl-6 py-2 my-8 italic text-xl text-brand-900/80 font-body bg-slate-50 rounded-r-lg">
                 &quot;{children}&quot;
             </blockquote>
         ),
@@ -64,7 +64,7 @@ const components: PortableTextComponents = {
                 </a>
             );
         },
-        strong: ({ children }: { children: React.ReactNode }) => <strong className="font-bold text-brand-900 font-heading">{children}</strong>,
+        strong: ({ children }: { children: React.ReactNode }) => <strong className="font-bold text-brand-900">{children}</strong>,
     },
 };
 

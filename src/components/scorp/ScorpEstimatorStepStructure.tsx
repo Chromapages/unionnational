@@ -4,6 +4,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { ScorpEstimatorInput } from "@/lib/scorp/schema";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import type { KeyboardEvent } from "react";
 
 const ENTITY_TYPES = [
     { value: "SOLE_PROP", label: "Sole Proprietorship" },
@@ -24,6 +25,8 @@ const VERTICALS = [
     { value: "AGENCY", label: "Agency / Marketing" },
     { value: "OTHER", label: "Other Business" }
 ];
+
+const SE_TAX_OPTIONS = ["YES", "NO", "NOT_SURE"];
 
 export const ScorpEstimatorStepStructure = () => {
     const { register, control, setValue, formState: { errors } } = useFormContext<ScorpEstimatorInput>();
@@ -51,6 +54,22 @@ export const ScorpEstimatorStepStructure = () => {
         });
     };
 
+    const handleRadioKeyDown = (event: KeyboardEvent<HTMLButtonElement>, fieldName: keyof ScorpEstimatorInput, options: string[], index: number) => {
+        let nextIndex: number;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % options.length;
+        else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index - 1 + options.length) % options.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = options.length - 1;
+        else return;
+
+        event.preventDefault();
+        handleSelect(fieldName, options[nextIndex]);
+        event.currentTarget.closest('[role="radiogroup"]')?.querySelectorAll<HTMLButtonElement>('[role="radio"]')[nextIndex]?.focus();
+    };
+    const entityTabStop = Math.max(0, ENTITY_TYPES.findIndex(type => type.value === currentEntity));
+    const verticalTabStop = Math.max(0, VERTICALS.findIndex(vertical => vertical.value === currentVertical));
+    const seTaxTabStop = Math.max(0, SE_TAX_OPTIONS.indexOf(currentSeTax));
+
     return (
         <motion.div 
             initial={{ opacity: 0, x: 20 }}
@@ -58,15 +77,18 @@ export const ScorpEstimatorStepStructure = () => {
             exit={{ opacity: 0, x: -20 }}
             className="space-y-8"
         >
-            <div className="space-y-4" role="radiogroup" aria-labelledby="entity_type_label">
+            <div className="space-y-4" role="radiogroup" aria-labelledby="entity_type_label" aria-invalid={Boolean(errors.entity_type)} aria-describedby={errors.entity_type ? "entity_type_error" : undefined}>
                 <label id="entity_type_label" className="text-sm font-bold text-brand-500 uppercase tracking-wider block">Current Entity Type</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {ENTITY_TYPES.map((type) => (
+                    {ENTITY_TYPES.map((type, index) => (
                         <button
                             key={type.value}
                             type="button"
                             role="radio"
                             aria-checked={currentEntity === type.value}
+                            tabIndex={index === entityTabStop ? 0 : -1}
+                            aria-describedby={errors.entity_type ? "entity_type_error" : undefined}
+                            onKeyDown={event => handleRadioKeyDown(event, "entity_type", ENTITY_TYPES.map(option => option.value), index)}
                             onClick={() => handleSelect("entity_type", type.value)}
                             className={cn(
                                 "text-left px-5 py-4 rounded-xl border transition-all font-body text-sm",
@@ -82,15 +104,18 @@ export const ScorpEstimatorStepStructure = () => {
                 {errors.entity_type && <p id="entity_type_error" className="text-red-500 text-xs font-medium">{errors.entity_type.message}</p>}
             </div>
 
-            <div className="space-y-4" role="radiogroup" aria-labelledby="vertical_label">
+            <div className="space-y-4" role="radiogroup" aria-labelledby="vertical_label" aria-invalid={Boolean(errors.niche_vertical)} aria-describedby={errors.niche_vertical ? "vertical_error" : undefined}>
                 <label id="vertical_label" className="text-sm font-bold text-brand-500 uppercase tracking-wider block">Niche / Vertical</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {VERTICALS.map((v) => (
+                    {VERTICALS.map((v, index) => (
                         <button
                             key={v.value}
                             type="button"
                             role="radio"
                             aria-checked={currentVertical === v.value}
+                            tabIndex={index === verticalTabStop ? 0 : -1}
+                            aria-describedby={errors.niche_vertical ? "vertical_error" : undefined}
+                            onKeyDown={event => handleRadioKeyDown(event, "niche_vertical", VERTICALS.map(option => option.value), index)}
                             onClick={() => handleSelect("niche_vertical", v.value)}
                             className={cn(
                                 "text-left px-5 py-4 rounded-xl border transition-all font-body text-sm",
@@ -107,15 +132,18 @@ export const ScorpEstimatorStepStructure = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-4" role="radiogroup" aria-labelledby="se_tax_label">
+                <div className="space-y-4" role="radiogroup" aria-labelledby="se_tax_label" aria-invalid={Boolean(errors.income_subject_to_se_tax)} aria-describedby={errors.income_subject_to_se_tax ? "se_tax_error" : undefined}>
                     <label id="se_tax_label" className="text-sm font-bold text-brand-500 uppercase tracking-wider block">Income Subject to SE Tax?</label>
                     <div className="flex flex-col sm:flex-row gap-3">
-                        {["YES", "NO", "NOT_SURE"].map((val) => (
+                        {SE_TAX_OPTIONS.map((val, index) => (
                             <button
                                 key={val}
                                 type="button"
                                 role="radio"
                                 aria-checked={currentSeTax === val}
+                                tabIndex={index === seTaxTabStop ? 0 : -1}
+                                aria-describedby={errors.income_subject_to_se_tax ? "se_tax_error" : undefined}
+                                onKeyDown={event => handleRadioKeyDown(event, "income_subject_to_se_tax", SE_TAX_OPTIONS, index)}
                                 onClick={() => handleSelect("income_subject_to_se_tax", val)}
                                 className={cn(
                                     "flex-1 px-4 py-4 rounded-xl border transition-all font-body text-xs font-bold",
@@ -128,6 +156,7 @@ export const ScorpEstimatorStepStructure = () => {
                             </button>
                         ))}
                     </div>
+                    {errors.income_subject_to_se_tax && <p id="se_tax_error" className="text-red-500 text-xs font-medium">{errors.income_subject_to_se_tax.message}</p>}
                 </div>
 
                 <div className="space-y-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -18,7 +18,9 @@ import {
     BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { normalizeRevenue } from "@/lib/ghl/contract";
+import { useLocale } from "next-intl";
+import { normalizeRevenue, type GhlPayload } from "@/lib/ghl/contract";
+import { submitGhlLead } from "@/lib/ghl/submit-lead";
 import { BOOKING_ROUTE } from "@/lib/booking";
 
 // ─── SECTIONS (3 stages) ───────────────────────────────────────────────────────
@@ -43,7 +45,7 @@ const tradeTypes = [
     "Other",
 ];
 
-const revenueBands = ["Under $250K", "$250K–$500K", "$500K–$1M", "$1M–$5M", "$5M+"];
+const revenueBands = ["Under $100K", "$100K–$250K", "$250K–$500K", "$500K–$1M", "$1M–$3M", "$3M–$5M", "$5M+"];
 
 const employeeCounts = ["1–4", "5–9", "10–19", "20–49", "50+"];
 
@@ -93,7 +95,7 @@ function calculateScore(data: FormData) {
     // Revenue score
     if (data.revenueBand === "$250K–$500K") score += 15;
     else if (data.revenueBand === "$500K–$1M") score += 25;
-    else if (data.revenueBand === "$1M–$5M") score += 30;
+    else if (data.revenueBand === "$1M–$3M" || data.revenueBand === "$3M–$5M") score += 30;
     else if (data.revenueBand === "$5M+") score += 25;
 
     // Job Costing score
@@ -189,10 +191,13 @@ function getTopLeakAreas(data: FormData): { label: string; icon: React.ElementTy
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
 
 export function ProfitabilityAssessmentForm() {
+    const locale = useLocale();
+    const submissionId = useRef(crypto.randomUUID());
     const [step, setStep] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isComplete, setIsComplete] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const [finalResults, setFinalResults] = useState<{
         score: number;
         band: ReturnType<typeof getScoreBand>;
@@ -248,13 +253,14 @@ export function ProfitabilityAssessmentForm() {
 
     const onSubmit = async (data: FormData) => {
         setIsSubmitting(true);
+        setSubmitError(null);
 
         const score = calculateScore(data);
         const band = getScoreBand(score);
         const leaks = getTopLeakAreas(data);
         const highIntent = score >= 75;
 
-        const payload = {
+        const payload: GhlPayload = {
             event_type: "CONSTRUCTION_ASSESSMENT_SUBMITTED",
             contact: {
                 first_name: data.fullName,
@@ -271,7 +277,8 @@ export function ProfitabilityAssessmentForm() {
                 business_name: data.businessName,
                 industry: "CONSTRUCTION",
                 annual_revenue_band: normalizeRevenue(data.revenueBand),
-                challenge: data.biggestChallenge,
+                revenue_range_label: data.revenueBand,
+                employee_count_band: data.employeeCount,
             },
             intent: {
                 primary_service_interest: "CONSTRUCTION_CFO_PARTNERSHIP",
@@ -283,28 +290,31 @@ export function ProfitabilityAssessmentForm() {
                 fit_score: score,
                 assessment_label: band.label,
             },
+            answers: {
+                trade_type: data.tradeType,
+                biggest_challenge: data.biggestChallenge,
+                job_costing_knows_profit: data.jobCostingKnowsProfit,
+                cash_flow_forecast: data.cashFlowForecast,
+                operational_change_orders: data.operationalChangeOrders,
+                estimating_current_data: data.estimatingCurrentData,
+                cash_flow_payroll_stress: data.cashFlowPayrollStress,
+                operational_sub_accountability: data.operationalSubAccountability,
+            },
             meta: {
                 version: "2.0",
                 submitted_at: new Date().toISOString(),
+                source_page: "/construction/profitability-assessment",
+                locale,
+                submission_id: submissionId.current,
             },
         };
 
-        try {
-            const response = await fetch("/api/ghl/intake", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (response.ok) {
-                setFinalResults({ score, band, leaks, highIntent });
-                setIsComplete(true);
-            }
-        } catch (error) {
-            console.error("Assessment submission error:", error);
-        } finally {
-            setIsSubmitting(false);
-        }
+        const result = await submitGhlLead(payload);
+        if (result.success) {
+            setFinalResults({ score, band, leaks, highIntent });
+            setIsComplete(true);
+        } else setSubmitError(result.message);
+        setIsSubmitting(false);
     };
 
     const slideVariants = {
@@ -671,6 +681,7 @@ export function ProfitabilityAssessmentForm() {
                     </AnimatePresence>
 
                     {/* Controls */}
+                    {submitError && <p role="alert" className="mt-6 text-rose-700">{submitError}</p>}
                     <div className="flex justify-between items-center mt-12 pt-8 border-t border-slate-100">
                         {step > 0 ? (
                             <button
@@ -698,7 +709,7 @@ export function ProfitabilityAssessmentForm() {
                                 disabled={isSubmitting}
                                 className="bg-brand-900 text-white font-black px-10 py-4 rounded-xl flex items-center gap-3 hover:bg-gold-500 hover:text-brand-900 transition-all text-xs uppercase tracking-widest shadow-xl shadow-brand-900/20 disabled:opacity-50"
                             >
-                                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "See My Results"}
+                                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : submitError ? "Retry Submission" : "See My Results"}
                             </button>
                         )}
                     </div>

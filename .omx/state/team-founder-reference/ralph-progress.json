@@ -1,0 +1,11 @@
+{
+  "score": 94,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Original CMS photograph retained instead of the reference's altered background/signature treatment"],
+  "suggestions": [],
+  "reasoning": "The reference composition, hierarchy and brand treatment are implemented. Six EN/ES responsive states pass containment; contrast and keyboard disclosure checks pass. The real portrait is preserved without fabricated signature artwork.",
+  "next_actions": [],
+  "active": false,
+  "completed_at": "2026-10-03"
+}

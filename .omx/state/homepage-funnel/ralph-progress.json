@@ -1,0 +1,22 @@
+{
+  "visual_verdict": {
+    "score": 98,
+    "threshold": 90,
+    "passed": true,
+    "verdict": "pass",
+    "category_match": true,
+    "differences": [
+      "The hero video is intentionally capped by its equal-width column to preserve headline readability.",
+      "The Proactive by Design section is intentionally comparison-led, with no supporting media."
+    ],
+    "suggestions": [
+      "Keep future homepage additions below the final CTA or on dedicated service/resource pages.",
+      "Preserve the enlarged hero-player column and the text-first Proactive by Design layout."
+    ],
+    "reasoning": "The hero player remains a clear secondary visual beside the headline, while Proactive by Design is now a calm, constrained text-first comparison with no media or empty column.",
+    "next_actions": [
+      "Preserve this CTA hierarchy in CMS updates.",
+      "Validate production build after the existing Next.js build lock is released."
+    ]
+  }
+}

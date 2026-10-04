@@ -62,10 +62,10 @@ const StatCounter = ({ value, label, suffix = "+", prefix = "" }: { value: numbe
 
     return (
         <div ref={ref} className="text-center sm:text-left">
-            <div className="text-4xl lg:text-5xl font-bold tracking-tight text-gold-500 font-heading tabular-nums">
+            <div className="text-4xl lg:text-5xl font-bold tracking-tight text-gold-500 font-data tabular-nums">
                 {prefix}{count.toLocaleString()}{suffix}
             </div>
-            <div className="text-xs font-bold text-white/80 uppercase tracking-widest leading-tight mt-2 font-heading">
+            <div className="text-xs font-bold text-white/80 uppercase tracking-widest leading-tight mt-2 font-body">
                 {label}
             </div>
         </div>
@@ -89,7 +89,7 @@ export function StatsSection() {
                 {/* Header Content */}
                 <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
                     <RevealOnScroll>
-                        <span className="text-xs font-bold uppercase tracking-[0.2em] block mb-6 text-gold-600 font-heading">
+                        <span className="text-xs font-bold uppercase tracking-[0.2em] block mb-6 text-gold-600 font-body">
                             Our Mission
                         </span>
                         <h2 className="text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1] text-brand-900 font-heading">

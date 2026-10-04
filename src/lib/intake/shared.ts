@@ -1,6 +1,5 @@
-import { NextRequest } from "next/server";
 import { getEnv } from "@/lib/config/env";
-import { getTraceId, logger } from "@/lib/observability/logger";
+import { logger } from "@/lib/observability/logger";
 import { z } from "zod";
 
 export type RateEntry = {
@@ -61,6 +60,17 @@ export const IntakePayloadSchema = z.object({
     }).optional(),
 });
 
+export const ApplicationSchema = z.object({
+    firstName: z.string().trim().min(1).max(100),
+    lastName: z.string().trim().min(1).max(100),
+    email: z.string().trim().email().max(254),
+    phone: z.string().trim().min(10).max(30),
+    companyName: z.string().trim().min(1).max(200),
+    revenue: z.enum(["UNDER_100K", "100K_500K", "500K_1M", "1M_3M", "3M_5M", "5M_PLUS"]),
+    locale: z.enum(["en", "es"]).default("en"),
+    submissionId: z.string().uuid().optional(),
+});
+
 export type IntakePayload = z.infer<typeof IntakePayloadSchema>;
 
 export function getClientIp(request: Request): string {
@@ -101,7 +111,32 @@ export function logIntake(eventType: string, sourcePage: string, success: boolea
     });
 }
 
-export async function forwardToGhl(payload: unknown, webhookUrl?: string): Promise<Response> {
+export async function readLeadJson(request: Request): Promise<
+    { ok: true; value: unknown } | { ok: false; status: 400 | 413; error: string }
+> {
+    const reader = request.body?.getReader();
+    if (!reader) return { ok: false, status: 400, error: "Invalid JSON body" };
+    const decoder = new TextDecoder();
+    let body = "";
+    let bytes = 0;
+    try {
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            bytes += value.byteLength;
+            if (bytes > 32_768) {
+                await reader.cancel();
+                return { ok: false, status: 413, error: "Request is too large" };
+            }
+            body += decoder.decode(value, { stream: true });
+        }
+        return { ok: true, value: JSON.parse(body + decoder.decode()) };
+    } catch {
+        return { ok: false, status: 400, error: "Invalid JSON body" };
+    }
+}
+
+export async function forwardToGhl(payload: unknown, webhookUrl?: string, submissionId?: string): Promise<Response> {
     const url = webhookUrl ?? getEnv("GHL_WEBHOOK_URL");
 
     if (!url) {
@@ -110,9 +145,17 @@ export async function forwardToGhl(payload: unknown, webhookUrl?: string): Promi
 
     return fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            ...(submissionId ? { "X-Submission-Id": submissionId } : {}),
+        },
         body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(8_000),
     });
+}
+
+export function isLeadTimeout(error: unknown): boolean {
+    return !!error && typeof error === "object" && "name" in error && error.name === "TimeoutError";
 }
 
 export function buildIntakePayload(

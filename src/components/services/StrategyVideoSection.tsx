@@ -29,11 +29,11 @@ export function StrategyVideoSection({
     const describedBy = [descriptionId, captionId].filter(Boolean).join(" ") || undefined;
 
     return (
-        <section aria-labelledby="strategy-video-heading" className="bg-zinc-50 py-12 md:py-16">
-            <div className="mx-auto max-w-5xl px-5 md:px-6">
+        <section aria-labelledby="strategy-video-heading" className="bg-zinc-50 py-10 lg:py-12">
+            <div className="mx-auto w-full max-w-[94rem] px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-3xl text-center">
                     {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-700">{eyebrow}</p>}
-                    <h2 id="strategy-video-heading" className="mt-3 font-heading text-3xl font-bold tracking-tight text-brand-900 md:text-4xl">{heading}</h2>
+                    <h2 id="strategy-video-heading" className="mt-3 font-heading text-3xl font-bold leading-[1.12] tracking-tight text-brand-900 sm:text-4xl lg:text-[2.75rem]">{heading}</h2>
                     {description && <p id={descriptionId} className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-zinc-600 md:text-lg">{description}</p>}
                 </div>
                 <figure className="mt-8">

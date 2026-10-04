@@ -13,19 +13,23 @@ A Next.js tax services website with Sanity CMS, Stripe, and GoHighLevel (GHL) CR
 ## Available Scripts
 
 ```bash
-npm run dev          # Start development server (Turbopack)
+npm ci               # Install the locked dependencies
+npm run dev          # Start Webpack development server on port 3000 (.next)
+npm run dev:3001     # Start a separate Webpack preview on port 3001 (.next-3001)
 npm run dev:webpack  # Start development server (Webpack)
+npm run dev:turbo    # Start development server (Turbopack)
 npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
 npm run test          # Run unit tests
 npm run test:coverage # Run tests with coverage report
 npm run test:e2e      # Run Playwright end-to-end tests
+npm run shop:readiness # Check local Stripe/URL configuration and price map (read only)
 ```
 
 ## Quality Gates
 
-All checks must pass before merging or deploying:
+Run these source checks before merging or deploying:
 
 ```bash
 npm exec tsc -- --noEmit  # TypeScript type check
@@ -35,9 +39,11 @@ npm run build             # Production build
 npm audit --audit-level=high  # Security audit
 ```
 
+The `shop:readiness` check also needs `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `NEXT_PUBLIC_BASE_URL`; it reports missing purchase webhook configuration as a warning. The CI readiness step runs on pushes to `main` with values from GitHub secrets and variables. Pull requests run the other quality gates without payment credentials. A passing build or local preview does not verify live lead, email, or payment delivery.
+
 ## Environment Variables
 
-Required variables for local development and production:
+Set the variables for the external integrations you use. A read-only local preview can start with the public CMS defaults in `src/lib/config/env.ts`; lead and payment flows require their own configuration.
 
 ### GoHighLevel (GHL)
 

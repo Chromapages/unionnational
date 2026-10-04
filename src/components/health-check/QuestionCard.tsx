@@ -17,6 +17,7 @@ interface QuestionCardProps {
     options: Option[];
     selectedValue?: number;
     direction: number;
+    disabled?: boolean;
     onSelect: (value: number) => void;
     onBack: () => void;
 }
@@ -47,6 +48,7 @@ export function QuestionCard({
     options,
     selectedValue,
     direction,
+    disabled = false,
     onSelect,
     onBack,
 }: QuestionCardProps) {
@@ -83,6 +85,7 @@ export function QuestionCard({
                         return (
                             <button
                                 key={`${option.label}-${idx}`}
+                                disabled={disabled}
                                 onClick={() => onSelect(option.value)}
                                 className={`group relative text-left rounded-2xl border-2 px-5 py-4 min-h-[60px] transition-all duration-200 bg-white ${idx === options.length - 1 && options.length % 2 !== 0 ? "md:col-span-2" : ""
                                     } ${isSelected

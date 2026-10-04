@@ -1,0 +1,10 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "At 1440px the section is 949px, down from 1089px; the lead panel is 576px and the comparison action is visible within a 900px viewport. At 1280px and in Spanish, the right rows expand without overlap. Mobile height remains 3348px.",
+  "next_actions": []
+}

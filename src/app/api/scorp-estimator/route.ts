@@ -6,12 +6,16 @@ import { calculateSavingsRange } from "@/lib/scorp/calculateSavingsRange";
 import { mapToGhlPayload } from "@/lib/scorp/mapToGhlPayload";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
+import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
+import { forwardToGhl, readLeadJson } from "@/lib/intake/shared";
 
 export async function POST(request: Request) {
-    const traceId = getTraceId();
+    const traceId = getTraceId(request.headers);
 
     try {
-        const body = await request.json();
+        const parsed = await readLeadJson(request);
+        if (!parsed.ok) return NextResponse.json({ success: false, message: parsed.error }, { status: parsed.status });
+        const body = parsed.value;
 
         const validation = ScorpEstimatorInputSchema.safeParse(body);
 
@@ -31,6 +35,8 @@ export async function POST(request: Request) {
         }
 
         const input = validation.data;
+        const rateLimit = await checkRateLimit(contactRateLimitKey(input.email), 5, 60_000);
+        if (!rateLimit.success) return NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 });
 
         const fit_score = calculateFitScore(input);
         const scorp_fit_level = getFitLevel(fit_score);
@@ -54,25 +60,22 @@ export async function POST(request: Request) {
 
         const ghlWebhookUrl = getEnv("GHL_SCORP_ESTIMATOR_WEBHOOK_URL");
 
+        let lead_captured = false;
         if (ghlWebhookUrl) {
-            const ghlResponse = await fetch(ghlWebhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(ghlPayload),
-            });
-
-            if (!ghlResponse.ok) {
-                logger.warn("GHL Webhook failed", {
-                    traceId,
-                    status: ghlResponse.status,
-                });
+            try {
+                const ghlResponse = await forwardToGhl(ghlPayload, ghlWebhookUrl, input.submission_id);
+                lead_captured = ghlResponse.ok;
+                if (!lead_captured) logger.warn("S-Corp lead webhook rejected", { traceId, status: ghlResponse.status });
+            } catch (error) {
+                logger.warn("S-Corp lead delivery unavailable", { traceId, reason: error instanceof Error ? error.name : "unknown" });
             }
         }
 
         return NextResponse.json({
             success: true,
+            lead_captured,
             ...derived,
-            message: "Calculation complete",
+            message: lead_captured ? "Calculation complete; lead accepted" : "Calculation complete; lead delivery unavailable",
         });
     } catch (error) {
         logger.error("Scorp estimator error", {

@@ -64,6 +64,7 @@ export function BlueprintMoreInfoForm({ className, locale = "en" }: BlueprintMor
             },
             business: {
                 business_name: data.businessName,
+                state_location: data.state,
                 industry: "CONSTRUCTION",
             },
             meta: {

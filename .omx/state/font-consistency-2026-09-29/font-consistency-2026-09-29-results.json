@@ -1,0 +1,82 @@
+[
+  {
+    "route": "/en",
+    "width": 1440,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": "Outfit, \"Outfit Fallback\", sans-serif",
+    "story": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/es",
+    "width": 1440,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": "Outfit, \"Outfit Fallback\", sans-serif",
+    "story": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/en/shop",
+    "width": 1440,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": null,
+    "story": null,
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/es/shop",
+    "width": 1440,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": null,
+    "story": null,
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/en",
+    "width": 390,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": "Outfit, \"Outfit Fallback\", sans-serif",
+    "story": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/es",
+    "width": 390,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": "Outfit, \"Outfit Fallback\", sans-serif",
+    "story": "Outfit, \"Outfit Fallback\", sans-serif",
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/en/shop",
+    "width": 390,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": null,
+    "story": null,
+    "overflow": 0,
+    "fontsLoaded": true
+  },
+  {
+    "route": "/es/shop",
+    "width": 390,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "h1": "Outfit, \"Outfit Fallback\", sans-serif",
+    "process": null,
+    "story": null,
+    "overflow": 0,
+    "fontsLoaded": true
+  }
+]

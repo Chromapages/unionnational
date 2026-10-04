@@ -25,6 +25,7 @@ vi.mock("next-sanity/webhook", () => ({
 
 vi.mock("next/cache", () => ({
     revalidatePath: vi.fn(),
+    revalidateTag: vi.fn(),
 }));
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -65,7 +66,8 @@ describe("POST /api/revalidate", () => {
         const body = await res.json();
         expect(body.revalidated).toBe(true);
         expect(body.status).toBe(200);
-        expect(revalidatePath).toHaveBeenCalledWith("/");
+        expect(revalidatePath).toHaveBeenCalledWith("/en", "layout");
+        expect(revalidatePath).toHaveBeenCalledWith("/es", "layout");
     });
 
     it("returns 401 when secret query parameter is missing", async () => {
@@ -134,7 +136,7 @@ describe("POST /api/revalidate", () => {
         expect(bodyText).toContain("Bad Request");
     });
 
-    it("revalidates the home page path on valid request", async () => {
+    it("revalidates both locale trees on a valid request", async () => {
         const { parseBody } = await import("next-sanity/webhook");
         const { revalidatePath } = await import("next/cache");
 
@@ -148,10 +150,11 @@ describe("POST /api/revalidate", () => {
         const { POST } = await import("@/app/api/revalidate/route");
         await POST(req as unknown as NextRequest);
 
-        expect(revalidatePath).toHaveBeenCalledWith("/");
+        expect(revalidatePath).toHaveBeenCalledWith("/en", "layout");
+        expect(revalidatePath).toHaveBeenCalledWith("/es", "layout");
     });
 
-    it("returns 200 with traceId even when revalidation throws", async () => {
+    it("returns 500 with traceId when revalidation throws", async () => {
         const { parseBody } = await import("next-sanity/webhook");
         const { revalidatePath } = await import("next/cache");
 
@@ -195,7 +198,7 @@ describe("POST /api/revalidate", () => {
         expect(revalidatePath).not.toHaveBeenCalled();
     });
 
-    it("returns 200 even when body is empty but signature is valid", async () => {
+    it("returns 200 when a signed typed payload has no slug", async () => {
         const { parseBody } = await import("next-sanity/webhook");
         const { revalidatePath } = await import("next/cache");
 

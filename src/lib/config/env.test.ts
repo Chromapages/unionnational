@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { getEnv, getMissingReadinessEnv, publicEnv, requireEnv } from "./env";
+import { getEnv, getMissingReadinessEnv, publicEnv, readinessChecks, requireEnv } from "./env";
 
 describe("env config", () => {
   afterEach(() => {
@@ -20,11 +20,11 @@ describe("env config", () => {
   });
 
   it("reports missing readiness env values", () => {
-    vi.stubEnv("NEXT_PUBLIC_SANITY_DATASET", "production");
+    for (const name of readinessChecks) vi.stubEnv(name, "configured");
     vi.stubEnv("NEXT_PUBLIC_SANITY_PROJECT_ID", "");
-    vi.stubEnv("STRIPE_SECRET_KEY", "sk_test");
+    vi.stubEnv("GHL_SHOP_PURCHASE_WEBHOOK_URL", "");
 
-    expect(getMissingReadinessEnv()).toEqual(["NEXT_PUBLIC_SANITY_PROJECT_ID"]);
+    expect(getMissingReadinessEnv()).toEqual(["NEXT_PUBLIC_SANITY_PROJECT_ID", "GHL_SHOP_PURCHASE_WEBHOOK_URL"]);
   });
 
   it("exposes lazy public Sanity defaults and required values", () => {

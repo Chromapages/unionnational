@@ -4,36 +4,43 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
+import { normalizeFaqAnswer } from "@/components/faq/faqContent";
 
 interface FAQItem {
     _id: string;
     question: string;
-    answer: string | any[]; // Can be string or Portable Text blocks
+    answer: unknown;
     category: string;
 }
 
 interface FAQAccordionProps {
     items: FAQItem[];
-    variant?: "light" | "dark";
+    variant?: "light" | "dark" | "soft";
     initialLimit?: number;
+    initialOpenId?: string;
+    showCategoryFilters?: boolean;
+    locale?: string;
 }
 
-export function FAQAccordion({ items, variant = "light", initialLimit }: FAQAccordionProps) {
+export function FAQAccordion({ items, variant = "light", initialLimit, initialOpenId, showCategoryFilters = true, locale = "en" }: FAQAccordionProps) {
     // Unique categories
     const categories = Array.from(new Set(items.map(item => item.category)));
     const [activeCategory, setActiveCategory] = useState<string>(categories[0] || "General");
-    const [openItemId, setOpenItemId] = useState<string | null>(null);
+    const [openItemId, setOpenItemId] = useState<string | null>(initialOpenId ?? null);
     const [showAll, setShowAll] = useState(false);
     const reduceMotion = useReducedMotion();
 
-    const filteredItems = items.filter(item => item.category === activeCategory);
-    const visibleItems = initialLimit && !showAll ? filteredItems.slice(0, initialLimit) : filteredItems;
+    const selectedCategory = categories.includes(activeCategory) ? activeCategory : categories[0];
+    const filteredItems = showCategoryFilters ? items.filter(item => item.category === selectedCategory) : items;
+    const visibleItems = (initialLimit && !showAll ? filteredItems.slice(0, initialLimit) : filteredItems)
+        .map(item => ({ ...item, answer: normalizeFaqAnswer(item.answer, locale) }));
 
     const toggleItem = (id: string) => {
         setOpenItemId(openItemId === id ? null : id);
     };
 
     const isDark = variant === "dark";
+    const isSoft = variant === "soft";
 
     const components = {
         block: {
@@ -67,20 +74,21 @@ export function FAQAccordion({ items, variant = "light", initialLimit }: FAQAcco
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto">
+        <div className={isSoft ? "w-full" : "w-full max-w-4xl mx-auto"}>
             {/* Category Tabs */}
-            {categories.length > 1 && (
+            {showCategoryFilters && categories.length > 1 && (
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {categories.map((cat) => (
                         <button
                             type="button"
                             key={cat}
+                            aria-pressed={selectedCategory === cat}
                             onClick={() => {
                                 setActiveCategory(cat);
                                 setOpenItemId(null);
                                 setShowAll(false);
                             }}
-                            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === cat
+                            className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === cat
                                 ? "bg-gold-500 text-brand-900 shadow-md"
                                 : isDark
                                     ? "bg-white/5 border border-white/10 text-slate-300 hover:border-gold-500/50 hover:text-white"
@@ -98,7 +106,9 @@ export function FAQAccordion({ items, variant = "light", initialLimit }: FAQAcco
                 {visibleItems.map((item) => (
                     <div
                         key={item._id}
-                        className={`rounded-lg border transition-all duration-300 overflow-hidden ${isDark
+                        className={`rounded-lg border transition-all duration-300 overflow-hidden ${isSoft
+                            ? (openItemId === item._id ? "bg-brand-50/40 border-brand-200" : "bg-white border-slate-200")
+                            : isDark
                             ? `bg-white/5 ${openItemId === item._id ? "border-gold-500/50" : "border-white/10 hover:border-gold-500/30"}`
                             : `bg-white ${openItemId === item._id ? "border-gold-500 shadow-md" : "border-slate-100 hover:border-gold-500/30"}`
                             }`}
@@ -108,15 +118,17 @@ export function FAQAccordion({ items, variant = "light", initialLimit }: FAQAcco
                             onClick={() => toggleItem(item._id)}
                             aria-expanded={openItemId === item._id}
                             aria-controls={`faq-answer-${item._id}`}
-                            className="w-full min-h-14 flex items-center justify-between p-5 sm:p-6 text-left group focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-gold-500"
+                            className={`w-full flex items-center justify-between text-left group focus-visible:outline-2 focus-visible:outline-offset-[-3px] ${isSoft ? "min-h-[5.5rem] p-5 sm:px-7 sm:py-6" : "min-h-14 p-5 sm:p-6"} ${isDark ? "focus-visible:outline-gold-300" : "focus-visible:outline-gold-700"}`}
                         >
-                            <span className={`text-lg font-medium pr-8 font-heading transition-colors ${isDark
+                            <span className={`${isSoft ? "text-xl font-semibold pr-5" : "text-lg font-medium pr-8"} font-heading transition-colors ${isDark
                                 ? (openItemId === item._id ? "text-gold-400" : "text-white")
                                 : (openItemId === item._id ? "text-brand-900" : "text-brand-800")
                                 }`}>
                                 {item.question}
                             </span>
-                            <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isDark
+                            <span className={`flex-shrink-0 ${isSoft ? "w-10 h-10" : "w-8 h-8"} rounded-full flex items-center justify-center transition-all duration-300 ${isSoft
+                                ? (openItemId === item._id ? "bg-brand-100 text-brand-500 rotate-180" : "bg-slate-100 text-brand-500")
+                                : isDark
                                 ? (openItemId === item._id ? "bg-gold-500 text-brand-900 rotate-180" : "bg-white/10 text-white group-hover:bg-gold-500/20 group-hover:text-gold-400")
                                 : (openItemId === item._id ? "bg-gold-500 text-brand-900 rotate-180" : "bg-slate-100 text-brand-900 group-hover:bg-gold-100")
                                 }`}>
@@ -133,10 +145,10 @@ export function FAQAccordion({ items, variant = "light", initialLimit }: FAQAcco
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={reduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeInOut" }}
                                 >
-                                    <div className={`px-6 pb-6 leading-relaxed font-sans border-t pt-4 ${isDark
+                                    <div className={`${isSoft ? "px-5 pb-7 text-base sm:px-7 sm:text-lg leading-relaxed font-sans text-brand-500" : `px-6 pb-6 leading-relaxed font-sans border-t pt-4 ${isDark
                                         ? "text-slate-300 border-white/5"
                                         : "text-slate-600 border-slate-100/50"
-                                        }`}>
+                                        }`}`}>
                                         {typeof item.answer === "string" ? (
                                             <p>{item.answer}</p>
                                         ) : (

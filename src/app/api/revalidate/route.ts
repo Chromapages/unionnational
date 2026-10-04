@@ -1,5 +1,5 @@
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 import { getEnv } from "@/lib/config/env";
@@ -24,11 +24,11 @@ export async function POST(req: NextRequest) {
             return new Response("Bad Request", { status: 400 });
         }
 
-        // Revalidate the home page
-        revalidatePath("/");
-
-        // Revalidate specific tags if you are using them (optional)
-        // revalidateTag(body._type)
+        // ponytail: invalidate both locale trees; narrow by document type if webhook volume makes this costly.
+        revalidatePath("/en", "layout");
+        revalidatePath("/es", "layout");
+        revalidatePath("/sitemap.xml");
+        revalidateTag("site-settings", { expire: 0 });
 
         return NextResponse.json({
             status: 200,

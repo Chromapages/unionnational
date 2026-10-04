@@ -1,0 +1,13 @@
+{
+  "score": 94,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "active": false,
+  "phase": "complete",
+  "differences": ["Darker gold labels preserve readable contrast.", "Other services retain their actual CMS items in one scope group rather than adding unverified setup/support categories."],
+  "suggestions": [],
+  "reasoning": "Centered title, gold rule, two groups of two icon cards and closing note match the S-Corp reference while preserving Outfit/Inter. All seven routes render the shared component; inspected 390/768/1440px layouts have no overflow.",
+  "next_actions": [],
+  "verification": "Manual rendered checks; no lint, typecheck, suites or build run. Existing untranslated CMS headings on some Spanish routes are outside this styling change."
+}

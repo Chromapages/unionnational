@@ -8,15 +8,16 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { client } from "@/sanity/lib/client";
 import { LegalContentClient } from "@/components/legal/LegalContentClient";
 import { PRIVACY_POLICY_DATA } from "@/data/privacy-policy-content";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
-const LEGAL_SLUGS_QUERY = `*[_type == "legalPage"]{ "slug": slug.current }`;
+const LEGAL_SLUGS_QUERY = `*[_type == "legalPage" && isPublished == true && defined(slug.current)]{ "slug": slug.current }`;
 
 export async function generateStaticParams() {
-    const pages = await client.fetch(LEGAL_SLUGS_QUERY);
+    const pages = await client.fetch<Array<{ slug: string }>>(LEGAL_SLUGS_QUERY).catch(() => []);
     const locales = ["en", "es"];
 
     // Add default privacy-policy to static params if not already there
-    const slugs = pages.map((p: any) => p.slug);
+    const slugs = pages.map((page) => page.slug);
     if (!slugs.includes("privacy-policy")) slugs.push("privacy-policy");
 
     return slugs.flatMap((slug: string) =>
@@ -27,37 +28,36 @@ export async function generateStaticParams() {
     );
 }
 
+async function getLegalPage(slug: string, locale: string) {
+    try {
+        const { data } = await sanityFetch({
+            query: LEGAL_PAGE_QUERY,
+            params: { slug, locale },
+        });
+        return data || (slug === "privacy-policy" ? PRIVACY_POLICY_DATA : null);
+    } catch (error) {
+        if (slug === "privacy-policy") return PRIVACY_POLICY_DATA;
+        throw error;
+    }
+}
+
 export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await props.params;
-    let { data: page } = await sanityFetch({
-        query: LEGAL_PAGE_QUERY,
-        params: { slug, locale }
-    });
-
-    // Fallback metadata for privacy policy
-    if (!page && slug === "privacy-policy") {
-        page = PRIVACY_POLICY_DATA;
-    }
+    const page = await getLegalPage(slug, locale);
 
     if (!page) return { title: 'Page Not Found' };
 
     return {
         title: `${page.title} | Union National Tax`,
         description: `Legal documentation: ${page.title} for Union National Tax.`,
+        alternates: localizedAlternates(locale, `/legal/${slug}`),
+        ...(page.seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
     };
 }
 
 export default async function LegalPage(props: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await props.params;
-    let { data: page } = await sanityFetch({
-        query: LEGAL_PAGE_QUERY,
-        params: { slug, locale }
-    });
-
-    // Fallback content for privacy policy if not in Sanity
-    if (!page && slug === "privacy-policy") {
-        page = PRIVACY_POLICY_DATA;
-    }
+    const page = await getLegalPage(slug, locale);
 
     if (!page) {
         notFound();

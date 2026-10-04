@@ -2,6 +2,7 @@
 
 import { useMemo, useCallback, useSyncExternalStore } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { ProductGrid } from "./ProductGrid";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +30,7 @@ interface ShopClientProps {
 }
 
 export function ShopClient({ products }: ShopClientProps) {
+    const t = useTranslations("Shop.Desktop.library");
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -128,11 +130,11 @@ export function ShopClient({ products }: ShopClientProps) {
                         onChange={(e) => handleSortChange(e.target.value)}
                         className="bg-white border border-brand-100 rounded-xl px-4 py-2.5 text-sm text-brand-900 focus:outline-none focus:ring-2 focus:ring-gold-500/20 focus:border-gold-500 transition-all cursor-pointer shadow-sm"
                     >
-                        <option value="featured">Featured</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                        <option value="rating">Top Rated</option>
-                        <option value="title">A-Z</option>
+                        <option value="featured">{t("sortFeatured")}</option>
+                        <option value="price-asc">{t("sortLow")}</option>
+                        <option value="price-desc">{t("sortHigh")}</option>
+                        <option value="rating">{t("sortRating")}</option>
+                        <option value="title">{t("sortName")}</option>
                     </select>
                 </div>
             </div>
@@ -150,12 +152,12 @@ export function ShopClient({ products }: ShopClientProps) {
 
                         {filteredProducts.length === 0 && (
                             <div className="text-center py-20 text-slate-400 bg-white/30 rounded-3xl border border-dashed border-slate-200">
-                                <p className="text-lg font-medium">No products found matching your criteria.</p>
+                                <p className="text-lg font-medium">{t("mobileEmpty")}</p>
                                 <button 
                                     onClick={() => updateQueryParams({ category: "all", q: "" })}
                                     className="mt-4 text-gold-600 font-bold hover:text-gold-700 transition-colors"
                                 >
-                                    Clear all filters
+                                    {t("clear")}
                                 </button>
                             </div>
                         )}

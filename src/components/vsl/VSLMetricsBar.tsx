@@ -40,7 +40,7 @@ export function VSLMetricsBar({ stats }: VSLMetricsBarProps) {
                             )}
                             style={{ animationDelay: `${index * 100}ms` }}
                         >
-                            <div className="text-3xl md:text-5xl font-bold text-gold-400 font-mono mb-3 tracking-tight">
+                            <div className="text-3xl md:text-5xl font-bold text-gold-400 font-data tabular-nums mb-3 tracking-tight">
                                 {stat.value}
                             </div>
                             <div className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">

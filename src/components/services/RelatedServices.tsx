@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getServiceHref } from "@/components/layout/navigationData";
 import { ArrowRight } from "lucide-react";
 import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
@@ -8,7 +9,7 @@ import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
 interface RelatedService {
     _id: string;
     title: string;
-    slug: { current: string };
+    slug?: string | { current?: string } | null;
     icon?: string;
     shortDescription?: string;
 }
@@ -18,13 +19,18 @@ interface RelatedServicesProps {
 }
 
 export function RelatedServices({ services }: RelatedServicesProps) {
-    if (!services || services.length === 0) return null;
+    const linkedServices = (services || []).flatMap((service) => {
+        const slug = typeof service?.slug === "string" ? service.slug : service?.slug?.current;
+        if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || ["undefined", "null"].includes(slug)) return [];
+        return [{ service, href: getServiceHref({ ...service, slug: { current: slug } }) }];
+    });
+    if (linkedServices.length === 0) return null;
 
-    const cards = services.map((s) => (
+    const cards = linkedServices.map(({ service: s, href }) => (
         <Link
             key={s._id}
-            href={`/services/${s.slug.current}`}
-            className="group block h-full"
+            href={href}
+            className="group block h-full rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-900"
         >
             <div className="h-full p-6 bg-white rounded-2xl border border-zinc-200 transition-all duration-300 group-hover:bg-white/90 group-hover:border-gold-500/30 group-hover:shadow-xl group-hover:shadow-gold-900/5 relative overflow-hidden">
                 {/* Hover Gradient Overlay */}

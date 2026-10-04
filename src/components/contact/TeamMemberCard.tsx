@@ -67,7 +67,7 @@ export function TeamMemberCard({
 
                 {/* Quote */}
                 <blockquote className="relative mb-10 pl-6 border-l-4 border-gold-500">
-                    <p className="text-lg italic text-brand-800 leading-relaxed font-serif">
+                    <p className="text-lg italic text-brand-800 leading-relaxed font-body">
                         &ldquo;{quote}&rdquo;
                     </p>
                 </blockquote>

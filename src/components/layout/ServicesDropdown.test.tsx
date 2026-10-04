@@ -21,25 +21,18 @@ vi.mock("next-intl", () => ({
   useTranslations: () => (key: string) => {
     const messages: Record<string, string> = {
       services: "Services",
-      servicesDropdownHeading: "What do you need help with?",
-      servicesDropdownSubheading: "Start with the outcome that matters most to your business.",
-      servicesDropdownViewAll: "Find the right service",
-      servicesDropdownPrimaryLabel: "Recommended starting point",
-      servicesGroupTax: "Plan & save on taxes",
-      servicesGroupTaxDescription: "Reduce surprises.",
-      servicesGroupNumbers: "Know & control the numbers",
-      servicesGroupNumbersDescription: "Build reliable books.",
-      servicesGroupCompliance: "Additional business support",
-      servicesGroupComplianceDescription: "Keep the essentials handled correctly.",
+      servicesDropdownViewAll: "View All Services",
+      servicesDropdownCompare: "Compare Services",
+      servicesGroupAdvisory: "Advisory",
+      servicesGroupImplementation: "Implementation",
       servicesGroupOther: "More services",
-      servicesGroupOtherDescription: "Explore more support.",
       "serviceLabels.taxPlanning": "Tax Planning",
       "serviceLabels.sCorp": "S-Corp Tax Advantage",
       "serviceLabels.bookkeeping": "Strategic Bookkeeping",
       "serviceLabels.fractionalCfo": "Fractional CFO",
       "serviceLabels.formation": "New Business Formation",
       "serviceLabels.payroll": "Payroll Services",
-      "serviceLabels.taxPreparation": "Tax Preparation & Filing",
+      "serviceLabels.taxPreparation": "Tax Filing & Preparation",
       servicesDropdownFallbackServiceTitle: "Service",
     };
 
@@ -93,13 +86,13 @@ describe("ServicesDropdown", () => {
 
     await user.click(trigger);
 
-    expect(screen.getByRole("link", { name: "Find the right service" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "View All Services" })).toHaveAttribute(
       "aria-current",
       "page",
     );
   });
 
-  it("leads with the recommended advisory path before supporting services", async () => {
+  it("groups advisory routes before implementation routes", async () => {
     const user = userEvent.setup();
     render(<ServicesDropdown />);
 
@@ -111,8 +104,10 @@ describe("ServicesDropdown", () => {
     const bookkeeping = screen.getByRole("link", { name: "Strategic Bookkeeping" });
 
     expect(sCorp.compareDocumentPosition(taxPlanning) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(fractionalCfo.compareDocumentPosition(bookkeeping) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(screen.getByText("Additional business support")).toBeInTheDocument();
+    expect(bookkeeping.compareDocumentPosition(fractionalCfo) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByText("Advisory")).toBeInTheDocument();
+    expect(screen.getByText("Implementation")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Compare Services" })).toHaveAttribute("href", "/services#services");
   });
 
   it("keeps canonical advisory paths available when CMS data is partial", async () => {

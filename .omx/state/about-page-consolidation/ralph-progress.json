@@ -1,0 +1,14 @@
+{
+  "score": 94,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "Founder title, featured people and proof figures intentionally remain pending client decisions."
+  ],
+  "suggestions": [],
+  "reasoning": "Five-part layout and unchanged H1 verified across sixteen responsive/enlarged-text states. Roster preservation, contrast corrections, mobile targets, focus and real chat overlap checks passed. No approvals or people/statistics were invented.",
+  "next_actions": [
+    "Await client title, featured-member selection and approved three-stat set."
+  ],
+  "status": "layout_verified_pending_client_content"
+}

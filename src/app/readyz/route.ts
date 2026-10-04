@@ -10,7 +10,9 @@ export function GET() {
       status: ready ? "ready" : "not_ready",
       service: "union-national-tax",
       checks: {
-        env: ready ? "ok" : "missing_required_values",
+        configuration: ready ? "ok" : "missing_required_values",
+        external_delivery: "not_probed",
+        order_recovery: "not_probed",
       },
       missing,
       timestamp: new Date().toISOString(),

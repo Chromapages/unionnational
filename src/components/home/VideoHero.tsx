@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight, BadgeCheck, CalendarCheck } from "lucide-react";
+import { ArrowRight, BadgeCheck, CalendarCheck, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { HeroVideoPlayer } from "@/components/home/HeroVideoPlayer";
@@ -79,6 +79,7 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
 
     const trustItems: TrustBadgeItem[] = [
         { icon: BadgeCheck, label: t("trustCredential") },
+        { icon: Users, label: t("trustVolume") },
         { icon: CalendarCheck, label: t("trustExperience") },
     ];
 
@@ -289,36 +290,41 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
                     ) : null}
 
                     {/* Desktop-only trust signals; mobile credentials appear in the trust bar below the hero. */}
-                    <div
-                        className="relative mt-8 hidden w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)] lg:block"
-                    >
-                        <div
-                            className="flex w-full flex-wrap items-center gap-3 lg:w-max lg:flex-nowrap lg:gap-4 lg:animate-hero-marquee lg:hover:[animation-play-state:paused] lg:focus-within:[animation-play-state:paused] motion-reduce:animate-none"
-                            role="list"
-                            aria-label="Firm credentials"
-                        >
-                            {/* Primary Set: Accessible to screen readers (exactly 3 items) */}
-                            {trustItems.map((item, idx) => (
-                                <div
-                                    key={`trust-primary-${idx}`}
-                                    role="listitem"
-                                    className="inline-flex min-h-10 max-w-full items-center gap-2 rounded-full border border-gold-500/25 bg-brand-950/70 px-4 py-2 text-xs font-medium text-slate-100 backdrop-blur-sm transition-colors hover:border-gold-400 hover:text-white lg:shrink-0"
-                                >
-                                    <item.icon className="h-4 w-4 shrink-0 text-gold-400" aria-hidden="true" />
-                                    <span className="min-w-0 break-words">{item.label}</span>
-                                </div>
-                            ))}
-                            {/* Duplicate Sets for Seamless 50% TranslateX Loop: Hidden from screen readers */}
-                            {[...trustItems, ...trustItems, ...trustItems].map((item, idx) => (
-                                <div
-                                    key={`trust-duplicate-${idx}`}
-                                    aria-hidden="true"
-                                    className="hidden lg:inline-flex lg:shrink-0 lg:items-center lg:gap-2 lg:rounded-full lg:border lg:border-gold-500/25 lg:bg-brand-950/70 lg:px-3.5 lg:py-1.5 lg:text-xs lg:font-medium lg:text-slate-200 lg:backdrop-blur-sm lg:transition-colors lg:hover:border-gold-400 lg:hover:text-white"
-                                >
-                                    <item.icon className="h-4 w-4 shrink-0 text-gold-400" aria-hidden="true" />
-                                    <span className="whitespace-nowrap">{item.label}</span>
-                                </div>
-                            ))}
+                    <div className="relative mt-8 hidden w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_5%,black_95%,transparent_100%)] lg:block">
+                        <div className="flex w-max items-center animate-hero-marquee hover:[animation-play-state:paused] focus-within:[animation-play-state:paused] motion-reduce:animate-none">
+                            <ul
+                                role="list"
+                                aria-label="Firm credentials"
+                                className="flex shrink-0 items-center gap-3 pr-3 sm:gap-4 sm:pr-4"
+                            >
+                                {trustItems.map((item, idx) => (
+                                    <li
+                                        key={`trust-primary-${idx}`}
+                                        role="listitem"
+                                        tabIndex={0}
+                                        aria-label={item.label}
+                                        className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border border-gold-500/25 bg-brand-950/80 px-4 py-2 text-xs font-medium text-slate-100 backdrop-blur-md shadow-sm transition-all duration-300 hover:border-gold-400 hover:bg-brand-900/90 hover:text-white"
+                                    >
+                                        <item.icon className="h-4 w-4 shrink-0 text-gold-400" aria-hidden="true" />
+                                        <span className="whitespace-nowrap">{item.label}</span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <ul
+                                aria-hidden="true"
+                                className="flex shrink-0 items-center gap-3 pr-3 sm:gap-4 sm:pr-4"
+                            >
+                                {trustItems.map((item, idx) => (
+                                    <li
+                                        key={`trust-duplicate-${idx}`}
+                                        className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border border-gold-500/25 bg-brand-950/80 px-4 py-2 text-xs font-medium text-slate-100 backdrop-blur-md shadow-sm transition-all duration-300 hover:border-gold-400 hover:bg-brand-900/90 hover:text-white"
+                                    >
+                                        <item.icon className="h-4 w-4 shrink-0 text-gold-400" aria-hidden="true" />
+                                        <span className="whitespace-nowrap">{item.label}</span>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>

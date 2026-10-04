@@ -1,0 +1,13 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The light founder split, real portraits, compact people cards, and dark approach band match the reference structure.",
+    "CMS roles and groupings differ from the concept, and all eight specialists are shown rather than the reference's six."
+  ],
+  "suggestions": [],
+  "reasoning": "The hero title now holds the intended two-line desktop break. All eleven CMS portraits load; English and Spanish desktop layouts and the retained mobile layout show no horizontal overflow or page errors.",
+  "next_actions": []
+}

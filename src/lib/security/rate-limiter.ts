@@ -1,49 +1,57 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { createHash } from "node:crypto";
+import { isIP } from "node:net";
 import { getEnv } from "../config/env";
+
+export const MAX_IN_MEMORY_RATE_LIMIT_ENTRIES = 10_000;
+const CLEANUP_INTERVAL_MS = 1000;
 
 export function getClientIdentifier(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
-  const realIp = request.headers.get("x-real-ip");
-  if (realIp) return realIp;
-  return "anonymous";
+  const candidate = (forwarded ? forwarded.split(",")[0] : request.headers.get("x-real-ip"))?.trim();
+  // This checks syntax only; the deployment must establish which proxy headers are trusted.
+  return candidate && isIP(candidate) ? candidate : "anonymous";
 }
 
 export interface RateLimitResult {
   success: boolean;
+  remaining: number;
   resetTime: number;
 }
 
 interface RateLimiter {
-  check(identifier: string): Promise<RateLimitResult>;
+  check(identifier: string, limit: number, windowMs: number): Promise<RateLimitResult>;
 }
 
 /** Upstash Redis-backed rate limiter */
 class UpstashRateLimiter implements RateLimiter {
-  private ratelimit: Ratelimit;
+  private redis: Redis;
+  private policies = new Map<string, Ratelimit>();
 
   constructor() {
-    const redis = new Redis({
+    this.redis = new Redis({
       url: getEnv("UPSTASH_REDIS_REST_URL")!,
       token: getEnv("UPSTASH_REDIS_REST_TOKEN")!,
     });
-
-    const windowSeconds = Number(getEnv("RL_WINDOW") ?? 60);
-    const maxRequests = Number(getEnv("RL_MAX") ?? 100);
-
-    this.ratelimit = new Ratelimit({
-      redis,
-      limiter: Ratelimit.fixedWindow(maxRequests, `${windowSeconds} s`),
-      analytics: false,
-      prefix: "ratelimit",
-    });
   }
 
-  async check(identifier: string): Promise<RateLimitResult> {
-    const result = await this.ratelimit.limit(identifier);
+  async check(identifier: string, limit: number, windowMs: number): Promise<RateLimitResult> {
+    const policy = `${limit}:${windowMs}`;
+    let ratelimit = this.policies.get(policy);
+    if (!ratelimit) {
+      ratelimit = new Ratelimit({
+        redis: this.redis,
+        limiter: Ratelimit.fixedWindow(limit, `${Math.ceil(windowMs / 1000)} s`),
+        analytics: false,
+        prefix: `ratelimit:${policy}`,
+      });
+      this.policies.set(policy, ratelimit);
+    }
+    const result = await ratelimit.limit(identifier);
     return {
       success: result.success,
+      remaining: Math.max(0, result.remaining),
       resetTime: result.reset,
     };
   }
@@ -52,25 +60,35 @@ class UpstashRateLimiter implements RateLimiter {
 /** In-memory fallback for single-instance deployments */
 class InMemoryRateLimiter implements RateLimiter {
   private cache = new Map<string, { count: number; resetTime: number }>();
+  private nextCleanupAt = 0;
 
-  async check(identifier: string): Promise<RateLimitResult> {
+  async check(identifier: string, limit: number, windowMs: number): Promise<RateLimitResult> {
     const now = Date.now();
-    const record = this.cache.get(identifier);
-    const windowMs = Number(getEnv("RL_WINDOW") ?? 60) * 1000;
-    const limit = Number(getEnv("RL_MAX") ?? 100);
+    if (now >= this.nextCleanupAt) {
+      for (const [key, record] of this.cache) {
+        if (record.resetTime <= now) this.cache.delete(key);
+      }
+      this.nextCleanupAt = now + CLEANUP_INTERVAL_MS;
+    }
+    const key = `${limit}:${windowMs}:${identifier}`;
+    const record = this.cache.get(key);
 
-    if (!record || now > record.resetTime) {
+    if (!record || now >= record.resetTime) {
+      if (!record && this.cache.size >= MAX_IN_MEMORY_RATE_LIMIT_ENTRIES) {
+        // Keep every live quota intact; retry after the next expiry cleanup.
+        return { success: false, remaining: 0, resetTime: this.nextCleanupAt };
+      }
       const resetTime = now + windowMs;
-      this.cache.set(identifier, { count: 1, resetTime });
-      return { success: true, resetTime };
+      this.cache.set(key, { count: 1, resetTime });
+      return { success: true, remaining: limit - 1, resetTime };
     }
 
-    record.count++;
+    record.count = Math.min(record.count + 1, limit + 1);
     if (record.count > limit) {
-      return { success: false, resetTime: record.resetTime };
+      return { success: false, remaining: 0, resetTime: record.resetTime };
     }
 
-    return { success: true, resetTime: record.resetTime };
+    return { success: true, remaining: limit - record.count, resetTime: record.resetTime };
   }
 }
 
@@ -120,18 +138,25 @@ export function getRateLimiter(): RateLimiter {
 /**
  * Backward-compatible async API. All existing API route callers already
  * `await` this function, so making it async is a safe migration.
- * The underlying limiter is driven by RL_WINDOW / RL_MAX env vars.
+ * The underlying limiter uses the supplied policy for each route.
  *
  * @param identifier  Client IP or other tracking identifier
- * @param limit       Ignored (kept for signature compat; configured via RL_MAX)
- * @param windowMs    Ignored (kept for signature compat; configured via RL_WINDOW)
+ * @param limit       Requests allowed per window
+ * @param windowMs    Window length in milliseconds
  */
 export async function checkRateLimit(
   identifier: string,
-  limit = 10,
-  windowMs = 60000
+  limit = Number(getEnv("RL_MAX") ?? 10),
+  windowMs = Number(getEnv("RL_WINDOW") ?? 60) * 1000
 ): Promise<RateLimitResult> {
-  void limit;
-  void windowMs;
-  return getRateLimiter().check(identifier);
+  return getRateLimiter().check(
+    identifier,
+    Number.isInteger(limit) && limit > 0 ? limit : 10,
+    Number.isFinite(windowMs) && windowMs > 0 ? windowMs : 60_000,
+  );
+}
+
+/** Use validated contact data, never client-controlled forwarding headers, for lead quotas. */
+export function contactRateLimitKey(email: string): string {
+  return `contact:${createHash("sha256").update(email.trim().toLowerCase()).digest("hex")}`;
 }

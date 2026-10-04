@@ -110,7 +110,7 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                         <div className="mb-8 border-t border-dashed border-white/10 pt-4 dark:border-brand-900/5 sm:mb-10">
                             <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-baseline sm:gap-2">
                                 <span className={cn(
-                                    "text-4xl font-bold font-heading tracking-tight sm:text-5xl",
+                                    "text-4xl font-bold font-data tabular-nums tracking-tight sm:text-5xl",
                                     isExecutive ? "text-white" : "text-brand-900"
                                 )}>
                                     {tier.price}

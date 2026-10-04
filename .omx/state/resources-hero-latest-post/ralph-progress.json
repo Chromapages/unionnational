@@ -1,0 +1,10 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["The newest post also appears in the separate Featured Resources section because both use the current lead article."],
+  "suggestions": [],
+  "reasoning": "The old search and shortcuts are replaced by a linked latest-post card with a language-neutral photo, title, category, date, excerpt, and reading time. Visual checks at 1672px and 1280px in English and 1440px in Spanish show no clipping, page errors, or horizontal overflow. The catalog search remains available and the article route returned HTTP 200.",
+  "next_actions": []
+}

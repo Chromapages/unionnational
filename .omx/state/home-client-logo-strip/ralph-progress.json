@@ -1,0 +1,14 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "active": false,
+  "phase": "complete",
+  "differences": ["A neutral Featured logos caption and pause control replace the former credentials text."],
+  "suggestions": [],
+  "reasoning": "Real CMS logo images replace only the targeted row. The seamless two-group track fills the frame, all repeated images load, and explicit pause/resume plus the reduced-motion stylesheet fallback are implemented.",
+  "next_actions": [],
+  "verification": { "breakpoints": [390, 768, 1440], "locales": ["en", "es"], "overflow": false, "pause_control_px": 44, "caption_and_control_contrast": 14.56, "pause_resume": "Observed paused/running states and keyboard activation.", "all_logo_images_loaded": true, "accessible_logo_count": 3, "reduced_motion": "Loaded stylesheet media rule verified; system preference was not changed.", "formal_checks_run": false },
+  "generated_screenshot": ".omx/state/home-client-logo-strip/logo-strip.png"
+}

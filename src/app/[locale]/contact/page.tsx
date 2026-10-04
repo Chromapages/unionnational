@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 import { urlFor } from "@/sanity/lib/image";
 import { getTranslations } from "next-intl/server";
 import { Clock3, Mail, MapPin, Phone, PiggyBank, Users } from "lucide-react";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
@@ -32,6 +33,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     return {
         title,
         description,
+        alternates: localizedAlternates(locale, "/contact"),
+        ...(seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
         openGraph: {
             title,
             description,

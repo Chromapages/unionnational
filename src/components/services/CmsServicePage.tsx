@@ -7,6 +7,7 @@ import { SERVICE_PAGE_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import type { ServicePage } from "@/types/sanity";
+import { reviewedScorpService } from "@/lib/scorp/service-content";
 
 type CmsServicePageProps = {
     cmsSlug: string;
@@ -18,7 +19,7 @@ type CmsServicePageProps = {
 
 export async function fetchCmsService(cmsSlug: string, locale: string) {
     const { data } = await sanityFetch({ query: SERVICE_PAGE_QUERY, params: { slug: cmsSlug, locale } });
-    return data as ServicePage | null;
+    return data ? reviewedScorpService(data as ServicePage, locale) : null;
 }
 
 export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath }: CmsServicePageProps): Promise<Metadata> {
@@ -26,8 +27,8 @@ export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath }: 
     if (!service) return { title: "Service Not Found" };
 
     const baseUrl = "https://unionnationaltax.com";
-    const localizedPath = locale === "en" ? canonicalPath : `/${locale}${canonicalPath}`;
-    const canonicalUrl = service.seo?.canonicalUrl || `${baseUrl}${localizedPath}`;
+    const localizedPath = `/${locale === "es" ? "es" : "en"}${canonicalPath}`;
+    const canonicalUrl = `${baseUrl}${localizedPath}`;
     const image = service.seo?.openGraphImage?.asset
         ? urlFor(service.seo.openGraphImage).width(1200).height(630).url()
         : undefined;
@@ -37,7 +38,13 @@ export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath }: 
         description: service.seo?.metaDescription || service.hero.subheadline,
         keywords: service.seo?.keywords,
         robots: service.seo?.noIndex ? { index: false, follow: false } : undefined,
-        alternates: { canonical: canonicalUrl },
+        alternates: {
+            canonical: canonicalUrl,
+            languages: {
+                en: `${baseUrl}/en${canonicalPath}`,
+                es: `${baseUrl}/es${canonicalPath}`,
+            },
+        },
         openGraph: {
             title: service.seo?.metaTitle || service.title,
             description: service.seo?.metaDescription || service.hero.subheadline,
@@ -60,19 +67,26 @@ export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibili
     };
 
     const structuredFaq = service.faqSection.items.filter((item) => item.question && item.answer);
+    const canonicalUrl = `https://unionnationaltax.com/${locale === "es" ? "es" : "en"}${canonicalPath}`;
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": service.seo?.structuredDataType || "Service",
-        name: service.title,
-        description: service.hero.subheadline,
-        url: `https://unionnationaltax.com${locale === "en" ? canonicalPath : `/${locale}${canonicalPath}`}`,
-        ...(structuredFaq.length ? {
-            mainEntity: structuredFaq.map((item) => ({
-                "@type": "Question",
-                name: item.question,
-                acceptedAnswer: { "@type": "Answer", text: item.answer },
-            })),
-        } : {}),
+        "@graph": [
+            {
+                "@type": "Service",
+                name: service.title,
+                description: service.hero.subheadline,
+                url: canonicalUrl,
+            },
+            ...(structuredFaq.length ? [{
+                "@type": "FAQPage",
+                url: canonicalUrl,
+                mainEntity: structuredFaq.map((item) => ({
+                    "@type": "Question",
+                    name: item.question,
+                    acceptedAnswer: { "@type": "Answer", text: item.answer },
+                })),
+            }] : []),
+        ],
     };
 
     return (
@@ -80,9 +94,9 @@ export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibili
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
             <HeaderWrapper />
             <main id="main-content" className="flex-1 pb-20 md:pb-0">
-                <ServicePageTemplate page={renderedService} />
+                <ServicePageTemplate page={renderedService} locale={locale} />
             </main>
-            <Footer />
+            <Footer bookingCta bookingLabel={service.hero.primaryCta.label} />
         </div>
     );
 }

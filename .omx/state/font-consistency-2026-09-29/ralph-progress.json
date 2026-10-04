@@ -1,0 +1,10 @@
+{
+  "score": 94,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "The current homepage and shop screenshots retain their layout after replacing Georgia with the brand pairing. English and Spanish views at 1440 px and 390 px load Outfit headings and Inter body text; the reviewed copy wraps inside the viewport.",
+  "threshold_pass": true,
+  "next_actions": []
+}

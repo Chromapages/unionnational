@@ -1,0 +1,14 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "active": false,
+  "phase": "complete",
+  "category_match": true,
+  "differences": ["Brand fonts replace the reference's serif typography; other services retain their CMS descriptions without invented output claims."],
+  "suggestions": [],
+  "reasoning": "The ledger is complete with aligned review/output rows, responsive one/two/four-column layouts, Outfit headings, Inter body text, and a 56px booking CTA.",
+  "next_actions": [],
+  "verification": { "canonical_locale_pages_served": 14, "responsive_combinations_checked": 42, "horizontal_overflow": false, "heading_font": "Outfit", "body_font": "Inter" }
+}

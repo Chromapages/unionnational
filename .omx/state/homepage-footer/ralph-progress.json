@@ -1,0 +1,37 @@
+{
+  "scope": "homepage-footer",
+  "score": 94,
+  "threshold": 90,
+  "threshold_passed": true,
+  "verdict": "pass",
+  "category_match": true,
+  "reference_images": [
+    "C:/Users/ericb/AppData/Local/Temp/footer-audit-1440.png",
+    "C:/Users/ericb/AppData/Local/Temp/footer-audit-390.png"
+  ],
+  "generated_screenshots": [
+    ".omx/state/homepage-footer/en-desktop.png",
+    ".omx/state/homepage-footer/en-tablet.png",
+    ".omx/state/homepage-footer/en-mobile.png",
+    ".omx/state/homepage-footer/es-mobile.png",
+    ".omx/state/homepage-footer/en-narrow.png"
+  ],
+  "differences": [
+    "The desktop footer is taller because it now exposes all core service lanes, direct contact actions, and a complete legal rail.",
+    "Mobile navigation is collapsed into native disclosure rows instead of presenting every link in one long column.",
+    "Body and legal text use higher-contrast color tokens than the reference implementation."
+  ],
+  "suggestions": [],
+  "reasoning": "The redesign preserves the established dark green and gold visual language while making the hierarchy, navigation, contact actions, and legal content substantially clearer. Desktop spacing is balanced, the 320px layout has no horizontal overflow, and the compact mobile disclosures reduce footer length without hiding category labels.",
+  "verification": {
+    "lighthouse_accessibility_score": 100,
+    "top_level_contentinfo_landmarks": 1,
+    "footer_inside_main": false,
+    "mobile_keyboard_disclosure": "passed",
+    "minimum_viewport_checked": 320,
+    "horizontal_overflow": false,
+    "internal_routes_checked": 19,
+    "direct_200_routes": 19
+  },
+  "next_actions": []
+}

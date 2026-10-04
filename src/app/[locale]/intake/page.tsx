@@ -7,6 +7,7 @@ export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
     title: "Tax Savings Assessment | Union National Tax",
+    robots: { index: false, follow: false },
     description: "Discover how much you could save with our 8-step Tax Strategy Assessment. Specialized for business owners and high-growth firms.",
 };
 

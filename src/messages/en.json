@@ -1,4 +1,62 @@
 {
+    "ServiceDetailPresentation": {
+        "processLink": "See how the process works",
+        "faqSupport": {
+            "eyebrow": "Support",
+            "title": "Questions before you choose?",
+            "body": "Get clear answers about service fit, scope, and working with our team. If you still need help, talk through your situation with us.",
+            "items": [
+                { "title": "Service scope", "body": "Understand what the service includes." },
+                { "title": "The right fit", "body": "Discuss the support your business needs." },
+                { "title": "Next steps", "body": "Clarify how to get started." }
+            ],
+            "stillQuestions": "Still have questions?",
+            "cta": "Contact our team",
+            "faqLabel": "FAQ",
+            "answersTitle": "Common questions, clear answers.",
+            "answersBody": "Answers about the service and what working together looks like."
+        },
+        "includedScope": "Included support",
+        "processOutput": "Output",
+        "processCtaHelp": "A focused conversation. A clearer path forward.",
+        "scorp": {
+            "included": {
+                "description": "From election setup to ongoing planning, we help coordinate the key pieces of your S-Corp strategy.",
+                "note": "A coordinated approach from election through year-round planning.",
+                "groups": [
+                    { "heading": "Initial setup", "items": [
+                        { "title": "Election + Entity Setup", "detail": "Coordinate the S-Corp election and any required structure or implementation steps." },
+                        { "title": "Reasonable Compensation", "detail": "Document an appropriate owner salary based on your role and business." }
+                    ] },
+                    { "heading": "Ongoing support", "items": [
+                        { "title": "Payroll + Owner Benefits", "detail": "Set up or coordinate payroll and applicable owner-benefit considerations." },
+                        { "title": "Quarterly Tax + Distribution Planning", "detail": "Prepare projections throughout the year to guide estimates and distributions." }
+                    ] }
+                ]
+            },
+            "items": [
+                { "title": "Profit", "detail": "Is there enough profit to justify the structure?" },
+                { "title": "Compensation", "detail": "What would reasonable owner pay look like?" },
+                { "title": "Payroll + Compliance", "detail": "What will payroll cost, and what are the ongoing requirements?" }
+            ],
+            "summaryTitle": "A clearer answer before you elect.",
+            "summaryDetail": "Practical analysis. Experienced advisors. A more confident decision.",
+            "fitHighlight": "worth evaluating",
+            "fitLink": "See how the evaluation works",
+            "processDetails": [
+                { "title": "Savings evaluation", "reviewLabel": "What we review", "review": "Income, reasonable compensation, payroll taxes, state taxes, and setup costs.", "output": "Potential savings range and break-even analysis." },
+                { "title": "Fit + timing decision", "reviewLabel": "What we decide", "review": "Strategic fit, timing, owner compensation approach, and implementation readiness.", "output": "Go / No-Go recommendation and a timing plan." },
+                { "title": "Election + setup", "reviewLabel": "What happens", "review": "Prepare and file Form 2553 when appropriate, set up payroll, coordinate registrations, and align accounting.", "output": "Election filings and operating setup coordinated." },
+                { "title": "Ongoing alignment", "reviewLabel": "What continues", "review": "Monitor tax law changes, review compensation strategy, and coordinate ongoing compliance.", "output": "Ongoing compliance review and strategic adjustments." }
+            ],
+            "fitItems": [
+                { "title": "Consistent profit", "detail": "Your business generates recurring owner profit worth evaluating." },
+                { "title": "Potential tax savings", "detail": "There may be an opportunity to reduce self-employment tax after reasonable compensation." },
+                { "title": "Reasonable compensation", "detail": "Your business can support appropriate owner wages and payroll." },
+                { "title": "Ongoing compliance", "detail": "You're prepared for payroll, filings, and continuing S-Corp requirements." }
+            ]
+        }
+    },
     "Header": {
         "home": "Home",
         "services": "Services",
@@ -38,7 +96,10 @@
         "servicesDropdownBadge": "Built for owners",
         "servicesDropdownPrimaryLabel": "Recommended starting point",
         "servicesDropdownPrimaryCta": "Explore",
-        "servicesDropdownViewAll": "Find the right service",
+        "servicesDropdownViewAll": "View All Services",
+        "servicesDropdownCompare": "Compare Services",
+        "servicesGroupAdvisory": "Advisory",
+        "servicesGroupImplementation": "Implementation",
         "servicesGroupTax": "Plan & save on taxes",
         "servicesGroupTaxDescription": "Reduce surprises and keep more of what you earn.",
         "servicesGroupNumbers": "Know & control the numbers",
@@ -54,7 +115,7 @@
             "fractionalCfo": "Fractional CFO",
             "formation": "New Business Formation",
             "payroll": "Payroll Services",
-            "taxPreparation": "Tax Preparation & Filing"
+            "taxPreparation": "Tax Filing & Preparation"
         },
         "servicesDropdownTaxStrategyLabel": "Tax Strategy",
         "servicesDropdownFinancialControlLabel": "Financial Control",
@@ -130,7 +191,12 @@
         "terms": "Terms of Service",
         "disclaimer": "Disclaimer",
         "readDisclaimer": "Read Disclaimer",
-        "closeDisclaimer": "Close disclaimer"
+        "closeDisclaimer": "Close disclaimer",
+        "whoWeHelp": "Who We Help",
+        "tagline": "Proactive tax and financial guidance for the decisions ahead — not just the year behind.",
+        "metaStarted": "30 minutes to get started",
+        "metaNoPrep": "No preparation required",
+        "metaAdvisor": "Work with an Enrolled Agent"
     },
     "Common": {
         "featuredResult": "Featured result",
@@ -145,6 +211,283 @@
         "viewAll": "View All"
     },
     "ServicesPage": {
+        "Desktop": {
+            "bookingLabel": "Book a Strategy Call",
+            "hero": {
+                "eyebrow": "Services for construction businesses",
+                "title": "Tax and financial support for your business.",
+                "subtitle": "Choose focused help for a specific need, or an annual plan for ongoing support."
+            },
+            "challenge": {
+                "title": "What needs attention right now?",
+                "subtitle": "Choose what’s top of mind and we'll show you the best places to start.",
+                "recommended": "Recommended services",
+                "eyebrow": "Services for your needs",
+                "priorityLabel": "Your priority",
+                "goalLabel": "Our goal",
+                "investmentLabel": "Investment starting at",
+                "pricingLabel": "Pricing",
+                "whyTitle": "Why these services?",
+                "ranks": {
+                    "start": {
+                        "label": "Start here",
+                        "detail": "Best first step for this need."
+                    },
+                    "also": {
+                        "label": "Also relevant",
+                        "detail": "A closer look may be a good fit."
+                    },
+                    "later": {
+                        "label": "Good for later",
+                        "detail": "Consider as your needs evolve."
+                    }
+                },
+                "actions": {
+                    "tax-planning": "Explore Tax Planning",
+                    "s-corp-tax-advantage": "Explore S-Corp Strategy",
+                    "tax-preparation-and-filing": "Explore Tax Preparation",
+                    "strategic-bookkeeping": "Explore Bookkeeping",
+                    "fractional-cfo": "Explore Fractional CFO",
+                    "payroll-services": "Explore Payroll",
+                    "new-business-formation": "Explore Business Formation"
+                },
+                "explore": "Explore Service",
+                "details": "Service details",
+                "customPrice": "Custom quote",
+                "fromPrice": "From {price}",
+                "month": "mo",
+                "and": "and",
+                "perEmployee": "per employee",
+                "priceScope": "These are individual service prices. Scope and the final quote are confirmed before you start.",
+                "options": {
+                    "tax": {
+                        "title": "I'm paying too much in taxes",
+                        "shortLabel": "Taxes",
+                        "panelTitle": "Keep more of what you earn.",
+                        "panelDescription": "Review your entity structure and plan tax decisions before deadlines.",
+                        "goal": "Help you evaluate opportunities to reduce your tax burden and keep more of what you earn — legally and strategically.",
+                        "taglines": [
+                            "Year-round guidance. Fewer surprises.",
+                            "Find the structure that fits.",
+                            "Clear filing. Reliable support."
+                        ],
+                        "benefits": [
+                            "Strategic guidance",
+                            "Year-round planning",
+                            "Goal-led support"
+                        ],
+                        "whyBody": "Each service plays a different role in helping you plan your taxes and build a stronger business.",
+                        "roles": [
+                            "Find opportunities before deadlines.",
+                            "Evaluate your structure and payroll.",
+                            "Stay compliant and close the loop."
+                        ],
+                        "serviceNames": [
+                            "Proactive Tax Planning",
+                            "S-Corp Tax Advantage",
+                            "Tax Preparation & Filing"
+                        ],
+                        "serviceDescriptions": [
+                            "Identify opportunities, plan ahead, and make informed tax decisions.",
+                            "Assess whether an S-Corp structure fits your business and payroll.",
+                            "Accurate, construction-focused tax preparation and filing, done by experts."
+                        ]
+                    },
+                    "numbers": {
+                        "title": "I don't trust my numbers",
+                        "shortLabel": "Numbers",
+                        "panelTitle": "Get a clearer view of your numbers.",
+                        "panelDescription": "Get current books, clearer reporting, and reliable cash-flow information.",
+                        "goal": "Help you understand your financial position with accurate records, useful reports, and clearer cash-flow visibility.",
+                        "taglines": [
+                            "Accurate books. Clearer decisions.",
+                            "Financial guidance for what’s next.",
+                            "Reliable payroll. Organized records."
+                        ],
+                        "benefits": [
+                            "Accurate records",
+                            "Financial visibility",
+                            "Decision-ready reports"
+                        ],
+                        "whyBody": "Reliable books, financial guidance, and payroll support help you see the same financial picture.",
+                        "roles": [
+                            "Keep your records current.",
+                            "Turn financial data into decisions.",
+                            "Coordinate payroll and reporting."
+                        ],
+                        "serviceNames": [
+                            "Strategic Bookkeeping",
+                            "Fractional CFO",
+                            "Payroll Services"
+                        ],
+                        "serviceDescriptions": [
+                            "Current, decision-ready books and clearer financial reporting.",
+                            "Forecasting and financial leadership for complex decisions.",
+                            "Reliable payroll systems, filings, and employee records."
+                        ]
+                    },
+                    "decisions": {
+                        "title": "I'm making bigger business decisions",
+                        "shortLabel": "Decisions",
+                        "panelTitle": "Plan your next business decision.",
+                        "panelDescription": "Evaluate growth, hiring, and investments with forecasts and financial guidance.",
+                        "goal": "Help you weigh options, understand the numbers behind them, and make informed business decisions.",
+                        "taglines": [
+                            "See the options. Plan with confidence.",
+                            "Reliable numbers behind your plans.",
+                            "Tax decisions that support growth."
+                        ],
+                        "benefits": [
+                            "Financial modeling",
+                            "Scenario planning",
+                            "Strategic guidance"
+                        ],
+                        "whyBody": "Forecasts, accurate books, and proactive tax planning give your next decision a connected foundation.",
+                        "roles": [
+                            "Evaluate growth scenarios.",
+                            "Build a reliable financial baseline.",
+                            "Consider the tax impact of decisions."
+                        ],
+                        "serviceNames": [
+                            "Fractional CFO",
+                            "Strategic Bookkeeping",
+                            "Proactive Tax Planning"
+                        ],
+                        "serviceDescriptions": [
+                            "Leadership-level forecasting and decision support.",
+                            "Reliable numbers that reveal trends and project performance.",
+                            "Tax planning that moves alongside your growth strategy."
+                        ]
+                    },
+                    "operations": {
+                        "title": "I need the business running correctly",
+                        "shortLabel": "Operations",
+                        "panelTitle": "Put the right systems in place.",
+                        "panelDescription": "Coordinate business formation, payroll, and tax filing.",
+                        "goal": "Help you establish a sound business structure and coordinate the processes needed to keep it running.",
+                        "taglines": [
+                            "Build the right foundation.",
+                            "Keep your payroll on track.",
+                            "A clear process for tax filing."
+                        ],
+                        "benefits": [
+                            "Entity guidance",
+                            "Clear responsibilities",
+                            "Practical next steps"
+                        ],
+                        "whyBody": "Formation, payroll, and filing support connect your business setup with its ongoing responsibilities.",
+                        "roles": [
+                            "Establish your business structure.",
+                            "Coordinate pay and employee records.",
+                            "Keep tax filing organized."
+                        ],
+                        "serviceNames": [
+                            "New Business Formation",
+                            "Payroll Services",
+                            "Tax Preparation & Filing"
+                        ],
+                        "serviceDescriptions": [
+                            "Choose and establish the right business structure.",
+                            "Keep payroll accurate, timely, and compliant.",
+                            "Handle tax filing with a reliable construction-focused process."
+                        ]
+                    }
+                }
+            },
+            "packages": {
+                "title": "Annual support plans",
+                "heading": "Choose the level of support your business needs.",
+                "subtitle": "Three levels. The same commitment to practical tax planning and a stronger business.",
+                "assuranceTitle": "A higher standard at every level.",
+                "assuranceBody": "Proactive guidance. Real relationships. Support built around your business.",
+                "startingAt": "Starting at",
+                "scopeTitle": "Annual plans bundle services and support.",
+                "helpTitle": "Not sure which plan fits?",
+                "helpBody": "Talk through your current setup and goals.",
+                "priceScope": "Foundation includes annual tax-return filing; individual service prices are for standalone engagements. An annual plan bundles the listed services and support, with scope confirmed before you start.",
+                "popular": "Recommended",
+                "year": "year",
+                "foundation": {
+                    "name": "Foundation",
+                    "tagline": "Get the essentials right.",
+                    "description": "For businesses that need annual filing and a tax-planning foundation.",
+                    "fallbackFeatures": [
+                        "Annual Tax Return Filing",
+                        "Strategic Tax Planning",
+                        "3-Year Audit Protection",
+                        "Secure Client Portal"
+                    ],
+                    "details": "View Foundation Details"
+                },
+                "growth": {
+                    "name": "Growth",
+                    "tagline": "Stay ahead all year.",
+                    "description": "For businesses that need tax preparation and quarterly planning reviews.",
+                    "fallbackFeatures": [
+                        "Tax Prep Included",
+                        "Quarterly Reviews"
+                    ],
+                    "details": "View Growth Details",
+                    "includes": "Includes Foundation support, plus:",
+                    "welcomeBenefit": "Growth welcome benefit: qualifying clients may receive a private hotel stay of 2–5 nights, subject to eligibility and stay terms."
+                },
+                "executive": {
+                    "name": "Executive",
+                    "tagline": "Strategic guidance in your corner.",
+                    "description": "For more complex businesses that need a dedicated senior advisor and priority support.",
+                    "fallbackFeatures": [
+                        "Priority Support",
+                        "Dedicated Senior Advisor Access"
+                    ],
+                    "details": "View Executive Details",
+                    "includes": "Includes Growth support, plus:"
+                }
+            },
+            "process": {
+                "title": "How we work",
+                "heading": "A clear process. A stronger result.",
+                "planningCaption": "Disciplined planning\nReal results",
+                "supportingCaption": "More than tax advice. A stronger business.",
+                "footerCaption": "A more strategic tomorrow",
+                "steps": [
+                    {
+                        "title": "Diagnose",
+                        "description": "Understand the current setup."
+                    },
+                    {
+                        "title": "Prioritize",
+                        "description": "Identify the highest-value opportunities."
+                    },
+                    {
+                        "title": "Implement",
+                        "description": "Put approved decisions into motion."
+                    },
+                    {
+                        "title": "Review",
+                        "description": "Revisit as the business changes."
+                    }
+                ]
+            },
+            "results": {
+                "eyebrow": "Client result",
+                "title": "From reactive filing\nto quarterly planning.",
+                "imageHeadline": "Solid\nbusinesses\nbuild\nbrighter\ntomorrows.",
+                "imageFooter": "For what's next",
+                "imageNote": "Illustrative construction scene",
+                "outcome": "Clearer tax decisions, defined next steps, and a year-round planning cadence.",
+                "stages": [
+                    "Before",
+                    "What changed",
+                    "Result"
+                ],
+                "readStory": "Read the Torres Built story"
+            },
+            "closing": {
+                "title": "Not sure which support fits?",
+                "body": "Talk through your business and find the right next step with our team.",
+                "reassurance": "No obligation. Just a conversation."
+            }
+        },
         "metadata": {
             "title": "Services | Union National Tax",
             "description": "Comprehensive tax strategy, bookkeeping, and CFO services for modern businesses."
@@ -164,23 +507,54 @@
         },
         "FAQ": {
             "eyebrow": "Common Questions",
-            "title": "What clients ask before signing up",
+            "title": "Questions before you choose.",
+            "subtitle": "Straight answers about fit, support, and what working together looks like.",
+            "guide": {
+                "eyebrow": "Buyer decision guide",
+                "title": "What this answer means",
+                "context": "Guidance for: {question}",
+                "supportTitle": "Still unsure which support fits?",
+                "supportBody": "Talk through your situation with our team.",
+                "supportOptions": "See support options",
+                "points": [
+                    [
+                        { "title": "Savings depend on fit, timing, and implementation.", "body": "Opportunities depend on your entity structure, eligibility, and the strategies you implement." },
+                        { "title": "A strategy call identifies your next step.", "body": "We review your current setup and numbers to recommend opportunities that fit your business." },
+                        { "title": "Consider proactive, ongoing support.", "body": "Planning can complement filing with tax and financial guidance throughout the year." }
+                    ],
+                    [
+                        { "title": "Your existing CPA can stay involved.", "body": "We can work alongside your current CPA rather than requiring you to replace them." },
+                        { "title": "Add support where you need it.", "body": "Tax planning, construction-specific guidance, and year-round support can complement your existing relationship." },
+                        { "title": "Clarify each provider's responsibilities.", "body": "Discuss how planning, reporting, and filing will be coordinated before choosing your support." }
+                    ],
+                    [
+                        { "title": "Support extends beyond filing.", "body": "Our services include tax planning, bookkeeping, and CFO guidance throughout the year." },
+                        { "title": "Choose the scope your business needs.", "body": "Focus on a specific need or choose an annual plan for ongoing support." },
+                        { "title": "Coordinate with your current filing support.", "body": "We can help connect planning and financial guidance with your existing tax-filing relationship." }
+                    ],
+                    [
+                        { "title": "Start with your goals and decisions.", "body": "Your business complexity and upcoming decisions help determine the right level of support." },
+                        { "title": "Filing and planning serve different needs.", "body": "Review whether you need return preparation, proactive tax planning, or both." },
+                        { "title": "Consider CFO support for financial decisions.", "body": "Discuss whether cash flow, reporting, and growth decisions call for ongoing financial guidance." }
+                    ]
+                ]
+            },
             "items": [
                 {
                     "question": "How much can I actually save with Union National Tax?",
-                    "answer": "Most clients reduce their tax burden by 20–40% through proactive structuring — S-Corp elections, retirement contributions, cost segregation, and entity-level deductions. Our construction and restaurant partners average $350K–$400K in savings annually."
+                    "answer": "Every business is different. Potential savings depend on your entity structure, eligibility, and the strategies you implement. During a strategy call, we review your current setup and numbers to identify planning opportunities and recommend next steps that fit your business."
                 },
                 {
                     "question": "What if I'm already working with a CPA?",
-                    "answer": "We complement your existing CPA — we don't replace them. We handle the forward-looking strategy, tax planning, and CFO work; your CPA handles compliance filing. Most clients' CPAs appreciate the cleaner books and proactive planning we deliver."
+                    "answer": "We can work alongside your existing CPA, adding tax planning, construction-specific guidance, and support throughout the year."
                 },
                 {
                     "question": "What's the difference between your service and a typical CPA?",
-                    "answer": "Most CPAs are reactive — they file what you give them once a year. We're advisory-led and year-round: quarterly reviews, real-time bookkeeping, entity structuring, and proactive IRS audit preparation. We treat your finances like a business owner should."
+                    "answer": "Our services include tax planning, bookkeeping, and CFO guidance throughout the year. We can help coordinate those needs alongside your current tax-filing support."
                 },
                 {
                     "question": "How do I know if I need CFO services or just tax filing?",
-                    "answer": "If your business has more than $500K in revenue, multiple income streams, or you're spending more than 10 hours a year on financial admin — you need more than filing. Schedule a free 30-minute diagnostic and we'll tell you exactly what you need."
+                    "answer": "We review your goals, business complexity, and upcoming decisions to recommend filing, planning, or CFO support."
                 }
             ]
         },
@@ -249,9 +623,10 @@
         "primaryCta": "See If an S-Corp Could Save You Money",
         "secondaryCta": "Explore Services",
         "videoLabel": "Watch the tax strategy overview",
+        "soundLabel": "Turn on sound",
         "unavailable": "The overview video is unavailable right now. Please try again later.",
-        "trustCredential": "IRS Enrolled Agent (Highest Credential)",
-        "trustVolume": "200+ Contractors Served",
+        "trustCredential": "IRS Enrolled Agent",
+        "trustVolume": "1,000+ Business Owners Served",
         "trustExperience": "15+ Years Experience",
         "trustAdvisory": "15+ Years Experience"
     },
@@ -322,7 +697,7 @@
             "fallbackBadges": [
                 {
                     "label": "Enrolled Agent",
-                    "sublabel": "Highest IRS Credential"
+                    "sublabel": "Federally Licensed"
                 },
                 {
                     "label": "MBA",
@@ -360,19 +735,31 @@
                 "title": "Reduce My Tax Bill",
                 "description": "Institutional-grade tax strategy, S-Corp optimization, and long-term planning for high earners.",
                 "cta": "Book Discovery Evaluation",
-                "items": ["S-Corp Optimization", "Pre-Tax Investing", "Entity Restructuring"]
+                "items": [
+                    "S-Corp Optimization",
+                    "Pre-Tax Investing",
+                    "Entity Restructuring"
+                ]
             },
             "path2": {
                 "title": "Gain Financial Control",
                 "description": "Fractional CFO leadership and strategic bookkeeping to turn your numbers into actionable insight.",
                 "cta": "Take the CFO Assessment",
-                "items": ["Cash Flow Visibility", "Operating Reserves", "Profit Architecture"]
+                "items": [
+                    "Cash Flow Visibility",
+                    "Operating Reserves",
+                    "Profit Architecture"
+                ]
             },
             "path3": {
                 "title": "Specialized Guidance",
                 "description": "Deep expertise tailored to your industry’s specific regulatory and operational challenges.",
                 "cta": "Explore Industries",
-                "items": ["Construction", "Restaurants", "Real Estate"]
+                "items": [
+                    "Construction",
+                    "Restaurants",
+                    "Real Estate"
+                ]
             }
         },
         "ProblemSection": {
@@ -401,6 +788,31 @@
             "eyebrow": "What we help you achieve",
             "title": "Four outcomes. One connected financial strategy.",
             "subtitle": "Start with the pressure point that matters now, then see the service designed to address it.",
+            "desktop": {
+                "subtitle": "Start with the pressure point that matters most right now.",
+                "introFirst": "Choose the pressure point that matters most right now.",
+                "introSecond": "Each service solves a specific need while supporting the same financial picture.",
+                "featuredSubtitle": "Reduce avoidable tax exposure through smarter structure and proactive planning.",
+                "scorpDescription": "Evaluate entity structure and payroll strategy to improve your tax position.",
+                "taxPlanningDescription": "Make tax decisions while there is still time to act.",
+                "panelTagline": "Smarter tax strategy",
+                "panelPromise": "A stronger tomorrow",
+                "motifPeople": "People.",
+                "motifPlans": "Plans.",
+                "motifPossibilities": "Possibilities.",
+                "quoteEyebrow": "A stronger tomorrow",
+                "quotes": {
+                    "01": "Tax strategy isn’t just about this year. It’s about what’s possible next.",
+                    "02": "Clear numbers turn today’s decisions into tomorrow’s opportunities.",
+                    "03": "Financial clarity gives you room to make your next move with confidence.",
+                    "04": "A stronger foundation makes what comes next possible."
+                },
+                "closingFirst": "Each service solves a specific pressure point.",
+                "closingSecond": "Together, they support the same financial picture.",
+                "compareEyebrow": "Not sure which fits?",
+                "compareDescription": "Compare services by goal, timeline, deliverables, and support level."
+            },
+            "learnMore": "Learn more",
             "recommendedBadge": "Recommended",
             "listLabel": "Financial outcomes and the services that support them",
             "outcomes": {
@@ -440,6 +852,54 @@
                     "description": "Run dependable payroll, filings, and compliance processes without adding administrative drag to your business.",
                     "link": "Explore Payroll Services"
                 }
+            },
+            "blocks": {
+                "01": {
+                    "eyebrow": "REDUCE YOUR TAX BURDEN",
+                    "title": "Keep more of what you earn.",
+                    "subtitle": "Reduce avoidable taxes through a smarter structure and proactive planning."
+                },
+                "02": {
+                    "eyebrow": "KNOW YOUR NUMBERS",
+                    "title": "Make confident decisions.",
+                    "subtitle": "Get clear, accurate financial information that helps you plan, price, and grow."
+                },
+                "03": {
+                    "eyebrow": "LEAD WITH CLARITY",
+                    "title": "Make bigger moves with confidence.",
+                    "subtitle": "Turn your numbers into a strategy for sustainable growth."
+                },
+                "04": {
+                    "eyebrow": "BUILD A STRONGER FOUNDATION",
+                    "title": "Set your business up for what's next.",
+                    "subtitle": "Get the right structure and systems in place from the start."
+                }
+            },
+            "rightHeader": {
+                "eyebrow": "A unified approach",
+                "title": "Different challenges. A unified approach.",
+                "description": "Whether you're looking to reduce taxes, get clearer numbers, make bigger decisions, or build a stronger foundation — every service fits into one connected strategy."
+            },
+            "centerHub": {
+                "eyebrow": "One connected",
+                "title": "Financial picture",
+                "subtitle1": "Integrated services.",
+                "subtitle2": "Stronger outcomes."
+            },
+            "comparisonBanner": {
+                "eyebrow": "Not sure which service fits?",
+                "title": "Compare services and find the right fit.",
+                "subtitle": "Explore our interactive comparison tool to see how each service aligns with your business stage and goals.",
+                "cta": "Compare all services",
+                "benefits": [
+                    "Proactive planning before deadlines",
+                    "Year-round advisory support",
+                    "One integrated financial strategy"
+                ]
+            },
+            "footer": {
+                "tagline": "Strategy creates options",
+                "subtagline": "A more confident tomorrow"
             },
             "viewAllCta": "Compare all services"
         },
@@ -497,7 +957,7 @@
                 "initials": "JA"
             },
             "eaCard": {
-                "badge": "Highest Credential",
+                "badge": "Federally Licensed",
                 "title": "What is an",
                 "titleHighlight": "Enrolled Agent?",
                 "description": "<highlight>Federally licensed</highlight> tax specialists with unlimited rights to represent you before the IRS.",
@@ -513,62 +973,151 @@
             }
         },
         "TestimonialsSection": {
-            "eyebrow": "Client Success Stories",
-            "title": "Trusted by High-Growth Business Owners",
-            "subtitle": "Hear from founders and operators who trust us with their books, taxes, and growth strategy.",
+            "eyebrow": "Client results",
+            "trustedBy": "Trusted by business owners",
+            "title": "A better plan creates better decisions.",
+            "subtitle": "Real businesses. Real outcomes. See how proactive tax and financial guidance helps business owners reduce complexity, increase profitability, and create more freedom.",
+            "desktopSubtitle": "See how proactive planning turns reactive financial decisions into clearer next steps.",
             "verifiedClient": "Verified Client",
             "readFullStory": "Read full story",
-            "noTestimonials": "Client testimonials coming soon"
+            "noTestimonials": "Client testimonials coming soon",
+            "stats": {
+                "ownersServedValue": "1,000+",
+                "ownersServed": "Business Owners Served",
+                "recommendRateValue": "98%",
+                "recommendRate": "Clients Would Recommend Us",
+                "yearRound": "Year-Round",
+                "strategicSupport": "Strategic Support Not Just Tax Season",
+                "yearRoundAdvisory": "Year-Round Advisory",
+                "desktopSupport": "Strategic support beyond tax season."
+            },
+            "featured": {
+                "eyebrow": "Featured Client Result",
+                "company": "Torres Built Construction, LLC",
+                "industry": "Construction | Owner-operated business",
+                "beforeLabel": "Before",
+                "beforeText": "Reactive tax filing and an unclear entity structure.",
+                "afterLabel": "After",
+                "afterDesktopLabel": "What changed",
+                "afterText": "An S-Corp strategy and proactive quarterly planning.",
+                "outcomeLabel": "Outcome",
+                "outcomeText": "Clearer tax decisions and a defined path to reduce avoidable burden.",
+                "perspectiveEyebrow": "Client Perspective",
+                "perspectiveQuote": "A practical blueprint for construction owners to eliminate chaos and build a more profitable, organized company.",
+                "authorName": "Michael Torres",
+                "authorRole": "Owner & General Contractor",
+                "authorCompany": "Torres Built Construction, LLC",
+                "photoTagline": "Stronger businesses build brighter tomorrows.",
+                "footerTagline": "Solid plans build brighter tomorrows",
+                "servicesLabel": "Services used",
+                "serviceOne": "S-Corp Tax Advantage",
+                "serviceTwo": "Proactive Tax Planning"
+            },
+            "proof": {
+                "eyebrow": "More Client Results",
+                "viewAll": "View All Client Results",
+                "card1Service": "Tax Planning",
+                "card1Quote": "We went from reactive filing to a year-round strategy.",
+                "card1Industry": "E-Commerce | Retail",
+                "card2Service": "Strategic Bookkeeping",
+                "card2Quote": "Cleaner books, better visibility, and more confident decisions.",
+                "card2Industry": "Professional Services",
+                "card3Service": "Fractional CFO",
+                "card3Quote": "We finally have a financial roadmap for growth.",
+                "card3Industry": "Manufacturing"
+            },
+            "ctaStrip": {
+                "eyebrow": "More Client Results",
+                "title": "See how business owners across industries create clarity and long-term value.",
+                "subtitle": "Explore real client stories, detailed case studies, and the strategies behind their success.",
+                "buttonText": "Read Client Results and Case Studies",
+                "desktopEyebrow": "More Client Stories",
+                "desktopTitle": "Explore detailed case studies and the strategies behind the results.",
+                "motifPeople": "People",
+                "motifPlans": "Plans",
+                "motifProgress": "Progress"
+            }
         },
         "WhyUsSection": {
             "eyebrow": "Proactive by design",
             "title": "The tax return records what happened. Strategy happens earlier.",
             "subtitle": "Year-round planning gives you time to evaluate options before deadlines close them.",
+            "headerInsightEyebrow1": "More insight",
+            "headerInsightEyebrow2": "A stronger tomorrow",
+            "headerInsightBody": "Proactive planning turns today's numbers into tomorrow's opportunities.",
+            "advantageEyebrow": "The proactive advantage",
+            "advantageTagline": "Same facts, a more strategic approach.",
             "caption": "How tax support changes when planning starts before the deadline.",
             "dimensionLabel": "What changes",
             "traditionalLabel": "Traditional tax support",
+            "traditionalSubtitle": "Reactive. After the fact.",
             "proactiveLabel": "Proactive tax strategy",
+            "proactiveSubtitle": "Strategic. Ongoing. Focused on what's next.",
             "rows": {
                 "timing": {
                     "dimension": "Timing",
                     "traditional": "Files after the year closes",
-                    "proactive": "Plans while decisions are still open"
+                    "traditionalDetail": "Decisions are no longer available.",
+                    "proactive": "Plans while decisions are still open",
+                    "proactiveDesktop": "Plans while decisions are still open",
+                    "proactiveDetail": "Helps you act before deadlines."
                 },
                 "scope": {
                     "dimension": "Scope",
                     "traditional": "Confirms compliance",
-                    "proactive": "Evaluates entity, deduction, retirement, and S-Corp opportunities before deadlines"
+                    "traditionalDetail": "Focused on meeting requirements.",
+                    "proactive": "Evaluates entity, deduction, retirement, and S-Corp opportunities before deadlines",
+                    "proactiveDesktop": "Evaluates opportunities",
+                    "proactiveDetail": "Entity, deduction, retirement, and S-Corp strategies."
                 },
                 "cadence": {
                     "dimension": "Cadence",
                     "traditional": "Contact is mostly seasonal",
-                    "proactive": "Schedules planning checkpoints throughout the year"
+                    "traditionalDetail": "Typically once a year.",
+                    "proactive": "Schedules planning checkpoints throughout the year",
+                    "proactiveDesktop": "Year-round planning checkpoints",
+                    "proactiveDetail": "Regular touchpoints keep you on track."
                 },
                 "decisionSupport": {
                     "dimension": "Decision support",
                     "traditional": "Reports what happened",
-                    "proactive": "Uses current numbers to guide tax and business decisions"
+                    "traditionalDetail": "Looks backward at results.",
+                    "proactive": "Uses current numbers to guide tax and business decisions",
+                    "proactiveDesktop": "Uses current numbers to guide decisions",
+                    "proactiveDetail": "Looks forward to what's possible."
                 }
             },
             "conclusion": "More time to plan means fewer decisions made under deadline pressure.",
-            "primaryCta": "See how proactive tax planning works",
+            "primaryCta": "Explore proactive tax planning",
+            "secondaryPreText": "Considering an S-Corp? ",
             "secondaryCta": "Check your S-Corp fit",
             "recommendedBadge": "Recommended",
             "emptyFallback": "Comparison details are being updated.",
+            "bannerEyebrow": "Plan further ahead",
+            "bannerSubtitle": "Turn today's insight into tomorrow's opportunity with proactive tax strategy designed around your goals.",
+            "bannerPillars": {
+                "strategy": "Strategy",
+                "clarity": "Clarity",
+                "opportunity": "Opportunity"
+            },
             "evidence": {
-                "eyebrow": "What happens next",
+                "eyebrow": "How proactive planning works",
+                "tagline": "A clearer path to a stronger tomorrow",
                 "heading": "Turn proactive insight into a working plan",
                 "step1": {
-                    "label": "Review current position",
-                    "body": "Examine entity structure, current revenue, and tax baseline before the year closes."
+                    "eyebrow": "Evaluate",
+                    "label": "Review your current position",
+                    "body": "Examine your entity structure, current revenue, and tax baseline."
                 },
                 "step2": {
+                    "eyebrow": "Plan",
                     "label": "Identify decisions before deadlines",
-                    "body": "Surface deductions, retirement contributions, and S-Corp distribution strategies in advance."
+                    "body": "Surface deductions, retirement contributions, and S-Corp opportunities in advance."
                 },
                 "step3": {
+                    "eyebrow": "Adjust",
                     "label": "Plan and revisit throughout the year",
-                    "body": "Maintain regular checkpoints to adjust strategy as operations and tax regulations evolve."
+                    "body": "Maintain regular checkpoints as your business and tax situation evolve."
                 },
                 "disclaimer": "Informational planning workflow. Individual tax outcomes depend on verified entity structure and timely implementation."
             }
@@ -580,23 +1129,51 @@
             "listLabel": "How our strategy process works",
             "stepLabel": "Step {number} of {total}",
             "outcomeLabel": "Outcome",
+            "desktopOutcomeLabel": "You leave with",
+            "planningPathEyebrow": "Your planning path",
+            "planningPathTagline": "Real conversations. Real planning. Real progress.",
+            "metaDuration": "30 minutes",
+            "metaPrep": "No preparation required",
+            "metaAdvisor": "Direct with an Enrolled Agent",
+            "whyItWorksEyebrow": "Why it works",
+            "whyItWorksTitle": "More clarity. More options. Fewer last-minute decisions.",
+            "whyItWorksPoints": [
+                "Understand your current tax position",
+                "Identify opportunities before deadlines",
+                "Get a clear, actionable plan",
+                "Keep your strategy current year-round"
+            ],
+            "whyItWorksPillars": {
+                "strategy": "STRATEGY",
+                "creates": "CREATES",
+                "options": "OPTIONS"
+            },
             "steps": {
                 "start": {
+                    "eyebrow": "Understand",
                     "title": "Start with a strategy call",
                     "description": "Share how the business is structured, how income flows, and what has changed this year.",
                     "outcome": "Documented diagnosis of entity structure and tax baseline"
                 },
                 "opportunities": {
+                    "eyebrow": "Explore",
                     "title": "See the opportunities worth evaluating",
                     "description": "We assess S-Corp eligibility and other proactive tax-planning opportunities, then prioritize what deserves action.",
                     "outcome": "Prioritized strategy roadmap with quantified potential tax savings"
                 },
                 "plan": {
+                    "eyebrow": "Implement",
                     "title": "Put your yearly plan into motion",
                     "description": "Receive documented decisions, deadlines, responsibilities, and a cadence for revisiting the strategy.",
                     "outcome": "Year-round implementation schedule with quarterly review milestones"
                 }
             },
+            "cadenceEyebrow": "Ongoing cadence",
+            "desktopCadenceEyebrow": "Ongoing review",
+            "cadenceTitle": "Review. Adjust. Repeat.",
+            "cadenceDescription": "We revisit your numbers every quarter to adapt your strategy as revenue, operations, and tax laws evolve.",
+            "cadenceTagline": "A plan that stays with you.",
+            "cadenceSupport": "Ongoing guidance, so you can keep making informed decisions all year long.",
             "cadenceLoop": "Ongoing Cadence: We revisit your numbers every quarter to adapt your strategy as revenue and tax laws evolve.",
             "swipeHint": "Swipe to explore steps",
             "cta": "Start with a Strategy Call",
@@ -682,18 +1259,24 @@
         "CTASection": {
             "globalEyebrow": "Strategy consultation",
             "homepageEyebrow": "For contractors and service businesses",
-            "homepageTitle": "Ready for a smarter tax strategy?",
-            "homepageSubtitle": "Review your current structure, identify planning opportunities, and determine the right next step.",
+            "homepageTitle": "Ready to make your next\ntax decision with more clarity?",
+            "homepageSubtitle": "Review your current structure, surface planning opportunities, and determine what deserves attention next.",
             "homepageButtonText": "Book a Strategy Call",
-            "homepageReassurance": "Free 45-minute consultation · No obligation",
+            "homepageReassurance": "Free 30-minute consultation · No obligation",
+            "trustDurationTitle": "30 minutes",
+            "trustDurationDescription": "Focused strategy call",
+            "trustObligationTitle": "No obligation",
+            "trustObligationDescription": "Explore fit first",
+            "trustExpertTitle": "Direct expert access",
+            "trustExpertDescription": "Meet with an Enrolled Agent",
             "homepageSchedulingNote": "Choose a date and time next. Your appointment is confirmed after you complete scheduling.",
             "externalBookingNote": "Opens the booking page in a new tab.",
             "openingSchedulingCalendar": "Opening scheduling calendar…",
             "opensInNewTab": "(opens in a new tab)",
             "badge": "Accepting New Advisory Clients for {year}",
-            "fallbackTitle": "Ready to stop overpaying?",
-            "fallbackSubtitle": "Book a 30-minute tax strategy call. We'll review your situation, identify where you may be overpaying, and explain what strategic support could look like for your business.",
-            "fallbackButtonText": "Book a Tax Strategy Call",
+            "fallbackTitle": "Ready to make your next\ntax decision with more clarity?",
+            "fallbackSubtitle": "Review your current structure, surface planning opportunities, and determine what deserves attention next.",
+            "fallbackButtonText": "Book a Strategy Call",
             "secondaryButton": "See If an S-Corp Fits",
             "footerText": "No obligation. 100% Confidential.",
             "consultationNote": "Free 30-minute consultation",
@@ -703,13 +1286,158 @@
         }
     },
     "Booking": {
-        "meetingMeta": "Free 45-minute consultation · No obligation",
-        "calendarIntro": "Pick a date and time — we'll confirm your call instantly.",
+        "calendar": {
+            "loading": "Loading available appointment times…",
+            "iframeTitle": "Tax Strategy Call booking calendar",
+            "loadError": "The scheduling calendar could not load. Try again, or contact us to schedule.",
+            "retry": "Try the calendar again",
+            "contact": "Contact us to schedule"
+        },
+        "meetingMeta": "Free, 30 minutes, no obligation.",
+        "calendarIntro": "Choose an available date and time for a free 30-minute tax strategy call.",
         "calendarSupport": "Need help scheduling?",
         "calendarSupportLink": "Contact us.",
-        "calendarPrivacyLink": "Privacy Policy"
+        "calendarPrivacyLink": "Privacy Policy",
+        "calendarHeading": "Appointment calendar",
+        "returnNavigation": "Return navigation",
+        "backStrategy": "Back to strategy overview",
+        "backPage": "Back to previous page",
+        "backHome": "Back to home",
+        "mobileTitleLead": "Choose a time for your",
+        "mobileTitleAccent": "tax strategy call",
+        "pageTitle": "Choose a time for your strategy call."
     },
     "AboutPage": {
+        "Desktop": {
+            "hero": {
+                "eyebrow": "About Union National Tax",
+                "titleLineOne": "The People Behind",
+                "titleLineTwo": "Your Financial Strategy.",
+                "subtitle": "Our team combines deep tax expertise with real-world business experience to help owners make smarter decisions, reduce taxes, and build a stronger financial future.",
+                "metrics": [
+                    {
+                        "title": "1,000+",
+                        "detail": "Business owners served"
+                    },
+                    {
+                        "title": "Year-round advisory support",
+                        "detail": "Not just tax season"
+                    },
+                    {
+                        "title": "A multidisciplinary team",
+                        "detail": "Tax. Accounting. CFO. Operations."
+                    }
+                ],
+                "peopleLabel": "The people",
+                "practiceLabel": "The practice",
+                "practiceTitle": "A People-First Approach.",
+                "practiceBody": "More than tax expertise. Our team brings real-world experience, clear communication, and a commitment to your success.",
+                "meetTeam": "Meet the team",
+                "meetTeamDetail": "Get to know the people who make it happen.",
+                "practiceItems": [
+                    {
+                        "title": "Experienced Professionals",
+                        "detail": "A team with deep tax knowledge and real business experience."
+                    },
+                    {
+                        "title": "Practical Solutions",
+                        "detail": "Advice built around your real-world goals and challenges."
+                    },
+                    {
+                        "title": "Clear Communication",
+                        "detail": "Straightforward answers without the jargon."
+                    },
+                    {
+                        "title": "Long-Term Partnership",
+                        "detail": "A team that stays involved beyond filing season."
+                    }
+                ]
+            },
+            "founder": {
+                "eyebrow": "Founder & Principal",
+                "titleStart": "Strategy Built on Uncompromising",
+                "titleHighlight": "Precision.",
+                "description": "At Union National Tax, we believe tax preparation is just the baseline. True value lies in the strategy that happens before the filing. Our mission is to bridge the gap between complex tax code and the agile needs of modern business.",
+                "credentialTitle": "IRS Enrolled Agent",
+                "credentialDetail": "Tax expertise you can trust."
+            },
+            "leadership": {
+                "eyebrow": "Our leadership team",
+                "title": "Experienced Leaders. A Shared Commitment.",
+                "subtitle": "Our leadership team is responsible for strategy, delivery, and client experience — working together to help you reach what's next.",
+                "summaries": [
+                    "Supports tax compliance, entity planning, and advisory decisions.",
+                    "Connects business operations with dependable service delivery.",
+                    "Coordinates client relationships and ongoing support."
+                ]
+            },
+            "team": {
+                "eyebrow": "Our team",
+                "title": "Specialists Working Together for a Stronger Tomorrow.",
+                "intro": "From tax and accounting to client success and technology, our team brings the expertise and support you need — all working from one financial picture.",
+                "groups": [
+                    {
+                        "title": "Tax & Advisory",
+                        "detail": "Compliance, planning, and financial reporting."
+                    },
+                    {
+                        "title": "Bookkeeping & Client Operations",
+                        "detail": "Reliable books, service, and coordination."
+                    },
+                    {
+                        "title": "Growth & Technology",
+                        "detail": "Systems, partnerships, and business growth."
+                    }
+                ],
+                "fullTeam": "Meet the full team"
+            },
+            "approach": {
+                "eyebrow": "How we work",
+                "title": "A clear process. A stronger tomorrow.",
+                "items": [
+                    {
+                        "title": "Plan Earlier",
+                        "detail": "Identify opportunities before deadlines, so you have more options.",
+                        "action": "We take time to understand your business, goals, and upcoming opportunities and challenges, then build a proactive strategy.",
+                        "outcomeTitle": "Tax + Financial Priorities",
+                        "outcomeDetail": "A clear list of opportunities and priorities tailored to your business."
+                    },
+                    {
+                        "title": "See the Big Picture",
+                        "detail": "Connect tax, finances, and business goals.",
+                        "action": "We look at the full picture — tax, cash flow, and business goals — to identify how everything works together.",
+                        "outcomeTitle": "One Clear Financial Picture",
+                        "outcomeDetail": "A straightforward view of where you stand and where you can go."
+                    },
+                    {
+                        "title": "Put It in Writing",
+                        "detail": "Turn strategy into clear recommendations you can act on.",
+                        "action": "We translate insights into a practical, written plan with specific recommendations and next steps.",
+                        "outcomeTitle": "A Documented Next-Step Plan",
+                        "outcomeDetail": "Clear, actionable recommendations you can implement with confidence."
+                    },
+                    {
+                        "title": "Stay Involved",
+                        "detail": "Year-round support, not just at tax time."
+                    }
+                ],
+                "intro": "From proactive planning to actionable recommendations, we make complex financial decisions simple, structured, and built around your goals.",
+                "motto": [
+                    "Real conversations.",
+                    "Practical strategies.",
+                    "Measurable progress."
+                ],
+                "actionLabel": "What we do",
+                "outcomeLabel": "What you get"
+            },
+            "closing": {
+                "eyebrow": "Let's build what's next",
+                "title": "Work with a Team That Sees the Bigger Picture.",
+                "subtitle": "Get expert guidance from a team that understands your business, your goals, and what it takes to get there.",
+                "cta": "Book a Strategy Call",
+                "note": "A smarter financial future starts with a conversation."
+            }
+        },
         "metadata": {
             "title": "About | Union National Tax",
             "description": "Meet the architects of modern wealth. Our mission is to bridge the gap between complex IRS regulations and the agile needs of modern businesses."
@@ -772,6 +1500,71 @@
             "imageAlt": "Jason Astwood",
             "quote2": "Planning isn't a once-a-year event. It's a partnership that compounds over time.",
             "role": "Director & Chief Strategist"
+        },
+        "Simplified": {
+            "founderHeading": "Our founder",
+            "titlePending": "Title pending client confirmation",
+            "memberPending": "Selection pending",
+            "selectionPending": "Featured team selection is awaiting client confirmation. You can explore the full team using the link above.",
+            "photoPending": "Photo awaiting selection",
+            "proofPending": "Awaiting client confirmation",
+            "proofLabels": [
+                "Experience figure",
+                "Client count and scope",
+                "Client outcome measure"
+            ],
+            "mission": "At Union National Tax, we believe tax preparation is just the baseline. Our mission is to bridge the gap between complex tax code and the needs of modern businesses, helping owners make smarter decisions, reduce taxes, and build stronger financial futures."
+        },
+        "FounderProfile": {
+            "title": "Leadership. Expertise. A Higher Standard.",
+            "intro": "Meet the founder behind Union National Tax and the principles that guide our work.",
+            "motto": [
+                "Tax expertise.",
+                "Business perspective.",
+                "Brighter tomorrows."
+            ],
+            "practiceLabel": "The practice",
+            "storyLink": "Read Jason’s Story",
+            "points": [
+                {
+                    "title": "Tax Expertise",
+                    "detail": "Deep technical knowledge in the details that make a difference."
+                },
+                {
+                    "title": "Business Perspective",
+                    "detail": "Real-world business experience applied to your goals."
+                },
+                {
+                    "title": "Ongoing Support",
+                    "detail": "A commitment to our clients beyond filing season."
+                }
+            ],
+            "practiceTitleLead": "How My Background",
+            "practiceTitleEnd": "Creates Real Value for Clients."
+        },
+        "TeamOverview": {
+            "title": "The People Behind the Work.",
+            "intro": "A team of advisors, specialists, and support professionals helping business owners plan, decide, and move forward.",
+            "motto": [
+                "Experience. Insight.",
+                "A stronger tomorrow."
+            ],
+            "viewProfile": "View profile",
+            "profilePending": "Profile awaiting confirmed selection",
+            "values": [
+                {
+                    "title": "A collaborative team",
+                    "detail": "More perspectives. Better solutions."
+                },
+                {
+                    "title": "Specialized expertise",
+                    "detail": "Real experience. Real impact."
+                },
+                {
+                    "title": "Client-focused mindset",
+                    "detail": "Your goals guide our work."
+                }
+            ]
         }
     },
     "ContactPage": {
@@ -808,7 +1601,7 @@
         "AlternativeCTA": {
             "eyebrow": "Instant Scheduling",
             "fallbackTitle": "Prefer to schedule directly?",
-            "fallbackSubtitle": "Skip the back-and-forth email tag. Book a free 15-minute strategy call with our team.",
+            "fallbackSubtitle": "Skip the back-and-forth email tag. Book a free 30-minute strategy call with our team.",
             "callDirectly": "Or call us directly",
             "seeTimes": "See available times"
         },
@@ -911,8 +1704,8 @@
     },
     "TeamPage": {
         "metadata": {
-            "title": "Team | Union National Tax",
-            "description": "Meet our team of CPAs, Enrolled Agents, and financial strategists dedicated to preserving wealth for the modern economy."
+            "title": "Our Team | Union National Tax",
+            "description": "Meet the founder, advisors, specialists, and support professionals at Union National Tax."
         },
         "fallbacks": {
             "heroBadge": "Our People",
@@ -948,26 +1741,423 @@
         "ValuesSection": {
             "eyebrow": "Our Ethos",
             "title": "Built on three pillars."
+        },
+        "profileClose": "Close profile",
+        "directory": {
+            "eyebrow": "Our team",
+            "heroTitle": "The People Behind Your Financial Strategy.",
+            "heroSubtitle": "Meet the advisors, specialists, and support professionals who help turn complex tax and financial questions into clearer business decisions.",
+            "meetTeam": "Meet the team",
+            "practiceLabel": "Our practice, their impact",
+            "practiceItems": [
+                { "title": "Tax Expertise", "detail": "Deep knowledge where the details matter." },
+                { "title": "Business Perspective", "detail": "Advice grounded in real-world decisions." },
+                { "title": "Ongoing Support", "detail": "A team that stays involved beyond filing season." }
+            ],
+            "aboutLink": "About Union National Tax",
+            "founderLink": "More about our founder",
+            "founderStory": "Read Jason’s story",
+            "founderRole": "Founder, Union National Tax",
+            "founderPerspective": {
+                "heading": "Founder perspective",
+                "quote": "Tax strategy isn’t just about what you file. It’s about the future you build.",
+                "principles": ["Proactive Strategies", "Business Focused", "Long-Term Partnerships"]
+            },
+            "rosterTitle": "Meet the full team.",
+            "rosterSubtitle": "Find the right person by role or expertise. Advisors, accountants, operators, and client-support professionals working together behind your financial strategy.",
+            "peopleEyebrow": "Our people",
+            "connectedTitleLead": "Different expertise.",
+            "connectedTitleEnd": "One connected team.",
+            "connectedBody": "From tax and accounting to operations and client support, our people are here to help you move forward.",
+            "filterLabel": "Filter team members by role or expertise",
+            "groups": { "all": "All People", "tax": "Tax & Accounting", "client": "Client Experience", "operations": "Operations & Growth", "leadership": "Leadership" },
+            "searchLabel": "Search team members by name, role, or expertise",
+            "searchPlaceholder": "Search team members...",
+            "clearSearch": "Clear search",
+            "resultCount": "{count, plural, =0 {No people found} one {# person found} other {# people found}}",
+            "noResults": "No team members match your search.",
+            "noResultsBody": "Try another name, role, or expertise, or clear the filters.",
+            "resetFilters": "Clear filters",
+            "viewProfile": "View profile",
+            "profileLabel": "View {name}’s profile",
+            "empty": "Our team directory is being updated.",
+            "photoMissing": "Photo not available"
         }
     },
+    "ConstructionBlueprint": {
+        "heroLead": "Stop Working for Free.",
+        "heroAccentMobile": "Put Margin in Every Bid.",
+        "heroAccentDesktop": "The Blueprint That Puts Margin Back in Every Bid.",
+        "heroBody": "The Money-Making Blueprint shows contractors where profit disappears and how to address it.",
+        "benefits": [
+            "Spot unprofitable jobs before they drain your bids",
+            "Use cash flow forecasts to prepare for payroll",
+            "Set prices with your target margins in mind"
+        ],
+        "heroCta": "Get the Blueprint",
+        "heroCtaWithPrice": "Get the Blueprint — ${price}",
+        "digitalFormat": "Digital PDF format",
+        "byline": "By Jason Astwood, EA · FSCP · LUTCF",
+        "credentials": "IRS Enrolled Agent · Licensed in all 50 states"
+    },
+    "IndustriesMobile": {
+        "eyebrow": "Specialized Expertise",
+        "titleLead": "Industry-Specific",
+        "titleAccent": "Advisory.",
+        "intro": "Tax and financial guidance for the costs, decisions, and obligations your business faces.",
+        "closingTitle": "Don't see your industry?",
+        "closingBody": "We work with a variety of growth-minded business owners. Book a strategy call to see if our advisory-led approach is the right fit for your situation.",
+        "closingCta": "Book a Tax Strategy Call",
+        "pageTitle": "Tax and Advisory by Industry"
+    },
     "Shop": {
+        "Page": {
+            "fallbackHeroTitle": "Shop Our Resources",
+            "fallbackHeroSubtitle": "Expert strategy to optimize your taxes and wealth.",
+            "recoveryEyebrow": "Need a different path?",
+            "recoveryBooking": "Book a Strategy Call"
+        },
+        "Desktop": {
+            "hero": {
+                "eyebrow": "Resource Center",
+                "title": "Knowledge that pays for itself at tax time.",
+                "subtitle": "Practical books on tax planning, cash flow, operations, and long-term financial decisions.",
+                "searchLabel": "Search resources",
+                "searchPlaceholder": "Search resources (e.g. S-Corp, CFO, construction, templates...)",
+                "searchButton": "Search",
+                "filterLabel": "Resource topics",
+                "browseLabel": "Browse by topic",
+                "viewAll": "View all resources",
+                "proof": [
+                    {
+                        "title": "Practical & Actionable",
+                        "detail": "Real-world guidance for real decisions."
+                    },
+                    {
+                        "title": "Enrolled Agent Expertise",
+                        "detail": "Tax and business knowledge you can trust."
+                    }
+                ],
+                "insightOne": "Practical insights.",
+                "insightTwo": "Advisory experience.",
+                "insightThree": "For business owners.",
+                "strip": [
+                    {
+                        "title": "Practical resources",
+                        "body": "Books on taxes, finance, and business."
+                    },
+                    {
+                        "title": "Real-world insights",
+                        "body": "Built from advisory experience."
+                    },
+                    {
+                        "title": "For business owners",
+                        "body": "Guidance for financial decisions."
+                    },
+                    {
+                        "title": "Plan further ahead",
+                        "body": "Growth and retirement topics."
+                    }
+                ]
+            },
+            "topics": {
+                "all": "All Resources",
+                "tax": "Tax Strategy",
+                "scorp": "S-Corp",
+                "finance": "CFO & Finance",
+                "construction": "Construction",
+                "profit": "Profitability",
+                "retirement": "Retirement",
+                "templates": "Templates",
+                "courses": "Video Courses"
+            },
+            "featured": {
+                "eyebrow": "Featured book",
+                "scorpCategory": "Tax Strategy  •  S-Corp",
+                "scorpDescription": "A practical guide to understanding when an S-Corp may fit, how compensation works, and which tax-planning strategies can help you keep more of what you earn.",
+                "benefits": [
+                    "Digital guide (PDF)",
+                    "Instant access",
+                    "Read on any device"
+                ],
+                "cta": "Get the Playbook",
+                "oneTime": "one-time",
+                "save": "Save ${amount} ({percentage}% off)",
+                "digitalFormat": "Digital format",
+                "standardPrice": "Standard price",
+                "tagline": "Smarter Taxes. Brighter Tomorrows.",
+                "coverNote": "Practical business guidance",
+                "editionNote": "Choose your edition on the book page.",
+                "topics": [
+                    {
+                        "title": "Understand S-Corp structure",
+                        "body": "Explore when this entity option may fit."
+                    },
+                    {
+                        "title": "Review compensation",
+                        "body": "Understand compensation considerations."
+                    },
+                    {
+                        "title": "Explore tax planning",
+                        "body": "Connect structure with planning decisions."
+                    },
+                    {
+                        "title": "For business owners",
+                        "body": "Practical explanations of business tax topics."
+                    }
+                ]
+            },
+            "library": {
+                "eyebrow": "Books & resources",
+                "title": "Practical resources for real business owners.",
+                "sortLabel": "Sort by:",
+                "sortFeatured": "Featured",
+                "sortLow": "Price: Low to High",
+                "sortHigh": "Price: High to Low",
+                "sortName": "Name A–Z",
+                "sortRating": "Top Rated",
+                "bestseller": "Bestseller",
+                "businessGrowth": "Business Growth",
+                "restaurants": "Restaurants",
+                "addToCart": "Add to Cart",
+                "chooseFormat": "Choose Format",
+                "viewDetails": "View Details",
+                "showAll": "Show all {count} resources",
+                "empty": "No resources match your search yet.",
+                "mobileEmpty": "No products match your search.",
+                "clear": "Clear filters",
+                "bookCategory": "Book",
+                "allBooks": "All Books",
+                "collectionCount": "{count, plural, one {# book in this collection} other {# books in this collection}}",
+                "collectionNote": "Practical guidance for business owners.",
+                "footerNote": "Books for your next financial decision",
+                "results": "{count, plural, one {# book} other {# books}}",
+                "resultsWithFeatured": "{count, plural, one {# other book} other {# other books}} · Featured book above"
+            },
+            "goals": {
+                "eyebrow": "Not sure what to start with?",
+                "title": "What are you trying to solve?",
+                "subtitle": "Choose a goal to narrow the books below. Select it again to see all books.",
+                "items": [
+                    {
+                        "title": "Lower my tax burden",
+                        "description": "S-Corps, deductions, and year-round strategies."
+                    },
+                    {
+                        "title": "Improve profitability",
+                        "description": "Margins, pricing, and financial visibility."
+                    },
+                    {
+                        "title": "Understand my numbers",
+                        "description": "Bookkeeping, CFO, and reporting resources."
+                    },
+                    {
+                        "title": "Prepare for growth",
+                        "description": "Scaling, hiring, and long-term planning."
+                    }
+                ]
+            },
+            "social": {
+                "label": "Trusted by business owners",
+                "eyebrow": "Trusted by business owners",
+                "checks": [
+                    "Practical and easy to understand",
+                    "Real-world examples",
+                    "Written from advisory experience",
+                    "Trusted by contractors and entrepreneurs"
+                ]
+            },
+            "faq": {
+                "eyebrow": "Frequently Asked Questions",
+                "title": "Questions before you begin.",
+                "stillQuestions": "Still have questions?",
+                "contactBody": "Reach out to our team for personalized guidance.",
+                "contactCta": "Contact Support",
+                "support": {
+                    "eyebrow": "Support",
+                    "title": "Questions before you order?",
+                    "body": "Find answers about formats, choosing a book, delivery, and refunds. If you still need help, our team is here for you.",
+                    "cta": "Contact our team",
+                    "faqLabel": "FAQ",
+                    "answersTitle": "Common questions, clear answers.",
+                    "answersBody": "Answers to help you choose a book and understand your order options.",
+                    "items": [
+                        { "title": "Book formats", "body": "Compare the available editions." },
+                        { "title": "Book recommendations", "body": "Choose around your business goals." },
+                        { "title": "Order help", "body": "Confirm delivery and refund terms." }
+                    ]
+                },
+                "items": [
+                    {
+                        "question": "What formats are available?",
+                        "answer": "Available formats vary by book. Check the format list and edition options before choosing. The Retirement book’s formats still need confirmation."
+                    },
+                    {
+                        "question": "Which book should I start with?",
+                        "answer": "Choose a book around your goal: tax planning, financial visibility, business growth, or retirement."
+                    },
+                    {
+                        "question": "Are the strategies IRS-compliant?",
+                        "answer": "These books provide educational guidance; a strategy’s suitability depends on your circumstances and applicable rules. Discuss implementation with a qualified tax professional rather than treating a book as a guarantee of IRS compliance."
+                    },
+                    {
+                        "question": "How will I receive my order?",
+                        "answer": "Confirm digital access and any physical delivery arrangements with our team before ordering; timing depends on the book and format."
+                    },
+                    {
+                        "question": "What are the refund terms?",
+                        "answer": "Contact our team before ordering to confirm the refund terms for your chosen book and format."
+                    }
+                ]
+            },
+            "closing": {
+                "label": "Choose your next step",
+                "selfEyebrow": "Do it yourself",
+                "selfTitle": "Browse the Resource Library",
+                "selfSubtitle": "Get practical knowledge and take the next step at your own pace.",
+                "selfCta": "Explore All Resources",
+                "helpEyebrow": "Need personal guidance?",
+                "helpTitle": "Not sure which book?",
+                "helpSubtitle": "Talk through your goals and get expert recommendations.",
+                "helpCta": "Book a Strategy Call"
+            },
+            "footer": {
+                "tagline": "Practical Knowledge. Stronger Businesses. Brighter Tomorrows.",
+                "navigationLabel": "Shop footer links",
+                "privacy": "Privacy",
+                "terms": "Terms",
+                "contact": "Contact"
+            },
+            "actions": {
+                "viewBook": "View book"
+            },
+            "formats": {
+                "digital": "PDF",
+                "audio": "Audio",
+                "physical": "Hardcover",
+                "bundle": "Bundle",
+                "pending": "Formats pending confirmation",
+                "label": "Available editions"
+            },
+            "books": {
+                "scorp": {
+                    "category": "Tax Strategy · S-Corp",
+                    "description": "A practical guide to S-Corp suitability, compensation, and tax-planning strategies for business owners considering their entity options."
+                },
+                "growth": {
+                    "category": "Business Growth",
+                    "description": "A business guide to growth, systems, and the three core levers that support a more scalable operation."
+                },
+                "cfo": {
+                    "category": "CFO & Finance",
+                    "description": "A practical framework for understanding business numbers, managing cash flow, and making informed financial decisions as an owner."
+                },
+                "retirement": {
+                    "category": "Retirement",
+                    "description": "An overview of retirement income, tax-aware planning, and risk management for readers evaluating their long-term financial needs."
+                },
+                "construction": {
+                    "category": "Construction",
+                    "description": "A contractor-focused guide to job costing, subcontractor compliance, equipment depreciation, cash flow management, and business tax planning."
+                },
+                "restaurant": {
+                    "category": "Restaurants",
+                    "description": "A practical guide to restaurant systems, operations, profitability, and building a business that can operate with consistent processes."
+                },
+                "realEstate": {
+                    "category": "Tax Strategy · Real Estate",
+                    "description": "Description coming soon."
+                }
+            }
+        },
         "Cart": {
             "title": "Shopping Cart",
             "empty": "Your cart is empty",
+            "eyebrow": "Cart Review",
+            "reviewTitle": "Review your resources before checkout.",
+            "reviewBody": "Confirm the resource, quantity, and format before continuing to secure checkout.",
+            "cancelled": "Checkout was cancelled before payment. Your cart is still here when you are ready.",
+            "emptyBody": "Add a resource from the shop to start your purchase.",
+            "recoveryTitle": "Need a different path?",
+            "recoveryBody": "Talk with our team if you need help choosing the right resource.",
+            "recoveryCta": "Contact Support",
+            "removeItem": "Remove {title} from cart",
+            "decreaseQuantity": "Decrease quantity for {title}",
+            "increaseQuantity": "Increase quantity for {title}",
+            "lineTotal": "Line total",
+            "orderSummary": "Order summary",
+            "secureCheckout": "Secure Checkout",
+            "secureDescription": "Your payment is encrypted and processed securely via Stripe. We do not store your credit card information.",
+            "poweredByStripe": "Powered by Stripe",
+            "startingCheckout": "Starting checkout...",
+            "checkoutError": "Unable to start checkout right now. Please try again.",
             "continueShopping": "Continue Shopping",
             "subtotal": "Subtotal",
             "shipping": "Shipping",
             "free": "FREE",
             "total": "Total",
             "checkout": "Proceed to Checkout",
-            "secureNote": "Secure Cloud Checkout"
+            "secureNote": "Secure Cloud Checkout",
+            "openCart": "Open shopping cart",
+            "itemCount": "{count, plural, =0 {Shopping cart is empty} one {# item in shopping cart} other {# items in shopping cart}}",
+            "drawerCount": "{count, plural, =0 {No items in your cart} one {# item in your cart} other {# items in your cart}}",
+            "itemHeading": "{count, plural, one {Your item} other {Your items}}",
+            "closeCart": "Close shopping cart",
+            "removeLabel": "Remove",
+            "digitalEdition": "Digital edition",
+            "printEdition": "Print edition",
+            "audioEdition": "Audiobook",
+            "bundleEdition": "Print + digital",
+            "serviceEdition": "Service",
+            "resourceEdition": "Resource",
+            "digitalDelivery": "Digital delivery",
+            "digitalDeliveryBody": "These items are digital. No shipping address is needed.",
+            "printDelivery": "Shipping details",
+            "printDeliveryBody": "A shipping address is collected at checkout for printed items.",
+            "included": "Included",
+            "notRequired": "Not required",
+            "viewFullCart": "View full cart",
+            "cardPayments": "Card payments",
+            "deliveryFormat": "Digital format",
+            "selectedEditions": "Selected editions"
+        },
+        "Success": {
+            "missingTitle": "We could not verify this order yet.",
+            "missingBody": "If you completed payment, check your Stripe receipt or contact order support.",
+            "pendingTitle": "Payment not confirmed yet.",
+            "pendingBody": "Your cart is saved. Check payment status before trying checkout again.",
+            "expiredTitle": "Checkout expired.",
+            "expiredBody": "No payment was confirmed. Your cart is saved and you can try again.",
+            "paidTitle": "Payment confirmed.",
+            "paidBody": "Your payment was confirmed. Keep your order ID for support while fulfillment is prepared.",
+            "fulfillmentPending": "Fulfillment is still being prepared. Contact order support with your order ID if needed.",
+            "returnCart": "Return to Cart",
+            "contactSupport": "Contact Support",
+            "orderSummary": "Order Summary",
+            "totalCharged": "Total Charged",
+            "securePayment": "Secure Payment via Stripe",
+            "digitalNote": "Digital access details will follow when fulfillment is ready.",
+            "physicalNote": "Physical items will be prepared for shipment using the address provided at checkout.",
+            "orderHelpTitle": "Keep Your Order ID",
+            "orderHelpBody": "Share your order ID with support if you need an update.",
+            "digitalTitle": "Digital Access",
+            "digitalBody": "Digital fulfillment is tied to this paid Stripe order.",
+            "shippingTitle": "Shipping Prep",
+            "shippingBody": "Your physical order will move into fulfillment after payment confirmation.",
+            "continueShopping": "Continue Shopping",
+            "returnHome": "Return Home",
+            "needAssistance": "Need assistance? We're here to help.",
+            "contactOrderSupport": "Contact Order Support"
         },
         "Hero": {
             "resourceCenter": "Resource Center",
             "browseResources": "Browse Resources",
             "secureCheckout": "Secure Checkout",
             "instantAccess": "Instant Access",
-            "expertVerified": "Expert Verified"
+            "expertVerified": "Expert Verified",
+            "previousSlide": "Previous slide",
+            "nextSlide": "Next slide",
+            "goToSlide": "Go to slide {number}"
         },
         "Filter": {
             "all": "All Resources",
@@ -978,12 +2168,153 @@
         },
         "ProductCard": {
             "quickView": "Quick View",
+            "viewBook": "View book",
             "formatLabels": {
                 "ebook": "PDF",
                 "template": "Template",
                 "course": "Video",
                 "bundle": "Bundle"
             }
+        },
+        "ProductPage": {
+            "chooseFormat": "Choose your format",
+            "selected": "Selected",
+            "selectedFormat": "Selected format",
+            "purchaseUnavailable": "This edition is not available for online purchase.",
+            "contents": {
+                "pdf": "PDF copy of the book."
+            },
+            "backToShop": "Back to shop",
+            "learnTitle": "What the book covers",
+            "sourceTakeaways": "Read the publisher’s key takeaways",
+            "sourceObjectives": "Read the learning objectives",
+            "relatedTitle": "Related books",
+            "applyHelp": "Want help applying this?",
+            "growthBullets": [
+                "Attract higher-value clients.",
+                "Price and position your offers for better margins.",
+                "Build processes, metrics, and a team so the business relies less on your constant involvement."
+            ],
+            "growthHighlights": [
+                {
+                    "title": "Growth framework",
+                    "body": "Three core growth levers."
+                },
+                {
+                    "title": "Build scalable systems",
+                    "body": "Systems, delegation and metrics."
+                },
+                {
+                    "title": "More freedom",
+                    "body": "Time and financial freedom."
+                }
+            ],
+            "bookHighlights": {
+                "scorp": [
+                    { "title": "Entity structure", "body": "Explore S-Corp suitability." },
+                    { "title": "Compensation", "body": "Understand compensation considerations." },
+                    { "title": "Tax planning", "body": "Structure and planning strategies." }
+                ],
+                "cfo": [
+                    { "title": "Know your numbers", "body": "Understand business finances." },
+                    { "title": "Cash flow", "body": "Cash flow management guidance." },
+                    { "title": "Financial decisions", "body": "A practical CFO framework." }
+                ],
+                "retirement": [
+                    { "title": "Retirement income", "body": "Explore long-term income needs." },
+                    { "title": "Tax-aware planning", "body": "Retirement planning considerations." },
+                    { "title": "Risk management", "body": "Understand retirement financial risks." }
+                ],
+                "construction": [
+                    { "title": "Job costing", "body": "Project costs and cash flow." },
+                    { "title": "Equipment", "body": "Equipment depreciation considerations." },
+                    { "title": "Tax planning", "body": "Business tax topics for contractors." }
+                ],
+                "restaurant": [
+                    { "title": "Business systems", "body": "Consistent restaurant processes." },
+                    { "title": "Operations", "body": "Restaurant operations guidance." },
+                    { "title": "Profitability", "body": "Explore restaurant profitability." }
+                ],
+                "general": [
+                    { "title": "Book overview", "body": "Explore the published book details." },
+                    { "title": "Edition options", "body": "Check formats for this book." },
+                    { "title": "Order help", "body": "Contact our team with questions." }
+                ]
+            },
+            "editionContents": "Your selected edition",
+            "stripeCheckout": "Checkout with Stripe",
+            "cartCheckout": "Continue from your cart.",
+            "question": "Have a question?",
+            "faqLink": "View our FAQ",
+            "coverage": {
+                "headline": "Three core areas. A stronger, more scalable business.",
+                "intro": "A practical framework for attracting higher-value clients, improving margins, and building a business that gives you more freedom.",
+                "disclosureBody": "A closer look at what you’ll learn inside.",
+                "cards": [
+                    {
+                        "label": "Client growth",
+                        "description": "Explore how to attract higher-value clients consistently and build a business around the right customers.",
+                        "outcome": "Better clients"
+                    },
+                    {
+                        "label": "Offer positioning",
+                        "description": "Use practical tools and action steps to improve pricing, profitability, and cash flow.",
+                        "outcome": "Stronger margins"
+                    },
+                    {
+                        "label": "Operating systems",
+                        "description": "Bring processes, metrics, and people together so the business can scale without the owner doing everything.",
+                        "outcome": "More freedom"
+                    }
+                ]
+            },
+            "related": {
+                "eyebrow": "Keep building",
+                "intro": "Continue with another guide based on what you want to improve next.",
+                "signature": "Better strategies. A stronger business.",
+                "guidanceLabel": "Expert guidance",
+                "guidanceTitle": "Need help applying this?",
+                "guidanceBody": "Talk through how these ideas relate to your business and identify a practical next step.",
+                "items": [
+                    {
+                        "title": "Clarify the right strategy",
+                        "body": "Discuss what deserves attention in your current setup."
+                    },
+                    {
+                        "title": "Apply ideas to your business",
+                        "body": "Review opportunities against your goals and timeline."
+                    },
+                    {
+                        "title": "Leave with next steps",
+                        "body": "Identify priorities and a practical next-step plan."
+                    }
+                ],
+                "duration": "30-minute call with an Enrolled Agent",
+                "footerLabels": [
+                    "Real-world experience",
+                    "Practical solutions",
+                    "Built for business owners"
+                ]
+            }
+        },
+        "ProductHero": {
+            "thumbnailsUp": "Scroll thumbnails up",
+            "thumbnailsDown": "Scroll thumbnails down",
+            "viewMedia": "View {type} {number}",
+            "video": "video",
+            "image": "image",
+            "thumbnail": "Thumbnail {number}",
+            "videoTitle": "Video about {title}",
+            "addWishlist": "Save {title}",
+            "removeWishlist": "Remove {title} from saved resources",
+            "samplePages": "Sample pages",
+            "preview": "Preview",
+            "samplePage": "Sample page {number}",
+            "author": "Author",
+            "price": "Price",
+            "discount": "{percentage}% off",
+            "selectFormat": "Select access format",
+            "addToCart": "Add to cart"
         },
         "TransactionCard": {
             "strategicAsset": "Strategic Asset",
@@ -1017,6 +2348,10 @@
                 "description": "Tax-optimized for compliance."
             },
             "defaultDescription": "Optimized for implementation."
+        },
+        "TestimonialStrip": {
+            "eyebrow": "Trusted resources",
+            "title": "Built for compliance. Designed for speed."
         }
     },
     "BookLanding": {
@@ -1045,6 +2380,228 @@
         "meta": {
             "freeDownloadTitle": "{title} — Free Download | Union National Tax",
             "freeDownloadDescription": "Get your free copy of {title} and start building real tax strategy."
+        }
+    },
+    "ClientInsight": {
+        "eyebrow": "Construction client insight",
+        "title": "From reactive filing to a year-round plan.",
+        "introduction": "Torres Built Construction worked with Union National Tax on an S-Corp strategy and proactive quarterly planning. The client’s experience shows how that approach brought more clarity to tax decisions and what deserves attention next.",
+        "challengeLabel": "The starting point",
+        "challengeBody": "Reactive tax filing, an unclear entity structure, and limited planning visibility.",
+        "assessmentLabel": "The strategy",
+        "assessmentBody": "An S-Corp evaluation and defined tax priorities formed the strategy for the business.",
+        "planningLabel": "The planning approach",
+        "planningBody": "Proactive quarterly planning brought the tax conversation into a year-round cadence, with defined next steps.",
+        "outcomeLabel": "What changed",
+        "outcomeBody": "Clearer tax decisions and a defined path to reduce avoidable burden.",
+        "servicesLabel": "Services used",
+        "clientPerspective": "The client’s perspective",
+        "cta": "Discuss your business",
+        "ctaSupport": "Start a conversation about the decisions your business faces.",
+        "summary": {
+            "eyebrow": "Planning outcome",
+            "title": "Clearer tax decisions",
+            "body": "An S-Corp strategy and proactive quarterly planning gave Torres Built clearer tax decisions, defined next steps, and a year-round planning cadence.",
+            "readStory": "Read the client story",
+            "takeaways": [
+                "S-Corp strategy",
+                "Quarterly planning",
+                "Defined next steps"
+            ]
+        }
+    },
+    "ConsumerHome": {
+        "logos": {
+            "label": "Featured logos",
+            "pause": "Pause logo scrolling",
+            "resume": "Resume logo scrolling"
+        },
+        "seo": {
+            "title": "Tax Planning for Business Owners | Union National Tax",
+            "description": "Review tax-saving opportunities with an IRS Enrolled Agent and leave with clear next steps for your business."
+        },
+        "hero": {
+            "eyebrow": "Tax planning for contractors and service businesses",
+            "titleLead": "Stop overpaying in taxes.",
+            "titleAccent": "Build a stronger business.",
+            "subtitle": "Find tax-saving opportunities, make confident decisions, and build a year-round plan.",
+            "primaryCta": "Book a Strategy Call",
+            "secondaryCta": "See how it works",
+            "microproof": "30-minute call · No obligation"
+        },
+        "proof": {
+            "label": "Why business owners trust Union National Tax",
+            "credential": "IRS Enrolled Agent",
+            "experience": "15+ years of experience",
+            "owners": "1,000+ business owners served"
+        },
+        "process": {
+            "eyebrow": "Strategy call brief",
+            "title": "What we’ll work through together",
+            "subtitle": "A focused conversation to review where you are, identify what matters, and leave with a clear next step.",
+            "review": {
+                "1": "Business structure",
+                "2": "Current financials",
+                "3": "Recent business changes",
+                "4": "Goals + pressure points",
+                "label": "Your business today",
+                "description": "We’ll review the key details of your current setup and where things stand right now."
+            },
+            "evaluate": {
+                "1": "Tax opportunities",
+                "2": "Entity decisions",
+                "3": "Timing + deadlines",
+                "4": "Financial priorities",
+                "label": "What deserves attention",
+                "description": "We’ll evaluate opportunities, risks, and key decisions based on your goals and timeline."
+            },
+            "leaveWith": {
+                "1": "A clearer picture",
+                "2": "The highest-priority",
+                "3": "A practical next-step plan",
+                "label": "What you leave with",
+                "description": "You’ll walk away with clarity, priorities, and a practical plan for what happens next.",
+                "details": {
+                    "1": "of the current setup",
+                    "2": "opportunities to pursue",
+                    "3": "you can act on"
+                }
+            },
+            "booking": {
+                "title": "Ready to get started?",
+                "subtitle": "Book a strategy call and let’s talk through your business.",
+                "duration": "30 minutes",
+                "preparation": "No preparation required",
+                "expert": "Speak with an Enrolled Agent"
+            }
+        },
+        "outcomes": {
+            "eyebrow": "What you get",
+            "title": "Tax planning, clear books, better decisions",
+            "subtitle": "Different goals. A connected approach. See what’s possible and the service that helps you get there.",
+            "outcomeLabel": "Selected outcome",
+            "serviceLabel": "Recommended service",
+            "relatedLabel": "Also relevant",
+            "items": {
+                "1": {
+                    "title": "Keep more of what you earn.",
+                    "tabLabel": "Keep more",
+                    "motto": "More of what you earn today. A stronger tomorrow.",
+                    "description": "Take advantage of tax opportunities while there is still time to act.",
+                    "service": "Proactive Tax Planning",
+                    "serviceDescription": "Strategic tax planning to help you minimize liability and keep more of what you earn.",
+                    "features": {
+                        "1": "Entity structure & strategy",
+                        "2": "Deductions & credits",
+                        "3": "Retirement & wealth planning",
+                        "4": "Timing and year-end strategy"
+                    },
+                    "link": "Explore Tax Planning"
+                },
+                "2": {
+                    "title": "Know where the business stands.",
+                    "tabLabel": "See clearly",
+                    "motto": "Clear numbers today. More confident decisions tomorrow.",
+                    "description": "Keep accurate, up-to-date numbers so you can plan ahead with confidence.",
+                    "service": "Strategic Bookkeeping",
+                    "serviceDescription": "Accurate, decision-ready books that give you visibility into performance and cash flow.",
+                    "features": {
+                        "1": "Monthly bookkeeping",
+                        "2": "Financial reporting",
+                        "3": "Cash flow tracking",
+                        "4": "Clean, organized records"
+                    },
+                    "link": "Explore Bookkeeping"
+                },
+                "3": {
+                    "title": "Make bigger decisions with confidence.",
+                    "tabLabel": "Decide better",
+                    "motto": "Plan for what’s next. Move forward with confidence.",
+                    "description": "Use forecasts and financial guidance to plan growth, investments, and what’s next.",
+                    "service": "Fractional CFO",
+                    "serviceDescription": "Strategic guidance and financial modeling to help you make informed, confident decisions.",
+                    "features": {
+                        "1": "Forecasting & budgeting",
+                        "2": "Scenario modeling",
+                        "3": "Growth & investment planning",
+                        "4": "Ongoing strategic support"
+                    },
+                    "link": "Explore Fractional CFO"
+                }
+            },
+            "allServices": "Compare all services",
+            "footerLine": "Tax strategy. Accurate books. Better decisions. A stronger financial future.",
+            "footerMotto": "Same numbers. A brighter tomorrow."
+        },
+        "reviews": {
+            "eyebrow": "Client reviews",
+            "title": "What clients say about working with us.",
+            "subtitle": "Short excerpts from public Google reviews.",
+            "viewSource": "View on Google",
+            "sourceLabel": "Google review excerpt",
+            "storyCta": "See the Torres Built story",
+            "storySupport": "Explore the planning behind one construction client’s experience.",
+            "items": {
+                "1": {
+                    "name": "Carla Bassano",
+                    "theme": "Confidence in the team",
+                    "quote": "I highly recommend Jason and his team."
+                },
+                "2": {
+                    "name": "Jeanine Ibarra",
+                    "theme": "Bilingual support",
+                    "quote": "He is bilingual which makes our experience easier and faster."
+                },
+                "3": {
+                    "name": "Marlene Neptune",
+                    "theme": "Care and professionalism",
+                    "quote": "Excellent caring customer service. Knowledgeable and professional."
+                }
+            }
+        },
+        "story": {
+            "eyebrow": "One client story",
+            "title": "How Torres Built moved to year-round planning",
+            "moreStories": "View all client results",
+            "photoDetail": "Construction business",
+            "challenge": {
+                "1": "Reactive tax filing",
+                "2": "Unclear entity structure",
+                "3": "Limited planning visibility",
+                "label": "The challenge"
+            },
+            "strategy": {
+                "1": "S-Corp evaluation",
+                "2": "Quarterly planning",
+                "3": "Defined tax priorities",
+                "label": "The strategy"
+            },
+            "result": {
+                "1": "Clearer tax decisions",
+                "2": "Defined next steps",
+                "3": "A year-round planning cadence",
+                "label": "The outcome"
+            },
+            "readStory": "Read the Torres Built story"
+        },
+        "final": {
+            "eyebrow": "Your next step",
+            "title": "You know the options.",
+            "nextTitle": "Now clarify the next step.",
+            "support": "A focused strategy call to review where the business stands and what deserves attention next.",
+            "duration": {
+                "label": "30 minutes",
+                "detail": "Focused and efficient."
+            },
+            "preparation": {
+                "label": "No preparation",
+                "detail": "Come as you are."
+            },
+            "expert": {
+                "label": "Enrolled Agent",
+                "detail": "Speak with a tax expert."
+            },
+            "reassurance": "No sales pressure. Just practical advice."
         }
     }
 }

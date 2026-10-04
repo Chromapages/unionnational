@@ -129,7 +129,7 @@ export interface ServicePage extends SanityDocument {
   };
   proof?: { eyebrow?: string; heading?: string; quote?: string; attribution?: string; linkLabel?: string; href?: string };
   faqSection: { eyebrow?: string; heading: string; items: Array<{ question: string; answer: string }> };
-  closing: { heading: string; description?: string; label: string; href: string };
+  closing: { heading: string; description?: string; label: string; href: string; disclaimer?: string };
   seo?: SanitySEO;
 }
 
@@ -261,6 +261,7 @@ export interface PlaybookChapter extends SanityDocument {
 
 export interface Playbook extends SanityDocument {
   title: string;
+  seo?: SanitySEO;
   slug: { current: string };
   description: string;
   coverImage?: SanityImage;
@@ -271,6 +272,7 @@ export interface Playbook extends SanityDocument {
 
 export interface IndustryVertical extends SanityDocument {
   title: string;
+  seo?: SanitySEO;
   slug: { current: string };
   description: string;
   heroImage?: SanityImage;

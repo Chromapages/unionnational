@@ -65,10 +65,10 @@ export const BLOG_RECENT_POSTS_QUERY = defineQuery(`
 export const BLOG_POST_QUERY = defineQuery(`
   *[_type == "blogPost" && slug.current == $slug][0] {
     _id,
-    "title": coalesce(title[$locale], title.en, title),
+    "title": select(defined(title[$locale]) && title[$locale] != "" => title[$locale], defined(title.en) && title.en != "" => title.en, title),
     "slug": slug.current,
-    "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt),
-    "body": coalesce(body[$locale], body.en, body),
+    "excerpt": select(defined(excerpt[$locale]) && excerpt[$locale] != "" => excerpt[$locale], defined(excerpt.en) && excerpt.en != "" => excerpt.en, excerpt),
+    "body": select(count(body[$locale]) > 0 => body[$locale], count(body.en) > 0 => body.en, body),
     publishedAt,
     readingTime,
     featuredImage {
@@ -87,7 +87,8 @@ export const BLOG_POST_QUERY = defineQuery(`
       "role": coalesce(role[$locale], role.en, role),
       "description": coalesce(description[$locale], description.en, description),
       linkedinUrl
-    }
+    },
+    seo { noIndex }
   }
 `)
 

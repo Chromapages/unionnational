@@ -1,0 +1,10 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Three source-checked Google excerpts form a compact desktop row and mobile stack, with translated-excerpt labels in Spanish. English and Spanish checks at 390px, 1280px, and 1672px showed three distinct names, three Google source links, no client portraits, and no section overflow or browser errors. The fixed team story remains visible when the selected industry changes; native links reach its responsive anchor and its booking CTA preserves a return path.",
+  "next_actions": []
+}

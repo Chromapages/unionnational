@@ -1,0 +1,10 @@
+{
+  "score": 98,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "At the reference width, the section is 940px tall, the cards start at y=252px, and the takeaway panel starts at y=698px. Typography, content, and spacing closely match the image; English and Spanish render without overflow on desktop and mobile.",
+  "next_actions": []
+}

@@ -1,0 +1,328 @@
+{
+  "routes": [
+    {
+      "locale": "en",
+      "route": "s-corp-tax-advantage",
+      "faqQuestions": 1,
+      "footerBooking": "/en/book",
+      "includedItems": 4,
+      "overflow": false,
+      "processLink": "#s-corp-tax-advantage-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "s-corp-tax-advantage-hero",
+        "s-corp-tax-advantage-eligibility",
+        "s-corp-tax-advantage-process",
+        "included",
+        "s-corp-tax-advantage-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "en",
+      "route": "tax-planning",
+      "faqQuestions": 4,
+      "footerBooking": "/en/book",
+      "includedItems": 6,
+      "overflow": false,
+      "processLink": "#tax-planning-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "tax-planning-hero",
+        "tax-planning-eligibility",
+        "tax-planning-process",
+        "included",
+        "tax-planning-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "en",
+      "route": "strategic-bookkeeping",
+      "faqQuestions": 4,
+      "footerBooking": "/en/book",
+      "includedItems": 10,
+      "overflow": false,
+      "processLink": "#strategic-bookkeeping-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "strategic-bookkeeping-hero",
+        "strategic-bookkeeping-eligibility",
+        "strategic-bookkeeping-process",
+        "included",
+        "strategic-bookkeeping-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "en",
+      "route": "fractional-cfo",
+      "faqQuestions": 4,
+      "footerBooking": "/en/book",
+      "includedItems": 6,
+      "overflow": false,
+      "processLink": "#fractional-cfo-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "fractional-cfo-hero",
+        "fractional-cfo-eligibility",
+        "fractional-cfo-process",
+        "included",
+        "fractional-cfo-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "en",
+      "route": "payroll-services",
+      "faqQuestions": 4,
+      "footerBooking": "/en/book",
+      "includedItems": 9,
+      "overflow": false,
+      "processLink": "#payroll-services-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "payroll-services-hero",
+        "payroll-services-eligibility",
+        "payroll-services-process",
+        "included",
+        "payroll-services-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "en",
+      "route": "new-business-formation",
+      "faqQuestions": 3,
+      "footerBooking": "/en/book",
+      "includedItems": 5,
+      "overflow": false,
+      "processLink": "#new-business-formation-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "new-business-formation-hero",
+        "new-business-formation-eligibility",
+        "new-business-formation-process",
+        "included",
+        "new-business-formation-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "en",
+      "route": "tax-preparation-and-filing",
+      "faqQuestions": 4,
+      "footerBooking": "/en/book",
+      "includedItems": 6,
+      "overflow": false,
+      "processLink": "#tax-preparation-and-filing-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "tax-preparation-and-filing-hero",
+        "tax-preparation-and-filing-eligibility",
+        "tax-preparation-and-filing-process",
+        "included",
+        "tax-preparation-and-filing-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "s-corp-tax-advantage",
+      "faqQuestions": 1,
+      "footerBooking": "/es/book",
+      "includedItems": 4,
+      "overflow": false,
+      "processLink": "#s-corp-tax-advantage-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "s-corp-tax-advantage-hero",
+        "s-corp-tax-advantage-eligibility",
+        "s-corp-tax-advantage-process",
+        "included",
+        "s-corp-tax-advantage-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "tax-planning",
+      "faqQuestions": 4,
+      "footerBooking": "/es/book",
+      "includedItems": 6,
+      "overflow": false,
+      "processLink": "#tax-planning-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "tax-planning-hero",
+        "tax-planning-eligibility",
+        "tax-planning-process",
+        "included",
+        "tax-planning-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "strategic-bookkeeping",
+      "faqQuestions": 4,
+      "footerBooking": "/es/book",
+      "includedItems": 10,
+      "overflow": false,
+      "processLink": "#strategic-bookkeeping-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "strategic-bookkeeping-hero",
+        "strategic-bookkeeping-eligibility",
+        "strategic-bookkeeping-process",
+        "included",
+        "strategic-bookkeeping-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "fractional-cfo",
+      "faqQuestions": 4,
+      "footerBooking": "/es/book",
+      "includedItems": 6,
+      "overflow": false,
+      "processLink": "#fractional-cfo-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "fractional-cfo-hero",
+        "fractional-cfo-eligibility",
+        "fractional-cfo-process",
+        "included",
+        "fractional-cfo-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "payroll-services",
+      "faqQuestions": 4,
+      "footerBooking": "/es/book",
+      "includedItems": 9,
+      "overflow": false,
+      "processLink": "#payroll-services-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "payroll-services-hero",
+        "payroll-services-eligibility",
+        "payroll-services-process",
+        "included",
+        "payroll-services-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "new-business-formation",
+      "faqQuestions": 3,
+      "footerBooking": "/es/book",
+      "includedItems": 5,
+      "overflow": false,
+      "processLink": "#new-business-formation-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "new-business-formation-hero",
+        "new-business-formation-eligibility",
+        "new-business-formation-process",
+        "included",
+        "new-business-formation-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    },
+    {
+      "locale": "es",
+      "route": "tax-preparation-and-filing",
+      "faqQuestions": 4,
+      "footerBooking": "/es/book",
+      "includedItems": 6,
+      "overflow": false,
+      "processLink": "#tax-preparation-and-filing-process",
+      "processSteps": 4,
+      "processTargetExists": true,
+      "sectionOrder": [
+        "tax-preparation-and-filing-hero",
+        "tax-preparation-and-filing-eligibility",
+        "tax-preparation-and-filing-process",
+        "included",
+        "tax-preparation-and-filing-faq",
+        "service-next-step"
+      ],
+      "matchesScorpOrder": true
+    }
+  ],
+  "responsive": [
+    {
+      "route": "es/tax-preparation-and-filing",
+      "order": [
+        "tax-preparation-and-filing-hero",
+        "tax-preparation-and-filing-eligibility",
+        "tax-preparation-and-filing-process",
+        "included",
+        "tax-preparation-and-filing-faq",
+        "service-next-step"
+      ],
+      "overflow": false,
+      "sectionOverflow": [],
+      "width": 390
+    },
+    {
+      "route": "es/tax-preparation-and-filing",
+      "order": [
+        "tax-preparation-and-filing-hero",
+        "tax-preparation-and-filing-eligibility",
+        "tax-preparation-and-filing-process",
+        "included",
+        "tax-preparation-and-filing-faq",
+        "service-next-step"
+      ],
+      "overflow": false,
+      "sectionOverflow": [],
+      "width": 768
+    },
+    {
+      "route": "es/tax-preparation-and-filing",
+      "order": [
+        "tax-preparation-and-filing-hero",
+        "tax-preparation-and-filing-eligibility",
+        "tax-preparation-and-filing-process",
+        "included",
+        "tax-preparation-and-filing-faq",
+        "service-next-step"
+      ],
+      "overflow": false,
+      "sectionOverflow": [],
+      "width": 1440
+    }
+  ]
+}

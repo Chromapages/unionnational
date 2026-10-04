@@ -28,6 +28,7 @@ import { playbookChapter } from './playbookChapter'
 import { industryVertical } from './industryVertical'
 import { comparisonTable } from './comparisonTable'
 import { resourcesPage } from './resourcesPage'
+import { stripeWebhookIdempotency } from './stripeWebhookIdempotency'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -60,5 +61,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     industryVertical,
     comparisonTable,
     resourcesPage,
+    stripeWebhookIdempotency,
   ],
 }

@@ -1,0 +1,15 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "threshold_pass": true,
+  "verdict": "pass",
+  "category_match": true,
+  "active": false,
+  "phase": "complete",
+  "differences": ["Service copy, eligibility counts, deliverable counts and available process detail fields remain service-specific."],
+  "suggestions": [],
+  "reasoning": "Every canonical service detail in English and Spanish now contains only the S-Corp template's six main sections, in identical order. Shared styling, About sizing and brand fonts remain, with service-specific booking footer labels.",
+  "next_actions": [],
+  "verification": { "locale_routes_checked": 14, "all_match_scorp_order": true, "all_process_targets_exist": true, "all_footer_booking_links_resolve": true, "responsive_widths": [390, 768, 1440], "changed_section_overflow": false, "formal_checks_run": false },
+  "generated_screenshot": ".omx/state/service-detail-scorp-template/template.png"
+}

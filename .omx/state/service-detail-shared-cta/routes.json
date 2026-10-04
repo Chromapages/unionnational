@@ -1,0 +1,69 @@
+{
+  "catalog": [
+    {
+      "slug": "payroll-services",
+      "title": "Payroll Services"
+    },
+    {
+      "slug": "tax-preparation-filing",
+      "title": "Tax Preparation & Filing"
+    },
+    {
+      "slug": "strategic-bookkeeping",
+      "title": "Strategic Bookkeeping"
+    },
+    {
+      "slug": "fractional-cfo",
+      "title": "Fractional CFO Services"
+    },
+    {
+      "slug": "tax-planning-consulting",
+      "title": "Tax Planning Consulting Services"
+    },
+    {
+      "slug": "new-business-formation",
+      "title": "New Business Formation"
+    },
+    {
+      "slug": "s-corp-tax-advantage",
+      "title": "S-Corp Tax Advantage Program"
+    }
+  ],
+  "pages": [
+    {
+      "_id": "servicePage-fractional-cfo",
+      "canonicalPath": "/fractional-cfo",
+      "slug": "fractional-cfo"
+    },
+    {
+      "_id": "servicePage-new-business-formation",
+      "canonicalPath": "/new-business-formation",
+      "slug": "new-business-formation"
+    },
+    {
+      "_id": "servicePage-payroll-services",
+      "canonicalPath": "/payroll-services",
+      "slug": "payroll-services"
+    },
+    {
+      "_id": "servicePage-s-corp-tax-advantage",
+      "canonicalPath": "/s-corp-tax-advantage",
+      "slug": "s-corp-tax-advantage"
+    },
+    {
+      "_id": "servicePage-strategic-bookkeeping",
+      "canonicalPath": "/strategic-bookkeeping",
+      "slug": "strategic-bookkeeping"
+    },
+    {
+      "_id": "servicePage-tax-planning",
+      "canonicalPath": "/tax-planning",
+      "slug": "tax-planning"
+    },
+    {
+      "_id": "servicePage-tax-preparation-and-filing",
+      "canonicalPath": "/tax-preparation-and-filing",
+      "slug": "tax-preparation-and-filing"
+    }
+  ]
+}

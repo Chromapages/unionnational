@@ -1,0 +1,24 @@
+▲ Next.js 16.3.8 (webpack)
+- Local:         http://localhost:3001
+- Network:       http://10.0.0.157:3001
+- Environments: .env
+✓ Ready in 1081ms
+✓ Running next.config.ts took 442ms
+
+  We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+  The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+  	- include was updated to add '.next-recovery-3001-20261004-154447/types/**/*.ts'
+  	- include was updated to add '.next-recovery-3001-20261004-154447/dev/types/**/*.ts'
+
+- Experiments (use with caution):
+  · optimizePackageImports
+
+○ Compiling /[locale]/s-corp-tax-advantage ...
+ GET /en/s-corp-tax-advantage 200 in 24.6s (next.js: 22.7s, proxy.ts: 220ms, application-code: 1680ms)
+ GET /en/resources 200 in 5.1s (next.js: 1972ms, proxy.ts: 17ms, generate-params: 1003ms, application-code: 2.1s)
+ GET /en/resources 200 in 226ms (next.js: 25ms, proxy.ts: 27ms, generate-params: 12ms, application-code: 162ms)
+ GET /en/resources 200 in 153ms (next.js: 11ms, proxy.ts: 7ms, generate-params: 9ms, application-code: 125ms)
+ GET /favicon.ico 307 in 1703ms (next.js: 1662ms, application-code: 42ms)
+ GET /en/resources 200 in 1145ms (next.js: 96ms, proxy.ts: 15ms, generate-params: 12ms, application-code: 1022ms)
+ GET /en/resources 200 in 146ms (next.js: 11ms, proxy.ts: 9ms, generate-params: 0.0ms, application-code: 127ms)

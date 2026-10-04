@@ -71,7 +71,7 @@ export function TaxPrepGrid({ tiers }: TaxPrepGridProps) {
                                         </td>
                                         <td className="py-5 px-6 text-right">
                                             <div className="flex flex-col items-end">
-                                                <span className="text-xl font-bold text-brand-900 font-heading">{item.price}</span>
+                                                <span className="text-xl font-bold text-brand-900 font-data tabular-nums">{item.price}</span>
                                                 {item.billingPeriod === 'one-time' ? null : (
                                                     <span className="text-[10px] text-brand-900/40 uppercase tracking-wider font-bold">
                                                         /{item.billingPeriod || 'return'}

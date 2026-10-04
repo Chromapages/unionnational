@@ -31,8 +31,12 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    ".next-*/**",
     "out/**",
     "build/**",
+    "playwright-report/**",
+    "test-results/**",
+    ".omx/**",
     "next-env.d.ts",
     "coverage/**",
     "upload-images.js",

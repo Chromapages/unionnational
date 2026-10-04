@@ -1,0 +1,8 @@
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.
+
+  To migrate automatically, run:
+  npx @next/codemod@canary middleware-to-proxy .
+
+  Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[browser] Sanity Live is unable to connect to the Sanity API as the current origin - http://localhost:3002 - is not in the list of allowed CORS origins for this Sanity Project. Add it here: https://sanity.io/manage/project/p1x9y3wz/api?cors=add&origin=http%3A%2F%2Flocalhost%3A3002
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior

@@ -1,0 +1,10 @@
+{
+  "score": 98,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "At 2048px all English homepage containers match the 1504px navbar row and all Spanish containers match its 1664px row. At 1600px Spanish falls back to 1504px exactly like the navbar. Both locales remain overflow-free at 390px, and dense cards show no clipping in the checked desktop views.",
+  "next_actions": []
+}

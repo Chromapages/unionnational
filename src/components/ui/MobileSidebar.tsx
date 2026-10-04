@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     X,
@@ -103,13 +103,16 @@ const sectionVariants = {
 
 export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }: MobileSidebarProps) {
     const t = useTranslations("Header");
+    const locale = useLocale();
     const pathname = usePathname();
     const previousPathnameRef = useRef(pathname);
     const asideRef = useRef<HTMLElement>(null);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
-    const ctaText = getBookingCtaText(siteSettings?.ctaButtonTextLocalized, t("bookCall"));
-    const ctaUrl = getBookingHref(siteSettings?.ctaButtonUrl);
+    const isScorp = pathname === "/s-corp-tax-advantage";
+    const usesUnifiedBooking = isScorp || pathname === "/industries" || pathname === "/about" || pathname === "/team" || pathname.startsWith("/shop/");
+    const ctaText = isScorp ? (locale === "es" ? "Reservar una evaluación S-Corp" : "Book an S-Corp Evaluation") : usesUnifiedBooking ? t("bookCall") : getBookingCtaText(siteSettings?.ctaButtonTextLocalized, t("bookCall"));
+    const ctaUrl = usesUnifiedBooking ? "/book" : getBookingHref(siteSettings?.ctaButtonUrl);
     useEffect(() => setPortalTarget(document.body), []);
 
     useEffect(() => {
@@ -130,7 +133,7 @@ export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }:
     }, [isOpen]);
 
     useEffect(() => {
-        if (!isOpen) return;
+        if (!isOpen || !portalTarget) return;
 
         const backgroundElements = Array.from(
             document.querySelectorAll<HTMLElement>("header, main, footer"),
@@ -153,7 +156,7 @@ export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }:
                 if (returnFocusRef.current?.isConnected) returnFocusRef.current.focus();
             });
         };
-    }, [isOpen, returnFocusRef]);
+    }, [isOpen, returnFocusRef, portalTarget]);
 
     const isActive = useCallback(
         (href: string) => isNavigationPathActive(pathname, href),
@@ -205,7 +208,7 @@ export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }:
                         exit="exit"
                         transition={{ duration: 0.2 }}
                         onClick={onClose}
-                        className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                        className="fixed inset-0 z-[1300] bg-black/60 backdrop-blur-sm"
                         aria-hidden="true"
                     />
 
@@ -221,7 +224,7 @@ export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }:
                         aria-modal="true"
                         aria-label={t("mobileNavigationAria")}
                         onKeyDown={handleDialogKeyDown}
-                        className="fixed top-0 right-0 bottom-0 z-[70] w-[88vw] max-w-[380px] flex flex-col"
+                        className="fixed top-0 right-0 bottom-0 z-[1310] w-[88vw] max-w-[380px] flex flex-col"
                     >
                         <div className="flex h-full w-full flex-col bg-brand-950 border-l border-gold-500/20 shadow-[-4px_0_40px_rgba(0,0,0,0.5)]">
 
@@ -234,7 +237,7 @@ export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }:
                                     ref={closeButtonRef}
                                     type="button"
                                     onClick={onClose}
-                                    className="rounded-lg p-2 text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
+                                    className="flex min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-slate-400 hover:text-white hover:bg-white/5 transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                                     aria-label={t("closeMenu")}
                                 >
                                     <X className="h-5 w-5" aria-hidden="true" />
@@ -256,6 +259,7 @@ export function MobileSidebar({ isOpen, onClose, returnFocusRef, siteSettings }:
                                         <div key={section.id}>
                                             <ul className="space-y-0.5">
                                                 {section.items.map((item) => {
+                                                    if (usesUnifiedBooking && item.id === "contact") return null;
                                                     const Icon = navigationIcons[item.icon];
                                                     const active = isActive(item.href);
                                                     return (

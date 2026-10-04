@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { ArrowRight, Minus, Plus, ShoppingBag, Trash2, Lock } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 
@@ -20,8 +20,8 @@ interface CartPageClientProps {
     };
 }
 
-const formatPrice = (price: number) =>
-    new Intl.NumberFormat("en-US", {
+const formatPrice = (price: number, locale: string) =>
+    new Intl.NumberFormat(locale === "es" ? "es-US" : "en-US", {
         style: "currency",
         currency: "USD",
         minimumFractionDigits: 0,
@@ -34,6 +34,7 @@ const getImageSrc = (image: string) => {
 
 export function CartPageClient({ recoveryCta }: CartPageClientProps) {
     const tCart = useTranslations("Shop.Cart");
+    const locale = useLocale();
     const router = useRouter();
     const searchParams = useSearchParams();
     const items = useCartStore((state) => state.items);
@@ -65,9 +66,9 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                 return;
             }
 
-            setCheckoutMessage(result.message || "Unable to start checkout.");
+            setCheckoutMessage(result.message || tCart("checkoutError"));
         } catch {
-            setCheckoutMessage("Unable to start checkout right now. Please try again.");
+            setCheckoutMessage(tCart("checkoutError"));
         } finally {
             setIsSubmitting(false);
         }
@@ -82,17 +83,17 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
         <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
             <div className="mb-10 flex flex-col gap-3">
                 <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-600">
-                    Cart Review
+                    {tCart("eyebrow")}
                 </p>
                 <h1 className="text-3xl font-bold tracking-tight text-brand-900 sm:text-4xl">
-                    Review your resources before checkout.
+                    {tCart("reviewTitle")}
                 </h1>
                 <p className="max-w-2xl text-base leading-relaxed text-slate-600">
-                    Confirm the resource, quantity, and format before continuing to secure checkout.
+                    {tCart("reviewBody")}
                 </p>
                 {searchParams.get("checkout") === "cancelled" && (
                     <div className="mt-4 max-w-2xl rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-900">
-                        Checkout was cancelled before payment. Your cart is still here when you are ready.
+                        {tCart("cancelled")}
                     </div>
                 )}
             </div>
@@ -106,7 +107,7 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                         {tCart("empty")}
                     </h2>
                     <p className="mx-auto mt-3 max-w-xl text-slate-600">
-                        Add a resource from the shop to start your purchase.
+                        {tCart("emptyBody")}
                     </p>
 
                     <div className="mt-8 flex flex-col items-center gap-4">
@@ -121,16 +122,16 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                         {recoveryCta?.buttonUrl && (
                             <div className="max-w-xl rounded-2xl border border-slate-200 bg-slate-50 px-6 py-5 text-left">
                                 <p className="text-sm font-bold text-brand-900">
-                                    {recoveryCta.title || "Need a different path?"}
+                                    {recoveryCta.title || tCart("recoveryTitle")}
                                 </p>
                                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                                    {recoveryCta.subtitle || "Talk with our team if you need help choosing the right resource."}
+                                    {recoveryCta.subtitle || tCart("recoveryBody")}
                                 </p>
                                 <Link
                                     href={recoveryCta.buttonUrl}
                                     className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand-900 underline underline-offset-4"
                                 >
-                                    {recoveryCta.buttonText || "Contact Support"}
+                                    {recoveryCta.buttonText || tCart("recoveryCta")}
                                 </Link>
                             </div>
                         )}
@@ -153,6 +154,7 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                                                 src={imageSrc}
                                                 alt={item.title}
                                                 fill
+                                                sizes="80px"
                                                 className="object-contain p-2"
                                             />
                                         ) : (
@@ -179,7 +181,7 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                                         <button
                                             onClick={() => removeItem(item.id)}
                                             className="rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-50 hover:text-red-500"
-                                            aria-label={`Remove ${item.title} from cart`}
+                                            aria-label={tCart("removeItem", { title: item.title })}
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </button>
@@ -189,8 +191,8 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                                         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-2 py-1">
                                             <button
                                                 onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                                className="rounded-full p-1 text-slate-500 transition-colors hover:bg-white hover:text-brand-900"
-                                                aria-label={`Decrease quantity for ${item.title}`}
+                                                className="flex min-h-11 min-w-11 items-center justify-center rounded-full p-1 text-slate-500 transition-colors hover:bg-white hover:text-brand-900"
+                                                aria-label={tCart("decreaseQuantity", { title: item.title })}
                                             >
                                                 <Minus className="h-3.5 w-3.5" />
                                             </button>
@@ -199,8 +201,8 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                                             </span>
                                             <button
                                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                                className="rounded-full p-1 text-slate-500 transition-colors hover:bg-white hover:text-brand-900"
-                                                aria-label={`Increase quantity for ${item.title}`}
+                                                className="flex min-h-11 min-w-11 items-center justify-center rounded-full p-1 text-slate-500 transition-colors hover:bg-white hover:text-brand-900"
+                                                aria-label={tCart("increaseQuantity", { title: item.title })}
                                             >
                                                 <Plus className="h-3.5 w-3.5" />
                                             </button>
@@ -208,10 +210,10 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
 
                                         <div className="text-right">
                                             <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
-                                                Line total
+                                                {tCart("lineTotal")}
                                             </p>
                                             <p className="text-lg font-bold text-brand-900">
-                                                {formatPrice(item.price * item.quantity)}
+                                                {formatPrice(item.price * item.quantity, locale)}
                                             </p>
                                         </div>
                                     </div>
@@ -222,11 +224,11 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                     </div>
 
                     <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-24">
-                        <h2 className="text-xl font-bold text-brand-900">Order summary</h2>
+                        <h2 className="text-xl font-bold text-brand-900">{tCart("orderSummary")}</h2>
                         <div className="mt-6 space-y-3 text-sm">
                             <div className="flex items-center justify-between text-slate-600">
                                 <span>{tCart("subtotal")}</span>
-                                <span>{formatPrice(subtotal)}</span>
+                                <span>{formatPrice(subtotal, locale)}</span>
                             </div>
                             <div className="flex items-center justify-between text-slate-600">
                                 <span>{tCart("shipping")}</span>
@@ -235,7 +237,7 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                             <div className="border-t border-slate-200 pt-4">
                                 <div className="flex items-center justify-between text-lg font-bold text-brand-900">
                                     <span>{tCart("total")}</span>
-                                    <span>{formatPrice(subtotal)}</span>
+                                    <span>{formatPrice(subtotal, locale)}</span>
                                 </div>
                             </div>
                         </div>
@@ -243,13 +245,13 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                         <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50 p-4">
                             <div className="flex items-center gap-3 mb-2">
                                 <Lock className="w-4 h-4 text-emerald-600" />
-                                <span className="text-xs font-bold uppercase tracking-widest text-brand-900">Secure Checkout</span>
+                                <span className="text-xs font-bold uppercase tracking-widest text-brand-900">{tCart("secureCheckout")}</span>
                             </div>
                             <p className="text-xs leading-relaxed text-slate-500">
-                                Your payment is encrypted and processed securely via Stripe. We do not store your credit card information.
+                                {tCart("secureDescription")}
                             </p>
                             <div className="mt-4 pt-4 border-t border-slate-200/60 flex items-center justify-between">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Powered by Stripe</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{tCart("poweredByStripe")}</span>
                                 <div className="flex gap-2">
                                     <div className="w-8 h-5 bg-slate-200 rounded-sm" /> {/* Placeholder for card icons if needed */}
                                     <div className="w-8 h-5 bg-slate-200 rounded-sm" />
@@ -258,7 +260,7 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                         </div>
 
                         {checkoutMessage && (
-                            <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                            <div role="alert" className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
                                 {checkoutMessage}
                             </div>
                         )}
@@ -268,7 +270,7 @@ export function CartPageClient({ recoveryCta }: CartPageClientProps) {
                             disabled={isSubmitting}
                             className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-900 px-6 py-3.5 text-sm font-bold uppercase tracking-[0.16em] text-gold-400 transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            {isSubmitting ? "Starting checkout..." : tCart("checkout")}
+                            {isSubmitting ? tCart("startingCheckout") : tCart("checkout")}
                             <ArrowRight className="h-4 w-4" />
                         </button>
 

@@ -1,0 +1,11 @@
+
+> union-national-tax@0.1.0 test
+> vitest run --reporter=json --outputFile=.omx/state/re-audit-2026-10-01/vitest-before.json
+
+Not implemented: HTMLMediaElement's play() method
+Not implemented: HTMLMediaElement's play() method
+Not implemented: HTMLMediaElement's play() method
+Not implemented: navigation to another Document
+Not implemented: navigation to another Document
+Not implemented: navigation to another Document
+JSON report written to D:/WORK/WORK/unionnational/.omx/state/re-audit-2026-10-01/vitest-before.json

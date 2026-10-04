@@ -6,11 +6,16 @@ import { LandingTrustSignals } from "@/components/tax-analysis/LandingTrustSigna
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
-export const metadata: Metadata = {
-    title: "Free Tax Savings Analysis for Utah Restaurant & Hospitality Owners | Union National Tax",
-    description: "Most Utah restaurant and hospitality owners leave $15,000–$60,000 in tax savings unclaimed every year. Get your free segmented Tax Savings Analysis — built for hospitality.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Free Tax Savings Analysis for Utah Restaurant & Hospitality Owners | Union National Tax",
+        description: "Most Utah restaurant and hospitality owners leave $15,000–$60,000 in tax savings unclaimed every year. Get your free segmented Tax Savings Analysis — built for hospitality.",
+        alternates: localizedAlternates(locale, "/tax-savings-analysis/hospitality"),
+    };
+}
 
 export default async function HospitalityTaxAnalysisPage() {
     return (

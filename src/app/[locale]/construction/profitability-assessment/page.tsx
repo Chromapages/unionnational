@@ -4,20 +4,22 @@ import { Footer } from "@/components/layout/Footer";
 import { ProfitabilityAssessmentForm } from "@/components/construction/profitability-assessment/ProfitabilityAssessmentForm";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
-export const metadata: Metadata = {
-    title: "Construction Profitability Assessment | Job Costing & Margin Control Diagnostic",
-    description: "Take the free Construction Profitability Assessment to identify where your contracting business is leaking profit through job costing, cash flow, and margin problems.",
-    alternates: {
-        canonical: "/construction/profitability-assessment",
-    },
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Construction Profitability Assessment | Job Costing & Margin Control Diagnostic",
+        description: "Take the free Construction Profitability Assessment to identify where your contracting business is leaking profit through job costing, cash flow, and margin problems.",
+        alternates: localizedAlternates(locale, "/construction/profitability-assessment"),
+    };
+}
 
 export default function ProfitabilityAssessmentPage() {
     return (
         <div className="min-h-screen bg-surface flex flex-col">
             <HeaderWrapper />
-            <main className="flex-1 py-16 lg:py-24">
+            <main id="main-content" tabIndex={-1} className="flex-1 py-16 lg:py-24">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Intro */}
                     <FadeIn>

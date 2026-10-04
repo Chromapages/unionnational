@@ -1,0 +1,13 @@
+{
+  "score": 94,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The construction and supporting photos are local assets with similar subjects rather than the exact reference images.",
+    "At narrower desktop widths, the translated quote and proof cards grow to fit their text."
+  ],
+  "suggestions": [],
+  "reasoning": "At the 1586px reference width, the section measures 993px against the 992px reference. The editorial header, three-part featured result, metrics strip, photo result cards, and forest banner align closely; all local images and links load.",
+  "next_actions": []
+}

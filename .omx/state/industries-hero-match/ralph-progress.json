@@ -1,0 +1,12 @@
+{
+  "score": 93,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The four industry paths make the hero slightly taller than the three-path Services hero at intermediate desktop widths."
+  ],
+  "suggestions": [],
+  "reasoning": "Industries now uses the Services blueprint asset, responsive dark-green hero proportions, split layout, gold headline emphasis, and numbered paths. English desktop at 1280px, 1440px, and 2048px and Spanish at 1440px show no overflow or page errors; all four paths select the matching featured panel, and the mobile hero remains visible at 390px.",
+  "next_actions": []
+}

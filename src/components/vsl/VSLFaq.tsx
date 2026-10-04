@@ -41,7 +41,7 @@ export function VSLFaq({ faqs }: VSLFaqProps) {
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-16 lg:gap-24">
           <div className="flex flex-col">
-            <div className="font-mono text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase mb-4">
+            <div className="font-body text-[11px] font-bold text-emerald-500 tracking-[0.2em] uppercase mb-4">
               Common Questions
             </div>
             <h2 className="text-3xl lg:text-4xl font-black text-white leading-tight tracking-tight mb-4">

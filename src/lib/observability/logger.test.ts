@@ -45,11 +45,26 @@ describe("logger", () => {
       message: "failed",
       traceId: "trace-2",
       error: {
-        name: "Error",
+        name: "[REDACTED]",
         message: "boom",
       },
     });
     expect(payload.error.stack).toBeUndefined();
+  });
+
+  it("removes nested contact values, credentials and free-text emails from logs", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    logger.info("lead", {
+      traceId: "trace-3",
+      contact: { email: "jane@example.test", address: { street: "1 Main St" }, apiKey: "secret-key" },
+      detail: [{ password: "secret", note: "reply to jane@example.test" }],
+    });
+    const line = logSpy.mock.calls[0][0] as string;
+    expect(line).not.toContain("jane@example.test");
+    expect(line).not.toContain("1 Main St");
+    expect(line).not.toContain("secret-key");
+    expect(line).not.toContain('"secret"');
+    expect(JSON.parse(line).traceId).toBe("trace-3");
   });
 
   it("reads an incoming trace id or creates one", () => {

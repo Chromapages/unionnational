@@ -13,5 +13,5 @@ export default createMiddleware({
 });
 
 export const config = {
-    matcher: ["/((?!api|hq|scorp-advantage|scorp-estimator|_next|_vercel|.*\\..*).*)"],
+    matcher: ["/((?!api|hq|healthz|readyz|scorp-advantage|scorp-estimator|_next|_vercel|.*\\..*).*)"],
 };

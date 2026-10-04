@@ -1,0 +1,14 @@
+{
+  "active": false,
+  "scope": "full-site-audit",
+  "date": "2026-10-04",
+  "phase": "source_and_manual_review_complete_verification_pending",
+  "report": "docs/website-audit-2026-10-04.md",
+  "automated_checks_run": false,
+  "authorization_request": "pending user response; AGENTS.md prohibits automated checks/build without explicit request",
+  "deployment_performed": false,
+  "live_transactions_performed": false,
+  "isolated_preview_stopped": true,
+  "viewport_restored": true,
+  "release_approved": false
+}

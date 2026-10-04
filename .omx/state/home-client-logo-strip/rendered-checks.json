@@ -1,0 +1,98 @@
+[
+  {
+    "locale": "en",
+    "button": {
+      "height": 44,
+      "width": 44
+    },
+    "caption": "Featured logos",
+    "documentOverflow": false,
+    "loopFillsFrame": true,
+    "maxWidth": "1504px",
+    "padding": "40px",
+    "reviews": 3,
+    "tabCount": 3,
+    "uniqueAccessibleLogos": 3,
+    "width": 390
+  },
+  {
+    "locale": "en",
+    "button": {
+      "height": 44,
+      "width": 44
+    },
+    "caption": "Featured logos",
+    "documentOverflow": false,
+    "loopFillsFrame": true,
+    "maxWidth": "1504px",
+    "padding": "40px",
+    "reviews": 3,
+    "tabCount": 3,
+    "uniqueAccessibleLogos": 3,
+    "width": 768
+  },
+  {
+    "locale": "en",
+    "button": {
+      "height": 44,
+      "width": 44
+    },
+    "caption": "Featured logos",
+    "documentOverflow": false,
+    "loopFillsFrame": true,
+    "maxWidth": "1504px",
+    "padding": "48px",
+    "reviews": 3,
+    "tabCount": 3,
+    "uniqueAccessibleLogos": 3,
+    "width": 1440
+  },
+  {
+    "locale": "es",
+    "button": {
+      "height": 44,
+      "width": 44
+    },
+    "caption": "Logotipos destacados",
+    "documentOverflow": false,
+    "loopFillsFrame": true,
+    "maxWidth": "1504px",
+    "padding": "40px",
+    "reviews": 3,
+    "tabCount": 3,
+    "uniqueAccessibleLogos": 3,
+    "width": 390
+  },
+  {
+    "locale": "es",
+    "button": {
+      "height": 44,
+      "width": 44
+    },
+    "caption": "Logotipos destacados",
+    "documentOverflow": false,
+    "loopFillsFrame": true,
+    "maxWidth": "1504px",
+    "padding": "40px",
+    "reviews": 3,
+    "tabCount": 3,
+    "uniqueAccessibleLogos": 3,
+    "width": 768
+  },
+  {
+    "locale": "es",
+    "button": {
+      "height": 44,
+      "width": 44
+    },
+    "caption": "Logotipos destacados",
+    "documentOverflow": false,
+    "loopFillsFrame": true,
+    "maxWidth": "1504px",
+    "padding": "48px",
+    "reviews": 3,
+    "tabCount": 3,
+    "uniqueAccessibleLogos": 3,
+    "width": 1440
+  }
+]

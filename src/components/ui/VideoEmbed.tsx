@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
@@ -13,6 +13,13 @@ interface VideoEmbedProps {
 
 export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: VideoEmbedProps) {
     const [isPlaying, setIsPlaying] = useState(autoPlay);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const activatedByVisitor = useRef(false);
+
+    useEffect(() => {
+        if (!isPlaying || !activatedByVisitor.current) return;
+        contentRef.current?.querySelector<HTMLElement>('[role="region"], iframe')?.focus();
+    }, [isPlaying]);
 
     if (!videoUrl) return null;
 
@@ -38,43 +45,45 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
     const isUnsupportedDirectVideo = !isExternalEmbed && !isNativeVideo;
 
     const handlePlay = () => {
+        activatedByVisitor.current = true;
         setIsPlaying(true);
     };
 
     return (
-        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border-4 border-slate-800">
+        <div ref={contentRef} className="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-2xl border-4 border-slate-800">
             {/* Video Player - Native HTML5 for web-safe formats */}
             {isNativeVideo && (
                 <>
-                    <VideoPlayer
-                        src={videoUrl}
-                        autoPlay={isPlaying}
-                        muted={isPlaying} // Mute initially for autoplay to work in browsers
-                        poster={posterImage}
-                        className="w-full h-full"
-                    />
+                    <div className="contents" inert={!isPlaying && Boolean(posterImage)}>
+                        <VideoPlayer
+                            src={videoUrl}
+                            autoPlay={isPlaying}
+                            muted={isPlaying} // Mute initially for autoplay to work in browsers
+                            poster={posterImage}
+                            className="w-full h-full"
+                        />
+                    </div>
                     {/* Poster / Thumbnail Overlay - Only show if not playing and poster exists */}
                     {!isPlaying && posterImage && (
-                        <div
+                        <button
+                            type="button"
                             className="absolute inset-0 z-10 cursor-pointer group"
                             onClick={handlePlay}
-                            role="button"
                             aria-label="Play video"
-                            tabIndex={0}
-                            onKeyDown={(e) => e.key === "Enter" && handlePlay()}
                         >
                             <Image
                                 src={posterImage}
-                                alt="Video Thumbnail"
+                                alt=""
                                 fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
+                            <span aria-hidden="true" className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                                <span className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
                                     <Play className="w-8 h-8 text-white fill-white ml-1" />
-                                </div>
-                            </div>
-                        </div>
+                                </span>
+                            </span>
+                        </button>
                     )}
                 </>
             )}
@@ -84,6 +93,7 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
                 <>
                     {(isPlaying || !posterImage) && (
                         <iframe
+                            title="Video player"
                             src={getEmbedUrl(videoUrl)}
                             className="w-full h-full"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -92,26 +102,25 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
                     )}
                     {/* Poster / Thumbnail Overlay for YouTube/Vimeo */}
                     {!isPlaying && posterImage && (
-                        <div
+                        <button
+                            type="button"
                             className="absolute inset-0 z-10 cursor-pointer group"
                             onClick={handlePlay}
-                            role="button"
                             aria-label="Play video"
-                            tabIndex={0}
-                            onKeyDown={(e) => e.key === "Enter" && handlePlay()}
                         >
                             <Image
                                 src={posterImage}
-                                alt="Video Thumbnail"
+                                alt=""
                                 fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
+                            <span aria-hidden="true" className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                                <span className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform">
                                     <Play className="w-8 h-8 text-white fill-white ml-1" />
-                                </div>
-                            </div>
-                        </div>
+                                </span>
+                            </span>
+                        </button>
                     )}
                 </>
             )}

@@ -1,0 +1,10 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "At 1174px the English section is 1342px against the 1339px reference; cards, process header, and banner align within a few pixels. Small text now uses color pairs at or above 4.5:1, the Spanish CTA fits, and English, Spanish, and mobile show no overflow or page errors.",
+  "next_actions": []
+}

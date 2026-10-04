@@ -58,7 +58,7 @@ export function IndustryHero({
                                 className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8"
                             >
                                 <EyebrowIcon size={16} className="text-gold-500" />
-                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-400 font-heading">
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-400 font-body">
                                     {eyebrow}
                                 </span>
                             </motion.div>
@@ -100,7 +100,7 @@ export function IndustryHero({
                                     
                                     <div className="relative z-10 space-y-10">
                                         <div className="flex justify-between items-center">
-                                            <div className="text-xs font-bold text-gold-500 uppercase tracking-widest font-heading">Performance Audit</div>
+                                            <div className="text-xs font-bold text-gold-500 uppercase tracking-widest font-body">Performance Audit</div>
                                             <div className="flex gap-1.5">
                                                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                                                 <div className="w-2 h-2 rounded-full bg-white/10"></div>
@@ -124,7 +124,7 @@ export function IndustryHero({
                                                                     {stat.subValue && <div className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{stat.subValue}</div>}
                                                                 </div>
                                                             </div>
-                                                            <div className="text-2xl md:text-3xl font-bold text-white font-heading tabular-nums">
+                                                            <div className="text-2xl md:text-3xl font-bold text-white font-data tabular-nums">
                                                                 {stat.value}
                                                             </div>
                                                         </div>

@@ -1,0 +1,14 @@
+{
+  "score": 94,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The three lower-corner photographs reuse local assets, so their subjects differ from the reference images."
+  ],
+  "suggestions": [
+    "Use dedicated service photography if exact image fidelity becomes important."
+  ],
+  "reasoning": "The English section matches the 887px reference height at 1774px, with aligned cards, outcome/service hierarchy, photo curves, and footer line. Spanish expands for longer copy; tested widths show no clipped links or horizontal overflow.",
+  "next_actions": []
+}

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
     const { locale, slug } = await props.params;
@@ -17,20 +18,11 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 
     if (!post) return { title: "Post Not Found" };
 
-    const baseUrl = "https://unionnationaltax.com";
-    const path = `/blog/${slug}`;
-    const canonicalUrl = locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
-
     return {
         title: `${post.title} | Union National Tax`,
         description: post.excerpt,
-        alternates: {
-            canonical: canonicalUrl,
-            languages: {
-                en: `${baseUrl}${path}`,
-                es: `${baseUrl}/es${path}`,
-            },
-        },
+        ...(post.seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
+        alternates: localizedAlternates(locale, `/blog/${slug}`),
         openGraph: {
             images: [post.featuredImage?.asset?.url || ""],
         },
@@ -47,6 +39,7 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
     }
 
     const publishDate = post.publishedAt ? new Date(post.publishedAt) : new Date();
+    const categories = post.categories?.filter(Boolean) || [];
 
     return (
         <div className="min-h-dvh bg-white flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white">
@@ -74,9 +67,9 @@ export default async function BlogPostPage(props: { params: Promise<{ locale: st
                                 <ArrowLeft size={16} /> Back to Journal
                             </Link>
 
-                            {post.categories && post.categories.length > 0 && (
+                            {categories.length > 0 && (
                                 <div className="flex gap-3 mb-8">
-                                    {post.categories.map((cat: { title: string; slug: string }) => (
+                                    {categories.map((cat: { title: string; slug: string }) => (
                                         <span key={cat.slug || cat.title} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-gold-500/10 border border-gold-500/20 text-gold-500 rounded-full">
                                             {cat.title}
                                         </span>

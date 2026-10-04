@@ -1,0 +1,10 @@
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead.
+
+  To migrate automatically, run:
+  npx @next/codemod@canary middleware-to-proxy .
+
+  Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⨯ upstream image response timed out for https://cdn.sanity.io/images/p1x9y3wz/production/41874d12af638c4cc3fc5ea9b726c06341949c32-1672x941.png
+⨯ upstream image response timed out for https://cdn.sanity.io/images/p1x9y3wz/production/f20cf77d9e9455172875e5d4a526cb632c1a8643-2848x1494.png
+⨯ upstream image response timed out for https://cdn.sanity.io/images/p1x9y3wz/production/e427c47dd7a22e71713a5c721198de91798a36b0-1672x941.png
+⨯ upstream image response timed out for https://cdn.sanity.io/images/p1x9y3wz/production/54a145c02c74a4c0f2ac5ff96d253d17a06de905-1672x941.png

@@ -79,6 +79,7 @@ export const structure: StructureResolver = (S) =>
                     .documentId('shopSettings')
                 ),
               S.documentTypeListItem('product').title('Products'),
+              S.documentTypeListItem('stripeWebhookIdempotency').title('Fulfillment Recovery'),
             ])
         ),
       S.divider(),
@@ -133,7 +134,7 @@ export const structure: StructureResolver = (S) =>
           'service', 'servicePage', 'product', 'shopSettings', 'siteSettings', 'testimonial', 
           'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 
           'caseStudy', 'pricingTier', 'legalPage', 'playbook', 'playbookChapter', 
-          'industryVertical', 'comparisonTable'
+          'industryVertical', 'comparisonTable', 'stripeWebhookIdempotency'
         ];
         
         return !hiddenTypes.includes(id);

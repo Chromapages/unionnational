@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { SavingsEstimatorForm } from "./SavingsEstimatorForm";
+afterEach(cleanup);
 
 describe("SavingsEstimatorForm", () => {
   it("collects assessment inputs before required contact details", async () => {
@@ -29,5 +30,14 @@ describe("SavingsEstimatorForm", () => {
     await user.click(screen.getByRole("button", { name: "See My Estimate" }));
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps an out-of-range profit on the financial step with an actionable error", () => {
+    render(<SavingsEstimatorForm onSubmit={vi.fn()} isLoading={false} />);
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+    fireEvent.change(screen.getByLabelText("Estimated annual net profit as a number"), { target: { value: "1000001" } });
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+    expect(screen.getByText("Revenue & Profit")).toBeInTheDocument();
+    expect(screen.getByText(/between \$0 and \$1,000,000/)).toBeInTheDocument();
   });
 });

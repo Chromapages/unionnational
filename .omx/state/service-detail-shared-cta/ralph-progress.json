@@ -1,0 +1,10 @@
+{
+  "score": 96,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Existing service-specific booking labels remain through the homepage component's label prop", "S-Corp legal disclaimer remains below the shared section"],
+  "suggestions": [],
+  "reasoning": "All 12 service-offer destinations render the actual homepage component with matching panel styles, heading and trust row. Mobile containment, booking paths, Spanish core pages, representative redirects, keyboard focus and contrast checks pass.",
+  "active": false,
+  "completed_at": "2026-10-03"
+}

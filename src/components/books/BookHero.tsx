@@ -12,7 +12,8 @@ interface BookHeroProps {
 }
 
 export function BookHero({ book, className }: BookHeroProps) {
-    const starCount = Math.round(book.rating || 5);
+    const hasRating = typeof book.rating === "number" && Number.isFinite(book.rating) && book.rating > 0 && book.rating <= 5;
+    const starCount = hasRating ? Math.round(book.rating!) : 0;
 
     return (
         <section className={cn("bg-brand-950 relative overflow-hidden", className)}>
@@ -92,9 +93,9 @@ export function BookHero({ book, className }: BookHeroProps) {
                                 </div>
                             )}
 
-                            {book.rating && (
+                            {hasRating && (
                                 <div className="flex items-center gap-2">
-                                    <div className="flex gap-0.5" aria-label={`${starCount} out of 5 stars`}>
+                                    <div className="flex gap-0.5" aria-hidden="true">
                                         {[1, 2, 3, 4, 5].map((s) => (
                                             <Star
                                                 key={s}
@@ -105,7 +106,7 @@ export function BookHero({ book, className }: BookHeroProps) {
                                             />
                                         ))}
                                     </div>
-                                    <span className="text-xs text-slate-400 font-medium">{starCount}.0 Reader Rating</span>
+                                    <span className="text-xs text-slate-400 font-medium">{book.rating!.toFixed(1)} out of 5 Reader Rating</span>
                                 </div>
                             )}
                         </div>
@@ -116,7 +117,7 @@ export function BookHero({ book, className }: BookHeroProps) {
                             className="inline-flex items-center gap-3 bg-gold-500 text-brand-900 px-8 py-4 rounded-xl font-black text-sm uppercase tracking-[0.15em] shadow-[0_10px_30px_rgba(212,175,55,0.3)] hover:bg-gold-400 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all"
                         >
                             <Zap className="w-5 h-5" />
-                            Get Your Free Copy
+                            Request a Free Copy
                         </a>
 
                         {/* Trust Elements */}

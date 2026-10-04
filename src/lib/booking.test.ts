@@ -1,5 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { getBookingCtaText, getBookingHref } from "./booking";
+import { getBookingCtaText, getBookingHref, normalizeBookingReturnTo } from "./booking";
+
+describe("normalizeBookingReturnTo", () => {
+  it.each([
+    ["/#contact", "/#contact"],
+    ["/en/services", "/services"],
+    ["/es/services#plans", "/services#plans"],
+    ["/industries/construction", "/industries/construction"],
+  ])("keeps safe same-site context %s", (input, expected) => {
+    expect(normalizeBookingReturnTo(input)).toBe(expected);
+  });
+
+  it.each(["//evil.example", "https://evil.example", "javascript:alert(1)", "/services/../book", "/%2f%2fevil.example", "/book", "/es/book"])("rejects unsafe or recursive return %s", (input) => {
+    expect(normalizeBookingReturnTo(input)).toBeNull();
+  });
+});
 
 describe("getBookingCtaText", () => {
   it("uses explicitly localized CMS copy when available", () => {

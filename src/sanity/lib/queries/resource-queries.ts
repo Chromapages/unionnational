@@ -17,7 +17,7 @@ export const INDUSTRY_VERTICALS_QUERY = defineQuery(`
 `)
 
 export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
-  *[_type == "industryVertical" && slug.current == $slug][0] {
+  *[_type == "industryVertical" && isActive == true && slug.current == $slug][0] {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -225,9 +225,9 @@ export const RESOURCES_PLAYBOOKS_QUERY = defineQuery(`
 export const RESOURCES_BLOG_POSTS_QUERY = defineQuery(`
   *[_type == "blogPost"] | order(publishedAt desc) {
     _id,
-    "title": coalesce(title[$locale], title.en, title),
+    "title": select(defined(title[$locale]) && title[$locale] != "" => title[$locale], defined(title.en) && title.en != "" => title.en, title),
     "slug": slug.current,
-    "excerpt": coalesce(excerpt[$locale], excerpt.en, excerpt),
+    "excerpt": select(defined(excerpt[$locale]) && excerpt[$locale] != "" => excerpt[$locale], defined(excerpt.en) && excerpt.en != "" => excerpt.en, excerpt),
     publishedAt,
     readingTime,
     isFeatured,

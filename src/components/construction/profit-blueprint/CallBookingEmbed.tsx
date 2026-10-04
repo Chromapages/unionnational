@@ -10,14 +10,14 @@ export function CallBookingEmbed() {
                 <div className="flex items-center gap-2 mb-3">
                     <Calendar className="w-5 h-5 text-gold-600" />
                     <span className="text-xs font-black uppercase tracking-widest text-gold-700">
-                        Book Your Free 15-Minute Call
+                        Book Your Free 30-Minute Call
                     </span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black font-heading text-brand-900 mb-2">
                     Now let&apos;s make sure you actually implement it.
                 </h3>
                 <p className="text-slate-600 text-sm sm:text-base">
-                    15 minutes with our team. No pitch. We&apos;ll help you identify the single biggest profit leak in your business and what to do about it.
+                    30 minutes with our team. No pitch. We&apos;ll help you identify the single biggest profit leak in your business and what to do about it.
                 </p>
             </div>
 
@@ -33,7 +33,7 @@ export function CallBookingEmbed() {
             <div className="p-5 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
                 <div className="flex items-center gap-2">
                     <Video className="w-4 h-4 text-slate-400" />
-                    <span>Video call &middot; 15 min &middot; No prep needed</span>
+                    <span>Video call &middot; 30 min &middot; No prep needed</span>
                 </div>
                 <a
                     href={BOOKING_ROUTE}

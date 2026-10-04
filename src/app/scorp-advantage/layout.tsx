@@ -1,19 +1,7 @@
 // src/app/scorp-advantage/layout.tsx
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { inter, outfit } from "@/lib/fonts";
 import "@/styles/globals.css";
-
-const inter = Inter({
-    subsets: ["latin"],
-    variable: "--font-inter",
-    display: "swap",
-});
-
-const outfit = Outfit({
-    subsets: ["latin"],
-    variable: "--font-outfit",
-    display: "swap",
-});
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://unionnationaltax.com"),

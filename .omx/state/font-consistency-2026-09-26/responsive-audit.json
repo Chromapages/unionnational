@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "about",
+    "width": 1280,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "industries",
+    "width": 1280,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "resources",
+    "width": 1280,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "services",
+    "width": 1280,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "about",
+    "width": 390,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "industries",
+    "width": 390,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "resources",
+    "width": 390,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  },
+  {
+    "slug": "services",
+    "width": 390,
+    "overflow": 0,
+    "body": "Inter, \"Inter Fallback\", Inter, sans-serif",
+    "fontsLoaded": true
+  }
+]

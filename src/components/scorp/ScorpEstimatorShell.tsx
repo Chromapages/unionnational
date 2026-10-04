@@ -2,7 +2,7 @@
 // Sync hydration
 
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import { AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
+import { sanitizeReferrerUrl } from "@/lib/scorp-advantage/referrer";
 
 const STEPS = [
     "Contact & Business",
@@ -25,10 +26,13 @@ const STEPS = [
 ];
 
 export const ScorpEstimatorShell = () => {
+    const submissionId = useRef(crypto.randomUUID());
+    const inFlight = useRef(false);
     const searchParams = useSearchParams();
     const [step, setStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
+    const [captureWarning, setCaptureWarning] = useState<string | null>(null);
     const [result, setResult] = useState<{ fitLevel: ScorpFitLevel; savingsRange: string } | null>(null);
 
     const methods = useForm<ScorpEstimatorInput>({
@@ -67,7 +71,7 @@ export const ScorpEstimatorShell = () => {
         });
 
         if (typeof document !== "undefined" && document.referrer) {
-            setValue("referrer_url", document.referrer);
+            setValue("referrer_url", sanitizeReferrerUrl(document.referrer));
         }
     }, [searchParams, setValue]);
 
@@ -116,8 +120,11 @@ export const ScorpEstimatorShell = () => {
     const prevStep = () => setStep(s => s - 1);
 
     const onFormSubmit = async (data: ScorpEstimatorInput) => {
+        if (inFlight.current) return;
+        inFlight.current = true;
         setIsSubmitting(true);
         setSubmitError(null);
+        setCaptureWarning(null);
         
         trackEvent("estimator_submission_started");
 
@@ -125,7 +132,9 @@ export const ScorpEstimatorShell = () => {
             // Clean phone data
             const cleanData = {
                 ...data,
-                phone: normalizePhone(data.phone)
+                phone: normalizePhone(data.phone),
+                locale: document.documentElement.lang === "es" ? "es" : "en",
+                submission_id: submissionId.current,
             };
 
             const response = await fetch("/api/scorp-estimator", {
@@ -144,17 +153,20 @@ export const ScorpEstimatorShell = () => {
                 fitLevel: resultData.scorp_fit_level,
                 savingsRange: resultData.scorp_estimated_savings
             });
+            if (resultData.lead_captured !== true) {
+                setCaptureWarning("Your estimate is ready, but your contact details were not received. Please try again later.");
+            }
 
-            trackEvent("estimator_submitted", {
+            trackEvent(resultData.lead_captured === true ? "estimator_submitted" : "estimator_calculated", {
                 fit_level: resultData.scorp_fit_level,
                 high_intent: resultData.high_intent_flag
             });
 
             // Meta Pixel Lead tracking
-            trackMetaEvent("Lead", {
+            if (resultData.lead_captured === true) trackMetaEvent("Lead", {
                 content_category: "SCorpAdvantage",
                 content_name: "Estimator Submission",
-                value: resultData.scorp_fit_level === "HIGH" ? 500 : 100, // Weighted value
+                value: resultData.scorp_fit_level === "HIGH" ? 500 : 100,
                 currency: "USD"
             });
 
@@ -165,6 +177,7 @@ export const ScorpEstimatorShell = () => {
             console.error("Submission Error:", err);
             trackEvent("estimator_submission_failed", { error: errorMessage });
         } finally {
+            inFlight.current = false;
             setIsSubmitting(false);
         }
     };
@@ -186,11 +199,13 @@ export const ScorpEstimatorShell = () => {
                         {step === 1 && <ScorpEstimatorStepStructure key="s1" />}
                         {step === 2 && <ScorpEstimatorStepFinancials key="s2" />}
                         {step === 3 && result && (
-                            <ScorpEstimatorResult 
-                                key="s3" 
-                                fitLevel={result.fitLevel} 
-                                savingsRange={result.savingsRange} 
-                            />
+                            <div key="s3">
+                                {captureWarning && <p role="status" className="mb-4 text-amber-700">{captureWarning}</p>}
+                                <ScorpEstimatorResult
+                                    fitLevel={result.fitLevel}
+                                    savingsRange={result.savingsRange}
+                                />
+                            </div>
                         )}
                     </AnimatePresence>
                 </div>

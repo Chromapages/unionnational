@@ -1,0 +1,8 @@
+{
+  "score": 96,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["Fact labels and translated text wrap naturally within the existing navbar-aligned container, which is narrower than the reference image's canvas."],
+  "suggestions": [],
+  "reasoning": "The compact cream band, two-part heading, summary, gold dividers, three icon facts, and gold booking button match the reference. English and Spanish pass six-width and enlarged-text checks, with a visible focus outline and working localized booking navigation; outer spacing remains unchanged."
+}

@@ -26,7 +26,7 @@ export const SHOP_PAGE_QUERY = defineQuery(`
         stripePriceId,
         description
       },
-      "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+      features,
       "badge": coalesce(badge[$locale], badge.en, badge),
       category,
       rating
@@ -44,6 +44,8 @@ export const SHOP_PAGE_QUERY = defineQuery(`
     seo {
       "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
       "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      "spanishMetaTitle": metaTitle.es,
+      "spanishMetaDescription": metaDescription.es,
       openGraphImage,
       "keywords": keywords[]{ "value": coalesce(@[$locale], @.en, @) }.value,
       canonicalUrl,
@@ -66,6 +68,16 @@ export const ALL_PRODUCTS_QUERY = defineQuery(`
     "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
     format,
     buyLink,
+    stripeProductId,
+    stripePriceId,
+    editions[] {
+      _key,
+      name,
+      price,
+      format,
+      stripePriceId,
+      description
+    },
     isFeatured,
     "badge": coalesce(badge[$locale], badge.en, badge),
     category,
@@ -84,11 +96,15 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
     compareAtPrice,
     "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
     "fullDescription": coalesce(fullDescription[$locale], fullDescription.en, fullDescription),
+    "shopDescriptions": {
+      "en": coalesce(shortDescription.en, shortDescription),
+      "es": coalesce(shortDescription.es, shortDescription.en, shortDescription)
+    },
     format,
     stripeProductId,
     stripePriceId,
     buyLink,
-    "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+    features,
     "badge": coalesce(badge[$locale], badge.en, badge),
     category,
     rating,
@@ -180,6 +196,7 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         format,
         buyLink,
+        editions[] { _key, name, price, format, description, stripePriceId, stripeProductId },
         "badge": coalesce(badge[$locale], badge.en, badge),
         category,
         rating
@@ -195,6 +212,7 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         format,
         buyLink,
+        editions[] { _key, name, price, format, description, stripePriceId, stripeProductId },
         "badge": coalesce(badge[$locale], badge.en, badge),
         category,
         rating
@@ -204,14 +222,14 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       count(relatedServices) > 0 => relatedServices[]-> {
         _id,
         "title": coalesce(title[$locale], title.en, title),
-        "slug": slug.current,
+        slug { current },
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         icon
       },
       *[_type == "service" && !(_id in path("drafts.**"))] | order(isPopular desc)[0...3] {
         _id,
         "title": coalesce(title[$locale], title.en, title),
-        "slug": slug.current,
+        slug { current },
         "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
         icon
       }

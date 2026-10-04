@@ -19,6 +19,10 @@ export default defineConfig({
   dataset: publicEnv.sanityDataset,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
+  document: {
+    actions: (previous, context) =>
+      context.schemaType === 'stripeWebhookIdempotency' ? [] : previous,
+  },
   plugins: [
     structureTool({structure}),
     // Vision is for querying with GROQ from inside the Studio

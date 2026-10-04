@@ -52,6 +52,10 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/scorp-estimator/results",
+        headers: [{ key: "Cache-Control", value: "private, no-store, max-age=0" }],
+      },
+      {
         source: "/:path*",
         headers: [
           {
@@ -150,7 +154,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/services/tax-filing-and-preparation-services',
-        destination: '/services/tax-filing-preparation',
+        destination: '/tax-preparation-and-filing',
         permanent: true,
       },
       // Locale-aware redirects
@@ -176,12 +180,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/en/services/tax-filing-and-preparation-services',
-        destination: '/en/services/tax-filing-preparation',
+        destination: '/en/tax-preparation-and-filing',
         permanent: true,
       },
       {
         source: '/es/services/tax-filing-and-preparation-services',
-        destination: '/es/services/tax-filing-preparation',
+        destination: '/es/tax-preparation-and-filing',
         permanent: true,
       },
     ];

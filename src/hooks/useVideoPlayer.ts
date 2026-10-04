@@ -43,16 +43,8 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
         const video = videoRef.current;
         if (!video || !src) return;
 
-        // Special case: if src hasn't changed, don't re-initialize
-        // This prevents NotSupportedError when autoPlay/muted/loop changes
-        if (video.getAttribute('data-src') === src) {
-            return;
-        }
-
         let hls: Hls | null = null;
         const isHls = src.includes('.m3u8') || src.includes('application/vnd.apple.mpegurl');
-
-        video.setAttribute('data-src', src);
 
         if (isHls && Hls.isSupported()) {
             hls = new Hls({
@@ -61,49 +53,12 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
             });
             hls.loadSource(src);
             hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                if (autoPlay) {
-                    video.play().catch(() => {
-                        // Autoplay prevented
-                        setState(s => ({ ...s, isPlaying: false }));
-                    });
-                }
-            });
         } else if (isHls && video.canPlayType('application/vnd.apple.mpegurl')) {
             video.src = src;
-            video.addEventListener('loadedmetadata', () => {
-                if (autoPlay) {
-                    video.play().catch(() => { });
-                }
-            }, { once: true });
         } else {
             // Regular video file (MP4, WebM, etc.)
             video.src = src;
-            video.muted = muted;
-            video.loop = loop;
             video.load(); // Explicitly trigger load after setting src
-
-            const handleLoadedMetadata = () => {
-                if (autoPlay) {
-                    video.play().catch((err) => {
-                        console.warn("Autoplay prevented:", err);
-                        setState(s => ({ ...s, isPlaying: false }));
-                    });
-                }
-            };
-
-            video.addEventListener('loadedmetadata', handleLoadedMetadata, { once: true });
-
-            // If metadata is already loaded or partially loaded, try to play
-            if (video.readyState >= 1 && autoPlay) {
-                video.play().catch(() => {
-                    setState(s => ({ ...s, isPlaying: false }));
-                });
-            }
-
-            return () => {
-                video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-            };
         }
 
         return () => {
@@ -111,7 +66,7 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
                 hls.destroy();
             }
         };
-    }, [src, autoPlay, muted, loop]);
+    }, [src]);
 
     // Sync muted and loop attributes
     useEffect(() => {
@@ -119,7 +74,20 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
         if (!video) return;
         video.muted = muted;
         video.loop = loop;
-    }, [muted, loop]);
+    }, [src, muted, loop]);
+
+    // Playback requests must not recreate or destroy the source connection.
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video || !src || !autoPlay) return;
+        let active = true;
+        const startPlayback = () => {
+            video.play().catch(() => { if (active) setState(s => ({ ...s, isPlaying: false })); });
+        };
+        video.addEventListener('loadedmetadata', startPlayback, { once: true });
+        startPlayback();
+        return () => { active = false; video.removeEventListener('loadedmetadata', startPlayback); };
+    }, [src, autoPlay, muted]);
 
     // Event Listeners
     useEffect(() => {
@@ -171,7 +139,7 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
             video.removeEventListener('leavepictureinpicture', onLeavePip);
             document.removeEventListener('fullscreenchange', onFullscreenChange);
         };
-    }, []);
+    }, [src]);
 
     // Controls
     const togglePlay = useCallback(() => {
@@ -186,12 +154,12 @@ export function useVideoPlayer({ src, autoPlay = false, muted = false, loop = fa
     }, []);
 
     const seek = useCallback((time: number) => {
-        if (!videoRef.current) return;
+        if (!videoRef.current || !Number.isFinite(videoRef.current.duration) || !Number.isFinite(time)) return;
         videoRef.current.currentTime = Math.max(0, Math.min(time, videoRef.current.duration));
     }, []);
 
     const seekRelative = useCallback((seconds: number) => {
-        if (!videoRef.current) return;
+        if (!videoRef.current || !Number.isFinite(videoRef.current.duration)) return;
         videoRef.current.currentTime = Math.max(0, Math.min(videoRef.current.currentTime + seconds, videoRef.current.duration));
     }, []);
 

@@ -1,0 +1,10 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": ["The signature uses an existing italic serif rather than the reference's handwritten font; the subtle contour decoration is omitted."],
+  "suggestions": [],
+  "reasoning": "The serif hierarchy, numbered choices, gold active state, 40/60 panel split, tip box, roomy service rows, and booking support row match the reference closely. All four selections show the correct three service links in English and Spanish. Desktop widths 1280px, 1440px, and 1536px and the retained 390px mobile view show no overflow or page errors.",
+  "next_actions": []
+}

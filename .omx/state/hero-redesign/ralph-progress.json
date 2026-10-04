@@ -1,0 +1,21 @@
+{
+  "scope": "hero-redesign",
+  "iteration": 6,
+  "score": 94,
+  "threshold": 90,
+  "passed": true,
+  "verdict": "pass",
+  "category_match": true,
+  "reasoning": "Removing the eyebrow, secondary CTA, and video caption creates a cleaner linear reading order: headline, supporting value, one primary action, then supporting video, without making the composition feel empty.",
+  "suggestions": [
+    "Fold any future strategic framing into the supporting sentence instead of restoring a separate eyebrow.",
+    "Consider delaying the third-party chat widget if its initial-load overlap becomes a conversion concern."
+  ],
+  "next_actions": [
+    "Completed desktop, narrow-desktop, and Spanish layout checks for the simplified composition.",
+    "Confirmed one hero link, one supporting paragraph, and no horizontal overflow.",
+    "Completed final regression review and removed the dead CMS CTA URL surface."
+  ],
+  "reference_image": "C:/Users/ericb/.codex/visualizations/2026/08/10/019fed30-a4d2-7722-8c19-fd1594090eb2/hero-current-1440.png",
+  "generated_screenshot": "C:/Users/ericb/.codex/visualizations/2026/08/10/019fed30-a4d2-7722-8c19-fd1594090eb2/hero-simple-final-1440.png"
+}

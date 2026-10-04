@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { inter, outfit } from "@/lib/fonts";
 import "@/styles/globals.css";
 import { LocalBusinessSchema } from "@/components/seo/LocalBusinessSchema";
 import { ChatWidget } from "@/components/ChatWidget";
@@ -11,21 +11,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { MetaPixel } from "@/components/seo/MetaPixel";
 import { ProgressBar } from "@/components/ProgressBar";
 import { SanityLive } from "@/sanity/lib/live";
-
-const inter = Inter({
-  subsets: ["latin"],
-
-  variable: "--font-inter",
-  display: "swap",
-  adjustFontFallback: true,
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
-  display: "swap",
-  adjustFontFallback: true,
-});
+import { SkipLink } from "@/components/layout/SkipLink";
 
 const baseUrl = "https://unionnationaltax.com";
 
@@ -40,6 +26,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   const locale = params.locale;
   const siteSettings = await getSiteSettings(locale);
   const seo = siteSettings?.seo;
+  const index = seo?.noIndex !== true;
   const companyName = siteSettings?.companyName || "Union National Tax";
   const metaTitle = seo?.metaTitle || companyName;
   const metaDescription =
@@ -48,14 +35,10 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
   const ogImage = seo?.openGraphImage
     ? urlFor(seo.openGraphImage).width(1200).height(630).url()
     : "/images/og-default.png";
-  const canonicalUrl = `${baseUrl}/${locale}`;
 
   return {
     metadataBase: new URL(baseUrl),
-    title: {
-      default: metaTitle,
-      template: `%s | ${companyName}`,
-    },
+    title: metaTitle,
     description: metaDescription,
     openGraph: {
       siteName: companyName,
@@ -72,11 +55,11 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
       images: [ogImage],
     },
     robots: {
-      index: true,
-      follow: true,
+      index,
+      follow: index,
       googleBot: {
-        index: true,
-        follow: true,
+        index,
+        follow: index,
         "max-video-preview": -1,
         "max-image-preview": "large",
         "max-snippet": -1,
@@ -86,14 +69,6 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
       icon: "/images/Untitled design.svg",
       shortcut: "/images/Untitled design.svg",
       apple: "/images/Untitled design.svg",
-    },
-
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        en: "https://unionnationaltax.com/en",
-        es: "https://unionnationaltax.com/es",
-      },
     },
   };
 }
@@ -115,12 +90,7 @@ export default async function RootLayout(props: {
         suppressHydrationWarning
       >
         <MetaPixel />
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-gold-500 focus:text-brand-900 focus:px-4 focus:py-2 focus:rounded-lg"
-        >
-          {t("skipToContent")}
-        </a>
+        <SkipLink label={t("skipToContent")} />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider>
             {props.children}

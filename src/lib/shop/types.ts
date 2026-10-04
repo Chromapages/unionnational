@@ -5,6 +5,7 @@ export interface ProductEdition {
     format: string;
     description?: string;
     stripePriceId?: string;
+    stripeProductId?: string;
 }
 
 export type FulfillmentType = "digital" | "physical" | "audio" | "bundle" | "service" | "unknown";

@@ -1,141 +1,69 @@
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { VideoHero } from "@/components/home/VideoHero";
-import { TrustBar } from "@/components/home/TrustBar";
-import { HomepageCTASection } from "@/components/home/HomepageCTASection";
-import { ExitIntentModal } from "@/components/home/ExitIntentModal";
+import { ConsumerHome } from "@/components/home/ConsumerHome";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { sanityFetch } from "@/sanity/lib/live";
-import { HOME_PAGE_QUERY, SERVICES_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
-import type { Metadata } from "next";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import { urlFor } from "@/sanity/lib/image";
-import { Suspense } from "react";
-import { redirect } from "next/navigation";
+import { sanityFetch } from "@/sanity/lib/live";
+import { HOME_PAGE_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import { locales, defaultLocale } from "@/i18n/config";
 
-import { WhyUsSection } from "@/components/home/WhyUsSection";
-import { ServicesSection } from "@/components/home/ServicesSection";
-import { TestimonialsSection } from "@/components/home/TestimonialsSection";
-import { HowItWorksSection } from "@/components/home/HowItWorksSection";
-
 export const dynamicParams = true;
-
 export const revalidate = 60;
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await props.params;
-  const { data: homePageData } = await sanityFetch({ query: HOME_PAGE_QUERY, params: { locale } });
-  const seo = homePageData?.seo;
+    const { locale } = await props.params;
+    const currentLocale = locales.includes(locale as typeof locales[number]) ? locale : defaultLocale;
+    const [t, { data: homePage }] = await Promise.all([
+        getTranslations({ locale: currentLocale, namespace: "ConsumerHome.seo" }),
+        sanityFetch({ query: HOME_PAGE_QUERY, params: { locale: currentLocale } }).catch(() => ({ data: null })),
+    ]);
+    const baseUrl = "https://unionnationaltax.com";
+    const canonicalUrl = `${baseUrl}/${currentLocale}`;
 
-  if (!seo) {
     return {
-      title: "Union National Tax",
+        title: t("title"),
+        description: t("description"),
+        ...(homePage?.seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
+        alternates: {
+            canonical: canonicalUrl,
+            languages: { en: `${baseUrl}/en`, es: `${baseUrl}/es` },
+        },
+        openGraph: {
+            title: t("title"),
+            description: t("description"),
+            url: canonicalUrl,
+        },
+        twitter: {
+            title: t("title"),
+            description: t("description"),
+        },
     };
-  }
-
-  const ogImage = seo.openGraphImage
-    ? urlFor(seo.openGraphImage).width(1200).height(630).url()
-    : undefined;
-
-  const baseUrl = "https://unionnationaltax.com";
-  const canonicalUrl = `${baseUrl}/${locale}`;
-
-  return {
-    title: seo.metaTitle,
-    description: seo.metaDescription,
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        en: `${baseUrl}/en`,
-        es: `${baseUrl}/es`,
-      },
-    },
-    openGraph: {
-      ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
-      ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
-      ...(ogImage ? { images: [ogImage] } : {}),
-      url: canonicalUrl,
-    },
-    twitter: {
-      ...(seo.metaTitle ? { title: seo.metaTitle } : {}),
-      ...(seo.metaDescription ? { description: seo.metaDescription } : {}),
-      ...(ogImage ? { images: [ogImage] } : {}),
-    },
-  };
 }
 
 export default async function Home(props: { params: Promise<{ locale: string }> }) {
-  const params = await props.params;
-  const locale = params.locale;
+    const { locale } = await props.params;
+    if (!locales.includes(locale as typeof locales[number])) redirect(`/${defaultLocale}`);
 
-  // Validate locale against configured locales
-  if (!locales.includes(locale as typeof locales[number])) {
-    redirect(`/${defaultLocale}`);
-  }
+    const [{ data: siteSettings }, { data: homePage }, seo] = await Promise.all([
+        sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } }).catch(() => ({ data: null })),
+        sanityFetch({ query: HOME_PAGE_QUERY, params: { locale } }).catch(() => ({ data: null })),
+        getTranslations({ locale, namespace: "ConsumerHome.seo" }),
+    ]);
+    const foregroundVideo = typeof homePage?.heroPlayerVideoUrl === "string" ? homePage.heroPlayerVideoUrl.trim() : undefined;
+    const fallbackVideo = typeof homePage?.heroVideoUrl === "string" ? homePage.heroVideoUrl.trim() : undefined;
+    const heroVideoPoster = typeof homePage?.heroPlayerPosterUrl === "string" ? homePage.heroPlayerPosterUrl : undefined;
 
-  // Fetch critical data in parallel
-  const [homePageData, services, testimonials, siteSettings] = await Promise.all([
-    sanityFetch({ query: HOME_PAGE_QUERY, params: { locale } }),
-    sanityFetch({ query: SERVICES_QUERY, params: { locale } }),
-    sanityFetch({ query: TESTIMONIALS_QUERY, params: { locale } }),
-    sanityFetch({ query: SITE_SETTINGS_QUERY, params: { locale } }),
-  ]);
-
-  const homeData = homePageData.data;
-  const servicesData = services.data;
-  const testimonialsData = testimonials.data;
-  const siteSettingsData = siteSettings.data;
-
-
-  return (
-    <>
-      <main id="main-content" className="min-h-dvh w-full bg-brand-900 flex flex-col">
-        <JsonLd siteSettings={siteSettingsData} homePageData={homeData} />
-        <ErrorBoundary name="Header">
-          <HeaderWrapper />
-        </ErrorBoundary>
-        <div className="flex-1">
-          {/* Hero with simplified calculator and single CTA */}
-          <ErrorBoundary name="Hero Section">
-            <VideoHero data={homeData} />
-          </ErrorBoundary>
-
-          {/* First post-hero proof: proactive operating model versus reactive tax preparation. */}
-          <ErrorBoundary name="Why Us Section">
-            <WhyUsSection />
-          </ErrorBoundary>
-
-          <ErrorBoundary name="Trust Bar">
-            <TrustBar />
-          </ErrorBoundary>
-
-          <ErrorBoundary name="How It Works">
-            <HowItWorksSection />
-          </ErrorBoundary>
-
-          {/* Services Section - already shows 2 priority services */}
-          <Suspense fallback={<div className="h-64 animate-pulse bg-slate-100" />}>
-            <ErrorBoundary name="Services Section">
-              <ServicesSection services={servicesData} />
-            </ErrorBoundary>
-          </Suspense>
-
-          {/* Testimonials - 3 cards, no marquee */}
-          <Suspense fallback={<div className="h-64 animate-pulse bg-slate-50" />}>
-            <ErrorBoundary name="Testimonials">
-              <TestimonialsSection testimonials={testimonialsData} />
-            </ErrorBoundary>
-          </Suspense>
-
-          {/* Final CTA - single button */}
-          <HomepageCTASection data={homeData} />
-        </div>
-      </main>
-      <ErrorBoundary name="Footer">
-        <Footer />
-      </ErrorBoundary>
-      <ExitIntentModal />
-    </>
-  );
+    return (
+        <>
+            <main id="main-content" className="homepage-rhythm min-h-dvh bg-white">
+                <JsonLd siteSettings={siteSettings} homePageData={{ seo: { metaDescription: seo("description") } }} />
+                <ErrorBoundary name="Header"><HeaderWrapper /></ErrorBoundary>
+                <ErrorBoundary name="Homepage"><ConsumerHome heroVideoSrc={foregroundVideo || fallbackVideo} heroVideoPoster={heroVideoPoster} clientLogos={homePage?.trustLogos || []} /></ErrorBoundary>
+            </main>
+            <ErrorBoundary name="Footer"><Footer /></ErrorBoundary>
+        </>
+    );
 }

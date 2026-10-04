@@ -1,0 +1,25 @@
+{
+  "score": 93,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "Hosted page matches the requested simple booking layout.",
+    "Provider still displays 45 minutes and old calendar name; its controls and confirmation form require dashboard changes."
+  ],
+  "suggestions": [
+    "Apply the exact provider settings in docs/booking-provider-settings.md.",
+    "Verify the provider accessibility controls and a live test booking after saving."
+  ],
+  "reasoning": "Hosted layout passed rendered desktop and 390px checks. Overall completion remains pending provider changes explicitly handed back to the client.",
+  "next_actions": [
+    "Owner updates the provider dashboard",
+    "Verify 30-minute public slots and confirmation",
+    "Run a test booking with a client-supplied identity"
+  ],
+  "scope": "hosted-page-visual-review",
+  "overall_status": "provider_changes_pending",
+  "evidence": [
+    "mobile-390.png",
+    "desktop-1536.png"
+  ]
+}

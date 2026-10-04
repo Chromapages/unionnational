@@ -4,9 +4,25 @@ import {
     classifyFulfillment,
     normalizeEditionId,
     normalizeProductEdition,
+    getDefaultProductEdition,
+    formatProductPrice,
+    hasPublishedProductDescription,
 } from "@/lib/shop/commerce";
 
 describe("shop commerce edition normalization", () => {
+    it("keeps the approved PDF price and real description boundaries", () => {
+        const editions = [
+            { id: "bundle", name: "Bundle (Digital + Print)", format: "bundle", price: 59 },
+            { id: "print", name: "Hardcover", format: "physical", price: 39 },
+            { id: "pdf", name: "Digital PDF", format: "digital", price: 29 },
+            { id: "audio", name: "Audiobook", format: "audio", price: 27 },
+        ];
+        expect(getDefaultProductEdition(editions)?.id).toBe("pdf");
+        expect(getDefaultProductEdition(editions.filter(edition => edition.id !== "pdf"))?.id).toBe("bundle");
+        expect(formatProductPrice(29.5)).toBe("$29.50");
+        expect(hasPublishedProductDescription("Description coming soon.")).toBe(false);
+        expect(hasPublishedProductDescription("A practical guide to business finances.")).toBe(true);
+    });
     it("classifies localized Sanity fields without throwing", () => {
         expect(
             classifyFulfillment(

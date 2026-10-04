@@ -1,0 +1,10 @@
+{
+  "score": 96,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "Desktop gaps now follow a 16px/16px/24px/24px rhythm within a 356px section at 1440px. English, Spanish, 1024px, and shared CTA render without overflow; mobile remains unchanged.",
+  "next_actions": []
+}

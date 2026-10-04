@@ -1,0 +1,9 @@
+{
+  "score": 97,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "About now reuses the exact homepage FinalBookingCTA and rhythm tokens. Eight locale/width comparisons passed; the real mobile chat widget hides correctly, the 56px booking target is reachable and the 3px focus outline remains visible.",
+  "next_actions": []
+}

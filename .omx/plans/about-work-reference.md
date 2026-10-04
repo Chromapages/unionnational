@@ -1,0 +1,11 @@
+# About How we work reference
+
+Scope: existing AboutDesktopExperience approach section and EN/ES messages only.
+Plan: reuse existing dark section and icons. Replace three columns with three ordered rows, each containing number/icon/step, action, and client outcome. Add reference headline/intro, gold eyebrow, desktop column labels and decorative motto. Reuse94rem page width, brand typography/colors and actual three steps. Translate reference content into EN/ES; no numerical claims or staff changes. On narrow containers stack each row in reading order with its own action/outcome labels, no horizontal scroll. Verify rendered desktop/mobile, heading hierarchy and decorative icon semantics. Extend existing saved check, but do not run any build/test/lint/typecheck suite.
+
+## Result
+Implemented reference header, introduction, gold eyebrow/motto, ordered numbered steps and three aligned desktop columns. Mobile/tablet rows stack and retain action/outcome labels; desktop duplicate labels are screen-reader-only. Reused AboutDesktopExperience with existing icons/brand tokens, removed the one-off85rem container in favor of94rem page width. Added supplied reference action/outcome copy and Spanish translations. Extended scripts/check-about-consolidation.mjs for the three rows, three outcomes and headline; check not executed per workspace instruction.
+
+Rendered browser verification: EN/ES at320/375/390/768/1024/1440/1920, no horizontal overflow. Desktop clipping count6 corresponds only to intentionally sr-only labels; visible text unclipped. One H1 and logical H2/H3/H4. Icons all aria-hidden. Gold-on-brand contrast12.72:1 and white85% body contrastapproximately14:1; above4.5:1. Desktop/mobile screenshots reviewed and saved about-work-desktop.jpg/about-work-mobile.jpg. Browser viewport restored, English About preview retained. No new claims/figures/photos/staff changes/dependencies. No build,lint,typecheck,test suite run. New copy is in EN/ES messages; no live CMS write.
+
+Changed source: src/components/about/AboutDesktopExperience.tsx; src/messages/en.json; src/messages/es.json; scripts/check-about-consolidation.mjs. Plan/verdict updated. Featured-team selection remains a separate pending client decision.

@@ -1,56 +1,33 @@
 import { urlFor } from "@/sanity/lib/image";
-import { Plus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+import type { TeamMember } from "@/types/sanity";
 
-import { type TeamMember } from "@/types/sanity";
+export const memberCredentials = (member: TeamMember) => [...new Set(
+    (member.credentials ? member.credentials.split(/,|\//) : member.certifications || [])
+        .map(tag => tag.trim())
+        .filter(tag => tag && tag.toLowerCase() !== member.role?.trim().toLowerCase()),
+)];
 
-interface TeamMemberCardProps {
-    member: TeamMember;
-    onClick: () => void;
-}
-
-export function TeamMemberCard({ member, onClick }: TeamMemberCardProps) {
-    return (
-        <div
-            onClick={onClick}
-            className="group relative flex flex-col h-full bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 border border-slate-200/60"
-        >
-            <div className="aspect-[4/5] relative overflow-hidden bg-brand-50">
-                {member.image ? (
-                    <img
-                        src={urlFor(member.image).width(600).url()}
-                        alt={member.name}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-brand-300 text-4xl font-bold bg-brand-50">
-                        {member.name.charAt(0)}
-                    </div>
-                )}
-
-                {/* Hover Overlay - Gradient approach for fintech feel */}
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-brand-900 text-sm font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        View Profile <Plus className="w-4 h-4" />
-                    </span>
-                </div>
+export function TeamMemberCard({ member, onClick }: { member: TeamMember; onClick: () => void }) {
+    const t = useTranslations("TeamPage.directory");
+    const name = member.isFounder ? member.name.trim().split(",")[0] : member.name.trim().split(/[\s,]+/)[0];
+    const role = member.role && !/^trusted expert$/i.test(member.role.trim()) ? member.role.trim() : "";
+    const credentials = memberCredentials(member);
+    const specialties = [...new Set((member.tags || []).filter(tag => typeof tag === "string" && tag.trim()).map(tag => tag.trim()))]
+        .filter(tag => !credentials.some(credential => credential.toLowerCase() === tag.toLowerCase())).slice(0, 3);
+    return <article id={"team-member-" + member._id} tabIndex={-1} className="min-w-0 scroll-mt-28 rounded-xl border border-slate-200 bg-white p-2.5">
+        <div className="grid h-full min-w-0 grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] gap-4">
+            <div className="relative min-h-48 overflow-hidden rounded-lg bg-brand-50/60">
+                {member.image ? <img src={urlFor(member.image).width(400).url()} alt={role ? name + ", " + role : name} loading="lazy" width={224} height={280} className="absolute inset-0 h-full w-full object-cover object-top" /> : <p className="flex h-full items-center justify-center p-3 text-center text-sm text-slate-700">{t("photoMissing")}</p>}
             </div>
-
-            <div className="flex flex-col flex-1 p-6 border-t border-slate-100/50">
-                <div className="mb-1">
-                    <h3 className="text-lg font-bold text-brand-900 font-heading group-hover:text-gold-600 transition-colors">
-                        {member.name}
-                    </h3>
-                    <p className="text-sm font-medium text-slate-500 font-sans">{member.role}</p>
-                </div>
-
-                {member.credentials && (
-                    <div className="mt-auto pt-4">
-                        <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-brand-900/40 bg-brand-50/50 px-2 py-1 rounded">
-                            {member.credentials}
-                        </span>
-                    </div>
-                )}
+            <div className="flex min-w-0 flex-col py-2 pr-1">
+                <h3 className="font-heading text-xl font-bold leading-tight text-brand-950">{name}</h3>
+                {role && <p className="mt-2 text-sm leading-snug text-slate-700">{role}</p>}
+                {credentials.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{credentials.map(tag => <span key={tag} data-credential className="max-w-full break-words rounded-lg bg-brand-50/60 px-3 py-2 text-xs font-semibold leading-snug text-brand-900">{tag}</span>)}</div>}
+                {specialties.length > 0 && <ul className="mt-3 flex flex-wrap gap-2">{specialties.map(tag => <li key={tag} className="max-w-full break-words rounded-lg bg-brand-50/60 px-3 py-2 text-xs leading-snug text-brand-900">{tag}</li>)}</ul>}
+                <div className="mt-auto pt-4"><button type="button" onClick={onClick} aria-label={t("profileLabel", { name })} className="inline-flex min-h-11 min-w-11 items-center gap-3 rounded-sm font-heading text-sm font-semibold text-brand-500 hover:text-brand-700 active:text-brand-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700">{t("viewProfile")}<ArrowRight className="size-4 shrink-0" aria-hidden="true" /></button></div>
             </div>
         </div>
-    );
+    </article>;
 }

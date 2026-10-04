@@ -6,6 +6,7 @@ import { PRICING_TIERS_QUERY, SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { PricingSection } from "@/components/pricing/PricingSection";
 import { CTASection } from "@/components/home/CTASection";
 import { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -19,20 +20,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
-    const baseUrl = "https://unionnationaltax.com";
-    const path = "/pricing";
-    const canonicalUrl = locale === "en" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`;
-
     return {
         title: "Pricing | Union National Tax",
         description: "Transparent pricing for comprehensive tax strategies and fractional CFO services.",
-        alternates: {
-            canonical: canonicalUrl,
-            languages: {
-                en: `${baseUrl}${path}`,
-                es: `${baseUrl}/es${path}`,
-            },
-        },
+        alternates: localizedAlternates(locale, "/pricing"),
     };
 }
 

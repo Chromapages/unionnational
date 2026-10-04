@@ -1,0 +1,13 @@
+{
+  "score": 92,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The booking hero is intentionally shorter than the other page heroes so the scheduling calendar begins within the initial desktop viewport.",
+    "Its numbered rows are informational and use check marks, while the other page heroes use arrows for navigation."
+  ],
+  "suggestions": [],
+  "reasoning": "The desktop booking hero now shares the blueprint, split layout, gold-accented headline, and numbered rhythm with Services, Industries, and Resources. At 1280px, 1440px, and 2048px there is no overflow or page error; English and Spanish render, the calendar becomes ready, campaign parameters reach its iframe, the return link retains its destination, and the hero CTA reaches the calendar. The mobile header remains visible at 390px.",
+  "next_actions": []
+}

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ArrowRight } from "lucide-react";
 import { ServicePageContainer } from "@/components/services/ServicePageContainer";
 import type { ServicePage } from "@/types/sanity";
@@ -13,12 +13,12 @@ export function ComparisonSection({ comparison, sectionId }: ComparisonSectionPr
 
     const headingId = `${sectionId}-heading`;
     return (
-        <section id={sectionId} aria-labelledby={headingId} className="scroll-mt-[calc(var(--header-height)+1rem)] border-b border-zinc-200 bg-zinc-50 py-16 md:py-20">
-            <ServicePageContainer className="max-w-[76.5rem]">
+        <section id={sectionId} aria-labelledby={headingId} className="scroll-mt-[calc(var(--header-height)+1rem)] border-b border-zinc-200 bg-zinc-50 py-10 lg:py-12">
+            <ServicePageContainer>
                 <div className="grid items-start gap-10 min-[901px]:grid-cols-[minmax(300px,360px)_minmax(0,1fr)] min-[901px]:gap-[clamp(2rem,5vw,5rem)]">
                     <div className="max-w-xl min-[901px]:sticky min-[901px]:top-[6.5rem]">
                         {comparison.eyebrow && <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-800">{comparison.eyebrow}</p>}
-                        <h2 id={headingId} className="mt-3 font-heading text-3xl font-bold tracking-tight text-brand-950 md:text-4xl">{comparison.heading}</h2>
+                        <h2 id={headingId} className="mt-3 font-heading text-3xl font-bold leading-[1.12] tracking-tight text-brand-950 sm:text-4xl lg:text-[2.75rem]">{comparison.heading}</h2>
                         {comparison.description && <p className="mt-5 text-base leading-relaxed text-zinc-700 md:text-lg">{comparison.description}</p>}
                         {comparison.href && comparison.linkLabel && (
                             <Link href={comparison.href} className="mt-7 hidden min-h-11 items-center gap-2 font-semibold text-brand-900 underline decoration-gold-600 underline-offset-4 transition-colors hover:text-gold-800 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-600 min-[901px]:inline-flex">

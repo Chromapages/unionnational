@@ -2,11 +2,15 @@ import { NextRequest } from "next/server";
 import { client } from "@/sanity/lib/client";
 import { getStripe } from "@/lib/stripe";
 import { getEnv, publicEnv } from "@/lib/config/env";
-import { createApiHandler, getClientIp } from "@/lib/observability/api-handler";
+import { createApiHandler } from "@/lib/observability/api-handler";
+import { checkRateLimit as checkRequestRateLimit, getClientIdentifier } from "@/lib/security/rate-limiter";
 import { incrementCounter, withLatencyAsync } from "@/lib/observability/request-metrics";
+import { readLeadJson } from "@/lib/intake/shared";
+import { buildCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
 import {
     CHECKOUT_PRODUCTS_QUERY,
     resolveCheckoutItem,
+    validateCartItem,
     type CheckoutCartItemPayload,
     type ProductCheckoutRecord,
     type ResolvedCheckoutItem,
@@ -22,17 +26,17 @@ export async function POST(request: NextRequest) {
         rateLimitWindowMs: CHECKOUT_RATE_LIMIT_WINDOW_MS,
     });
 
-    const ip = getClientIp(request);
-    const { checkRateLimit } = await import("@/lib/observability/api-handler");
-    const rateLimit = checkRateLimit(
-        ip,
-        undefined,
-        CHECKOUT_RATE_LIMIT_MAX,
-        CHECKOUT_RATE_LIMIT_WINDOW_MS
-    );
+    let quota;
+    try {
+        quota = await checkRequestRateLimit(`shop-checkout:${getClientIdentifier(request)}`, CHECKOUT_RATE_LIMIT_MAX, CHECKOUT_RATE_LIMIT_WINDOW_MS);
+    } catch (error) {
+        handler.error("Checkout quota unavailable", error, { module: "shop-checkout" });
+        return handler.json({ ok: false, code: "CHECKOUT_UNAVAILABLE", message: "Checkout is temporarily unavailable. Please try again shortly." }, { status: 503 });
+    }
+    const rateLimit = { limited: !quota.success, remaining: quota.remaining, resetAt: quota.resetTime };
 
     if (rateLimit.limited) {
-        handler.log.warn("Checkout rate limit exceeded", { ip });
+        handler.log.warn("Checkout rate limit exceeded");
         incrementCounter("shop_checkout_rate_limited");
         return handler.json(
             { ok: false, code: "RATE_LIMITED", message: "Too many requests" },
@@ -44,7 +48,20 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const body = (await request.json()) as { items?: CheckoutCartItemPayload[] };
+        const json = await readLeadJson(request);
+        if (!json.ok) return handler.json({ ok: false, code: json.status === 413 ? "REQUEST_TOO_LARGE" : "INVALID_JSON", message: json.error }, { status: json.status });
+        const parsed: unknown = json.value;
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+            return handler.json({ ok: false, code: "INVALID_CART", message: "Invalid cart." }, { status: 400 });
+        }
+        const body = parsed as { items?: CheckoutCartItemPayload[]; locale?: string; returnUrl?: string };
+        if ((body.locale !== undefined && body.locale !== "en" && body.locale !== "es") || body.returnUrl !== undefined) {
+            return handler.json(
+                { ok: false, code: "INVALID_RETURN_TARGET", message: "Invalid checkout return target." },
+                { status: 400 }
+            );
+        }
+        const locale = body.locale ?? "en";
         const items = body.items ?? [];
 
         if (!Array.isArray(items) || items.length === 0) {
@@ -55,8 +72,11 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        if (items.length > 100) return handler.json({ ok: false, code: "CART_TOO_LARGE", message: "Please check out with fewer distinct resources at a time." }, { status: 400 });
+
         for (const item of items) {
-            if (!item.slug || !item.productId || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 99) {
+            if (!validateCartItem(item) || !item.slug.trim() || !item.productId.trim()
+                || (item.editionId !== undefined && (typeof item.editionId !== "string" || !item.editionId.trim()))) {
                 incrementCounter("shop_checkout_invalid_item");
                 return handler.json(
                     { ok: false, code: "INVALID_CART_ITEM", message: "One or more cart items are invalid." },
@@ -90,7 +110,8 @@ export async function POST(request: NextRequest) {
             const resolvedItem = resolveCheckoutItem(product, item);
 
             if (!resolvedItem) {
-                if (items.length === 1 && product.buyLink) {
+                const externalDefault = !product.editions?.length && (item.editionId === undefined || item.editionId === `${product._id}-default`);
+                if (items.length === 1 && externalDefault && product.buyLink && /^https?:\/\//i.test(product.buyLink)) {
                     incrementCounter("shop_checkout_redirect_external");
                     return handler.json(
                         { ok: true, redirectUrl: product.buyLink, code: "REDIRECT_TO_EXTERNAL_CHECKOUT" },
@@ -116,10 +137,11 @@ export async function POST(request: NextRequest) {
         const baseUrl = publicEnv.baseUrl;
         const requiresShipping = resolvedItems.some((item) => item.requiresShipping);
 
-        const orderItemsMetadata = JSON.stringify(resolvedItems.map((item) => ({
+        const orderItemsMetadata = buildCheckoutItemsMetadata(resolvedItems.map((item, index) => ({
             p: item.productId,
             s: item.slug,
             e: item.editionId,
+            ce: items[index].editionId ?? null,
             n: item.editionName,
             f: item.format,
             t: item.fulfillmentType,
@@ -128,7 +150,7 @@ export async function POST(request: NextRequest) {
             q: item.quantity,
         })));
 
-        if (orderItemsMetadata.length > 500) {
+        if (!orderItemsMetadata) {
             incrementCounter("shop_checkout_cart_too_large");
             return handler.json(
                 { ok: false, code: "CART_TOO_LARGE", message: "Please check out with fewer distinct resources at a time." },
@@ -160,8 +182,8 @@ export async function POST(request: NextRequest) {
                 payment_method_types: ["card"],
                 line_items: lineItems,
                 mode: "payment",
-                success_url: `${baseUrl}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${baseUrl}/shop/cart?checkout=cancelled`,
+                success_url: `${baseUrl}/${locale}/shop/success?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${baseUrl}/${locale}/shop/cart?checkout=cancelled`,
                 ...(requiresShipping ? {
                     shipping_address_collection: {
                         allowed_countries: ["US", "CA"],
@@ -173,7 +195,7 @@ export async function POST(request: NextRequest) {
                     has_physical: String(requiresShipping),
                     has_digital: String(resolvedItems.some((item) => item.fulfillmentType === "digital" || item.fulfillmentType === "audio" || item.fulfillmentType === "bundle")),
                     item_count: String(resolvedItems.reduce((count, item) => count + item.quantity, 0)),
-                    items: orderItemsMetadata,
+                    ...orderItemsMetadata,
                 },
             });
         }, { module: "shop-checkout" });

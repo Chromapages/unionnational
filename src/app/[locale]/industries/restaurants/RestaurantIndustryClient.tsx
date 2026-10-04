@@ -1,5 +1,7 @@
 "use client";
 
+import { IndustryExpertise } from "@/components/industries/IndustriesDesktopExperience";
+import { FinalBookingCTA } from "@/components/home/FinalBookingCTA";
 import { motion } from "framer-motion";
 import { 
     Utensils, 
@@ -123,6 +125,8 @@ export default function RestaurantIndustryClient() {
                     </div>
                 </div>
             </section>
+
+            <IndustryExpertise industryId="restaurants" />
 
             {/* Trust Strip */}
             <div className="bg-brand-950/95 border-y border-white/5 py-12 px-6">
@@ -476,32 +480,7 @@ export default function RestaurantIndustryClient() {
             </section>
 
             {/* 10. Final CTA */}
-            <section className="py-32 px-6 relative bg-brand-950 overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/images/pattern-grid.svg')] bg-repeat opacity-[0.03] pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gold-400/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
-                
-                <div className="max-w-4xl mx-auto text-center relative z-10">
-                    <RevealOnScroll>
-                        <h2 className="text-5xl md:text-8xl font-bold text-white font-heading mb-12 tracking-tighter leading-[0.85]">
-                            Manage <br />Your <span className="italic text-gold-400 underline decoration-white/10 decoration-wavy underline-offset-[20px]">Margins.</span>
-                        </h2>
-                        <p className="text-xl md:text-2xl text-slate-300 mb-16 leading-relaxed font-light mx-auto max-w-2xl">
-                            Stop bleeding pennies in the invisible margins. Join the high-volume groups using the Restaurant CFO Partnership.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                            <Link 
-                                href="/intake"
-                                className="px-14 py-7 bg-gold-500 text-brand-950 font-black rounded-2xl hover:bg-gold-400 hover:scale-[1.05] active:scale-[0.98] transition-all shadow-2xl text-3xl group flex items-center justify-center gap-4"
-                            >
-                                Book Partner Audit <ArrowRight size={36} className="group-hover:translate-x-2 transition-transform" />
-                            </Link>
-                        </div>
-                        <p className="mt-12 text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px]">
-                            Hospitality Specialized • Advisory-Led • Multi-Unit Ready
-                        </p>
-                    </RevealOnScroll>
-                </div>
-            </section>
+            <div className="homepage-rhythm"><FinalBookingCTA id="service-next-step" placement="restaurants_final_cta" /></div>
         </div>
     );
 }

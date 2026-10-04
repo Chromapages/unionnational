@@ -28,7 +28,7 @@ export function CalculatorResultPanel({ results, revenue }: CalculatorResultPane
                     key={results.trueTakeHome}
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="text-5xl sm:text-6xl font-black text-brand-900 font-heading"
+                    className="text-5xl sm:text-6xl font-black text-brand-900 font-data tabular-nums"
                 >
                     {formatCurrency(results.trueTakeHome)}
                 </motion.h2>

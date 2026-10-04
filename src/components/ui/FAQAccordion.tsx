@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { Plus } from "lucide-react";
 
@@ -17,6 +17,7 @@ interface FAQAccordionProps {
 
 export function FAQAccordion({ items, title = "Common Questions", className }: FAQAccordionProps) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
+    const accordionId = useId();
 
     return (
         <section className={`py-24 ${className}`}>
@@ -30,17 +31,26 @@ export function FAQAccordion({ items, title = "Common Questions", className }: F
                                 className="group bg-white border border-slate-200 rounded-xl overflow-hidden"
                             >
                                 <button
+                                    type="button"
+                                    id={`${accordionId}-question-${i}`}
+                                    aria-expanded={openIndex === i}
+                                    aria-controls={`${accordionId}-answer-${i}`}
                                     onClick={() => setOpenIndex(openIndex === i ? null : i)}
                                     className="flex items-center justify-between w-full p-5 text-left text-brand-900 font-bold text-sm hover:bg-gold-50/50 transition-colors font-heading"
                                 >
                                     {item.question}
                                     <Plus
+                                        aria-hidden="true"
                                         className={`w-4 h-4 text-gold-400 transition-transform duration-300 ${openIndex === i ? "rotate-45" : ""
                                             }`}
                                     />
                                 </button>
                                 <div
-                                    className={`px-5 text-sm text-brand-900 leading-relaxed font-body transition-all duration-300 ease-in-out overflow-hidden ${openIndex === i ? "max-h-96 pb-5 opacity-100" : "max-h-0 opacity-0"
+                                    id={`${accordionId}-answer-${i}`}
+                                    role="region"
+                                    aria-labelledby={`${accordionId}-question-${i}`}
+                                    hidden={openIndex !== i}
+                                    className={`px-5 text-sm text-brand-900 leading-relaxed font-body ${openIndex === i ? "pb-5" : ""
                                         }`}
                                 >
                                     {item.answer}

@@ -1,0 +1,12 @@
+{
+  "score": 97,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [
+    "The hero photo and current CMS-backed S-Corp price still differ from the supplied design reference."
+  ],
+  "suggestions": [],
+  "reasoning": "All desktop services sections now use the navbar's 94rem maximum; wide Spanish sections share the navbar's 104rem exception. Measured section and navbar bounds match at 1903px, with no overflow or page errors at 1280px, 1440px, or 1903px; mobile layout remains separate.",
+  "next_actions": []
+}

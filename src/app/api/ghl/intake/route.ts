@@ -1,24 +1,34 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
 import { GhlPayloadSchema } from "@/lib/ghl/contract";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
+import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
+import { forwardToGhl, isLeadTimeout, readLeadJson } from "@/lib/intake/shared";
 
 export async function POST(request: Request) {
-    const traceId = getTraceId();
+    const traceId = getTraceId(request.headers);
 
     try {
-        const body = await request.json();
-        const headerList = await headers();
+        const parsed = await readLeadJson(request);
+        if (!parsed.ok) return NextResponse.json({ success: false, error: parsed.error }, { status: parsed.status });
+        if (!parsed.value || typeof parsed.value !== "object" || Array.isArray(parsed.value)) {
+            return NextResponse.json({ success: false, error: "Invalid lead payload" }, { status: 400 });
+        }
+        const body = parsed.value as Record<string, unknown>;
+        const meta = body.meta && typeof body.meta === "object" && !Array.isArray(body.meta)
+            ? body.meta as Record<string, unknown>
+            : {};
 
         const enrichedBody = {
             ...body,
             meta: {
-                version: body.meta?.version || "1.0",
-                locale: body.meta?.locale || "en",
-                submitted_at: body.meta?.submitted_at || new Date().toISOString(),
-                user_agent: headerList.get("user-agent") || "unknown",
-                ip_hash: headerList.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1",
+                ...meta,
+                version: meta.version || "1.0",
+                locale: meta.locale || "en",
+                submitted_at: meta.submitted_at || new Date().toISOString(),
+                user_agent: request.headers.get("user-agent") || "unknown",
+                // ip_hash is omitted until the receiver's hashing and retention contract is approved.
+                ip_hash: undefined,
             },
         };
 
@@ -40,11 +50,17 @@ export async function POST(request: Request) {
         }
 
         const payload = validation.data;
+        const rateLimit = await checkRateLimit(contactRateLimitKey(payload.contact.email), 10, 60_000);
+        if (!rateLimit.success) {
+            return NextResponse.json(
+                { success: false, error: "Too many requests. Please try again later." },
+                { status: 429, headers: { "Retry-After": String(Math.max(1, Math.ceil((rateLimit.resetTime - Date.now()) / 1000))) } },
+            );
+        }
 
         logger.info("Validated lead", {
             traceId,
             eventType: payload.event_type,
-            email: payload.contact.email,
         });
 
         const ghlWebhookUrl =
@@ -60,27 +76,26 @@ export async function POST(request: Request) {
                           : "GHL_WEBHOOK_URL"
                   );
 
-        if (ghlWebhookUrl) {
-            const ghlResponse = await fetch(ghlWebhookUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (!ghlResponse.ok) {
-                throw new Error(`GHL Webhook failed with status: ${ghlResponse.status}`);
-            }
+        if (!ghlWebhookUrl) {
+            return NextResponse.json(
+                { success: false, error: "Lead capture is temporarily unavailable" },
+                { status: 503 }
+            );
         }
 
-        return NextResponse.json({ success: true, message: "Lead successfully synchronized with CRM" });
+        const ghlResponse = await forwardToGhl(payload, ghlWebhookUrl, payload.meta.submission_id);
+
+        if (!ghlResponse.ok) {
+            logger.warn("GHL webhook rejected lead", { traceId, status: ghlResponse.status });
+            return NextResponse.json({ success: false, error: "Lead delivery failed" }, { status: 502 });
+        }
+
+        return NextResponse.json({ success: true, message: "Lead accepted by CRM" });
     } catch (error) {
-        logger.error("GHL intake error", {
-            traceId,
-            error: error instanceof Error ? error.message : "Unknown error",
-        });
+        logger.error("GHL intake error", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });
         return NextResponse.json(
-            { success: false, message: "Failed to process lead intake" },
-            { status: 500 }
+            { success: false, error: "Lead delivery unavailable" },
+            { status: isLeadTimeout(error) ? 504 : 502 }
         );
     }
 }

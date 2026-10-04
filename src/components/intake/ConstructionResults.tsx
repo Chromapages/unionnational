@@ -137,7 +137,7 @@ export const ConstructionResults = ({ score, label, urgency, highIntent }: Const
                             <BarChart3 className="w-6 h-6 text-gold-500" /> Next Strategic Steps
                         </h3>
                         <p className="text-brand-900/60 text-sm leading-relaxed italic">
-                            Your assessment results suggest you are leaving between 15% and 25% of your potential profit on the table due to operational and tax structural gaps.
+                            Your answers point to job costing, tax structure, and cash flow as areas worth reviewing with an advisor.
                         </p>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 text-brand-900 font-bold text-xs uppercase tracking-widest">

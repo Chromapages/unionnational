@@ -6,11 +6,16 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
 import { Tag } from "lucide-react";
 import { Metadata } from "next";
+import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
-export const metadata: Metadata = {
-    title: "Blog | Union National Tax",
-    description: "Expert financial insights, tax strategy, and business growth advice from the Union National Tax team.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    return {
+        title: "Blog | Union National Tax",
+        description: "Expert financial insights, tax strategy, and business growth advice from the Union National Tax team.",
+        alternates: localizedAlternates(locale, "/blog"),
+    };
+}
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: string }> }) {
     const { locale } = await props.params;

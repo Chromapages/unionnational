@@ -1,0 +1,10 @@
+{
+  "score": 95,
+  "threshold": 90,
+  "verdict": "pass",
+  "category_match": true,
+  "differences": [],
+  "suggestions": [],
+  "reasoning": "At 1672px in English, industries decreased from 557px to 521px, resources from 618px to 552px, and booking from 461px to 413px. English and Spanish checks at 1280px and 1672px found no text or controls outside the hero bounds and no horizontal overflow. Only height and vertical spacing rules changed; the resources image height was also shortened. A transient development warning from concurrent homepage work had cleared on the final reload.",
+  "next_actions": []
+}

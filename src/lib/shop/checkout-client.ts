@@ -33,7 +33,10 @@ export async function beginCheckout(items: CartLineItem[]): Promise<CheckoutResu
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ items: payload }),
+        body: JSON.stringify({
+            items: payload,
+            locale: document.documentElement.lang === "es" ? "es" : "en",
+        }),
     });
 
     const data = (await response.json()) as CheckoutResult;

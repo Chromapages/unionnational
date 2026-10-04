@@ -57,7 +57,7 @@ export function VSLTestimonial({ testimonial }: VSLTestimonialProps) {
 
           {/* Before/After Pills */}
           {(data.beforeVal || data.afterVal) && (
-            <div className="inline-flex rounded-full border border-white/10 overflow-hidden font-mono text-xs font-bold">
+            <div className="inline-flex rounded-full border border-white/10 overflow-hidden font-body text-xs font-bold">
               <div className="px-5 py-2 bg-red-500/10 text-red-400 border-r border-white/10 uppercase tracking-wider">
                 Before: {data.beforeVal}
               </div>

@@ -1,5 +1,6 @@
 // src/components/SCorp/BeforeAfterTable.tsx
 import { formatCurrency } from "@/lib/scorp-advantage/calculator";
+import { calculateEmploymentTaxComparison } from "@/lib/scorp-advantage/employment-tax";
 
 interface BeforeAfterTableProps {
     netProfit: number;
@@ -9,15 +10,14 @@ interface BeforeAfterTableProps {
 }
 
 export function BeforeAfterTable({ netProfit, salary, distributions, savings }: BeforeAfterTableProps) {
-    const solePropTax = Math.round(netProfit * 0.153);
-    const scorpTax = Math.round(salary * 0.153);
+    const { selfEmploymentTax: solePropTax, payrollTax: scorpTax } = calculateEmploymentTaxComparison(netProfit, salary);
 
     const rows = [
         { label: "Net Profit", without: formatCurrency(netProfit), with: formatCurrency(netProfit) },
-        { label: "Salary (W-2)", without: "$0", with: formatCurrency(salary) },
-        { label: "Distributions", without: "$0", with: formatCurrency(distributions) },
-        { label: "SE Tax Owed", without: formatCurrency(solePropTax), with: formatCurrency(scorpTax) },
-        { label: "Estimated Annual Savings", without: "$0", with: formatCurrency(savings) },
+        { label: "Illustrative W-2 Salary", without: "$0", with: formatCurrency(salary) },
+        { label: "Distributions before payroll costs", without: "$0", with: formatCurrency(distributions) },
+        { label: "SE / Combined Payroll Tax", without: formatCurrency(solePropTax), with: formatCurrency(scorpTax) },
+        { label: "Illustrative Annual Difference", without: "$0", with: formatCurrency(savings) },
     ];
 
     return (
