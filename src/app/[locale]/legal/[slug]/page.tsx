@@ -9,6 +9,7 @@ import { client } from "@/sanity/lib/client";
 import { LegalContentClient } from "@/components/legal/LegalContentClient";
 import { PRIVACY_POLICY_DATA } from "@/data/privacy-policy-content";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
+import type { Metadata } from "next";
 
 const LEGAL_SLUGS_QUERY = `*[_type == "legalPage" && isPublished == true && defined(slug.current)]{ "slug": slug.current }`;
 
@@ -41,7 +42,7 @@ async function getLegalPage(slug: string, locale: string) {
     }
 }
 
-export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }) {
+export async function generateMetadata(props: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
     const { slug, locale } = await props.params;
     const page = await getLegalPage(slug, locale);
 

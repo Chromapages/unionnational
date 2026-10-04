@@ -16,7 +16,7 @@ describe("FAQList filtering", () => {
 
     it("shows answers from a newly selected outer category", () => {
         render(<FAQList items={items} />);
-        fireEvent.click(screen.getByRole("button", { name: "Payroll", exact: true }));
+        fireEvent.click(screen.getByRole("button", { name: "Payroll" }));
         expect(screen.getByRole("button", { name: "Payroll help?" })).toBeInTheDocument();
         expect(screen.queryByRole("button", { name: "Tax planning?" })).toBeNull();
     });

@@ -15,12 +15,12 @@ describe("VideoPlayer accessible controls", () => {
         render(<VideoPlayer src="/video.mp4" />);
         const trigger = screen.getByRole("button", { name: "Playback Speed" });
         fireEvent.keyDown(trigger, { key: "ArrowDown" });
-        expect(screen.getByRole("button", { name: "1x", exact: true })).toHaveFocus();
-        fireEvent.click(screen.getByRole("button", { name: "1.5x", exact: true }));
+        expect(screen.getByRole("button", { name: "1x" })).toHaveFocus();
+        fireEvent.click(screen.getByRole("button", { name: "1.5x" }));
         expect(playback.controls.setPlaybackRate).toHaveBeenCalledWith(1.5);
         expect(trigger).toHaveFocus();
         fireEvent.click(trigger);
-        fireEvent.keyDown(screen.getByRole("button", { name: "1x", exact: true }), { key: "Escape" });
+        fireEvent.keyDown(screen.getByRole("button", { name: "1x" }), { key: "Escape" });
         expect(trigger).toHaveAttribute("aria-expanded", "false");
         expect(trigger).toHaveFocus();
     });
@@ -44,6 +44,6 @@ describe("VideoPlayer accessible controls", () => {
         expect(container.querySelector("[data-video-controls]")).toHaveAttribute("inert");
         fireEvent.focus(player);
         expect(container.querySelector("[data-video-controls]")).not.toHaveAttribute("inert");
-        expect(screen.getAllByRole("button", { name: "Pause", exact: true })).toHaveLength(1);
+        expect(screen.getAllByRole("button", { name: "Pause" })).toHaveLength(1);
     });
 });

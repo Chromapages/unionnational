@@ -19,6 +19,7 @@ import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/B
 import { ServiceViewContent } from "@/components/seo/ServiceViewContent";
 import { CHECKOUT_PRODUCTS_QUERY, resolveCheckoutItem, type ProductCheckoutRecord } from "@/lib/shop/checkout";
 import { classifyFulfillment, normalizeEditionId } from "@/lib/shop/commerce";
+import type { ClientReturn } from "next-sanity";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
@@ -104,7 +105,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
     const footerCopy = await getTranslations({ locale, namespace: "Shop.Desktop.footer" });
 
     // Fetch construction book details from Sanity
-    let product = null;
+    let product: ClientReturn<typeof PRODUCT_DETAIL_QUERY> | null = null;
     let catalogProduct: ProductCheckoutRecord | undefined;
     try {
         const [response, catalog] = await Promise.all([

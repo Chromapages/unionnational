@@ -23,7 +23,7 @@ describe("locale layout global indexing", () => {
 
         expect(metadata.robots).toMatchObject({ index: false, follow: false, googleBot: { index: false, follow: false } });
         expect(metadata.title).toBe("Union National Tax");
-        expect(metadata.metadataBase?.href).toBe("https://unionnationaltax.com/");
+        expect(metadata.metadataBase?.toString()).toBe("https://unionnationaltax.com/");
     });
 
     it.each([false, undefined])("retains current indexing when global noindex is %s", async (noIndex) => {
