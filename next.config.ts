@@ -30,7 +30,8 @@ const nextConfig: NextConfig = {
     "@opentelemetry/sdk-trace-base",
     "@opentelemetry/semantic-conventions",
   ],
-  reactCompiler: true,
+  // Cold builds exhausted memory in the optional React Compiler's Babel workers.
+  reactCompiler: false,
 
   // Enable experimental optimizations
   experimental: {
