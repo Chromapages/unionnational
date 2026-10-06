@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { getMediaUrl, getVideoEmbedUrl } from "@/lib/security/content-urls";
 
 interface VideoEmbedProps {
     videoUrl?: string; // Sanity file URL or external embed URL
@@ -23,25 +24,11 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
 
     if (!videoUrl) return null;
 
-    // Debug logging in development
-    if (process.env.NODE_ENV === "development") {
-        console.log("[VideoEmbed] videoUrl:", videoUrl);
-    }
-
-    const videoUrlPath = videoUrl.split("?")[0].toLowerCase();
-    const isExternalEmbed =
-        videoUrl.includes("youtube.com") ||
-        videoUrl.includes("youtu.be") ||
-        videoUrl.includes("vimeo.com");
-    const isNativeVideo =
-        videoUrlPath.endsWith(".mp4") ||
-        videoUrlPath.endsWith(".webm") ||
-        videoUrlPath.endsWith(".m4v") ||
-        videoUrlPath.endsWith(".ogg") ||
-        videoUrlPath.endsWith(".ogv") ||
-        videoUrlPath.endsWith(".m3u8") ||
-        // Sanity CDN file URLs — treat as native video unless known unsupported format
-        (videoUrl.includes("cdn.sanity.io/files") && !videoUrlPath.endsWith(".mov"));
+    const nativeUrl = getMediaUrl(videoUrl);
+    const embedUrl = getVideoEmbedUrl(videoUrl, isPlaying);
+    const videoUrlPath = (nativeUrl || "").split("?")[0].toLowerCase();
+    const isExternalEmbed = Boolean(embedUrl);
+    const isNativeVideo = Boolean(nativeUrl) && /\.(?:mp4|webm|m4v|ogg|ogv|m3u8)$/.test(videoUrlPath);
     const isUnsupportedDirectVideo = !isExternalEmbed && !isNativeVideo;
 
     const handlePlay = () => {
@@ -56,7 +43,7 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
                 <>
                     <div className="contents" inert={!isPlaying && Boolean(posterImage)}>
                         <VideoPlayer
-                            src={videoUrl}
+                            src={nativeUrl!}
                             autoPlay={isPlaying}
                             muted={isPlaying} // Mute initially for autoplay to work in browsers
                             poster={posterImage}
@@ -94,9 +81,10 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
                     {(isPlaying || !posterImage) && (
                         <iframe
                             title="Video player"
-                            src={getEmbedUrl(videoUrl)}
+                            src={embedUrl!}
                             className="w-full h-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            referrerPolicy="strict-origin-when-cross-origin"
                             allowFullScreen
                         />
                     )}
@@ -147,16 +135,4 @@ export default function VideoEmbed({ videoUrl, posterImage, autoPlay = false }: 
             )}
         </div>
     );
-}
-
-// Helper function to convert YouTube/Vimeo URLs to embed URLs
-function getEmbedUrl(url: string): string {
-    if (url.includes("youtube.com") || url.includes("youtu.be")) {
-        const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-    } else if (url.includes("vimeo.com")) {
-        const videoId = url.split("/").pop();
-        return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
-    }
-    return url;
 }

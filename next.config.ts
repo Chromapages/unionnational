@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { getContentSecurityPolicy } from "./src/lib/security/content-security-policy";
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
@@ -18,23 +19,12 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  serverExternalPackages: [
-    "@grpc/grpc-js",
-    "@grpc/proto-loader",
-    "@opentelemetry/exporter-trace-otlp-http",
-    "@opentelemetry/exporter-logs-otlp-grpc",
-    "@opentelemetry/otlp-grpc-exporter-base",
-    "@opentelemetry/instrumentation-http",
-    "@opentelemetry/resources",
-    "@opentelemetry/sdk-node",
-    "@opentelemetry/sdk-trace-base",
-    "@opentelemetry/semantic-conventions",
-  ],
   // Cold builds exhausted memory in the optional React Compiler's Babel workers.
   reactCompiler: false,
 
   // Enable experimental optimizations
   experimental: {
+    serverActions: { bodySizeLimit: "32kb" },
     optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   },
   async headers() {
@@ -60,22 +50,6 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: `
-              default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sanity.io https://cdn.sanity.io https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.google.com https://link.agent-crm.com https://*.agent-crm.com https://widgets.leadconnectorhq.com https://*.leadconnectorhq.com https://cdn.perplexity.ai https://frontend-cdn.perplexity.ai;
-              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.bunny.net https://stcdn.leadconnectorhq.com;
-              font-src 'self' https://fonts.gstatic.com https://fonts.bunny.net https://stcdn.leadconnectorhq.com https://r2cdn.perplexity.ai https://frontend-cdn.perplexity.ai https://cdn.perplexity.ai;
-              img-src 'self' data: https: blob:;
-              connect-src 'self' https://*.sanity.io https://api.sanity.io https://v3.api.sanity.io https://cdn.sanity.io https://sanity-cdn.com https://sanity-cdn.work https://www.google-analytics.com https://analytics.google.com https://backend.leadconnectorhq.com https://services.leadconnectorhq.com https://widgets.leadconnectorhq.com https://stcdn.leadconnectorhq.com https://content.apisystem.tech https://services.msgsndr.com https://*.agent-crm.com;
-              media-src 'self' data: blob: https://content.apisystem.tech https://cdn.sanity.io;
-              frame-src 'self' https://*.sanity.io https://www.youtube.com https://player.vimeo.com https://link.agent-crm.com https://*.agent-crm.com https://*.msgsndr.com;
-              object-src 'none';
-              base-uri 'self';
-              frame-ancestors 'none';
-            `.replace(/\s+/g, ' ').trim(),
-          },
-          {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
@@ -99,6 +73,17 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+        ],
+      },
+      {
+        source: "/hq/:path*",
+        headers: [{ key: "Content-Security-Policy", value: getContentSecurityPolicy(undefined, true) }],
+      },
+      {
+        source: "/:locale/shop/success",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "Referrer-Policy", value: "no-referrer" },
         ],
       },
       // Next.js owns caching for generated JS/CSS. Its development filenames are

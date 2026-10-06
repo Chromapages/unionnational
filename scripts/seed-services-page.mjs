@@ -3,7 +3,7 @@
  *
  * Run:
  *   node scripts/seed-services-page.mjs          # dry-run
- *   node scripts/seed-services-page.mjs --apply  # writes/updates the doc
+ *   node scripts/seed-services-page.mjs --apply --target=<dataset> --project=<project> # writes with backup/revision guard
  *
  * Requires:
  *   - NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, NEXT_PUBLIC_SANITY_API_VERSION
@@ -13,7 +13,9 @@
 import nextEnv from "@next/env";
 import { createClient } from "@sanity/client";
 import { randomUUID } from "node:crypto";
+import { backupForMutation, mutationOptions, reportMutationFailure } from "./lib/sanity-mutation.mjs";
 
+try {
 const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
@@ -32,6 +34,7 @@ const client = createClient({
     useCdn: false,
     token,
 });
+const mutation = mutationOptions(process.argv.slice(2), client.config());
 
 /* ------------------------------------------------------------------ */
 /* Helpers                                                            */
@@ -112,12 +115,19 @@ const document = {
 /* ------------------------------------------------------------------ */
 
 if (!apply) {
-    console.log(JSON.stringify({ mode: "dry-run", id: document._id, document }, null, 2));
+    console.log(JSON.stringify({ mode: "dry-run", id: document._id, fields: Object.keys(document), projectId: mutation.projectId, dataset: mutation.dataset }, null, 2));
     process.exit(0);
 }
 
-const transaction = client.transaction();
-transaction.createIfNotExists(document);
-transaction.patch(document._id, (patch) => patch.set(document));
+const existing = await client.fetch("*[_id == $id][0]", { id: document._id });
+await backupForMutation(client, mutation, [existing || { _id: document._id }]);
+const { _id, _type, ...content } = document;
+let transaction = client.transaction();
+transaction = existing
+    ? transaction.patch(_id, (patch) => patch.ifRevisionId(existing._rev).set(content))
+    : transaction.create(document);
 await transaction.commit();
 console.log(JSON.stringify({ mode: "applied", id: document._id }, null, 2));
+} catch (error) {
+    reportMutationFailure(error);
+}

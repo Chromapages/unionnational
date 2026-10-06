@@ -1,7 +1,9 @@
 import nextEnv from "@next/env";
 import { createClient } from "@sanity/client";
 import { getCliClient } from "sanity/cli";
+import { backupForMutation, mutationOptions, reportMutationFailure } from "./lib/sanity-mutation.mjs";
 
+try {
 const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
@@ -12,6 +14,7 @@ const client = token
     ? createClient({ projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID, dataset: process.env.NEXT_PUBLIC_SANITY_DATASET, apiVersion, useCdn: false, token })
     : getCliClient({ apiVersion }).withConfig({ useCdn: false });
 if (apply && !client.config().token) throw new Error("A Sanity write token is required when using --apply.");
+const mutation = mutationOptions(process.argv.slice(2), client.config());
 
 const loc = (value, type = "localizedString") => {
     if (!value) return undefined;
@@ -82,19 +85,23 @@ const pages = documents.map((service) => {
 
 const report = pages.map((page) => ({ id: page._id, slug: page.slug.current, canonicalPath: page.canonicalPath }));
 
-if (apply) {
-    const existingVideoDescriptions = new Map(await client.fetch(`*[_type == "servicePage"]{_id, "description": video.description.en}`)
-        .then((items) => items.map((item) => [item._id, item.description])));
+if (apply && pages.length > 0) {
+    const existingPages = new Map(await client.fetch(`*[_type == "servicePage"]{_id, _rev, "description": video.description.en}`)
+        .then((items) => items.map((item) => [item._id, item])));
+    await backupForMutation(client, mutation, pages.map((page) => existingPages.get(page._id) || { _id: page._id }));
     let transaction = client.transaction();
     for (const page of pages) {
         const { _id, _type: _type, ...content } = page;
         const pageTitle = page.title?.en || "this service";
         const previousGeneratedDescription = `Learn how our ${pageTitle.toLowerCase()} service supports your business and what to expect when you work with us.`;
-        transaction = transaction
-            .createIfNotExists(page)
-            .patch(_id, (patch) => {
-                const initialized = patch.setIfMissing(content);
-                return existingVideoDescriptions.get(_id) === previousGeneratedDescription
+        const existing = existingPages.get(_id);
+        if (!existing) {
+            transaction = transaction.create(page);
+            continue;
+        }
+        transaction = transaction.patch(_id, (patch) => {
+                const initialized = patch.ifRevisionId(existing._rev).setIfMissing(content);
+                return existing.description === previousGeneratedDescription
                     ? initialized.set({ "video.description": loc(defaultVideoDescription, "localizedText") })
                     : initialized;
             });
@@ -103,3 +110,6 @@ if (apply) {
 }
 
 console.log(JSON.stringify({ mode: apply ? "applied" : "dry-run", pages: report }, null, 2));
+} catch (error) {
+    reportMutationFailure(error);
+}

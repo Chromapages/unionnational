@@ -19,6 +19,7 @@ interface ShopPurchaseEventProps {
 
 export function ShopPurchaseEvent({ orderId, total, currency = "USD", items }: ShopPurchaseEventProps) {
     useEffect(() => {
+        if (!/^order_[a-f0-9]{32}$/.test(orderId)) return;
         const key = `shop-purchase:${orderId}`;
         if (trackedOrders.has(key)) return;
         try {

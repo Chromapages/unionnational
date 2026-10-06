@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { FooterNavigation, type FooterNavigationGroup, type FooterNavigationLink } from "@/components/layout/FooterNavigation";
 import { FooterAnalytics } from "@/components/layout/FooterAnalytics";
 import { FooterDisclaimerModal } from "@/components/layout/FooterDisclaimerModal";
+import { TrackingPreferences } from "@/components/privacy/TrackingPreferences";
 import { fetchWithLocale, type SanityLocale } from "@/sanity/lib/client";
 import { FOOTER_LEGAL_PAGES_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 
@@ -139,6 +140,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
             <nav aria-label={tFooter("legalNavigationLabel")}><ul className="flex flex-wrap items-center gap-x-5 gap-y-1">
                 {legalLinks.map(link => <li key={link.href}><Link href={link.href} data-footer-event={link.analyticsEvent} data-footer-destination-id={link.destinationId} className="inline-flex min-h-11 items-center rounded-sm text-slate-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400">{link.label}</Link></li>)}
                 <li><Link href="/contact" data-footer-event="footer_contact_activate" data-footer-destination-id="contact_page" className="inline-flex min-h-11 items-center rounded-sm text-slate-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400">{tFooter("contactTitle")}</Link></li>
+                <li><TrackingPreferences locale={locale} /></li>
             </ul></nav>
             <FooterDisclaimerModal label={tFooter("readDisclaimer")} closeLabel={tFooter("closeDisclaimer")} content={siteSettings?.footerDisclaimerSummary || tFooter("disclaimerBody")} />
         </div>
@@ -224,9 +226,9 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
                         © {currentYear} {copyrightCompany}
                     </p>
 
-                    <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
                         <nav aria-label={tFooter("legalNavigationLabel")}>
-                            <ul className="flex items-center gap-2 sm:gap-3">
+                            <ul className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
                                 {legalLinks.map((link, index) => (
                                     <li key={link.href} className="flex items-center gap-2 sm:gap-3">
                                         <Link
@@ -244,6 +246,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
                                 ))}
                             </ul>
                         </nav>
+                        <TrackingPreferences locale={locale} />
 
                         {/* Optional Accessibility Modal Trigger */}
                         <div className="ml-2 hidden sm:block">

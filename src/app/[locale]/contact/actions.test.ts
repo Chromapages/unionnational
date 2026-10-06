@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("next/headers", () => ({ headers: async () => new Headers() }));
+
 const mocks = vi.hoisted(() => ({ forward: vi.fn(), rate: vi.fn() }));
 vi.mock("@/lib/intake/shared", () => ({
   normalizePhone: (phone: string) => phone,
@@ -47,6 +49,52 @@ describe("contact form delivery", () => {
     mocks.forward.mockResolvedValue(new Response(null, { status: 500 }));
     expect((await submitContactForm(null, form("ava@example.test"))).status).toBe("error");
     expect((await submitContactForm(null, form("bea@example.test"))).status).toBe("error");
-    expect(mocks.rate.mock.calls.map((call) => call[0])).toEqual(["hashed:ava@example.test", "hashed:bea@example.test"]);
+    expect(mocks.rate.mock.calls.map((call) => call[0]).filter((key) => key.startsWith("hashed:"))).toEqual(["hashed:ava@example.test", "hashed:bea@example.test"]);
+  });
+
+  it("rejects oversized contact data and message before forwarding", async () => {
+    const data = form();
+    data.set("firstName", "X".repeat(101));
+    data.set("message", "X".repeat(2_001));
+    expect((await submitContactForm(null, data)).status).toBe("error");
+    expect(mocks.forward).not.toHaveBeenCalled();
+  });
+
+  it("stops at unavailable ingress or contact quota without claiming delivery", async () => {
+    mocks.rate.mockRejectedValueOnce(new Error("synthetic shared-store outage"));
+    expect((await submitContactForm(null, form())).status).toBe("error");
+    expect(mocks.forward).not.toHaveBeenCalled();
+    mocks.rate.mockImplementation(async (key: string) => ({ success: !key.startsWith("hashed:"), resetTime: Date.now() + 60_000 }));
+    expect((await submitContactForm(null, form())).status).toBe("error");
+    expect(mocks.forward).not.toHaveBeenCalled();
+  });
+
+  it("silently accepts a bot trap without forwarding or spending a contact quota", async () => {
+    const data = form(); data.set("_hpt", "synthetic-bot");
+    expect(await submitContactForm(null, data)).toEqual({ status: "success" });
+    expect(mocks.forward).not.toHaveBeenCalled();
+    expect(mocks.rate.mock.calls.some(([key]) => String(key).startsWith("hashed:"))).toBe(false);
+  });
+
+  it("requires explicit privacy agreement and rejects uploaded message data", async () => {
+    const missingConsent = form(); missingConsent.delete("privacy");
+    expect((await submitContactForm(null, missingConsent)).status).toBe("error");
+    const attachment = form(); attachment.set("message", new File(["synthetic content"], "synthetic.txt"));
+    expect((await submitContactForm(null, attachment)).status).toBe("error");
+    expect(mocks.forward).not.toHaveBeenCalled();
+  });
+
+  it("preserves a minimal English request and ignores whitespace-only honeypots", async () => {
+    const data = form();
+    for (const key of ["phone", "message", "locale", "submissionId"]) data.delete(key);
+    data.set("goal", "tax-reduction"); data.set("_hpt", "   ");
+    expect(await submitContactForm(null, data)).toEqual({ status: "success" });
+    expect(mocks.forward.mock.calls[0][0]).toMatchObject({ sourcePage: "/en/contact", intent: { primaryServiceInterest: "TAX_PLANNING", message: undefined } });
+    expect(mocks.forward.mock.calls[0][0].contact.phone).toBeUndefined();
+  });
+
+  it("contains delivery exceptions without returning provider details to the browser", async () => {
+    mocks.forward.mockRejectedValue(new Error("synthetic confidential provider detail"));
+    expect(await submitContactForm(null, form())).toEqual({ status: "error", message: "An unexpected error occurred." });
   });
 });

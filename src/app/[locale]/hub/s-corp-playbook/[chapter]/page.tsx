@@ -15,6 +15,7 @@ import { extractString } from "@/lib/utils";
 import Link from "next/link";
 import { Playbook, PlaybookChapter } from "@/types/sanity";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
+import { getVideoEmbedUrl } from "@/lib/security/content-urls";
 
 export const revalidate = 60;
 
@@ -49,7 +50,6 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         title: `${extractString(typedChapter.title, locale)} | S-Corp Playbook`,
         description: `Chapter ${typedChapter.chapterNumber}: ${extractString(typedChapter.title, locale)}`,
         alternates: localizedAlternates(locale, `/hub/s-corp-playbook/${chapter}`),
-        ...(typedChapter.isGated ? { robots: { index: false, follow: false } } : {}),
     };
 }
 
@@ -64,7 +64,8 @@ export default async function ChapterPage(props: PageProps) {
 
     const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1] : null;
     const nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
-    const hasVideoEmbed = typedChapter.videoEmbed?.startsWith("https://");
+    const videoEmbed = getVideoEmbedUrl(typedChapter.videoEmbed);
+    const hasVideoEmbed = Boolean(videoEmbed);
 
     return (
         <main id="main-content" className="bg-surface min-h-screen">
@@ -100,10 +101,11 @@ export default async function ChapterPage(props: PageProps) {
                         {hasVideoEmbed && (
                             <div className="relative aspect-video overflow-hidden rounded-2xl bg-brand-900">
                                 <iframe
-                                    src={typedChapter.videoEmbed}
+                                    src={videoEmbed!}
                                     title={`${extractString(typedChapter.title, locale)} — video`}
                                     className="absolute inset-0 h-full w-full"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allow="autoplay; encrypted-media; picture-in-picture"
+                                    referrerPolicy="strict-origin-when-cross-origin"
                                     allowFullScreen
                                     loading="lazy"
                                 />

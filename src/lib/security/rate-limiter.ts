@@ -44,11 +44,13 @@ class UpstashRateLimiter implements RateLimiter {
         redis: this.redis,
         limiter: Ratelimit.fixedWindow(limit, `${Math.ceil(windowMs / 1000)} s`),
         analytics: false,
+        timeout: 2_000,
         prefix: `ratelimit:${policy}`,
       });
       this.policies.set(policy, ratelimit);
     }
     const result = await ratelimit.limit(identifier);
+    if (result.reason === "timeout") throw new Error("Shared quota unavailable");
     return {
       success: result.success,
       remaining: Math.max(0, result.remaining),
@@ -111,6 +113,10 @@ export function createRateLimiter(): RateLimiter {
     _limiter = new UpstashRateLimiter();
     _warningLogged = false;
     return _limiter;
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Shared quota storage is required in production");
   }
 
   if (!_warningLogged) {

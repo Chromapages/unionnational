@@ -63,10 +63,10 @@ export const playbook = defineType({
         }),
         defineField({
             name: 'gatedPdf',
-            title: 'Gated PDF Download',
+            title: 'Public PDF Resource',
             type: 'file',
             group: 'chapters',
-            description: 'Versión PDF completa del playbook (disponible después de capturar el correo electrónico)',
+            description: 'Public PDF resource. Anyone with its asset URL can download it. Opening the resource does not promise email delivery.',
         }),
         defineField({
             name: 'isFeatured',

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
+import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
 import { normalizeRevenue } from "@/lib/ghl/contract";
-import { forwardToGhl, isLeadTimeout, readLeadJson } from "@/lib/intake/shared";
+import { forwardToGhl, leadFailureStatus, readLeadJson } from "@/lib/intake/shared";
 
 const TaxLead = z.object({
     name: z.string().trim().min(1).max(200),
@@ -19,6 +19,8 @@ const TaxLead = z.object({
 
 export async function POST(request: Request) {
     const traceId = getTraceId(request.headers);
+    const ingress = await checkLeadIngress(request);
+    if (!ingress.ok) return NextResponse.json({ success: false, error: ingress.error }, { status: ingress.status, headers: ingress.retryAfter ? { "Retry-After": ingress.retryAfter } : undefined });
     const parsed = await readLeadJson(request);
     if (!parsed.ok) return NextResponse.json({ success: false, error: parsed.error }, { status: parsed.status });
     const validation = TaxLead.safeParse(parsed.value);
@@ -27,17 +29,15 @@ export async function POST(request: Request) {
     let annualRevenueBand;
     try { annualRevenueBand = normalizeRevenue(data.revenueRange); }
     catch { return NextResponse.json({ success: false, error: "Ambiguous revenue range" }, { status: 400 }); }
-    const rateLimitResult = await checkRateLimit(contactRateLimitKey(data.email), 5, 60_000);
+    const rateLimitResult = await checkLeadContact(data.email);
 
-    if (!rateLimitResult.success) {
+    if (!rateLimitResult.ok) {
         return NextResponse.json(
             { error: "Too many requests. Please try again later." },
             {
-                status: 429,
+                status: rateLimitResult.status,
                 headers: {
-                    "Retry-After": String(
-                        Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000)
-                    ),
+                    "Retry-After": rateLimitResult.retryAfter || "1",
                 },
             }
         );
@@ -69,6 +69,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true });
     } catch (error) {
         logger.error("Tax analysis lead delivery unavailable", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });
-        return NextResponse.json({ success: false, error: "Lead delivery unavailable" }, { status: isLeadTimeout(error) ? 504 : 502 });
+        return NextResponse.json({ success: false, error: "Lead delivery unavailable" }, { status: leadFailureStatus(error) });
     }
 }

@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 const desktopWidths = [1024, 1280, 1366, 1440, 1600, 1728, 1920];
 

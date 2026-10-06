@@ -1,0 +1,10 @@
+name: Application and workflow security
+paths-ignore:
+  - .omx/**
+  - .local-backups/**
+  - .release-evidence/**
+  - node_modules/**
+  - .next*/**
+  - coverage/**
+  - docs/security-audit-*/**
+  - docs/security-implementation-*/**

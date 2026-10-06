@@ -12,7 +12,7 @@ vi.mock("@/components/services/ServicePageTemplate", () => ({ ServicePageTemplat
 
 const service = {
     slug: { current: "custom-advisory" }, title: "Custom Advisory",
-    hero: { subheadline: "Financial planning", primaryCta: { label: "Book" } },
+    hero: { headline: "Custom advisory", subheadline: "Financial planning", primaryCta: { label: "Book" } },
     faqSection: { items: [] },
 };
 

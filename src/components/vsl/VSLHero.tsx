@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Phone, ChevronRight, Play } from "lucide-react";
 import Link from "next/link";
 import VideoEmbed from "@/components/ui/VideoEmbed";
+import { safeHref } from "@/lib/security/content-urls";
 
 interface VSLHeroProps {
     badge?: string;
@@ -106,7 +107,7 @@ export function VSLHero({
                     className="w-full flex flex-col md:flex-row items-center justify-center gap-4"
                 >
                     <Link
-                        href={ctaUrl || "#cta"}
+                        href={safeHref(ctaUrl) || "#cta"}
                         className="w-full md:w-auto px-12 py-5 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-lg rounded-xl shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all hover:translate-y-[-2px] flex items-center justify-center gap-2 group"
                     >
                         {ctaText || "Book Strategy Call"}

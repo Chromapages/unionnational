@@ -3,17 +3,23 @@
 import Script from "next/script";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useOptionalTracking } from "@/components/privacy/TrackingPreferences";
+import { useCspNonce } from "@/components/security/CspNonceProvider";
+import { markOptionalToolsLoaded } from "@/lib/analytics/privacy";
 
 export function ChatWidget() {
     const pathname = usePathname();
+    const optionalToolsAllowed = useOptionalTracking();
+    const nonce = useCspNonce();
     const isBookingPage = /\/(?:en|es)\/book\/?$/.test(pathname || "");
     const isBlueprintPage = /\/(?:en|es)\/construction\/profit-blueprint\/?$/.test(pathname || "");
 
     useEffect(() => {
-        if (isBlueprintPage) {
+        if (isBlueprintPage || !optionalToolsAllowed) {
             document.querySelector("chat-widget")?.remove();
             return;
         }
+        markOptionalToolsLoaded();
 
         let observer: MutationObserver | undefined;
         let faqObserver: IntersectionObserver | undefined;
@@ -113,11 +119,11 @@ export function ChatWidget() {
             ctaObserver?.disconnect();
             purchaseObserver?.disconnect();
         };
-    }, [pathname, isBlueprintPage, isBookingPage]);
+    }, [pathname, isBlueprintPage, isBookingPage, optionalToolsAllowed]);
 
     // The contact page has its own mobile action bar; loading the third-party
     // launcher there would cover one of its primary controls.
-    if (isBlueprintPage || pathname?.startsWith("/hq") || /\/(?:en|es)\/contact\/?$/.test(pathname || "")) {
+    if (!optionalToolsAllowed || isBlueprintPage || pathname?.startsWith("/hq") || /\/(?:en|es)\/contact\/?$/.test(pathname || "")) {
         return null;
     }
 
@@ -127,6 +133,8 @@ export function ChatWidget() {
             data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"
             data-widget-id="6966a53597a4a8bf3f27548a"
             strategy="afterInteractive"
+            nonce={nonce}
+            onLoad={markOptionalToolsLoaded}
         />
     );
 }

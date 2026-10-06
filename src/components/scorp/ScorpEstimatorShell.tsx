@@ -17,6 +17,7 @@ import { ArrowRight, ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trackMetaEvent } from "@/components/seo/MetaPixel";
 import { sanitizeReferrerUrl } from "@/lib/scorp-advantage/referrer";
+import { canUseOptionalTracking } from "@/lib/analytics/privacy";
 
 const STEPS = [
     "Contact & Business",
@@ -77,6 +78,7 @@ export const ScorpEstimatorShell = () => {
 
     // ─── Phase-Based Tracking ────────────────────────────────────────────────
     const trackEvent = (eventName: string, properties: Record<string, unknown> = {}) => {
+        if (!canUseOptionalTracking()) return;
         const win = window as unknown as { dataLayer?: Record<string, unknown>[] };
         if (typeof window !== "undefined" && win.dataLayer) {
             win.dataLayer.push({

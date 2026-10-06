@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { HeroVideoPlayer } from "./HeroVideoPlayer";
 
@@ -144,5 +144,51 @@ describe("HeroVideoPlayer", () => {
         fireEvent.click(screen.getByRole("button", { name: "Retry video" }));
         expect(container.querySelector("video")).toBeInTheDocument();
         expect(playSpy).toHaveBeenCalledTimes(2);
+    });
+
+    it("keeps native controls usable after autoplay is denied and recovers a later media failure", async () => {
+        const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockRejectedValue(new Error('Synthetic autoplay denied'));
+        const view = render(<HeroVideoPlayer src="/hero.mp4" ariaLabel="Overview" unavailableMessage="Unavailable" />);
+        await act(async () => {});
+        const video = view.container.querySelector('video')!;
+        expect(video.controls).toBe(true);
+        expect(screen.queryByRole('status')).toBeNull();
+        Object.defineProperty(video, 'error', { configurable: true, value: { code: 2 } });
+        fireEvent.click(screen.getByRole('button', { name: 'Click for Sound' }));
+        await act(async () => {});
+        expect(screen.getByRole('status')).toHaveTextContent('Unavailable');
+        play.mockResolvedValue(undefined);
+        fireEvent.click(screen.getByRole('button', { name: 'Retry video' }));
+        await act(async () => {});
+        expect(view.container.querySelector('video')).toBeInTheDocument();
+        expect(screen.queryByRole('status')).toBeNull();
+    });
+
+    it("does not restart already playing media when enabling sound and carries native captions", () => {
+        const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
+        const view = render(<HeroVideoPlayer src="/hero.mp4" captionsSrc="/overview-es.vtt" captionsLang="es" captionsLabel="Español" ariaLabel="Overview" unavailableMessage="Unavailable" />);
+        const video = view.container.querySelector('video')!;
+        Object.defineProperty(video, 'paused', { configurable: true, value: false });
+        fireEvent.click(screen.getByRole('button', { name: 'Click for Sound' }));
+        expect(video.muted).toBe(false);
+        expect(play).toHaveBeenCalledTimes(1);
+        expect(screen.queryByRole('button', { name: 'Click for Sound' })).toBeNull();
+        expect(view.container.querySelector('track')).toHaveAttribute('src', '/overview-es.vtt');
+        expect(view.container.querySelector('track')).toHaveAttribute('srclang', 'es');
+        expect(view.container.querySelector('track')).toHaveAttribute('label', 'Español');
+    });
+
+    it.each(['reduced-motion', 'save-data'] as const)('permits a deliberate retry despite the %s autoplay preference', async preference => {
+        const play = vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue(undefined);
+        vi.stubGlobal('matchMedia', () => ({ matches: preference === 'reduced-motion' }));
+        if (preference === 'save-data') Object.defineProperty(navigator, 'connection', { configurable: true, value: { saveData: true } });
+        const view = render(<HeroVideoPlayer src="/hero.mp4" ariaLabel="Overview" unavailableMessage="Unavailable" />);
+        expect(play).not.toHaveBeenCalled();
+        fireEvent.error(view.container.querySelector('video')!);
+        fireEvent.click(screen.getByRole('button', { name: 'Retry video' }));
+        await act(async () => {});
+        expect(play).toHaveBeenCalledTimes(1);
+        expect(view.container.querySelector('video')).toHaveAttribute('controls');
+        Reflect.deleteProperty(navigator, 'connection');
     });
 });

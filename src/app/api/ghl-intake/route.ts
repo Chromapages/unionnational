@@ -1,11 +1,11 @@
 // src/app/api/ghl-intake/route.ts
 import { z } from "zod";
-import { calculateFitScore, isHighIntent } from "@/lib/scorp-advantage/calculator";
+import { calculateFitScore, calculateSCorpSavings, isHighIntent } from "@/lib/scorp-advantage/calculator";
 import { getEnv } from "@/lib/config/env";
 import { createApiHandler } from "@/lib/observability/api-handler";
 import { incrementCounter, withLatencyAsync } from "@/lib/observability/request-metrics";
-import { readLeadJson } from "@/lib/intake/shared";
-import { contactRateLimitKey } from "@/lib/security/rate-limiter";
+import { readLeadJson, normalizePhone, forwardToGhl, leadFailureStatus } from "@/lib/intake/shared";
+import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress";
 
 const RATE_LIMIT_MAX = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
@@ -18,86 +18,54 @@ const UrgencyLevelEnum = z.enum(["HIGH", "MEDIUM", "LOW"]);
 
 const IntakePayloadSchema = z.object({
   version: z.literal("1.0").default("1.0"),
-  eventType: z.string().min(1).default("SCORP_ESTIMATOR_SUBMITTED"),
-  sourcePage: z.string().min(1).default("scorp-estimator"),
-  leadMagnetType: z.string().min(1).default("SCORP_ESTIMATOR"),
+  eventType: z.string().min(1).max(100).default("SCORP_ESTIMATOR_SUBMITTED"),
+  sourcePage: z.string().min(1).max(200).default("scorp-estimator"),
+  leadMagnetType: z.literal("SCORP_ESTIMATOR").default("SCORP_ESTIMATOR"),
   submittedAt: z.string().datetime().optional(),
-  _hpt: z.string().optional(),
+  _hpt: z.string().max(200).optional(),
   contact: z.object({
-    firstName: z.string().trim().min(1, "First name is required"),
-    lastName: z.string().trim().min(1, "Last name is required"),
-    email: z.string().trim().email("A valid email address is required"),
-    phone: z.string().trim().optional(),
+    firstName: z.string().trim().min(1, "First name is required").max(100),
+    lastName: z.string().trim().min(1, "Last name is required").max(100),
+    email: z.string().trim().email("A valid email address is required").max(254),
+    phone: z.string().trim().max(30).optional(),
   }),
   business: z.object({
-    businessName: z.string().trim().optional(),
-    websiteUrl: z.string().trim().optional(),
+    businessName: z.string().trim().max(200).optional(),
+    websiteUrl: z.string().trim().max(1000).optional(),
     nicheVertical: NicheVerticalEnum.optional(),
     annualRevenueBand: AnnualRevenueBandEnum.optional(),
     annualRevenueband: AnnualRevenueBandEnum.optional(),
-    employeeCountBand: z.string().trim().optional(),
+    employeeCountBand: z.string().trim().max(200).optional(),
     entityType: EntityTypeEnum.optional(),
-    stateLocation: z.string().trim().optional(),
+    stateLocation: z.string().trim().max(200).optional(),
     estimatedNetProfit: z.number().min(0).max(1000000).optional(),
   }).optional(),
   intent: z.object({
-    primaryServiceInterest: z.string().trim().optional(),
+    primaryServiceInterest: z.string().trim().max(200).optional(),
     primaryPainPoint: PrimaryPainPointEnum.optional(),
-    consultationType: z.string().trim().optional(),
+    consultationType: z.string().trim().max(200).optional(),
     urgencyLevel: UrgencyLevelEnum.optional(),
   }).optional(),
   results: z.object({
-    scorpEstimatedSavings: z.number().min(0).optional(),
-    suggestedSalary: z.number().min(0).optional(),
-    distributions: z.number().min(0).optional(),
+    scorpEstimatedSavings: z.number().min(0).max(1_000_000).optional(),
+    suggestedSalary: z.number().min(0).max(1_000_000).optional(),
+    distributions: z.number().min(0).max(1_000_000).optional(),
     highIntentFlag: z.boolean().optional(),
     fitScore: z.number().min(0).max(100).optional(),
   }).optional(),
   tracking: z.object({
-    utmSource: z.string().trim().optional(),
-    utmMedium: z.string().trim().optional(),
-    utmCampaign: z.string().trim().optional(),
-    referrerUrl: z.string().trim().optional(),
-    clientTimestamp: z.string().trim().optional(),
+    utmSource: z.string().trim().max(200).optional(),
+    utmMedium: z.string().trim().max(200).optional(),
+    utmCampaign: z.string().trim().max(200).optional(),
+    referrerUrl: z.string().trim().max(1000).optional(),
+    clientTimestamp: z.string().trim().max(200).optional(),
   }).optional(),
   meta: z.object({
-    locale: z.string().trim().optional(),
-    userAgent: z.string().trim().optional(),
+    locale: z.enum(["en", "es"]).optional(),
+    userAgent: z.string().trim().max(500).optional(),
     submissionId: z.string().uuid().optional(),
   }).optional(),
 });
-
-function normalizePhone(phone?: string): string | undefined {
-  if (!phone) return undefined;
-
-  const digits = phone.replace(/\D/g, "");
-  if (digits.length === 10) return `+1${digits}`;
-  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
-  if (phone.trim().startsWith("+") && digits.length >= 10) return `+${digits}`;
-
-  return phone.trim();
-}
-
-async function forwardToGhl(payload: unknown, traceId: string, submissionId?: string): Promise<Response> {
-  const webhookUrl = getEnv("GHL_WEBHOOK_URL");
-
-  if (!webhookUrl) {
-    throw new Error("GHL_WEBHOOK_URL is not configured");
-  }
-
-  const response = await fetch(webhookUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Trace-Id": traceId,
-      ...(submissionId ? { "X-Submission-Id": submissionId } : {}),
-    },
-    body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(8_000),
-  });
-
-  return response;
-}
 
 export async function POST(request: Request) {
   const handler = createApiHandler(request, {
@@ -106,6 +74,8 @@ export async function POST(request: Request) {
     rateLimitWindowMs: RATE_LIMIT_WINDOW_MS,
   });
 
+  const ingress = await checkLeadIngress(request);
+  if (!ingress.ok) return handler.json({ success: false, error: ingress.error }, { status: ingress.status, headers: ingress.retryAfter ? { "Retry-After": ingress.retryAfter } : undefined });
   const parsed = await readLeadJson(request);
   if (!parsed.ok) return handler.json({ success: false, error: parsed.error }, { status: parsed.status });
   const rawBody = parsed.value as { _hpt?: unknown; event_type?: unknown; source_page?: unknown } | null;
@@ -134,14 +104,13 @@ export async function POST(request: Request) {
   }
 
   const input = validation.data;
-  const { checkRateLimit } = await import("@/lib/observability/api-handler");
-  const rateLimit = checkRateLimit(contactRateLimitKey(input.contact.email), undefined, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS);
-  if (rateLimit.limited) {
+  const rateLimit = await checkLeadContact(input.contact.email, RATE_LIMIT_MAX);
+  if (!rateLimit.ok) {
     handler.log.warn("Rate limit exceeded");
     incrementCounter("ghl_intake_rate_limited", { source: "ghl-intake" });
     return handler.json({ success: false, error: "Too many requests" }, {
-      status: 429,
-      headers: handler.rateLimitHeaders(rateLimit.remaining, rateLimit.resetAt),
+      status: rateLimit.status,
+      headers: rateLimit.retryAfter ? { "Retry-After": rateLimit.retryAfter } : undefined,
     });
   }
   const estimatedNetProfit = input.business?.estimatedNetProfit || 0;
@@ -157,13 +126,15 @@ export async function POST(request: Request) {
     entityType: input.business?.entityType,
     primaryPainPoint: input.intent?.primaryPainPoint,
   });
+  const savings = calculateSCorpSavings(estimatedNetProfit, input.business?.entityType);
+  const { annualRevenueband: legacyRevenueBand, ...validatedBusiness } = input.business ?? {};
 
   const payload = {
     version: "1.0",
-    eventType: input.eventType,
-    sourcePage: input.sourcePage,
-    leadMagnetType: input.leadMagnetType,
-    submittedAt: input.submittedAt || new Date().toISOString(),
+    eventType: "SCORP_ESTIMATOR_SUBMITTED",
+    sourcePage: "scorp-estimator",
+    leadMagnetType: "SCORP_ESTIMATOR",
+    submittedAt: new Date().toISOString(),
     contact: {
       firstName: input.contact.firstName,
       lastName: input.contact.lastName,
@@ -171,23 +142,25 @@ export async function POST(request: Request) {
       phone: normalizePhone(input.contact.phone),
     },
     business: {
-      ...input.business,
-      annualRevenueBand: input.business?.annualRevenueBand || input.business?.annualRevenueband,
+      ...validatedBusiness,
+      annualRevenueBand: validatedBusiness.annualRevenueBand || legacyRevenueBand,
     },
     intent: {
+      ...input.intent,
       primaryServiceInterest: "SCORP_STRATEGY",
       consultationType: "SCORP_REVIEW",
-      ...input.intent,
     },
     results: {
-      ...input.results,
+      scorpEstimatedSavings: savings.estimatedSavings,
+      suggestedSalary: savings.suggestedSalary,
+      distributions: savings.distributions,
       fitScore,
       highIntentFlag,
     },
     tracking: input.tracking || {},
     meta: {
       locale: input.meta?.locale || "en",
-      userAgent: input.meta?.userAgent || request.headers.get("user-agent") || undefined,
+      userAgent: (request.headers.get("user-agent") || input.meta?.userAgent)?.slice(0, 500),
       submissionId: input.meta?.submissionId,
     },
   };
@@ -200,7 +173,7 @@ export async function POST(request: Request) {
 
   try {
     const ghlResponse = await withLatencyAsync("ghl_intake_forward_ms", async () => {
-      return forwardToGhl(payload, handler.traceId, input.meta?.submissionId);
+      return forwardToGhl(payload, undefined, input.meta?.submissionId, handler.traceId);
     }, { source: "ghl-intake" });
 
     if (!ghlResponse.ok) {
@@ -222,7 +195,7 @@ export async function POST(request: Request) {
     incrementCounter("ghl_intake_error", { source: "ghl-intake" });
     return handler.json(
       { success: false, error: "CRM forwarding failed" },
-      { status: 502 }
+      { status: leadFailureStatus(err) }
     );
   }
 }

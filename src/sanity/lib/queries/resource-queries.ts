@@ -12,7 +12,7 @@ export const INDUSTRY_VERTICALS_QUERY = defineQuery(`
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
     "painPoints": painPoints[]{ "text": coalesce(@[$locale], @.en, @) }.text,
-    "testimonialCount": count(clientTestimonials)
+    "testimonialCount": count(clientTestimonials[defined(@->_id) && @->isPublished != false])
   }
 `)
 
@@ -28,13 +28,13 @@ export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
     },
     heroVideo,
     "painPoints": painPoints[]{ "text": coalesce(@[$locale], @.en, @) }.text,
-    featuredPlaybookChapters[]->{
+    "featuredPlaybookChapters": featuredPlaybookChapters[defined(@->_id) && @->isPublished != false]->{
       _id,
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current,
       chapterNumber
     },
-    relatedPlaybooks[]->{
+    "relatedPlaybooks": relatedPlaybooks[defined(@->_id) && @->isPublished != false]->{
       _id,
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current,
@@ -43,7 +43,7 @@ export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
         "alt": coalesce(alt[$locale], alt.en, alt)
       }
     },
-    clientTestimonials[]->{
+    "clientTestimonials": clientTestimonials[defined(@->_id) && @->isPublished != false]->{
       _id,
       clientName,
       "clientTitle": coalesce(clientTitle[$locale], clientTitle.en, clientTitle),
@@ -75,7 +75,7 @@ export const INDUSTRY_VERTICAL_SLUGS_QUERY = defineQuery(`
 
 // PLAYBOOK QUERIES
 export const PLAYBOOKS_QUERY = defineQuery(`
-  *[_type == "playbook"] | order(displayOrder asc, isFeatured desc) {
+  *[_type == "playbook" && isPublished != false] | order(displayOrder asc, isFeatured desc) {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -90,7 +90,7 @@ export const PLAYBOOKS_QUERY = defineQuery(`
 `)
 
 export const PLAYBOOK_QUERY = defineQuery(`
-  *[_type == "playbook" && slug.current == $slug][0] {
+  *[_type == "playbook" && isPublished != false && slug.current == $slug][0] {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -101,7 +101,7 @@ export const PLAYBOOK_QUERY = defineQuery(`
     },
     isFeatured,
     "gatedPdfUrl": gatedPdf.asset->url,
-    chapters[]->{
+    "chapters": chapters[defined(@->_id) && @->isPublished != false]->{
       _id,
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current,
@@ -121,7 +121,7 @@ export const PLAYBOOK_QUERY = defineQuery(`
 `)
 
 export const PLAYBOOK_CHAPTERS_QUERY = defineQuery(`
-  *[_type == "playbookChapter"] | order(displayOrder asc, chapterNumber asc) {
+  *[_type == "playbookChapter" && isPublished != false] | order(displayOrder asc, chapterNumber asc) {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -133,7 +133,7 @@ export const PLAYBOOK_CHAPTERS_QUERY = defineQuery(`
 `)
 
 export const PLAYBOOK_CHAPTER_QUERY = defineQuery(`
-  *[_type == "playbookChapter" && slug.current == $slug][0] {
+  *[_type == "playbookChapter" && isPublished != false && slug.current == $slug][0] {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -146,13 +146,12 @@ export const PLAYBOOK_CHAPTER_QUERY = defineQuery(`
     "content": coalesce(content[$locale], content.en, content),
     "keyTakeaways": keyTakeaways[]{ "text": coalesce(@[$locale], @.en, @) }.text,
     "tools": tools[]{ "text": coalesce(@[$locale], @.en, @) }.text,
-    isGated,
-    "gatedContent": coalesce(gatedContent[$locale], gatedContent.en, gatedContent)
+    isGated
   }
 `)
 
 export const FEATURED_PLAYBOOK_QUERY = defineQuery(`
-  *[_type == "playbook" && isFeatured == true][0] {
+  *[_type == "playbook" && isPublished != false && isFeatured == true][0] {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -207,7 +206,7 @@ export const RESOURCES_PAGE_QUERY = defineQuery(`
 `)
 
 export const RESOURCES_PLAYBOOKS_QUERY = defineQuery(`
-  *[_type == "playbook"] | order(displayOrder asc, isFeatured desc) {
+  *[_type == "playbook" && isPublished != false] | order(displayOrder asc, isFeatured desc) {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,

@@ -3,7 +3,7 @@
 import { ArrowRight, Calendar } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { BOOKING_ROUTE, isExternalBookingHref, normalizeBookingReturnTo } from "@/lib/booking";
+import { BOOKING_ROUTE, getBookingHref, isExternalBookingHref, normalizeBookingReturnTo } from "@/lib/booking";
 import { trackBookingFunnelEvent } from "@/lib/analytics/bookingFunnel";
 
 const NAVIGATION_RECOVERY_MS = 10000;
@@ -24,7 +24,8 @@ export function BookingCtaLink({ href, label, openingLabel, externalLabel, place
     const [isNavigating, setIsNavigating] = useState(false);
     const hasTrackedView = useRef(false);
     const hasTrackedActivation = useRef(false);
-    const isExternal = isExternalBookingHref(href);
+    const safeDestination = getBookingHref(href);
+    const isExternal = isExternalBookingHref(safeDestination);
     const pathname = usePathname();
     const stateClass = isNavigating
         ? "bg-gold-400 ring-2 ring-gold-200 pointer-events-none cursor-progress"
@@ -33,21 +34,21 @@ export function BookingCtaLink({ href, label, openingLabel, externalLabel, place
           : "bg-gold-500 hover:bg-gold-400 active:bg-gold-600";
     const destination = useMemo(() => {
         const sourcePath = normalizeBookingReturnTo(pathname || "/") || "/";
-        const baseDestination = href === BOOKING_ROUTE
+        const baseDestination = safeDestination === BOOKING_ROUTE
             ? `${BOOKING_ROUTE}?returnTo=${encodeURIComponent(sourcePath === "/" ? "/#contact" : sourcePath)}`
-            : href;
+            : safeDestination;
         if (typeof window === "undefined") return baseDestination;
 
         const currentUrl = new URL(window.location.href);
         const bookingUrl = new URL(baseDestination, window.location.origin);
         for (const [key, value] of currentUrl.searchParams) {
-            if ((key.startsWith("utm_") || key === "gclid" || key === "fbclid") && !bookingUrl.searchParams.has(key)) {
+            if (/^(?:utm_(?:source|medium|campaign|content|term)|gclid|fbclid)$/.test(key) && value.length <= 160 && /^[a-zA-Z0-9 _.\-]*$/.test(value) && !bookingUrl.searchParams.has(key)) {
                 bookingUrl.searchParams.set(key, value);
             }
         }
 
         return isExternal ? bookingUrl.toString() : `${bookingUrl.pathname}${bookingUrl.search}${bookingUrl.hash}`;
-    }, [href, isExternal, pathname]);
+    }, [safeDestination, isExternal, pathname]);
 
     useEffect(() => {
         const section = document.getElementById(viewTargetId);

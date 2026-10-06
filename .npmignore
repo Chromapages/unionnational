@@ -1,0 +1,16 @@
+.omx/
+.codex/
+.agents/
+.env*
+.local-backups/
+.release-evidence/
+docs/security-audit-*/
+docs/security-implementation-*/
+.next*/
+coverage/
+playwright-report/
+test-results/
+*.pem
+*.key
+*.p12
+*.pfx

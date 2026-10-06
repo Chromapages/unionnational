@@ -14,7 +14,7 @@ const completedSessions = new Set<string>();
 
 export function ClearCartAfterPurchase({ sessionId, purchasedItems }: { sessionId: string; purchasedItems: PurchasedItem[] }) {
     useEffect(() => {
-        if (purchasedItems.length === 0 || completedSessions.has(sessionId)) return;
+        if (!/^order_[a-f0-9]{32}$/.test(sessionId) || purchasedItems.length === 0 || completedSessions.has(sessionId)) return;
         const storageKey = `union-national-cart-completed:${sessionId}`;
         try {
             if (localStorage.getItem(storageKey)) return;

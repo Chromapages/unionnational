@@ -36,6 +36,7 @@ export interface ProductCheckoutRecord {
     price: number;
     format?: string;
     stripePriceId?: string;
+    stripeProductId?: string;
     editions?: Array<{
         _key?: string;
         name: string;
@@ -43,6 +44,7 @@ export interface ProductCheckoutRecord {
         format?: string;
         language?: string;
         stripePriceId?: string;
+        stripeProductId?: string;
     }>;
     orderBump?: {
         _key?: string;
@@ -64,6 +66,8 @@ export interface ResolvedCheckoutItem {
     fulfillmentType: FulfillmentType;
     requiresShipping: boolean;
     stripePriceId: string;
+    expectedAmount: number;
+    stripeProductId?: string;
     quantity: number;
 }
 
@@ -76,13 +80,15 @@ export const CHECKOUT_PRODUCTS_QUERY = `
     price,
     format,
     stripePriceId,
+    stripeProductId,
     editions[]{
       _key,
       name,
       price,
       format,
       language,
-      stripePriceId
+      stripePriceId,
+      stripeProductId
     },
     orderBump {
       _key,
@@ -159,7 +165,7 @@ function selectedEdition(product: ProductCheckoutRecord, item: CheckoutCartItemP
     if (item.editionId !== undefined && item.editionId !== `${product._id}-default`) return null;
     const format = extractString(product.format, "en");
     if (classifyFulfillment(format, format) === "unknown") return null;
-    return { _key: `${product._id}-default`, name: format, format, price: product.price, stripePriceId: product.stripePriceId };
+    return { _key: `${product._id}-default`, name: format, format, price: product.price, stripePriceId: product.stripePriceId, stripeProductId: product.stripeProductId };
 }
 
 export function getStripePriceId(product: ProductCheckoutRecord, item: CheckoutCartItemPayload): string | null {
@@ -182,7 +188,7 @@ export function resolveCheckoutItem(product: ProductCheckoutRecord, item: Checko
             editionName: extractString(bump.name, "en", "30-Min Tax Strategy Call with Jason"),
             format: extractString(bump.format, "en", "service"),
             fulfillmentType: "service", requiresShipping: false,
-            stripePriceId: bump.stripePriceId, quantity: item.quantity,
+            stripePriceId: bump.stripePriceId, expectedAmount: Math.round((bump.price ?? NaN) * 100), stripeProductId: bump.stripeProductId, quantity: item.quantity,
         };
     }
 
@@ -196,7 +202,7 @@ export function resolveCheckoutItem(product: ProductCheckoutRecord, item: Checko
         editionId: normalizeEditionId(product._id, edition),
         editionName: extractString(edition.name, "en"), format: extractString(edition.format, "en"),
         fulfillmentType, requiresShipping: requiresShippingForFulfillment(fulfillmentType),
-        stripePriceId, quantity: item.quantity,
+        stripePriceId, stripeProductId: edition.stripeProductId, expectedAmount: Math.round(edition.price * 100), quantity: item.quantity,
     };
 }
 

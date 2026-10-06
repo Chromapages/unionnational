@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { NextRequest } from "next/server";
 
 const mockEnv = vi.hoisted(() => ({
@@ -18,11 +18,17 @@ vi.mock("@/sanity/lib/client", () => ({
 
 // Mock stripe
 const mockStripeCheckoutSessionsCreate = vi.fn();
+const mockStripePriceRetrieve = vi.fn();
+const mockQuota = vi.fn();
+vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({}) }));
+vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => "fixture-requester" }));
+vi.mock("@/lib/security/rate-limiter", () => ({ checkRateLimit: mockQuota }));
 vi.mock("@/lib/stripe", () => ({
     getStripe: () => ({
         checkout: {
-            sessions: { create: mockStripeCheckoutSessionsCreate },
+            sessions: { create: async (options: unknown) => ({ id: "cs_test_regressionFixture", ...await mockStripeCheckoutSessionsCreate(options) }) },
         },
+        prices: { retrieve: mockStripePriceRetrieve },
     }),
 }));
 
@@ -38,6 +44,7 @@ vi.mock("@/lib/config/env", () => ({
 vi.mock("@/lib/observability/api-handler", () => ({
     createApiHandler: () => ({
         log: { info: vi.fn(), warn: vi.fn(), error: vi.fn() },
+        error: vi.fn(),
         json: (body: unknown, opts?: { status?: number; headers?: Record<string, string> }) => {
             return new Response(JSON.stringify(body), {
                 status: opts?.status ?? 200,
@@ -65,12 +72,6 @@ vi.mock("@/lib/observability/logger", () => ({
     getTraceId: () => "test-trace-id",
 }));
 
-// Mock shop commerce utils
-vi.mock("@/lib/shop/commerce", () => ({
-    classifyFulfillment: () => "digital",
-    requiresShippingForFulfillment: () => false,
-}));
-
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function buildCheckoutRequest(body: unknown): Request {
@@ -88,10 +89,19 @@ describe("POST /api/shop/checkout", () => {
         vi.clearAllMocks();
         mockSanityFetch.mockReset();
         mockStripeCheckoutSessionsCreate.mockReset();
+        mockQuota.mockReset().mockResolvedValue({ success: true, remaining: 29, resetTime: Date.now() + 60000 });
+        mockStripePriceRetrieve.mockReset().mockImplementation(async (id: string) => ({
+            id, active: true, type: "one_time", currency: "usd", product: "prod_fixture",
+            unit_amount: id === "price_1T2dAkBBqB7ETKuVZCP3OsnA" ? 2700 : id === "price_1TOlYGBBqB7ETKuVjY3QWF1m" ? 2900 : id === "price_shipping123" ? 5900 : 4900,
+        }));
+        vi.stubEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", "ghl.example.com");
+        vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "fixture-only-32-character-minimum-secret");
+        vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");
         mockEnv.values.STRIPE_SECRET_KEY = "sk_test_checkout";
         mockEnv.values.STRIPE_WEBHOOK_SECRET = "whsec_test_secret";
         mockEnv.values.GHL_SHOP_PURCHASE_WEBHOOK_URL = "https://ghl.example.com/webhook";
     });
+    afterEach(() => vi.unstubAllEnvs());
 
     it("returns 200 with redirectUrl when cart is valid and checkout succeeds", async () => {
         const mockProduct = {
@@ -99,7 +109,8 @@ describe("POST /api/shop/checkout", () => {
             title: "Test Product",
             slug: "test-product",
             buyLink: null,
-            price: 4900,
+            price: 49,
+            format: "digital",
             stripePriceId: "price_test123",
             editions: [],
         };
@@ -202,7 +213,21 @@ describe("POST /api/shop/checkout", () => {
         expect(body.redirectUrl).toBe("https://external-checkout.example.com/buy");
     });
 
-    it("resolves construction blueprint checkout by slug and format when edition ids are stale", async () => {
+    it("uses a server-approved construction edition mapping while ignoring client offer hints", async () => {
+        const productId = "038a9b49-ee53-4e6a-9897-e9fe51693396";
+        const slug = "the-money-making-blueprint-for-construction-companies";
+        mockSanityFetch.mockResolvedValueOnce([{ _id: productId, title: "The Money-Making Blueprint for Construction Companies", slug, price: 29, editions: [{ _key: "current-digital-key", name: "Digital PDF", price: 29, format: "digital" }] }]);
+        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({ url: "https://checkout.stripe.com/construction-blueprint" });
+        const { POST } = await import("@/app/api/shop/checkout/route");
+        const res = await POST(buildCheckoutRequest({ items: [{ productId, slug, editionId: "current-digital-key", editionName: "Audiobook", format: "physical", stripePriceId: "price_forged", requiresShipping: true, quantity: 1 }] }) as NextRequest);
+        expect(res.status).toBe(200);
+        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
+        expect(createCall.line_items).toEqual([{ price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 }]);
+        expect(createCall.metadata).toMatchObject({ has_digital: "true", has_physical: "false", items_version: "1" });
+        expect(createCall.shipping_address_collection).toBeUndefined();
+    });
+
+    it("rejects stale construction edition IDs instead of trusting display-format hints", async () => {
         const mockProduct = {
             _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
             title: "The Moneyâ€‘Making Blueprint for Construction Companies",
@@ -242,16 +267,12 @@ describe("POST /api/shop/checkout", () => {
         const { POST } = await import("@/app/api/shop/checkout/route");
         const res = await POST(req as unknown as NextRequest);
 
-        expect(res.status).toBe(200);
-        expect(mockStripeCheckoutSessionsCreate).toHaveBeenCalled();
-
-        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
-        expect(createCall.line_items).toEqual([
-            { price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 },
-        ]);
+        expect(res.status).toBe(409);
+        expect((await res.json()).code).toBe("STRIPE_PRICE_MISSING");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 
-    it("prefers construction blueprint slug and format mapping over a swapped Sanity edition price", async () => {
+    it("rejects a swapped catalog Stripe price instead of overriding it from client format", async () => {
         const mockProduct = {
             _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
             title: "The Moneyâ€‘Making Blueprint for Construction Companies",
@@ -291,15 +312,12 @@ describe("POST /api/shop/checkout", () => {
         const { POST } = await import("@/app/api/shop/checkout/route");
         const res = await POST(req as unknown as NextRequest);
 
-        expect(res.status).toBe(200);
-
-        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
-        expect(createCall.line_items).toEqual([
-            { price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 },
-        ]);
+        expect(res.status).toBe(409);
+        expect((await res.json()).code).toBe("OFFER_UNAVAILABLE");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 
-    it("uses the digital Stripe price when digital is selected even if the Sanity edition price id and format are stale", async () => {
+    it("rejects stale digital catalog price/format despite client digital hints", async () => {
         const mockProduct = {
             _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
             title: "The MoneyÃ¢â‚¬â€˜Making Blueprint for Construction Companies",
@@ -339,15 +357,12 @@ describe("POST /api/shop/checkout", () => {
         const { POST } = await import("@/app/api/shop/checkout/route");
         const res = await POST(req as unknown as NextRequest);
 
-        expect(res.status).toBe(200);
-
-        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
-        expect(createCall.line_items).toEqual([
-            { price: "price_1TOlYGBBqB7ETKuVjY3QWF1m", quantity: 1 },
-        ]);
+        expect(res.status).toBe(409);
+        expect((await res.json()).code).toBe("OFFER_UNAVAILABLE");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 
-    it("uses the audio Stripe price when audio is selected even if the Sanity edition price id and format are stale", async () => {
+    it("rejects stale audio catalog price/format despite client audio hints", async () => {
         const mockProduct = {
             _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
             title: "The MoneyÃ¢â‚¬â€˜Making Blueprint for Construction Companies",
@@ -387,15 +402,12 @@ describe("POST /api/shop/checkout", () => {
         const { POST } = await import("@/app/api/shop/checkout/route");
         const res = await POST(req as unknown as NextRequest);
 
-        expect(res.status).toBe(200);
-
-        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
-        expect(createCall.line_items).toEqual([
-            { price: "price_1T2dAkBBqB7ETKuVZCP3OsnA", quantity: 1 },
-        ]);
+        expect(res.status).toBe(409);
+        expect((await res.json()).code).toBe("OFFER_UNAVAILABLE");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 
-    it("uses the construction audio map when the fallback audiobook edition is not in Sanity yet", async () => {
+    it("rejects a client-created audio offer absent from the server catalog", async () => {
         const mockProduct = {
             _id: "038a9b49-ee53-4e6a-9897-e9fe51693396",
             title: "The Money-Making Blueprint for Construction Companies",
@@ -437,13 +449,9 @@ describe("POST /api/shop/checkout", () => {
         const { POST } = await import("@/app/api/shop/checkout/route");
         const res = await POST(req as unknown as NextRequest);
 
-        expect(res.status).toBe(200);
-
-        const createCall = mockStripeCheckoutSessionsCreate.mock.calls[0][0];
-        expect(createCall.line_items).toEqual([
-            { price: "price_1T2dAkBBqB7ETKuVZCP3OsnA", quantity: 1 },
-        ]);
-        expect(createCall.metadata.has_digital).toBe("true");
+        expect(res.status).toBe(409);
+        expect((await res.json()).code).toBe("STRIPE_PRICE_MISSING");
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 
     it("returns a clean price-missing response for the unconfigured strategy-call order bump", async () => {
@@ -523,7 +531,8 @@ describe("POST /api/shop/checkout", () => {
             title: "Configured Product",
             slug: "configured-product",
             buyLink: null,
-            price: 4900,
+            price: 49,
+            format: "digital",
             stripePriceId: "price_configured123",
             editions: [],
         };
@@ -550,7 +559,8 @@ describe("POST /api/shop/checkout", () => {
             title: "Physical Book",
             slug: "physical-book",
             buyLink: null,
-            price: 5900,
+            price: 59,
+            format: "physical",
             stripePriceId: "price_shipping123",
             editions: [],
         };
@@ -583,12 +593,11 @@ describe("POST /api/shop/checkout", () => {
         expect(createCall.metadata.has_physical).toBe("true");
     });
 
-    it("returns 400 CART_TOO_LARGE when metadata serialization exceeds 500 chars", async () => {
-        // This test verifies the oversized metadata guard.
-        // We simulate many items to push orderItemsMetadata over the 500-char limit.
-        const manyItems = Array.from({ length: 20 }, (_, i) => ({
-            productId: `prod-${i}`,
-            slug: `product-${i}`,
+    it("returns 400 CART_TOO_LARGE when serialization exceeds the complete metadata budget", async () => {
+        // Forty canonical items fit the request limit but exceed the bounded 40-part metadata budget.
+        const manyItems = Array.from({ length: 40 }, (_, i) => ({
+            productId: `${"p".repeat(180)}${i}`,
+            slug: `${"s".repeat(180)}${i}`,
             quantity: 1,
         }));
 
@@ -598,8 +607,9 @@ describe("POST /api/shop/checkout", () => {
                 title: `Product ${item.productId}`,
                 slug: item.slug,
                 buyLink: null,
-                price: 1000,
-                stripePriceId: `price_${item.productId}`,
+                price: 10,
+                format: "digital",
+                stripePriceId: `price_fixture${manyItems.indexOf(item)}`,
                 editions: [],
             }))
         );
@@ -615,22 +625,7 @@ describe("POST /api/shop/checkout", () => {
     });
 
     it("returns 429 when rate limit is exceeded", async () => {
-        // First request succeeds
-        const mockProduct = {
-            _id: "prod-rl",
-            title: "Rate Limited Product",
-            slug: "rate-limited",
-            buyLink: null,
-            price: 4900,
-            stripePriceId: "price_rl123",
-            editions: [],
-        };
-        mockSanityFetch.mockResolvedValueOnce([mockProduct]);
-        mockStripeCheckoutSessionsCreate.mockResolvedValueOnce({ url: "https://checkout.stripe.com/session" });
-
-        // We cannot easily simulate rate limiting without mocking time,
-        // so we verify the structure of the rate-limited response is correct
-        // by checking the 429 code path exists in the route
+        mockQuota.mockResolvedValueOnce({ success: false, remaining: 0, resetTime: Date.now() + 60000 });
         const req = buildCheckoutRequest({
             items: [{ productId: "prod-rl", slug: "rate-limited", quantity: 1 }],
         });
@@ -638,7 +633,9 @@ describe("POST /api/shop/checkout", () => {
         const { POST } = await import("@/app/api/shop/checkout/route");
         const res = await POST(req as unknown as NextRequest);
 
-        // When rate limit is NOT triggered (normal case), we expect 200
-        expect(res.status).toBe(200);
+        expect(res.status).toBe(429);
+        expect((await res.json()).code).toBe("RATE_LIMITED");
+        expect(mockSanityFetch).not.toHaveBeenCalled();
+        expect(mockStripeCheckoutSessionsCreate).not.toHaveBeenCalled();
     });
 });

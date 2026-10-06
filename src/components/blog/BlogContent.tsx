@@ -2,6 +2,7 @@ import { PortableText, PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { SanityBlock } from "@/types/sanity";
+import { safeHref } from "@/lib/security/content-urls";
 
 interface BlogContentProps {
     value: SanityBlock[];
@@ -53,10 +54,12 @@ const components: PortableTextComponents = {
     },
     marks: {
         link: ({ children, value }: any) => {
-            const rel = !value.href.startsWith("/") ? "noreferrer noopener" : undefined;
+            const href = safeHref(value?.href, { contact: true });
+            if (!href) return <>{children}</>;
+            const rel = href.startsWith("https://") ? "noreferrer noopener" : undefined;
             return (
                 <a
-                    href={value.href}
+                    href={href}
                     rel={rel}
                     className="text-gold-600 underline decoration-gold-300 underline-offset-2 hover:text-gold-500 transition-colors font-medium"
                 >

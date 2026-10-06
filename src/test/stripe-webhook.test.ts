@@ -1,5 +1,9 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { NextRequest } from "next/server";
+import { buildCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
+import { orderMetadataSignature } from "@/lib/shop/fulfillment";
+vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "fixture", checkRateLimit: async () => ({ success: true }) }));
+vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => "fixture" }));
 
 type RecordValue = { _id: string; _rev: string; status: string; updatedAt: string; [key: string]: unknown };
 const records = new Map<string, RecordValue>();
@@ -15,7 +19,7 @@ const settings: Record<string, string | undefined> = {};
 vi.mock("@/lib/stripe", () => ({
     getStripe: () => ({
         webhooks: { constructEvent },
-        checkout: { sessions: { retrieve: retrieveSession, update: updateSession } },
+        checkout: { sessions: { retrieve: retrieveSession, update: updateSession, listLineItems: async () => ({ has_more: false, data: [{ currency: "usd", price: { id: "price_test" }, quantity: 1 }] }) } },
     }),
 }));
 vi.mock("@/lib/config/env", () => ({ getEnv: (key: string) => settings[key] }));
@@ -55,11 +59,11 @@ const patch = vi.fn((id: string) => {
     };
     return chain;
 });
-vi.mock("@/sanity/lib/client", () => ({ writeClient: { createIfNotExists: reserve, patch, fetch: fetchLegacy } }));
+vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({ createIfNotExists: reserve, patch, fetch: fetchLegacy }) }));
 
 const event = {
     id: "evt_paid", type: "checkout.session.completed",
-    data: { object: { id: "cs_paid" } },
+    data: { object: { id: "cs_test_paid" } },
 };
 const request = () => new Request("https://example.com/api/shop/webhook", {
     method: "POST", headers: { "stripe-signature": "signed" }, body: "{}",
@@ -74,11 +78,14 @@ describe("paid shop webhook ownership and recovery", () => {
         vi.clearAllMocks();
         settings.STRIPE_WEBHOOK_SECRET = "whsec_test";
         settings.GHL_SHOP_PURCHASE_WEBHOOK_URL = "https://ghl.example.test/order";
+        vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "fixture-only-32-character-minimum-secret");
+        vi.stubEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", "ghl.example.test");
+        vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");
         session = {
-            id: "cs_paid", payment_status: "paid", status: "complete", amount_total: 4900, currency: "usd",
+            id: "cs_test_paid", payment_status: "paid", status: "complete", amount_total: 4900, currency: "usd",
             customer_details: { email: "buyer@example.test", name: "Buyer" },
             metadata: {
-                items: JSON.stringify([{ t: "digital", sh: false, q: 1 }]),
+                ...(() => { const items = [{ p: "book", s: "book", e: "pdf", t: "digital", sh: false, pr: "price_test", q: 1 }]; return { ...buildCheckoutItemsMetadata(items), items_signature: orderMetadataSignature(items, "whsec_test") }; })(),
                 fulfillment_status: "pending", order_source: "unt_bookstore",
             },
         };
@@ -89,8 +96,9 @@ describe("paid shop webhook ownership and recovery", () => {
             session = { ...session, metadata: update.metadata };
             return session;
         });
-        global.fetch = vi.fn().mockResolvedValue(new Response("ok", { status: 200 }));
+        vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("ok", { status: 200, headers: { "X-UNT-Acknowledgement": "durably-accepted-v1" } })));
     });
+    afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 
     it("requires a signed, paid session before any fulfillment", async () => {
         const { POST } = await import("@/app/api/shop/webhook/route");
@@ -129,8 +137,8 @@ describe("paid shop webhook ownership and recovery", () => {
         expect([...records.values()][0].stripeSessionId).toBeUndefined();
         expect(session.metadata).toMatchObject({ fulfillment_status: "fulfilled" });
         const [, options] = vi.mocked(global.fetch).mock.calls[0];
-        expect((options?.headers as Record<string, string>)["X-Idempotency-Key"]).toBe("cs_paid");
-        expect(JSON.parse(String(options?.body))).toMatchObject({ sessionId: "cs_paid", hasDigital: true, hasPhysical: false });
+        expect((options?.headers as Record<string, string>)["X-Idempotency-Key"]).toBe("cs_test_paid");
+        expect(JSON.parse(String(options?.body))).toMatchObject({ sessionId: "cs_test_paid", hasDigital: true, hasPhysical: false });
     });
 
     it("repairs failed Stripe metadata on replay without reposting fulfillment", async () => {

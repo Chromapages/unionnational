@@ -46,3 +46,18 @@ next-env.d.ts
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Local operations and private generated evidence (existing tracked files are preserved)
+/.omx/logs/
+/.omx/state/
+/.omx/security-audit-*/
+/.omx/metrics.json
+/.local-backups/
+/.release-evidence/
+/docs/security-audit-*/
+/docs/security-implementation-*/
+/playwright-report/
+/test-results/
+*.p12
+*.pfx
+*.key

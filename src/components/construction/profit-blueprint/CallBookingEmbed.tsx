@@ -2,6 +2,7 @@
 
 import { Calendar, ExternalLink, Video } from "lucide-react";
 import { BOOKING_ROUTE } from "@/lib/booking";
+import { BookingCalendar } from "@/components/booking/BookingCalendar";
 
 export function CallBookingEmbed() {
     return (
@@ -22,12 +23,7 @@ export function CallBookingEmbed() {
             </div>
 
             <div className="relative bg-slate-50" style={{ height: "640px" }}>
-                <iframe
-                    src={BOOKING_ROUTE}
-                    title="Book a call"
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                />
+                <BookingCalendar />
             </div>
 
             <div className="p-5 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">

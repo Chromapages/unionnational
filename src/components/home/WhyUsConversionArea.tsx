@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { canUseOptionalTracking } from "@/lib/analytics/privacy";
 
 export interface WhyUsConversionAreaProps {
     conclusion: string;
@@ -33,7 +34,7 @@ export const WhyUsConversionArea = ({
     const viewTrackedRef = useRef(false);
 
     const pushDataLayerEvent = (payload: Record<string, unknown>) => {
-        if (typeof window === "undefined") return;
+        if (!canUseOptionalTracking()) return;
         const win = window as unknown as DataLayerWindow;
         win.dataLayer ??= [];
         win.dataLayer.push(payload);

@@ -1,35 +1,29 @@
-interface Metrics {
-  increment(counter: string, tags?: Record<string, string>): void;
-  histogram(name: string, value: number, tags?: Record<string, string>): void;
+import { logger } from "./logger";
+
+const METRIC_PATTERN = /^(?:ghl_intake|shop_checkout|shop_webhook|api)_[a-z0-9_]{1,64}$/;
+const TAG_VALUES: Record<string, ReadonlySet<string>> = {
+  source: new Set(["ghl-intake", "shop-checkout", "shop-webhook"]),
+  error: new Set(["true", "false"]),
+  provider: new Set(["ghl", "stripe", "sanity"]),
+  method: new Set(["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]),
+};
+
+function safeTags(tags: Record<string, string> = {}): Record<string, string> {
+  return Object.fromEntries(Object.entries(tags).filter(([key, value]) =>
+    (Object.hasOwn(TAG_VALUES, key) && TAG_VALUES[key].has(value)) || (key === "status" && /^[1-5]\d\d$/.test(value))
+  ));
 }
 
-declare global {
-  interface Global {
-    metrics?: Metrics;
-  }
-}
-
-let _metrics: Metrics | undefined;
-
-async function getMetrics(): Promise<Metrics | undefined> {
-  if (process.env.NEXT_RUNTIME === "nodejs") {
-    try {
-      if (!_metrics) {
-        const vm = await import("node:vm");
-        _metrics = (vm as unknown as { trackedRequest?: { metrics?: Metrics } }).trackedRequest?.metrics;
-      }
-    } catch {
-    }
-  }
-  return _metrics;
+function writeMetric(metric: string, kind: "counter" | "histogram", value: number, tags?: Record<string, string>): void {
+  if (!METRIC_PATTERN.test(metric) || !Number.isFinite(value) || value < 0) return;
+  // JSON stdout is the operational sink. The log collector can aggregate these
+  // events; there is no implicit provider or public metrics endpoint.
+  logger.info("request_metric", { event: "request_metric", metric, kind, value, tags: safeTags(tags) });
 }
 
 export async function incrementCounter(name: string, tags?: Record<string, string>): Promise<void> {
   try {
-    const m = await getMetrics();
-    if (m) {
-      m.increment(name, tags);
-    }
+    writeMetric(name, "counter", 1, tags);
   } catch {
   }
 }
@@ -40,10 +34,7 @@ export async function recordLatency(
   tags?: Record<string, string>
 ): Promise<void> {
   try {
-    const m = await getMetrics();
-    if (m) {
-      m.histogram(histogram, ms, tags);
-    }
+    writeMetric(histogram, "histogram", ms, tags);
   } catch {
   }
 }
@@ -58,10 +49,10 @@ export function withLatency<T>(
   try {
     const result = fn();
 
-    if (result instanceof Promise) {
-      return result.finally(async () => {
+    if (result && typeof (result as Promise<T>).then === "function") {
+      return Promise.resolve(result).finally(async () => {
         await recordLatency(histogramName, Date.now() - start, tags);
-      }) as T;
+      });
     }
 
     recordLatency(histogramName, Date.now() - start, tags);

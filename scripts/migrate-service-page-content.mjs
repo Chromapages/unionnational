@@ -1,7 +1,9 @@
 import nextEnv from "@next/env";
 import { createClient } from "@sanity/client";
+import { backupForMutation, mutationOptions, reportMutationFailure } from "./lib/sanity-mutation.mjs";
 import { getCliClient } from "sanity/cli";
 
+try {
 const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
@@ -12,6 +14,7 @@ const client = token
     ? createClient({ projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID, dataset: process.env.NEXT_PUBLIC_SANITY_DATASET, apiVersion, useCdn: false, token })
     : getCliClient({ apiVersion }).withConfig({ useCdn: false });
 if (apply && !client.config().token) throw new Error("A Sanity write token is required when using --apply.");
+const mutation = mutationOptions(process.argv.slice(2), client.config());
 
 const loc = (value, type = "localizedString") => ({ _type: type, en: value });
 const row = (slug, index, problem, solution) => ({ _key: `${slug}-comparison-${index}`, _type: "object", problem: loc(problem), solution: loc(solution) });
@@ -94,7 +97,7 @@ const configs = {
     },
 };
 
-const documents = await client.fetch(`*[_type == "service"]{_id, slug, title, shortDescription, keyBenefit, heroHeadline, heroHighlight, heroCta, heroSecondaryCta, heroTrustStats, heroMicrocopy, heroVisual, targetAudience, eligibilityPros, roadmap, pageSections, startingPrice, impactGoal}`);
+const documents = await client.fetch(`*[_type == "service"]{_id, _rev, slug, title, shortDescription, keyBenefit, heroHeadline, heroHighlight, heroCta, heroSecondaryCta, heroTrustStats, heroMicrocopy, heroVisual, targetAudience, eligibilityPros, roadmap, pageSections, startingPrice, impactGoal}`);
 let transaction = client.transaction();
 const report = [];
 
@@ -133,8 +136,14 @@ for (const document of documents) {
 
     if (!document.keyBenefit && document.shortDescription) setIfMissing.keyBenefit = document.shortDescription;
     report.push({ slug, fields: Object.keys(setIfMissing).filter((field) => document[field] == null) });
-    if (apply) transaction = transaction.patch(document._id, (patch) => patch.setIfMissing(setIfMissing));
+    if (apply) transaction = transaction.patch(document._id, (patch) => patch.ifRevisionId(document._rev).setIfMissing(setIfMissing));
 }
 
-if (apply && report.some((item) => item.fields.length)) await transaction.commit();
+if (apply && report.some((item) => item.fields.length)) {
+    await backupForMutation(client, mutation, documents.filter((document) => configs[document.slug?.current]));
+    await transaction.commit();
+}
 console.log(JSON.stringify({ mode: apply ? "applied" : "dry-run", documents: report }, null, 2));
+} catch (error) {
+    reportMutationFailure(error);
+}

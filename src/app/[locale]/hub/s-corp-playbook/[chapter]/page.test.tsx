@@ -41,18 +41,18 @@ describe("playbook chapter media and gate", () => {
         expect(metadata.alternates).toBeUndefined();
     });
 
-    it("keeps metadata and gating for a chapter attached to the S-Corp playbook", async () => {
+    it("keeps public metadata for a marketing guidance chapter", async () => {
         fetchMock.mockImplementation(({ query }: { query: string }) => Promise.resolve({ data: query === "playbook" ? playbook : { ...chapter, isGated: true } }));
         const metadata = await generateMetadata({ params: Promise.resolve({ locale: "es", chapter: "one" }) });
 
         expect(metadata.alternates?.canonical).toBe("https://unionnationaltax.com/es/hub/s-corp-playbook/one");
-        expect(metadata.robots).toEqual({ index: false, follow: false });
+        expect(metadata.robots).toBeUndefined();
     });
 
     it("provides a titled, keyboard-reachable embed when a video URL exists", async () => {
-        await renderChapter({ videoEmbed: "https://www.youtube.com/embed/example" });
+        await renderChapter({ videoEmbed: "https://www.youtube.com/embed/dQw4w9WgXcQ" });
         expect(fetchMock).toHaveBeenCalledWith(expect.objectContaining({ query: "playbook" }));
-        expect(screen.getByTitle("Chapter One — video")).toHaveAttribute("src", "https://www.youtube.com/embed/example");
+        expect(screen.getByTitle("Chapter One — video")).toHaveAttribute("src", "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0");
     });
 
     it("shows a thumbnail as a still image without a false play control", async () => {
@@ -65,7 +65,7 @@ describe("playbook chapter media and gate", () => {
     it("keeps gated text out of the page and explains missing media", async () => {
         await renderChapter({ isGated: true, gatedContent: [{ secret: "Protected chapter content" }] });
         expect(screen.getByText("No video is available for this chapter.")).toBeInTheDocument();
-        expect(screen.getByRole("status")).toHaveTextContent("unavailable right now");
+        expect(screen.getByRole("link", { name: "Request guidance" })).toHaveAttribute("href", "/en/contact");
         expect(screen.queryByText(/Protected chapter content/)).not.toBeInTheDocument();
     });
 });

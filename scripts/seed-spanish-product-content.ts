@@ -6,14 +6,14 @@
  * to Spanish when the user is browsing `/es/...`.
  *
  * Run with:
- *   npx tsx scripts/seed-spanish-product-content.ts
- *   # or with --dry-run to preview without writing:
- *   npx tsx scripts/seed-spanish-product-content.ts --dry-run
+ *   node --experimental-strip-types scripts/seed-spanish-product-content.ts # preview
+ *   node --experimental-strip-types scripts/seed-spanish-product-content.ts --apply --target=production --project=p1x9y3wz
  *
  * Requires `SANITY_AUTH_TOKEN` env var with write permission.
  */
 
-import { createClient } from "next-sanity";
+import { createClient } from "@sanity/client";
+import { backupForMutation, mutationOptions, reportMutationFailure } from "./lib/sanity-mutation.mjs";
 
 const PROJECT_ID = "p1x9y3wz";
 const DATASET = "production";
@@ -21,7 +21,8 @@ const API_VERSION = "2026-01-09";
 
 const CONSTRUCTION_BOOK_SLUG = "the-money-making-blueprint-for-construction-companies";
 
-const isDryRun = process.argv.includes("--dry-run");
+const mutation = mutationOptions(process.argv.slice(2), { projectId: PROJECT_ID, dataset: DATASET });
+const isDryRun = !mutation.apply;
 
 const spanishContent = {
     title: {
@@ -153,7 +154,7 @@ async function main() {
         dataset: DATASET,
         apiVersion: API_VERSION,
         useCdn: false,
-        token: token || "dry-run-token",
+        token,
     });
 
     const product = await client.fetch<{
@@ -237,26 +238,20 @@ async function main() {
     }
 
     console.log(`\nFields to patch: ${fieldsToPatch.join(", ")}`);
-    for (const field of fieldsToPatch) {
-        console.log(`\n--- ${field} ---`);
-        const value = (patch[field] as Record<string, unknown>)[(product as Record<string, unknown>)[field] && typeof (product as Record<string, unknown>)[field] === "object" ? "" : "es"] ?? patch[field];
-        console.log(JSON.stringify(value, null, 2).slice(0, 400));
-    }
 
     if (isDryRun) {
-        console.log("\n[DRY RUN] No changes written. Remove --dry-run to apply.");
+        console.log("\n[DRY RUN] No changes written. Application requires --apply and the explicit configured project/dataset.");
         return;
     }
 
+    await backupForMutation(client, mutation, [product]);
     const result = await client
         .patch(product._id)
+        .ifRevisionId(product._rev)
         .set(patch)
         .commit();
 
     console.log(`\nPatched ${fieldsToPatch.length} field(s). _rev: ${result._rev}`);
 }
 
-main().catch((err) => {
-    console.error("Migration failed:", err);
-    process.exit(1);
-});
+main().catch(reportMutationFailure);

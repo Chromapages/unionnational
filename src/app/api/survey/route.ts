@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
+import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
-import { forwardToGhl, isLeadTimeout, readLeadJson } from "@/lib/intake/shared";
+import { forwardToGhl, leadFailureStatus, readLeadJson } from "@/lib/intake/shared";
 import { getHealthScoreCategory, type HealthScoreCategory } from "@/lib/intake/health-score";
 
 const ContactInput = z.object({
@@ -37,9 +37,12 @@ function trustedScore(answers: unknown, cfo: boolean): number | null {
         const seen = new Set<number>();
         let total = 0;
         for (const item of answers) {
-            const id = item?.questionId;
-            const score = cfoOptions[id]?.[item?.answer];
-            if (!Number.isInteger(id) || seen.has(id) || score === undefined) return null;
+            if (!item || typeof item !== "object" || Array.isArray(item)) return null;
+            const id = item.questionId;
+            const answer = item.answer;
+            if (!Number.isInteger(id) || seen.has(id) || typeof answer !== "string" || !Object.hasOwn(cfoOptions, id) || !Object.hasOwn(cfoOptions[id], answer)) return null;
+            const score = cfoOptions[id][answer];
+            if (!Number.isFinite(score)) return null;
             seen.add(id);
             total += score;
         }
@@ -72,6 +75,8 @@ const getCategoryLabel = (category: Category): string => {
 
 export async function POST(request: Request) {
     const traceId = getTraceId(request.headers);
+    const ingress = await checkLeadIngress(request);
+    if (!ingress.ok) return NextResponse.json({ success: false, error: ingress.error }, { status: ingress.status, headers: ingress.retryAfter ? { "Retry-After": ingress.retryAfter } : undefined });
     const parsed = await readLeadJson(request);
     if (!parsed.ok) return NextResponse.json({ success: false, error: parsed.error }, { status: parsed.status });
     const validation = ContactInput.safeParse(parsed.value);
@@ -81,8 +86,8 @@ export async function POST(request: Request) {
     if (!cfo && phone.length < 10) return NextResponse.json({ success: false, error: "Phone is required" }, { status: 400 });
     const score = trustedScore(answers, cfo);
     if (score === null) return NextResponse.json({ success: false, error: "Invalid survey answers" }, { status: 400 });
-    const rateLimit = await checkRateLimit(contactRateLimitKey(email), 5, 60_000);
-    if (!rateLimit.success) return NextResponse.json({ success: false, error: "Too many requests" }, { status: 429 });
+    const rateLimit = await checkLeadContact(email);
+    if (!rateLimit.ok) return NextResponse.json({ success: false, error: rateLimit.error }, { status: rateLimit.status });
     const ghlWebhookUrl = getEnv("GHL_SURVEY_WEBHOOK_URL");
     if (!ghlWebhookUrl) return NextResponse.json({ success: false, error: "Survey capture unavailable" }, { status: 503 });
 
@@ -93,7 +98,7 @@ export async function POST(request: Request) {
             email, firstName, lastName, phone, score, locale, source_page, submission_id,
             answers: (answers as Array<{ questionId: number; answer: string }>).map(({ questionId, answer }) => ({
                 questionId, answer, score: cfoOptions[questionId][answer],
-            })),
+            })).sort((first, second) => first.questionId - second.questionId),
         })
         : {
             email, phone, firstName, lastName, name: `${firstName} ${lastName}`,
@@ -120,7 +125,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true, score, category, categoryLabel });
     } catch (error) {
         logger.error("Survey delivery unavailable", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });
-        return NextResponse.json({ success: false, error: "Survey delivery unavailable" }, { status: isLeadTimeout(error) ? 504 : 502 });
+        return NextResponse.json({ success: false, error: "Survey delivery unavailable" }, { status: leadFailureStatus(error) });
     }
 }
 

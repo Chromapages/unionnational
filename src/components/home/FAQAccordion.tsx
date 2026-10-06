@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 import { normalizeFaqAnswer } from "@/components/faq/faqContent";
+import { safeHref } from "@/lib/security/content-urls";
 
 interface FAQItem {
     _id: string;
@@ -58,8 +59,9 @@ export function FAQAccordion({ items, variant = "light", initialLimit, initialOp
             strong: ({ children }: any) => <strong className="font-bold">{children}</strong>,
             em: ({ children }: any) => <em className="italic">{children}</em>,
             link: ({ children, value }: any) => {
-                const href = value?.href || "#";
-                const rel = !href.startsWith("/") ? "noreferrer noopener" : undefined;
+                const href = safeHref(value?.href, { contact: true });
+                if (!href) return <>{children}</>;
+                const rel = href.startsWith("https://") ? "noreferrer noopener" : undefined;
                 return (
                     <a
                         href={href}

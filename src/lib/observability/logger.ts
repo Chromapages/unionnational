@@ -6,14 +6,9 @@ type LogContext = Record<string, unknown> & {
 };
 
 function serializeError(error: unknown) {
-  if (error instanceof Error) {
-    return {
-      name: error.name,
-      message: error.message,
-    };
-  }
-
-  return error;
+  // Provider messages can contain customer data and receipt/credential URLs.
+  const categories = ["Error", "TypeError", "RangeError", "SyntaxError", "AbortError", "TimeoutError"];
+  return { category: error instanceof Error && categories.includes(error.name) ? error.name : "UnknownError" };
 }
 
 function write(level: LogLevel, message: string, context: LogContext = {}) {
@@ -22,7 +17,6 @@ function write(level: LogLevel, message: string, context: LogContext = {}) {
     level,
     service: "union-national-tax",
     traceId: context.traceId || "unavailable",
-    userId: context.userId || "anonymous",
     message,
     ...context,
   });
@@ -61,20 +55,14 @@ export const logger = {
 };
 
 export function getTraceId(headers?: Headers): string {
-  return (
-    headers?.get("x-request-id") ||
-    headers?.get("x-vercel-id") ||
-    crypto.randomUUID()
-  );
+  const incoming = headers?.get("x-request-id") || headers?.get("x-vercel-id");
+  return incoming && /^[a-zA-Z\d:_-]{1,128}$/.test(incoming) ? incoming : crypto.randomUUID();
 }
 
 export type { LogLevel, LogContext };
 
 const EMAIL_REDACT = "[REDACTED_EMAIL]";
 const PHONE_REDACT = "[REDACTED_PHONE]";
-const NAME_REDACT = "[REDACTED_NAME]";
-const SCORE_REDACT = "[REDACTED_SCORE]";
-const TEXT_REDACT = "[REDACTED_TEXT]";
 
 const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
 const phoneRegex =
@@ -98,63 +86,49 @@ export function redactITIN(value: string): string {
   return value.replace(itinRegex, "[REDACTED_ITIN]");
 }
 
-export function redactName(value: string): string {
-  const parts = value.trim().split(/\s+/);
-  if (parts.length === 0) return NAME_REDACT;
-  if (parts.length === 1) return parts[0][0] + "***";
-  return parts[0][0] + "*** " + parts[parts.length - 1][0] + "***";
-}
-
-export function redactScore(value: unknown): unknown {
-  if (typeof value === "number") return SCORE_REDACT;
-  if (typeof value === "string") {
-    const num = parseFloat(value);
-    if (!isNaN(num)) return SCORE_REDACT;
-  }
-  return value;
-}
-
-export function redactLeadAnswer(value: unknown): unknown {
-  if (typeof value === "string") {
-    if (emailRegex.test(value)) return redactEmail(value);
-    if (phoneRegex.test(value)) return redactPhone(value);
-    if (ssnRegex.test(value)) return redactSSN(value);
-    if (itinRegex.test(value)) return redactITIN(value);
-    if (value.length > 100) return value.slice(0, 3) + "...";
-    return TEXT_REDACT;
-  }
-  return value;
-}
-
 export function redactObject(
   obj: Record<string, unknown>,
-  redactionFn?: (v: unknown, k: string) => unknown
+  redactionFn?: (v: unknown, k: string) => unknown,
+  depth = 0,
+  seen = new WeakSet<object>(),
 ): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(obj)) {
+  if (depth > 6 || seen.has(obj)) return { omitted: "[REDACTED_COMPLEX]" };
+  seen.add(obj);
+  const result: Record<string, unknown> = Object.create(null);
+  for (const [key, value] of Object.entries(obj).slice(0, 50)) {
     const normalizedKey = key.replace(/[^a-z]/gi, "").toLowerCase();
-    if (/(email|phone|mobile|ssn|itin|taxid|name|company|address|street|city|zipcode|dob|birthdate|license|password|token|apikey|secret|authorization|answer|response|income|revenue|profit|sales|score)/.test(normalizedKey)) {
+    if (/(email|phone|mobile|ssn|itin|taxid|name|company|address|street|city|zipcode|dob|birthdate|license|password|token|apikey|secret|authorization|cookie|session|userid|payload|answer|response|income|revenue|profit|sales|score)/.test(normalizedKey)) {
       result[key] = "[REDACTED]";
       continue;
     }
     if (Array.isArray(value)) {
-      result[key] = value.map((item) =>
+      result[key] = value.slice(0, 50).map((item) =>
         item && typeof item === "object"
-          ? redactObject(item as Record<string, unknown>, redactionFn)
+          ? redactObject(item as Record<string, unknown>, redactionFn, depth + 1, seen)
           : typeof item === "string"
-            ? redactITIN(redactSSN(redactPhone(redactEmail(item))))
-            : item
+            ? redactText(item)
+            : typeof item === "bigint" ? "[REDACTED]" : item
       );
     } else if (value && typeof value === "object") {
-      result[key] = redactObject(value as Record<string, unknown>, redactionFn);
+      result[key] = redactObject(value as Record<string, unknown>, redactionFn, depth + 1, seen);
     } else if (typeof value === "string") {
-      result[key] = redactITIN(redactSSN(redactPhone(redactEmail(value))));
+      result[key] = redactText(value);
     } else {
-      result[key] = redactionFn ? redactionFn(value, key) : value;
+      result[key] = typeof value === "bigint" ? "[REDACTED]" : redactionFn ? redactionFn(value, key) : value;
     }
   }
 
   return result;
+}
+
+function redactText(value: string): string {
+  // Bound input before regex work, including nonmatching email-like strings.
+  const bounded = value.slice(0, 1000)
+    .replace(/https?:\/\/[^\s"'<>]+/gi, "[REDACTED_URL]")
+    .replace(/\b(?:cs_(?:test|live)|(?:sk|rk)_(?:test|live)|whsec)_[a-zA-Z\d_]+\b/g, "[REDACTED_CREDENTIAL]")
+    .replace(/\bBearer\s+[a-zA-Z\d_.~+/=-]+/gi, "[REDACTED_CREDENTIAL]")
+    .replace(/\beyJ[a-zA-Z\d_.-]+/g, "[REDACTED_CREDENTIAL]");
+  return redactITIN(redactSSN(redactPhone(redactEmail(bounded))));
 }
 
 export function createLogger(module: string) {

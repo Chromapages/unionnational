@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
+// Next replaces this marker during server compilation; unit tests run server modules directly.
+vi.mock('server-only', () => ({}))
+
 // Mock matchMedia if it doesn't exist
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

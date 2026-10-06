@@ -1,6 +1,8 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EstimatorResultsClient } from "./EstimatorResultsClient";
+import { calculateSCorpSavings } from "@/lib/scorp-advantage/calculator";
+import { clearEstimatorResult, saveEstimatorResult } from "@/lib/scorp-advantage/result-storage";
 
 vi.mock("next/link", () => ({
   default: ({ href, children, ...props }: React.ComponentPropsWithoutRef<"a"> & { href: string }) => (
@@ -13,7 +15,7 @@ vi.mock("./SavingsResultCard", () => ({
 }));
 
 describe("EstimatorResultsClient", () => {
-  afterEach(() => { cleanup(); sessionStorage.clear(); });
+  afterEach(() => { cleanup(); clearEstimatorResult(); });
 
   it("offers a restart when no session estimate is available", async () => {
     render(<EstimatorResultsClient />);
@@ -22,15 +24,8 @@ describe("EstimatorResultsClient", () => {
     expect(screen.getByRole("link", { name: "Start the assessment" })).toHaveAttribute("href", "/scorp-estimator");
   });
 
-  it("recomputes the current illustration from session input instead of stale estimates or URL parameters", async () => {
-    sessionStorage.setItem("scorp-estimator-result", JSON.stringify({
-      firstName: "Jane",
-      businessName: "Smith Consulting",
-      estimatedNetProfit: 100000,
-      estimatedSavings: 6120,
-      suggestedSalary: 60000,
-      distributions: 40000,
-    }));
+  it("validates the current illustration from a minimal result summary", async () => {
+    saveEstimatorResult(calculateSCorpSavings(100000));
 
     render(<EstimatorResultsClient />);
 
@@ -38,10 +33,7 @@ describe("EstimatorResultsClient", () => {
   });
 
   it.each(["S_CORP", "C_CORP"])("shows a structure review without new-election numbers for %s", async (entityType) => {
-    sessionStorage.setItem("scorp-estimator-result", JSON.stringify({
-      firstName: "Jane", entityType, businessName: "Company", estimatedNetProfit: 200000,
-      estimatedSavings: 15229, suggestedSalary: 85000, distributions: 115000,
-    }));
+    saveEstimatorResult(calculateSCorpSavings(200000, entityType));
     render(<EstimatorResultsClient />);
     expect(await screen.findByRole("heading", { name: "Your corporation calls for a structure review." })).toBeInTheDocument();
     expect(screen.queryByText(/Saved estimate:/)).not.toBeInTheDocument();

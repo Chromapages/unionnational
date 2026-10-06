@@ -18,6 +18,6 @@ it("activates a native poster using Space and transfers focus into the player", 
 });
 
 it("names the external player iframe", () => {
-    render(<VideoEmbed videoUrl="https://www.youtube.com/watch?v=sample" />);
-    expect(screen.getByTitle("Video player")).toHaveAttribute("src", "https://www.youtube.com/embed/sample?autoplay=1&rel=0");
+    render(<VideoEmbed videoUrl="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />);
+    expect(screen.getByTitle("Video player")).toHaveAttribute("src", "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0");
 });

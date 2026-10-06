@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useTransition } from "react";
 import { useLocale } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { getPathname, usePathname } from "@/i18n/navigation";
 
 type SupportedLocale = "en" | "es";
 
@@ -38,9 +38,15 @@ export function buildLocaleNavigationHref(pathname: string, search = "", hash = 
   return `${pathname}${normalizedSearch}${normalizedHash}`;
 }
 
+function replaceLocaleDocument(pathname: string, locale: SupportedLocale) {
+  // Changing the locale replaces the root layout. Its server-inserted styles
+  // need the new document's CSP nonce, rather than the current document's nonce.
+  const localizedPath = getPathname({ href: pathname, locale });
+  window.location.replace(buildLocaleNavigationHref(localizedPath, window.location.search, window.location.hash));
+}
+
 export function useSynchronizedLocale() {
   const locale = useLocale() as SupportedLocale;
-  const router = useRouter();
   const pathname = usePathname();
   const localeRef = useRef<SupportedLocale>(locale);
   const channelRef = useRef<BroadcastChannel | null>(null);
@@ -61,15 +67,10 @@ export function useSynchronizedLocale() {
       }
 
       startTransition(() => {
-        const href = buildLocaleNavigationHref(
-          pathname,
-          window.location.search,
-          window.location.hash,
-        );
-        router.replace(href, { locale: nextLocale });
+        replaceLocaleDocument(pathname, nextLocale);
       });
     },
-    [pathname, router, startTransition]
+    [pathname, startTransition]
   );
 
   useEffect(() => {
@@ -122,12 +123,7 @@ export function useSynchronizedLocale() {
       setDocumentLanguage(nextLocale);
 
       startTransition(() => {
-        const href = buildLocaleNavigationHref(
-          pathname,
-          window.location.search,
-          window.location.hash,
-        );
-        router.replace(href, { locale: nextLocale });
+        replaceLocaleDocument(pathname, nextLocale);
       });
 
       if (typeof window !== "undefined") {
@@ -145,7 +141,7 @@ export function useSynchronizedLocale() {
         }
       }
     },
-    [pathname, router, startTransition]
+    [pathname, startTransition]
   );
 
   return {

@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { SavingsEstimatorForm, SCorpEstimatorFormData } from "@/components/scorp/SavingsEstimatorForm";
 import { calculateFitScore, calculateSCorpSavings, isHighIntent } from "@/lib/scorp-advantage/calculator";
 import { sanitizeReferrerUrl } from "@/lib/scorp-advantage/referrer";
+import { clearEstimatorResult, saveEstimatorResult } from "@/lib/scorp-advantage/result-storage";
 
 export function EstimatorPageClient() {
     const submissionId = useRef(crypto.randomUUID());
@@ -14,6 +15,7 @@ export function EstimatorPageClient() {
     const [error, setError] = useState("");
 
     const handleSubmit = async (data: SCorpEstimatorFormData) => {
+        clearEstimatorResult();
         if (!Number.isFinite(data.estimatedNetProfit) || data.estimatedNetProfit < 0 || data.estimatedNetProfit > 1000000) {
             setError("Estimated net profit must be between $0 and $1,000,000.");
             return;
@@ -24,13 +26,6 @@ export function EstimatorPageClient() {
         const estimate = calculateSCorpSavings(data.estimatedNetProfit, data.entityType);
         const fitScore = calculateFitScore(data);
         const highIntentFlag = isHighIntent(data);
-
-        const resultPayload = {
-            ...data,
-            ...estimate,
-            fitScore,
-            highIntentFlag,
-        };
 
         try {
             const response = await fetch("/api/ghl-intake", {
@@ -87,7 +82,7 @@ export function EstimatorPageClient() {
                 throw new Error(apiResult.error || "We could not submit your estimate. Please try again.");
             }
 
-            sessionStorage.setItem("scorp-estimator-result", JSON.stringify(resultPayload));
+            saveEstimatorResult(estimate);
 
             router.push("/scorp-estimator/results");
         } catch (submissionError) {

@@ -3,6 +3,7 @@
 import { Check, Mail, Phone, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { urlFor } from "@/sanity/lib/image";
+import { getMapEmbedUrl } from "@/lib/security/content-urls";
 
 interface TeamMemberCardProps {
     name: string;
@@ -33,6 +34,7 @@ export function TeamMemberCard({
     mapEmbedUrl
 }: TeamMemberCardProps) {
     const t = useTranslations("ContactPage.TeamMemberCard");
+    const safeMapUrl = getMapEmbedUrl(mapEmbedUrl);
 
     return (
         <div className="lg:sticky lg:top-32 h-fit space-y-8 p-6 lg:p-0">
@@ -126,17 +128,17 @@ export function TeamMemberCard({
                     )}
 
                     {/* Map Embed */}
-                    {mapEmbedUrl && (
+                    {safeMapUrl && (
                         <div className="pt-4">
                             <div className="w-full aspect-video rounded-xl overflow-hidden border border-slate-200 shadow-inner group/map group">
                                 <iframe
-                                    src={mapEmbedUrl}
+                                    src={safeMapUrl}
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}
                                     allowFullScreen={false}
                                     loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
+                                    referrerPolicy="no-referrer"
                                     title={t("mapTitle")}
                                     className="grayscale hover:grayscale-0 transition-all duration-500 opacity-80 group-hover/map:opacity-100"
                                 ></iframe>

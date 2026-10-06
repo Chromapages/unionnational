@@ -4,6 +4,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { buildHeadingId, HeadingItem } from "./richTextUtils";
 import { extractString } from "@/lib/utils";
 import { SanityBlock } from "@/types/sanity";
+import { safeHref } from "@/lib/security/content-urls";
 
 interface RichTextProps {
     value: SanityBlock[];
@@ -104,10 +105,12 @@ export function RichText({ value, headings = [], locale }: RichTextProps) {
         },
         marks: {
             link: ({ children, value: linkValue }: any) => {
-                const rel = !linkValue.href.startsWith("/") ? "noreferrer noopener" : undefined;
+                const href = safeHref(linkValue?.href, { contact: true });
+                if (!href) return <>{children}</>;
+                const rel = href.startsWith("https://") ? "noreferrer noopener" : undefined;
                 return (
                     <a
-                        href={linkValue.href}
+                        href={href}
                         rel={rel}
                         className="font-semibold text-gold-600 underline decoration-gold-300 underline-offset-4 transition-colors hover:text-gold-500"
                     >

@@ -12,6 +12,7 @@ type CmsRoute = {
     slug: string;
     _updatedAt?: string;
     noIndex?: boolean;
+    hasPublicContent?: boolean;
     shopDescriptions?: Partial<Record<SitemapLocale, unknown>>;
     chapters?: Array<(CmsRoute & { isGated?: boolean }) | null>;
 };
@@ -77,9 +78,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
         "legals": *[_type == "legalPage" && isPublished == true && defined(slug.current)] { "slug": slug.current, _updatedAt, "noIndex": seo.noIndex },
         "industries": *[_type == "industryVertical" && isActive == true && defined(slug.current) && seo.noIndex != true] { "slug": slug.current, _updatedAt, "noIndex": seo.noIndex },
-        "playbooks": *[_type == "playbook" && defined(slug.current)] {
+        "playbooks": *[_type == "playbook" && isPublished != false && defined(slug.current)] {
             "slug": slug.current, _updatedAt, "noIndex": seo.noIndex,
-            "chapters": chapters[]->{ "slug": slug.current, _updatedAt, isGated }
+            "chapters": chapters[defined(@->_id) && @->isPublished != false]->{
+                "slug": slug.current, _updatedAt, "noIndex": seo.noIndex,
+                "hasPublicContent": coalesce(length(pt::text(coalesce(content.en, content))) > 0 || length(pt::text(content.es)) > 0 || count(coalesce(content.en, content)[_type != "block"]) > 0 || count(content.es[_type != "block"]) > 0 || count(keyTakeaways) > 0 || count(tools) > 0 || (defined(videoEmbed) && videoEmbed != ""), false)
+            }
         }
     }`;
     const content = await client.fetch<CmsRoutes>(query);
@@ -105,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...(content.playbooks || []).flatMap((route): Array<[string, CmsRoute]> => {
             const basePath = route.slug === "s-corp-playbook" ? "/hub/s-corp-playbook" : `/hub/playbooks/${encodeURIComponent(route.slug)}`;
             return (route.chapters || []).flatMap((chapter): Array<[string, CmsRoute]> =>
-                chapter && !chapter.isGated && typeof chapter.slug === "string" && chapter.slug.trim() && chapter.slug !== "undefined"
+                chapter && chapter.hasPublicContent !== false && typeof chapter.slug === "string" && chapter.slug.trim() && chapter.slug !== "undefined"
                     ? [[`${basePath}/${encodeURIComponent(chapter.slug)}`, chapter]]
                     : [],
             );

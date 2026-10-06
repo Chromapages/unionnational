@@ -5,9 +5,9 @@
  * across all affected document types, preserving any existing translations.
  *
  * Run with:
- *   npx tsx src/scripts/migrate-schemas-i18n.ts
+ *   node --experimental-strip-types src/scripts/migrate-schemas-i18n.ts
  *   # or with --dry-run to preview changes:
- *   npx tsx src/scripts/migrate-schemas-i18n.ts --dry-run
+ *   node --experimental-strip-types src/scripts/migrate-schemas-i18n.ts --dry-run
  *
  * Requires `SANITY_AUTH_TOKEN` env var with write permission.
  */
@@ -15,6 +15,7 @@
 import { createClient } from "@sanity/client";
 import path from "node:path";
 import fs from "node:fs";
+import { backupForMutation, mutationOptions, reportMutationFailure } from "../../scripts/lib/sanity-mutation.mjs";
 
 // Custom dotenv loader to avoid external dependencies
 function loadEnvFile(filePath: string) {
@@ -41,7 +42,8 @@ const DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 const API_VERSION = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-01-09";
 const AUTH_TOKEN = process.env.SANITY_AUTH_TOKEN;
 
-const isDryRun = process.argv.includes("--dry-run");
+const mutation = mutationOptions(process.argv.slice(2), { projectId: PROJECT_ID, dataset: DATASET });
+const isDryRun = !mutation.apply;
 
 // Helper translation wrappers
 function toLocalized(val: any): any {
@@ -147,6 +149,7 @@ async function main() {
 
     const query = `*[_type in $types && !(_id in path("drafts.**"))]`;
     const documents = await client.fetch<any[]>(query, { types: documentTypes });
+    if (!isDryRun && documents.length > 0) await backupForMutation(client, mutation, documents);
 
     console.log(`Retrieved ${documents.length} document(s).`);
 
@@ -417,15 +420,13 @@ async function main() {
         const keysToPatch = Object.keys(cleanedPatches);
         if (keysToPatch.length > 0) {
             patchCount++;
-            console.log(`[${type}] Patching doc: ${doc._id} (${doc.title?.en || doc.name || doc._id})`);
+            console.log(`[${type}] Planned document: ${doc._id}`);
             console.log(`  Fields: ${keysToPatch.join(", ")}`);
-            for (const key of keysToPatch) {
-                console.log(`    - ${key}:`, JSON.stringify(cleanedPatches[key]).slice(0, 100));
-            }
 
             if (!isDryRun) {
                 await client
                     .patch(doc._id)
+                    .ifRevisionId(doc._rev)
                     .set(cleanedPatches)
                     .commit();
             }
@@ -438,7 +439,4 @@ async function main() {
     }
 }
 
-main().catch(err => {
-    console.error("Migration script failed:", err);
-    process.exit(1);
-});
+main().catch(reportMutationFailure);

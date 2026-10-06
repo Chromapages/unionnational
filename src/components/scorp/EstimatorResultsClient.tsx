@@ -4,38 +4,18 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SavingsResultCard } from "@/components/scorp/SavingsResultCard";
-import { calculateSCorpSavings, formatCurrency } from "@/lib/scorp-advantage/calculator";
-
-type StoredResult = {
-    firstName: string;
-    businessName: string;
-    estimatedNetProfit: number;
-    estimatedSavings: number;
-    suggestedSalary: number;
-    distributions: number;
-    entityType?: string;
-    applicable?: boolean;
-};
+import { formatCurrency } from "@/lib/scorp-advantage/calculator";
+import { clearEstimatorResult, readEstimatorResult, type EstimatorResult } from "@/lib/scorp-advantage/result-storage";
 
 export function EstimatorResultsClient() {
-    const [result, setResult] = useState<StoredResult | null | undefined>(undefined);
+    const [result, setResult] = useState<EstimatorResult | null | undefined>(undefined);
 
     useEffect(() => {
-        try {
-            const stored = sessionStorage.getItem("scorp-estimator-result");
-            if (!stored) {
-                setResult(null);
-                return;
-            }
-
-            const parsed = JSON.parse(stored) as StoredResult;
-            const values = [parsed.estimatedNetProfit, parsed.estimatedSavings, parsed.suggestedSalary, parsed.distributions];
-            setResult(values.every(Number.isFinite)
-                ? { ...parsed, ...calculateSCorpSavings(parsed.estimatedNetProfit, parsed.entityType) }
-                : null);
-        } catch {
-            setResult(null);
-        }
+        const saved = readEstimatorResult();
+        setResult(saved);
+        if (!saved) return;
+        const expiration = window.setTimeout(() => { clearEstimatorResult(); setResult(null); }, Math.max(0, saved.expiresAt - Date.now()));
+        return () => window.clearTimeout(expiration);
     }, []);
 
     if (result === undefined) {
@@ -55,7 +35,7 @@ export function EstimatorResultsClient() {
     }
 
     const isLowFit = result.estimatedSavings === 0;
-    const isExistingCorporation = result.entityType === "S_CORP" || result.entityType === "C_CORP" || result.applicable === false;
+    const isExistingCorporation = result.applicable === false;
 
     if (isExistingCorporation || isLowFit) {
         return (
@@ -70,7 +50,7 @@ export function EstimatorResultsClient() {
                         : "The stated assumptions show no positive employment-tax difference. This comparison does not assess compliance costs or your full tax situation. A review can examine the other factors before you make a decision."}
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                    <Link href="/book" className="rounded-lg bg-indigo-600 px-6 py-3 text-center font-semibold text-white hover:bg-indigo-700">
+                    <Link href="/book" onClick={clearEstimatorResult} className="rounded-lg bg-indigo-600 px-6 py-3 text-center font-semibold text-white hover:bg-indigo-700">
                         Book a Discovery Call
                     </Link>
                     <Link href="/scorp-advantage" className="rounded-lg border border-indigo-600 px-6 py-3 text-center font-semibold text-indigo-600 hover:bg-indigo-50">
@@ -84,9 +64,9 @@ export function EstimatorResultsClient() {
     return (
         <div className="space-y-10">
             <SavingsResultCard
-                firstName={result.firstName}
+                firstName=""
                 estimatedSavings={result.estimatedSavings}
-                netProfit={result.estimatedNetProfit}
+                netProfit={result.suggestedSalary + result.distributions}
                 salary={result.suggestedSalary}
                 distributions={result.distributions}
             />
@@ -98,7 +78,7 @@ export function EstimatorResultsClient() {
                     The stated assumptions show a modeled annual employment-tax difference of {formatCurrency(result.estimatedSavings)}, before the excluded factors and costs. An evaluation reviews compensation, structure, payroll readiness, and implementation before you make a decision.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                    <Link href="/book" className="rounded-lg bg-indigo-600 px-6 py-3 text-center font-semibold text-white hover:bg-indigo-700">
+                    <Link href="/book" onClick={clearEstimatorResult} className="rounded-lg bg-indigo-600 px-6 py-3 text-center font-semibold text-white hover:bg-indigo-700">
                         Book Your S-Corp Evaluation
                     </Link>
                     <Link href="/scorp-advantage" className="rounded-lg border border-white/20 px-6 py-3 text-center font-semibold text-white hover:bg-white/10">

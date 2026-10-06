@@ -6,11 +6,13 @@ import { calculateSavingsRange } from "@/lib/scorp/calculateSavingsRange";
 import { mapToGhlPayload } from "@/lib/scorp/mapToGhlPayload";
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
-import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
+import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress";
 import { forwardToGhl, readLeadJson } from "@/lib/intake/shared";
 
 export async function POST(request: Request) {
     const traceId = getTraceId(request.headers);
+    const ingress = await checkLeadIngress(request);
+    if (!ingress.ok) return NextResponse.json({ success: false, error: ingress.error }, { status: ingress.status, headers: ingress.retryAfter ? { "Retry-After": ingress.retryAfter } : undefined });
 
     try {
         const parsed = await readLeadJson(request);
@@ -35,8 +37,8 @@ export async function POST(request: Request) {
         }
 
         const input = validation.data;
-        const rateLimit = await checkRateLimit(contactRateLimitKey(input.email), 5, 60_000);
-        if (!rateLimit.success) return NextResponse.json({ success: false, message: "Too many requests" }, { status: 429 });
+        const rateLimit = await checkLeadContact(input.email);
+        if (!rateLimit.ok) return NextResponse.json({ success: false, message: rateLimit.error }, { status: rateLimit.status });
 
         const fit_score = calculateFitScore(input);
         const scorp_fit_level = getFitLevel(fit_score);

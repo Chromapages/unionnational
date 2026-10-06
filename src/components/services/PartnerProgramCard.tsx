@@ -5,6 +5,7 @@ import { ArrowRight, Check } from "lucide-react";
 import * as Icons from "lucide-react";
 import { AnimatedStat } from "@/components/ui/AnimatedStat";
 import { cn } from "@/lib/utils";
+import { safeHref } from "@/lib/security/content-urls";
 
 // Dynamic Icon Component
 const DynamicIcon = ({ name, className }: { name: string; className?: string }) => {
@@ -82,7 +83,7 @@ export function PartnerProgramCard({
     }[colorTheme];
 
     return (
-        <Link href={ctaUrl} className="block group h-full">
+        <Link href={safeHref(ctaUrl) || "/contact"} className="block group h-full">
             <div className={cn(
                 "relative h-full rounded-[2.5rem] bg-brand-900 p-8 sm:p-10 border overflow-hidden transition-all duration-500 flex flex-col group-hover:-translate-y-1 hover:shadow-2xl",
                 theme.border,

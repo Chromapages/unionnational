@@ -1,4 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+// Route contract tests isolate durable dispatch; delivery concurrency/outcome tests cover the real store.
+vi.mock("@/lib/leads/delivery", () => ({
+    LeadDeliveryError: class extends Error {},
+    deliverLead: async (payload: unknown, url: string, id?: string, trace?: string) => fetch(url, {
+        method: "POST", body: JSON.stringify(payload), signal: AbortSignal.timeout(8_000),
+        headers: { "Content-Type": "application/json", ...(id ? { "X-Submission-Id": id } : {}), ...(trace ? { "X-Trace-Id": trace } : {}) },
+    }),
+}));
 
 const settings = vi.hoisted(() => ({ url: "https://crm.example.test/survey" as string | undefined, limited: false }));
 vi.mock("@/lib/config/env", () => ({ getEnv: () => settings.url }));
@@ -15,7 +23,7 @@ import { POST } from "./route";
 
 const contact = { firstName: "Ava", lastName: "Rivera", email: "ava@example.test", phone: "5550101234" };
 const healthAnswers = { 1: 15, 2: 20, 3: 15, 4: 15, 5: 12, 6: 12, 7: 11 };
-const request = (body: string) => new Request("http://localhost/api/survey", { method: "POST", body });
+const request = (body: string) => new Request("http://localhost/api/survey", { method: "POST", headers: { "Content-Type": "application/json" }, body });
 
 describe("survey capture", () => {
   const fetchMock = vi.fn();
@@ -58,6 +66,44 @@ describe("survey capture", () => {
     expect((await POST(request("{"))).status).toBe(400);
     expect((await POST(request(JSON.stringify({ padding: "x".repeat(33_000) })))).status).toBe(413);
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it.each(["constructor", "__proto__", "toString", ["under50k"], { answer: "under50k" }])("rejects inherited or coercible CFO option %s", async (answer) => {
+    const answers = Array.from({ length: 5 }, (_, index) => ({ questionId: index + 1, answer }));
+    expect((await POST(request(JSON.stringify({ ...contact, answers, lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT" })))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it.each([{}, [], [{ questionId: 1, answer: "under50k" }], [null, null, null, null, null], [[1], [2], [3], [4], [5]]])("rejects malformed CFO answer structure %s", async (answers) => {
+    expect((await POST(request(JSON.stringify({ ...contact, answers, lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT" })))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it.each([null, [], { 1: 15 }, { "01": 15, 2: 20, 3: 15, 4: 15, 5: 12, 6: 12, 7: 11 }])("rejects malformed health answer structure %s", async answers => {
+    expect((await POST(request(JSON.stringify({ ...contact, answers })))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("requires a phone for the health survey and rejects duplicate CFO questions", async () => {
+    expect((await POST(request(JSON.stringify({ ...contact, phone: "", answers: healthAnswers })))).status).toBe(400);
+    const answers = Array.from({ length: 5 }, () => ({ questionId: 1, answer: "under50k" }));
+    expect((await POST(request(JSON.stringify({ ...contact, answers, lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT" })))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    [40, ["50k-150k", "single-llc", "sometimes", "tax-time", "standard"], "MEDIUM", false],
+    [100, ["over1m", "ccorp", "proactive", "monthly", "all"], "LOW", true],
+  ])("derives CFO %i urgency and qualification while preserving source", async (score, options, urgency, highIntent) => {
+    fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+    const answers = options.map((answer, index) => ({ questionId: index + 1, answer, score: 999 }));
+    const response = await POST(request(JSON.stringify({ ...contact, answers, lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT", source_page: "/es/proactive-cfo-assessment" })));
+    expect(await response.json()).toMatchObject({ success: true, score });
+    const forwarded = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(forwarded.source_page).toBe("/es/proactive-cfo-assessment");
+    expect(forwarded.intent.urgency_level).toBe(urgency);
+    expect(forwarded.results.high_intent_flag).toBe(highIntent);
+    expect(forwarded.results.fit_score).toBeLessThanOrEqual(100);
   });
 
   it("fails closed for missing configuration and rate limit", async () => {

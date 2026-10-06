@@ -8,6 +8,46 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import type { ServicePage } from "@/types/sanity";
 import { reviewedScorpService } from "@/lib/scorp/service-content";
+import { z } from "zod";
+
+const text = z.string();
+const meaningfulText = text.refine(value => value.trim().length > 0);
+const optionalText = text.optional().catch(undefined);
+const textItems = z.array(meaningfulText.optional().catch(undefined)).catch([]).transform(items => items.filter((item): item is string => item !== undefined));
+const group = z.object({ heading: meaningfulText, items: textItems }).passthrough().optional().catch(undefined);
+const step = z.object({ title: meaningfulText, description: meaningfulText, duration: optionalText }).passthrough();
+const faq = z.object({ question: meaningfulText, answer: meaningfulText }).passthrough();
+const displayService = z.object({
+    title: meaningfulText,
+    slug: z.object({ current: text.regex(/^[\p{L}\p{N}][\p{L}\p{N}._-]{0,199}$/u) }).passthrough(),
+    hero: z.object({
+        eyebrow: text.catch(""), headline: meaningfulText, subheadline: meaningfulText, highlight: optionalText,
+        primaryCta: z.object({ label: meaningfulText, href: text.catch("/contact") }).passthrough(),
+        secondaryCta: z.object({ label: optionalText, href: optionalText }).passthrough().optional().catch(undefined),
+    }).passthrough(),
+    eligibility: z.object({
+        eyebrow: optionalText, heading: optionalText, description: optionalText, badge: optionalText, items: textItems,
+        primaryGroup: group, secondaryGroup: group, disqualifierHeading: optionalText, disqualifier: optionalText,
+        cta: z.object({ label: optionalText, href: optionalText, microcopy: optionalText }).passthrough().optional().catch(undefined),
+    }).passthrough().optional().catch(undefined),
+    comparison: z.object({
+        heading: text.catch(""), description: optionalText, conclusion: optionalText,
+        pairs: z.array(z.object({ category: optionalText, outcome: optionalText, problem: text, solution: text }).passthrough().optional().catch(undefined)).catch([]).transform(items => items.filter(item => item !== undefined)),
+    }).passthrough().catch({ heading: "", pairs: [] }),
+    process: z.object({
+        eyebrow: optionalText, heading: text.catch(""), description: optionalText,
+        steps: z.array(step.optional().catch(undefined)).catch([]).transform(items => items.filter(item => item !== undefined)),
+    }).passthrough().catch({ heading: "", steps: [] }),
+    included: z.object({
+        eyebrow: optionalText, heading: text.catch(""), description: optionalText, items: textItems,
+        pricing: z.object({ headline: optionalText, detail: optionalText }).passthrough().optional().catch(undefined),
+    }).passthrough().catch({ heading: "", items: [] }),
+    faqSection: z.object({
+        eyebrow: optionalText, heading: text.catch(""),
+        items: z.array(faq.optional().catch(undefined)).catch([]).transform(items => items.filter(item => item !== undefined)),
+    }).passthrough().catch({ heading: "", items: [] }),
+    closing: z.object({ heading: text.catch(""), label: text.catch(""), href: text.catch(""), disclaimer: optionalText }).passthrough().catch({ heading: "", label: "", href: "" }),
+}).passthrough();
 
 type CmsServicePageProps = {
     cmsSlug: string;
@@ -19,7 +59,9 @@ type CmsServicePageProps = {
 
 export async function fetchCmsService(cmsSlug: string, locale: string) {
     const { data } = await sanityFetch({ query: SERVICE_PAGE_QUERY, params: { slug: cmsSlug, locale } });
-    return data ? reviewedScorpService(data as ServicePage, locale) : null;
+    const parsed = displayService.safeParse(data);
+    // Empty optional sections stay omitted; malformed required content is never published.
+    return parsed.success ? reviewedScorpService(parsed.data as ServicePage, locale) : null;
 }
 
 export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath }: CmsServicePageProps): Promise<Metadata> {

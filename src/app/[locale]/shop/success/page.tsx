@@ -7,11 +7,18 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import type Stripe from "stripe";
 import { parseCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { getEnv } from "@/lib/config/env";
+import { isCheckoutSessionId, purchaseReference, receiptCookieName, receiptSession } from "@/lib/shop/payment-security";
+import { checkRateLimit } from "@/lib/security/rate-limiter";
+import { leadRequesterKey } from "@/lib/security/lead-ingress";
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 interface SuccessPageProps {
-    searchParams: Promise<{ session_id?: string }>;
+    params: Promise<{ locale: string }>;
+    searchParams: Promise<{ session_id?: string | string[]; receipt?: string | string[] }>;
 }
 
 interface MetadataItem {
@@ -27,15 +34,30 @@ function parseMetadataItems(metadata?: Stripe.Metadata | null): MetadataItem[] {
     return parseCheckoutItemsMetadata(metadata);
 }
 
-export default async function ShopSuccessPage({ searchParams }: SuccessPageProps) {
+export default async function ShopSuccessPage({ searchParams, params }: SuccessPageProps) {
     const t = await getTranslations("Shop.Success");
-    const { session_id } = await searchParams;
+    const [{ session_id, receipt }, { locale }] = await Promise.all([searchParams, params]);
+    const secret = getEnv("STRIPE_WEBHOOK_SECRET") ?? "";
+    const incomingReference = isCheckoutSessionId(session_id) && secret ? purchaseReference(session_id, secret) : receipt;
+    const cookieName = receiptCookieName(incomingReference);
+    const proof = cookieName ? (await cookies()).get(cookieName)?.value : undefined;
+    const base = `/${locale === "es" ? "es" : "en"}/shop/success`;
+    if (session_id !== undefined) {
+        const reference = isCheckoutSessionId(session_id) && secret ? purchaseReference(session_id, secret) : null;
+        redirect(reference && receiptSession(proof, reference, secret) ? `${base}?receipt=${reference}` : base);
+    }
+    const sessionId = receiptSession(proof, receipt, secret);
     let session = null;
 
-    if (session_id) {
+    if (sessionId) {
         try {
+            const requestHeaders = await headers();
+            const identifier = leadRequesterKey({ headers: requestHeaders } as Request);
+            const global = await checkRateLimit("shop-receipt:global", 120, 60_000);
+            const quota = global.success ? await checkRateLimit(`shop-receipt:${identifier}`, 30, 60_000) : global;
+            if (!quota.success) throw new Error("Receipt quota exceeded");
             const stripe = getStripe();
-            session = await stripe.checkout.sessions.retrieve(session_id, {
+            session = await stripe.checkout.sessions.retrieve(sessionId, {
                 expand: ["line_items.data.price.product"],
             });
         } catch {
@@ -90,14 +112,14 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
 
     return (
         <main id="main-content" tabIndex={-1} className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 bg-slate-50/30">
-            <ClearCartAfterPurchase sessionId={session.id} purchasedItems={metadataItems.flatMap(item =>
+            <ClearCartAfterPurchase sessionId={receipt as string} purchasedItems={metadataItems.flatMap(item =>
                 typeof item.p === "string" && typeof item.q === "number" && Number.isInteger(item.q) && item.q > 0
                     ? [{ productId: item.p, editionId: item.ce === null ? undefined : typeof item.ce === "string" ? item.ce : typeof item.e === "string" ? item.e : undefined, quantity: item.q }]
                     : [],
             )} />
             {session && amountTotal && (
                 <ShopPurchaseEvent 
-                    orderId={session.id}
+                    orderId={receipt as string}
                     total={Number(amountTotal)}
                     currency={currency}
                     items={trackedItems}
@@ -129,7 +151,7 @@ export default async function ShopSuccessPage({ searchParams }: SuccessPageProps
                     <div className="mb-12 bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden text-left mx-auto max-w-lg">
                         <div className="bg-brand-900 px-8 py-4 flex justify-between items-center">
                             <span className="text-xs font-black uppercase tracking-[0.2em] text-gold-400">{t("orderSummary")}</span>
-                            <span className="text-xs font-bold text-white/60">ID: {session.id.slice(-8).toUpperCase()}</span>
+                            <span className="text-xs font-bold text-white/60">ID: {(receipt as string).slice(-8).toUpperCase()}</span>
                         </div>
                         <div className="p-8">
                             <div className="flex justify-between items-center mb-6 pb-6 border-b border-slate-50">

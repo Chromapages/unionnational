@@ -6,6 +6,7 @@ import { ArrowRight, Building2, CheckCircle2, Star } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { urlFor } from "@/sanity/lib/image";
 import { cn } from "@/lib/utils";
+import { getMediaUrl } from "@/lib/security/content-urls";
 
 interface VerticalHeroProps {
     title: string;
@@ -77,9 +78,10 @@ export function VerticalHero({
     testimonials = [],
     className
 }: VerticalHeroProps) {
+    const safeVideo = getMediaUrl(heroVideo);
     return (
         <section className={cn("relative overflow-hidden bg-forest-gradient pt-32 pb-16 text-white", className)}>
-            {heroVideo && (
+            {safeVideo && (
                 <video
                     autoPlay
                     muted
@@ -87,7 +89,7 @@ export function VerticalHero({
                     playsInline
                     className="absolute inset-0 h-full w-full object-cover opacity-30"
                 >
-                    <source src={heroVideo} type="video/mp4" />
+                    <source src={safeVideo} type="video/mp4" />
                 </video>
             )}
             
@@ -96,7 +98,7 @@ export function VerticalHero({
                 <div className="absolute bottom-0 right-0 h-[260px] w-[260px] translate-x-1/3 translate-y-1/3 rounded-full bg-gold-500/15 blur-[120px]" />
             </div>
 
-            {heroImage && !heroVideo && (
+            {heroImage && !safeVideo && (
                 <div className="absolute inset-0">
                     <Image
                         src={urlFor(heroImage).url()}

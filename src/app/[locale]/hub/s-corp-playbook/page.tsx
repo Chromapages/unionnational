@@ -8,7 +8,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { BookOpen, ArrowRight, Lock } from "lucide-react";
+import { BookOpen, ArrowRight, MessageCircle } from "lucide-react";
 import { extractString } from "@/lib/utils";
 import { Playbook } from "@/types/sanity";
 import Link from "next/link";
@@ -131,8 +131,8 @@ export default async function PlaybookPage(props: PageProps) {
                                         </h3>
                                         {chapter.isGated && (
                                             <span className="flex items-center gap-1 text-xs text-white/50 mt-1">
-                                                <Lock className="h-3 w-3" />
-                                                Premium Content
+                                                <MessageCircle className="h-3 w-3" aria-hidden="true" />
+                                                {locale === "es" ? "Orientación opcional" : "Optional guidance"}
                                             </span>
                                         )}
                                     </div>

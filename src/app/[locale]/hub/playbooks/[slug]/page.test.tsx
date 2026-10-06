@@ -80,12 +80,13 @@ describe("slug-specific playbook journey", () => {
         expect(metadata.alternates?.canonical).toBe("https://unionnationaltax.com/es/hub/s-corp-playbook");
     });
 
-    it("keeps chapter navigation in the requested locale and hides gated content", async () => {
+    it("keeps chapter navigation and optional guidance in the requested locale without exposing unused legacy content", async () => {
         render(await ChapterPage({ params: Promise.resolve({ locale: "es", slug: "restaurant-margin", chapter: "prime-cost" }) }));
 
         expect(screen.getByRole("heading", { name: "Prime Cost", level: 1 })).toBeInTheDocument();
         expect(screen.getByRole("link", { name: /Volver a la guía/ })).toHaveAttribute("href", "/es/hub/playbooks/restaurant-margin");
-        expect(screen.getByRole("status")).toHaveTextContent("no está disponible");
+        expect(screen.getByRole("link", { name: "Solicitar orientación" })).toHaveAttribute("href", "/es/contact");
+        expect(screen.queryByRole("status")).not.toBeInTheDocument();
         expect(screen.queryByText("Private worksheet")).not.toBeInTheDocument();
     });
 

@@ -107,13 +107,13 @@ export function VideoPlayer({
                 if (!containerRef.current?.contains(document.activeElement)) setShowControls(false);
             }, 3000);
         }
-    }, [state.isPlaying, containerRef]);
+    }, [state.isPlaying, containerRef, setShowControls]);
 
     const handleMouseLeave = useCallback(() => {
         if (state.isPlaying && !containerRef.current?.contains(document.activeElement)) {
             setShowControls(false);
         }
-    }, [state.isPlaying, containerRef]);
+    }, [state.isPlaying, containerRef, setShowControls]);
 
     useEffect(() => {
         return () => {

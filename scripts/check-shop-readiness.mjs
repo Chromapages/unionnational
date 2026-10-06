@@ -21,7 +21,8 @@ function readEnvFile(filePath) {
   );
 }
 
-const localEnv = readEnvFile(envPath);
+// Routine CI validates shape with fixtures and never reads local credentials.
+const localEnv = process.env.SHOP_READINESS_STATIC === "1" ? {} : readEnvFile(envPath);
 const env = { ...localEnv, ...process.env };
 const failures = [];
 const warnings = [];
@@ -35,10 +36,20 @@ function requireEnv(name, predicate = (value) => Boolean(value)) {
 requireEnv("STRIPE_SECRET_KEY", (value) => typeof value === "string" && /^sk_(test|live)_/.test(value));
 requireEnv("STRIPE_WEBHOOK_SECRET", (value) => typeof value === "string" && value.startsWith("whsec_") && !value.includes("..."));
 requireEnv("NEXT_PUBLIC_BASE_URL", (value) => typeof value === "string" && /^https?:\/\//.test(value));
-
-if (!env.GHL_SHOP_PURCHASE_WEBHOOK_URL) {
-  warnings.push("GHL_SHOP_PURCHASE_WEBHOOK_URL is not set; paid orders will be marked pending_manual.");
+requireEnv("SANITY_PAYMENT_DATASET", (value) => typeof value === "string" && /^[a-z0-9_-]{1,64}$/.test(value) && value !== (env.NEXT_PUBLIC_SANITY_DATASET || "production"));
+requireEnv("SANITY_PAYMENT_AUTH_TOKEN");
+for (const flag of ["SANITY_PAYMENT_PRIVATE_CONFIRMED", "SANITY_PAYMENT_MIGRATION_CONFIRMED", "GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED"]) {
+  requireEnv(flag, (value) => value === "true");
 }
+requireEnv("GHL_SHOP_FULFILLMENT_SECRET", (value) => typeof value === "string" && value.length >= 32);
+const allowedHosts = new Set((env.GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS || "").split(",").map((value) => value.trim().toLowerCase()).filter(Boolean));
+requireEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", () => allowedHosts.size > 0);
+requireEnv("GHL_SHOP_PURCHASE_WEBHOOK_URL", (value) => {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && !url.username && !url.password && (!url.port || url.port === "443") && allowedHosts.has(url.hostname.toLowerCase());
+  } catch { return false; }
+});
 
 if (!fs.existsSync(mapPath)) {
   failures.push("Stripe price map file is missing.");
@@ -68,4 +79,6 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log("Shop readiness checks passed.");
+console.log(process.env.SHOP_READINESS_STATIC === "1"
+  ? "Static shop configuration shape checks passed with fixtures. Provider privacy, migration, and receiver acceptance require owner verification."
+  : "Shop configuration shape checks passed. Verify private storage, migration, authenticated durable receiver acceptance, and provider settings before enabling checkout.");

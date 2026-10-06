@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Check, Shield, TrendingUp, Wallet, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { safeHref } from "@/lib/security/content-urls";
 
 // Define strict types matching the Sanity query
 interface PricingTier {
@@ -159,7 +160,7 @@ export function AdvisoryPricingCards({ tiers }: AdvisoryPricingCardsProps) {
                         {/* Tier selection is a secondary action; the page-level booking CTA remains primary. */}
                         <div className="mt-auto">
                             <Link
-                                href={tier.ctaUrl || "/contact"}
+                                href={safeHref(tier.ctaUrl) || "/contact"}
                                 className={cn(
                                     "block min-h-11 w-full rounded-xl border px-5 py-3 text-center text-xs font-bold uppercase tracking-[0.16em] transition-colors",
 

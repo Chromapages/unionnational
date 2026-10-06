@@ -1,4 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+// Route contract tests isolate durable dispatch; delivery concurrency/outcome tests cover the real store.
+vi.mock("@/lib/leads/delivery", () => ({
+    LeadDeliveryError: class extends Error {},
+    deliverLead: async (payload: unknown, url: string, id?: string, trace?: string) => fetch(url, {
+        method: "POST", body: JSON.stringify(payload), signal: AbortSignal.timeout(8_000),
+        headers: { "Content-Type": "application/json", ...(id ? { "X-Submission-Id": id } : {}), ...(trace ? { "X-Trace-Id": trace } : {}) },
+    }),
+}));
 
 const settings = vi.hoisted(() => ({
   url: "https://crm.example.test/application" as string | undefined,

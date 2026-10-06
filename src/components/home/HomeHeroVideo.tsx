@@ -2,12 +2,14 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { HeroVideoPlayer } from "./HeroVideoPlayer";
+import { canUseOptionalTracking } from "@/lib/analytics/privacy";
 
 export function HomeHeroVideo({ src, poster }: { src: string; poster?: string }): React.JSX.Element {
     const locale = useLocale();
     const t = useTranslations("HomeHero");
 
     function handlePlay() {
+        if (!canUseOptionalTracking()) return;
         const browserWindow = window as Window & { dataLayer?: Record<string, unknown>[] };
         browserWindow.dataLayer ??= [];
         browserWindow.dataLayer.push({

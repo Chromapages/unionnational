@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { client } from "@/sanity/lib/client";
 import sitemap, { revalidate } from "./sitemap";
+import { evaluate, parse } from "groq-js";
 
 vi.mock("@/sanity/lib/client", () => ({ client: { fetch: vi.fn() } }));
 
@@ -39,12 +40,12 @@ describe("sitemap", () => {
         expect(revalidate).toBeLessThanOrEqual(3600);
     });
 
-    it("includes attached public chapters and privacy fallback but excludes gated and missing chapters", async () => {
+    it("includes attached public guidance-request chapters and privacy fallback but excludes empty and missing chapters", async () => {
         vi.mocked(client.fetch).mockResolvedValue({
             playbooks: [
                 { slug: "field-guide", chapters: [
                     { slug: "deductions", _updatedAt: "2026-09-29T00:00:00Z" },
-                    { slug: "private", isGated: true }, null, { slug: "" },
+                    { slug: "guidance", isGated: true }, { slug: "empty", hasPublicContent: false }, null, { slug: "" },
                 ] },
                 { slug: "s-corp-playbook", chapters: [{ slug: "compensation" }] },
             ],
@@ -54,10 +55,11 @@ describe("sitemap", () => {
 
         for (const locale of ["en", "es"]) {
             expect(urls).toContain(`https://unionnationaltax.com/${locale}/hub/playbooks/field-guide/deductions`);
+            expect(urls).toContain(`https://unionnationaltax.com/${locale}/hub/playbooks/field-guide/guidance`);
             expect(urls).toContain(`https://unionnationaltax.com/${locale}/hub/s-corp-playbook/compensation`);
             expect(urls).toContain(`https://unionnationaltax.com/${locale}/legal/privacy-policy`);
         }
-        expect(urls.some((url) => url.includes("/private"))).toBe(false);
+        expect(urls.some((url) => url.includes("/empty"))).toBe(false);
         expect(result.find((entry) => entry.url.endsWith("/field-guide/deductions"))?.lastModified).toEqual(new Date("2026-09-29T00:00:00Z"));
     });
 
@@ -156,10 +158,10 @@ describe("sitemap", () => {
         }
     });
 
-    it("keeps valid nongated chapters discoverable when only the parent landing page is noindexed", async () => {
+    it("keeps public chapters discoverable when only the parent landing page is noindexed", async () => {
         vi.mocked(client.fetch).mockResolvedValue({
             playbooks: [
-                { slug: "field-guide", noIndex: true, chapters: [{ slug: "public-chapter" }, { slug: "gated-chapter", isGated: true }] },
+                { slug: "field-guide", noIndex: true, chapters: [{ slug: "public-chapter" }, { slug: "guidance-chapter", isGated: true }, { slug: "unavailable-chapter", hasPublicContent: false }] },
                 { slug: "s-corp-playbook", noIndex: true, chapters: [{ slug: "compensation" }] },
             ],
         } as never);
@@ -169,8 +171,26 @@ describe("sitemap", () => {
             expect(urls).not.toContain(`https://unionnationaltax.com/${locale}/hub/playbooks/field-guide`);
             expect(urls).not.toContain(`https://unionnationaltax.com/${locale}/hub/s-corp-playbook`);
             expect(urls).toContain(`https://unionnationaltax.com/${locale}/hub/playbooks/field-guide/public-chapter`);
+            expect(urls).toContain(`https://unionnationaltax.com/${locale}/hub/playbooks/field-guide/guidance-chapter`);
             expect(urls).toContain(`https://unionnationaltax.com/${locale}/hub/s-corp-playbook/compensation`);
         }
-        expect(urls.some((url) => url.endsWith("/gated-chapter"))).toBe(false);
+        expect(urls.some((url) => url.endsWith("/unavailable-chapter"))).toBe(false);
+    });
+
+    it("evaluates referenced public content without advertising withheld, orphan or legacy-only payloads", async () => {
+        const dataset = [
+            { _id: "book", _type: "playbook", slug: { current: "public-book" }, chapters: ["public", "empty", "blank", "withheld", "missing"].map(_ref => ({ _type: "reference", _ref })) },
+            { _id: "private-book", _type: "playbook", slug: { current: "withheld-book" }, isPublished: false },
+            { _id: "public", _type: "playbookChapter", slug: { current: "public-guidance" }, isGated: true, content: { en: [{ _type: "block", children: [{ _type: "span", text: "Approved public chapter" }] }] } },
+            { _id: "empty", _type: "playbookChapter", slug: { current: "empty" }, gatedContent: { en: [{ _type: "block" }] } },
+            { _id: "blank", _type: "playbookChapter", slug: { current: "blank" }, content: { en: [{ _type: "block", children: [{ _type: "span", text: "" }] }] } },
+            { _id: "withheld", _type: "playbookChapter", slug: { current: "withheld" }, isPublished: false, content: { en: [{ _type: "block" }] } },
+            { _id: "orphan", _type: "playbookChapter", slug: { current: "orphan" }, content: { en: [{ _type: "block" }] } },
+        ];
+        vi.mocked(client.fetch).mockImplementation(async query => (await evaluate(parse(query), { dataset })).get());
+        const urls = (await sitemap()).map(entry => entry.url);
+        expect(urls).toContain("https://unionnationaltax.com/en/hub/playbooks/public-book/public-guidance");
+        expect(urls).toContain("https://unionnationaltax.com/es/hub/playbooks/public-book/public-guidance");
+        expect(urls.some(url => /\/(empty|blank|withheld|withheld-book|orphan)$/.test(url))).toBe(false);
     });
 });

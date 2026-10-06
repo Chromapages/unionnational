@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Lock, BookOpen } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 import { extractString } from "@/lib/utils";
 
 interface Chapter {
@@ -63,9 +63,6 @@ export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, class
                                 {chapter.chapterNumber}
                             </span>
                             <span className="flex-1 line-clamp-1">{extractString(chapter.title, locale)}</span>
-                            {chapter.isGated ? (
-                                <Lock className="h-3.5 w-3.5 text-white/30" />
-                            ) : (
                                 <ChevronRight
                                     className={cn(
                                         "h-3.5 w-3.5 text-white/30 transition-transform duration-200",
@@ -73,7 +70,6 @@ export function PlaybookNav({ playbookTitle, chapters, currentChapterSlug, class
                                         "group-hover:translate-x-0.5"
                                     )}
                                 />
-                            )}
                         </Link>
                     );
                 })}

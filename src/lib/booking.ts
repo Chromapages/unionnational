@@ -1,4 +1,5 @@
 import { publicEnv } from "@/lib/config/env";
+import { safeHref } from "@/lib/security/content-urls";
 
 /**
  * Canonical on-site booking destination. It hosts the active Agent CRM calendar
@@ -41,7 +42,7 @@ function isLegacyContactBookingUrl(url: string) {
  * links from routing visitors to retired or invalid scheduling pages.
  */
 export function getBookingHref(configuredUrl?: string | null): string {
-    const url = configuredUrl?.trim();
+    const url = safeHref(configuredUrl?.trim(), { contact: true });
 
     if (!url) return BOOKING_ROUTE;
     if (isLegacyContactBookingUrl(url)) return BOOKING_ROUTE;

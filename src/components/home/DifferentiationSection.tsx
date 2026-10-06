@@ -7,6 +7,7 @@ import {
     Users, Headphones, ArrowRight, ChevronRight
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { safeHref } from "@/lib/security/content-urls";
 
 interface DifferentiationSectionProps {
     data?: {
@@ -202,7 +203,7 @@ export function DifferentiationSection({ data }: DifferentiationSectionProps) {
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                             <Link
-                                href={content.ctaUrl || "/contact"}
+                                href={safeHref(content.ctaUrl) || "/contact"}
                                 aria-label={content.ctaPrimary}
                                 className={cn(
                                     "inline-flex items-center justify-center gap-2",

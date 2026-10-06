@@ -76,6 +76,7 @@ export function SwipeableCarousel({
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
+        setScrollSnaps(emblaApi.scrollSnapList());
         setSelectedIndex(emblaApi.selectedScrollSnap());
         setCanScrollPrev(emblaApi.canScrollPrev());
         setCanScrollNext(emblaApi.canScrollNext());
@@ -85,7 +86,6 @@ export function SwipeableCarousel({
         if (!emblaApi) return;
 
         const frameId = requestAnimationFrame(() => {
-            setScrollSnaps(emblaApi.scrollSnapList());
             onSelect();
         });
         emblaApi.on("select", onSelect);

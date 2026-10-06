@@ -1,7 +1,9 @@
 import nextEnv from "@next/env";
 import { createClient } from "@sanity/client";
 import { randomUUID } from "node:crypto";
+import { backupForMutation, mutationOptions, reportMutationFailure } from "./lib/sanity-mutation.mjs";
 
+try {
 const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
 
@@ -19,6 +21,7 @@ const client = createClient({
   useCdn: false,
   token,
 });
+const mutation = mutationOptions(process.argv.slice(2), client.config());
 
 const localized = (value, type) => {
   if (typeof value === "string") return { _type: type, en: value.trim() };
@@ -118,6 +121,7 @@ const report = {
 };
 
 let transaction = client.transaction();
+const changedDocuments = [];
 
 for (const document of documents) {
   const slug = document.slug?.current || document._id;
@@ -203,13 +207,20 @@ for (const document of documents) {
     report.changed += 1;
     report.documents.push({ slug, fields: [...Object.keys(patch), ...unset.map((field) => `unset:${field}`)] });
     if (apply) {
-      let mutation = transaction.patch(document._id).set(patch);
-      if (unset.length > 0) mutation = mutation.unset(unset);
-      transaction = mutation;
+      changedDocuments.push(document);
+      let patchMutation = transaction.patch(document._id).ifRevisionId(document._rev).set(patch);
+      if (unset.length > 0) patchMutation = patchMutation.unset(unset);
+      transaction = patchMutation;
     }
   }
 }
 
-if (apply && report.changed > 0) await transaction.commit();
+if (apply && report.changed > 0) {
+  await backupForMutation(client, mutation, changedDocuments);
+  await transaction.commit();
+}
 
 console.log(JSON.stringify({ mode: apply ? "applied" : "dry-run", ...report }, null, 2));
+} catch (error) {
+  reportMutationFailure(error);
+}

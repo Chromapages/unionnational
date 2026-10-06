@@ -133,7 +133,7 @@ export const PRODUCT_DETAIL_QUERY = defineQuery(`
       "imageUrl": image.asset->url,
       "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
     },
-    "featuredTestimonials": featuredTestimonials[]-> {
+    "featuredTestimonials": featuredTestimonials[defined(@->_id) && @->isPublished != false]-> {
         _id,
         clientName,
         "clientTitle": coalesce(clientTitle[$locale], clientTitle.en, clientTitle),

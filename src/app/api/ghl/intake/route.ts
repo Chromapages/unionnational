@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
-import { GhlPayloadSchema } from "@/lib/ghl/contract";
-import { getEnv } from "@/lib/config/env";
+import { GhlPayloadSchema, type GhlPayload } from "@/lib/ghl/contract";
 import { getTraceId, logger } from "@/lib/observability/logger";
-import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter";
-import { forwardToGhl, isLeadTimeout, readLeadJson } from "@/lib/intake/shared";
+import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress";
+import { canonicalLead, canonicalReceiver } from "@/lib/leads/canonical";
+import { LeadDeliveryError } from "@/lib/leads/delivery";
+import { forwardToGhl, leadFailureStatus, readLeadJson } from "@/lib/intake/shared";
 
 export async function POST(request: Request) {
     const traceId = getTraceId(request.headers);
+    const ingress = await checkLeadIngress(request);
+    if (!ingress.ok) return NextResponse.json({ success: false, error: ingress.error }, { status: ingress.status, headers: ingress.retryAfter ? { "Retry-After": ingress.retryAfter } : undefined });
 
     try {
         const parsed = await readLeadJson(request);
@@ -26,7 +29,7 @@ export async function POST(request: Request) {
                 version: meta.version || "1.0",
                 locale: meta.locale || "en",
                 submitted_at: meta.submitted_at || new Date().toISOString(),
-                user_agent: request.headers.get("user-agent") || "unknown",
+                user_agent: (request.headers.get("user-agent") || "unknown").slice(0, 500),
                 // ip_hash is omitted until the receiver's hashing and retention contract is approved.
                 ip_hash: undefined,
             },
@@ -49,13 +52,14 @@ export async function POST(request: Request) {
             );
         }
 
-        const payload = validation.data;
-        const rateLimit = await checkRateLimit(contactRateLimitKey(payload.contact.email), 10, 60_000);
-        if (!rateLimit.success) {
-            return NextResponse.json(
-                { success: false, error: "Too many requests. Please try again later." },
-                { status: 429, headers: { "Retry-After": String(Math.max(1, Math.ceil((rateLimit.resetTime - Date.now()) / 1000))) } },
-            );
+        const rateLimit = await checkLeadContact(validation.data.contact.email, 10);
+        if (!rateLimit.ok) {
+            return NextResponse.json({ success: false, error: rateLimit.error }, { status: rateLimit.status, headers: { "Retry-After": rateLimit.retryAfter || "1" } });
+        }
+        let payload: GhlPayload;
+        try { payload = await canonicalLead(validation.data); }
+        catch (error) {
+            return NextResponse.json({ success: false, error: error instanceof LeadDeliveryError ? "Lead configuration unavailable" : "Invalid lead answers" }, { status: error instanceof LeadDeliveryError ? error.status : 400 });
         }
 
         logger.info("Validated lead", {
@@ -63,18 +67,7 @@ export async function POST(request: Request) {
             eventType: payload.event_type,
         });
 
-        const ghlWebhookUrl =
-            payload.intent.lead_magnet_type === "CONSTRUCTION_PROFIT_LEAK_CHECKLIST"
-                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/d23b0447-6fb5-4a12-98e4-bffbf7aafafe"
-                : payload.intent.lead_magnet_type === "CONSTRUCTION_PROFITABILITY_ASSESSMENT"
-                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/b15f618f-d4ec-4cf3-b1d4-01ba9e87b271"
-                : payload.intent.lead_magnet_type === "BLUEPRINT_MORE_INFO"
-                ? "https://services.leadconnectorhq.com/hooks/N5KQjySifAxlxhrrvY8g/webhook-trigger/f1e87470-26e7-45fd-9b04-99d46ba991c5"
-                : getEnv(
-                      payload.intent.lead_magnet_type === "SCORP_ESTIMATOR"
-                          ? "GHL_SCORP_ESTIMATOR_WEBHOOK_URL"
-                          : "GHL_WEBHOOK_URL"
-                  );
+        const ghlWebhookUrl = canonicalReceiver(payload.intent.lead_magnet_type);
 
         if (!ghlWebhookUrl) {
             return NextResponse.json(
@@ -95,7 +88,7 @@ export async function POST(request: Request) {
         logger.error("GHL intake error", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });
         return NextResponse.json(
             { success: false, error: "Lead delivery unavailable" },
-            { status: isLeadTimeout(error) ? 504 : 502 }
+            { status: leadFailureStatus(error) }
         );
     }
 }

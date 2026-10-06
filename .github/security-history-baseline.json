@@ -1,0 +1,21 @@
+{
+  "note": "This is a disposition inventory, not an allowlist. Strict history scans fail until the owner confirms retirement. Record provider/admin evidence without URLs or values.",
+  "capabilities": {
+    "f1b8d7e0985e79b6": { "status": "retirement-unverified" },
+    "3d0d074c60b14688": { "status": "retirement-unverified" },
+    "cabfa4cacd83b0b3": { "status": "retirement-unverified" },
+    "41eb94f5fb249b32": { "status": "retirement-unverified" },
+    "9f41618bd4e6a6a9": { "status": "retirement-unverified" },
+    "d3ac11af8987d7bc": { "status": "retirement-unverified" },
+    "4dc6d6e6b9297749": { "status": "retirement-unverified" },
+    "56624506cec018d9": { "status": "retirement-unverified" },
+    "1629cad1bd868edd": { "status": "retirement-unverified" },
+    "5d2c894063f0420c": { "status": "retirement-unverified" },
+    "af89086223fabcb7": {
+      "status": "false-positive-confirmed",
+      "path": ".omx/security-audit-2026-10-05/frontend-cms/local-checks.cjs",
+      "object": "121cc751f332b54c7ed7a439246e4795fc381239",
+      "reason": "Historical local audit fixtureSecret used to construct synthetic HMAC signatures in loadTs mocks; not a production credential. Exception applies only to this object/path and generic assignment type."
+    }
+  }
+}

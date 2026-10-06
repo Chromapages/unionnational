@@ -10,15 +10,20 @@ beforeEach(() => {
     trackMetaEvent.mockClear();
     localStorage.clear();
 });
+
+it("never sends a raw Stripe receipt identifier to optional tracking", () => {
+    render(<ShopPurchaseEvent orderId="cs_test_sensitiveCredential" total={49} />);
+    expect(trackMetaEvent).not.toHaveBeenCalled();
+});
 afterEach(cleanup);
 
 it("counts one paid order once across remounts and stored refresh state", () => {
-    const first = render(<ShopPurchaseEvent orderId="cs_dedupe_a" total={49} />);
+    const first = render(<ShopPurchaseEvent orderId="order_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" total={49} />);
     expect(trackMetaEvent).toHaveBeenCalledTimes(1);
     first.unmount();
-    render(<ShopPurchaseEvent orderId="cs_dedupe_a" total={49} />);
+    render(<ShopPurchaseEvent orderId="order_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" total={49} />);
     expect(trackMetaEvent).toHaveBeenCalledTimes(1);
-    localStorage.setItem("shop-purchase:cs_dedupe_b", "1");
-    render(<ShopPurchaseEvent orderId="cs_dedupe_b" total={49} />);
+    localStorage.setItem("shop-purchase:order_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "1");
+    render(<ShopPurchaseEvent orderId="order_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" total={49} />);
     expect(trackMetaEvent).toHaveBeenCalledTimes(1);
 });

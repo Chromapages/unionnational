@@ -74,4 +74,11 @@ describe("visible strategy intake options", () => {
         });
         expect(parsed.success).toBe(true);
     });
+
+    it("rejects unsupported entity, urgency and next-step choices instead of silently routing them", () => {
+        expect(() => normalizeEntityType("Unapproved entity choice")).toThrow("Unsupported entity type");
+        expect(() => normalizeUrgency("Unapproved timing choice")).toThrow("Unsupported urgency");
+        expect(() => normalizePreferredNextStep("Unapproved workflow choice")).toThrow("Unsupported next step");
+        expect(normalizeIndustry("Unknown industry choice")).toBe("OTHER");
+    });
 });

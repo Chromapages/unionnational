@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -13,16 +16,27 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Setup Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
 
+      - name: Redacted source security guard
+        run: node scripts/security-source-guard.mjs
+
       - name: Install
         run: npm ci
+
+      - name: Verify installed dependency patch
+        run: node scripts/patch-braces-security.mjs --check
+
+      - name: Repository and dependency control tests
+        run: node --test scripts/dependency-security.test.mjs scripts/security-source-guard.test.mjs scripts/lib/sanity-mutation.test.mjs scripts/release-inventory.test.mjs scripts/check-shop-readiness.test.mjs scripts/summarize-operational-logs.test.mjs
 
       - name: Lint
         run: npm run lint
@@ -44,11 +58,22 @@ jobs:
       - name: Audit
         run: npm audit --audit-level=high
 
+      - name: Release inventory and notices
+        run: node scripts/release-inventory.mjs --production
+
       - name: Shop readiness
-        if: github.event_name == 'push'
         run: npm run shop:readiness
         env:
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-          NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
-          GHL_SHOP_PURCHASE_WEBHOOK_URL: ${{ secrets.GHL_SHOP_PURCHASE_WEBHOOK_URL }}
+          SHOP_READINESS_STATIC: "1"
+          STRIPE_SECRET_KEY: sk_test_ci_fixture
+          STRIPE_WEBHOOK_SECRET: whsec_ci_fixture
+          NEXT_PUBLIC_BASE_URL: https://example.test
+          GHL_SHOP_PURCHASE_WEBHOOK_URL: https://example.test/webhook
+          NEXT_PUBLIC_SANITY_DATASET: public-ci-fixture
+          SANITY_PAYMENT_DATASET: private-ci-fixture
+          SANITY_PAYMENT_AUTH_TOKEN: fixture-ci-private-sanity-token
+          SANITY_PAYMENT_PRIVATE_CONFIRMED: "true"
+          SANITY_PAYMENT_MIGRATION_CONFIRMED: "true"
+          GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS: example.test
+          GHL_SHOP_FULFILLMENT_SECRET: fixture-ci-fulfillment-secret-value-not-for-production
+          GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED: "true"

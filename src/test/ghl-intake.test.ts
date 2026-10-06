@@ -1,13 +1,22 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { NextRequest } from "next/server";
 
+// Isolate route transport fixtures; the real durable store is covered in leads/delivery.test.ts.
+vi.mock("@/lib/leads/delivery", () => ({
+    LeadDeliveryError: class extends Error {},
+    deliverLead: async (payload: unknown, url: string, id?: string, trace?: string) => fetch(url, {
+        method: "POST", body: JSON.stringify(payload), signal: AbortSignal.timeout(8_000),
+        headers: { "Content-Type": "application/json", ...(id ? { "X-Submission-Id": id } : {}), ...(trace ? { "X-Trace-Id": trace } : {}) },
+    }),
+}));
+
 // ─── Mock env ───────────────────────────────────────────────────────────────
 
 vi.mock("@/lib/config/env", () => ({
     getEnv: (key: string) => {
         const env: Record<string, string | undefined> = {
-            GHL_WEBHOOK_URL: "https://ghl.example.com/webhook",
-            GHL_SCORP_ESTIMATOR_WEBHOOK_URL: "https://ghl.example.com/scorp-webhook",
+            GHL_WEBHOOK_URL: "https://ghl.example.test/webhook",
+            GHL_SCORP_ESTIMATOR_WEBHOOK_URL: "https://ghl.example.test/scorp-webhook",
         };
         return env[key];
     },

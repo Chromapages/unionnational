@@ -8,6 +8,7 @@ import { Info, ChevronRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { safeHref } from "@/lib/security/content-urls";
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -43,6 +44,12 @@ export function LegalContentClient({ body, title }: LegalContentClientProps) {
 
     // Custom components for PortableText to include IDs and "Plain Language" callouts
     const components = {
+        marks: {
+            link: ({ children, value }: { children?: React.ReactNode; value?: { href?: unknown } }) => {
+                const href = safeHref(value?.href, { contact: true });
+                return href ? <a href={href} rel="noopener noreferrer">{children}</a> : <>{children}</>;
+            },
+        },
         block: {
             h2: ({ children, value }: any) => {
                 const id = value.children?.map((c: any) => c.text).join("").toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");

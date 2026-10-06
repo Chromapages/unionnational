@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { VideoHero } from "./VideoHero";
+import { setTrackingChoice } from "@/lib/analytics/privacy";
 
 const viewport = vi.hoisted(() => ({ isDesktop: true }));
 
@@ -42,6 +43,8 @@ vi.mock("./HeroVideoPlayer", () => ({
 
 describe("VideoHero", () => {
   beforeEach(() => {
+    window.history.replaceState({}, "", "/en");
+    setTrackingChoice(true);
     (window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer = [];
     viewport.isDesktop = true;
   });

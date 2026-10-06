@@ -12,6 +12,10 @@ import { MetaPixel } from "@/components/seo/MetaPixel";
 import { ProgressBar } from "@/components/ProgressBar";
 import { SanityLive } from "@/sanity/lib/live";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { headers } from "next/headers";
+import { CspNonceProvider } from "@/components/security/CspNonceProvider";
+import { TrackingPreferencesGuard } from "@/components/privacy/TrackingPreferences";
+import { OptionalTrackingBoundary } from "@/components/privacy/OptionalTrackingBoundary";
 
 const baseUrl = "https://unionnationaltax.com";
 
@@ -81,6 +85,7 @@ export default async function RootLayout(props: {
   const locale = params.locale;
 
   const messages = await getMessages();
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const t = await getTranslations({ locale, namespace: "Header" });
 
   return (
@@ -89,15 +94,18 @@ export default async function RootLayout(props: {
         className={`${inter.variable} ${outfit.variable} font-body antialiased selection:bg-gold-500 selection:text-white overflow-x-clip`}
         suppressHydrationWarning
       >
-        <MetaPixel />
         <SkipLink label={t("skipToContent")} />
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <CspNonceProvider nonce={nonce}>
           <ThemeProvider>
-            {props.children}
+            <MetaPixel />
+            <OptionalTrackingBoundary locale={locale}>{props.children}</OptionalTrackingBoundary>
             <ChatWidget />
             <ProgressBar />
             <SanityLive />
+            <TrackingPreferencesGuard />
           </ThemeProvider>
+          </CspNonceProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -1,6 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { NextRequest } from "next/server";
 
+// Transport fixtures isolate durable dispatch; leads/delivery.test.ts covers real idempotency.
+vi.mock("@/lib/leads/delivery", () => ({
+    LeadDeliveryError: class extends Error {},
+    deliverLead: async (payload: unknown, url: string, id?: string) => fetch(url, {
+        method: "POST", body: JSON.stringify(payload), signal: AbortSignal.timeout(8_000),
+        headers: { "Content-Type": "application/json", ...(id ? { "X-Submission-Id": id } : {}) },
+    }),
+}));
+
 // ─── Mock env ───────────────────────────────────────────────────────────────
 
 vi.mock("@/lib/config/env", () => ({

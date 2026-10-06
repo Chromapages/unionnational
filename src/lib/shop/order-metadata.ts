@@ -18,7 +18,7 @@ export function buildCheckoutItemsMetadata(items: CheckoutMetadataItem[]): Recor
         chunk += character;
     }
     chunks.push(chunk);
-    const metadata: Record<string, string> = { items: chunks[0] };
+    const metadata: Record<string, string> = { items_version: "1", items: chunks[0] };
     if (chunks.length > 1) {
         metadata.items_parts = String(chunks.length);
         chunks.slice(1).forEach((value, index) => { metadata[`items_${index + 1}`] = value; });

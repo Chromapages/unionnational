@@ -2,18 +2,20 @@
 
 import { z } from "zod"
 import { logger } from "@/lib/observability/logger"
-import { checkRateLimit, contactRateLimitKey } from "@/lib/security/rate-limiter"
 import { normalizePhone, forwardToGhl } from "@/lib/intake/shared"
+import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress"
+import { headers } from "next/headers"
+import { getEnv } from "@/lib/config/env"
 
 const ContactFormSchema = z.object({
-    _hpt: z.string().optional(),
+    _hpt: z.string().max(200).optional(),
     goal: z.enum(["tax-reduction", "audit-defense", "restructure", "partnership"]),
     clientType: z.enum(["business", "individual"]),
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().optional(),
-    message: z.string().optional(),
+    firstName: z.string().trim().min(1, "First name is required").max(100),
+    lastName: z.string().trim().min(1, "Last name is required").max(100),
+    email: z.string().trim().email("Invalid email address").max(254),
+    phone: z.string().trim().max(30).optional(),
+    message: z.string().trim().max(2_000).optional(),
     locale: z.enum(["en", "es"]).default("en"),
     submissionId: z.string().uuid().optional(),
     privacy: z.literal(true, { message: "You must agree to the privacy policy" }),
@@ -25,6 +27,9 @@ export async function submitContactForm(
     _prevState: ContactFormState | null,
     formData: FormData
 ): Promise<ContactFormState> {
+    const requestHeaders = await headers()
+    const ingress = await checkLeadIngress(new Request(getEnv("NEXT_PUBLIC_BASE_URL") || "http://localhost", { headers: requestHeaders }))
+    if (!ingress.ok) return { status: "error", message: ingress.error }
     const raw = {
         _hpt: formData.get("_hpt") ?? undefined,
         goal: formData.get("goal"),
@@ -57,10 +62,10 @@ export async function submitContactForm(
 
     const d = parsed.data
     // ponytail: email-keyed quotas avoid spoofable proxy headers; add an edge challenge if rotating addresses becomes material.
-    const rateLimit = await checkRateLimit(contactRateLimitKey(d.email), 5, 60_000)
-    if (!rateLimit.success) {
+    const rateLimit = await checkLeadContact(d.email)
+    if (!rateLimit.ok) {
         logger.warn("Contact form rate limited")
-        return { status: "error", message: "Too many requests. Please try again later." }
+        return { status: "error", message: rateLimit.error }
     }
 
     const goalToService: Record<string, string> = {

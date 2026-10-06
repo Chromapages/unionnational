@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WhyUsConversionArea } from "./WhyUsConversionArea";
+import { setTrackingChoice } from "@/lib/analytics/privacy";
 
 vi.mock("@/i18n/navigation", () => ({
   Link: ({
@@ -17,6 +18,8 @@ vi.mock("@/i18n/navigation", () => ({
 
 describe("WhyUsConversionArea", () => {
   beforeEach(() => {
+    window.history.replaceState({}, "", "/en");
+    setTrackingChoice(true);
     (window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer = [];
     vi.clearAllMocks();
   });

@@ -32,7 +32,7 @@ export const BOOK_LANDING_QUERY = defineQuery(`
       "imageUrl": image.asset->url,
       "bioShort": coalesce(bioShort[$locale], bioShort.en, bioShort)
     },
-    "featuredTestimonials": featuredTestimonials[]-> {
+    "featuredTestimonials": featuredTestimonials[defined(@->_id) && @->isPublished != false]-> {
         _id,
         clientName,
         "clientTitle": coalesce(clientTitle[$locale], clientTitle.en, clientTitle),

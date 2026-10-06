@@ -15,9 +15,16 @@ import { Breadcrumbs, type BreadcrumbItem } from "@/components/ui/Breadcrumbs";
 
 
 import { Service, SanityBlock } from "@/types/sanity";
+import { safeHref } from "@/lib/security/content-urls";
 
 // Portable Text Components
 const ptComponents: PortableTextComponents = {
+    marks: {
+        link: ({ children, value }) => {
+            const href = safeHref(value?.href, { contact: true });
+            return href ? <a href={href} rel="noopener noreferrer">{children}</a> : <>{children}</>;
+        },
+    },
     block: {
         h2: ({ children }) => <h2 className="text-3xl font-bold text-brand-900 mt-12 mb-6 font-heading">{children}</h2>,
         h3: ({ children }) => <h3 className="text-2xl font-bold text-brand-900 mt-8 mb-4 font-heading">{children}</h3>,

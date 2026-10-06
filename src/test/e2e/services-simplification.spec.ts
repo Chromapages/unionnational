@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 const recommendations = [
   ["s-corp-tax-advantage", "tax-planning", "tax-preparation-and-filing"],

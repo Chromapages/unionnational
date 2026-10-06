@@ -1,6 +1,6 @@
 import React from "react";
 import { Phone } from "lucide-react";
-import Link from "next/image";
+import { safeHref } from "@/lib/security/content-urls";
 
 interface VSLMobileStickyBarProps {
   ctaText: string;
@@ -19,7 +19,7 @@ export function VSLMobileStickyBar({ ctaText, ctaUrl }: VSLMobileStickyBarProps)
           <Phone className="h-5 w-5" />
         </a>
         <a
-          href={ctaUrl}
+          href={safeHref(ctaUrl) || "/contact"}
           className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-emerald-500 px-4 text-[13px] font-black text-black shadow-[0_0_20px_rgba(34,197,94,0.2)] active:scale-95 transition-transform uppercase tracking-wider"
         >
           {ctaText}

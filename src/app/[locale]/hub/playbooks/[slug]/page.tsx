@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
-import { ArrowRight, BookOpen, Lock } from "lucide-react";
+import { ArrowRight, BookOpen, MessageCircle } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { GatedPdfButton } from "@/components/hub/GatedContentBox";
@@ -96,8 +96,8 @@ export default async function PlaybookPage({ params }: PageProps) {
                                     <span className="block font-medium group-hover:text-gold-200">{extractString(chapter.title, locale)}</span>
                                     {chapter.isGated && (
                                         <span className="mt-1 flex items-center gap-1 text-xs text-white/50">
-                                            <Lock className="h-3 w-3" aria-hidden="true" />
-                                            {locale === "es" ? "Contenido adicional" : "Additional content"}
+                                            <MessageCircle className="h-3 w-3" aria-hidden="true" />
+                                            {locale === "es" ? "Orientación opcional" : "Optional guidance"}
                                         </span>
                                     )}
                                 </span>

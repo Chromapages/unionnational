@@ -14,8 +14,6 @@
  *
  * This file re-exports all queries for backwards compatibility.
  */
-import { defineQuery } from 'next-sanity'
-
 // ─── Blog queries ────────────────────────────────────────────────────────────
 import {
     BLOG_SETTINGS_QUERY,
@@ -83,6 +81,7 @@ import {
     FAQ_QUERY,
     TESTIMONIALS_QUERY,
     SITE_SETTINGS_QUERY,
+    HEADER_SETTINGS_QUERY,
     HOME_PAGE_QUERY,
     VSL_PAGE_QUERY,
     LEGAL_PAGE_QUERY,
@@ -132,6 +131,7 @@ export {
     FAQ_QUERY,
     TESTIMONIALS_QUERY,
     SITE_SETTINGS_QUERY,
+    HEADER_SETTINGS_QUERY,
     HOME_PAGE_QUERY,
     VSL_PAGE_QUERY,
     LEGAL_PAGE_QUERY,

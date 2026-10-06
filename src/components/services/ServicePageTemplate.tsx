@@ -8,6 +8,7 @@ import { ServiceProcessSection, type ProcessDetail } from "@/components/services
 import { ServicePageContainer } from "@/components/services/ServicePageContainer";
 import { FinalBookingCTA } from "@/components/home/FinalBookingCTA";
 import type { ServicePage } from "@/types/sanity";
+import { safeHref } from "@/lib/security/content-urls";
 
 type ServicePageTemplateProps = {
     page: ServicePage;
@@ -26,7 +27,8 @@ export function renderHeroHeadline(headline: string, highlight?: string, separat
 }
 
 export function bookingHref(label: string | undefined, href: string | undefined) {
-    return href === "/contact" && /^(book|schedule|reserve|reservar|agendar)\b/i.test(label || "") ? "/book" : href;
+    const safe = safeHref(href) || "/contact";
+    return safe === "/contact" && /^(book|schedule|reserve|reservar|agendar)\b/i.test(label || "") ? "/book" : safe;
 }
 
 export async function ServicePageTemplate({ page, locale }: ServicePageTemplateProps) {
@@ -57,7 +59,7 @@ export async function ServicePageTemplate({ page, locale }: ServicePageTemplateP
                 headline={renderHeroHeadline(page.hero.headline, page.hero.highlight, isScorp)}
                 subheadline={page.hero.subheadline}
                 primaryCta={{ label: primaryLabel, href: primaryHref }}
-                secondaryCta={page.hero.secondaryCta?.label ? { label: page.hero.secondaryCta.label, href: page.hero.secondaryCta.href || `#${includedId}` } : undefined}
+                secondaryCta={page.hero.secondaryCta?.label ? { label: page.hero.secondaryCta.label, href: safeHref(page.hero.secondaryCta.href) || "#included" } : undefined}
                 primaryCtaId={`${page.slug.current}-hero-cta`}
                 reviewItems={reviewItems}
                 reviewSummary={reviewSummary}

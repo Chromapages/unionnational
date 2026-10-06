@@ -83,18 +83,11 @@ export const playbookChapter = defineType({
         }),
         defineField({
             name: 'isGated',
-            title: 'Gated Content',
+            title: 'Show Guidance Request',
             type: 'boolean',
             group: 'meta',
             initialValue: false,
-            description: 'Si está activado, este capítulo requiere un correo electrónico para acceder',
-        }),
-        defineField({
-            name: 'gatedContent',
-            title: 'Gated Content Section',
-            type: 'localizedBlock',
-            group: 'meta',
-            description: 'Contenido avanzado que se muestra solo después de capturar el correo electrónico',
+            description: 'Shows an optional marketing request for guidance. The chapter remains public; entering an email does not unlock private content or promise email delivery.',
         }),
         defineField({
             name: 'displayOrder',

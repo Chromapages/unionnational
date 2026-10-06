@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { FooterNavigation } from "./FooterNavigation";
+import { setTrackingChoice } from "@/lib/analytics/privacy";
 
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ href, children, ...props }: React.ComponentPropsWithoutRef<"a"> & { href: string }) => (
@@ -38,6 +39,8 @@ function mockMedia({ reducedMotion = false } = {}) {
 
 describe("FooterNavigation", () => {
   beforeEach(() => {
+    window.history.replaceState({}, "", "/en");
+    setTrackingChoice(true);
     mockMedia();
     (window as Window & { dataLayer?: Record<string, unknown>[] }).dataLayer = [];
   });

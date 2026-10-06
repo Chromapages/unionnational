@@ -37,6 +37,8 @@ const eslintConfig = defineConfig([
     "playwright-report/**",
     "test-results/**",
     ".omx/**",
+    ".local-backups/**",
+    ".release-evidence/**",
     "next-env.d.ts",
     "coverage/**",
     "upload-images.js",

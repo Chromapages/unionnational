@@ -10,7 +10,7 @@ export type FooterInteractionEvent =
 type DataLayerWindow = Window & { dataLayer?: Record<string, unknown>[] };
 
 export function trackFooterInteraction(event: FooterInteractionEvent, destinationId: string, categoryId?: string) {
-    if (typeof window === "undefined") return;
+    if (!canUseOptionalTracking()) return;
     const browserWindow = window as DataLayerWindow;
     browserWindow.dataLayer ??= [];
     browserWindow.dataLayer.push({
@@ -20,3 +20,4 @@ export function trackFooterInteraction(event: FooterInteractionEvent, destinatio
         ...(categoryId ? { category_id: categoryId } : {}),
     });
 }
+import { canUseOptionalTracking } from "./privacy";

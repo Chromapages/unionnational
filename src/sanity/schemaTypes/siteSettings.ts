@@ -110,11 +110,11 @@ export const siteSettings = defineType({
             initialValue: false,
         }),
         defineField({
-            name: "credentialVerifiedBy",
-            title: "Credential Verification Owner",
-            type: "string",
+            name: "credentialVerified",
+            title: "Credential Claim Approved for Public Use",
+            type: "boolean",
             group: "verification",
-            description: "Internal owner who confirmed the Enrolled Agent credential claim.",
+            description: "Public approval flag. Keep reviewer identities and confidential evidence in the approved private review system.",
         }),
         defineField({
             name: "credentialVerifiedAt",
@@ -124,11 +124,11 @@ export const siteSettings = defineType({
             description: "Date the Enrolled Agent credential claim was last confirmed.",
         }),
         defineField({
-            name: "contactDetailsVerifiedBy",
-            title: "Contact Verification Owner",
-            type: "string",
+            name: "contactDetailsVerified",
+            title: "Contact Details Approved for Public Use",
+            type: "boolean",
             group: "verification",
-            description: "Internal owner who confirmed the office address, phone number, and email address.",
+            description: "Public approval flag for the office address, phone and email. Keep reviewer identities in the approved private review system.",
         }),
         defineField({
             name: "contactDetailsVerifiedAt",
@@ -138,11 +138,11 @@ export const siteSettings = defineType({
             description: "Date the office address, phone number, and email address were last confirmed.",
         }),
         defineField({
-            name: "socialLinksVerifiedBy",
-            title: "Social Links Verification Owner",
-            type: "string",
+            name: "socialLinksVerified",
+            title: "Social Profiles Approved for Public Use",
+            type: "boolean",
             group: "verification",
-            description: "Internal owner who confirmed the social profiles are official and current.",
+            description: "Public approval flag for official social profiles. Keep reviewer identities in the approved private review system.",
         }),
         defineField({
             name: "socialLinksVerifiedAt",
@@ -152,11 +152,11 @@ export const siteSettings = defineType({
             description: "Date the social profile destinations were last confirmed.",
         }),
         defineField({
-            name: "legalContentVerifiedBy",
-            title: "Legal Content Verification Owner",
-            type: "string",
+            name: "legalContentVerified",
+            title: "Footer Legal Summary Approved for Public Use",
+            type: "boolean",
             group: "verification",
-            description: "Internal owner or counsel who approved the footer legal summary.",
+            description: "Public approval flag. Keep counsel identities and confidential review notes in the approved private review system.",
         }),
         defineField({
             name: "legalContentVerifiedAt",

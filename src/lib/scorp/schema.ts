@@ -77,16 +77,16 @@ export const ScorpFitLevelEnum = z.enum([
 
 export const ScorpEstimatorInputSchema = z.object({
     // Step 1
-    full_name: z.string().min(1, "Full name is required"),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().min(10, "Valid phone number required"),
-    business_name: z.string().min(1, "Business name is required"),
-    website_url: z.string().optional(),
+    full_name: z.string().trim().min(1, "Full name is required").max(200),
+    email: z.string().trim().email("Invalid email address").max(254),
+    phone: z.string().trim().min(10, "Valid phone number required").max(30),
+    business_name: z.string().trim().min(1, "Business name is required").max(200),
+    website_url: z.string().max(1000).optional(),
     
     // Step 2
     entity_type: EntityTypeEnum,
     niche_vertical: NicheVerticalEnum,
-    state_location: z.string().optional(),
+    state_location: z.string().max(100).optional(),
     income_subject_to_se_tax: SeTaxSubjectivityEnum,
     
     // Step 3
@@ -97,12 +97,12 @@ export const ScorpEstimatorInputSchema = z.object({
     primary_pain_point: ScorpPainPointEnum,
 
     // Meta (Tracking)
-    utm_source: z.string().optional(),
-    utm_medium: z.string().optional(),
-    utm_campaign: z.string().optional(),
-    utm_content: z.string().optional(),
-    utm_term: z.string().optional(),
-    referrer_url: z.string().optional(),
+    utm_source: z.string().max(200).optional(),
+    utm_medium: z.string().max(200).optional(),
+    utm_campaign: z.string().max(200).optional(),
+    utm_content: z.string().max(200).optional(),
+    utm_term: z.string().max(200).optional(),
+    referrer_url: z.string().max(1000).optional(),
     locale: z.enum(["en", "es"]).optional(),
     submission_id: z.string().uuid().optional(),
 });

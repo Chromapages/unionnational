@@ -89,11 +89,11 @@ export const ContactSchema = z.object({
 });
 
 export const BusinessSchema = z.object({
-    business_name: z.string().optional(),
+    business_name: z.string().trim().max(200).optional(),
     annual_revenue_band: RevenueBandEnum.optional(),
     entity_type: EntityTypeEnum.optional(),
     industry: IndustryEnum.optional(),
-    current_software: z.string().optional(),
+    current_software: z.string().max(100).optional(),
     business_type: z.string().max(100).optional(),
     state_location: z.string().max(100).optional(),
     employee_count_band: z.string().max(50).optional(),
@@ -104,39 +104,39 @@ export const IntentSchema = z.object({
     primary_service_interest: PrimaryServiceEnum.optional(),
     lead_magnet_type: LeadMagnetTypeEnum,
     urgency: UrgencyEnum.optional(),
-    pain_points: z.array(z.string()).optional(),
-    services_of_interest: z.array(z.string()).optional(),
+    pain_points: z.array(z.string().max(500)).max(10).optional(),
+    services_of_interest: z.array(z.string().max(100)).max(10).optional(),
     preferred_next_step: PreferredNextStepEnum.optional(),
     high_intent: z.boolean().optional(),
 });
 
 export const TrackingSchema = z.object({
-    utm_source: z.string().optional(),
-    utm_medium: z.string().optional(),
-    utm_campaign: z.string().optional(),
-    utm_content: z.string().optional(),
-    utm_term: z.string().optional(),
-    ad_id: z.string().optional(),
-    gclid: z.string().optional(),
+    utm_source: z.string().max(200).optional(),
+    utm_medium: z.string().max(200).optional(),
+    utm_campaign: z.string().max(200).optional(),
+    utm_content: z.string().max(200).optional(),
+    utm_term: z.string().max(200).optional(),
+    ad_id: z.string().max(200).optional(),
+    gclid: z.string().max(200).optional(),
 });
 
 export const MetaSchema = z.object({
     submitted_at: z.string().datetime(),
-    version: z.string().default("1.0"),
-    locale: z.string().default("en"),
-    user_agent: z.string().optional(),
-    ip_hash: z.string().optional(),
+    version: z.string().max(10).default("1.0"),
+    locale: z.string().max(10).default("en"),
+    user_agent: z.string().max(500).optional(),
+    ip_hash: z.string().max(100).optional(),
     source_page: z.string().max(200).optional(),
     book_slug: z.string().max(100).optional(),
     submission_id: z.string().uuid().optional(),
 });
 
 export const ResultsSchema = z.object({
-    scorp_estimated_savings: z.number().optional(),
-    scorp_reasonable_salary: z.number().optional(),
-    fit_score: z.number().optional(),
-    tax_analysis_segment: z.string().optional(),
-    assessment_label: z.string().optional(),
+    scorp_estimated_savings: z.number().min(0).max(1_000_000).optional(),
+    scorp_reasonable_salary: z.number().min(0).max(1_000_000).optional(),
+    fit_score: z.number().min(0).max(100).optional(),
+    tax_analysis_segment: z.string().max(100).optional(),
+    assessment_label: z.string().max(100).optional(),
 });
 
 /**
@@ -144,14 +144,14 @@ export const ResultsSchema = z.object({
  * Every request to /api/ghl/intake must validate against this.
  */
 export const GhlPayloadSchema = z.object({
-    event_type: z.string(),
+    event_type: z.string().max(100),
     contact: ContactSchema,
     business: BusinessSchema.optional(),
     intent: IntentSchema,
     tracking: TrackingSchema.optional(),
     meta: MetaSchema,
     results: ResultsSchema.optional(),
-    answers: z.record(z.string(), z.union([z.string().max(500), z.number(), z.boolean()])).optional(),
+    answers: z.record(z.string().max(100), z.union([z.string().max(500), z.number().min(-1_000_000).max(1_000_000), z.boolean()])).refine(value => Object.keys(value).length <= 30, "Too many answers").optional(),
 });
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────

@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Gauge, Handshake, Target as TargetIcon } from "lucide-react";
+import { getMediaUrl, getVideoEmbedUrl } from "@/lib/security/content-urls";
 
 const icons = {
     precision: TargetIcon,
@@ -33,6 +34,8 @@ interface ValuesBentoProps {
 
 export function ValuesBento({ eyebrow, title, primaryValue, values: sanityValues }: ValuesBentoProps) {
     const t = useTranslations('AboutPage.ValuesBento');
+    const nativeVideo = getMediaUrl(primaryValue?.videoFileUrl);
+    const embeddedVideo = getVideoEmbedUrl(primaryValue?.videoUrl, true);
 
     const values = (sanityValues?.length ? sanityValues : [
         {
@@ -72,25 +75,27 @@ export function ValuesBento({ eyebrow, title, primaryValue, values: sanityValues
                     <div className="relative overflow-hidden rounded-xl border border-brand-900 bg-brand-900 text-white md:col-span-2 md:row-span-2 shadow-lg group">
                         <div className="absolute inset-0 bg-brand-900 mix-blend-multiply opacity-90" />
 
-                        {(primaryValue?.videoFileUrl || primaryValue?.videoUrl) ? (
-                            primaryValue.videoFileUrl ? (
+                        {(nativeVideo || embeddedVideo) ? (
+                            nativeVideo ? (
                                 <video
                                     className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity group-hover:opacity-50 transition-opacity duration-700"
                                     autoPlay
                                     loop
                                     muted
                                     playsInline
-                                    src={primaryValue.videoFileUrl}
-                                    poster={primaryValue.imageUrl || "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&q=80&w=1200"}
+                                    src={nativeVideo}
+                                    poster={primaryValue?.imageUrl || "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&q=80&w=1200"}
                                 />
                             ) : (
                                 <div className="relative h-full w-full">
                                     <iframe
-                                        src={primaryValue.videoUrl}
+                                        src={embeddedVideo!}
+                                        title={primaryValue?.title || t('integrityTitle')}
+                                        referrerPolicy="strict-origin-when-cross-origin"
                                         className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity group-hover:opacity-50 transition-opacity duration-700"
                                         allow="autoplay; fullscreen"
                                     />
-                                    {primaryValue.imageUrl && (
+                                    {primaryValue?.imageUrl && (
                                         <img
                                             src={primaryValue.imageUrl}
                                             className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-luminosity pointer-events-none"

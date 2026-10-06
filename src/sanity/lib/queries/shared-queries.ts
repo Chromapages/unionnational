@@ -79,7 +79,7 @@ export const DEFAULT_COMPARISON_QUERY = defineQuery(`
 `)
 
 export const FAQ_QUERY = defineQuery(`
-  * [_type == "faq"] | order(displayOrder asc){
+  * [_type == "faq" && isPublished != false] | order(displayOrder asc){
     _id,
     "question": coalesce(question[$locale], question.en, question),
     "answer": coalesce(answer[$locale], answer.en, answer),
@@ -88,7 +88,7 @@ export const FAQ_QUERY = defineQuery(`
 `)
 
 export const TESTIMONIALS_QUERY = defineQuery(`
-  * [_type == "testimonial" && isPublished == true] | order(displayOrder asc) {
+  * [_type == "testimonial" && isPublished != false] | order(displayOrder asc) {
     _id,
     format,
     displayOrder,
@@ -114,7 +114,22 @@ export const TESTIMONIALS_QUERY = defineQuery(`
 
 export const SITE_SETTINGS_QUERY = defineQuery(`
   *[_type == "siteSettings"][0] {
-    ...,
+    companyName,
+    phone,
+    email,
+    address { street, city, state, zip },
+    socialLinks { linkedin, facebook, youtube, instagram, twitter },
+    showOfficeAddressInFooter,
+    "credentialVerified": coalesce(credentialVerified, defined(credentialVerifiedBy) && credentialVerifiedBy != "" && defined(credentialVerifiedAt)),
+    "contactDetailsVerified": coalesce(contactDetailsVerified, defined(contactDetailsVerifiedBy) && contactDetailsVerifiedBy != "" && defined(contactDetailsVerifiedAt)),
+    "socialLinksVerified": coalesce(socialLinksVerified, defined(socialLinksVerifiedBy) && socialLinksVerifiedBy != "" && defined(socialLinksVerifiedAt)),
+    "legalContentVerified": coalesce(legalContentVerified, defined(legalContentVerifiedBy) && legalContentVerifiedBy != "" && defined(legalContentVerifiedAt)),
+    ctaButtonUrl,
+    metaTitleSuffix,
+    metaTitleSeparator,
+    priceRange,
+    foundingYear,
+    sameAs,
     "tagline": coalesce(tagline[$locale], tagline.en, tagline),
     "ctaButtonText": coalesce(ctaButtonText[$locale], ctaButtonText.en, ctaButtonText),
     "ctaButtonTextLocalized": ctaButtonText[$locale],
@@ -144,6 +159,17 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
       noIndex,
       structuredDataType
     }
+  }
+`)
+
+// Header client props contain only fields used by navigation.
+export const HEADER_SETTINGS_QUERY = defineQuery(`
+  *[_type == "siteSettings"][0] {
+    companyName,
+    ctaButtonUrl,
+    "ctaButtonTextLocalized": ctaButtonText[$locale],
+    logo { asset->{ _id, url }, "alt": coalesce(alt[$locale], alt.en, alt) },
+    logoAlt { asset->{ _id, url }, "alt": coalesce(alt[$locale], alt.en, alt) }
   }
 `)
 

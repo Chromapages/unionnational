@@ -4,12 +4,14 @@ import { checkRateLimit, contactRateLimitKey, getClientIdentifier } from "./rate
 const mocks = vi.hoisted(() => ({
   env: {} as Record<string, string>,
   limit: vi.fn(),
+  construct: vi.fn(),
 }));
 vi.mock("../config/env", () => ({ getEnv: (key: string) => mocks.env[key] }));
 vi.mock("@upstash/redis", () => ({ Redis: class {} }));
 vi.mock("@upstash/ratelimit", () => ({
   Ratelimit: class {
     static fixedWindow() { return "test-policy"; }
+    constructor(options: unknown) { mocks.construct(options); }
     limit = mocks.limit;
   },
 }));
@@ -17,6 +19,7 @@ vi.mock("@upstash/ratelimit", () => ({
 afterEach(() => {
   mocks.env = {};
   mocks.limit.mockReset();
+  mocks.construct.mockReset();
   vi.useRealTimers();
 });
 
@@ -76,6 +79,33 @@ describe("bounded in-memory quotas", () => {
     mocks.limit.mockResolvedValue({ success: true, remaining: 7, reset: 12345 });
     const { checkRateLimit: check } = await import("./rate-limiter");
     expect(await check("redis", 10, 60_000)).toEqual({ success: true, remaining: 7, resetTime: 12345 });
+  });
+
+  it("rejects the SDK allow-on-timeout result instead of permitting provider work", async () => {
+    vi.resetModules();
+    mocks.env = { UPSTASH_REDIS_REST_URL: "https://redis.example.test", UPSTASH_REDIS_REST_TOKEN: "test-only", ENABLE_UPSTASH: "true" };
+    mocks.limit.mockResolvedValue({ success: true, remaining: 10, reset: 12345, reason: "timeout" });
+    const { checkRateLimit: check } = await import("./rate-limiter");
+    await expect(check("synthetic", 10, 60_000)).rejects.toThrow("unavailable");
+  });
+
+  it("keeps bounded defaults when environment quota values are malformed", async () => {
+    vi.resetModules();
+    mocks.env = { RL_MAX: "0", RL_WINDOW: "invalid" };
+    const { checkRateLimit: check } = await import("./rate-limiter");
+    expect(await check("invalid-config")).toMatchObject({ success: true, remaining: 9 });
+    for (let index = 1; index < 10; index++) expect((await check("invalid-config")).success).toBe(true);
+    expect((await check("invalid-config")).success).toBe(false);
+  });
+
+  it("reuses a shared Redis policy while asking storage for each request outcome", async () => {
+    vi.resetModules();
+    mocks.env = { UPSTASH_REDIS_REST_URL: "https://redis.example.test", UPSTASH_REDIS_REST_TOKEN: "test-only", ENABLE_UPSTASH: "true" };
+    mocks.limit.mockResolvedValueOnce({ success: true, remaining: 2, reset: 12345 }).mockResolvedValueOnce({ success: true, remaining: 1, reset: 12345 });
+    const { checkRateLimit: check } = await import("./rate-limiter");
+    expect(await check("synthetic-policy", 3, 60_000)).toMatchObject({ remaining: 2 });
+    expect(await check("synthetic-policy", 3, 60_000)).toMatchObject({ remaining: 1 });
+    expect(mocks.construct).toHaveBeenCalledOnce(); expect(mocks.limit).toHaveBeenCalledTimes(2);
   });
 });
 

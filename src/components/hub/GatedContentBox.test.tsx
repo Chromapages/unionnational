@@ -2,12 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { GatedContentBox, GatedPdfButton } from "./GatedContentBox";
 
-describe("playbook access controls", () => {
-    it("does not claim that unavailable chapter content was unlocked or emailed", () => {
-        render(<GatedContentBox locale="es" />);
-        expect(screen.getByRole("status")).toHaveTextContent("no está disponible");
+describe("playbook marketing resources", () => {
+    it.each(["en", "es"])("offers a truthful guidance request in %s without an unlock or email promise", locale => {
+        render(<GatedContentBox locale={locale} />);
+        expect(screen.getByRole("link")).toHaveAttribute("href", `/${locale}/contact`);
         expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
-        expect(screen.queryByText(/unlocked|inbox/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/unlock|inbox|desbloque|bandeja/i)).not.toBeInTheDocument();
     });
 
     it("opens only an available PDF and makes no email-delivery claim", () => {

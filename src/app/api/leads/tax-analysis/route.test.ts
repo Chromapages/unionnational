@@ -1,4 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+// Route contract tests isolate durable dispatch; delivery concurrency/outcome tests cover the real store.
+vi.mock("@/lib/leads/delivery", () => ({
+    LeadDeliveryError: class extends Error {},
+    deliverLead: async (payload: unknown, url: string, id?: string, trace?: string) => fetch(url, {
+        method: "POST", body: JSON.stringify(payload), signal: AbortSignal.timeout(8_000),
+        headers: { "Content-Type": "application/json", ...(id ? { "X-Submission-Id": id } : {}), ...(trace ? { "X-Trace-Id": trace } : {}) },
+    }),
+}));
 
 const settings = vi.hoisted(() => ({ url: "https://crm.example.test/tax" as string | undefined, limited: false }));
 vi.mock("@/lib/config/env", () => ({ getEnv: () => settings.url }));
@@ -18,7 +26,7 @@ const lead = {
   businessType: "construction", revenueRange: "$1M-$3M", source: "contractors-page", locale: "es",
   submission_id: "e31f71d6-7c1a-4de1-807d-a7332927ae53",
 };
-const request = (body: string) => new Request("http://localhost/api/leads/tax-analysis", { method: "POST", body });
+const request = (body: string) => new Request("http://localhost/api/leads/tax-analysis", { method: "POST", headers: { "Content-Type": "application/json" }, body });
 
 describe("tax-analysis delivery", () => {
   const fetchMock = vi.fn();

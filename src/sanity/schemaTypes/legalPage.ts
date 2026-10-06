@@ -145,18 +145,10 @@ export const legalPage = defineType({
         defineField({
             name: 'requiresReview',
             title: 'Requires Legal Review',
-            description: 'Marque este documento para revisión por asesoría legal antes de publicarlo',
+            description: 'Mark for legal review before publication. Keep confidential review notes in the approved private review system, not this public content document.',
             type: 'boolean',
             group: 'settings',
             initialValue: false,
-        }),
-        defineField({
-            name: 'reviewNotes',
-            title: 'Internal Review Notes',
-            description: 'Notas privadas para el equipo sobre cambios requeridos o elementos de revisión legal. No son visibles para los usuarios.',
-            type: 'text',
-            group: 'settings',
-            rows: 3,
         }),
         defineField({
             name: 'seo',

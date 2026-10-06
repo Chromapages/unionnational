@@ -1,4 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+// Route contract tests isolate durable dispatch; delivery concurrency/outcome tests cover the real store.
+vi.mock("@/lib/leads/delivery", () => ({
+    LeadDeliveryError: class extends Error {},
+    deliverLead: async (payload: unknown, url: string, id?: string, trace?: string) => fetch(url, {
+        method: "POST", body: JSON.stringify(payload), signal: AbortSignal.timeout(8_000),
+        headers: { "Content-Type": "application/json", ...(id ? { "X-Submission-Id": id } : {}), ...(trace ? { "X-Trace-Id": trace } : {}) },
+    }),
+}));
 
 const { config } = vi.hoisted(() => ({ config: { webhookUrl: "https://crm.example.test/webhook" as string | undefined } }));
 
@@ -73,9 +81,9 @@ describe("canonical lead intake endpoint", () => {
     });
 
     it("rejects malformed and oversized JSON before forwarding", async () => {
-        const malformed = new Request("http://localhost/api/ghl/intake", { method: "POST", body: "{" });
+        const malformed = new Request("http://localhost/api/ghl/intake", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{" });
         expect((await POST(malformed)).status).toBe(400);
-        const large = new Request("http://localhost/api/ghl/intake", { method: "POST", body: JSON.stringify({ padding: "a".repeat(33_000) }) });
+        const large = new Request("http://localhost/api/ghl/intake", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ padding: "a".repeat(33_000) }) });
         expect((await POST(large)).status).toBe(413);
         expect(fetchMock).not.toHaveBeenCalled();
     });

@@ -6,20 +6,26 @@ import Script from "next/script";
 import { Link } from "@/i18n/navigation";
 import { trackBookingFunnelEvent } from "@/lib/analytics/bookingFunnel";
 import { GhlExternalTracking } from "@/components/seo/GhlExternalTracking";
+import { getCalendarUrl } from "@/lib/security/content-urls";
+import { useCspNonce } from "@/components/security/CspNonceProvider";
 
 const DEFAULT_GHL_CALENDAR_URL = "https://link.agent-crm.com/widget/booking/sBGopjvf9OdyrfgWqOJx";
 const CALENDAR_LOAD_TIMEOUT_MS = 20000;
 
 function resolveCalendarUrl(src?: string, campaignParams: Record<string, string> = {}) {
-    const url = new URL(src?.trim() || DEFAULT_GHL_CALENDAR_URL);
+    const url = new URL(getCalendarUrl(src?.trim()) || DEFAULT_GHL_CALENDAR_URL);
+    for (const [key, value] of Array.from(url.searchParams)) {
+        if (!/^(?:utm_(?:source|medium|campaign|content|term)|gclid|fbclid)$/.test(key) || value.length > 160 || !/^[a-zA-Z0-9 _.\-]*$/.test(value)) url.searchParams.delete(key);
+    }
     for (const [key, value] of Object.entries(campaignParams)) {
-        if (!url.searchParams.has(key)) url.searchParams.set(key, value);
+        if (/^(?:utm_(?:source|medium|campaign|content|term)|gclid|fbclid)$/.test(key) && value.length <= 160 && /^[a-zA-Z0-9 _.\-]*$/.test(value) && !url.searchParams.has(key)) url.searchParams.set(key, value);
     }
     return url.toString();
 }
 
 export const BookingCalendar = ({ src, campaignParams }: { src?: string; campaignParams?: Record<string, string> }) => {
     const t = useTranslations("Booking.calendar");
+    const nonce = useCspNonce();
     const [schedulerState, setSchedulerState] = useState<"loading" | "ready" | "error">("loading");
     const [calendarAttempt, setCalendarAttempt] = useState(0);
     const [calendarHasFocus, setCalendarHasFocus] = useState(false);
@@ -122,6 +128,7 @@ export const BookingCalendar = ({ src, campaignParams }: { src?: string; campaig
                 id="ghl-form-embed"
                 src="https://link.agent-crm.com/js/form_embed.js"
                 strategy="afterInteractive"
+                nonce={nonce}
                 onError={() => failCalendar("provider_script")}
             />
             {schedulerState === "error" && (

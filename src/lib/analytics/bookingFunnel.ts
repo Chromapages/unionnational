@@ -27,8 +27,9 @@ type DataLayerWindow = Window & { dataLayer?: BookingFunnelPayload[] };
  * Delivery is best-effort so analytics cannot delay navigation or scheduling.
  */
 export function trackBookingFunnelEvent<Event extends BookingFunnelEvent>(event: Event, properties: BookingFunnelProperties[Event]) {
-    if (typeof window === "undefined") return;
+    if (!canUseOptionalTracking()) return;
     window.setTimeout(() => {
+        if (!canUseOptionalTracking()) return;
         const browserWindow = window as DataLayerWindow;
         browserWindow.dataLayer ??= [];
         browserWindow.dataLayer.push({
@@ -38,3 +39,4 @@ export function trackBookingFunnelEvent<Event extends BookingFunnelEvent>(event:
         } as BookingFunnelPayload);
     }, 0);
 }
+import { canUseOptionalTracking } from "./privacy";

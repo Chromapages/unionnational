@@ -1,4 +1,5 @@
 "use client";
+import { canUseOptionalTracking } from "@/lib/analytics/privacy";
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
@@ -131,6 +132,7 @@ export const VideoHero = ({ data }: VideoHeroProps): React.JSX.Element => {
     }, [backgroundVideoUrl, isDesktop, prefersReducedMotion]);
 
     const trackHeroEvent = (event: HeroEventName, destination: string) => {
+        if (!canUseOptionalTracking()) return;
         const browserWindow = window as unknown as {
             dataLayer?: Record<string, unknown>[];
         };

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
+import { BookingCalendar } from "@/components/booking/BookingCalendar";
 import { X, CheckCircle2, Palmtree, Calendar } from "lucide-react";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
@@ -141,12 +141,7 @@ export default async function ConstructionBookingPage(props: { params: Promise<{
 
                             {/* GHL Calendar Embed */}
                             <div className="w-full h-[calc(100%-50px)] bg-white">
-                                <iframe
-                                    src="https://link.agent-crm.com/widget/booking/18TmANwweAsRQRF1Gyhr"
-                                    style={{ width: '100%', height: '100%', border: 'none', minHeight: '650px' }}
-                                    id="18TmANwweAsRQRF1Gyhr_1768594394623"
-                                ></iframe>
-                                <Script src="https://link.agent-crm.com/js/form_embed.js" strategy="lazyOnload" />
+                                <BookingCalendar src="https://link.agent-crm.com/widget/booking/18TmANwweAsRQRF1Gyhr" />
                             </div>
 
                         </div>

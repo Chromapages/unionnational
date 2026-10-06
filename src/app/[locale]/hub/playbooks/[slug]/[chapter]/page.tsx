@@ -15,6 +15,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { PLAYBOOK_CHAPTER_QUERY, PLAYBOOK_QUERY } from "@/sanity/lib/queries";
 import type { ChapterData, PlaybookData } from "../playbook-data";
+import { getVideoEmbedUrl } from "@/lib/security/content-urls";
 
 export const revalidate = 60;
 
@@ -42,7 +43,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title: `${extractString(chapter.title, locale)} | ${extractString(playbook.title, locale)}`,
         description: `${locale === "es" ? "Capítulo" : "Chapter"} ${chapter.chapterNumber}: ${extractString(chapter.title, locale)}`,
         alternates: localizedAlternates(locale, `/hub/playbooks/${encodeURIComponent(slug)}/${encodeURIComponent(chapterSlug)}`),
-        ...(chapter.isGated ? { robots: { index: false, follow: false } } : {}),
     };
 }
 
@@ -55,7 +55,8 @@ export default async function ChapterPage({ params }: PageProps) {
     const basePath = `/hub/playbooks/${encodeURIComponent(slug)}`;
     const prevChapter = chapters[currentIndex - 1];
     const nextChapter = chapters[currentIndex + 1];
-    const hasVideoEmbed = chapter.videoEmbed?.startsWith("https://");
+    const videoEmbed = getVideoEmbedUrl(chapter.videoEmbed);
+    const hasVideoEmbed = Boolean(videoEmbed);
 
     return (
         <main id="main-content" className="min-h-screen bg-surface">
@@ -79,10 +80,11 @@ export default async function ChapterPage({ params }: PageProps) {
                     {hasVideoEmbed ? (
                         <div className="relative aspect-video overflow-hidden rounded-2xl bg-brand-900">
                             <iframe
-                                src={chapter.videoEmbed}
+                                src={videoEmbed!}
                                 title={`${extractString(chapter.title, locale)} — video`}
                                 className="absolute inset-0 h-full w-full"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allow="autoplay; encrypted-media; picture-in-picture"
+                                referrerPolicy="strict-origin-when-cross-origin"
                                 allowFullScreen
                                 loading="lazy"
                             />

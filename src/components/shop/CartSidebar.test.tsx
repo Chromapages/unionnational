@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useCartStore } from "@/store/useCartStore";
@@ -11,10 +11,108 @@ vi.mock("next-intl", () => ({ useTranslations: () => (key: string, values: Recor
 } }));
 vi.mock("@/lib/shop/checkout-client", () => ({ beginCheckout: vi.fn() }));
 vi.mock("@/components/seo/MetaPixel", () => ({ trackMetaEvent: vi.fn() }));
+vi.mock("@/i18n/navigation", () => ({ Link: ({ onClick, children, ...props }: React.ComponentProps<"a">) => <a {...props} onClick={event => { event.preventDefault(); onClick?.(event); }}>{children}</a> }));
 
 afterEach(() => useCartStore.setState({ items: [], isOpen: false, totalItems: 0, totalPrice: 0 }));
 
 describe("CartSidebar", () => {
+    it("restores existing background state and traps focus reentry from outside the drawer", async () => {
+        const user = userEvent.setup();
+        document.body.style.overflow = "clip";
+        render(<><button data-testid="outside" onClick={() => useCartStore.getState().setIsOpen(true)}>Open drawer</button><aside inert>Previously inert</aside><CartSidebar /></>);
+        const outside = screen.getByTestId("outside");
+        await user.click(outside);
+        const close = screen.getByRole("button", { name: "Close shopping cart" });
+        outside.focus();
+        await user.keyboard("{Tab}");
+        expect(close).toHaveFocus();
+        outside.focus();
+        await user.keyboard("{Shift>}{Tab}{/Shift}");
+        expect(screen.getByRole("button", { name: "Continue Shopping" })).toHaveFocus();
+        await user.click(close);
+        await waitFor(() => expect(outside).toHaveFocus());
+        expect(document.body.style.overflow).toBe("clip");
+        expect(screen.getByText("Previously inert")).toHaveAttribute("inert");
+        document.body.style.overflow = "";
+    });
+    it("closes the empty drawer through its continue action and overlay", async () => {
+        const user = userEvent.setup();
+        useCartStore.getState().setIsOpen(true);
+        const { container } = render(<CartSidebar />);
+        await user.click(screen.getByRole("button", { name: "Continue Shopping" }));
+        expect(useCartStore.getState().isOpen).toBe(false);
+        useCartStore.getState().setIsOpen(true);
+        await screen.findByRole("dialog");
+        fireEvent.click(container.querySelector("[data-cart-overlay]")!);
+        expect(useCartStore.getState().isOpen).toBe(false);
+    });
+    it.each([
+        { format: "audio", fulfillmentType: "audio", requiresShipping: false, label: "audioEdition", delivery: "Digital delivery" },
+        { format: "bundle", fulfillmentType: "bundle", requiresShipping: true, label: "bundleEdition", delivery: "Shipping details" },
+        { format: "service", fulfillmentType: "service", requiresShipping: false, label: "serviceEdition", delivery: null },
+        { format: "custom", fulfillmentType: undefined, requiresShipping: undefined, label: "resourceEdition", delivery: null },
+    ] as const)("preserves configured $format fulfillment without claiming unconfigured delivery", async offer => {
+        useCartStore.getState().addItem({ id: "variant", productId: "variant", slug: "the-s-corp-playbook", title: "Approved title — Approved edition", editionName: "Approved edition", price: 20.5, image: "/images/fixture.png", format: offer.format, fulfillmentType: offer.fulfillmentType, requiresShipping: offer.requiresShipping });
+        useCartStore.getState().setIsOpen(true);
+        const { container } = render(<CartSidebar />);
+        expect(await screen.findByRole("dialog")).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: "Approved title" })).toBeInTheDocument();
+        expect(screen.getByRole("img", { name: "Approved title" })).toBeInTheDocument();
+        expect(screen.getByText(offer.label)).toBeInTheDocument();
+        expect(screen.getByText("books.scorp.description")).toBeInTheDocument();
+        if (offer.delivery) expect(container.querySelector("[data-cart-delivery]")).toHaveTextContent(offer.delivery);
+        else expect(container.querySelector("[data-cart-delivery]")).toBeNull();
+        expect(container.querySelector("[data-cart-total]")).toHaveAttribute("data-cart-total", "20.5");
+    });
+    it("decreases quantities, removes a final unit and closes via the full-cart link", async () => {
+        const user = userEvent.setup();
+        const item = { id: "one", productId: "one", slug: "one", title: "Book without suffix", editionName: "Digital PDF", price: 29, image: "   ", format: "digital" };
+        useCartStore.getState().addItem(item);
+        useCartStore.getState().addItem(item);
+        useCartStore.getState().setIsOpen(true);
+        const { container } = render(<CartSidebar />);
+        await user.click(screen.getByRole("button", { name: "Decrease quantity for Book without suffix" }));
+        expect(container.querySelector("[data-cart-total]")).toHaveAttribute("data-cart-total", "29");
+        await user.click(screen.getByRole("button", { name: "Decrease quantity for Book without suffix" }));
+        expect(await screen.findByText("Your cart is empty")).toBeInTheDocument();
+        useCartStore.getState().addItem(item);
+        const fullCart = await screen.findByRole("link", { name: "viewFullCart" });
+        fireEvent.click(fullCart);
+        expect(useCartStore.getState().isOpen).toBe(false);
+    });
+    it.each([{ ok: false }, { ok: true }])("retains the cart when checkout lacks a usable redirect %j", async result => {
+        vi.mocked(beginCheckout).mockResolvedValueOnce(result);
+        useCartStore.getState().addItem({ id: "one", productId: "one", slug: "one", title: "Book", price: 25, image: "", format: "digital" });
+        useCartStore.getState().setIsOpen(true);
+        render(<CartSidebar />);
+        fireEvent.click(screen.getByRole("button", { name: "Proceed to Checkout" }));
+        expect(await screen.findByRole("alert")).toHaveTextContent("checkoutError");
+        expect(useCartStore.getState().items).toHaveLength(1);
+    });
+    it("disables repeated submission during checkout and recovers from an exception", async () => {
+        let reject!: (error: Error) => void;
+        vi.mocked(beginCheckout).mockImplementationOnce(() => new Promise((_resolve, rejected) => { reject = rejected; }));
+        useCartStore.getState().addItem({ id: "one", productId: "one", slug: "one", title: "Book", price: 25, image: "", format: "digital" });
+        useCartStore.getState().setIsOpen(true);
+        render(<CartSidebar />);
+        fireEvent.click(screen.getByRole("button", { name: "Proceed to Checkout" }));
+        expect(screen.getByRole("button", { name: "startingCheckout" })).toBeDisabled();
+        reject(new Error("synthetic checkout outage"));
+        expect(await screen.findByRole("alert")).toHaveTextContent("checkoutError");
+        expect(screen.getByRole("button", { name: "Proceed to Checkout" })).toBeEnabled();
+    });
+    it("navigates only after checkout returns a usable success target", async () => {
+        const previousHash = window.location.hash;
+        vi.mocked(beginCheckout).mockResolvedValueOnce({ ok: true, redirectUrl: "#fixture-checkout" });
+        useCartStore.getState().addItem({ id: "one", productId: "one", slug: "one", title: "Book", price: 25, image: "", format: "digital" });
+        useCartStore.getState().setIsOpen(true);
+        render(<CartSidebar />);
+        fireEvent.click(screen.getByRole("button", { name: "Proceed to Checkout" }));
+        await waitFor(() => expect(window.location.hash).toBe("#fixture-checkout"));
+        expect(screen.queryByRole("alert")).toBeNull();
+        expect(useCartStore.getState().items).toHaveLength(1);
+        window.location.hash = previousHash;
+    });
     it("keeps focus in the empty drawer and returns it after Escape", async () => {
         const user = userEvent.setup();
         render(<><button type="button" onClick={() => useCartStore.getState().setIsOpen(true)}>Open cart</button><CartSidebar /></>);
