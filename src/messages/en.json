@@ -2411,6 +2411,22 @@
         }
     },
     "ConsumerHome": {
+        "taxResolution": {
+            "serviceTitle": "Back Taxes & IRS Tax Resolution",
+            "eyebrow": "IRS Tax Resolution",
+            "titleLead": "Behind on taxes?",
+            "titleNext": "Start with a clearer next step.",
+            "intro": "If you have unfiled returns or an unpaid IRS balance, we can review your situation and help you understand what options may be available.",
+            "cta": "Explore Tax Resolution",
+            "privacyNote": "Please do not send sensitive tax information through public forms.",
+            "relevanceTitle": "This may be relevant if",
+            "filingsTitle": "Unfiled tax returns",
+            "filingsDescription": "One or more tax years remain unfiled.",
+            "balanceTitle": "Unpaid IRS balance",
+            "balanceDescription": "You have an IRS balance that remains unpaid.",
+            "nextTitle": "What happens next",
+            "nextDescription": "We review the situation, identify what needs attention, and outline appropriate next steps."
+        },
         "constructionBook": {
             "eyebrow": "For construction business owners",
             "title": "Build a more profitable construction business",

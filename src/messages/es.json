@@ -2419,6 +2419,22 @@
         }
     },
     "ConsumerHome": {
+        "taxResolution": {
+            "serviceTitle": "Back Taxes & IRS Tax Resolution",
+            "eyebrow": "Resolución de impuestos con el IRS",
+            "titleLead": "¿Tiene impuestos pendientes?",
+            "titleNext": "Empiece con un próximo paso más claro.",
+            "intro": "Si tiene declaraciones sin presentar o un saldo pendiente con el IRS, podemos revisar su situación y ayudarle a entender qué opciones podrían estar disponibles.",
+            "cta": "Explore la resolución de impuestos",
+            "privacyNote": "No envíe información fiscal confidencial a través de formularios públicos.",
+            "relevanceTitle": "Esto podría ser relevante si",
+            "filingsTitle": "Declaraciones sin presentar",
+            "filingsDescription": "Tiene uno o más años fiscales sin declarar.",
+            "balanceTitle": "Saldo pendiente con el IRS",
+            "balanceDescription": "Tiene un saldo con el IRS que aún no ha pagado.",
+            "nextTitle": "Qué sucede después",
+            "nextDescription": "Revisamos la situación, identificamos qué necesita atención y describimos los próximos pasos apropiados."
+        },
         "logos": {
             "label": "Logotipos destacados",
             "pause": "Pausar el movimiento de los logotipos",
