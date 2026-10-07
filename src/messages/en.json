@@ -2428,6 +2428,30 @@
             "nextDescription": "We review the situation, identify what needs attention, and outline appropriate next steps."
         },
         "constructionBook": {
+            "sideMotto": "Real numbers. Stronger businesses.",
+            "bottomMotto": "Knowledge builds what’s next",
+            "topicsLabel": "Book topics",
+            "topics": {
+                "jobCosting": "Job Costing",
+                "estimating": "Estimating",
+                "cashFlow": "Cash Flow",
+                "operations": "Operations"
+            },
+            "benefitsLabel": "What the book helps you explore",
+            "benefits": {
+                "visibility": {
+                    "title": "Improve project visibility",
+                    "body": "Review project costs with clearer, more consistent numbers."
+                },
+                "cash": {
+                    "title": "Strengthen cash-flow decisions",
+                    "body": "Connect billing with upcoming cash needs."
+                },
+                "organization": {
+                    "title": "Build a more organized operation",
+                    "body": "Create systems that clarify responsibilities and support consistent work."
+                }
+            },
             "eyebrow": "For construction business owners",
             "title": "Build a more profitable construction business",
             "body": "Bring more structure to job costing, estimating, cash flow, and leadership. The Money-Making Blueprint for Construction Companies connects your numbers with the systems that keep projects moving.",

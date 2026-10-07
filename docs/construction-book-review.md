@@ -1,6 +1,16 @@
 # Construction book feature: local review
 
-Status: homepage implemented locally; product-page replacements below are proposals only. No product, price, identifier, edition, checkout, CMS, metadata, consent or analytics changes were applied. No commit, push or deployment.
+Status: homepage implemented with local commits; product-page replacements below are proposals only. No product, price, identifier, edition, checkout, CMS, metadata, consent or analytics changes were applied. Nothing pushed or deployed.
+
+## Current visual revision
+
+The latest supplied reference is implemented as a larger cover beside a framed content panel, with four topic badges, three benefit summaries and a green CTA. Outfit and Inter remain the fonts. The original cover, main copy, author, English-only placement and single existing product link are preserved. The construction backdrop reuses an existing local asset. Mobile benefits use compact icon-and-text rows; desktop uses three columns.
+
+The reference's price, format-availability claims and extra browse action were excluded under the existing commercial and single-CTA boundaries. Product-page copy remains pending approval.
+
+Current changed files: `ConstructionBookFeature.tsx`, its test, `src/messages/en.json` (only this book's namespace), and this review document. Ten relevant tests passed, scoped lint and TypeScript passed, and the final production build passed. Rendered layouts were checked at 320, 390, 768 and 1440px without horizontal overflow; the cover remains square and contained, the link remains 56px tall, and Tab reaches its visible 2px focus ring. CTA contrast is 14.56:1; the conservative worst case for small gold caption text over the decorative backdrop is 4.505:1.
+
+Current evidence and screenshots are in `.omx/logs/construction-book-redesign/`. No dependencies, client component, tracking, prices or commerce configuration were added. The original implementation record below remains as historical context; its smaller-cover measurements describe that first version.
 
 ## Scope and implementation
 
@@ -141,7 +151,7 @@ Do not add the companion's overview, practical-material list, audience, author s
 
 Before release: approve and correct the product's unsupported tax-topic/outcome claims; resolve the separately identified price/format mapping discrepancy with the owner. No prices were inferred or reconciled. Edition availability, delivery, refund conditions and checkout operation remain unverified. No cart, order, payment or real lead was submitted.
 
-## Changed files
+## Original implementation files
 
 - `src/components/home/ConstructionBookFeature.tsx`: static feature using existing container, optimized image and locale-aware link.
 - `src/components/home/ConsumerHome.tsx`: one import and English-only insertion before `FinalBookingCTA`; previous tax-resolution work preserved.
@@ -149,7 +159,7 @@ Before release: approve and correct the product's unsupported tax-topic/outcome 
 - `src/components/home/ConstructionBookFeature.test.tsx`: one focused content/route/image/accessibility contract check.
 - This review document; local baseline, logs and screenshots in `.omx/logs/construction-book/`.
 
-## Verification and success criteria
+## Original implementation verification and success criteria
 
 | Check | Result |
 | --- | --- |
