@@ -2411,6 +2411,14 @@
         }
     },
     "ConsumerHome": {
+        "constructionBook": {
+            "eyebrow": "For construction business owners",
+            "title": "Build a more profitable construction business",
+            "body": "Bring more structure to job costing, estimating, cash flow, and leadership. The Money-Making Blueprint for Construction Companies connects your numbers with the systems that keep projects moving.",
+            "credit": "By Jason Astwood, EA",
+            "cta": "Explore the Book",
+            "coverAlt": "The Money-Making Blueprint for Construction Companies by Jason Astwood, EA"
+        },
         "logos": {
             "label": "Featured logos",
             "pause": "Pause logo scrolling",

@@ -23,6 +23,7 @@ import { BookingCtaLink } from "./BookingCtaLink";
 import { HomeOutcomeTabs } from "./HomeOutcomeTabs";
 import { HomeHeroVideo } from "./HomeHeroVideo";
 import { FinalBookingCTA } from "./FinalBookingCTA";
+import { ConstructionBookFeature } from "./ConstructionBookFeature";
 import { ClientLogoStrip, type ClientLogo } from "@/components/contact/ClientLogoStrip";
 
 const reviewIcons = [Network, ChartNoAxesColumnIncreasing, FileText, Target] as const;
@@ -232,6 +233,7 @@ export async function ConsumerHome({ heroVideoSrc, heroVideoPoster, clientLogos 
                 </div>
             </section>
 
+            {locale === "en" && <ConstructionBookFeature />}
             <FinalBookingCTA />
         </>
     );
