@@ -63,6 +63,13 @@ export type ServiceSummary = {
 
 export const fallbackServices: ServiceSummary[] = [
   {
+    title: "Back Taxes & IRS Tax Resolution",
+    slug: { current: "back-taxes-irs-tax-resolution" },
+    icon: "FileText",
+    shortDescription: "Behind on tax filings or owe the IRS? Discuss your situation with Union National Tax.",
+    category: "Compliance Support",
+  },
+  {
     title: "S-Corp Tax Advantage",
     slug: { current: "s-corp-tax-advantage" },
     icon: "TrendingUp",
@@ -150,6 +157,7 @@ export const canonicalServicePaths: string[] = [
   "/new-business-formation",
   "/s-corp-tax-advantage",
   "/payroll-services",
+  "/back-taxes-irs-tax-resolution",
   "/tax-preparation-and-filing",
 ];
 

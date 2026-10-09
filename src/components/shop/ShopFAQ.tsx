@@ -26,6 +26,7 @@ export interface FAQSupportCopy {
     items: { title: string; body: string }[];
     stillQuestions: string;
     cta: string;
+    ctaHref?: string;
     faqLabel: string;
     answersTitle: string;
     answersBody: string;
@@ -64,7 +65,7 @@ export function ShopFAQ({ items, sectionId = "shop-faq", copy, className }: Shop
                             {[BookOpen, UserRound, FileText].map((Icon, index) => support.items[index] ? <li key={index} className="flex items-center gap-4"><span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-500"><Icon className="h-7 w-7" aria-hidden="true" /></span><div><h3 className="font-heading text-lg font-semibold text-brand-950">{support.items[index].title}</h3><p className="mt-1 text-sm leading-relaxed text-brand-500">{support.items[index].body}</p></div></li> : null)}
                         </ul>
                         <span className="mt-7 block h-px w-16 bg-gold-500" aria-hidden="true" />
-                        <Link href="/contact" className="mt-5 flex min-h-20 items-center gap-4 rounded-xl bg-brand-500 px-5 py-4 text-white hover:bg-brand-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700">
+                        <Link href={support.ctaHref || "/contact"} className="mt-5 flex min-h-20 items-center gap-4 rounded-xl bg-brand-500 px-5 py-4 text-white hover:bg-brand-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700">
                             <MessageCircle className="h-8 w-8 shrink-0" aria-hidden="true" /><span className="min-w-0 flex-1"><span className="block text-[11px] font-medium uppercase tracking-[0.12em]">{support.stillQuestions}</span><span className="mt-1 block font-heading text-base font-semibold sm:text-lg">{support.cta}</span></span><ArrowRight className="h-5 w-5 shrink-0" aria-hidden="true" />
                         </Link>
                     </aside>

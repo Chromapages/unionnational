@@ -50,9 +50,10 @@ export interface VSLTemplateData {
 interface UnifiedVSLTemplateProps {
   data: VSLTemplateData;
   industry: "construction" | "restaurants" | "real-estate" | "tax-resolution";
+  primaryAction?: { href: string; label: string };
 }
 
-export function UnifiedVSLTemplate({ data, industry }: UnifiedVSLTemplateProps) {
+export function UnifiedVSLTemplate({ data, industry, primaryAction }: UnifiedVSLTemplateProps) {
   // Ensure we have current month for dynamic elements
   const [currentMonth, setCurrentMonth] = React.useState("This Month");
   React.useEffect(() => {
@@ -67,8 +68,8 @@ export function UnifiedVSLTemplate({ data, industry }: UnifiedVSLTemplateProps) 
         headline={data?.heroHeadline}
         subheadline={data?.heroSubheadline}
         videoUrl={data?.videoFile?.asset?.url}
-        ctaText={data?.heroCtaText}
-        ctaUrl={data?.heroCtaUrl}
+        ctaText={primaryAction?.label ?? data?.heroCtaText}
+        ctaUrl={primaryAction?.href ?? data?.heroCtaUrl}
         month={currentMonth}
       />
 
@@ -95,10 +96,14 @@ export function UnifiedVSLTemplate({ data, industry }: UnifiedVSLTemplateProps) 
         headline={data?.finalCtaHeadline}
         subtext={data?.finalCtaSubtext}
         industry={industry}
+        primaryAction={primaryAction}
       />
 
       {/* 10. Footer Mobile Sticky CTA */}
-      <VSLMobileStickyBar ctaText={data?.heroCtaText || "Get Started"} ctaUrl={data?.heroCtaUrl || "/apply"} />
+      <VSLMobileStickyBar
+        ctaText={primaryAction?.label ?? (data?.heroCtaText || "Get Started")}
+        ctaUrl={primaryAction?.href ?? (data?.heroCtaUrl || "/apply")}
+      />
     </div>
   );
 }

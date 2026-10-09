@@ -79,6 +79,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
             title: tFooter("complianceTitle"),
             links: [
                 { label: tFooter("complianceLinks.taxPrep"), href: "/tax-preparation-and-filing" },
+                { label: tFooter("complianceLinks.taxResolution"), href: "/back-taxes-irs-tax-resolution", className: "min-h-11" },
                 { label: tFooter("complianceLinks.newBusinessFormation"), href: "/new-business-formation" },
                 { label: tFooter("complianceLinks.payroll"), href: "/payroll-services" },
             ],

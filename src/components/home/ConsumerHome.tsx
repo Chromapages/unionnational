@@ -25,6 +25,7 @@ import { HomeHeroVideo } from "./HomeHeroVideo";
 import { FinalBookingCTA } from "./FinalBookingCTA";
 import { ConstructionBookFeature } from "./ConstructionBookFeature";
 import { HomeTaxResolutionSection } from "./HomeTaxResolutionSection";
+import { IndustryDiscovery } from "@/components/industries/IndustryDiscovery";
 import { ClientLogoStrip, type ClientLogo } from "@/components/contact/ClientLogoStrip";
 
 const reviewIcons = [Network, ChartNoAxesColumnIncreasing, FileText, Target] as const;
@@ -199,6 +200,7 @@ export async function ConsumerHome({ heroVideoSrc, heroVideoPoster, clientLogos 
                 </div>
             </section>
 
+            <IndustryDiscovery />
             <HomeTaxResolutionSection />
 
             <section id="client-results" aria-labelledby="reviews-heading" data-analytics="testimonials_section_view" className="scroll-mt-24 bg-[#fffefd] py-10 lg:py-12">

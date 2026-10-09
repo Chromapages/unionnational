@@ -1,17 +1,19 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import ConstructionIndustryClient from "./ConstructionIndustryClient";
+import { IndustryServiceExperience } from "@/components/industries/IndustryServiceExperience";
+import { getIndustryServiceContent } from "@/lib/industries/service-content";
 import { Metadata } from "next";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await props.params;
-    const baseUrl = "https://unionnationaltax.com";
+    const copy = getIndustryServiceContent("construction", locale);
     return {
-        title: "Construction CFO Partnership | Union National Tax",
-        description: "Specialized financial leadership and tax strategy for growth-minded construction firms. Stop bleeding cash on job costing and labor.",
+        title: copy.metadataTitle,
+        description: copy.metadataDescription,
         openGraph: {
-            images: [`${baseUrl}/images/og-construction.png`],
+            title: copy.metadataTitle, description: copy.metadataDescription,
+            images: [{ url: `https://unionnationaltax.com${copy.image}`, alt: copy.imageAlt }],
         },
         alternates: localizedAlternates(locale, "/industries/construction"),
     };
@@ -22,10 +24,10 @@ export default async function ConstructionIndustryPage(props: { params: Promise<
     const locale = params.locale;
 
     return (
-        <div className="min-h-screen bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
+        <div className="min-h-dvh bg-white font-body text-brand-900 selection:bg-gold-500 selection:text-brand-950">
             <HeaderWrapper />
             <main id="main-content">
-                <ConstructionIndustryClient locale={locale} />
+                <IndustryServiceExperience industry="construction" locale={locale} />
             </main>
             <Footer />
         </div>

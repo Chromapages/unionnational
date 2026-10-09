@@ -9,7 +9,8 @@ import { getEnv } from "@/lib/config/env"
 
 const ContactFormSchema = z.object({
     _hpt: z.string().max(200).optional(),
-    goal: z.enum(["tax-reduction", "audit-defense", "restructure", "partnership"]),
+    goal: z.enum(["tax-reduction", "audit-defense", "restructure", "partnership", "industry-inquiry"]),
+    industry: z.enum(["restaurants", "construction"]).optional(),
     clientType: z.enum(["business", "individual"]),
     firstName: z.string().trim().min(1, "First name is required").max(100),
     lastName: z.string().trim().min(1, "Last name is required").max(100),
@@ -19,7 +20,7 @@ const ContactFormSchema = z.object({
     locale: z.enum(["en", "es"]).default("en"),
     submissionId: z.string().uuid().optional(),
     privacy: z.literal(true, { message: "You must agree to the privacy policy" }),
-})
+}).refine((data) => data.industry ? data.goal === "industry-inquiry" : data.goal !== "industry-inquiry")
 
 export type ContactFormState = { status: "idle" } | { status: "success" } | { status: "error"; message: string }
 
@@ -33,6 +34,7 @@ export async function submitContactForm(
     const raw = {
         _hpt: formData.get("_hpt") ?? undefined,
         goal: formData.get("goal"),
+        industry: formData.get("industry") ?? undefined,
         clientType: formData.get("clientType"),
         firstName: formData.get("firstName"),
         lastName: formData.get("lastName"),
@@ -78,7 +80,7 @@ export async function submitContactForm(
     const payload = {
         version: "1.0",
         eventType: "CONTACT_FORM_SUBMITTED",
-        sourcePage: `/${d.locale}/contact`,
+        sourcePage: d.industry ? `/${d.locale}/industries/${d.industry}` : `/${d.locale}/contact`,
         leadMagnetType: "GENERAL",
         submittedAt: new Date().toISOString(),
         submissionId: d.submissionId,
@@ -88,8 +90,9 @@ export async function submitContactForm(
             email: d.email.toLowerCase(),
             phone: normalizePhone(d.phone),
         },
+        ...(d.industry ? { business: { industry: d.industry === "restaurants" ? "HOSPITALITY" : "CONSTRUCTION" } } : {}),
         intent: {
-            primaryServiceInterest: goalToService[d.goal] ?? "TAX_PLANNING",
+            ...(!d.industry ? { primaryServiceInterest: goalToService[d.goal] ?? "TAX_PLANNING" } : {}),
             consultationType: "INITIAL_CONSULTATION",
             urgencyLevel: "MEDIUM",
             clientType: d.clientType,

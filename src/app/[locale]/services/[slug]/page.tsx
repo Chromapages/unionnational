@@ -7,6 +7,7 @@ import type { ServicePage } from "@/types/sanity";
 export const revalidate = 60;
 
 const canonicalRedirects: Record<string, string> = {
+    "back-taxes-irs-tax-resolution": "/back-taxes-irs-tax-resolution",
     "fractional-cfo": "/fractional-cfo",
     "new-business-formation": "/new-business-formation",
     "payroll-services": "/payroll-services",

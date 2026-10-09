@@ -28,6 +28,7 @@ const publicPaths = [
     "/blog", "/hub", "/hub/industries", "/client-results",
     "/s-corp-tax-advantage", "/tax-planning", "/strategic-bookkeeping",
     "/fractional-cfo", "/new-business-formation", "/payroll-services",
+    "/back-taxes-irs-tax-resolution",
     "/tax-preparation-and-filing", "/construction-profitability-assessment",
     "/proactive-cfo-assessment", "/restaurants/profit-leak-assessment",
     "/tax-savings-analysis", "/construction/profit-blueprint",
@@ -39,6 +40,7 @@ const publicPaths = [
 ];
 
 const redirectedServiceSlugs = new Set([
+    "back-taxes-irs-tax-resolution",
     "fractional-cfo", "new-business-formation", "payroll-services", "s-corp-tax-advantage",
     "s-corp-tax-advantage-program", "strategic-bookkeeping", "tax-planning",
     "tax-planning-consulting", "tax-planning-consulting-services", "tax-filing",

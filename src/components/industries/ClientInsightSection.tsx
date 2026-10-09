@@ -1,12 +1,13 @@
 "use client";
 
 import { ArrowRight, ChartNoAxesColumnIncreasing, Quote, Settings, TrendingUp, UsersRound } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { BookingCtaLink } from "@/components/home/BookingCtaLink";
 import { BOOKING_ROUTE } from "@/lib/booking";
 import { Link } from "@/i18n/navigation";
 
 export function ClientInsightSection({ id = "torres-story", compact = false }: { id?: string; compact?: boolean }) {
+  const locale = useLocale();
   const t = useTranslations("ClientInsight");
   const featured = useTranslations("HomePage.TestimonialsSection.featured");
   const cta = useTranslations("HomePage.CTASection");
@@ -29,7 +30,7 @@ export function ClientInsightSection({ id = "torres-story", compact = false }: {
             <blockquote className="font-heading text-[clamp(1.375rem,2.2vw,2.25rem)] font-medium leading-[1.4] tracking-[-.015em]">“{featured("perspectiveQuote")}”</blockquote>
             <figcaption className="mt-7 flex flex-wrap items-end justify-between gap-x-5 gap-y-4 lg:mt-auto lg:pt-9">
               <div className="text-base leading-relaxed text-white/80"><span className="block font-heading text-xl font-semibold text-white sm:text-2xl">{featured("authorName")}</span><span className="mt-1 block">{featured("authorRole")}</span><span className="block">{featured("authorCompany")}</span></div>
-              <Link href="/industries/construction#torres-construction-story" className="inline-flex min-h-11 items-center gap-3 font-heading text-base font-semibold text-white underline decoration-gold-300 underline-offset-8 hover:text-gold-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 lg:text-lg"><span>{t("summary.readStory")}</span><ArrowRight className="size-7 shrink-0 text-gold-300" strokeWidth={1.5} aria-hidden="true" /></Link>
+              <Link href="/industries/construction" className="inline-flex min-h-11 items-center gap-3 font-heading text-base font-semibold text-white underline decoration-gold-300 underline-offset-8 hover:text-gold-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 lg:text-lg"><span>{locale === "es" ? "Explore el apoyo para construcción" : "Explore construction support"}</span><ArrowRight className="size-7 shrink-0 text-gold-300" strokeWidth={1.5} aria-hidden="true" /></Link>
             </figcaption>
           </figure>
         </div>

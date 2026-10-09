@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.sanity.io",
+        pathname: `/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "p1x9y3wz"}/**`,
       },
     ],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
@@ -128,6 +129,21 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: '/services/back-taxes-irs-tax-resolution',
+        destination: '/back-taxes-irs-tax-resolution',
+        permanent: true,
+      },
+      {
+        source: '/en/services/back-taxes-irs-tax-resolution',
+        destination: '/en/back-taxes-irs-tax-resolution',
+        permanent: true,
+      },
+      {
+        source: '/es/services/back-taxes-irs-tax-resolution',
+        destination: '/es/back-taxes-irs-tax-resolution',
+        permanent: true,
+      },
       {
         source: '/construction',
         destination: '/industries/construction',

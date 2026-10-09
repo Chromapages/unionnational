@@ -6,6 +6,14 @@ import { evaluate, parse } from "groq-js";
 vi.mock("@/sanity/lib/client", () => ({ client: { fetch: vi.fn() } }));
 
 describe("sitemap", () => {
+    it("includes the tax-resolution canonical route in both languages without a duplicate services alias", async () => {
+        vi.mocked(client.fetch).mockResolvedValue({ services: [{ slug: "back-taxes-irs-tax-resolution" }] } as never);
+        const urls = (await sitemap()).map(entry => entry.url);
+        for (const locale of ["en", "es"]) {
+            expect(urls).toContain(`https://unionnationaltax.com/${locale}/back-taxes-irs-tax-resolution`);
+            expect(urls).not.toContain(`https://unionnationaltax.com/${locale}/services/back-taxes-irs-tax-resolution`);
+        }
+    });
     it("includes public route families for both locales and omits noindex records", async () => {
         vi.mocked(client.fetch).mockResolvedValue({
             services: [{ slug: "custom-advisory", _updatedAt: "2026-09-30T00:00:00Z" }],

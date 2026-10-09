@@ -110,6 +110,7 @@
         "servicesGroupOther": "Más servicios",
         "servicesGroupOtherDescription": "Explore apoyo adicional para su negocio.",
         "serviceLabels": {
+            "taxResolution": "Back Taxes & IRS Tax Resolution",
             "taxPlanning": "Planificación Fiscal Proactiva",
             "sCorp": "Ventaja Fiscal S-Corp",
             "bookkeeping": "Contabilidad Estratégica",
@@ -180,6 +181,7 @@
         "fallbackPhone": "(801) 555-0123",
         "fallbackEmail": "hello@unionnationaltax.com",
         "complianceLinks": {
+            "taxResolution": "Back Taxes & IRS Tax Resolution",
             "taxPrep": "Declaración y preparación de impuestos",
             "newBusinessFormation": "Formación de nuevos negocios",
             "payroll": "Servicios de nómina"
@@ -1575,6 +1577,45 @@
             ]
         }
     },
+    "IndustryContact": {
+        "microcopy": "Envíe una consulta sobre su negocio. Este formulario no programa una cita.",
+        "messageWarning": "No incluya números de Seguro Social, números de cuenta, documentos fiscales ni otra información confidencial.",
+        "errorMessage": "No pudimos confirmar la entrega. Sus datos siguen aquí. Reintente esta solicitud; si la entrega está pendiente de revisión, nuestro equipo debe resolverla antes de volver a enviarla.",
+        "success": {
+            "title": "Consulta recibida.",
+            "message": "Gracias. Union National Tax ha recibido su consulta."
+        },
+        "step2": {
+            "title": "Cuéntenos sobre su negocio.",
+            "subtitle": "Comparta sus datos de contacto y, si lo desea, una pregunta para nuestro equipo.",
+            "labels": {
+                "firstName": "Nombre",
+                "lastName": "Apellido",
+                "email": "Correo electrónico",
+                "phone": "Teléfono (opcional)",
+                "message": "Su pregunta (opcional)"
+            },
+            "placeholders": {
+                "firstName": "Nombre",
+                "lastName": "Apellido",
+                "email": "usted@empresa.com",
+                "phone": "Número de teléfono",
+                "message": "¿Qué le gustaría conversar?"
+            },
+            "privacyText": "Acepto la <privacyLink>Política de privacidad</privacyLink> y doy mi consentimiento para que me contacten sobre mi consulta.",
+            "submitButton": "Enviar consulta",
+            "retryButton": "Reintentar consulta",
+            "sending": "Enviando consulta…"
+        },
+        "validation": {
+            "firstNameRequired": "Ingrese un nombre de 2 a 100 caracteres.",
+            "lastNameRequired": "Ingrese un apellido de 2 a 100 caracteres.",
+            "emailInvalid": "Ingrese una dirección de correo electrónico válida.",
+            "phoneInvalid": "Use un máximo de 30 caracteres para su teléfono.",
+            "messageInvalid": "Use un máximo de 2.000 caracteres para su pregunta.",
+            "privacyRequired": "Acepte la política de privacidad antes de enviar su consulta."
+        }
+    },
     "ContactPage": {
         "Hero": {
             "eyebrow": "Contacte a Union National Tax",
@@ -2417,6 +2458,76 @@
                 "Próximos pasos definidos"
             ]
         }
+    },
+    "TaxResolution": {
+        "detailLink": "Conozca este servicio",
+        "detail": {
+            "eyebrow": "Declaraciones pendientes y saldos con el IRS",
+            "preparationLink": "Antes de la conversación",
+            "summaryTitle": "Comience por su situación.",
+            "fitHeading": "¿Se identifica con esta situación?",
+            "fitDescription": "Puede tener declaraciones pendientes, un saldo con el IRS o ambos. La posibilidad de que UNT le ayude depende de sus circunstancias y del alcance que se acuerde.",
+            "processEyebrow": "Cómo comenzar",
+            "processHeading": "Comience con una conversación",
+            "processDescription": "Utilice el calendario de consultas existente para dar el primer paso. Los servicios específicos y cualquier contratación deben confirmarse con UNT.",
+            "steps": [
+                { "title": "Elija una hora", "description": "Abra el calendario de consultas de UNT y elija una hora disponible para hablar." },
+                { "title": "Describa su inquietud", "description": "Explique si su inquietud son declaraciones pendientes, un saldo con el IRS o ambos. Comience con información general." },
+                { "title": "Pregunte por el alcance", "description": "Pregunte si UNT puede ayudarle, qué cubrirían los servicios propuestos y cómo funcionarían los honorarios y el intercambio seguro de documentos." }
+            ],
+            "checklistEyebrow": "Para la conversación",
+            "checklistHeading": "Qué tener en mente",
+            "checklistDescription": "Piense en los puntos principales que desea tratar. Mantenga sus documentos e identificadores fiscales privados hasta que UNT confirme un canal seguro adecuado.",
+            "checklist": [
+                "Qué años fiscales considera que están pendientes de declarar",
+                "Si su consulta se refiere a declaraciones, un saldo con el IRS o ambos",
+                "Qué le gustaría comprender sobre su situación",
+                "Preguntas sobre alcance, honorarios e intercambio seguro de documentos"
+            ],
+            "faqHeading": "Preguntas sobre declaraciones pendientes y saldos con el IRS",
+            "faq": [
+                { "question": "¿Para quién es esta página?", "answer": "Esta página es para personas con declaraciones pendientes, dinero adeudado al IRS o ambas situaciones. Comuníquese con UNT para hablar de su caso; la adecuación y el alcance de los servicios deben confirmarse directamente." },
+                { "question": "¿Cómo comienzo?", "answer": "Seleccione “Hablemos de su situación fiscal” para abrir el calendario de consultas existente de UNT. Utilice la conversación para preguntar si UNT puede ayudarle y qué implicarían los próximos pasos." },
+                { "question": "¿Debo enviar documentos fiscales a través de esta página?", "answer": "No. Esta página no tiene un formulario para cargar documentos fiscales. No comparta declaraciones, SSN, EIN, números de cuenta ni otra información fiscal confidencial mediante formularios públicos. Pregunte a UNT por un canal seguro adecuado antes de compartir documentos." }
+            ],
+            "faqSupport": {
+                "eyebrow": "Sus preguntas",
+                "title": "Un punto de partida.",
+                "body": "Comience con la inquietud que le trajo aquí. Los servicios específicos, el alcance y los honorarios deben tratarse con UNT.",
+                "items": [
+                    { "title": "Declaraciones", "body": "Indique a UNT si tiene declaraciones pendientes." },
+                    { "title": "Saldos con el IRS", "body": "Explique si tiene un saldo sin pagar al IRS." },
+                    { "title": "Próximos pasos", "body": "Pregunte por el alcance y la recepción segura de información." }
+                ],
+                "stillQuestions": "Comience con una conversación",
+                "faqLabel": "FAQ",
+                "answersBody": "Algunas respuestas prácticas sobre esta página y cómo contactar a UNT."
+            },
+            "final": {
+                "eyebrow": "Su próximo paso",
+                "title": "Cuéntenos su situación.",
+                "nextTitle": "Comience con una conversación.",
+                "support": "Hable sobre declaraciones pendientes o un saldo con el IRS y pregunte si UNT podría ayudarle.",
+                "duration": { "label": "Elija una hora", "detail": "Utilice nuestro calendario existente." },
+                "preparation": { "label": "Contexto general", "detail": "Comience con su inquietud principal." },
+                "expert": { "label": "Alcance del servicio", "detail": "Pregunte por el alcance y los próximos pasos." },
+                "reassurance": "No comparta documentos fiscales confidenciales mediante formularios públicos."
+            },
+            "disclaimer": "Esta página ofrece información general, no asesoramiento fiscal ni legal. La disponibilidad y el alcance de los servicios deben confirmarse con Union National Tax. No se garantiza ningún resultado."
+        },
+        "title": "Back Taxes & IRS Tax Resolution",
+        "intro": "¿Tiene declaraciones pendientes o le debe dinero al IRS? Comuníquese con Union National Tax para hablar de su situación y conocer cómo podríamos ayudarle.",
+        "cta": "Hablemos de su situación fiscal",
+        "filings": {
+            "title": "Declaraciones de impuestos pendientes",
+            "description": "Tiene uno o más años fiscales sin declarar."
+        },
+        "balance": {
+            "title": "Dinero pendiente con el IRS",
+            "description": "Tiene un saldo con el IRS que aún no ha pagado."
+        },
+        "scopeNote": "Los servicios disponibles y los próximos pasos dependen de su situación.",
+        "privacyNote": "No comparta información fiscal confidencial a través de formularios públicos."
     },
     "ConsumerHome": {
         "taxResolution": {

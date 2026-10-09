@@ -83,8 +83,8 @@ const copy = {
     "helpEyebrow": "What we help with",
     "servicesEyebrow": "Relevant services",
     "explore": [
-      "Explore Construction Advisory",
-      "Explore Hospitality Advisory",
+      "Explore construction services",
+      "Explore restaurant services",
       "Explore Real Estate Advisory",
       "Explore E-commerce Advisory"
     ],
@@ -97,7 +97,7 @@ const copy = {
       },
       {
         "focus": "Prime cost · Payroll · Multi-location reporting",
-        "explore": "Explore Hospitality"
+        "explore": "Explore Restaurants"
       },
       {
         "focus": "1031 exchanges · Depreciation · Entity strategy",
@@ -145,7 +145,7 @@ const copy = {
         ]
       },
       {
-        "title": "Restaurants & Hospitality",
+        "title": "Restaurants",
         "short": "Protect margins at volume.",
         "headline": "Make Every Service Count.",
         "imageBody": "Build clearer reporting, stronger margins, and a plan for the busy seasons ahead.",
@@ -243,14 +243,14 @@ const copy = {
     ],
     "heroTitle": "Advice built for how your industry makes money.",
     "cardDescriptions": [
-      "Get a clearer view of job margins and build a stronger, more profitable business.",
-      "Understand where margins need attention and protect what you’ve built.",
+      "Construction CFO services for job costing, work-in-progress reporting, billing visibility and cash-flow planning.",
+      "Restaurant CFO services for financial reporting, food and labor cost analysis, menu economics and cash-flow planning.",
       "See how property decisions affect your tax picture and long-term wealth.",
       "Understand margins across sales channels and keep more of what you grow."
     ],
     "seeIndustry": [
-      "See construction advisory",
-      "See hospitality advisory",
+      "Explore construction services",
+      "Explore restaurant services",
       "See real estate advisory",
       "See e-commerce advisory"
     ]
@@ -265,8 +265,8 @@ const copy = {
     "helpEyebrow": "Cómo le ayudamos",
     "servicesEyebrow": "Servicios relevantes",
     "explore": [
-      "Asesoría para Construcción",
-      "Asesoría para Hospitalidad",
+      "Explorar servicios para construcción",
+      "Explorar servicios para restaurantes",
       "Asesoría Inmobiliaria",
       "Asesoría para Comercio Electrónico"
     ],
@@ -279,7 +279,7 @@ const copy = {
       },
       {
         "focus": "Costos principales · Nómina · Informes de múltiples sedes",
-        "explore": "Explorar hospitalidad"
+        "explore": "Explorar restaurantes"
       },
       {
         "focus": "Intercambios 1031 · Depreciación · Estructura empresarial",
@@ -327,7 +327,7 @@ const copy = {
         ]
       },
       {
-        "title": "Restaurantes y Hospitalidad",
+        "title": "Restaurantes",
         "short": "Proteja sus márgenes.",
         "headline": "Haga que Cada Servicio Cuente.",
         "imageBody": "Obtenga reportes claros, mejores márgenes y un plan para las temporadas intensas.",
@@ -425,14 +425,14 @@ const copy = {
     ],
     "heroTitle": "Asesoría pensada para cómo genera ingresos su industria.",
     "cardDescriptions": [
-      "Entienda mejor los márgenes de cada obra y construya un negocio más sólido y rentable.",
-      "Identifique los márgenes que requieren atención y proteja lo que ha construido.",
+      "Servicios de CFO para costos por obra, informes de trabajo en curso, facturación y flujo de efectivo.",
+      "Servicios de CFO para informes financieros, costos de alimentos y personal, economía del menú y flujo de efectivo.",
       "Vea cómo sus decisiones inmobiliarias afectan sus impuestos y su patrimonio a largo plazo.",
       "Entienda los márgenes de sus canales de venta y conserve más de lo que genera."
     ],
     "seeIndustry": [
-      "Ver asesoría para construcción",
-      "Ver asesoría para hospitalidad",
+      "Explorar servicios para construcción",
+      "Explorar servicios para restaurantes",
       "Ver asesoría inmobiliaria",
       "Ver asesoría para comercio electrónico"
     ]

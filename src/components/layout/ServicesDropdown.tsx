@@ -51,7 +51,7 @@ export const ServicesDropdown = ({
     {
       id: "implementation",
       title: t("servicesGroupImplementation"),
-      hrefs: ["/tax-preparation-and-filing", "/new-business-formation", "/payroll-services"],
+      hrefs: ["/tax-preparation-and-filing", "/back-taxes-irs-tax-resolution", "/new-business-formation", "/payroll-services"],
     },
   ];
 
@@ -199,6 +199,7 @@ export const ServicesDropdown = ({
       case "/new-business-formation": return t("serviceLabels.formation");
       case "/payroll-services": return t("serviceLabels.payroll");
       case "/tax-preparation-and-filing": return t("serviceLabels.taxPreparation");
+      case "/back-taxes-irs-tax-resolution": return t("serviceLabels.taxResolution");
       default: return fallbackTitle || t("servicesDropdownFallbackServiceTitle");
     }
   };
@@ -217,6 +218,7 @@ export const ServicesDropdown = ({
           aria-current={isCurrent ? "page" : undefined}
           className={cn(
             "group/item flex min-h-10 items-center justify-between gap-4 rounded-md px-2 py-1 text-base transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300",
+            href === "/back-taxes-irs-tax-resolution" && "min-h-11",
             isCurrent
               ? "bg-gold-500/15 text-gold-300"
               : "text-white hover:bg-white/5 hover:text-gold-200",

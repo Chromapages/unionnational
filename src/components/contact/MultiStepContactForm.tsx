@@ -13,13 +13,13 @@ import { trackMetaEvent } from "@/components/seo/MetaPixel";
 
 const contactFormSchema = z.object({
     _hpt: z.string().optional(),
-    goal: z.enum(["tax-reduction", "audit-defense", "restructure", "partnership"], { message: "Please select a primary goal." }),
+    goal: z.enum(["tax-reduction", "audit-defense", "restructure", "partnership", "industry-inquiry"], { message: "Please select a primary goal." }),
     clientType: z.enum(["business", "individual"]),
-    firstName: z.string().min(2, "First name is required"),
-    lastName: z.string().min(2, "Last name is required"),
-    email: z.string().email("Please enter a valid email address"),
-    phone: z.string().optional(),
-    message: z.string().optional(),
+    firstName: z.string().trim().min(2, "First name is required").max(100),
+    lastName: z.string().trim().min(2, "Last name is required").max(100),
+    email: z.string().trim().email("Please enter a valid email address").max(254),
+    phone: z.string().trim().max(30).optional(),
+    message: z.string().trim().max(2_000).optional(),
     privacy: z.literal(true, { message: "You must agree to the privacy policy" }),
 });
 
@@ -27,16 +27,17 @@ type ContactData = z.infer<typeof contactFormSchema>;
 type ConsultationGoal = ContactData["goal"];
 type SubmissionState = { status: "idle" | "success" | "error"; message?: string };
 
-export function MultiStepContactForm({ title, subtitle }: { title?: string; subtitle?: string }) {
-    const t = useTranslations("ContactPage.MultiStepForm");
+export function MultiStepContactForm({ title, subtitle, industry }: { title?: string; subtitle?: string; industry?: "restaurants" | "construction" }) {
+    const t = useTranslations(industry ? "IndustryContact" : "ContactPage.MultiStepForm");
     const locale = useLocale();
     const [submissionId] = useState(() => crypto.randomUUID());
-    const [step, setStep] = useState<1 | 2 | 3>(1);
+    const [step, setStep] = useState<1 | 2 | 3>(industry ? 3 : 1);
     const [submission, setSubmission] = useState<SubmissionState>({ status: "idle" });
-    const [selectedGoal, setSelectedGoal] = useState<ConsultationGoal | null>(null);
+    const [selectedGoal, setSelectedGoal] = useState<ConsultationGoal | null>(industry ? "industry-inquiry" : null);
     const [goalError, setGoalError] = useState(false);
     const stepHeadingRef = useRef<HTMLHeadingElement>(null);
     const successHeadingRef = useRef<HTMLHeadingElement>(null);
+    const inFlight = useRef(false);
     const previousStep = useRef(step);
 
     useEffect(() => {
@@ -51,10 +52,10 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ContactData>({
         resolver: zodResolver(contactFormSchema),
         mode: "onBlur",
-        defaultValues: { clientType: "business" },
+        defaultValues: { clientType: "business", ...(industry ? { goal: "industry-inquiry" as const } : {}) },
     });
 
-    const goals = [
+    const goals = industry ? [] : [
         { id: "tax-reduction", label: t("step1.goals.taxReduction"), helper: t("step1.helpers.taxReduction"), icon: TrendingDown },
         { id: "audit-defense", label: t("step1.goals.auditDefense"), helper: t("step1.helpers.auditDefense"), icon: Shield },
         { id: "restructure", label: t("step1.goals.restructure"), helper: t("step1.helpers.restructure"), icon: Building2 },
@@ -83,29 +84,35 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
     };
 
     const onValid = async (data: ContactData) => {
+        if (inFlight.current) return;
+        inFlight.current = true;
         setSubmission({ status: "idle" });
         const fd = new FormData();
         Object.entries(data).forEach(([key, value]) => fd.append(key, String(value ?? "")));
         fd.append("locale", locale);
         fd.append("submissionId", submissionId);
+        if (industry) fd.append("industry", industry);
         try {
             const result = await submitContactForm(null, fd);
             if (result.status === "success") {
-                trackMetaEvent("Lead", { content_name: "Contact Form", content_category: data.goal });
+                trackMetaEvent("Lead", { content_name: "Contact Form", content_category: industry || data.goal });
                 setSubmission({ status: "success" });
             } else if (result.status === "error") {
-                setSubmission({ status: "error", message: result.message });
+                setSubmission({ status: "error", message: industry ? undefined : result.message });
             } else {
                 setSubmission({ status: "error" });
             }
         } catch {
             setSubmission({ status: "error" });
+        } finally {
+            inFlight.current = false;
         }
     };
 
     const fieldClass = (invalid: boolean) => cn(
-        "min-h-12 w-full rounded-lg border bg-white px-4 py-3 text-sm text-brand-900 outline-none transition focus-visible:ring-2 focus-visible:ring-gold-500/30",
-        invalid ? "border-rose-500" : "border-slate-200 focus-visible:border-gold-500"
+        "min-h-12 w-full rounded-lg border bg-white px-4 py-3 text-sm text-brand-900 outline-none transition focus-visible:ring-2",
+        industry ? "placeholder:text-slate-700 focus-visible:ring-brand-900 focus-visible:ring-offset-2 focus-visible:border-brand-900" : "focus-visible:ring-gold-500/30",
+        industry ? invalid ? "border-rose-700" : "border-slate-700" : invalid ? "border-rose-500" : "border-slate-200 focus-visible:border-gold-500"
     );
 
     if (submission.status === "success") {
@@ -113,8 +120,8 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
             <div className="flex min-h-[430px] flex-col items-center justify-center rounded-3xl border border-emerald-200 bg-white p-8 text-center shadow-2xl" role="status" aria-live="polite">
                 <CheckCircle2 className="h-14 w-14 text-emerald-600" aria-hidden="true" />
                 <h2 ref={successHeadingRef} tabIndex={-1} className="mt-5 font-heading text-3xl font-bold text-brand-900">{t("success.title")}</h2>
-                <p className="mt-3 max-w-md leading-7 text-slate-600">{t("success.message")}</p>
-                <p className="mt-5 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800">{t("success.responseTime")}</p>
+                <p className={cn("mt-3 max-w-md leading-7", industry ? "text-slate-700" : "text-slate-600")}>{t("success.message")}</p>
+                {!industry && <p className="mt-5 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800">{t("success.responseTime")}</p>}
             </div>
         );
     }
@@ -126,7 +133,7 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
                 <input type="hidden" {...register("clientType")} />
                 <input type="hidden" {...register("goal")} value={selectedGoal ?? ""} />
 
-                <div className="mb-7" aria-label={t("progressLabel")}>
+                {!industry && <div className="mb-7" aria-label={t("progressLabel")}>
                     <div className="mb-2 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
                         <span>{t("stepCount", { current: step, total: 3 })}</span>
                         <span>{Math.round((step / 3) * 100)}%</span>
@@ -134,7 +141,7 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
                     <div className="grid grid-cols-3 gap-2" aria-hidden="true">
                         {[1, 2, 3].map((item) => <span key={item} className={cn("h-1.5 rounded-full", item <= step ? "bg-gold-500" : "bg-slate-200")} />)}
                     </div>
-                </div>
+                </div>}
 
                 {step === 1 && (
                         <div>
@@ -181,21 +188,22 @@ export function MultiStepContactForm({ title, subtitle }: { title?: string; subt
 
                 {step === 3 && (
                         <div>
-                            <button type="button" onClick={() => goTo(2)} className="mb-4 flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-900 focus-visible:outline-2 focus-visible:outline-gold-500"><ArrowLeft className="h-4 w-4" />{t("step2.backButton")}</button>
-                            <h2 ref={stepHeadingRef} tabIndex={-1} className="font-heading text-2xl font-bold">{t("step2.title")}</h2>
-                            <p className="mt-2 text-sm text-slate-600">{t("step2.subtitle")}</p>
+                            {!industry && <button type="button" onClick={() => goTo(2)} className="mb-4 flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-900 focus-visible:outline-2 focus-visible:outline-gold-500"><ArrowLeft className="h-4 w-4" />{t("step2.backButton")}</button>}
+                            <h2 ref={stepHeadingRef} tabIndex={-1} className="font-heading text-2xl font-bold">{industry && title || t("step2.title")}</h2>
+                            <p className={cn("mt-2 text-sm", industry ? "text-slate-700" : "text-slate-600")}>{industry && subtitle || t("step2.subtitle")}</p>
                             <div className="mt-6 grid gap-4 sm:grid-cols-2">
                                 <Field id="firstName" label={t("step2.labels.firstName")} error={errors.firstName?.message && t("validation.firstNameRequired")}><input id="firstName" autoComplete="given-name" {...register("firstName")} aria-invalid={Boolean(errors.firstName)} aria-describedby={errors.firstName ? "firstName-error" : undefined} className={fieldClass(Boolean(errors.firstName))} placeholder={t("step2.placeholders.firstName")} /></Field>
                                 <Field id="lastName" label={t("step2.labels.lastName")} error={errors.lastName?.message && t("validation.lastNameRequired")}><input id="lastName" autoComplete="family-name" {...register("lastName")} aria-invalid={Boolean(errors.lastName)} aria-describedby={errors.lastName ? "lastName-error" : undefined} className={fieldClass(Boolean(errors.lastName))} placeholder={t("step2.placeholders.lastName")} /></Field>
                                 <Field id="email" label={t("step2.labels.email")} error={errors.email?.message && t("validation.emailInvalid")}><input id="email" type="email" autoComplete="email" {...register("email")} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} className={fieldClass(Boolean(errors.email))} placeholder={t("step2.placeholders.email")} /></Field>
-                                <Field id="phone" label={t("step2.labels.phone")}><input id="phone" type="tel" autoComplete="tel" {...register("phone")} className={fieldClass(false)} placeholder={t("step2.placeholders.phone")} /></Field>
+                                <Field id="phone" label={t("step2.labels.phone")} error={errors.phone?.message && (industry ? t("validation.phoneInvalid") : errors.phone.message)}><input id="phone" type="tel" autoComplete="tel" maxLength={30} {...register("phone")} aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "phone-error" : undefined} className={fieldClass(Boolean(errors.phone))} placeholder={t("step2.placeholders.phone")} /></Field>
                             </div>
-                            <Field id="message" label={t("step2.labels.message")} className="mt-4"><textarea id="message" rows={2} {...register("message")} className={cn(fieldClass(false), "resize-y")} placeholder={t("step2.placeholders.message")} /></Field>
-                            <label className="mt-4 flex cursor-pointer items-start gap-3 text-xs leading-5 text-slate-600"><input type="checkbox" {...register("privacy")} aria-invalid={Boolean(errors.privacy)} aria-describedby={errors.privacy ? "privacy-error" : undefined} className="mt-1 h-5 w-5 shrink-0 accent-brand-900" /><span>{t.rich("step2.privacyText", { privacyLink: (chunks) => <Link href="/legal/privacy-policy" className="font-semibold underline">{chunks}</Link> })}</span></label>
+                            <Field id="message" label={t("step2.labels.message")} error={errors.message?.message && (industry ? t("validation.messageInvalid") : errors.message.message)} className="mt-4"><textarea id="message" rows={2} maxLength={2_000} {...register("message")} aria-invalid={Boolean(errors.message)} aria-describedby={[industry && "message-warning", errors.message && "message-error"].filter(Boolean).join(" ") || undefined} className={cn(fieldClass(Boolean(errors.message)), "resize-y")} placeholder={t("step2.placeholders.message")} /></Field>
+                            {industry && <p id="message-warning" className="mt-2 text-xs leading-5 text-slate-700">{t("messageWarning")}</p>}
+                            <label className={cn("mt-4 flex cursor-pointer items-start gap-3 text-xs leading-5", industry ? "min-h-11 text-slate-700" : "text-slate-600")}><input type="checkbox" {...register("privacy")} aria-invalid={Boolean(errors.privacy)} aria-describedby={errors.privacy ? "privacy-error" : undefined} className={cn("mt-1 h-5 w-5 shrink-0 accent-brand-900", industry && "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-900")} /><span>{t.rich("step2.privacyText", { privacyLink: (chunks) => <Link href="/legal/privacy-policy" className={cn("font-semibold underline", industry && "inline-flex min-h-11 items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-900")}>{chunks}</Link> })}</span></label>
                             {errors.privacy && <p id="privacy-error" className="mt-1 text-xs text-rose-600" role="alert">{t("validation.privacyRequired")}</p>}
                             {submission.status === "error" && <p className="mt-4 rounded-lg bg-rose-50 p-3 text-sm text-rose-700" role="alert">{submission.message || t("errorMessage")}</p>}
-                            <button type="submit" disabled={isSubmitting} className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gold-500 px-5 font-bold text-brand-950 transition hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 disabled:opacity-60">{isSubmitting ? t("step2.sending") : t("step2.submitButton")} {!isSubmitting && <ArrowRight className="h-4 w-4" />}</button>
-                            <p className="mt-3 text-center text-xs leading-5 text-slate-500">{t("microcopy")}</p>
+                            <button type="submit" disabled={isSubmitting} className={cn("mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gold-500 px-5 font-bold text-brand-950 transition hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60", industry ? "focus-visible:outline-brand-900" : "focus-visible:outline-gold-500")}>{isSubmitting ? t("step2.sending") : industry && submission.status === "error" ? t("step2.retryButton") : t("step2.submitButton")} {!isSubmitting && <ArrowRight className="h-4 w-4" />}</button>
+                            <p className={cn("mt-3 text-center text-xs leading-5", industry ? "text-slate-700" : "text-slate-500")}>{t("microcopy")}</p>
                         </div>
                 )}
 

@@ -1,9 +1,13 @@
 "use client";
 
-import { UnifiedVSLTemplate } from "@/components/vsl/UnifiedVSLTemplate";
+import { UnifiedVSLTemplate, type VSLTemplateData } from "@/components/vsl/UnifiedVSLTemplate";
 
 interface RestaurantVSLClientProps {
-  data?: any;
+  data?: (VSLTemplateData & {
+    ctaHeadline?: string;
+    ctaSubheadline?: string;
+    urgencyText?: string;
+  }) | null;
   locale?: string;
 }
 
@@ -15,5 +19,14 @@ export default function RestaurantVSLClient({ data, locale }: RestaurantVSLClien
     finalCtaSubtext: data?.finalCtaSubtext || data?.ctaSubheadline || data?.urgencyText,
   };
 
-  return <UnifiedVSLTemplate data={mappedData} industry="restaurants" />;
+  return (
+    <UnifiedVSLTemplate
+      data={mappedData}
+      industry="restaurants"
+      primaryAction={{
+        href: `/${locale === "es" ? "es" : "en"}/industries/restaurants#consultation-form`,
+        label: locale === "es" ? "Hablemos de su restaurante" : "Discuss restaurant support",
+      }}
+    />
+  );
 }

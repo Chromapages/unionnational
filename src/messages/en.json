@@ -109,6 +109,7 @@
         "servicesGroupOther": "More services",
         "servicesGroupOtherDescription": "Explore additional support for your business.",
         "serviceLabels": {
+            "taxResolution": "Back Taxes & IRS Tax Resolution",
             "taxPlanning": "Proactive Tax Planning",
             "sCorp": "S-Corp Tax Advantage",
             "bookkeeping": "Strategic Bookkeeping",
@@ -173,6 +174,7 @@
         "fallbackPhone": "(801) 555-0123",
         "fallbackEmail": "hello@unionnationaltax.com",
         "complianceLinks": {
+            "taxResolution": "Back Taxes & IRS Tax Resolution",
             "taxPrep": "Tax Filing & Preparation",
             "newBusinessFormation": "New Business Formation",
             "payroll": "Payroll Services"
@@ -1567,6 +1569,45 @@
             ]
         }
     },
+    "IndustryContact": {
+        "microcopy": "Send an inquiry about your business. This form does not schedule an appointment.",
+        "messageWarning": "Do not include Social Security numbers, account numbers, tax documents, or other sensitive information.",
+        "errorMessage": "We could not confirm delivery. Your details are still here. Retry this request; if delivery is awaiting review, our team must resolve it before it can be sent again.",
+        "success": {
+            "title": "Inquiry received.",
+            "message": "Thank you. Union National Tax has received your inquiry."
+        },
+        "step2": {
+            "title": "Tell us about your business.",
+            "subtitle": "Share your contact details and an optional question for our team.",
+            "labels": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "email": "Email",
+                "phone": "Phone (optional)",
+                "message": "Your question (optional)"
+            },
+            "placeholders": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "email": "you@company.com",
+                "phone": "Phone number",
+                "message": "What would you like to discuss?"
+            },
+            "privacyText": "I agree to the <privacyLink>Privacy Policy</privacyLink> and consent to being contacted about my inquiry.",
+            "submitButton": "Send inquiry",
+            "retryButton": "Retry inquiry",
+            "sending": "Sending inquiry…"
+        },
+        "validation": {
+            "firstNameRequired": "Enter a first name of 2 to 100 characters.",
+            "lastNameRequired": "Enter a last name of 2 to 100 characters.",
+            "emailInvalid": "Enter a valid email address.",
+            "phoneInvalid": "Use no more than 30 characters for your phone number.",
+            "messageInvalid": "Use no more than 2,000 characters for your question.",
+            "privacyRequired": "Agree to the privacy policy before sending your inquiry."
+        }
+    },
     "ContactPage": {
         "metadata": {
             "title": "Contact | Union National Tax",
@@ -2409,6 +2450,76 @@
                 "Defined next steps"
             ]
         }
+    },
+    "TaxResolution": {
+        "detailLink": "Explore this service",
+        "detail": {
+            "eyebrow": "Overdue filings & IRS balances",
+            "preparationLink": "Before the conversation",
+            "summaryTitle": "Start with your situation.",
+            "fitHeading": "Does this sound like your situation?",
+            "fitDescription": "You may be dealing with overdue filings, an IRS balance, or both. Whether UNT can assist depends on your circumstances and the scope you discuss.",
+            "processEyebrow": "Getting started",
+            "processHeading": "Start with a conversation",
+            "processDescription": "Use the existing consultation calendar to take the first step. Specific services and any engagement need to be confirmed with UNT.",
+            "steps": [
+                { "title": "Choose a time", "description": "Open UNT’s consultation calendar and choose an available time to talk." },
+                { "title": "Describe your concern", "description": "Explain whether your concern is overdue filings, an IRS balance, or both. Begin with general context." },
+                { "title": "Ask about fit and scope", "description": "Ask whether UNT can help, what any proposed services would cover, and how fees and secure document sharing would work." }
+            ],
+            "checklistEyebrow": "Conversation checklist",
+            "checklistHeading": "What to have in mind",
+            "checklistDescription": "Think through the main points you want to discuss. Keep tax records and identifiers private until UNT confirms an appropriate secure channel.",
+            "checklist": [
+                "Which tax years you believe remain unfiled",
+                "Whether you are asking about filings, an IRS balance, or both",
+                "What you would like to understand about your situation",
+                "Questions about scope, fees, and secure document sharing"
+            ],
+            "faqHeading": "Back taxes & IRS balance questions",
+            "faq": [
+                { "question": "Who is this page for?", "answer": "This page is for visitors who are behind on tax filings, owe the IRS money, or are dealing with both. Contact UNT to discuss your situation; service fit and scope must be confirmed directly." },
+                { "question": "How do I get started?", "answer": "Select “Discuss your tax situation” to open UNT’s existing consultation calendar. Use the conversation to ask whether UNT can assist and what the next steps would involve." },
+                { "question": "Should I send tax records through this page?", "answer": "No. This page has no tax-document upload form. Do not share tax returns, SSNs, EINs, account numbers, or other sensitive tax information through public forms. Ask UNT about an appropriate secure channel before sharing documents." }
+            ],
+            "faqSupport": {
+                "eyebrow": "Your questions",
+                "title": "A place to begin.",
+                "body": "Start with the concern that brought you here. Specific services, scope, and fees need to be discussed with UNT.",
+                "items": [
+                    { "title": "Tax filings", "body": "Let UNT know if returns remain unfiled." },
+                    { "title": "IRS balances", "body": "Explain if you have an unpaid IRS balance." },
+                    { "title": "Next steps", "body": "Ask about fit, scope, and secure intake." }
+                ],
+                "stillQuestions": "Start with a conversation",
+                "faqLabel": "FAQ",
+                "answersBody": "A few practical answers about this page and how to reach UNT."
+            },
+            "final": {
+                "eyebrow": "Your next step",
+                "title": "Tell us where things stand.",
+                "nextTitle": "Start with a conversation.",
+                "support": "Discuss overdue filings or an IRS balance and ask whether UNT may be able to help.",
+                "duration": { "label": "Choose a time", "detail": "Use our existing calendar." },
+                "preparation": { "label": "General context", "detail": "Begin with your main concern." },
+                "expert": { "label": "Service fit", "detail": "Ask about scope and next steps." },
+                "reassurance": "Keep sensitive tax records out of public forms."
+            },
+            "disclaimer": "This page provides general information, not tax or legal advice. Service availability and scope must be confirmed with Union National Tax. No outcome is guaranteed."
+        },
+        "title": "Back Taxes & IRS Tax Resolution",
+        "intro": "Behind on tax filings or owe the IRS? Contact Union National Tax to discuss your situation and learn how we may be able to help.",
+        "cta": "Discuss your tax situation",
+        "filings": {
+            "title": "Behind on tax filings",
+            "description": "One or more tax years remain unfiled."
+        },
+        "balance": {
+            "title": "Owe the IRS money",
+            "description": "You have an IRS balance that is still unpaid."
+        },
+        "scopeNote": "The services available and next steps depend on your situation.",
+        "privacyNote": "Please do not share sensitive tax information through public forms."
     },
     "ConsumerHome": {
         "taxResolution": {

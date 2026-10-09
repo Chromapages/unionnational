@@ -91,6 +91,38 @@ describe("contact form delivery", () => {
     expect(await submitContactForm(null, data)).toEqual({ status: "success" });
     expect(mocks.forward.mock.calls[0][0]).toMatchObject({ sourcePage: "/en/contact", intent: { primaryServiceInterest: "TAX_PLANNING", message: undefined } });
     expect(mocks.forward.mock.calls[0][0].contact.phone).toBeUndefined();
+    expect(mocks.forward.mock.calls[0][0].business).toBeUndefined();
+  });
+
+  it.each([["restaurants", "HOSPITALITY"], ["construction", "CONSTRUCTION"]])("preserves %s context without assigning a service", async (industry, expectedIndustry) => {
+    const data = form();
+    data.set("industry", industry);
+    data.set("goal", "industry-inquiry");
+    data.set("sourcePage", "/forged-source");
+    data.set("primaryServiceInterest", "FRACTIONAL_CFO");
+    expect(await submitContactForm(null, data)).toEqual({ status: "success" });
+    const payload = mocks.forward.mock.calls[0][0];
+    expect(payload).toMatchObject({
+      sourcePage: `/es/industries/${industry}`,
+      business: { industry: expectedIndustry },
+      intent: { clientType: "business", message: "Please call after 2 p.m." },
+      submissionId: data.get("submissionId"),
+    });
+    expect(payload.intent.primaryServiceInterest).toBeUndefined();
+    expect(payload.contact.tags).toBeUndefined();
+    expect(payload.business.annual_revenue_band).toBeUndefined();
+  });
+
+  it.each([
+    ["unrecognized", "industry-inquiry"],
+    ["restaurants", "partnership"],
+    [undefined, "industry-inquiry"],
+  ])("rejects unsupported industry/goal combinations %s / %s", async (industry, goal) => {
+    const data = form();
+    if (industry) data.set("industry", industry);
+    data.set("goal", goal);
+    expect((await submitContactForm(null, data)).status).toBe("error");
+    expect(mocks.forward).not.toHaveBeenCalled();
   });
 
   it("contains delivery exceptions without returning provider details to the browser", async () => {

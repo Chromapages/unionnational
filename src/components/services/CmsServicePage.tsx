@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { ServicePageTemplate } from "@/components/services/ServicePageTemplate";
+import { ServicePageTemplate, type ServicePageContent, type ServicePagePresentation } from "@/components/services/ServicePageTemplate";
 import { SERVICE_PAGE_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
@@ -53,6 +53,8 @@ type CmsServicePageProps = {
     cmsSlug: string;
     locale: string;
     canonicalPath: string;
+    content?: ServicePageContent;
+    presentation?: ServicePagePresentation;
     eligibilityOverride?: ServicePage["eligibility"];
     comparisonOverride?: ServicePage["comparison"];
 };
@@ -64,8 +66,8 @@ export async function fetchCmsService(cmsSlug: string, locale: string) {
     return parsed.success ? reviewedScorpService(parsed.data as ServicePage, locale) : null;
 }
 
-export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath }: CmsServicePageProps): Promise<Metadata> {
-    const service = await fetchCmsService(cmsSlug, locale);
+export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath, content }: CmsServicePageProps): Promise<Metadata> {
+    const service = content ?? await fetchCmsService(cmsSlug, locale);
     if (!service) return { title: "Service Not Found" };
 
     const baseUrl = "https://unionnationaltax.com";
@@ -97,8 +99,8 @@ export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath }: 
     };
 }
 
-export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibilityOverride, comparisonOverride }: CmsServicePageProps) {
-    const service = await fetchCmsService(cmsSlug, locale);
+export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibilityOverride, comparisonOverride, content, presentation }: CmsServicePageProps) {
+    const service = content ?? await fetchCmsService(cmsSlug, locale);
     if (!service) notFound();
     const hasGroupedEligibility = Boolean(service.eligibility?.primaryGroup?.items?.length && service.eligibility?.secondaryGroup?.items?.length);
     const hasStructuredComparison = Boolean(service.comparison?.conclusion && service.comparison.pairs?.every((pair) => pair.category && pair.outcome));
@@ -136,7 +138,7 @@ export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibili
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
             <HeaderWrapper />
             <main id="main-content" className="flex-1 pb-20 md:pb-0">
-                <ServicePageTemplate page={renderedService} locale={locale} />
+                <ServicePageTemplate page={renderedService} locale={locale} presentation={presentation} />
             </main>
             <Footer bookingCta bookingLabel={service.hero.primaryCta.label} />
         </div>

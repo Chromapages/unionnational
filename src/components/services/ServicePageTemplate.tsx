@@ -6,13 +6,17 @@ import { ServiceHero } from "@/components/services/ServiceHero";
 import { ServiceIncludedSection, type IncludedPresentation } from "@/components/services/ServiceIncludedSection";
 import { ServiceProcessSection, type ProcessDetail } from "@/components/services/ServiceProcessSection";
 import { ServicePageContainer } from "@/components/services/ServicePageContainer";
-import { FinalBookingCTA } from "@/components/home/FinalBookingCTA";
+import { FinalBookingCTA, type FinalBookingCTACopy } from "@/components/home/FinalBookingCTA";
 import type { ServicePage } from "@/types/sanity";
 import { safeHref } from "@/lib/security/content-urls";
 
+export type ServicePageContent = Pick<ServicePage, "title" | "slug" | "canonicalPath" | "hero" | "eligibility" | "comparison" | "process" | "included" | "faqSection" | "closing" | "seo">;
+export type ServicePagePresentation = { finalCta?: FinalBookingCTACopy; faqSupport?: FAQSupportCopy };
+
 type ServicePageTemplateProps = {
-    page: ServicePage;
+    page: ServicePageContent;
     locale: string;
+    presentation?: ServicePagePresentation;
 };
 
 export function renderHeroHeadline(headline: string, highlight?: string, separateHighlight = false, highlightClass = "text-gold-400") {
@@ -31,7 +35,7 @@ export function bookingHref(label: string | undefined, href: string | undefined)
     return safe === "/contact" && /^(book|schedule|reserve|reservar|agendar)\b/i.test(label || "") ? "/book" : safe;
 }
 
-export async function ServicePageTemplate({ page, locale }: ServicePageTemplateProps) {
+export async function ServicePageTemplate({ page, locale, presentation }: ServicePageTemplateProps) {
     const presentationT = await getTranslations({ locale, namespace: "ServiceDetailPresentation" });
     const isScorp = page.slug.current === "s-corp-tax-advantage";
     const reviewItems = isScorp
@@ -78,10 +82,10 @@ export async function ServicePageTemplate({ page, locale }: ServicePageTemplateP
                 <ServiceIncludedSection id={includedId} included={page.included} scopeLabel={presentationT("includedScope")} presentation={isScorp ? presentationT.raw("scorp.included") as IncludedPresentation : undefined} />
             ) : null}
 
-            {page.faqSection.items.length ? <div className="bg-white py-10 lg:py-12"><ShopFAQ items={page.faqSection.items} sectionId={`${page.slug.current}-faq`} className="mb-0 [&_aside]:min-h-0 lg:[&_[data-faq-title]]:text-[2.75rem]" copy={{ ...presentationT.raw("faqSupport") as FAQSupportCopy, answersTitle: page.faqSection.heading }} /></div> : null}
+            {page.faqSection.items.length ? <div className="bg-white py-10 lg:py-12"><ShopFAQ items={page.faqSection.items} sectionId={`${page.slug.current}-faq`} className="mb-0 [&_aside]:min-h-0 lg:[&_[data-faq-title]]:text-[2.75rem]" copy={{ ...(presentation?.faqSupport ?? presentationT.raw("faqSupport") as FAQSupportCopy), answersTitle: page.faqSection.heading }} /></div> : null}
 
             <div className="homepage-rhythm">
-                <FinalBookingCTA id="service-next-step" placement={`${page.slug.current}_final_cta`} label={primaryLabel} />
+                <FinalBookingCTA id="service-next-step" placement={`${page.slug.current}_final_cta`} label={primaryLabel} copy={presentation?.finalCta} />
                 {page.closing?.disclaimer && <ServicePageContainer><p className="mx-auto mb-6 max-w-2xl text-center text-sm leading-relaxed text-zinc-600">{page.closing.disclaimer}</p></ServicePageContainer>}
             </div>
 

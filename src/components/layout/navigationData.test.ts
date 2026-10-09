@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   desktopPrimaryNavigation,
   desktopSecondaryNavigation,
+  getServiceHref,
   isNavigationPathActive,
   mergeServiceNavigationData,
   mobileNavigationSections,
@@ -9,6 +10,12 @@ import {
 } from "./navigationData";
 
 describe("navigationData", () => {
+  it("keeps the new tax-resolution service discoverable when CMS navigation is partial", () => {
+    const services = mergeServiceNavigationData([{ title: "Tax Planning", slug: { current: "tax-planning" } }]);
+    const resolution = services.find(service => service.title === "Back Taxes & IRS Tax Resolution");
+    expect(resolution).toBeDefined();
+    expect(getServiceHref(resolution!)).toBe("/back-taxes-irs-tax-resolution");
+  });
   it("derives desktop and drawer navigation from one inventory", () => {
     const desktopIds = [...desktopPrimaryNavigation, ...desktopSecondaryNavigation].map((item) => item.id);
     const mobileIds = mobileNavigationSections.flatMap((section) => section.items.map((item) => item.id));

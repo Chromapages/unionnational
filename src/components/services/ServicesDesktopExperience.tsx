@@ -10,6 +10,8 @@ import { BookingCtaLink } from "@/components/home/BookingCtaLink";
 import { getServiceHref } from "@/components/layout/navigationData";
 import type { Service } from "./ServicesClient";
 import type { PricingTier } from "@/components/pricing/PricingSection";
+import { TaxResolutionSection } from "./TaxResolutionSection";
+import { IndustryDiscovery } from "@/components/industries/IndustryDiscovery";
 
 type ChallengeKey = "tax" | "numbers" | "decisions" | "operations";
 type PackageKey = "foundation" | "growth" | "executive";
@@ -161,6 +163,9 @@ export function ServicesDesktopExperience({ services, tiers, faqItems }: Service
           <p className="mt-5 flex items-start gap-3 border-t border-[#d5e0db] pt-4 text-sm leading-relaxed text-[#596d77]"><Info className="size-5 shrink-0 text-[#294641]" aria-hidden="true" />{t("challenge.priceScope")}</p>
         </div>
       </section>
+
+      <IndustryDiscovery />
+      <TaxResolutionSection />
 
       <section id="support-plans" aria-labelledby="packages-heading" className={`${container} @container border-t border-slate-200 py-10 lg:py-12`}>
         <div className="grid items-center gap-6 @min-[72rem]:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] @min-[72rem]:gap-10">

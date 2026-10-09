@@ -12,6 +12,8 @@ describe("canonical service redirects", () => {
     beforeEach(() => vi.clearAllMocks());
 
     it.each([
+        ["en", "back-taxes-irs-tax-resolution", "/en/back-taxes-irs-tax-resolution"],
+        ["es", "back-taxes-irs-tax-resolution", "/es/back-taxes-irs-tax-resolution"],
         ["en", "tax-filing-and-preparation-services", "/en/tax-preparation-and-filing"],
         ["es", "tax-filing-preparation", "/es/tax-preparation-and-filing"],
         ["en", "s-corp-tax-advantage-program", "/en/s-corp-tax-advantage"],

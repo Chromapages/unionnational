@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackFooterInteraction } from "@/lib/analytics/footerInteractions";
+import { cn } from "@/lib/utils";
 
 export interface FooterNavigationLink {
     href: string;
@@ -12,6 +13,7 @@ export interface FooterNavigationLink {
     analyticsEvent?: string;
     destinationId?: string;
     preserveCampaign?: boolean;
+    className?: string;
 }
 
 export interface FooterNavigationGroup {
@@ -35,11 +37,11 @@ function FooterLinkList({ links, campaignSearch, categoryId }: { links: FooterNa
                         data-footer-event={link.analyticsEvent || "footer_navigation_item_navigate"}
                         data-footer-destination-id={link.destinationId || link.href}
                         data-footer-category-id={categoryId}
-                        className={`group inline-flex min-h-8 items-center text-sm leading-snug no-underline transition-colors duration-150 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none ${
+                        className={cn(`group inline-flex min-h-8 items-center text-sm leading-snug no-underline transition-colors duration-150 focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-500 motion-reduce:transition-none ${
                             link.emphasized
                                 ? "gap-1.5 font-semibold text-[#e2bb58] hover:text-[#f3db87]"
                                 : "text-slate-300 hover:text-white"
-                        }`}
+                        }`, link.className)}
                     >
                         <span>{link.label}</span>
                         {link.emphasized ? (

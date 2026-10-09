@@ -10,9 +10,10 @@ interface VSLFinalCtaProps {
   headline?: string;
   subtext?: string;
   industry: string;
+  primaryAction?: { href: string; label: string };
 }
 
-export function VSLFinalCta({ headline, subtext, industry }: VSLFinalCtaProps) {
+export function VSLFinalCta({ headline, subtext, industry, primaryAction }: VSLFinalCtaProps) {
   const industryMap: Record<string, string> = {
     construction: "Construction Profitability",
     restaurants: "Restaurant Operations",
@@ -49,10 +50,10 @@ export function VSLFinalCta({ headline, subtext, industry }: VSLFinalCtaProps) {
           {/* CTA Button */}
           <div className="mb-20">
             <Link
-              href="/apply"
+              href={primaryAction?.href ?? "/apply"}
               className="inline-flex items-center gap-3 px-12 py-7 bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xl rounded-2xl shadow-[0_0_40px_rgba(34,197,94,0.3)] transition-all hover:translate-y-[-4px] group"
             >
-              Book Your Free Strategy Call
+              {primaryAction?.label ?? "Book Your Free Strategy Call"}
               <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
             </Link>
 

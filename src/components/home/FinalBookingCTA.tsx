@@ -5,7 +5,18 @@ import { useLocale, useTranslations } from "next-intl";
 import { BOOKING_ROUTE } from "@/lib/booking";
 import { BookingCtaLink } from "./BookingCtaLink";
 
-export function FinalBookingCTA({ id = "contact", placement = "homepage_final_cta", label }: { id?: string; placement?: string; label?: string }) {
+export type FinalBookingCTACopy = {
+    eyebrow: string;
+    title: string;
+    nextTitle: string;
+    support: string;
+    reassurance: string;
+    duration: { label: string; detail: string };
+    preparation: { label: string; detail: string };
+    expert: { label: string; detail: string };
+};
+
+export function FinalBookingCTA({ id = "contact", placement = "homepage_final_cta", label, copy }: { id?: string; placement?: string; label?: string; copy?: FinalBookingCTACopy }) {
     const locale = useLocale();
     const t = useTranslations("ConsumerHome");
     const cta = useTranslations("HomePage.CTASection");
@@ -18,16 +29,16 @@ export function FinalBookingCTA({ id = "contact", placement = "homepage_final_ct
             <div className="grid items-center gap-6 rounded-[14px] border border-[#e6e1d8] bg-[#fbf9f5] p-6 text-[#071923] shadow-[0_8px_24px_rgba(13,46,43,0.06)] sm:p-8 @min-[40rem]:grid-cols-2 @min-[84rem]:grid-cols-[minmax(0,1.3fr)_minmax(0,1.15fr)_minmax(0,1.8fr)_minmax(24rem,1fr)] @min-[84rem]:p-6">
                 <div className="min-w-0">
                     <div className="flex items-center gap-3">
-                        <p className="font-body text-xs font-semibold uppercase tracking-[0.12em] text-[#806325] sm:text-sm">{t("final.eyebrow")}</p>
+                        <p className="font-body text-xs font-semibold uppercase tracking-[0.12em] text-[#806325] sm:text-sm">{copy?.eyebrow ?? t("final.eyebrow")}</p>
                         <span className="h-px w-16 bg-gold-400" aria-hidden="true" />
                     </div>
                     <h2 id={headingId} className="mt-3 font-heading text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em]">
-                        {t("final.title")}{" "}<span className="block">{t("final.nextTitle")}</span>
+                        {copy?.title ?? t("final.title")}{" "}<span className="block">{copy?.nextTitle ?? t("final.nextTitle")}</span>
                     </h2>
                 </div>
 
                 <div className="min-w-0 border-t border-[#e2cb9b] pt-6 @min-[40rem]:flex @min-[40rem]:self-stretch @min-[40rem]:items-center @min-[40rem]:border-t-0 @min-[40rem]:border-l @min-[40rem]:pt-0 @min-[40rem]:pl-6">
-                    <p className="font-body text-base leading-[1.5] text-[#596d77]">{t("final.support")}</p>
+                    <p className="font-body text-base leading-[1.5] text-[#596d77]">{copy?.support ?? t("final.support")}</p>
                 </div>
 
                 <ul className="grid items-center gap-3 sm:grid-cols-3 @min-[40rem]:col-span-2 @min-[84rem]:col-span-1 @min-[84rem]:self-stretch @min-[84rem]:border-l @min-[84rem]:border-[#e2cb9b] @min-[84rem]:pl-4">
@@ -39,8 +50,8 @@ export function FinalBookingCTA({ id = "contact", placement = "homepage_final_ct
                         <li key={key} className="flex min-w-0 items-center gap-3 sm:flex-col sm:justify-center sm:gap-2 sm:border-l sm:border-[#e2cb9b] sm:pl-2 sm:text-center sm:first:border-l-0 sm:first:pl-0">
                             <Icon className="size-7 shrink-0 text-gold-500 sm:size-8" strokeWidth={1.8} aria-hidden="true" />
                             <div className="min-w-0">
-                                <p className="font-body text-sm font-bold uppercase leading-[1.4] tracking-[0.04em]">{t(`final.${key}.label`)}</p>
-                                <p className="mt-1 font-body text-sm leading-[1.4] text-[#596d77]">{t(`final.${key}.detail`)}</p>
+                                <p className="font-body text-sm font-bold uppercase leading-[1.4] tracking-[0.04em]">{copy?.[key].label ?? t(`final.${key}.label`)}</p>
+                                <p className="mt-1 font-body text-sm leading-[1.4] text-[#596d77]">{copy?.[key].detail ?? t(`final.${key}.detail`)}</p>
                             </div>
                         </li>
                     ))}
@@ -57,7 +68,7 @@ export function FinalBookingCTA({ id = "contact", placement = "homepage_final_ct
                         descriptionId={`${id}-reassurance`}
                         showCalendarIcon={false}
                     />
-                    <p id={`${id}-reassurance`} className="mt-3 text-center font-body text-sm leading-[1.5] text-[#596d77]">{t("final.reassurance")}</p>
+                    <p id={`${id}-reassurance`} className="mt-3 text-center font-body text-sm leading-[1.5] text-[#596d77]">{copy?.reassurance ?? t("final.reassurance")}</p>
                 </div>
             </div>
         </div>
