@@ -16,6 +16,9 @@ import { headers } from "next/headers";
 import { CspNonceProvider } from "@/components/security/CspNonceProvider";
 import { TrackingPreferencesGuard } from "@/components/privacy/TrackingPreferences";
 import { OptionalTrackingBoundary } from "@/components/privacy/OptionalTrackingBoundary";
+import { Ga4Boundary } from "@/components/analytics/Ga4Boundary";
+import { Ga4Tracking } from "@/components/analytics/Ga4Tracking";
+import { getGa4ClientConfig } from "@/lib/analytics/ga4-config";
 
 const baseUrl = "https://unionnationaltax.com";
 
@@ -99,7 +102,8 @@ export default async function RootLayout(props: {
           <CspNonceProvider nonce={nonce}>
           <ThemeProvider>
             <MetaPixel />
-            <OptionalTrackingBoundary locale={locale}>{props.children}</OptionalTrackingBoundary>
+            <Ga4Boundary locale={locale}><OptionalTrackingBoundary locale={locale}>{props.children}</OptionalTrackingBoundary></Ga4Boundary>
+            <Ga4Tracking config={getGa4ClientConfig()} nonce={nonce} locale={locale} />
             <ChatWidget />
             <ProgressBar />
             <SanityLive />

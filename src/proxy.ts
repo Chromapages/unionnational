@@ -22,7 +22,15 @@ export default function proxy(request: NextRequest) {
     requestHeaders.set("x-nonce", nonce);
     requestHeaders.set("Content-Security-Policy", policy);
     const forwardedRequest = new NextRequest(request, { headers: requestHeaders });
-    const standalone = /^\/(?:hq|healthz|readyz|scorp-advantage|scorp-estimator)(?:\/|$)/.test(request.nextUrl.pathname);
+    const localizedAnalytics = request.nextUrl.pathname.match(/^\/(?:en|es)(\/analytics(?:\/.*)?)$/);
+    if (localizedAnalytics) {
+        const target = new URL(localizedAnalytics[1], request.url);
+        const redirect = NextResponse.redirect(target, 307);
+        redirect.headers.set("Cache-Control", "private, no-store, max-age=0");
+        redirect.headers.set("Content-Security-Policy", policy);
+        return redirect;
+    }
+    const standalone = /^\/(?:hq|analytics|healthz|readyz|scorp-advantage|scorp-estimator)(?:\/|$)/.test(request.nextUrl.pathname);
     const response = standalone ? NextResponse.next({ request: { headers: requestHeaders } }) : localeMiddleware(forwardedRequest);
     response.headers.set("Content-Security-Policy", policy);
     response.headers.set("Cache-Control", "private, no-store, max-age=0");

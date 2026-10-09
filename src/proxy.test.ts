@@ -4,6 +4,13 @@ import proxy, { config } from './proxy';
 
 vi.mock('next-intl/middleware', () => ({ default: () => (request: NextRequest) => NextResponse.rewrite(new URL('/en', request.url), { request: { headers: request.headers } }) }));
 describe('nonce forwarding', () => {
+    it('keeps analytics outside the public locale layout, including localized aliases', () => {
+        const root = proxy(new NextRequest('https://example.test/analytics'));
+        expect(root.headers.get('x-middleware-rewrite')).toBeNull();
+        const alias = proxy(new NextRequest('https://example.test/es/analytics/preview'));
+        expect(alias.headers.get('location')).toBe('https://example.test/analytics/preview');
+        expect(alias.headers.get('Cache-Control')).toContain('no-store');
+    });
     it('overwrites client nonce headers and forwards matching policies through locale rewriting', () => {
         const request = new NextRequest('https://example.test/en/about', { headers: { 'x-nonce': 'attacker-supplied', 'content-security-policy': "script-src 'unsafe-inline'" } });
         const response = proxy(request);

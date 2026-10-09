@@ -27,6 +27,7 @@ type DataLayerWindow = Window & { dataLayer?: BookingFunnelPayload[] };
  * Delivery is best-effort so analytics cannot delay navigation or scheduling.
  */
 export function trackBookingFunnelEvent<Event extends BookingFunnelEvent>(event: Event, properties: BookingFunnelProperties[Event]) {
+    dispatchGa4Hook({ event, funnel: "strategy_call", ...properties });
     if (!canUseOptionalTracking()) return;
     window.setTimeout(() => {
         if (!canUseOptionalTracking()) return;
@@ -40,3 +41,4 @@ export function trackBookingFunnelEvent<Event extends BookingFunnelEvent>(event:
     }, 0);
 }
 import { canUseOptionalTracking } from "./privacy";
+import { dispatchGa4Hook } from "./ga4-client";
