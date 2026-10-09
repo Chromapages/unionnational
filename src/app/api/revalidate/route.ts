@@ -75,6 +75,14 @@ export async function POST(req: NextRequest) {
         const bounded = new NextRequest(req.url, { method: "POST", headers: req.headers, body: rawBody });
         const parsed = await parseBody<unknown>(bounded, secret);
         if (parsed.isValidSignature !== true) return new Response("Invalid Signature", { status: 401 });
+        // Only the SDK's verified HMAC may spend the trusted processing budget.
+        try {
+            const quota = await checkRateLimit("sanity:revalidation-authenticated", 60, 60_000);
+            if (!quota.success) return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": "30" } });
+        } catch {
+            logger.warn("Sanity authenticated revalidation quota unavailable", { traceId });
+            return NextResponse.json({ error: "Revalidation unavailable", traceId }, { status: 503 });
+        }
         const result = PayloadSchema.safeParse(parsed.body);
         if (!result.success) return new Response("Bad Request", { status: 400 });
         body = result.data;

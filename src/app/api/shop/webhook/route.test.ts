@@ -1,14 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { NextRequest } from "next/server";
+import Stripe from "stripe";
 import { buildCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
 import { orderMetadataSignature } from "@/lib/shop/fulfillment";
-vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "fixture", checkRateLimit: async () => ({ success: true }) }));
+vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "fixture", checkRateLimit: mocks.quota }));
 vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => "fixture" }));
 
-const mocks = vi.hoisted(() => ({ session: {} as Record<string, unknown>, delivery: vi.fn(), updates: [] as Record<string, unknown>[] }));
+const mocks = vi.hoisted(() => ({ session: {} as Record<string, unknown>, delivery: vi.fn(), quota: vi.fn(), verify: vi.fn(), updates: [] as Record<string, unknown>[] }));
 vi.mock("@/lib/config/env", () => ({ getEnv: (name: string) => name === "STRIPE_WEBHOOK_SECRET" ? "test_signature_secret" : name === "GHL_SHOP_PURCHASE_WEBHOOK_URL" ? "https://fulfillment.example.invalid" : undefined }));
 vi.mock("@/lib/stripe", () => ({ getStripe: () => ({
-    webhooks: { constructEvent: () => ({ id: "evt_test", type: "checkout.session.completed", data: { object: { id: "cs_test_order" } } }) },
+    webhooks: { constructEvent: mocks.verify },
     checkout: { sessions: { retrieve: async () => mocks.session, update: vi.fn(), listLineItems: async () => ({ has_more: false, data: [{ currency: "usd", price: { id: "price_test" }, quantity: 1 }] }) } },
 }) }));
 vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({
@@ -33,6 +34,8 @@ vi.mock("@/lib/observability/request-metrics", () => ({ withLatencyAsync: (_name
 
 beforeEach(() => {
     mocks.updates = [];
+    mocks.quota.mockReset().mockResolvedValue({ success: true });
+    mocks.verify.mockReset().mockReturnValue({ id: "evt_test", type: "checkout.session.completed", data: { object: { id: "cs_test_order" } } });
     mocks.delivery.mockReset().mockResolvedValue(new Response("{}", { status: 200, headers: { "X-UNT-Acknowledgement": "durably-accepted-v1" } }));
     vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "fixture-only-32-character-minimum-secret");
     vi.stubEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", "fulfillment.example.invalid");
@@ -50,6 +53,46 @@ afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 const request = () => new Request("https://unt.example.test/api/shop/webhook", { method: "POST", headers: { "stripe-signature": "test" }, body: "{}" }) as NextRequest;
 
 describe("paid-order delivery", () => {
+    it("keeps invalid raw-byte Stripe signatures out of authenticated processing capacity", async () => {
+        const stripe = new Stripe("sk_test_fixture");
+        mocks.verify.mockImplementation((...args) => stripe.webhooks.constructEvent(...args as Parameters<typeof stripe.webhooks.constructEvent>));
+        const body = JSON.stringify({ id: "evt_fixture", type: "fixture.ignored", data: { object: {} } });
+        const signature = stripe.webhooks.generateTestHeaderString({ payload: body, secret: "test_signature_secret" });
+        const signed = (raw: string) => new Request("https://unt.example.test/api/shop/webhook", { method: "POST", headers: { "stripe-signature": signature }, body: raw }) as NextRequest;
+        const { POST } = await import("./route");
+        expect((await POST(signed(body + " "))).status).toBe(400);
+        expect(mocks.quota.mock.calls.map(([key]) => key)).toEqual(["shop-webhook:ingress:fixture", "shop-webhook:ingress:global"]);
+        expect((await POST(signed(body))).status).toBe(200);
+        expect(mocks.quota.mock.calls.filter(([key]) => key === "shop-webhook:authenticated")).toHaveLength(1);
+        expect(mocks.delivery).not.toHaveBeenCalled();
+    });
+
+    it.each(["exhausted", "unavailable"])("keeps paid fulfillment retryable when the authenticated quota is %s", async outcome => {
+        mocks.quota.mockImplementation(async (key: string) => {
+            if (key !== "shop-webhook:authenticated") return { success: true };
+            if (outcome === "unavailable") throw new Error("synthetic Redis outage");
+            return { success: false };
+        });
+        const { POST } = await import("./route");
+        expect((await POST(request())).status).toBe(outcome === "exhausted" ? 429 : 503);
+        expect(mocks.verify).toHaveBeenCalledTimes(1);
+        expect(mocks.delivery).not.toHaveBeenCalled();
+        expect(mocks.updates).toEqual([]);
+        mocks.quota.mockResolvedValue({ success: true });
+        expect((await POST(request())).status).toBe(200);
+        expect(mocks.delivery).toHaveBeenCalledTimes(1);
+    });
+
+    it("preserves early ingress admission before reading or authenticating a body", async () => {
+        mocks.quota.mockResolvedValue({ success: false });
+        const { POST } = await import("./route");
+        expect((await POST(request())).status).toBe(429);
+        expect(mocks.verify).not.toHaveBeenCalled();
+        expect(mocks.quota).toHaveBeenCalledTimes(1);
+        expect(mocks.quota.mock.calls[0][0]).toBe("shop-webhook:ingress:fixture");
+        expect(mocks.delivery).not.toHaveBeenCalled();
+    });
+
     it("forwards verified shipping recipient and address", async () => {
         const { POST } = await import("./route");
         expect((await POST(request())).status).toBe(200);

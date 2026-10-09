@@ -32,8 +32,9 @@ export async function POST(request: NextRequest) {
 
     let quota;
     try {
-        const global = await checkRequestRateLimit("shop-checkout:global", 120, CHECKOUT_RATE_LIMIT_WINDOW_MS);
-        quota = global.success ? await checkRequestRateLimit(`shop-checkout:${leadRequesterKey(request)}`, CHECKOUT_RATE_LIMIT_MAX, CHECKOUT_RATE_LIMIT_WINDOW_MS) : global;
+        const identity = leadRequesterKey(request);
+        const requester = identity === "anonymous" ? undefined : await checkRequestRateLimit(`shop-checkout:${identity}`, CHECKOUT_RATE_LIMIT_MAX, CHECKOUT_RATE_LIMIT_WINDOW_MS);
+        quota = requester && !requester.success ? requester : await checkRequestRateLimit("shop-checkout:global", 120, CHECKOUT_RATE_LIMIT_WINDOW_MS);
     } catch (error) {
         handler.error("Checkout quota unavailable", error, { module: "shop-checkout" });
         return handler.json({ ok: false, code: "CHECKOUT_UNAVAILABLE", message: "Checkout is temporarily unavailable. Please try again shortly." }, { status: 503 });

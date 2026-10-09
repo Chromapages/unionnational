@@ -39,7 +39,9 @@ npm run build             # Production build
 npm audit --audit-level=high  # Security audit
 ```
 
-The `shop:readiness` check also needs `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `NEXT_PUBLIC_BASE_URL`; it reports missing purchase webhook configuration as a warning. The CI readiness step runs on pushes to `main` with values from GitHub secrets and variables. Pull requests run the other quality gates without payment credentials. A passing build or local preview does not verify live lead, email, or payment delivery.
+`npm run shop:readiness` validates local configuration and the price map without contacting providers. Missing or invalid private payment storage, migration, or authenticated receiver configuration is a failure, not a warning. Routine CI runs this check with synthetic fixtures and `SHOP_READINESS_STATIC=1`, without payment credentials. A passing build, local preview, or configuration check does not verify live lead, email, or payment delivery.
+
+Public `/readyz` returns only `configuration_ready` (200) or `not_ready` (503), with `Cache-Control: no-store`. It checks configuration, not live provider health. Run the local readiness CLI for detailed payment configuration names; use the operational runbooks for authorized provider verification.
 
 ## Environment Variables
 
@@ -49,17 +51,17 @@ Set the variables for the external integrations you use. A read-only local previ
 
 | Variable | Description |
 |---|---|
-| `GHL_CLIENT_ID` | GHL OAuth client ID |
-| `GHL_CLIENT_SECRET` | GHL OAuth client secret |
-| `GHL_LOCATION_ID` | GHL location ID |
-| `GHL_REFRESH_TOKEN` | GHL OAuth refresh token |
-| `GHL_WEBHOOK_URL` | General webhook URL |
-| `GHL_SHOP_PURCHASE_WEBHOOK_URL` | Shop purchase webhook URL |
+| `GHL_WEBHOOK_URL` | General server-side lead receiver URL |
 | `GHL_SCORP_ESTIMATOR_WEBHOOK_URL` | S-Corp estimator webhook URL |
 | `GHL_SURVEY_WEBHOOK_URL` | Survey webhook URL |
 | `GHL_TAX_ANALYSIS_WEBHOOK_URL` | Tax analysis webhook URL |
 | `GHL_APPLICATION_WEBHOOK_URL` | Application webhook URL |
 | `GHL_RESTAURANT_APPLICATION_WEBHOOK_URL` | Restaurant application webhook URL |
+| `GHL_CONSTRUCTION_CHECKLIST_WEBHOOK_URL` | Construction checklist webhook URL |
+| `GHL_CONSTRUCTION_ASSESSMENT_WEBHOOK_URL` | Construction assessment webhook URL |
+| `GHL_BLUEPRINT_MORE_INFO_WEBHOOK_URL` | Blueprint information-request webhook URL |
+
+Purchase delivery additionally requires an approved HTTPS receiver, exact hostname allowlist, HMAC secret, and owner-confirmed durable acknowledgement/idempotency contract. Follow [Shop fulfillment recovery](docs/shop-fulfillment-recovery.md) for the exact configuration and verification gates. Do not enable a confirmation flag merely because a local test passes.
 
 ### Stripe
 
@@ -72,11 +74,13 @@ Set the variables for the external integrations you use. A read-only local previ
 
 | Variable | Description |
 |---|---|
-| `SANITY_AUTH_TOKEN` | Sanity API token |
+| `SANITY_AUTH_TOKEN` | Scoped server/admin Sanity API token; never a `NEXT_PUBLIC_` value |
 | `SANITY_REVALIDATE_SECRET` | Secret for on-demand revalidation |
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID (public) |
 | `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (public) |
 | `NEXT_PUBLIC_SANITY_API_VERSION` | Sanity API version (public) |
+
+Payment state uses a separate private `SANITY_PAYMENT_DATASET` and `SANITY_PAYMENT_AUTH_TOKEN`. Verify anonymous denial, least-privilege grants, and legacy recovery migration before setting the private/migration confirmation flags. Public Content Lake assets do not become private through a website gate. The [payment runbook](docs/shop-fulfillment-recovery.md) records the required evidence.
 
 ### Application
 
@@ -84,7 +88,7 @@ Set the variables for the external integrations you use. A read-only local previ
 |---|---|
 | `NEXT_PUBLIC_BASE_URL` | Public base URL (e.g., https://unionnationaltax.com) |
 
-### Rate Limiting (Upstash Redis) — optional for production
+### Shared quotas and lead reservations (Upstash Redis) — required for production
 
 | Variable | Description |
 |---|---|
@@ -92,14 +96,13 @@ Set the variables for the external integrations you use. A read-only local previ
 | `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
 | `RL_WINDOW` | Rate limit window in seconds |
 | `RL_MAX` | Max requests per window |
-| `ENABLE_UPSTASH` | Set to `1` to enable rate limiting |
+| `ENABLE_UPSTASH` | Set to literal `true` to use Redis quotas in development; production uses configured Redis automatically |
+| `LEAD_TRUSTED_IP_HEADER` | Approved proxy identity header; inactive until its overwrite contract is verified |
+| `LEAD_PROXY_HEADERS_VERIFIED` | Set to literal `true` only after verifying edge overwrite and direct-origin protection |
 
-### Observability (OpenTelemetry) — optional
+Production quotas and durable lead reservations require both Redis settings. Missing configuration or quota storage failure makes affected submissions unavailable (503), rather than bypassing protection. Development can use an in-memory fallback for quotas; it is process-local and cannot prove shared enforcement or durable retry behavior.
 
-| Variable | Description |
-|---|---|
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | OTLP exporter endpoint |
-| `OTEL_SERVICE_NAME` | Service name for traces |
+Before enabling proxy identity trust, record which edge overwrites the chosen header, strip client-supplied values, and verify whether direct origin access is blocked. Do not set the attestation based only on a passing mock. Apply approved upstream admission/body/deadline controls and test actual shared Redis failures in staging. See [Repository and release controls](docs/operations/repository-release-security.md).
 
 ## Architecture
 
@@ -117,12 +120,12 @@ Schemas are defined under `src/sanity/schemaTypes/`.
 
 ### GHL Integration
 
-CRM integration is in `src/lib/ghl/`, including authentication and webhook sending.
+CRM contracts are in `src/lib/ghl/`; durable duplicate-safe delivery is in `src/lib/leads/`. Uncertain delivery stays reserved until an authorized operator reconciles receiver evidence.
 
 ### Stripe
 
-Stripe logic is in `src/lib/stripe.ts`. Stripe webhook idempotency uses Sanity `stripeWebhookIdempotency` documents to prevent double-processing of events.
+Stripe logic is in `src/lib/stripe.ts` and `src/lib/shop/`. Webhook idempotency uses revision-guarded `stripeWebhookIdempotency` documents in the separate private operational dataset. Failed or uncertain fulfillment remains recoverable without charging again.
 
 ### Observability
 
-OpenTelemetry setup is in `src/lib/observability/`.
+`src/lib/observability/` emits bounded redacted structured logs and request metrics to the host log sink. No OpenTelemetry collector is installed. Configure retention, alerts, and recovery ownership on the actual host using the [operations runbook](docs/operations/repository-release-security.md).

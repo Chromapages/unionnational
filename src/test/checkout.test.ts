@@ -13,7 +13,6 @@ const mockEnv = vi.hoisted(() => ({
 const mockSanityFetch = vi.fn();
 vi.mock("@/sanity/lib/client", () => ({
     client: { fetch: mockSanityFetch },
-    writeClient: { fetch: mockSanityFetch, create: vi.fn() },
 }));
 
 // Mock stripe

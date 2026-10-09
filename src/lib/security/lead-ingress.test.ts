@@ -9,12 +9,20 @@ afterEach(() => vi.unstubAllEnvs());
 const request = (headers: Record<string, string> = {}) => new Request("https://app.example.test/api/lead", { headers });
 
 describe("public lead ingress budgets", () => {
-    it("limits rotating emails and forged forwarding identities before body parsing", async () => {
+    it("keeps an early global cap without assigning unknown visitors one small requester budget", async () => {
         const { checkLeadIngress } = await import("./lead-ingress");
         const outcomes = [];
-        for (let index = 0; index < 25; index++) outcomes.push(await checkLeadIngress(request({ "x-forwarded-for": `192.0.2.${index + 1}` })));
-        expect(outcomes.filter(value => value.ok)).toHaveLength(20);
-        expect(outcomes.slice(20)).toEqual(Array(5).fill({ ok: false, status: 429, error: "Too many requests. Please try again later.", retryAfter: "60" }));
+        for (let index = 0; index < 121; index++) outcomes.push(await checkLeadIngress(request({ "x-forwarded-for": `192.0.2.${index + 1}` })));
+        expect(outcomes.filter(value => value.ok)).toHaveLength(120);
+        expect(outcomes[120]).toMatchObject({ ok: false, status: 429 });
+    });
+
+    it("isolates verified visitors and keeps rejected requester bursts out of the global budget", async () => {
+        settings.env = { LEAD_PROXY_HEADERS_VERIFIED: "true", LEAD_TRUSTED_IP_HEADER: "x-real-ip" };
+        const { checkLeadIngress } = await import("./lead-ingress");
+        for (let index = 0; index < 20; index++) expect(await checkLeadIngress(request({ "x-real-ip": "192.0.2.1" }))).toEqual({ ok: true });
+        for (let index = 0; index < 120; index++) expect(await checkLeadIngress(request({ "x-real-ip": "192.0.2.1" }))).toMatchObject({ status: 429 });
+        expect(await checkLeadIngress(request({ "x-real-ip": "192.0.2.2" }))).toEqual({ ok: true });
     });
 
     it("uses only explicitly verified allowed headers, hashing the actual identity", async () => {

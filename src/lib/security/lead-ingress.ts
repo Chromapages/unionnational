@@ -32,11 +32,15 @@ async function quota(key: string, limit: number): Promise<LeadGuard> {
 }
 
 export async function checkLeadIngress(request: Request): Promise<LeadGuard> {
-    // All route variants share one receiver budget. Invalid requests consume ingress quota too.
+    const identity = leadRequesterKey(request);
+    // Unknown visitors retain the global backstop; unverified headers never grant identities.
+    if (identity !== "anonymous") {
+        const requester = await quota(`lead-ingress:requester:${identity}`, 20);
+        if (!requester.ok) return requester;
+    }
+    // Reject an exhausted verified caller before spending the shared receiver budget.
     const global = await quota("lead-ingress:global", 120);
     if (!global.ok) return global;
-    const requester = await quota(`lead-ingress:requester:${leadRequesterKey(request)}`, 20);
-    if (!requester.ok) return requester;
     const origin = request.headers.get("origin");
     let acceptedOrigin = !origin;
     try {

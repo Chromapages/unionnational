@@ -20,6 +20,12 @@ The manual history job checks all refs available in its full-depth checkout. `.g
 
 ## Static quality and deployment gates
 
+Production requires shared Redis credentials for quotas and lead delivery reservations. Missing Redis configuration or quota-storage failure returns an unavailable state rather than an in-memory production fallback. Development Redis quotas are enabled with `ENABLE_UPSTASH=true` (the literal string; `1` is not enabled). A development memory fallback is process-local and cannot verify production isolation or durable delivery recovery.
+
+Do not enable `LEAD_PROXY_HEADERS_VERIFIED=true` until hosting evidence establishes the chosen `LEAD_TRUSTED_IP_HEADER` is overwritten by the trusted ingress, client-provided copies are stripped, and direct-origin bypass is blocked or accounted for. Record ingress body/deadline/admission limits and repeat the spoofing/shared-capacity fixtures against authorized staging. A source flag cannot establish this deployment trust contract.
+
+Public `/readyz` returns a generic uncached configuration status, not missing setting names or delivery health. Use `npm run shop:readiness` locally for payment configuration diagnostics; use the existing recovery/monitoring CLIs only with separately authorized provider-read scope. Configuration checks do not verify actual Redis availability, private dataset ACLs, migration completion, or receiver acceptance.
+
 Routine Quality jobs use synthetic Stripe/Sanity/receiver values and `SHOP_READINESS_STATIC=1`; the readiness script does not read `.env.local` in this mode. It verifies the private dataset differs from the public catalog dataset, configuration flags have the expected shape, the fulfillment destination matches the exact allowed host list over HTTPS, and an adequately sized signing value is configured. The actual private dataset, migration completion, receiver authentication, idempotency, durable acknowledgement, and Hostinger settings require owner verification using the payment runbook.
 
 After `npm ci`, CI checks that the bounded braces patch actually ran, executes repository/dependency regression checks, then performs the normal lint/type/test/build/audit steps. A high-severity upstream audit finding remains a failed audit gate even when a reviewed local patch reduces its exposure; no advisory is hidden by this workflow. CodeQL is configured for application JavaScript/TypeScript and workflow definitions, with generated/private artifacts excluded. The workflow has not been executed on GitHub as part of local verification.

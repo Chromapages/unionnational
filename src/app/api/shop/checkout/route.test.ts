@@ -3,8 +3,9 @@ import type { NextRequest } from "next/server";
 
 const createSession = vi.fn();
 const retrievePrice = vi.fn();
-vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "127.0.0.1", checkRateLimit: async () => ({ success: true, remaining: 29, resetTime: Date.now() + 60000 }) }));
-vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => "fixture" }));
+const budgets = vi.hoisted(() => ({ identity: "fixture", check: vi.fn() }));
+vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "127.0.0.1", checkRateLimit: budgets.check }));
+vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => budgets.identity }));
 vi.mock("@/lib/stripe", () => ({ getStripe: () => ({ prices: { retrieve: retrievePrice }, checkout: { sessions: { create: createSession } } }) }));
 vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({}) }));
 vi.mock("@/lib/config/env", () => ({
@@ -46,6 +47,8 @@ function request(locale?: unknown, returnUrl?: unknown) {
 }
 
 beforeEach(() => {
+    budgets.identity = "fixture";
+    budgets.check.mockReset().mockResolvedValue({ success: true, remaining: 29, resetTime: Date.now() + 60000 });
     createSession.mockReset().mockResolvedValue({ id: "cs_test_checkoutFixture", url: "https://checkout.stripe.test/session" });
     retrievePrice.mockReset().mockResolvedValue({ id: "price_test", product: "prod_fixture", active: true, type: "one_time", currency: "usd", unit_amount: 2900 });
     vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "fixture-only-32-character-minimum-secret");
@@ -53,6 +56,21 @@ beforeEach(() => {
     vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");
 });
 afterEach(() => vi.unstubAllEnvs());
+
+it("does not collapse all unknown buyers into a shared thirty-request identity", async () => {
+    budgets.identity = "anonymous";
+    const { POST } = await import("./route");
+    expect((await POST(request("en"))).status).toBe(200);
+    expect(budgets.check).toHaveBeenCalledExactlyOnceWith("shop-checkout:global", 120, 60000);
+});
+
+it("rejects an exhausted verified buyer before spending global checkout capacity", async () => {
+    budgets.check.mockResolvedValue({ success: false, remaining: 0, resetTime: Date.now() + 60000 });
+    const { POST } = await import("./route");
+    expect((await POST(request("en"))).status).toBe(429);
+    expect(budgets.check).toHaveBeenCalledExactlyOnceWith("shop-checkout:fixture", 30, 60000);
+    expect(createSession).not.toHaveBeenCalled();
+});
 
 it.each(["en", "es"])("returns %s checkout to the same locale", async (locale) => {
     const { POST } = await import("./route");

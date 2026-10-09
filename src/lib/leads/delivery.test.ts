@@ -1,5 +1,7 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
-const state = vi.hoisted(() => ({ records: new Map<string, Record<string, unknown>>(), failReserve: false, failUpdate: false, signal: undefined as undefined | (() => AbortSignal) }));
+const state = vi.hoisted(() => ({ records: new Map<string, Record<string, unknown>>(), counters: new Map<string, number>(), failReserve: false, failUpdate: false, signal: undefined as undefined | (() => AbortSignal) }));
+const messages = vi.hoisted(() => ({ warn: vi.fn(), info: vi.fn() }));
+vi.mock("@/lib/observability/logger", () => ({ logger: messages }));
 vi.mock("@/lib/config/env", () => ({ getEnv: (key: string) => key === "UPSTASH_REDIS_REST_URL" ? "https://redis.example.test" : key === "UPSTASH_REDIS_REST_TOKEN" ? "test-only" : undefined }));
 vi.mock("@upstash/redis", () => ({ Redis: class {
     constructor(options: { signal: () => AbortSignal }) { state.signal = options.signal; }
@@ -9,7 +11,17 @@ vi.mock("@upstash/redis", () => ({ Redis: class {
         state.records.set(key, value); return "OK";
     }
     async get(key: string) { return state.records.get(key) ?? null; }
-    async eval(_script: string, keys: string[], args: string[]) {
+    async eval(script: string, keys: string[], args: string[]) {
+        if (script === LEAD_RESERVATION_NX) {
+            if (state.failReserve) throw new Error("synthetic unavailable");
+            if (state.records.has(keys[0])) return 0;
+            const count = state.counters.get(keys[1]) ?? state.records.size + state.counters.size;
+            if (!Number.isInteger(count) || count < 0) throw new Error("synthetic corrupt accounting");
+            if (count >= Number(args[1])) return -1;
+            state.counters.set(keys[1], count + 1);
+            state.records.set(keys[0], JSON.parse(args[0]));
+            return count + 1;
+        }
         if (state.failUpdate) throw new Error("synthetic update unavailable");
         const record = state.records.get(keys[0]);
         if (!record || record.owner !== args[0] || record.state !== args[1] || record.updatedAt !== args[2]) return 0;
@@ -17,15 +29,66 @@ vi.mock("@upstash/redis", () => ({ Redis: class {
     }
 } }));
 import { deliverLead, reconcileLeadDelivery } from "./delivery";
+import { LEAD_RESERVATION_NX, LEAD_RESERVATION_LIMIT } from "./delivery-protocol.mjs";
 const body = { event_type: "AUDIT_EVENT", contact: { email: "synthetic@audit.example.test" }, submitted_at: "2026-10-05T00:00:00.000Z" };
 const identity = "d3db602a-72d1-496d-9f43-c3fb3e9c03f1";
 const receiver = "https://crm.example.test/receiver";
 const fetchMock = vi.fn();
 const receiptKey = () => [...state.records.keys()].find(key => key.startsWith("lead-delivery:v1:"))!;
-beforeEach(() => { state.records.clear(); state.failReserve = false; state.failUpdate = false; fetchMock.mockReset(); vi.stubGlobal("fetch", fetchMock); });
+beforeEach(() => { state.records.clear(); state.counters.clear(); state.failReserve = false; state.failUpdate = false; messages.warn.mockClear(); fetchMock.mockReset(); vi.stubGlobal("fetch", fetchMock); });
 afterEach(() => vi.unstubAllGlobals());
 
 describe("durable lead dispatch", () => {
+    it("warns when existing capacity accounting starts above eighty percent", async () => {
+        state.counters.set("lead-capacity:v1:delivery", 9000);
+        fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+        await deliverLead(body, receiver);
+        expect(messages.warn).toHaveBeenCalledWith(expect.any(String), { event: "lead_capacity_warning", category: "delivery", count: 9001, limit: LEAD_RESERVATION_LIMIT });
+    });
+    it("admits only the last capacity slot concurrently and preserves accepted duplicates after restart", async () => {
+        state.counters.set("lead-capacity:v1:delivery", LEAD_RESERVATION_LIMIT - 1);
+        fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+        const results = await Promise.allSettled([deliverLead(body, receiver), deliverLead({ ...body, answers: { changed: true } }, receiver)]);
+        expect(results.filter(result => result.status === "fulfilled")).toHaveLength(1);
+        expect(results.filter(result => result.status === "rejected")).toMatchObject([{ reason: { status: 503 } }]);
+        expect(fetchMock).toHaveBeenCalledOnce();
+        vi.resetModules();
+        const restarted = await import("./delivery");
+        expect((await restarted.deliverLead(body, receiver)).ok).toBe(true);
+        expect(state.counters.get("lead-capacity:v1:delivery")).toBe(LEAD_RESERVATION_LIMIT);
+        expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
+    it("caps UUID aliases without deleting or automatically retrying an uncertain receipt", async () => {
+        fetchMock.mockRejectedValue(new DOMException("synthetic deadline", "TimeoutError"));
+        await expect(deliverLead(body, receiver, identity)).rejects.toMatchObject({ status: 504 });
+        state.counters.set("lead-capacity:v1:identity", LEAD_RESERVATION_LIMIT);
+        await expect(deliverLead(body, receiver, crypto.randomUUID())).rejects.toMatchObject({ status: 503 });
+        expect(state.records.get(receiptKey())).toMatchObject({ state: "uncertain" });
+        expect(await reconcileLeadDelivery(receiptKey(), "accepted", "synthetic verified acknowledgement")).toBe(true);
+        expect((await deliverLead(body, receiver, identity)).ok).toBe(true);
+        expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
+    it("counts existing storage conservatively and fails closed on corrupt capacity", async () => {
+        for (let index = 0; index < LEAD_RESERVATION_LIMIT; index++) state.records.set(`legacy:${index}`, {});
+        await expect(deliverLead(body, receiver)).rejects.toMatchObject({ status: 503 });
+        state.records.clear();
+        state.counters.set("lead-capacity:v1:delivery", NaN);
+        await expect(deliverLead(body, receiver)).rejects.toMatchObject({ status: 503 });
+        expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it("retains capacity accounting through an evidenced retry without allocating or replaying twice", async () => {
+        state.counters.set("lead-capacity:v1:delivery", LEAD_RESERVATION_LIMIT - 1);
+        fetchMock.mockResolvedValueOnce(new Response(null, { status: 500 })).mockResolvedValueOnce(new Response(null, { status: 202 }));
+        await expect(deliverLead(body, receiver)).rejects.toMatchObject({ status: 502 });
+        expect(await reconcileLeadDelivery(receiptKey(), "not_delivered", "synthetic absence proof")).toBe(true);
+        expect((await deliverLead(body, receiver)).ok).toBe(true);
+        expect((await deliverLead(body, receiver)).ok).toBe(true);
+        expect(state.counters.get("lead-capacity:v1:delivery")).toBe(LEAD_RESERVATION_LIMIT);
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
     it("sends concurrent and repeated submissions once, across rotated receivers", async () => {
         let finish!: (response: Response) => void;
         fetchMock.mockImplementation(() => new Promise<Response>(resolve => { finish = resolve; }));

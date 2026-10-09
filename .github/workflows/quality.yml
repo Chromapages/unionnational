@@ -38,6 +38,15 @@ jobs:
       - name: Repository and dependency control tests
         run: node --test scripts/dependency-security.test.mjs scripts/security-source-guard.test.mjs scripts/lib/sanity-mutation.test.mjs scripts/release-inventory.test.mjs scripts/check-shop-readiness.test.mjs scripts/summarize-operational-logs.test.mjs
 
+      - name: Literal Redis reservation and recovery fixtures
+        run: |
+          docker run --detach --rm --name unt-lead-redis --publish 127.0.0.1:16379:6379 redis:7.2.14@sha256:f0707c78ea880b293ccdeb410c9c0a8ccae93fe7128799b751333a698b0a39a7 redis-server --requirepass fixture-ci-redis-only --save "" --appendonly no
+          trap 'docker stop unt-lead-redis >/dev/null 2>&1 || true' EXIT
+          node --test scripts/lead-storage-redis.test.mjs
+        env:
+          REDIS_FIXTURE_LOCAL_SERVICE: "true"
+          REDIS_FIXTURE_PORT: "16379"
+
       - name: Lint
         run: npm run lint
 
@@ -57,6 +66,10 @@ jobs:
 
       - name: Audit
         run: npm audit --audit-level=high
+
+      - name: Production dependency audit
+        if: ${{ always() }}
+        run: npm audit --omit=dev --audit-level=high
 
       - name: Release inventory and notices
         run: node scripts/release-inventory.mjs --production

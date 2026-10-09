@@ -103,6 +103,23 @@ describe("signed CMS revalidation", () => {
         const { revalidatePath } = await import("next/cache");
         expect((await POST(request())).status).toBe(401);
         expect(revalidatePath).not.toHaveBeenCalled();
+        expect(state.quota.mock.calls.map(([key]) => key)).toEqual(["sanity:revalidation-ingress"]);
+    });
+
+    it.each(["exhausted", "unavailable"])("keeps authenticated revalidation retryable when its quota is %s", async outcome => {
+        state.quota.mockImplementation(async (key: string) => {
+            if (key !== "sanity:revalidation-authenticated") return { success: true };
+            if (outcome === "unavailable") throw new Error("synthetic Redis outage");
+            return { success: false };
+        });
+        const { POST } = await import("@/app/api/revalidate/route");
+        const { parseBody } = await import("next-sanity/webhook");
+        const { revalidatePath } = await import("next/cache");
+        expect((await POST(request())).status).toBe(outcome === "exhausted" ? 429 : 503);
+        expect(parseBody).toHaveBeenCalledTimes(1);
+        expect(revalidatePath).not.toHaveBeenCalled();
+        state.quota.mockResolvedValue({ success: true });
+        expect(await (await POST(request())).json()).toMatchObject({ revalidated: true });
     });
 
     it.each([{}, { _type: "stripeWebhookIdempotency" }, { _type: "blogPost", slug: { current: "../../secret" } }])("rejects unsupported or malformed signed payloads", async body => {

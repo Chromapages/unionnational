@@ -27,6 +27,7 @@ describe("installed next-sanity HMAC boundary", () => {
         const count = vi.mocked(revalidatePath).mock.calls.length;
         expect(await (await POST(signed(raw, timestamp))).json()).toMatchObject({ duplicate: true, revalidated: false });
         expect(revalidatePath).toHaveBeenCalledTimes(count);
+        expect(fixture.quota.mock.calls.filter(([key]) => key === "sanity:revalidation-authenticated")).toHaveLength(2);
     }, 12_000);
 
     it("rejects a body altered after signing", async () => {
@@ -35,6 +36,7 @@ describe("installed next-sanity HMAC boundary", () => {
         const raw = '{"_type":"faq"}';
         expect((await POST(signed('{"_type":"testimonial"}', Date.now(), raw))).status).toBe(401);
         expect(revalidatePath).not.toHaveBeenCalled();
+        expect(fixture.quota.mock.calls.map(([key]) => key)).toEqual(["sanity:revalidation-ingress"]);
     });
 
     it("rejects authentic stale and future signatures before invalidation", async () => {

@@ -16,7 +16,7 @@ Source was hardened on October 5, 2026. Checkout returns 503 until the private o
 | `GHL_SHOP_FULFILLMENT_SECRET` | At least 32 characters, shared only with the receiver through the approved secret manager. |
 | `GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED=true` | Set only after controlled test-mode evidence proves MAC authentication, durable acknowledgement, idempotency, shipping mapping and delivery handling. Generic GHL 200 responses do not meet this contract. |
 
-`/readyz` and shop readiness report missing/invalid gate names. CI uses synthetic configuration for shape checks and cannot certify account settings. Source adds no secret values. Configuring these gates is a required owner operation before production checkout resumes.
+Public `/readyz` reports only `configuration_ready` (200) or `not_ready` (503) without names or diagnostics; it does not probe providers. The local `npm run shop:readiness` CLI reports missing/invalid payment configuration names without secret values. CI uses synthetic configuration for shape checks and cannot certify account settings. Configuring these gates is a required owner operation before production checkout resumes.
 
 ## Receiver contract
 

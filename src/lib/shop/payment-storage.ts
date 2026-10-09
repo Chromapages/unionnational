@@ -1,3 +1,4 @@
+import "server-only";
 import { createClient } from "next-sanity";
 import { publicEnv } from "@/lib/config/env";
 import { paymentStorageGaps } from "./payment-configuration";

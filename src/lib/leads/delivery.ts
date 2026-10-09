@@ -4,7 +4,7 @@ import { Redis } from "@upstash/redis";
 import { z } from "zod";
 import { getEnv } from "@/lib/config/env";
 import { logger } from "@/lib/observability/logger";
-import { LEAD_DELIVERY_CAS, LEAD_RECEIPT_PATTERN, reconciledLeadRecord } from "./delivery-protocol.mjs";
+import { LEAD_DELIVERY_CAS, LEAD_RECEIPT_PATTERN, LEAD_RESERVATION_NX, LEAD_RESERVATION_LIMIT, reconciledLeadRecord } from "./delivery-protocol.mjs";
 
 type State = "pending" | "accepted" | "uncertain" | "retry_authorized";
 type RecordState = { owner: string; payloadHash: string; state: State; updatedAt: string; evidence?: string; operator?: string };
@@ -40,17 +40,28 @@ function stablePayload(value: unknown, path: string[] = []): unknown {
 }
 const hash = (value: string) => createHash("sha256").update(value).digest("hex");
 
+async function reserveShared(db: Redis, key: string, value: unknown, category: "identity" | "delivery"): Promise<boolean> {
+    const count = await db.eval<unknown[], number>(LEAD_RESERVATION_NX, [key, `lead-capacity:v1:${category}`], [JSON.stringify(value), LEAD_RESERVATION_LIMIT]);
+    if (count === -1) {
+        logger.warn("Lead reservation capacity exhausted; operator review required", { event: "lead_capacity_exhausted", category, limit: LEAD_RESERVATION_LIMIT });
+        throw new LeadDeliveryError(503, "Lead delivery storage is unavailable");
+    }
+    if (!Number.isInteger(count) || count < 0 || count > LEAD_RESERVATION_LIMIT) throw new LeadDeliveryError(503, "Lead delivery storage is unavailable");
+    if (count >= LEAD_RESERVATION_LIMIT * 0.8) logger.warn("Lead reservation capacity reached eighty percent", { event: "lead_capacity_warning", category, count, limit: LEAD_RESERVATION_LIMIT });
+    return count > 0;
+}
+
 async function reserveIdentity(key: string, payloadHash: string): Promise<void> {
     const db = store();
     let existing: string | undefined;
     if (db) {
-        if (await db.set(key, { payloadHash }, { nx: true })) return;
+        if (await reserveShared(db, key, { payloadHash }, "identity")) return;
         const record = z.object({ payloadHash: z.string().regex(/^[a-f0-9]{64}$/) }).parse(await db.get(key));
         existing = record.payloadHash;
     } else {
         existing = localIdentities.get(key);
         if (!existing) {
-            if (localIdentities.size >= 10_000) throw new LeadDeliveryError(503, "Lead delivery storage is unavailable");
+            if (localIdentities.size >= LEAD_RESERVATION_LIMIT) throw new LeadDeliveryError(503, "Lead delivery storage is unavailable");
             localIdentities.set(key, payloadHash);
             return;
         }
@@ -61,12 +72,12 @@ async function reserveIdentity(key: string, payloadHash: string): Promise<void> 
 async function reserve(key: string, record: RecordState): Promise<RecordState> {
     const db = store();
     if (db) {
-        if (await db.set(key, record, { nx: true })) return record;
+        if (await reserveShared(db, key, record, "delivery")) return record;
         return RecordSchema.parse(await db.get(key));
     }
     const previous = localStore.get(key);
     if (previous) return previous;
-    if (localStore.size >= 10_000) throw new LeadDeliveryError(503, "Lead delivery storage is unavailable");
+    if (localStore.size >= LEAD_RESERVATION_LIMIT) throw new LeadDeliveryError(503, "Lead delivery storage is unavailable");
     localStore.set(key, record);
     return record;
 }

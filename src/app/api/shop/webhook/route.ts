@@ -26,8 +26,9 @@ export async function POST(req: NextRequest) {
     const signature = req.headers.get("stripe-signature");
     if (!signature || !endpointSecret) return handler.jsonError("Missing Stripe signature or secret", 400);
     try {
-        const global = await checkRateLimit("shop-webhook:global", 480, 60_000);
-        const quota = global.success ? await checkRateLimit(`shop-webhook:${leadRequesterKey(req)}`, 240, 60_000) : global;
+        const identity = leadRequesterKey(req);
+        const requester = identity === "anonymous" ? undefined : await checkRateLimit(`shop-webhook:ingress:${identity}`, 240, 60_000);
+        const quota = requester && !requester.success ? requester : await checkRateLimit("shop-webhook:ingress:global", 480, 60_000);
         if (!quota.success) return handler.jsonError("Webhook quota exceeded", 429);
     } catch { return handler.jsonError("Webhook ingress unavailable", 503); }
 
@@ -45,6 +46,11 @@ export async function POST(req: NextRequest) {
         handler.log.warn("Invalid Stripe signature");
         return handler.jsonError("Invalid Stripe signature", 400);
     }
+    // A signature header alone must never spend the authenticated provider budget.
+    try {
+        const quota = await checkRateLimit("shop-webhook:authenticated", 480, 60_000);
+        if (!quota.success) return handler.jsonError("Webhook processing quota exceeded", 429);
+    } catch { return handler.jsonError("Webhook processing unavailable", 503); }
     if (event.type !== "checkout.session.completed" && event.type !== "checkout.session.async_payment_succeeded") {
         return handler.json({ received: true, ignored: true });
     }
