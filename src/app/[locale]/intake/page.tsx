@@ -35,7 +35,7 @@ export default async function IntakePage(props: { params: Promise<{ locale: stri
                         Start Your <span className="text-gold-500">Tax Strategy</span> Assessment
                     </h1>
                     <p className="text-brand-100/60 font-sans text-lg leading-relaxed">
-                        Complete this brief profile and uncovered hidden tax savings that traditional accountants might miss.
+                        Complete this brief profile and uncover hidden tax savings that traditional accountants might miss.
                     </p>
                 </div>
 

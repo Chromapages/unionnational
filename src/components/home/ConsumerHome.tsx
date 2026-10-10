@@ -230,9 +230,9 @@ export async function ConsumerHome({ heroVideoSrc, heroVideoPoster, clientLogos 
                     <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#e7e4db] pt-5">
                         <p className="font-body text-base text-[#596d77]">{t("reviews.storySupport")}</p>
                         {(["desktop", "mobile"] as const).map((layout) => (
-                            <a key={layout} href={`/${locale}/industries#${layout === "desktop" ? "torres-story" : "torres-story-mobile"}`} data-analytics="testimonials_read_more_click" className={`${layout === "desktop" ? "hidden xl:inline-flex" : "inline-flex xl:hidden"} min-h-11 items-center gap-3 font-heading text-base font-semibold text-[#082421] underline decoration-gold-600 underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-600`}>
+                            <Link key={layout} href="/industries#torres-story" data-analytics="testimonials_read_more_click" className={`${layout === "desktop" ? "hidden xl:inline-flex" : "inline-flex xl:hidden"} min-h-11 items-center gap-3 font-heading text-base font-semibold text-[#082421] underline decoration-gold-600 underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-600`}>
                                 {t("reviews.storyCta")}<ArrowRight className="size-5" aria-hidden="true" />
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>
