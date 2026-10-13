@@ -90,7 +90,7 @@ export function ServiceSidebar({
     ].filter(item => item.show);
 
     return (
-        <div className={cn("sticky top-24 space-y-8", className)}>
+        <div className={cn("sticky top-[calc(var(--header-height)+1.5rem)] space-y-8", className)}>
             {/* Main Card */}
             <div className="bg-white rounded-2xl p-6 border border-zinc-200 shadow-sm">
                 <div className="flex items-center gap-4 mb-6">

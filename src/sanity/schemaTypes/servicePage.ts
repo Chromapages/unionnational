@@ -146,7 +146,7 @@ export const servicePage = defineType({
         }),
         defineField({
             name: "included", title: "What's Included", type: "object", group: "content", validation: (Rule) => Rule.required(), options: { collapsible: true, collapsed: true },
-            fields: [localizedStringField("eyebrow", "Eyebrow"), localizedStringField("heading", "Heading"), localizedTextField("description", "Description"), defineField({ name: "items", title: "Included Items", type: "array", of: [{ type: "localizedString" }], validation: (Rule) => Rule.min(3).max(12) }), defineField({ name: "pricing", title: "Pricing Explanation", type: "object", fields: [localizedStringField("headline", "Headline"), localizedTextField("detail", "Detail")] })],
+            fields: [localizedStringField("eyebrow", "Eyebrow"), localizedStringField("heading", "Heading"), localizedTextField("description", "Description"), defineField({ name: "items", title: "Included Items", type: "array", of: [{ type: "localizedString" }], validation: (Rule) => Rule.min(3).max(12) }), defineField({ name: "pricingOffers", title: "Shared Pricing Offers", type: "array", of: [{ type: "reference", to: [{ type: "pricingTier" }] }], description: "Ordered shared offers. Pricing Explanation remains a legacy compatibility field.", validation: (Rule) => Rule.unique() }), defineField({ name: "pricing", title: "Pricing Explanation", type: "object", fields: [localizedStringField("headline", "Headline"), localizedTextField("detail", "Detail")] })],
         }),
         defineField({
             name: "video", title: "Video Section", type: "object", group: "content",

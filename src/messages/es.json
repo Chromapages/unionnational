@@ -602,9 +602,9 @@
                 "highNetWorth": "Patrimonio Alto"
             },
             "investmentTiers": {
-                "foundation": "$3,500+",
-                "growth": "$6,500+",
-                "executive": "$10,000+"
+                "foundation": "Consulte los precios",
+                "growth": "Consulte los precios",
+                "executive": "Consulte los precios"
             },
             "hotelNights": "2-5 Noches"
         },
@@ -2107,7 +2107,7 @@
                 },
                 "construction": {
                     "category": "Construcción",
-                    "description": "Una guía para contratistas sobre costos por proyecto, cumplimiento de subcontratistas, depreciación de equipos, flujo de caja y planificación fiscal."
+                    "description": "Una guía práctica sobre costos por proyecto, estimación, flujo de caja, sistemas de trabajo y liderazgo para propietarios de empresas de construcción."
                 },
                 "restaurant": {
                     "category": "Restaurantes",
@@ -2258,6 +2258,33 @@
                     "body": "Libertad de tiempo y financiera."
                 }
             ],
+            "constructionOverview": {
+                "features": [
+                    "Costos por proyecto y estimación para comprender los costos y márgenes de cada obra",
+                    "Sistemas de trabajo para la programación, la coordinación de subcontratistas y el control de calidad",
+                    "Flujo de caja, órdenes de cambio y liderazgo para una empresa de construcción en crecimiento",
+                    "Compare las estimaciones con los costos reales de cada obra, revise el costo de completar el trabajo y gestione los cambios antes de facturar.",
+                    "Utilice alcances de trabajo claros, cronogramas de las próximas actividades, controles de calidad y responsabilidades del equipo para coordinar el trabajo."
+                ],
+                "learningObjectives": [
+                    {
+                        "title": "Conozca los costos de cada obra",
+                        "description": "Controle la mano de obra, los materiales, los subcontratistas, los equipos y los gastos generales. Compare los costos reales con la estimación y el trabajo pendiente."
+                    },
+                    {
+                        "title": "Planifique sus necesidades de efectivo",
+                        "description": "Relacione la facturación y los cobros con la nómina, los materiales, los pagos a subcontratistas y las retenciones de pago. Utilice una proyección continua para identificar posibles faltantes de efectivo."
+                    },
+                    {
+                        "title": "Revise los márgenes de cada proyecto",
+                        "description": "Prepare las estimaciones con un alcance claro, tasas de producción y gastos generales. Utilice órdenes de cambio documentadas y revisiones periódicas de costos para controlar el trabajo que afecta al margen."
+                    },
+                    {
+                        "title": "Establezca operaciones repetibles",
+                        "description": "Cree un enfoque consistente para el inicio de los proyectos, los cronogramas de las próximas actividades, la coordinación de subcontratistas y los controles de calidad. Defina las funciones y revise el desempeño del equipo."
+                    }
+                ]
+            },
             "bookHighlights": {
                 "scorp": [
                     { "title": "Estructura empresarial", "body": "Explore la idoneidad de una S-Corp." },
@@ -2275,9 +2302,9 @@
                     { "title": "Gestión de riesgos", "body": "Comprenda los riesgos financieros de la jubilación." }
                 ],
                 "construction": [
-                    { "title": "Costos por proyecto", "body": "Costos de proyectos y flujo de caja." },
-                    { "title": "Equipos", "body": "Consideraciones sobre depreciación de equipos." },
-                    { "title": "Planificación fiscal", "body": "Temas fiscales empresariales para contratistas." }
+                    { "title": "Costos por proyecto", "body": "Controle los costos y márgenes de cada proyecto." },
+                    { "title": "Sistemas de trabajo", "body": "Planifique el trabajo y aclare las responsabilidades." },
+                    { "title": "Flujo de caja", "body": "Relacione la facturación con las próximas necesidades de efectivo." }
                 ],
                 "restaurant": [
                     { "title": "Sistemas empresariales", "body": "Procesos consistentes para restaurantes." },
@@ -2737,6 +2764,275 @@
                 "detail": "Hable con un experto fiscal."
             },
             "reassurance": "Sin presión de venta. Solo orientación práctica."
+        }
+    },
+    "HealthCheck": {
+        "metadata": {
+            "title": "Evaluación de la salud financiera empresarial",
+            "description": "Responde siete preguntas sobre la estructura de tu empresa, el cumplimiento tributario y las operaciones financieras, según la información que proporcionas."
+        },
+        "eyebrow": "Evaluación según tus respuestas",
+        "title": "Diagnóstico financiero",
+        "intro": "Responde preguntas sobre la estructura de tu empresa, el cumplimiento tributario y las operaciones de tu negocio.",
+        "introDetail": "Responde siete preguntas sobre las finanzas de tu empresa.",
+        "sevenQuestions": "Siete preguntas",
+        "start": "Iniciar diagnóstico",
+        "noCard": "No se requiere tarjeta de crédito",
+        "categories": {
+            "entity": "Estructura empresarial",
+            "compliance": "Cumplimiento",
+            "operations": "Operaciones",
+            "total": "Total"
+        },
+        "categoryCopy": {
+            "entity": {
+                "title": "Eficiencia de la estructura empresarial",
+                "description": "La estructura adecuada protege tus ganancias y reduce la exposición ante el IRS."
+            },
+            "compliance": {
+                "title": "Preparación para el cumplimiento",
+                "description": "Las declaraciones precisas previenen sanciones y te mantienen en una posición favorable."
+            },
+            "operations": {
+                "title": "Madurez operativa",
+                "description": "Las operaciones disciplinadas crean una base financiera para el crecimiento."
+            }
+        },
+        "areas": {
+            "entity": "Eficiencia de la estructura empresarial",
+            "compliance": "Estado de cumplimiento ante el IRS",
+            "operations": "Madurez operativa"
+        },
+        "tiers": {
+            "critical": "Riesgo alto",
+            "stable": "Moderado",
+            "growth": "Preparado para crecer"
+        },
+        "questionsLabel": "Preguntas",
+        "liveScore": "Puntuación actual",
+        "questionStep": "Pregunta {step} de {total}",
+        "questionNumber": "Pregunta {step}",
+        "totalQuestions": "{total} en total",
+        "previous": "Pregunta anterior",
+        "moduleStatus": "Estado de los módulos",
+        "status": {
+            "complete": "Completo",
+            "active": "En curso",
+            "idle": "Sin iniciar"
+        },
+        "assessmentScore": "Puntuación de la evaluación",
+        "summaryDescription": "Revisa el resumen y el siguiente paso según tus respuestas.",
+        "generated": "Resumen generado",
+        "submissionError": "No pudimos confirmar tu envío. Tus respuestas siguen aquí. Si el problema continúa, contacta a Union National Tax antes de iniciar otro envío.",
+        "preview": {
+            "eyebrow": "Resumen de la evaluación",
+            "title": "Respuestas completas",
+            "prepared": "Preparado para {name}",
+            "ready": "Tus respuestas están listas para enviar.",
+            "next": "Siguiente paso",
+            "submit": "Envía tus datos para ver el resumen"
+        },
+        "capture": {
+            "eyebrow": "Datos de contacto",
+            "title": "Ver tu evaluación",
+            "description": "Envía tus datos de contacto y respuestas a Union National Tax para ver el resumen de tu evaluación.",
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "email": "Correo electrónico",
+            "phone": "Número de teléfono",
+            "submitting": "Enviando...",
+            "submit": "Ver resumen de la evaluación",
+            "notice": "Al enviar, compartes tus datos de contacto y respuestas de la evaluación con Union National Tax. Lee nuestra <privacy>Política de privacidad</privacy>.",
+            "errors": {
+                "firstName": "El nombre es obligatorio",
+                "lastName": "El apellido es obligatorio",
+                "email": "Ingresa un correo electrónico válido",
+                "phone": "Ingresa un número de teléfono válido"
+            }
+        },
+        "results": {
+            "report": "Informe de diagnóstico financiero",
+            "prepared": "Preparado para {name}",
+            "business": "Tu empresa",
+            "basedOn": "Según tus respuestas",
+            "tier": "Nivel del diagnóstico",
+            "service": "Servicio recomendado",
+            "serviceDescription": "Servicio sugerido según la puntuación de tu evaluación.",
+            "snapshot": "Resumen del desempeño",
+            "breakdown": {
+                "entity": "Estructura empresarial",
+                "compliance": "Cumplimiento",
+                "operations": "Operaciones"
+            },
+            "critical": {
+                "title": "Se requiere atención urgente",
+                "description": "La exposición por incumplimiento pone en riesgo el flujo de caja y la continuidad del negocio.",
+                "cta": "Obtener resolución tributaria",
+                "service": "Resolución tributaria",
+                "highlights": {
+                    "one": "Faltan medidas de cumplimiento",
+                    "two": "Flujo de caja expuesto",
+                    "three": "Ineficiencias en la estructura empresarial"
+                }
+            },
+            "stable": {
+                "title": "Estable, pero sin avanzar",
+                "description": "Las operaciones son estables, pero aún hay oportunidades de optimización.",
+                "cta": "Obtener estrategia tributaria",
+                "service": "Estrategia tributaria",
+                "highlights": {
+                    "one": "Cumplimiento moderado",
+                    "two": "Posibilidad de optimizar la estructura",
+                    "three": "Base disponible para crecer"
+                }
+            },
+            "growth": {
+                "title": "Preparado para ampliar el negocio",
+                "description": "Tu base permite la expansión. Ahora enfócate en un crecimiento estratégico.",
+                "cta": "Explorar servicios de CFO externo",
+                "service": "CFO externo",
+                "highlights": {
+                    "one": "Cumplimiento optimizado",
+                    "two": "La estructura permite el crecimiento",
+                    "three": "Madurez operativa sólida"
+                }
+            }
+        },
+        "questions": {
+            "1": {
+                "question": "¿Qué tipo de estructura empresarial tiene tu negocio?",
+                "description": "La estructura de tu empresa determina tu responsabilidad tributaria y nivel de protección.",
+                "options": {
+                    "s-corp": {
+                        "label": "S-Corp",
+                        "description": "Tributación transferida a los propietarios y posibles ahorros en el impuesto sobre el trabajo por cuenta propia"
+                    },
+                    "llc": {
+                        "label": "LLC (un solo miembro o sociedad)",
+                        "description": "Flexible, pero con posibles impuestos más altos sobre el trabajo por cuenta propia"
+                    },
+                    "c-corp": {
+                        "label": "C-Corp",
+                        "description": "Posible doble tributación, pero adecuada para ampliar el negocio"
+                    },
+                    "sole-proprietorship": {
+                        "label": "Propietario único",
+                        "description": "La opción más sencilla, pero con mayor responsabilidad personal e impuestos"
+                    },
+                    "unknown-other": {
+                        "label": "No estoy seguro / Otro",
+                        "description": "Aclaremos esto de inmediato"
+                    }
+                }
+            },
+            "2": {
+                "question": "¿Has presentado todas las declaraciones de impuestos federales y estatales de los últimos 3 años?",
+                "description": "La constancia ante el IRS es la base de la salud financiera.",
+                "options": {
+                    "on-time": {
+                        "label": "Sí, todas se presentaron a tiempo"
+                    },
+                    "late": {
+                        "label": "Presentadas, pero algunas fuera de plazo"
+                    },
+                    "missing-one-two": {
+                        "label": "Faltan 1 o 2 declaraciones"
+                    },
+                    "missing-over-two": {
+                        "label": "Faltan más de 2 declaraciones"
+                    },
+                    "not-sure": {
+                        "label": "No estoy seguro"
+                    }
+                }
+            },
+            "3": {
+                "question": "¿Actualmente debes impuestos atrasados al IRS o al estado?",
+                "options": {
+                    "none": {
+                        "label": "No tengo deudas tributarias pendientes"
+                    },
+                    "under-10k": {
+                        "label": "Sí, menos de $10,000"
+                    },
+                    "10k-50k": {
+                        "label": "Sí, de $10,000 a $50,000"
+                    },
+                    "over-50k": {
+                        "label": "Sí, más de $50,000"
+                    },
+                    "not-sure": {
+                        "label": "No estoy seguro"
+                    }
+                }
+            },
+            "4": {
+                "question": "¿Con qué frecuencia revisas tus estados financieros?",
+                "description": "No puedes gestionar lo que no mides.",
+                "options": {
+                    "monthly": {
+                        "label": "Mensualmente"
+                    },
+                    "quarterly": {
+                        "label": "Trimestralmente"
+                    },
+                    "annually": {
+                        "label": "Anualmente (al declarar impuestos)"
+                    },
+                    "rarely-never": {
+                        "label": "Rara vez / Nunca"
+                    }
+                }
+            },
+            "5": {
+                "question": "¿Separas los gastos personales de los gastos del negocio?",
+                "options": {
+                    "always": {
+                        "label": "Siempre (cuentas separadas)"
+                    },
+                    "usually": {
+                        "label": "Generalmente (rara vez se mezclan)"
+                    },
+                    "sometimes": {
+                        "label": "A veces (se mezclan ocasionalmente)"
+                    },
+                    "mixed": {
+                        "label": "No (están completamente mezclados)"
+                    }
+                }
+            },
+            "6": {
+                "question": "¿Qué sistema usas para registrar los gastos del negocio?",
+                "options": {
+                    "accounting-software": {
+                        "label": "Software de contabilidad (QBO, Xero)"
+                    },
+                    "spreadsheets": {
+                        "label": "Hojas de cálculo"
+                    },
+                    "receipts": {
+                        "label": "Caja de recibos / Recibos"
+                    },
+                    "none": {
+                        "label": "Ningún sistema"
+                    }
+                }
+            },
+            "7": {
+                "question": "¿Realizas planificación tributaria de forma proactiva?",
+                "description": "La planificación tributaria se realiza antes del cierre del año, no después.",
+                "options": {
+                    "year-round": {
+                        "label": "Todo el año con un profesional"
+                    },
+                    "year-end": {
+                        "label": "Algo de planificación al cierre del año"
+                    },
+                    "none": {
+                        "label": "Sin planificación proactiva"
+                    }
+                }
+            }
         }
     }
 }

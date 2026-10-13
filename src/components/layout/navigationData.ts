@@ -13,7 +13,6 @@ export type SiteNavigationItem = {
   translationKey: string;
   href: string;
   icon: NavigationIconName;
-  desktopPlacement: "logo" | "dropdown" | "primary" | "secondary" | "hidden";
   mobileSection: "main" | "support" | "more";
 };
 
@@ -22,23 +21,15 @@ export type SiteNavigationItem = {
  * derive from this list so routes, labels, and active matching cannot drift.
  */
 export const siteNavigationItems: readonly SiteNavigationItem[] = [
-  { id: "home", translationKey: "home", href: "/", icon: "Home", desktopPlacement: "logo", mobileSection: "main" },
-  { id: "services", translationKey: "services", href: "/services", icon: "FileText", desktopPlacement: "dropdown", mobileSection: "main" },
-  { id: "industries", translationKey: "industries", href: "/industries", icon: "Briefcase", desktopPlacement: "primary", mobileSection: "main" },
-  { id: "resources", translationKey: "resources", href: "/resources", icon: "BookOpen", desktopPlacement: "secondary", mobileSection: "more" },
-  { id: "about", translationKey: "about", href: "/about", icon: "Users", desktopPlacement: "secondary", mobileSection: "main" },
-  { id: "contact", translationKey: "contact", href: "/contact", icon: "Phone", desktopPlacement: "hidden", mobileSection: "support" },
-  { id: "faq", translationKey: "faq", href: "/faq", icon: "CircleHelp", desktopPlacement: "hidden", mobileSection: "support" },
-  { id: "shop", translationKey: "shop", href: "/shop", icon: "ShoppingBag", desktopPlacement: "secondary", mobileSection: "more" },
+  { id: "home", translationKey: "home", href: "/", icon: "Home", mobileSection: "main" },
+  { id: "services", translationKey: "services", href: "/services", icon: "FileText", mobileSection: "main" },
+  { id: "industries", translationKey: "industries", href: "/industries", icon: "Briefcase", mobileSection: "main" },
+  { id: "resources", translationKey: "resources", href: "/resources", icon: "BookOpen", mobileSection: "more" },
+  { id: "about", translationKey: "about", href: "/about", icon: "Users", mobileSection: "main" },
+  { id: "contact", translationKey: "contact", href: "/contact", icon: "Phone", mobileSection: "support" },
+  { id: "faq", translationKey: "faq", href: "/faq", icon: "CircleHelp", mobileSection: "support" },
+  { id: "shop", translationKey: "shop", href: "/shop", icon: "ShoppingBag", mobileSection: "more" },
 ] as const;
-
-export const desktopPrimaryNavigation = siteNavigationItems.filter(
-  (item) => item.desktopPlacement === "primary",
-);
-
-export const desktopSecondaryNavigation = siteNavigationItems.filter(
-  (item) => item.desktopPlacement === "secondary",
-);
 
 export const mobileNavigationSections = (["main", "support", "more"] as const).map((id) => ({
   id,

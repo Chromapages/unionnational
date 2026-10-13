@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight, BriefcaseBusiness, Building2, Check, ChevronDown, Coins, Crown, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, FileSpreadsheet, FileText, Info, MessagesSquare, Network, Phone, RefreshCw, Search, Settings, ShieldCheck, Sprout, Star, Target, UsersRound, type LucideIcon } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, Building2, Check, ChevronDown, Coins, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, FileSpreadsheet, FileText, Info, Network, Phone, RefreshCw, Search, Settings, Star, Target, UsersRound, type LucideIcon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { BOOKING_ROUTE } from "@/lib/booking";
 import { BookingCtaLink } from "@/components/home/BookingCtaLink";
 import { getServiceHref } from "@/components/layout/navigationData";
 import type { Service } from "./ServicesClient";
-import type { PricingTier } from "@/components/pricing/PricingSection";
+import type { PricingTier } from "@/types/sanity";
+import { formatOfferPrice, getOfferHref, pricingOffersSchema } from "@/lib/pricing/offers";
 import { TaxResolutionSection } from "./TaxResolutionSection";
 import { IndustryDiscovery } from "@/components/industries/IndustryDiscovery";
 
 type ChallengeKey = "tax" | "numbers" | "decisions" | "operations";
-type PackageKey = "foundation" | "growth" | "executive";
 
 const challenges: { key: ChallengeKey; icon: LucideIcon; services: string[] }[] = [
   { key: "tax", icon: Coins, services: ["tax-planning", "s-corp-tax-advantage", "tax-preparation-and-filing"] },
@@ -34,13 +35,6 @@ const serviceIcons: Record<string, LucideIcon> = {
 const recommendationRanks = ["start", "also", "later"] as const;
 const processIcons = [Search, ChartNoAxesColumnIncreasing, Settings, RefreshCw];
 const faqGuideIcons = [ChartNoAxesColumnIncreasing, UsersRound, FileText];
-const packages: { key: PackageKey; icon: LucideIcon }[] = [
-  { key: "foundation", icon: Sprout },
-  { key: "growth", icon: ChartNoAxesCombined },
-  { key: "executive", icon: Crown },
-];
-// The hotel benefit has its own qualified note; estate-review scope is not confirmed.
-const separatePlanBenefits = /hotel|estate planning|patrimonial|sucesori/i;
 const container = "mx-auto w-full max-w-[94rem] px-4 sm:px-6 lg:px-8";
 const sectionHeading = "font-heading text-3xl font-bold leading-[1.12] tracking-[-.025em] text-brand-950 sm:text-4xl lg:text-[2.75rem]";
 
@@ -60,16 +54,8 @@ export function ServicesDesktopExperience({ services, tiers, faqItems }: Service
   const [activeFaq, setActiveFaq] = useState(0);
   const faqGuidePoints = pageT.raw(`FAQ.guide.points.${activeFaq}`) as { title: string; body: string }[];
   const active = challenges[selected];
-  const advisoryTiers = tiers.filter(tier => tier.category === "advisory" || !tier.category);
-
-  const priceFor = (service?: Service, includeFrom = true) => {
-    const price = typeof service?.startingPrice === "string" ? service.startingPrice.trim() : undefined;
-    if (!price || /custom|personalizad|cotiz/i.test(price)) return t("challenge.customPrice");
-    const amount = price.replace(/^(?:from|desde)\s+/i, "").replace(/\+$/, "");
-    if (!amount.startsWith("$")) return t("challenge.customPrice");
-    const localizedAmount = amount.replace("/mo", `/${t("challenge.month")}`).replace(" and ", ` ${t("challenge.and")} `).replace("per employee", t("challenge.perEmployee"));
-    return includeFrom ? t("challenge.fromPrice", { price: localizedAmount }) : localizedAmount;
-  };
+  const advisoryTiers = pricingOffersSchema.parse(tiers).filter(tier => tier.category === "advisory");
+  const contactPrice = locale === "es" ? "Contáctenos para conocer los precios" : "Contact us for pricing";
 
   return (
     <div data-testid="services-experience" className="bg-white text-brand-950">
@@ -132,7 +118,7 @@ export function ServicesDesktopExperience({ services, tiers, faqItems }: Service
               const featured = index === 0;
               const rank = recommendationRanks[index];
               const Icon = serviceIcons[slug];
-              const price = priceFor(service, !featured);
+              const offers = pricingOffersSchema.parse(service?.pricingOffers);
               return (
                 <article key={`${active.key}-${slug}`} data-priority-service={rank} className={`flex min-w-0 flex-col overflow-hidden rounded-xl border bg-white ${featured ? "border-gold-500" : "border-slate-200"}`}>
                   <div className={`flex min-h-[3.25rem] flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b px-5 py-3 ${featured ? "border-brand-900 bg-[linear-gradient(125deg,#0c3931,#06352f)] text-white" : "border-slate-200 bg-[#f0f5f2] text-[#0b3531]"}`}>
@@ -146,10 +132,16 @@ export function ServicesDesktopExperience({ services, tiers, faqItems }: Service
                     </div>
                     <div className="mt-auto pt-5">
                       <div className={`border-t border-slate-200 pt-4 ${featured ? "flex flex-wrap items-end justify-between gap-4" : ""}`}>
-                        <div className="min-w-0"><p className="text-xs font-semibold uppercase tracking-[.06em] text-[#596d77]">{t(featured && price.startsWith("$") ? "challenge.investmentLabel" : "challenge.pricingLabel")}</p><p data-service-price className={`mt-1 font-heading font-bold leading-tight tracking-tight text-[#071923] ${featured && price.startsWith("$") ? "text-4xl" : "text-2xl"}`}>{price}</p></div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-semibold uppercase tracking-[.06em] text-[#596d77]">{t("challenge.pricingLabel")}</p>
+                          {offers.length ? offers.map(offer => <div key={offer._id} className="mt-3 first:mt-0">
+                            {offers.length > 1 && <p className="mt-2 text-sm font-semibold text-[#294641]">{offer.name}</p>}
+                            <p data-service-price className="mt-1 font-heading text-2xl font-bold leading-tight tracking-tight text-[#071923]">{formatOfferPrice(offer, locale)}</p>
+                            {offer.priceNote && <p className="mt-2 text-sm leading-relaxed text-[#596d77]">{offer.priceNote}</p>}
+                          </div>) : <p data-service-price className="mt-1 font-heading text-xl font-bold leading-tight text-[#071923]">{contactPrice}</p>}
+                        </div>
                         <Link href={href} data-service-href={slug} className={`inline-flex min-h-14 items-center justify-center gap-3 rounded-full px-5 py-3 text-center font-heading text-sm font-bold text-[#071923] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600 ${featured ? "bg-[linear-gradient(110deg,#f0c54b,#dfb236)] hover:brightness-105" : "mt-4 w-full border border-gold-500 hover:bg-gold-50"}`}><span className="min-w-0">{t(`challenge.actions.${slug}`)}</span><ArrowRight className="size-5 shrink-0" aria-hidden="true" /></Link>
                       </div>
-                      {featured ? <ul className="mt-5 flex flex-wrap gap-x-3 gap-y-2">{([0, 1, 2] as const).map(benefit => <li key={benefit} className="flex items-start gap-1.5 text-xs leading-5 text-[#071923]"><span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#0b5749] text-white" aria-hidden="true"><Check className="size-3" /></span><span>{t(`challenge.options.${active.key}.benefits.${benefit}`)}</span></li>)}</ul> : null}
                     </div>
                   </div>
                 </article>
@@ -167,57 +159,26 @@ export function ServicesDesktopExperience({ services, tiers, faqItems }: Service
       <IndustryDiscovery />
       <TaxResolutionSection />
 
-      <section id="support-plans" aria-labelledby="packages-heading" className={`${container} @container border-t border-slate-200 py-10 lg:py-12`}>
-        <div className="grid items-center gap-6 @min-[72rem]:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] @min-[72rem]:gap-10">
-          <div className="min-w-0">
-            <div className="mb-3 flex items-center gap-3"><p className="text-xs font-semibold uppercase tracking-[.12em] text-gold-700 sm:text-sm">{t("packages.title")}</p><span className="h-px w-24 shrink-0 bg-gold-600" aria-hidden="true" /></div>
-            <h2 id="packages-heading" className={sectionHeading}>{t("packages.heading")}</h2>
-            <p className="mt-3 text-base leading-relaxed text-slate-700 sm:text-lg">{t("packages.subtitle")}</p>
-          </div>
-          <div className="flex min-w-0 items-center gap-5">
-            <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#e7f3ef] text-[#06473d] sm:size-20" aria-hidden="true"><ShieldCheck className="size-10" strokeWidth={1.6} /></span>
-            <div className="min-w-0 border-l border-slate-300 pl-5"><h3 className="font-heading text-xl font-semibold leading-tight">{t("packages.assuranceTitle")}</h3><p className="mt-2 text-base leading-snug text-slate-700">{t("packages.assuranceBody")}</p></div>
-          </div>
+      <section id="support-plans" aria-labelledby="packages-heading" className={`${container} border-t border-slate-200 py-10 lg:py-12`}>
+        <h2 id="packages-heading" className={sectionHeading}>{locale === "es" ? "Asesoría para su negocio" : "Advisory for your business"}</h2>
+        <p className="mt-3 max-w-[65ch] text-base leading-relaxed text-slate-700 sm:text-lg">{locale === "es" ? "Revise el alcance de cada oferta. Los servicios adicionales se cotizan por separado." : "Review the scope of each offer. Additional services are quoted separately."}</p>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {advisoryTiers.map(tier => (
+            <article key={tier._id} data-support-plan={tier._id} className="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-5 sm:p-7">
+              <h3 className="font-heading text-2xl font-bold leading-tight tracking-tight">{tier.name}</h3>
+              {tier.tagline && <p className="mt-2 text-base leading-relaxed text-slate-700">{tier.tagline}</p>}
+              <p data-plan-price className="mt-5 font-heading text-3xl font-bold leading-tight tracking-tight">{formatOfferPrice(tier, locale)}</p>
+              {tier.priceNote && <p className="mt-3 text-sm leading-relaxed text-slate-700">{tier.priceNote}</p>}
+              {tier.bestFor && <p className="mt-3 text-sm leading-relaxed text-slate-700">{tier.bestFor}</p>}
+              {tier.includes && <p className="mt-4 text-base leading-relaxed text-slate-700">{tier.includes}</p>}
+              {!!tier.features?.length && <ul className="mt-5 space-y-3">{tier.features.map(feature => <li key={feature} className="flex items-start gap-3 text-base leading-snug"><Check className="mt-0.5 size-5 shrink-0 text-brand-700" aria-hidden="true" /><span className="min-w-0">{feature}</span></li>)}</ul>}
+              <NextLink href={getOfferHref(tier, locale)} className="mt-6 inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-brand-700 px-5 py-3 text-center font-heading text-base font-bold text-brand-900 hover:bg-brand-50 active:bg-brand-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600"><span>{tier.ctaText || (locale === "es" ? "Consultar servicio" : "Ask about service")}</span><ArrowRight className="size-5 shrink-0" aria-hidden="true" /></NextLink>
+            </article>
+          ))}
         </div>
-        <div className="mt-8 grid gap-4 @min-[72rem]:grid-cols-3 @min-[72rem]:gap-5">
-          {packages.map(({ key, icon: Icon }) => {
-            const tier = advisoryTiers.find(item => item.slug?.current?.toLowerCase().includes(key) || item.name.toLowerCase().includes(key));
-            const fallback = t.raw(`packages.${key}.fallbackFeatures`) as string[];
-            const cms = tier?.features?.filter(feature => typeof feature === "string" && feature.trim());
-            const allFeatures = locale === "es" ? fallback : cms?.length ? cms : fallback;
-            const features = allFeatures.filter(feature => !/^(everything|todo|incluye todo)/i.test(feature) && !separatePlanBenefits.test(feature));
-            const executive = key === "executive";
-            const growth = key === "growth";
-            const amount = (tier?.price || pageT(`ComparisonTable.investmentTiers.${key}`)).replace(/^(?:from|desde)\s+/i, "").replace(/\+$/, "");
-            return (
-              <article key={key} data-support-plan={key} className={`relative flex min-w-0 flex-col rounded-xl border p-5 pt-10 sm:p-7 sm:pt-10 ${executive ? "border-[#04372f] bg-[linear-gradient(125deg,#0c3931,#04372f)] text-white" : growth ? "border-gold-600 bg-[#fcf8ed]" : "border-slate-200 bg-white"}`}>
-                {growth && <span className="absolute right-6 top-0 rounded-b-2xl bg-[linear-gradient(110deg,#f0c54b,#dfb236)] px-4 py-2 text-xs font-bold uppercase tracking-[.08em] text-brand-950">{t("packages.popular")}</span>}
-                <div className="flex min-w-0 items-center gap-4">
-                  <span className={`flex size-16 shrink-0 items-center justify-center rounded-full ${executive ? "bg-white/15 text-white" : growth ? "bg-[#f6efdb] text-gold-700" : "bg-[#e7f3ef] text-[#06473d]"}`} aria-hidden="true"><Icon className="size-9" strokeWidth={1.6} /></span>
-                  <div className="min-w-0"><h3 className="font-heading text-[1.75rem] font-bold leading-tight tracking-tight">{t(`packages.${key}.name`)}</h3><p className="mt-1 text-base leading-snug">{t(`packages.${key}.tagline`)}</p></div>
-                </div>
-                <p className={`mt-4 text-base leading-relaxed @min-[72rem]:min-h-[4.5rem] ${executive ? "text-white/85" : "text-slate-700"}`}>{t(`packages.${key}.description`)}</p>
-                <div className={`mt-5 border-t pt-4 ${executive ? "border-white/35" : growth ? "border-gold-200" : "border-slate-200"}`}>
-                  <p className={`text-xs font-semibold uppercase tracking-[.1em] ${executive ? "text-white/85" : "text-slate-700"}`}>{t("packages.startingAt")}</p>
-                  <p data-plan-price className="mt-1 flex flex-wrap items-baseline gap-x-3 font-heading leading-tight"><span className="text-[2.75rem] font-bold tracking-tight tabular-nums">{amount}</span><span className="text-lg">/ {t("packages.year")}</span></p>
-                </div>
-                <div className={`mt-5 rounded-lg ${key === "foundation" ? "py-2" : `p-4 ${executive ? "bg-[#e7f3ef] text-[#071923]" : "bg-[#f6efdb] text-[#071923]"}`}`}>
-                  {key !== "foundation" && <p className="text-xs font-bold uppercase leading-relaxed tracking-[.08em]">{t(`packages.${key}.includes`)}</p>}
-                  <ul className={`${key !== "foundation" ? "mt-3 " : ""}space-y-3`}>
-                    {features.map(feature => <li key={feature} className="flex items-start gap-3 text-base leading-snug"><Check className={`mt-0.5 size-5 shrink-0 ${growth ? "text-gold-700" : "text-[#06473d]"}`} strokeWidth={2.5} aria-hidden="true" /><span className="min-w-0">{feature}</span></li>)}
-                  </ul>
-                </div>
-                {growth && <p className="mt-4 text-sm leading-relaxed text-slate-700">{t("packages.growth.welcomeBenefit")}</p>}
-                <div className="mt-auto pt-6"><div className={`border-t pt-5 ${executive ? "border-white/35" : growth ? "border-gold-200" : "border-slate-200"}`}><Link href="/pricing" className={`inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full px-4 py-3 text-center font-heading text-base font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-600 ${executive ? "border border-white text-white hover:bg-white/10" : growth ? "bg-[linear-gradient(110deg,#f0c54b,#dfb236)] text-brand-950 hover:brightness-105" : "border border-[#06473d] text-[#06473d] hover:bg-[#e7f3ef]"}`}><span className="min-w-0">{t(`packages.${key}.details`)}</span><ArrowRight className="size-5 shrink-0" aria-hidden="true" /></Link></div></div>
-              </article>
-            );
-          })}
-        </div>
-        <div className="mt-6 grid items-center gap-6 rounded-xl bg-[#fafcfb] p-5 sm:p-6 @min-[72rem]:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_22rem]">
-          <div className="flex min-w-0 items-start gap-4"><span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[#e7f3ef] text-[#06473d]" aria-hidden="true"><FileText className="size-7" strokeWidth={1.6} /></span><div className="min-w-0"><h3 className="font-heading text-lg font-bold">{t("packages.scopeTitle")}</h3><p className="mt-1 text-sm leading-relaxed text-slate-700">{t("packages.priceScope")}</p></div></div>
-          <div className="flex min-w-0 items-center gap-4 border-t border-slate-200 pt-5 @min-[72rem]:border-t-0 @min-[72rem]:border-l @min-[72rem]:pt-0 @min-[72rem]:pl-6"><span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-[#e7f3ef] text-[#06473d]" aria-hidden="true"><MessagesSquare className="size-7" strokeWidth={1.6} /></span><div className="min-w-0"><h3 className="font-heading text-lg font-bold">{t("packages.helpTitle")}</h3><p className="mt-1 text-sm leading-relaxed text-slate-700">{t("packages.helpBody")}</p></div></div>
-          <div className="w-full"><BookingCtaLink href={BOOKING_ROUTE} label={t("bookingLabel")} openingLabel={bookingT("openingSchedulingCalendar")} externalLabel={bookingT("opensInNewTab")} placement="services_support_plans" viewTargetId="support-plans" showCalendarIcon={false} /></div>
-        </div>
+        {!advisoryTiers.length && <p className="mt-6 text-base font-semibold text-brand-900">{contactPrice}</p>}
+        <Link href="/pricing" className="mt-6 inline-flex min-h-11 items-center text-base font-semibold text-brand-700 underline underline-offset-4 hover:text-brand-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700">{locale === "es" ? "Ver todos los precios" : "View all pricing"}</Link>
+        <div className="mt-6 w-full max-w-[19rem]"><BookingCtaLink href={BOOKING_ROUTE} label={locale === "es" ? "Agendar llamada inicial" : "Book a discovery call"} openingLabel={bookingT("openingSchedulingCalendar")} externalLabel={bookingT("opensInNewTab")} placement="services_support_plans" viewTargetId="support-plans" showCalendarIcon={false} /></div>
       </section>
 
       <section id="services-process-results" aria-labelledby="process-heading" className="bg-[#faf9f6] py-10 lg:py-12">

@@ -44,7 +44,7 @@ export default async function BookPage(props: { params: Promise<{ locale: string
                     title={t("pageTitle")}
                     metadata={t("meetingMeta")}
                 />
-                <section id="booking-calendar" className="scroll-mt-24 bg-white px-4 py-6 sm:px-6 lg:px-8" aria-labelledby="booking-calendar-heading">
+                <section id="booking-calendar" className="scroll-mt-[calc(var(--header-height)+1.5rem)] bg-white px-4 py-6 sm:px-6 lg:px-8" aria-labelledby="booking-calendar-heading">
                     <div className="mx-auto w-full max-w-[94rem]">
                         <div className="overflow-hidden rounded-2xl border border-brand-900/20 bg-white shadow-[0_20px_50px_rgba(4,42,37,0.12)]">
                             <h2 id="booking-calendar-heading" className="sr-only">{t("calendarHeading")}</h2>

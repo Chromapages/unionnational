@@ -1,5 +1,6 @@
 import { ChartNoAxesColumnIncreasing, CircleDollarSign, FileText, UsersRound } from "lucide-react";
 import type { ServicePage } from "@/types/sanity";
+import { formatOfferPrice, pricingOffersSchema } from "@/lib/pricing/offers";
 
 export type IncludedPresentation = {
     description: string;
@@ -9,12 +10,14 @@ export type IncludedPresentation = {
 
 const includedIcons = [FileText, CircleDollarSign, UsersRound, ChartNoAxesColumnIncreasing];
 
-export function ServiceIncludedSection({ id, included, scopeLabel, presentation }: {
+export function ServiceIncludedSection({ id, included, scopeLabel, presentation, locale = "en" }: {
     id: string;
     included: ServicePage["included"];
     scopeLabel: string;
     presentation?: IncludedPresentation;
+    locale?: string;
 }) {
+    const offers = pricingOffersSchema.parse(included.pricingOffers);
     const groups = presentation?.groups || [{ heading: included.eyebrow || scopeLabel, items: included.items.map(title => ({ title, detail: "" })) }];
     const description = presentation?.description || included.description;
     let itemNumber = 0;
@@ -43,7 +46,14 @@ export function ServiceIncludedSection({ id, included, scopeLabel, presentation 
                     </div>)}
                 </div>
                 {presentation?.note && <div className="mt-6 flex items-center justify-center gap-6 text-center sm:mt-7"><span className="hidden h-px w-24 shrink-0 bg-gold-200 sm:block" aria-hidden="true" /><p className="font-body text-sm italic leading-relaxed text-slate-700">{presentation.note}</p><span className="hidden h-px w-24 shrink-0 bg-gold-200 sm:block" aria-hidden="true" /></div>}
-                {(included.pricing?.headline || included.pricing?.detail) && <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-gold-200 bg-gold-50 p-5 text-center">{included.pricing.headline && <p className="font-heading text-lg font-semibold text-brand-900">{included.pricing.headline}</p>}{included.pricing.detail && <p className="mt-2 font-body text-sm leading-relaxed text-slate-700">{included.pricing.detail}</p>}</div>}
+                {offers.length ? <div className="mx-auto mt-8 max-w-4xl divide-y divide-gold-200 rounded-xl border border-gold-200 bg-gold-50 px-5" data-service-offers>
+                    {offers.map(offer => <article key={offer._id} className="py-5">
+                        <h3 className="font-heading text-lg font-semibold text-brand-900">{offer.name}</h3>
+                        <p className="mt-2 text-xl font-bold text-brand-950">{formatOfferPrice(offer, locale)}</p>
+                        {offer.includes && <p className="mt-3 text-sm leading-relaxed text-slate-700">{offer.includes}</p>}
+                        {offer.priceNote && <p className="mt-3 text-sm leading-relaxed text-brand-900">{offer.priceNote}</p>}
+                    </article>)}
+                </div> : (included.pricing?.headline || included.pricing?.detail) && <div className="mx-auto mt-8 max-w-2xl rounded-xl border border-gold-200 bg-gold-50 p-5 text-center">{included.pricing.headline && <p className="font-heading text-lg font-semibold text-brand-900">{included.pricing.headline}</p>}{included.pricing.detail && <p className="mt-2 font-body text-sm leading-relaxed text-slate-700">{included.pricing.detail}</p>}</div>}
             </div>
         </section>
     );

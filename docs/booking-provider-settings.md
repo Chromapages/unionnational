@@ -2,6 +2,14 @@
 
 Client approved on 2026-10-02: 30 minutes, free, required name/email, optional phone, rolling three-month window. Provider changes have NOT been applied: client requested dashboard instructions instead of sign-in.
 
+## October 10 verification and release gate
+
+The read-only desktop/phone check loaded the public widget at 390px and 1920px. It still displayed **Jason's Office Calendar / 45 min**; the website correctly retains the approved **30-minute** offer. The provider duration/name correction remains open. Local evidence is in `.omx/security-live-audit-2026-10-10/booking-readonly.json` and the two booking screenshots. No date/slot/contact was submitted; provider tracking POSTs were blocked.
+
+The October 11 recheck against the new local production preview again loaded the real provider grid at both widths and displayed 45 minutes. Updated evidence: `.omx/security-live-audit-2026-10-11/booking-readonly.json`. This confirms that the provider correction is still outstanding; no configuration was changed.
+
+Implementing website code does not authorize changing this live provider configuration. Confirm a designated operator and scoped dashboard access/authorization before applying the values below. Preserve the existing ID and scheduling constraints. Public rendering does not certify slot availability, confirmation delivery or accessibility. Do not conceal the mismatch by changing the website offer to 45 minutes.
+
 ## Identify the correct calendar
 
 1. Open Agent CRM → Settings → Calendars (or Calendars → Calendar Settings).

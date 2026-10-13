@@ -6,7 +6,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { BLOG_POST_QUERY } from "@/sanity/lib/queries";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { ArrowLeft, ArrowRight, Calendar, Clock, Share2 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { Metadata } from "next";

@@ -17,6 +17,7 @@ import { contactSettings } from './contactSettings'
 import { servicesPage } from './servicesPage'
 import { caseStudy } from './caseStudy'
 import { pricingTier } from './pricingTier'
+import { pricingPage } from './pricingPage'
 import { legalPage } from './legalPage'
 import { vslPage } from './vslPage'
 import { seo } from './seo'
@@ -51,6 +52,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     servicesPage,
     caseStudy,
     pricingTier,
+    pricingPage,
     legalPage,
     vslPage,
     localizedString,

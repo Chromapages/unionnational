@@ -35,7 +35,8 @@ function stablePayload(value: unknown, path: string[] = []): unknown {
     const location = path.join(".");
     const transportFields = location === "" ? ["submitted_at", "submittedAt", "timestamp", "last_assessment_date", "submission_id", "submissionId"]
         : location === "meta" ? ["submitted_at", "submittedAt", "user_agent", "userAgent", "submission_id", "submissionId"]
-        : location === "tracking" ? ["clientTimestamp", "client_timestamp"] : [];
+        : location === "tracking" ? ["clientTimestamp", "client_timestamp"]
+        : location === "customData" ? ["submitted_at"] : [];
     return Object.fromEntries(Object.entries(value).filter(([key]) => !transportFields.includes(key)).sort(([a], [b]) => a.localeCompare(b)).map(([key, child]) => [key, stablePayload(child, [...path, key])]));
 }
 const hash = (value: string) => createHash("sha256").update(value).digest("hex");

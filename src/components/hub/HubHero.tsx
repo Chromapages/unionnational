@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowRight, BookOpen, Building2, Search } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 interface Playbook {
     _id: string;
+    slug: string;
     title: string;
     description?: string;
     coverImage?: {
@@ -46,7 +47,7 @@ interface PlaybookCardProps {
 function PlaybookCard({ playbook, className }: PlaybookCardProps) {
     return (
         <Link
-            href={`/hub/s-corp-playbook`}
+            href={playbook.slug === "s-corp-playbook" ? "/hub/s-corp-playbook" : `/hub/playbooks/${encodeURIComponent(playbook.slug)}`}
             className={cn(
                 "group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-brand-950/40 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-gold",
                 className

@@ -5,24 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { SwipeableCarousel } from "@/components/ui/SwipeableCarousel";
 import { CheckCircle2, FileClock, FileWarning, Map, FileSignature, Sparkles, X, Calendar, ArrowRight, LucideIcon } from "lucide-react";
 import Link from "next/link";
-
-// Define strict types matching the Sanity query
-interface PricingTier {
-    _id: string;
-    name: string;
-    slug: { current: string };
-    category: string;
-    price?: string;
-    billingPeriod?: string;
-    features?: string[];
-    tagline?: string;
-    relatedService?: {
-        title?: string;
-        slug?: { current: string };
-        shortDescription?: string;
-        icon?: string;
-    } | null;
-}
+import type { PricingTier } from "@/types/sanity";
 
 interface OptionalServicesProps {
     tiers: PricingTier[];

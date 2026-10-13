@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  desktopPrimaryNavigation,
-  desktopSecondaryNavigation,
   getServiceHref,
   isNavigationPathActive,
   mergeServiceNavigationData,
@@ -17,12 +15,10 @@ describe("navigationData", () => {
     expect(getServiceHref(resolution!)).toBe("/back-taxes-irs-tax-resolution");
   });
   it("derives desktop and drawer navigation from one inventory", () => {
-    const desktopIds = [...desktopPrimaryNavigation, ...desktopSecondaryNavigation].map((item) => item.id);
+    const desktopIds = siteNavigationItems.map((item) => item.id);
     const mobileIds = mobileNavigationSections.flatMap((section) => section.items.map((item) => item.id));
 
-    expect(desktopPrimaryNavigation.map((item) => item.id)).toEqual(["industries"]);
-    expect(desktopSecondaryNavigation.map((item) => item.id)).toEqual(["resources", "about", "shop"]);
-    expect(desktopIds).toEqual(["industries", "resources", "about", "shop"]);
+    expect(desktopIds).toEqual(["home", "services", "industries", "resources", "about", "contact", "faq", "shop"]);
     expect(mobileNavigationSections.map((section) => ({
       id: section.id,
       items: section.items.map((item) => item.id),

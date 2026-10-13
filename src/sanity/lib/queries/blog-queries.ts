@@ -8,8 +8,9 @@ export const BLOG_SETTINGS_QUERY = defineQuery(`
   }
 `)
 
+// shortcut: fetch the current small catalog in full, add crawlable pagination as the archive grows.
 export const BLOG_POSTS_QUERY = defineQuery(`
-  *[_type == "blogPost"] | order(publishedAt desc) [0...$limit] {
+  *[_type == "blogPost"] | order(publishedAt desc) {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -21,7 +22,7 @@ export const BLOG_POSTS_QUERY = defineQuery(`
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    categories[]->{
+    categories[defined(@->_id)]->{
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current
     },
@@ -48,7 +49,7 @@ export const BLOG_RECENT_POSTS_QUERY = defineQuery(`
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    categories[]->{
+    categories[defined(@->_id)]->{
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current
     },
@@ -75,7 +76,7 @@ export const BLOG_POST_QUERY = defineQuery(`
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    categories[]->{
+    categories[defined(@->_id)]->{
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current
     },
@@ -105,7 +106,7 @@ export const FEATURED_POSTS_QUERY = defineQuery(`
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    categories[]->{
+    categories[defined(@->_id)]->{
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current
     },

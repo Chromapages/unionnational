@@ -4,7 +4,7 @@ import { checkLeadIngress, checkLeadContact } from "@/lib/security/lead-ingress"
 import { getEnv } from "@/lib/config/env";
 import { getTraceId, logger } from "@/lib/observability/logger";
 import { forwardToGhl, leadFailureStatus, readLeadJson } from "@/lib/intake/shared";
-import { getHealthScoreCategory, type HealthScoreCategory } from "@/lib/intake/health-score";
+import { getHealthAnswersScore, getHealthScoreCategory, type HealthScoreCategory } from "@/lib/intake/health-score";
 
 const ContactInput = z.object({
     firstName: z.string().trim().min(1).max(100),
@@ -12,16 +12,13 @@ const ContactInput = z.object({
     email: z.string().trim().email().max(254),
     phone: z.string().trim().max(30).default(""),
     answers: z.unknown(),
+    answer_option_ids: z.unknown().optional(),
+    answer_contract_version: z.unknown().optional(),
     lead_magnet_type: z.literal("PROACTIVE_CFO_ASSESSMENT").optional(),
     locale: z.enum(["en", "es"]).default("en"),
     source_page: z.string().max(200).optional(),
     submission_id: z.string().uuid().optional(),
 });
-
-const healthOptions: Record<number, number[]> = {
-    1: [15, 10, 8, 3, 0], 2: [20, 10, 0, -10], 3: [15, 10, 5, 0, 3],
-    4: [15, 10, 5, 0], 5: [12, 8, 4, 0], 6: [12, 8, 3, 0], 7: [11, 6, 0],
-};
 
 const cfoOptions: Record<number, Record<string, number>> = {
     1: { under50k: 1, "50k-150k": 2, "150k-500k": 3, "500k-1m": 4, over1m: 5 },
@@ -31,8 +28,9 @@ const cfoOptions: Record<number, Record<string, number>> = {
     5: { no: 1, standard: 2, most: 4, all: 5 },
 };
 
-function trustedScore(answers: unknown, cfo: boolean): number | null {
+function trustedScore(answers: unknown, cfo: boolean, optionIds?: unknown, version?: unknown): number | null {
     if (cfo) {
+        if (optionIds !== undefined || version !== undefined) return null;
         if (!Array.isArray(answers) || answers.length !== 5) return null;
         const seen = new Set<number>();
         let total = 0;
@@ -48,18 +46,7 @@ function trustedScore(answers: unknown, cfo: boolean): number | null {
         }
         return Math.round(total / 25 * 100);
     }
-    if (!answers || typeof answers !== "object" || Array.isArray(answers)) return null;
-    const entries = Object.entries(answers);
-    if (entries.length !== 7) return null;
-    let total = 0;
-    const seen = new Set<number>();
-    for (const [id, answer] of entries) {
-        const numericId = Number(id);
-        if (String(numericId) !== id || seen.has(numericId) || !healthOptions[numericId]?.includes(answer as number)) return null;
-        seen.add(numericId);
-        total += answer as number;
-    }
-    return Math.max(0, total);
+    return getHealthAnswersScore(answers, optionIds, version);
 }
 
 type Category = HealthScoreCategory;
@@ -81,11 +68,16 @@ export async function POST(request: Request) {
     if (!parsed.ok) return NextResponse.json({ success: false, error: parsed.error }, { status: parsed.status });
     const validation = ContactInput.safeParse(parsed.value);
     if (!validation.success) return NextResponse.json({ success: false, error: "Invalid survey contact or answers" }, { status: 400 });
-    const { email, firstName, lastName, phone, answers, lead_magnet_type, locale, source_page, submission_id } = validation.data;
+    const { email, firstName, lastName, phone, answers, answer_option_ids, answer_contract_version, lead_magnet_type, locale, source_page, submission_id } = validation.data;
     const cfo = lead_magnet_type === "PROACTIVE_CFO_ASSESSMENT";
     if (!cfo && phone.length < 10) return NextResponse.json({ success: false, error: "Phone is required" }, { status: 400 });
-    const score = trustedScore(answers, cfo);
+    const score = trustedScore(answers, cfo, answer_option_ids, answer_contract_version);
     if (score === null) return NextResponse.json({ success: false, error: "Invalid survey answers" }, { status: 400 });
+    // Legacy timestamp-bearing receipts cannot be reconstructed from their stored hashes.
+    if (!cfo && process.env.NODE_ENV === "production" && getEnv("HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED") !== "true") {
+        logger.warn("Survey delivery awaits legacy reservation review", { traceId });
+        return NextResponse.json({ success: false, error: "Survey delivery is pending reservation review" }, { status: 503 });
+    }
     const rateLimit = await checkLeadContact(email);
     if (!rateLimit.ok) return NextResponse.json({ success: false, error: rateLimit.error }, { status: rateLimit.status });
     const ghlWebhookUrl = getEnv("GHL_SURVEY_WEBHOOK_URL");
@@ -108,7 +100,9 @@ export async function POST(request: Request) {
                 health_category: category,
                 health_category_label: categoryLabel,
                 raw_answers: JSON.stringify(answers),
+                ...(answer_contract_version ? { answer_contract_version, answer_option_ids } : {}),
                 source: "Financial Health Check Survey",
+                source_page: source_page || `/${locale}/health-check`,
                 locale,
                 submitted_at: new Date().toISOString(),
             },
@@ -121,7 +115,7 @@ export async function POST(request: Request) {
             logger.warn("Survey webhook rejected", { traceId, status: response.status });
             return NextResponse.json({ success: false, error: "Survey delivery failed" }, { status: 502 });
         }
-        logger.info("Survey accepted", { traceId, score, category });
+        logger.info("Survey accepted", { traceId });
         return NextResponse.json({ success: true, score, category, categoryLabel });
     } catch (error) {
         logger.error("Survey delivery unavailable", undefined, { traceId, reason: error instanceof Error ? error.name : "unknown" });

@@ -79,7 +79,7 @@ export async function ConsumerHome({ heroVideoSrc, heroVideoPoster, clientLogos 
                 </div>
             </section>
 
-            <ClientLogoStrip logos={clientLogos} />
+            <ClientLogoStrip logos={[...clientLogos, { alt: "Fox News Channel", asset: { url: "/images/fox-news-channel.svg" } }]} />
 
             <section
                 id="how-it-works"

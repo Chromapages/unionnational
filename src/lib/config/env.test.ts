@@ -7,6 +7,7 @@ describe("env config", () => {
     vi.stubEnv("SANITY_PAYMENT_DATASET", "private_fixture");
     vi.stubEnv("SANITY_PAYMENT_PRIVATE_CONFIRMED", "true");
     vi.stubEnv("SANITY_PAYMENT_MIGRATION_CONFIRMED", "true");
+    vi.stubEnv("HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED", "true");
     vi.stubEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", "receiver.example.test");
     vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "synthetic-private-receiver-secret-value");
     vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");
@@ -46,6 +47,12 @@ describe("env config", () => {
     expect(getMissingReadinessEnv()).toEqual(expect.arrayContaining([
       "SANITY_PAYMENT_PRIVATE_CONFIRMED", "SANITY_PAYMENT_DATASET", "GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "GHL_SHOP_PURCHASE_WEBHOOK_URL",
     ]));
+  });
+
+  it.each(["", "false", "configured", "TRUE"])("holds readiness for unconfirmed survey migration %s", value => {
+    configureFixtures();
+    vi.stubEnv("HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED", value);
+    expect(getMissingReadinessEnv()).toEqual(["HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED"]);
   });
 
   it("exposes lazy public Sanity defaults and required values", () => {

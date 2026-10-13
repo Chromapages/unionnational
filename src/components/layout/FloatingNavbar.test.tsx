@@ -56,18 +56,23 @@ describe("navbar navigation and responsive controls", () => {
     await waitFor(() => expect(opener).toHaveFocus());
   });
 
-  it("keeps desktop menus exclusive and closes overflow when the wide layout becomes available", async () => {
+  it("shows the five reference links and closes the drawer on laptop resize", async () => {
     const user = userEvent.setup();
     render(<VaultNavbar />);
-    const services = screen.getByRole("button", { name: "Services" });
-    const more = screen.getByRole("button", { name: "More Options" });
-    await user.click(services);
-    expect(services).toHaveAttribute("aria-expanded", "true");
-    await user.click(more);
-    expect(more).toHaveAttribute("aria-expanded", "true");
-    expect(services).toHaveAttribute("aria-expanded", "false");
+    const nav = screen.getByRole("navigation", { name: "Main navigation" });
+    expect(window.matchMedia).toHaveBeenCalledWith("(min-width: 1024px)");
+    for (const label of ["Who We Help", "Guides & Tools", "About", "Shop"]) {
+      expect(within(nav).getByRole("link", { name: label })).toBeInTheDocument();
+    }
+    expect(within(nav).getAllByRole("link")).toHaveLength(4);
+    expect(within(nav).getByRole("button", { name: "Services" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "More Options" })).toBeNull();
+    await user.click(screen.getByRole("button", { name: "Open menu" }));
+    expect(document.body.style.overflow).toBe("hidden");
     act(() => { fixture.media.forEach(media => { media.matches = true; media.listeners.forEach(listener => listener()); }); });
-    expect(more).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(document.body.style.overflow).toBe("");
+    await waitFor(() => expect(screen.getByRole("link", { name: /Union National Tax/i })).toHaveFocus());
   });
 
   it("preserves current-section indication and prioritizes the S-Corp booking action in Spanish", () => {

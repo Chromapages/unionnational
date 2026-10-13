@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import * as Icons from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { getServiceHref, mapCategory } from "@/components/layout/navigationData";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { getCoreServiceCards } from "@/lib/services/coreServiceCards";
+import { formatOfferPrice, pricingOffersSchema } from "@/lib/pricing/offers";
+import type { PricingTier } from "@/types/sanity";
 
 // Helper to resolve icon string to component
 const getIcon = (iconName: string) => {
@@ -25,6 +27,7 @@ export interface Service {
     impactGoal: string;
     category?: string;
     startingPrice?: string;
+    pricingOffers?: PricingTier[];
     isPopular?: boolean;
     accentColor?: string;
     showInOutcomes?: boolean;
@@ -37,6 +40,7 @@ interface ServicesClientProps {
 }
 
 export function ServicesClient({ services }: ServicesClientProps) {
+    const locale = useLocale();
     const t = useTranslations("Header");
     const homeT = useTranslations("HomePage.ServicesSection");
     const coreCardsByHref = new Map(getCoreServiceCards(homeT, services).map((card) => [card.exploreLinkHref, card]));
@@ -52,6 +56,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
         const coreCard = coreCardsByHref.get(getServiceHref(service));
         const Icon = getIcon(coreCard?.icon || service.icon);
         const serviceHref = coreCard?.exploreLinkHref || getServiceHref(service);
+        const offers = pricingOffersSchema.parse(service.pricingOffers);
         return (
             <div className={`relative bg-white rounded-2xl p-5 md:p-8 shadow-sm border border-zinc-200 flex flex-col h-full ${className}`}>
                 <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-brand-50 flex items-center justify-center mb-4 md:mb-6">
@@ -68,12 +73,15 @@ export function ServicesClient({ services }: ServicesClientProps) {
                     {coreCard?.description || service.shortDescription}
                 </p>
 
-                {service.startingPrice && (
-                    <div className="mb-4 pb-4 md:mb-6 md:pb-6 border-b border-zinc-100">
-                        <p className="text-xs text-zinc-400 uppercase tracking-wide font-semibold mb-1">Starting at</p>
-                        <p className="text-lg font-bold text-brand-900">{service.startingPrice}</p>
-                    </div>
-                )}
+                <div className="mb-4 pb-4 md:mb-6 md:pb-6 border-b border-zinc-100">
+                    {offers.length ? offers.map(offer => (
+                        <div key={offer._id} className="mt-3 first:mt-0">
+                            {offers.length > 1 && <p className="text-sm font-semibold text-zinc-700">{offer.name}</p>}
+                            <p className="text-lg font-bold text-brand-900">{formatOfferPrice(offer, locale)}</p>
+                            {offer.priceNote && <p className="mt-1 text-sm leading-relaxed text-zinc-600">{offer.priceNote}</p>}
+                        </div>
+                    )) : <p className="text-sm font-semibold text-brand-900">{locale === "es" ? "Contáctenos para conocer los precios" : "Contact us for pricing"}</p>}
+                </div>
 
                 <ul className="space-y-2 mb-5 md:space-y-3 md:mb-8">
                     {service.features?.slice(0, 3).map((feature, i) => (

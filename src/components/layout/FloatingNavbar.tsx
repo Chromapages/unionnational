@@ -5,12 +5,10 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Calendar, Menu as MenuIcon } from "lucide-react";
 import { ServicesDropdown } from "./ServicesDropdown";
-import { DesktopOverflowMenu } from "./DesktopOverflowMenu";
 import { MobileSidebar } from "@/components/ui/MobileSidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import {
-    desktopPrimaryNavigation,
-    desktopSecondaryNavigation,
+    siteNavigationItems,
     isNavigationPathActive,
     isServicePath,
     type ServiceSummary,
@@ -39,11 +37,13 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [logoFailed, setLogoFailed] = useState(false);
     const [isCompact, setIsCompact] = useState(false);
-    const [openDesktopMenu, setOpenDesktopMenu] = useState<"services" | "more" | null>(null);
+    const [servicesOpen, setServicesOpen] = useState(false);
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
     const scrollMarkerRef = useRef<HTMLSpanElement>(null);
     const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
+    const logoLinkRef = useRef<HTMLAnchorElement>(null);
+    const drawerReturnFocusRef = useRef<HTMLElement>(null);
     const bookingNavigationInProgressRef = useRef(false);
 
     useEffect(() => {
@@ -63,7 +63,10 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
 
     const isServicesActive = isServicePath(pathname);
 
-    const handleOpenSidebar = useCallback(() => setSidebarOpen(true), []);
+    const handleOpenSidebar = useCallback(() => {
+        drawerReturnFocusRef.current = mobileMenuButtonRef.current;
+        setSidebarOpen(true);
+    }, []);
     const handleCloseSidebar = useCallback(() => setSidebarOpen(false), []);
 
     const handleBookingClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
@@ -85,14 +88,6 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
         observer.observe(marker);
         return () => observer.disconnect();
     }, []);
-    const handleServicesOpenChange = useCallback(
-        (isOpen: boolean) => setOpenDesktopMenu(isOpen ? "services" : null),
-        [],
-    );
-    const handleMoreOpenChange = useCallback(
-        (isOpen: boolean) => setOpenDesktopMenu(isOpen ? "more" : null),
-        [],
-    );
 
     const logoUrl = siteSettings?.logo?.asset?.url || siteSettings?.logoAlt?.asset?.url;
     const companyName = siteSettings?.companyName || t("defaultCompanyName");
@@ -103,17 +98,17 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
     useEffect(() => setLogoFailed(false), [logoUrl]);
 
     useEffect(() => {
-        const wideDesktop = window.matchMedia(locale === "es" ? "(min-width: 1664px)" : "(min-width: 1440px)");
-        const closeResponsiveOverflow = () => {
-            if (wideDesktop.matches) {
-                setOpenDesktopMenu((current) => current === "more" ? null : current);
-            }
+        const fullNavigation = window.matchMedia("(min-width: 1024px)");
+        const closeHiddenNavigation = () => {
+            if (fullNavigation.matches) {
+                drawerReturnFocusRef.current = logoLinkRef.current;
+                setSidebarOpen(false);
+            } else setServicesOpen(false);
         };
-
-        closeResponsiveOverflow();
-        wideDesktop.addEventListener("change", closeResponsiveOverflow);
-        return () => wideDesktop.removeEventListener("change", closeResponsiveOverflow);
-    }, [locale]);
+        closeHiddenNavigation();
+        fullNavigation.addEventListener("change", closeHiddenNavigation);
+        return () => fullNavigation.removeEventListener("change", closeHiddenNavigation);
+    }, []);
 
     return (
         <>
@@ -131,11 +126,12 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                     >
                         {/* ── Left: Logo ── */}
                         <Link
+                            ref={logoLinkRef}
                             href="/"
                             aria-label={t("logoHomeAria", {
                                 company: companyName,
                             })}
-                            className="mr-0 flex min-h-11 shrink-0 items-center rounded-sm touch-manipulation sm:mr-6 xl:mr-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
+                            className="strategy-logo-link flex min-h-11 shrink-0 items-center rounded-sm touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
                         >
                             <div className="strategy-dock-logo relative flex h-[42px] w-[144px] items-center justify-center min-[360px]:w-[172px]">
                                 {!logoUrl || logoFailed ? (
@@ -148,7 +144,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         alt={companyName}
                                         fill
                                         className="object-contain"
-                                        sizes="(min-width: 360px) 172px, 144px"
+                                        sizes="(min-width: 1024px) 288px, (min-width: 360px) 172px, 144px"
                                         priority
                                         onError={() => setLogoFailed(true)}
                                     />
@@ -159,25 +155,24 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                         {/* ── Center: Desktop Nav (lg+) ── */}
                         <nav
                             aria-label={t("mainNavigationAria")}
-                            className="strategy-nav-dock hidden xl:flex items-center gap-0.5"
+                            className="strategy-nav-dock hidden lg:block"
                         >
-                            {/* Services — strongest active treatment */}
-                            <ServicesDropdown
-                                services={services}
-                                isActive={isServicesActive}
-                                isOpen={openDesktopMenu === "services"}
-                                onOpenChange={handleServicesOpenChange}
-                            />
-
-                            {desktopPrimaryNavigation.map((link) => {
+                            <ul className="strategy-nav-list">
+                            {siteNavigationItems.filter(({ id }) => ["services", "industries", "resources", "about", "shop"].includes(id)).map((link) => {
                                 const isActive = isNavigationPathActive(pathname, link.href);
                                 return (
+                                    <li key={link.id} className="strategy-nav-entry">
+                                    {link.id === "services" ? <ServicesDropdown
+                                        services={services}
+                                        isActive={isServicesActive}
+                                        isOpen={servicesOpen}
+                                        onOpenChange={setServicesOpen}
+                                    /> : (
                                     <Link
-                                        key={link.translationKey}
                                         href={link.href}
                                         aria-current={isActive ? "page" : undefined}
                                         className={`
-                                            strategy-nav-item strategy-primary-item relative whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none
+                                            strategy-nav-item relative whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none
                                             ${isActive ? "text-gold-400" : "text-slate-200 hover:text-white"}
                                         `}
                                     >
@@ -186,40 +181,17 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                         )}
                                         <span className="relative">{t(link.translationKey)}</span>
                                     </Link>
+                                    )}
+                                    </li>
                                 );
                             })}
-
-                            <DesktopOverflowMenu
-                                items={desktopSecondaryNavigation}
-                                isOpen={openDesktopMenu === "more"}
-                                onOpenChange={handleMoreOpenChange}
-                            />
-
-                            {desktopSecondaryNavigation.map((link) => {
-                                const isActive = isNavigationPathActive(pathname, link.href);
-                                return (
-                                    <Link
-                                        key={link.id}
-                                        href={link.href}
-                                        aria-current={isActive ? "page" : undefined}
-                                        className={`
-                                            strategy-nav-item strategy-secondary-item relative hidden whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none min-[1440px]:inline-flex
-                                            ${isActive ? "text-gold-400" : "text-slate-200 hover:text-white"}
-                                        `}
-                                    >
-                                        {isActive && (
-                                            <span aria-hidden="true" className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-gold-500" />
-                                        )}
-                                        <span className="relative">{t(link.translationKey)}</span>
-                                    </Link>
-                                );
-                            })}
+                            </ul>
                         </nav>
 
                         {/* ── Right: Utilities + CTA ── */}
                         <div className="strategy-utilities flex items-center gap-3">
                             {/* Language toggle */}
-                            <div className="strategy-locale hidden min-[1440px]:block"><LocaleSwitcher dock /></div>
+                            <div className="strategy-locale hidden md:block"><LocaleSwitcher dock /></div>
 
                             {/* Mobile conversion CTA — compact to preserve logo and menu touch targets. */}
                             {!usesUnifiedBooking && <Link
@@ -244,12 +216,12 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
                                 <ArrowRight className="hidden h-5 w-5 xl:block" aria-hidden="true" />
                             </Link>
 
-                            {/* Hamburger — only shown when sidebar is closed on mobile */}
+                            {/* Mobile and tablet drawer trigger. */}
                             <button
                                 ref={mobileMenuButtonRef}
                                 type="button"
                                 onClick={handleOpenSidebar}
-                                className="flex h-12 w-12 shrink-0 touch-manipulation items-center justify-center rounded-md text-slate-200 transition-[background-color,color,transform] hover:bg-white/5 hover:text-white active:scale-[0.96] active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none xl:hidden"
+                                className="flex h-12 w-12 shrink-0 touch-manipulation items-center justify-center rounded-md text-slate-200 transition-[background-color,color,transform] hover:bg-white/5 hover:text-white active:scale-[0.96] active:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-300 motion-reduce:transition-none lg:hidden"
                                 aria-expanded={sidebarOpen}
                                 aria-controls="mobile-navigation"
                                 aria-label={t("openMenu")}
@@ -267,7 +239,7 @@ export const VaultNavbar = ({ siteSettings, services }: FloatingNavbarProps) => 
             <MobileSidebar
                 isOpen={sidebarOpen}
                 onClose={handleCloseSidebar}
-                returnFocusRef={mobileMenuButtonRef}
+                returnFocusRef={drawerReturnFocusRef}
                 siteSettings={siteSettings}
             />
         </>

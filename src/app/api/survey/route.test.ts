@@ -8,8 +8,8 @@ vi.mock("@/lib/leads/delivery", () => ({
     }),
 }));
 
-const settings = vi.hoisted(() => ({ url: "https://crm.example.test/survey" as string | undefined, limited: false }));
-vi.mock("@/lib/config/env", () => ({ getEnv: () => settings.url }));
+const settings = vi.hoisted(() => ({ url: "https://crm.example.test/survey" as string | undefined, limited: false, migration: undefined as string | undefined }));
+vi.mock("@/lib/config/env", () => ({ getEnv: (name: string) => name === "HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED" ? settings.migration : settings.url }));
 vi.mock("@/lib/security/rate-limiter", () => ({
   contactRateLimitKey: (email: string) => email,
   checkRateLimit: async () => ({ success: !settings.limited, resetTime: Date.now() + 60_000 }),
@@ -20,6 +20,8 @@ vi.mock("@/lib/observability/logger", () => ({
 }));
 
 import { POST } from "./route";
+import { HEALTH_ANSWER_CONTRACT_VERSION, HEALTH_QUESTIONS } from "@/lib/intake/health-score";
+import { logger } from "@/lib/observability/logger";
 
 const contact = { firstName: "Ava", lastName: "Rivera", email: "ava@example.test", phone: "5550101234" };
 const healthAnswers = { 1: 15, 2: 20, 3: 15, 4: 15, 5: 12, 6: 12, 7: 11 };
@@ -30,10 +32,30 @@ describe("survey capture", () => {
   beforeEach(() => {
     settings.url = "https://crm.example.test/survey";
     settings.limited = false;
+    settings.migration = undefined;
     fetchMock.mockReset();
+    vi.mocked(logger.info).mockClear();
     vi.stubGlobal("fetch", fetchMock);
   });
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
+
+  it.each([undefined, "false", "configured", "TRUE"])("blocks production survey delivery before migration confirmation %s", async value => {
+    vi.stubEnv("NODE_ENV", "production");
+    settings.migration = value;
+    const response = await POST(request(JSON.stringify({ ...contact, answers: healthAnswers })));
+    expect(response.status).toBe(503);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("permits a synthetic confirmed production migration and keeps CFO delivery independent", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    settings.migration = "true";
+    fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+    expect((await POST(request(JSON.stringify({ ...contact, answers: healthAnswers })))).status).toBe(200);
+    settings.migration = undefined;
+    const answers = ["under50k", "sole-prop", "no", "never", "no"].map((answer, index) => ({ questionId: index + 1, answer }));
+    expect((await POST(request(JSON.stringify({ ...contact, phone: "", answers, lead_magnet_type: "PROACTIVE_CFO_ASSESSMENT" })))).status).toBe(200);
+  });
 
   it.each([
     [40, [15, 20, 5, 0, 0, 0, 0], "critical"],
@@ -58,6 +80,39 @@ describe("survey capture", () => {
     const forwarded = JSON.parse(fetchMock.mock.calls[0][1].body);
     expect(forwarded.contact.phone).toBe("");
     expect(forwarded.raw_answers.every((answer: { score: number }) => answer.score === 1)).toBe(true);
+  });
+
+  it.each(HEALTH_QUESTIONS.flatMap(question => question.options.map(option => ({ question, option }))))("retains new option $question.id/$option.id and source through CRM mapping", async ({ question, option }) => {
+    fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+    const answers = { ...healthAnswers, [question.id]: option.value };
+    const ids = Object.fromEntries(HEALTH_QUESTIONS.map(item => [item.id, item.id === question.id ? option.id : item.options[0].id]));
+    const response = await POST(request(JSON.stringify({ ...contact, answers, answer_option_ids: ids, answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION, locale: "es", source_page: "/es/health-check" })));
+    expect(response.status).toBe(200);
+    const forwarded = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(forwarded).toMatchObject(contact);
+    expect(forwarded.customData).toMatchObject({ answer_option_ids: ids, answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION, locale: "es", source_page: "/es/health-check", raw_answers: JSON.stringify(answers) });
+    expect(logger.info).toHaveBeenCalledWith("Survey accepted", { traceId: "trace-test" });
+  });
+
+  it("accepts legacy ambiguous zero without adding inferred IDs", async () => {
+    fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+    const response = await POST(request(JSON.stringify({ ...contact, answers: { ...healthAnswers, 2: 0 } })));
+    expect(response.status).toBe(200);
+    const customData = JSON.parse(fetchMock.mock.calls[0][1].body).customData;
+    expect(customData).not.toHaveProperty("answer_option_ids");
+    expect(customData).not.toHaveProperty("answer_contract_version");
+  });
+
+  it.each([
+    { answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION },
+    { answer_option_ids: {} },
+    { answer_option_ids: {}, answer_contract_version: "unknown" },
+    { answer_option_ids: {}, answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION },
+    { answer_option_ids: null, answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION },
+    { answer_option_ids: Object.fromEntries(HEALTH_QUESTIONS.map(question => [question.id, "unknown"])), answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION },
+  ])("rejects invalid new identity metadata %j", async extra => {
+    expect((await POST(request(JSON.stringify({ ...contact, answers: healthAnswers, ...extra })))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("rejects forged answers, malformed JSON, oversized bodies and invalid contact", async () => {

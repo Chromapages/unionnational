@@ -1,0 +1,13 @@
+Avoid Hostinger's Turbopack loader-process failure
+
+The hosted cold build now exposes a Turbopack PostCSS panic: its Node
+subprocess exits before the compiler can connect. Use Next's supported
+Webpack production build path and record the hosted failure and verification.
+
+Constraint: Preserve Node 22, .next output, application behavior and TypeScript validation
+Rejected: Retry the same Turbopack configuration | Hostinger reproduced a compiler subprocess handshake failure
+Confidence: medium
+Scope-risk: narrow
+Directive: Reconsider Turbopack only after cold builds pass on the actual hosting runner
+Tested: Fresh Node 22 Webpack build in 197.5 seconds; 84 page-generation tasks; five production HTTP 200 checks
+Not-tested: Hosted build of this follow-up revision; full unit and lint suites

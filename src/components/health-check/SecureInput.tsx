@@ -32,6 +32,8 @@ export function SecureInput({
                 onChange={(event) => onChange(event.target.value)}
                 placeholder=" "
                 autoComplete={autoComplete}
+                aria-invalid={!!error}
+                aria-describedby={error ? `${id}-error` : undefined}
                 className={`peer w-full rounded-2xl border px-4 pb-3 pt-5 text-sm font-semibold text-brand-900 outline-none transition bg-white ${
                     error
                         ? "border-red-300 focus:border-red-400 focus:ring-4 focus:ring-red-200/40"
@@ -51,7 +53,7 @@ export function SecureInput({
             {isValid && !error && (
                 <CheckCircle2 className="absolute right-4 top-4 h-5 w-5 text-emerald-500" />
             )}
-            {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
+            {error && <p id={`${id}-error`} className="mt-2 text-xs text-red-500">{error}</p>}
         </div>
     );
 }

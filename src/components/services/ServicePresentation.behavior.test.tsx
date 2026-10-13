@@ -292,7 +292,10 @@ describe("CMS read boundaries, metadata and recovery", () => {
 
   it("uses content fallbacks when SEO is absent and successfully reads content after a temporary provider outage", async () => {
     fixture.fetch.mockRejectedValueOnce(new Error("CMS temporarily unavailable"));
-    await expect(fetchCmsService("custom-advisory", "en")).rejects.toThrow("CMS temporarily unavailable");
+    const log = vi.spyOn(console, "error").mockImplementation(() => {});
+    await expect(fetchCmsService("custom-advisory", "en")).resolves.toBeNull();
+    expect(log).toHaveBeenCalledWith("Service content unavailable; no legacy pricing fallback was used.");
+    log.mockRestore();
     fixture.fetch.mockResolvedValue({ data: service() });
     const metadata = await getCmsServiceMetadata({ cmsSlug: "custom-advisory", locale: "en", canonicalPath: "/services/custom-advisory" });
     expect(metadata.title).toBe("Approved Advisory | Union National Tax");

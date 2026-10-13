@@ -39,6 +39,35 @@ export type LocalizedString = {
 
 export type LocalizedText = LocalizedString;
 
+export interface PricingTier {
+  _id: string;
+  name: string;
+  slug: { current: string };
+  tagline?: string;
+  price?: string;
+  priceNote?: string;
+  billingPeriod?: string;
+  features?: string[];
+  isFeatured?: boolean;
+  ctaText?: string;
+  ctaUrl?: string;
+  category: string;
+  bestFor?: string;
+  includes?: string;
+  displayOrder?: number;
+  relatedService?: { _id?: string; title: string; slug: { current: string }; shortDescription?: string; icon?: string };
+}
+
+export interface PricingPageContent {
+  _id?: string;
+  hero?: { heading?: string; description?: string };
+  offers?: PricingTier[];
+  irsReviewOffer?: PricingTier;
+  faq?: { heading?: string; items?: Array<{ question: string; answer: string }> };
+  closing?: { heading?: string; description?: string; label?: string; href?: string };
+  seo?: SanitySEO;
+}
+
 export interface SanityBlock {
   _type: "block";
   _key: string;
@@ -116,7 +145,7 @@ export interface ServicePage extends SanityDocument {
     href?: string;
   };
   process: { eyebrow?: string; heading: string; description?: string; steps: Array<{ title: string; duration?: string; description: string }> };
-  included: { eyebrow?: string; heading: string; description?: string; items: string[]; pricing?: { headline?: string; detail?: string } };
+  included: { eyebrow?: string; heading: string; description?: string; items: string[]; pricingOffers?: PricingTier[]; pricing?: { headline?: string; detail?: string } };
   video?: {
     eyebrow?: string;
     heading?: string;
@@ -158,6 +187,7 @@ export interface Service extends SanityDocument {
   videoThumbnailEs?: SanityImage;
   videoThumbnail?: SanityImage;
   startingPrice?: string;
+  pricingOffers?: PricingTier[];
   targetAudience?: string;
   targetKeyword?: string;
   category?: string;

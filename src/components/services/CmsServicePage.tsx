@@ -8,6 +8,9 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import type { ServicePage } from "@/types/sanity";
 import { reviewedScorpService } from "@/lib/scorp/service-content";
+import { applyServicePricing, isPricingDraftPreview } from "@/lib/pricing/data";
+import { pricingOffersSchema } from "@/lib/pricing/offers";
+import { PricingDraftNotice } from "@/components/pricing/PricingDraftNotice";
 import { z } from "zod";
 
 const text = z.string();
@@ -40,8 +43,9 @@ const displayService = z.object({
     }).passthrough().catch({ heading: "", steps: [] }),
     included: z.object({
         eyebrow: optionalText, heading: text.catch(""), description: optionalText, items: textItems,
+        pricingOffers: pricingOffersSchema,
         pricing: z.object({ headline: optionalText, detail: optionalText }).passthrough().optional().catch(undefined),
-    }).passthrough().catch({ heading: "", items: [] }),
+    }).passthrough().catch({ heading: "", items: [], pricingOffers: [] }),
     faqSection: z.object({
         eyebrow: optionalText, heading: text.catch(""),
         items: z.array(faq.optional().catch(undefined)).catch([]).transform(items => items.filter(item => item !== undefined)),
@@ -60,10 +64,15 @@ type CmsServicePageProps = {
 };
 
 export async function fetchCmsService(cmsSlug: string, locale: string) {
-    const { data } = await sanityFetch({ query: SERVICE_PAGE_QUERY, params: { slug: cmsSlug, locale } });
-    const parsed = displayService.safeParse(data);
-    // Empty optional sections stay omitted; malformed required content is never published.
-    return parsed.success ? reviewedScorpService(parsed.data as ServicePage, locale) : null;
+    try {
+        const { data } = await sanityFetch({ query: SERVICE_PAGE_QUERY, params: { slug: cmsSlug, locale } });
+        const parsed = displayService.safeParse(data);
+        // Empty optional sections stay omitted; malformed required content is never published.
+        return parsed.success ? applyServicePricing(reviewedScorpService(parsed.data as ServicePage, locale), locale) : null;
+    } catch {
+        console.error("Service content unavailable; no legacy pricing fallback was used.");
+        return null;
+    }
 }
 
 export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath, content }: CmsServicePageProps): Promise<Metadata> {
@@ -81,7 +90,7 @@ export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath, co
         title: service.seo?.metaTitle || `${service.title} | Union National Tax`,
         description: service.seo?.metaDescription || service.hero.subheadline,
         keywords: service.seo?.keywords,
-        robots: service.seo?.noIndex ? { index: false, follow: false } : undefined,
+        robots: isPricingDraftPreview() || service.seo?.noIndex ? { index: false, follow: false } : undefined,
         alternates: {
             canonical: canonicalUrl,
             languages: {
@@ -100,7 +109,7 @@ export async function getCmsServiceMetadata({ cmsSlug, locale, canonicalPath, co
 }
 
 export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibilityOverride, comparisonOverride, content, presentation }: CmsServicePageProps) {
-    const service = content ?? await fetchCmsService(cmsSlug, locale);
+    const service = content ? await applyServicePricing(content, locale) : await fetchCmsService(cmsSlug, locale);
     if (!service) notFound();
     const hasGroupedEligibility = Boolean(service.eligibility?.primaryGroup?.items?.length && service.eligibility?.secondaryGroup?.items?.length);
     const hasStructuredComparison = Boolean(service.comparison?.conclusion && service.comparison.pairs?.every((pair) => pair.category && pair.outcome));
@@ -138,6 +147,7 @@ export async function CmsServicePage({ cmsSlug, locale, canonicalPath, eligibili
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
             <HeaderWrapper />
             <main id="main-content" className="flex-1 pb-20 md:pb-0">
+                {isPricingDraftPreview() && <PricingDraftNotice locale={locale} />}
                 <ServicePageTemplate page={renderedService} locale={locale} presentation={presentation} />
             </main>
             <Footer bookingCta bookingLabel={service.hero.primaryCta.label} />

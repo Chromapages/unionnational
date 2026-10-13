@@ -217,6 +217,15 @@ export const service = defineType({
             initialValue: "Tax Strategy",
         }),
         defineField({
+            name: "pricingOffers",
+            title: "Shared Pricing Offers",
+            type: "array",
+            of: [{ type: "reference", to: [{ type: "pricingTier" }] }],
+            group: "content",
+            description: "Ordered offer references used by service cards and details. Starting Price remains a legacy compatibility field.",
+            validation: (Rule) => Rule.unique(),
+        }),
+        defineField({
             name: "startingPrice",
             title: "Starting Price",
             type: "localizedString",

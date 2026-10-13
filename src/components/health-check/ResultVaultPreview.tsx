@@ -1,24 +1,26 @@
 "use client";
 
 import { Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ResultVaultPreviewProps {
     name?: string;
 }
 
 export function ResultVaultPreview({ name }: ResultVaultPreviewProps) {
+    const t = useTranslations("HealthCheck.preview");
     return (
         <div className="relative h-full w-full overflow-hidden bg-slate-50 p-6 sm:p-8 md:p-10 lg:p-12 text-brand-900 md:border-r md:border-slate-200">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.05),_transparent_55%)]"></div>
 
             <div className="relative z-10 flex h-full flex-col justify-between">
                 <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-gold-600">Secure Vault</p>
+                    <p className="text-xs uppercase tracking-[0.3em] text-gold-600">{t("eyebrow")}</p>
                     <h2 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold font-heading">
-                        Report Locked
+                        {t("title")}
                     </h2>
                     <p className="mt-4 text-base text-slate-600">
-                        {name ? `Prepared for ${name}` : "Your personalized report is generated."}
+                        {name ? t("prepared", {name}) : t("ready")}
                     </p>
                 </div>
 
@@ -39,8 +41,8 @@ export function ResultVaultPreview({ name }: ResultVaultPreviewProps) {
                         <Lock className="h-5 w-5 text-gold-600" />
                     </div>
                     <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-gold-600">Analysis Complete</p>
-                        <p className="text-base text-brand-900">Unlock to view full findings</p>
+                        <p className="text-xs uppercase tracking-[0.3em] text-gold-600">{t("next")}</p>
+                        <p className="text-base text-brand-900">{t("submit")}</p>
                     </div>
                 </div>
             </div>

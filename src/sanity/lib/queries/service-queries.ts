@@ -1,5 +1,30 @@
 import { defineQuery } from 'next-sanity'
 
+const PRICING_OFFER_FIELDS = `
+  _id,
+  "name": coalesce(name[$locale], name.en, name),
+  slug,
+  "tagline": coalesce(tagline[$locale], tagline.en, tagline),
+  "price": coalesce(price[$locale], price.en, price),
+  "priceNote": coalesce(priceNote[$locale], priceNote.en, priceNote),
+  billingPeriod,
+  displayOrder,
+  "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
+  category,
+  "bestFor": coalesce(bestFor[$locale], bestFor.en, bestFor),
+  "includes": coalesce(includes[$locale], includes.en, includes),
+  isFeatured,
+  "ctaText": coalesce(ctaText[$locale], ctaText.en, ctaText),
+  ctaUrl,
+  relatedService->{
+    _id,
+    "title": coalesce(title[$locale], title.en, title),
+    slug,
+    "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
+    icon
+  }
+`
+
 export const SERVICES_QUERY = defineQuery(`*[_type == "service"] | order(isPopular desc) {
   _id,
   "title": coalesce(title[$locale], title.en, title),
@@ -11,6 +36,7 @@ export const SERVICES_QUERY = defineQuery(`*[_type == "service"] | order(isPopul
   "impactGoal": coalesce(impactGoal[$locale], impactGoal.en, impactGoal),
   category,
   "startingPrice": coalesce(startingPrice[$locale], startingPrice.en, startingPrice),
+  "pricingOffers": pricingOffers[]->{${PRICING_OFFER_FIELDS}},
   isPopular,
   showInOutcomes,
   outcomesOrder,
@@ -128,6 +154,7 @@ export const SERVICE_QUERY = defineQuery(`*[_type == "service" && slug.current =
   "impactGoal": coalesce(impactGoal[$locale], impactGoal.en, impactGoal),
   category,
   "startingPrice": coalesce(startingPrice[$locale], startingPrice.en, startingPrice),
+  "pricingOffers": pricingOffers[]->{${PRICING_OFFER_FIELDS}},
   isPopular,
   accentColor,
   "targetKeyword": coalesce(targetKeyword[$locale], targetKeyword.en, targetKeyword),
@@ -250,6 +277,7 @@ export const SERVICE_PAGE_QUERY = defineQuery(`*[_type == "servicePage" && slug.
     "heading": coalesce(heading[$locale], heading.en, heading),
     "description": coalesce(description[$locale], description.en, description),
     "items": items[]{"value": coalesce(@[$locale], @.en, @)}.value,
+    "pricingOffers": pricingOffers[]->{${PRICING_OFFER_FIELDS}},
     pricing {
       "headline": coalesce(headline[$locale], headline.en, headline),
       "detail": coalesce(detail[$locale], detail.en, detail)
@@ -317,25 +345,39 @@ export const SERVICES_PAGE_QUERY = defineQuery(`
 `)
 
 export const PRICING_TIERS_QUERY = defineQuery(`
-  * [_type == "pricingTier"] | order(displayOrder asc){
+  *[_type == "pricingTier"] | order(displayOrder asc){${PRICING_OFFER_FIELDS}}
+`)
+
+export const PRICING_PAGE_QUERY = defineQuery(`
+  *[_type == "pricingPage" && count(*[_type == "pricingPage"]) == 1][0]{
     _id,
-    "name": coalesce(name[$locale], name.en, name),
-    slug,
-    "tagline": coalesce(tagline[$locale], tagline.en, tagline),
-    "price": coalesce(price[$locale], price.en, price),
-    billingPeriod,
-    "features": features[]{ "text": coalesce(@[$locale], @.en, @) }.text,
-    category,
-    "bestFor": coalesce(bestFor[$locale], bestFor.en, bestFor),
-    "includes": coalesce(includes[$locale], includes.en, includes),
-    isFeatured,
-    "ctaText": coalesce(ctaText[$locale], ctaText.en, ctaText),
-    ctaUrl,
-    relatedService -> {
-      "title": coalesce(title[$locale], title.en, title),
-      slug,
-      "shortDescription": coalesce(shortDescription[$locale], shortDescription.en, shortDescription),
-      icon
+    hero {
+      "heading": coalesce(heading[$locale], heading.en, heading),
+      "description": coalesce(description[$locale], description.en, description)
+    },
+    "offers": offers[]->{${PRICING_OFFER_FIELDS}},
+    "irsReviewOffer": irsReviewOffer->{${PRICING_OFFER_FIELDS}},
+    faq {
+      "heading": coalesce(heading[$locale], heading.en, heading),
+      "items": items[]{
+        "question": coalesce(question[$locale], question.en, question),
+        "answer": coalesce(answer[$locale], answer.en, answer)
+      }
+    },
+    closing {
+      "heading": coalesce(heading[$locale], heading.en, heading),
+      "description": coalesce(description[$locale], description.en, description),
+      "label": coalesce(label[$locale], label.en, label),
+      href
+    },
+    seo {
+      "metaTitle": coalesce(metaTitle[$locale], metaTitle.en, metaTitle),
+      "metaDescription": coalesce(metaDescription[$locale], metaDescription.en, metaDescription),
+      openGraphImage,
+      "keywords": keywords[]{"value": coalesce(@[$locale], @.en, @)}.value,
+      canonicalUrl,
+      noIndex,
+      structuredDataType
     }
   }
 `)

@@ -11,7 +11,7 @@ import { claimRevalidation, revalidationReplayKey } from "@/sanity/lib/revalidat
 export const runtime = "nodejs";
 const MAX_SIGNATURE_AGE_MS = 5 * 60 * 1000;
 const MAX_FUTURE_SKEW_MS = 30_000;
-const PUBLIC_TYPES = ["siteSettings", "homePage", "aboutPage", "contactSettings", "servicesPage", "service", "servicePage", "teamMember", "teamPage", "blogPost", "blogCategory", "blogSettings", "testimonial", "faq", "caseStudy", "pricingTier", "legalPage", "vslPage", "playbook", "playbookChapter", "industryVertical", "comparisonTable", "resourcesPage", "product", "shopSettings", "sanity.imageAsset", "sanity.fileAsset"] as const;
+const PUBLIC_TYPES = ["siteSettings", "homePage", "aboutPage", "contactSettings", "servicesPage", "service", "servicePage", "teamMember", "teamPage", "blogPost", "blogCategory", "blogSettings", "testimonial", "faq", "caseStudy", "pricingTier", "pricingPage", "legalPage", "vslPage", "playbook", "playbookChapter", "industryVertical", "comparisonTable", "resourcesPage", "product", "shopSettings", "sanity.imageAsset", "sanity.fileAsset"] as const;
 const PayloadSchema = z.object({
     _type: z.enum(PUBLIC_TYPES),
     _id: z.string().regex(/^[A-Za-z0-9_.-]{1,128}$/).optional(),

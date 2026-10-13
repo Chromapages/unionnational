@@ -54,7 +54,7 @@ export function LegalContentClient({ body, title }: LegalContentClientProps) {
             h2: ({ children, value }: any) => {
                 const id = value.children?.map((c: any) => c.text).join("").toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
                 return (
-                    <h2 id={id} className="text-2xl font-bold text-brand-900 mt-12 mb-6 scroll-mt-24 font-heading">
+                    <h2 id={id} className="text-2xl font-bold text-brand-900 mt-12 mb-6 scroll-mt-[calc(var(--header-height)+1.5rem)] font-heading">
                         {children}
                     </h2>
                 );
@@ -62,7 +62,7 @@ export function LegalContentClient({ body, title }: LegalContentClientProps) {
             h3: ({ children, value }: any) => {
                 const id = value.children?.map((c: any) => c.text).join("").toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
                 return (
-                    <h3 id={id} className="text-xl font-bold text-brand-900 mt-8 mb-4 scroll-mt-24 font-heading">
+                    <h3 id={id} className="text-xl font-bold text-brand-900 mt-8 mb-4 scroll-mt-[calc(var(--header-height)+1.5rem)] font-heading">
                         {children}
                     </h3>
                 );
@@ -99,7 +99,7 @@ export function LegalContentClient({ body, title }: LegalContentClientProps) {
                 </div>
 
                 {/* Desktop Sidebar TOC */}
-                <aside className="hidden lg:block sticky top-32 self-start border-l border-slate-200 pl-6 py-2">
+                <aside className="hidden lg:block sticky top-[calc(var(--header-height)+1.5rem)] self-start border-l border-slate-200 pl-6 py-2">
                     <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 mb-6">Contents</h4>
                     <nav className="space-y-4">
                         {headings.map((heading) => (

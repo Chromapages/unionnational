@@ -130,7 +130,7 @@ export default async function ChapterPage({ params }: PageProps) {
                     </nav>
                 </div>
                 <div className="hidden lg:block">
-                    <div className="sticky top-24">
+                    <div className="sticky top-[calc(var(--header-height)+1.5rem)]">
                         <PlaybookNav playbookTitle={extractString(playbook.title, locale)} chapters={chapters} currentChapterSlug={chapterSlug} locale={locale} basePath={basePath} />
                     </div>
                 </div>

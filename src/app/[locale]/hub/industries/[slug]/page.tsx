@@ -18,6 +18,11 @@ interface PageProps {
     params: Promise<{ locale: string; slug: string }>;
 }
 
+type IndustryData = Omit<IndustryVertical, "featuredPlaybookChapters" | "relatedPlaybooks"> & {
+    featuredPlaybookChapters?: Array<Pick<PlaybookChapter, "_id" | "title" | "chapterNumber"> & { slug: string; playbookSlug: string | null }>;
+    relatedPlaybooks?: Array<Pick<Playbook, "_id" | "title" | "coverImage"> & { slug: string }>;
+};
+
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
     const { locale, slug } = await props.params;
     const { data: industry } = await sanityFetch({
@@ -25,7 +30,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
         params: { slug, locale },
     });
 
-    const typedIndustry = industry as IndustryVertical | null;
+    const typedIndustry = industry as IndustryData | null;
 
     if (!typedIndustry) {
         return { title: "Industry Not Found" };
@@ -47,14 +52,14 @@ export default async function IndustryPage(props: PageProps) {
         params: { slug, locale },
     });
 
-    const typedIndustry = industry as IndustryVertical | null;
+    const typedIndustry = industry as IndustryData | null;
 
     if (!typedIndustry) {
         notFound();
     }
 
-    const featuredChapters = typedIndustry.featuredPlaybookChapters || [];
-    const relatedPlaybooks = typedIndustry.relatedPlaybooks || [];
+    const featuredChapters = (typedIndustry.featuredPlaybookChapters || []).filter(chapter => chapter.slug && chapter.playbookSlug);
+    const relatedPlaybooks = (typedIndustry.relatedPlaybooks || []).filter(playbook => playbook.slug);
 
     return (
         <main id="main-content" className="bg-surface min-h-screen">
@@ -74,10 +79,10 @@ export default async function IndustryPage(props: PageProps) {
                 <section className="mx-auto max-w-7xl px-6 py-16">
                     <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Relevant Chapters</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {featuredChapters.map((chapter: PlaybookChapter) => (
+                        {featuredChapters.map((chapter) => (
                             <Link
                                 key={chapter._id}
-                                href={`/hub/s-corp-playbook/${chapter.slug.current}`}
+                                href={`/${locale}/hub/${chapter.playbookSlug === "s-corp-playbook" ? "s-corp-playbook" : `playbooks/${encodeURIComponent(chapter.playbookSlug!)}`}/${encodeURIComponent(chapter.slug)}`}
                                 className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-6 transition-all hover:bg-white/10 hover:border-gold-500/30"
                             >
                                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-500/20 text-gold-300 text-lg font-bold">
@@ -103,10 +108,10 @@ export default async function IndustryPage(props: PageProps) {
                 <section className="mx-auto max-w-7xl px-6 py-16">
                     <h2 className="mb-8 text-2xl font-bold font-heading tracking-tighter leading-[1.1] text-white">Related Playbooks</h2>
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {relatedPlaybooks.map((playbook: Playbook) => (
+                        {relatedPlaybooks.map((playbook) => (
                             <Link
                                 key={playbook._id}
-                                href={`/hub/${playbook.slug.current}`}
+                                href={`/${locale}/hub/${playbook.slug === "s-corp-playbook" ? "s-corp-playbook" : `playbooks/${encodeURIComponent(playbook.slug)}`}`}
                                 className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-brand-950/40 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-gold"
                             >
                                 {playbook.coverImage ? (

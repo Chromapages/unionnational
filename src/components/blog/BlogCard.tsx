@@ -2,7 +2,7 @@
 
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { ArrowRight, Calendar, User } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import type { SanityBlogPost } from "@/types/sanity";
 import { format } from "date-fns";
 

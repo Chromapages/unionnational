@@ -49,7 +49,7 @@ export function TransactionCard({
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="sticky top-24 h-fit rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-2xl shadow-slate-200/50 backdrop-blur-xl transition-all hover:shadow-gold-500/5"
+            className="sticky top-[calc(var(--header-height)+1.5rem)] h-fit rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-2xl shadow-slate-200/50 backdrop-blur-xl transition-all hover:shadow-gold-500/5"
         >
             <div className="flex items-end justify-between gap-3">
                 <div>

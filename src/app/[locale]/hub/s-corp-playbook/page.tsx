@@ -143,7 +143,7 @@ export default async function PlaybookPage(props: PageProps) {
                     </div>
 
                     <div className="hidden lg:block">
-                        <div className="sticky top-24">
+                        <div className="sticky top-[calc(var(--header-height)+1.5rem)]">
                             <PlaybookNav
                                 playbookTitle={extractString(typedPlaybook.title, locale)}
                                 chapters={chapters}

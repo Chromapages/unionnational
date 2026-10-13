@@ -28,13 +28,14 @@ export const INDUSTRY_VERTICAL_QUERY = defineQuery(`
     },
     heroVideo,
     "painPoints": painPoints[]{ "text": coalesce(@[$locale], @.en, @) }.text,
-    "featuredPlaybookChapters": featuredPlaybookChapters[defined(@->_id) && @->isPublished != false]->{
+    "featuredPlaybookChapters": featuredPlaybookChapters[defined(@->_id) && defined(@->slug.current) && @->isPublished != false]->{
       _id,
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current,
+      "playbookSlug": *[_type == "playbook" && isPublished != false && defined(slug.current) && ^._id in chapters[]._ref] | order(slug.current asc) [0].slug.current,
       chapterNumber
     },
-    "relatedPlaybooks": relatedPlaybooks[defined(@->_id) && @->isPublished != false]->{
+    "relatedPlaybooks": relatedPlaybooks[defined(@->_id) && defined(@->slug.current) && @->isPublished != false]->{
       _id,
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current,
@@ -75,7 +76,7 @@ export const INDUSTRY_VERTICAL_SLUGS_QUERY = defineQuery(`
 
 // PLAYBOOK QUERIES
 export const PLAYBOOKS_QUERY = defineQuery(`
-  *[_type == "playbook" && isPublished != false] | order(displayOrder asc, isFeatured desc) {
+  *[_type == "playbook" && isPublished != false && defined(slug.current)] | order(displayOrder asc, isFeatured desc) {
     _id,
     "title": coalesce(title[$locale], title.en, title),
     "slug": slug.current,
@@ -234,7 +235,7 @@ export const RESOURCES_BLOG_POSTS_QUERY = defineQuery(`
       asset->,
       "alt": coalesce(alt[$locale], alt.en, alt)
     },
-    categories[]->{
+    categories[defined(@->_id)]->{
       "title": coalesce(title[$locale], title.en, title),
       "slug": slug.current
     }

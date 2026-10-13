@@ -1,12 +1,13 @@
 import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
-import { SERVICES_QUERY, PRICING_TIERS_QUERY } from "@/sanity/lib/queries";
+import { SERVICES_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch } from "@/sanity/lib/live";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { ServicesDesktopExperience } from "@/components/services/ServicesDesktopExperience";
 import type { Service } from "@/components/services/ServicesClient";
-import type { PricingTier } from "@/components/pricing/PricingSection";
+import { applyPreviewServiceOffers, getPricingContent, isPricingDraftPreview } from "@/lib/pricing/data";
+import { PricingDraftNotice } from "@/components/pricing/PricingDraftNotice";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
         title: t("title"),
         description: t("description"),
+        robots: isPricingDraftPreview() ? { index: false, follow: false } : undefined,
         alternates: localizedAlternates(locale, "/services"),
     };
 }
@@ -33,10 +35,11 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
     const params = await props.params;
     const locale = params.locale;
     const t = await getTranslations({ locale, namespace: "ServicesPage" });
-    const [{ data: services }, { data: pricingTiers }] = await Promise.all([
+    const [{ data: services }, pricing] = await Promise.all([
         sanityFetch({ query: SERVICES_QUERY, params: { locale } }),
-        sanityFetch({ query: PRICING_TIERS_QUERY, params: { locale } }),
+        getPricingContent(locale),
     ]);
+    const previewServices = applyPreviewServiceOffers((services || []) as Service[], locale);
 
     // Pull FAQ items from translations (static; CMS schema doesn't have FAQ field yet)
     const faqItems = t.raw("FAQ.items") as Array<{ question: string; answer: string }>;
@@ -68,7 +71,8 @@ export default async function ServicesPage(props: { params: Promise<{ locale: st
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
             <HeaderWrapper />
             <main id="main-content">
-                <ServicesDesktopExperience services={(services || []) as Service[]} tiers={(pricingTiers || []) as PricingTier[]} faqItems={faqItems} />
+                {pricing.preview && <PricingDraftNotice locale={locale} />}
+                <ServicesDesktopExperience services={previewServices} tiers={pricing.tiers} faqItems={faqItems} />
             </main>
             <Footer />
         </div>

@@ -15,6 +15,7 @@ type EnvName =
   | "SANITY_PAYMENT_MIGRATION_CONFIRMED"
   | "GHL_WEBHOOK_URL"
   | "GHL_SURVEY_WEBHOOK_URL"
+  | "HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED"
   | "GHL_TAX_ANALYSIS_WEBHOOK_URL"
   | "GHL_APPLICATION_WEBHOOK_URL"
   | "GHL_RESTAURANT_APPLICATION_WEBHOOK_URL"
@@ -102,6 +103,7 @@ export const readinessChecks = [
   "GHL_APPLICATION_WEBHOOK_URL",
   "GHL_RESTAURANT_APPLICATION_WEBHOOK_URL",
   "GHL_SURVEY_WEBHOOK_URL",
+  "HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED",
   "GHL_TAX_ANALYSIS_WEBHOOK_URL",
   "GHL_SCORP_ESTIMATOR_WEBHOOK_URL",
   "GHL_CONSTRUCTION_CHECKLIST_WEBHOOK_URL",
@@ -112,5 +114,9 @@ export const readinessChecks = [
 ] as const satisfies readonly EnvName[];
 
 export function getMissingReadinessEnv(): string[] {
-  return [...new Set([...readinessChecks.filter((name) => !getEnv(name)), ...paymentConfigurationGaps()])];
+  return [...new Set([
+    ...readinessChecks.filter((name) => !getEnv(name)),
+    ...(getEnv("HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED") === "true" ? [] : ["HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED"]),
+    ...paymentConfigurationGaps(),
+  ])];
 }

@@ -31,7 +31,7 @@ import {
 interface MobileSidebarProps {
     isOpen: boolean;
     onClose: () => void;
-    returnFocusRef: RefObject<HTMLButtonElement | null>;
+    returnFocusRef: RefObject<HTMLElement | null>;
     siteSettings?: {
         companyName?: string;
         ctaButtonTextLocalized?: string;

@@ -74,6 +74,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const key = storefrontBookCopyKeys[slug];
     const measured = key ? catalog("books." + key + ".description") : product.shortDescription;
     const promise = hasPublishedProductDescription(measured) ? measured : product.shortDescription;
+    // Manuscript-backed local copy takes precedence until the published CMS copy is reconciled.
+    const constructionOverview = key === "construction" ? copy.raw("constructionOverview") as {
+        features: string[]; learningObjectives: Array<{ title: string; description: string }>;
+    } : null;
     const related = (product.relatedProducts || []).filter((book: RelatedProductCardData) =>
         book && book._id !== product._id && /^[a-z0-9-]+$/.test(book.slug || "")
         && book.slug !== "undefined" && Number.isFinite(book.price)
@@ -105,7 +109,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 defaultPrice={product.price} category={key ? catalog("books." + key + ".category") : product.category}
                 author={product.author} editions={product.editions}
                 videoUrl={product.videoUrl} videoFileUrl={product.videoFileUrl} videoThumbnail={product.videoThumbnail} />
-            <BookOverview growthGuide={slug === "the-3m-s-to-freedom"} features={product.features} learningObjectives={product.learningObjectives}
+            <BookOverview growthGuide={slug === "the-3m-s-to-freedom"} features={constructionOverview?.features ?? product.features} learningObjectives={constructionOverview?.learningObjectives ?? product.learningObjectives}
                 summaryBullets={slug === "the-3m-s-to-freedom" ? [0, 1, 2].map(index => copy("growthBullets." + index)) : undefined} />
             {related.length > 0 ? <section id="book-related-section" aria-labelledby="related-books-heading" className="bg-slate-50/50 py-10 lg:py-12">
                 <div className="mx-auto grid w-full max-w-[94rem] gap-8 px-4 sm:px-6 lg:px-8 xl:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)]">

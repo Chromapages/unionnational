@@ -2,10 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Activity, ShieldCheck, Layers3, TrendingUp } from "lucide-react";
+import { useTranslations } from "next-intl";
+import type { HealthCategory } from "./useHealthScore";
 
 type ModuleStatus = "idle" | "active" | "complete";
 
 interface ModuleItem {
+    category: HealthCategory;
     label: string;
     status: ModuleStatus;
 }
@@ -44,6 +47,7 @@ export function InsightPanel({
     tierLabel,
     pulseKey,
 }: InsightPanelProps) {
+    const t = useTranslations("HealthCheck");
     return (
         <div className="h-full w-full relative overflow-hidden bg-slate-50 text-brand-900 p-6 sm:p-8 md:p-10 lg:p-12 md:border-r md:border-slate-200">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.05),_transparent_50%)]"></div>
@@ -79,7 +83,7 @@ export function InsightPanel({
                     {typeof score === "number" && (
                         <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
                             <div>
-                                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">Live Score</p>
+                                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">{t("liveScore")}</p>
                                 <p className="text-3xl font-bold font-heading text-brand-900">{score}</p>
                             </div>
                             {tierLabel && (
@@ -105,7 +109,7 @@ export function InsightPanel({
                     )}
 
                     <div className="space-y-3">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">Module Status</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500 font-bold">{t("moduleStatus")}</p>
                         <div className="grid grid-cols-1 gap-3">
                             {modules.map((module) => (
                                 <div
@@ -113,13 +117,13 @@ export function InsightPanel({
                                     className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-semibold transition-all ${statusStyles[module.status]}`}
                                 >
                                     <span className="flex items-center gap-2">
-                                        {module.label === "Entity" && <Layers3 className="w-4 h-4" />}
-                                        {module.label === "Compliance" && <ShieldCheck className="w-4 h-4" />}
-                                        {module.label === "Operations" && <Activity className="w-4 h-4" />}
+                                        {module.category === "entity" && <Layers3 className="w-4 h-4" />}
+                                        {module.category === "compliance" && <ShieldCheck className="w-4 h-4" />}
+                                        {module.category === "operations" && <Activity className="w-4 h-4" />}
                                         {module.label}
                                     </span>
                                     <span className="text-xs uppercase tracking-[0.2em]">
-                                        {module.status === "complete" ? "Verified" : module.status === "active" ? "Live" : "Queued"}
+                                        {t(`status.${module.status}`)}
                                     </span>
                                 </div>
                             ))}

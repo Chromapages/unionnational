@@ -1,0 +1,14 @@
+Avoid memory exhaustion during cold production compilation
+
+A fresh Node 22 build crashed multiple Babel loader subprocesses with
+Zone Allocation out-of-memory errors. Disable optional React Compiler
+memoization to remove that compilation workload while retaining Turbopack
+and TypeScript validation. Record the reproduction and hosting boundary.
+
+Constraint: Hostinger stops compilation after roughly fifteen minutes without a detailed diagnostic
+Rejected: More dependency upgrades or disabling type checks | neither addresses the reproduced Babel worker failure
+Confidence: medium
+Scope-risk: narrow
+Directive: Re-enable React Compiler only after a cold build passes on the deployment runner
+Tested: Fresh Node 22 build in 85.5 seconds; 84 page-generation tasks; five production HTTP 200 checks
+Not-tested: Hostinger build of this revision; Linux clean install; runtime performance impact of automatic memoization removal

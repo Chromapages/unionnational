@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { CmsServicePage, getCmsServiceMetadata } from "./CmsServicePage";
+import { CmsServicePage, fetchCmsService, getCmsServiceMetadata } from "./CmsServicePage";
 import { getTaxResolutionContent } from "@/lib/services/tax-resolution-content";
 
 const fetchMock = vi.hoisted(() => vi.fn());
@@ -26,7 +26,14 @@ async function schemaFor(data: Record<string, unknown>) {
 }
 
 describe("CMS service JSON-LD graph", () => {
-    beforeEach(() => fetchMock.mockReset());
+    beforeEach(() => { fetchMock.mockReset(); });
+    it("handles a service CMS read failure without publishing legacy pricing or provider error details", async () => {
+        fetchMock.mockRejectedValue(new Error("CMS unavailable"));
+        const log = vi.spyOn(console, "error").mockImplementation(() => {});
+        await expect(fetchCmsService("payroll-services", "en")).resolves.toBeNull();
+        expect(log).toHaveBeenCalledWith("Service content unavailable; no legacy pricing fallback was used.");
+        log.mockRestore();
+    });
 
     it.each(["en", "es"])("uses local content for metadata and schema without fetching or inventing a CMS document in %s", async locale => {
         const { page, presentation } = getTaxResolutionContent(locale);

@@ -51,7 +51,7 @@ export function BookkeepingStickyCard() {
 
     return (
         <aside className="hidden lg:block">
-            <div className="sticky top-28 space-y-4">
+            <div className="sticky top-[calc(var(--header-height)+1.5rem)] space-y-4">
                 <p className="rounded-2xl border border-gold-500/25 bg-gold-500/10 p-5 text-sm leading-relaxed text-brand-950">
                     <span className="font-heading text-2xl font-bold text-gold-700">3 days</span> to close the books for our featured $1.2M contractor result.
                 </p>

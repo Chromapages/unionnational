@@ -36,7 +36,15 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     ".next-3001/types/**/*.ts",
-    ".next-3001/dev/types/**/*.ts"
+    ".next-3001/dev/types/**/*.ts",
+    ".next-recovery-3002-20261004-154447/types/**/*.ts",
+    ".next-recovery-3002-20261004-154447/dev/types/**/*.ts",
+    ".next-final-local-review/types/**/*.ts",
+    ".next-final-local-review/dev/types/**/*.ts",
+    ".next-unt-pricing-3030/types/**/*.ts",
+    ".next-unt-pricing-3030/dev/types/**/*.ts",
+    ".next-3030/types/**/*.ts",
+    ".next-3030/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, PieChart, ShieldAlert, BarChart3, CheckCircle2 } from "lucide-react";
 
@@ -11,142 +11,24 @@ import { ResultDashboard } from "./ResultDashboard";
 import { useHealthScore, type HealthCategory } from "./useHealthScore";
 import { ResultVaultPreview } from "./ResultVaultPreview";
 import { SecureLeadCapture } from "./SecureLeadCapture";
-import { getHealthScoreCategory, type HealthScoreCategory } from "@/lib/intake/health-score";
+import { getHealthScoreCategory, HEALTH_QUESTIONS, HEALTH_ANSWER_CONTRACT_VERSION } from "@/lib/intake/health-score";
 
-type Tier = HealthScoreCategory;
 type ModuleStatus = "idle" | "active" | "complete";
 
-interface Option {
-    label: string;
-    value: number;
-    description?: string;
-}
-
-interface Question {
-    id: number;
-    category: HealthCategory;
-    question: string;
-    description?: string;
-    options: Option[];
-}
-
-const QUESTIONS: Question[] = [
-    {
-        id: 1,
-        category: "entity",
-        question: "What type of business entity do you operate?",
-        description: "Your entity structure determines your tax liability and protection level.",
-        options: [
-            { label: "S-Corp", value: 15, description: "Pass-through taxation, potential SE tax savings" },
-            { label: "LLC (Single or Partnership)", value: 10, description: "Flexible, but potentially higher SE taxes" },
-            { label: "C-Corp", value: 8, description: "Double taxation potential, but good for scaling" },
-            { label: "Sole Proprietorship", value: 3, description: "Simplest, but highest personal liability & tax" },
-            { label: "Not sure / Other", value: 0, description: "Let's figure this out immediately" },
-        ],
-    },
-    {
-        id: 2,
-        category: "compliance",
-        question: "Have you filed all federal & state tax returns for the last 3 years?",
-        description: "Consistency with the IRS is the foundation of financial health.",
-        options: [
-            { label: "Yes, all filed on time", value: 20 },
-            { label: "Filed, but some were late", value: 10 },
-            { label: "Missing 1-2 returns", value: 0 },
-            { label: "Missing more than 2 returns", value: -10 },
-            { label: "Not sure", value: 0 },
-        ],
-    },
-    {
-        id: 3,
-        category: "compliance",
-        question: "Do you currently owe back taxes to the IRS or state?",
-        options: [
-            { label: "No outstanding tax debt", value: 15 },
-            { label: "Yes, under $10k", value: 10 },
-            { label: "Yes, $10k - $50k", value: 5 },
-            { label: "Yes, over $50k", value: 0 },
-            { label: "Not sure", value: 3 },
-        ],
-    },
-    {
-        id: 4,
-        category: "operations",
-        question: "How often do you review your financial statements?",
-        description: "You can't manage what you don't measure.",
-        options: [
-            { label: "Monthly", value: 15 },
-            { label: "Quarterly", value: 10 },
-            { label: "Annually (at tax time)", value: 5 },
-            { label: "Rarely / Never", value: 0 },
-        ],
-    },
-    {
-        id: 5,
-        category: "operations",
-        question: "Do you separate personal and business expenses?",
-        options: [
-            { label: "Always (separate accounts)", value: 12 },
-            { label: "Usually (rarely mixed)", value: 8 },
-            { label: "Sometimes (occasional mixing)", value: 4 },
-            { label: "No (completely mixed)", value: 0 },
-        ],
-    },
-    {
-        id: 6,
-        category: "operations",
-        question: "What system do you use to track business expenses?",
-        options: [
-            { label: "Accounting Software (QBO, Xero)", value: 12 },
-            { label: "Spreadsheets", value: 8 },
-            { label: "Shoebox / Receipts", value: 3 },
-            { label: "No system", value: 0 },
-        ],
-    },
-    {
-        id: 7,
-        category: "operations",
-        question: "Do you engage in proactive tax planning?",
-        description: "Tax planning happens before year-end, not after.",
-        options: [
-            { label: "Year-round with a pro", value: 11 },
-            { label: "Some year-end planning", value: 6 },
-            { label: "No proactive planning", value: 0 },
-        ],
-    },
-];
-
-const categoryCopy: Record<HealthCategory, { title: string; description: string }> = {
-    entity: {
-        title: "Entity Efficiency",
-        description: "The right structure protects your profit and reduces IRS exposure.",
-    },
-    compliance: {
-        title: "Compliance Readiness",
-        description: "Accurate filings prevent penalties and keep leverage in your favor.",
-    },
-    operations: {
-        title: "Operational Maturity",
-        description: "Disciplined operations create a financial runway for growth.",
-    },
-};
-
-const tierLabel: Record<Tier, string> = {
-    critical: "High Risk",
-    stable: "Moderate",
-    growth: "Growth Ready",
-};
+const QUESTIONS = HEALTH_QUESTIONS;
 
 const leadCaptureStep = QUESTIONS.length + 1;
 const resultsStep = QUESTIONS.length + 2;
 
 export function HealthCheckSurvey() {
     const locale = useLocale();
+    const t = useTranslations("HealthCheck");
     const submissionId = useRef(crypto.randomUUID());
     const inFlight = useRef(false);
     const [step, setStep] = useState(0);
     const [direction, setDirection] = useState(0);
     const [answers, setAnswers] = useState<Record<number, number>>({});
+    const [answerOptionIds, setAnswerOptionIds] = useState<Record<number, string>>({});
     const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", phone: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
@@ -157,7 +39,7 @@ export function HealthCheckSurvey() {
         if (answerTransition.current !== null) clearTimeout(answerTransition.current);
     }, []);
 
-    const scores = useHealthScore(answers, QUESTIONS);
+    const scores = useHealthScore(answers);
 
     const tier = getHealthScoreCategory(scores.total);
 
@@ -183,9 +65,10 @@ export function HealthCheckSurvey() {
 
     const activeCategory = step > 0 && step <= QUESTIONS.length ? QUESTIONS[step - 1].category : null;
 
-    const statusModules: { label: string; status: ModuleStatus }[] = [
+    const statusModules: { category: HealthCategory; label: string; status: ModuleStatus }[] = [
         {
-            label: "Entity",
+            category: "entity",
+            label: t("categories.entity"),
             status:
                 answeredCounts.entity >= categoryTotals.entity
                     ? "complete"
@@ -194,7 +77,8 @@ export function HealthCheckSurvey() {
                         : "idle",
         },
         {
-            label: "Compliance",
+            category: "compliance",
+            label: t("categories.compliance"),
             status:
                 answeredCounts.compliance >= categoryTotals.compliance
                     ? "complete"
@@ -203,7 +87,8 @@ export function HealthCheckSurvey() {
                         : "idle",
         },
         {
-            label: "Operations",
+            category: "operations",
+            label: t("categories.operations"),
             status:
                 answeredCounts.operations >= categoryTotals.operations
                     ? "complete"
@@ -218,9 +103,12 @@ export function HealthCheckSurvey() {
         setStep(1);
     }, []);
 
-    const handleOptionSelect = useCallback((qId: number, value: number) => {
+    const handleOptionSelect = useCallback((qId: number, optionId: string) => {
         if (answerTransition.current !== null) return;
-        setAnswers((prev) => ({ ...prev, [qId]: value }));
+        const option = QUESTIONS.find(question => question.id === qId)?.options.find(option => option.id === optionId);
+        if (!option) return;
+        setAnswers((prev) => ({ ...prev, [qId]: option.value }));
+        setAnswerOptionIds((prev) => ({ ...prev, [qId]: option.id }));
         setDirection(1);
         setIsTransitioning(true);
         answerTransition.current = setTimeout(() => {
@@ -254,14 +142,18 @@ export function HealthCheckSurvey() {
                 const response = await fetch("/api/survey", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
+                    signal: AbortSignal.timeout(12_000),
                     body: JSON.stringify({
                         firstName: formData.firstName,
                         lastName: formData.lastName,
                         email: formData.email,
                         phone: formData.phone,
                         answers,
+                        answer_option_ids: answerOptionIds,
+                        answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION,
                         score: scores.total,
                         locale,
+                        source_page: window.location.pathname,
                         submission_id: submissionId.current,
                     }),
                 });
@@ -271,38 +163,38 @@ export function HealthCheckSurvey() {
                 setDirection(1);
                 setStep(resultsStep);
             } catch {
-                setSubmitError("We couldn't send your answers. They are still here; please try again.");
+                setSubmitError(t("submissionError"));
             } finally {
                 inFlight.current = false;
                 setIsSubmitting(false);
             }
         },
-        [answers, formData, scores.total, locale]
+        [answers, answerOptionIds, formData, scores.total, locale, t]
     );
 
     const insightMetrics = [
-        { label: "Entity", value: scores.entity },
-        { label: "Compliance", value: scores.compliance },
-        { label: "Operations", value: scores.operations },
-        { label: "Total", value: scores.total },
+        { label: t("categories.entity"), value: scores.entity },
+        { label: t("categories.compliance"), value: scores.compliance },
+        { label: t("categories.operations"), value: scores.operations },
+        { label: t("categories.total"), value: scores.total },
     ];
 
     const introRight = (
         <div className="h-full w-full bg-slate-50 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center">
             <div className="max-w-xl mx-auto w-full">
                 <div className="bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-xl shadow-brand-900/5 border border-slate-100">
-                    <h3 className="text-xs uppercase tracking-[0.3em] text-slate-500 text-center font-bold">The Live Audit</h3>
+                    <h3 className="text-xs uppercase tracking-[0.3em] text-slate-500 text-center font-bold">{t("eyebrow")}</h3>
                     <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-brand-900 text-center">
-                        Financial Diagnostic
+                        {t("title")}
                     </h1>
                     <p className="mt-4 text-base sm:text-lg text-slate-500 text-center">
-                        Premium-grade insight across entity structure, compliance, and operations in under 2 minutes.
+                        {t("intro")}
                     </p>
                     <div className="mt-6 space-y-3">
                         {[
-                            { label: "Entity Structure Efficiency", icon: PieChart },
-                            { label: "IRS Compliance Status", icon: ShieldAlert },
-                            { label: "Operational Maturity", icon: BarChart3 },
+                            { label: t("areas.entity"), icon: PieChart },
+                            { label: t("areas.compliance"), icon: ShieldAlert },
+                            { label: t("areas.operations"), icon: BarChart3 },
                         ].map((item) => (
                             <div
                                 key={item.label}
@@ -320,11 +212,11 @@ export function HealthCheckSurvey() {
                         onClick={handleStart}
                         className="mt-8 w-full group inline-flex items-center justify-center rounded-2xl bg-brand-900 px-6 py-4 text-base sm:text-lg font-bold font-heading text-white shadow-xl shadow-brand-900/20 transition hover:-translate-y-0.5 hover:bg-brand-800"
                     >
-                        Start Diagnostic
+                        {t("start")}
                         <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
                     </button>
                     <p className="mt-4 text-center text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">
-                        No Credit Card Required
+                        {t("noCard")}
                     </p>
                 </div>
             </div>
@@ -338,14 +230,14 @@ export function HealthCheckSurvey() {
             {step === 0 && (
                 <InsightPanel
                     key="insight-intro"
-                    eyebrow="Live Audit"
-                    title="Financial Diagnostic"
-                    description="Answer seven precision questions to surface risks and unlock growth leverage."
-                    detail="Estimated time: 2 minutes"
+                    eyebrow={t("eyebrow")}
+                    title={t("title")}
+                    description={t("introDetail")}
+                    detail={t("sevenQuestions")}
                     modules={statusModules}
                     metrics={[
-                        { label: "Questions", value: QUESTIONS.length },
-                        { label: "Live Score", value: scores.total },
+                        { label: t("questionsLabel"), value: QUESTIONS.length },
+                        { label: t("liveScore"), value: scores.total },
                     ]}
                 />
             )}
@@ -353,10 +245,10 @@ export function HealthCheckSurvey() {
             {step > 0 && step <= QUESTIONS.length && activeCategory && (
                 <InsightPanel
                     key={`insight-${step}`}
-                    eyebrow="Live Audit"
-                    title={categoryCopy[activeCategory].title}
-                    description={categoryCopy[activeCategory].description}
-                    detail={`Question ${step} of ${QUESTIONS.length}`}
+                    eyebrow={t("eyebrow")}
+                    title={t(`categoryCopy.${activeCategory}.title`)}
+                    description={t(`categoryCopy.${activeCategory}.description`)}
+                    detail={t("questionStep", {step, total: QUESTIONS.length})}
                     modules={statusModules}
                     metrics={insightMetrics}
                     pulseKey={Object.keys(answers).length}
@@ -370,13 +262,13 @@ export function HealthCheckSurvey() {
             {step === resultsStep && (
                 <InsightPanel
                     key="insight-results"
-                    eyebrow="Live Audit"
-                    title="Final Audit Score"
-                    description="Your financial snapshot is calibrated. Review the report and next step."
-                    detail="Summary generated"
+                    eyebrow={t("eyebrow")}
+                    title={t("assessmentScore")}
+                    description={t("summaryDescription")}
+                    detail={t("generated")}
                     modules={statusModules}
                     score={scores.total}
-                    tierLabel={tierLabel[tier]}
+                    tierLabel={t(`tiers.${tier}`)}
                     pulseKey={Object.keys(answers).length}
                 />
             )}
@@ -394,13 +286,17 @@ export function HealthCheckSurvey() {
                     key={`question-${step}`}
                     step={step}
                     totalSteps={QUESTIONS.length}
-                    question={QUESTIONS[step - 1].question}
-                    description={QUESTIONS[step - 1].description}
-                    options={QUESTIONS[step - 1].options}
-                    selectedValue={answers[QUESTIONS[step - 1].id]}
+                    question={t(`questions.${QUESTIONS[step - 1].id}.question`)}
+                    description={QUESTIONS[step - 1].description ? t(`questions.${QUESTIONS[step - 1].id}.description`) : undefined}
+                    options={QUESTIONS[step - 1].options.map(option => ({
+                        ...option,
+                        label: t(`questions.${QUESTIONS[step - 1].id}.options.${option.id}.label`),
+                        description: option.description ? t(`questions.${QUESTIONS[step - 1].id}.options.${option.id}.description`) : undefined,
+                    }))}
+                    selectedOptionId={answerOptionIds[QUESTIONS[step - 1].id]}
                     direction={direction}
                     disabled={isTransitioning}
-                    onSelect={(value) => handleOptionSelect(QUESTIONS[step - 1].id, value)}
+                    onSelect={(optionId) => handleOptionSelect(QUESTIONS[step - 1].id, optionId)}
                     onBack={handleBack}
                 />
             )}

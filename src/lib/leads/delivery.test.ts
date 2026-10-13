@@ -1,8 +1,9 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 const state = vi.hoisted(() => ({ records: new Map<string, Record<string, unknown>>(), counters: new Map<string, number>(), failReserve: false, failUpdate: false, signal: undefined as undefined | (() => AbortSignal) }));
-const messages = vi.hoisted(() => ({ warn: vi.fn(), info: vi.fn() }));
-vi.mock("@/lib/observability/logger", () => ({ logger: messages }));
-vi.mock("@/lib/config/env", () => ({ getEnv: (key: string) => key === "UPSTASH_REDIS_REST_URL" ? "https://redis.example.test" : key === "UPSTASH_REDIS_REST_TOKEN" ? "test-only" : undefined }));
+const messages = vi.hoisted(() => ({ warn: vi.fn(), info: vi.fn(), error: vi.fn() }));
+vi.mock("@/lib/observability/logger", () => ({ logger: messages, getTraceId: () => "synthetic-trace" }));
+vi.mock("@/lib/config/env", () => ({ getEnv: (key: string) => key === "UPSTASH_REDIS_REST_URL" ? "https://redis.example.test" : key === "UPSTASH_REDIS_REST_TOKEN" ? "test-only" : key === "GHL_SURVEY_WEBHOOK_URL" ? "https://crm.example.test/receiver" : undefined }));
+vi.mock("@/lib/security/lead-ingress", () => ({ checkLeadIngress: async () => ({ ok: true }), checkLeadContact: async () => ({ ok: true }) }));
 vi.mock("@upstash/redis", () => ({ Redis: class {
     constructor(options: { signal: () => AbortSignal }) { state.signal = options.signal; }
     async set(key: string, value: Record<string, unknown>) {
@@ -29,6 +30,9 @@ vi.mock("@upstash/redis", () => ({ Redis: class {
     }
 } }));
 import { deliverLead, reconcileLeadDelivery } from "./delivery";
+import { POST as surveyPost } from "@/app/api/survey/route";
+import { HEALTH_ANSWER_CONTRACT_VERSION, HEALTH_QUESTIONS } from "@/lib/intake/health-score";
+import { createHash } from "node:crypto";
 import { LEAD_RESERVATION_NX, LEAD_RESERVATION_LIMIT } from "./delivery-protocol.mjs";
 const body = { event_type: "AUDIT_EVENT", contact: { email: "synthetic@audit.example.test" }, submitted_at: "2026-10-05T00:00:00.000Z" };
 const identity = "d3db602a-72d1-496d-9f43-c3fb3e9c03f1";
@@ -36,9 +40,82 @@ const receiver = "https://crm.example.test/receiver";
 const fetchMock = vi.fn();
 const receiptKey = () => [...state.records.keys()].find(key => key.startsWith("lead-delivery:v1:"))!;
 beforeEach(() => { state.records.clear(); state.counters.clear(); state.failReserve = false; state.failUpdate = false; messages.warn.mockClear(); fetchMock.mockReset(); vi.stubGlobal("fetch", fetchMock); });
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 describe("durable lead dispatch", () => {
+    const surveyBody = () => ({
+        firstName: "Synthetic", lastName: "Audit", email: "synthetic@audit.example.test", phone: "5550101234", submission_id: identity,
+        answers: Object.fromEntries(HEALTH_QUESTIONS.map(question => [question.id, question.options[0].value])),
+        answer_option_ids: Object.fromEntries(HEALTH_QUESTIONS.map(question => [question.id, question.options[0].id])),
+        answer_contract_version: HEALTH_ANSWER_CONTRACT_VERSION, locale: "en", source_page: "/en/health-check",
+    });
+    const surveyRequest = (input: unknown) => new Request("http://localhost/api/survey", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input) });
+
+    it.each(["accepted", "uncertain"])("preserves pre-fix %s survey holds for both original and fresh UUIDs", async outcome => {
+        const submission = surveyBody();
+        const legacy = {
+            email: submission.email, phone: submission.phone, firstName: submission.firstName, lastName: submission.lastName,
+            name: `${submission.firstName} ${submission.lastName}`,
+            customData: { financial_health_score: 100, health_category: "growth", health_category_label: "🚀 Growth Ready (CFO)", raw_answers: JSON.stringify(submission.answers), source: "Financial Health Check Survey", locale: "en", submitted_at: "2026-10-10T00:00:00.000Z" },
+            tags: ["Survey Completed", "Health: 🚀 Growth Ready (CFO)"],
+        };
+        const sorted = (value: unknown): unknown => Array.isArray(value) ? value.map(sorted)
+            : value && typeof value === "object" ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, child]) => [key, sorted(child)])) : value;
+        const hash = (value: string) => createHash("sha256").update(value).digest("hex");
+        const payloadHash = hash(JSON.stringify(sorted(legacy)));
+        const key = `lead-delivery:v1:${hash("lead:" + payloadHash)}`;
+        state.records.set(key, { owner: identity, payloadHash, state: outcome, updatedAt: "2026-10-10T00:00:01.000Z" });
+        state.records.set(`lead-identity:v1:${hash("lead:" + identity)}`, { payloadHash });
+        const before = structuredClone([...state.records]);
+        vi.stubEnv("NODE_ENV", "production");
+        for (const id of [identity, crypto.randomUUID()]) {
+            for (const versioned of [false, true]) {
+                const input = { ...submission, submission_id: id, ...(versioned ? {} : { answer_option_ids: undefined, answer_contract_version: undefined }) };
+                expect((await surveyPost(surveyRequest(input))).status).toBe(503);
+            }
+        }
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect([...state.records]).toEqual(before);
+    });
+
+    it("acknowledges a real survey-plus-dispatch retry without sending the nested timestamp twice", async () => {
+        vi.useFakeTimers();
+        try {
+            fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+            const submission = surveyBody();
+            vi.setSystemTime(new Date("2026-10-10T00:00:00.000Z"));
+            const first = await surveyPost(surveyRequest(submission));
+            expect(first.status).toBe(200);
+            expect(await first.json()).toMatchObject({ success: true, score: 100 });
+            vi.setSystemTime(new Date("2026-10-10T00:00:01.000Z"));
+            const repeated = await surveyPost(surveyRequest(submission));
+            expect(repeated.status).toBe(200);
+            expect(await repeated.json()).toMatchObject({ success: true, score: 100 });
+            expect(fetchMock).toHaveBeenCalledOnce();
+            const forwarded = JSON.parse(fetchMock.mock.calls[0][1].body);
+            expect(forwarded.customData.answer_option_ids).toEqual(submission.answer_option_ids);
+            expect(forwarded.customData.answer_contract_version).toBe(HEALTH_ANSWER_CONTRACT_VERSION);
+            expect(forwarded.customData.source_page).toBe("/en/health-check");
+        } finally { vi.useRealTimers(); }
+    });
+
+    it("holds concurrent and uncertain survey retries, including a new UUID, while protecting zero answer identity", async () => {
+        const submission = surveyBody();
+        submission.answers[2] = 0;
+        submission.answer_option_ids[2] = "not-sure";
+        let finish!: (response: Response) => void;
+        fetchMock.mockImplementationOnce(() => new Promise<Response>(resolve => { finish = resolve; }));
+        const first = surveyPost(surveyRequest(submission));
+        await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+        expect((await surveyPost(surveyRequest(submission))).status).toBe(503);
+        finish(new Response(null, { status: 500 }));
+        expect((await first).status).toBe(502);
+        expect((await surveyPost(surveyRequest(submission))).status).toBe(503);
+        expect((await surveyPost(surveyRequest({ ...submission, submission_id: crypto.randomUUID() }))).status).toBe(503);
+        expect((await surveyPost(surveyRequest({ ...submission, answer_option_ids: { ...submission.answer_option_ids, 2: "missing-one-two" } }))).status).toBe(409);
+        expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
     it("warns when existing capacity accounting starts above eighty percent", async () => {
         state.counters.set("lead-capacity:v1:delivery", 9000);
         fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
@@ -117,6 +194,18 @@ describe("durable lead dispatch", () => {
         fetchMock.mockRejectedValue(new DOMException("synthetic deadline", "TimeoutError"));
         await expect(deliverLead({ ...body, tracking: { clientTimestamp: "first" } }, receiver, identity)).rejects.toMatchObject({ status: 504 });
         await expect(deliverLead({ ...body, tracking: { clientTimestamp: "second" } }, receiver, crypto.randomUUID())).rejects.toMatchObject({ status: 503 });
+        expect(fetchMock).toHaveBeenCalledOnce();
+    });
+
+    it("ignores the survey transport timestamp while protecting all custom answers", async () => {
+        fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+        const first = { ...body, customData: { submitted_at: "first", raw_answers: "{\"2\":0}", financial_health_score: 0, health_category: "critical", answer_option_ids: { 2: "not-sure" } } };
+        await deliverLead(first, receiver, identity);
+        expect((await deliverLead({ ...first, customData: { ...first.customData, submitted_at: "second" } }, receiver, identity)).ok).toBe(true);
+        expect(fetchMock).toHaveBeenCalledOnce();
+        for (const change of [{ raw_answers: "{\"2\":20}" }, { financial_health_score: 20 }, { health_category: "growth" }, { answer_option_ids: { 2: "missing-one-two" } }]) {
+            await expect(deliverLead({ ...first, customData: { ...first.customData, ...change } }, receiver, identity)).rejects.toMatchObject({ status: 409 });
+        }
         expect(fetchMock).toHaveBeenCalledOnce();
     });
 

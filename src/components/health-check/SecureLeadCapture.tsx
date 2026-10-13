@@ -1,19 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as z from "zod";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { SecureInput } from "./SecureInput";
-import { SecurityBadge } from "./SecurityBadge";
-
-const leadCaptureSchema = z.object({
-    firstName: z.string().min(2, "First name is required"),
-    lastName: z.string().min(2, "Last name is required"),
-    email: z.string().email("Enter a valid email"),
-    phone: z.string().min(14, "Enter a valid phone"),
-});
+import { Link } from "@/i18n/navigation";
 
 interface SecureLeadCaptureProps {
     formData: { firstName: string; lastName: string; email: string; phone: string };
@@ -31,8 +25,25 @@ const formatPhone = (value: string) => {
 };
 
 export function SecureLeadCapture({ formData, setFormData, isSubmitting, onSubmit }: SecureLeadCaptureProps) {
-    const validation = useMemo(() => leadCaptureSchema.safeParse(formData), [formData]);
+    const t = useTranslations("HealthCheck.capture");
+    const heading = useRef<HTMLHeadingElement>(null);
+    useEffect(() => { heading.current?.focus(); }, []);
+    const validation = useMemo(() => z.object({
+        firstName: z.string().min(2, t("errors.firstName")),
+        lastName: z.string().min(2, t("errors.lastName")),
+        email: z.string().email(t("errors.email")),
+        phone: z.string().min(14, t("errors.phone")),
+    }).safeParse(formData), [formData, t]);
     const errors = validation.success ? {} : validation.error.flatten().fieldErrors;
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        if (!validation.success) {
+            event.preventDefault();
+            const firstInvalid = validation.error.issues[0]?.path[0];
+            if (typeof firstInvalid === "string") event.currentTarget.querySelector<HTMLInputElement>(`#${firstInvalid}`)?.focus();
+            return;
+        }
+        onSubmit(event);
+    };
 
     return (
         <div className="h-full w-full bg-slate-50 p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col justify-center">
@@ -44,20 +55,20 @@ export function SecureLeadCapture({ formData, setFormData, isSubmitting, onSubmi
             >
                 <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl shadow-brand-900/10 p-6 sm:p-8">
                     <div className="text-center">
-                        <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Secure Verification</p>
-                        <h3 className="mt-3 text-2xl sm:text-3xl font-bold font-heading text-brand-900">
-                            Unlock Your Report
+                        <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{t("eyebrow")}</p>
+                        <h3 ref={heading} tabIndex={-1} className="mt-3 text-2xl sm:text-3xl font-bold font-heading text-brand-900">
+                            {t("title")}
                         </h3>
                         <p className="mt-3 text-sm text-slate-500">
-                            Confirm your identity to access the vault preview and action plan.
+                            {t("description")}
                         </p>
                     </div>
 
-                    <form onSubmit={onSubmit} className="mt-6 space-y-4">
+                    <form noValidate onSubmit={handleSubmit} aria-describedby="health-contact-notice" className="mt-6 space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <SecureInput
                                 id="firstName"
-                                label="First Name"
+                                label={t("firstName")}
                                 value={formData.firstName}
                                 onChange={(value) => setFormData((prev) => ({ ...prev, firstName: value }))}
                                 error={errors.firstName?.[0]}
@@ -66,7 +77,7 @@ export function SecureLeadCapture({ formData, setFormData, isSubmitting, onSubmi
                             />
                             <SecureInput
                                 id="lastName"
-                                label="Last Name"
+                                label={t("lastName")}
                                 value={formData.lastName}
                                 onChange={(value) => setFormData((prev) => ({ ...prev, lastName: value }))}
                                 error={errors.lastName?.[0]}
@@ -76,7 +87,7 @@ export function SecureLeadCapture({ formData, setFormData, isSubmitting, onSubmi
                         </div>
                         <SecureInput
                             id="email"
-                            label="Email Address"
+                            label={t("email")}
                             type="email"
                             value={formData.email}
                             onChange={(value) => setFormData((prev) => ({ ...prev, email: value }))}
@@ -86,7 +97,7 @@ export function SecureLeadCapture({ formData, setFormData, isSubmitting, onSubmi
                         />
                         <SecureInput
                             id="phone"
-                            label="Phone Number"
+                            label={t("phone")}
                             type="tel"
                             value={formData.phone}
                             onChange={(value) =>
@@ -102,13 +113,13 @@ export function SecureLeadCapture({ formData, setFormData, isSubmitting, onSubmi
                             disabled={isSubmitting}
                             className="w-full group inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 px-6 py-4 text-sm font-bold uppercase tracking-[0.25em] text-brand-900 shadow-xl shadow-gold-400/30 transition hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            {isSubmitting ? "Securing..." : "Unlock Full Report"}
+                            {isSubmitting ? t("submitting") : t("submit")}
                             <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                         </button>
                     </form>
-                    <div className="mt-6 flex justify-center">
-                        <SecurityBadge />
-                    </div>
+                    <p id="health-contact-notice" className="mt-6 text-sm text-slate-600">
+                        {t.rich("notice", {privacy: chunks => <Link href="/legal/privacy-policy" className="underline">{chunks}</Link>})}
+                    </p>
                 </div>
             </motion.div>
         </div>

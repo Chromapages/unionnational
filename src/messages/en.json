@@ -598,9 +598,9 @@
                 "highNetWorth": "High-Net-Worth"
             },
             "investmentTiers": {
-                "foundation": "$3,500+",
-                "growth": "$6,500+",
-                "executive": "$10,000+"
+                "foundation": "Contact us for pricing",
+                "growth": "Contact us for pricing",
+                "executive": "Contact us for pricing"
             },
             "hotelNights": "2-5 Nights"
         },
@@ -2099,7 +2099,7 @@
                 },
                 "construction": {
                     "category": "Construction",
-                    "description": "A contractor-focused guide to job costing, subcontractor compliance, equipment depreciation, cash flow management, and business tax planning."
+                    "description": "A practical guide to job costing, estimating, cash flow, project systems, and leadership for construction-company owners."
                 },
                 "restaurant": {
                     "category": "Restaurants",
@@ -2250,6 +2250,33 @@
                     "body": "Time and financial freedom."
                 }
             ],
+            "constructionOverview": {
+                "features": [
+                    "Job costing and estimating to understand project costs and margins",
+                    "Project systems for scheduling, subcontractor coordination, and quality control",
+                    "Cash flow, change orders, and leadership for a growing construction business",
+                    "Compare estimates with actual job costs, review cost-to-complete, and manage changes before billing.",
+                    "Use clear scopes, lookahead schedules, quality checks, and team responsibilities to coordinate work."
+                ],
+                "learningObjectives": [
+                    {
+                        "title": "Know your job costs",
+                        "description": "Track labor, materials, subcontractors, equipment, and overhead. Compare actual costs with the estimate and the work still to complete."
+                    },
+                    {
+                        "title": "Plan your cash needs",
+                        "description": "Connect billing and collections with payroll, materials, subcontractor payments, and retainage. Use a rolling forecast to identify potential cash gaps."
+                    },
+                    {
+                        "title": "Review project margins",
+                        "description": "Build estimates around clear scope, production rates, and overhead. Use documented change orders and regular cost reviews to track work that affects the margin."
+                    },
+                    {
+                        "title": "Build repeatable operations",
+                        "description": "Create a consistent approach to kickoffs, lookahead schedules, subcontractor coordination, and quality checks. Define roles and review team performance."
+                    }
+                ]
+            },
             "bookHighlights": {
                 "scorp": [
                     { "title": "Entity structure", "body": "Explore S-Corp suitability." },
@@ -2267,9 +2294,9 @@
                     { "title": "Risk management", "body": "Understand retirement financial risks." }
                 ],
                 "construction": [
-                    { "title": "Job costing", "body": "Project costs and cash flow." },
-                    { "title": "Equipment", "body": "Equipment depreciation considerations." },
-                    { "title": "Tax planning", "body": "Business tax topics for contractors." }
+                    { "title": "Job costing", "body": "Track project costs and margins." },
+                    { "title": "Project systems", "body": "Plan work and clarify responsibilities." },
+                    { "title": "Cash flow", "body": "Connect billing with upcoming cash needs." }
                 ],
                 "restaurant": [
                     { "title": "Business systems", "body": "Consistent restaurant processes." },
@@ -2761,6 +2788,275 @@
                 "detail": "Speak with a tax expert."
             },
             "reassurance": "No sales pressure. Just practical advice."
+        }
+    },
+    "HealthCheck": {
+        "metadata": {
+            "title": "Business Financial Health Check",
+            "description": "Answer seven self-reported questions about your business entity, tax compliance, and financial operations."
+        },
+        "eyebrow": "Self-Reported Assessment",
+        "title": "Financial Diagnostic",
+        "intro": "Answer questions about your entity structure, compliance, and business operations.",
+        "introDetail": "Answer seven questions about your business finances.",
+        "sevenQuestions": "Seven questions",
+        "start": "Start Diagnostic",
+        "noCard": "No Credit Card Required",
+        "categories": {
+            "entity": "Entity",
+            "compliance": "Compliance",
+            "operations": "Operations",
+            "total": "Total"
+        },
+        "categoryCopy": {
+            "entity": {
+                "title": "Entity Efficiency",
+                "description": "The right structure protects your profit and reduces IRS exposure."
+            },
+            "compliance": {
+                "title": "Compliance Readiness",
+                "description": "Accurate filings prevent penalties and keep leverage in your favor."
+            },
+            "operations": {
+                "title": "Operational Maturity",
+                "description": "Disciplined operations create a financial runway for growth."
+            }
+        },
+        "areas": {
+            "entity": "Entity Structure Efficiency",
+            "compliance": "IRS Compliance Status",
+            "operations": "Operational Maturity"
+        },
+        "tiers": {
+            "critical": "High Risk",
+            "stable": "Moderate",
+            "growth": "Growth Ready"
+        },
+        "questionsLabel": "Questions",
+        "liveScore": "Live Score",
+        "questionStep": "Question {step} of {total}",
+        "questionNumber": "Question {step}",
+        "totalQuestions": "{total} total",
+        "previous": "Previous Question",
+        "moduleStatus": "Module Status",
+        "status": {
+            "complete": "Complete",
+            "active": "In Progress",
+            "idle": "Not Started"
+        },
+        "assessmentScore": "Assessment Score",
+        "summaryDescription": "Review the summary and next step based on your answers.",
+        "generated": "Summary generated",
+        "submissionError": "We couldn't confirm your submission. Your answers remain here. If this continues, contact Union National Tax before starting another submission.",
+        "preview": {
+            "eyebrow": "Assessment Summary",
+            "title": "Answers Complete",
+            "prepared": "Prepared for {name}",
+            "ready": "Your answers are ready to submit.",
+            "next": "Next Step",
+            "submit": "Submit to view your summary"
+        },
+        "capture": {
+            "eyebrow": "Contact Details",
+            "title": "View Your Assessment",
+            "description": "Submit your contact details and answers to Union National Tax to view your assessment summary.",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "email": "Email Address",
+            "phone": "Phone Number",
+            "submitting": "Submitting...",
+            "submit": "View Assessment Summary",
+            "notice": "Your submission shares your contact details and assessment answers with Union National Tax. Read our <privacy>Privacy Policy</privacy>.",
+            "errors": {
+                "firstName": "First name is required",
+                "lastName": "Last name is required",
+                "email": "Enter a valid email",
+                "phone": "Enter a valid phone"
+            }
+        },
+        "results": {
+            "report": "Financial Diagnostic Report",
+            "prepared": "Prepared for {name}",
+            "business": "Your Business",
+            "basedOn": "Based on Your Answers",
+            "tier": "Diagnostic Tier",
+            "service": "Recommended Service",
+            "serviceDescription": "Suggested service based on your assessment score.",
+            "snapshot": "Performance Snapshot",
+            "breakdown": {
+                "entity": "Entity Structure",
+                "compliance": "Compliance",
+                "operations": "Operations"
+            },
+            "critical": {
+                "title": "Urgent Attention Needed",
+                "description": "Compliance exposure is putting cash flow and continuity at risk.",
+                "cta": "Get Tax Resolution",
+                "service": "Tax Resolution",
+                "highlights": {
+                    "one": "Missing compliance safeguards",
+                    "two": "Cash flow exposed",
+                    "three": "Entity inefficiencies"
+                }
+            },
+            "stable": {
+                "title": "Stable but Stagnant",
+                "description": "Operations are steady, but optimization opportunities are still open.",
+                "cta": "Get Tax Strategy",
+                "service": "Tax Strategy",
+                "highlights": {
+                    "one": "Moderate compliance health",
+                    "two": "Entity optimization available",
+                    "three": "Growth runway unlocked"
+                }
+            },
+            "growth": {
+                "title": "Ready for Scale",
+                "description": "Your foundation supports expansion. Now focus on strategic scale.",
+                "cta": "Explore Fractional CFO",
+                "service": "Fractional CFO",
+                "highlights": {
+                    "one": "Optimized compliance posture",
+                    "two": "Entity structure supports growth",
+                    "three": "Operational maturity strong"
+                }
+            }
+        },
+        "questions": {
+            "1": {
+                "question": "What type of business entity do you operate?",
+                "description": "Your entity structure determines your tax liability and protection level.",
+                "options": {
+                    "s-corp": {
+                        "label": "S-Corp",
+                        "description": "Pass-through taxation, potential SE tax savings"
+                    },
+                    "llc": {
+                        "label": "LLC (Single or Partnership)",
+                        "description": "Flexible, but potentially higher SE taxes"
+                    },
+                    "c-corp": {
+                        "label": "C-Corp",
+                        "description": "Double taxation potential, but good for scaling"
+                    },
+                    "sole-proprietorship": {
+                        "label": "Sole Proprietorship",
+                        "description": "Simplest, but highest personal liability & tax"
+                    },
+                    "unknown-other": {
+                        "label": "Not sure / Other",
+                        "description": "Let's figure this out immediately"
+                    }
+                }
+            },
+            "2": {
+                "question": "Have you filed all federal & state tax returns for the last 3 years?",
+                "description": "Consistency with the IRS is the foundation of financial health.",
+                "options": {
+                    "on-time": {
+                        "label": "Yes, all filed on time"
+                    },
+                    "late": {
+                        "label": "Filed, but some were late"
+                    },
+                    "missing-one-two": {
+                        "label": "Missing 1-2 returns"
+                    },
+                    "missing-over-two": {
+                        "label": "Missing more than 2 returns"
+                    },
+                    "not-sure": {
+                        "label": "Not sure"
+                    }
+                }
+            },
+            "3": {
+                "question": "Do you currently owe back taxes to the IRS or state?",
+                "options": {
+                    "none": {
+                        "label": "No outstanding tax debt"
+                    },
+                    "under-10k": {
+                        "label": "Yes, under $10k"
+                    },
+                    "10k-50k": {
+                        "label": "Yes, $10k - $50k"
+                    },
+                    "over-50k": {
+                        "label": "Yes, over $50k"
+                    },
+                    "not-sure": {
+                        "label": "Not sure"
+                    }
+                }
+            },
+            "4": {
+                "question": "How often do you review your financial statements?",
+                "description": "You can't manage what you don't measure.",
+                "options": {
+                    "monthly": {
+                        "label": "Monthly"
+                    },
+                    "quarterly": {
+                        "label": "Quarterly"
+                    },
+                    "annually": {
+                        "label": "Annually (at tax time)"
+                    },
+                    "rarely-never": {
+                        "label": "Rarely / Never"
+                    }
+                }
+            },
+            "5": {
+                "question": "Do you separate personal and business expenses?",
+                "options": {
+                    "always": {
+                        "label": "Always (separate accounts)"
+                    },
+                    "usually": {
+                        "label": "Usually (rarely mixed)"
+                    },
+                    "sometimes": {
+                        "label": "Sometimes (occasional mixing)"
+                    },
+                    "mixed": {
+                        "label": "No (completely mixed)"
+                    }
+                }
+            },
+            "6": {
+                "question": "What system do you use to track business expenses?",
+                "options": {
+                    "accounting-software": {
+                        "label": "Accounting Software (QBO, Xero)"
+                    },
+                    "spreadsheets": {
+                        "label": "Spreadsheets"
+                    },
+                    "receipts": {
+                        "label": "Shoebox / Receipts"
+                    },
+                    "none": {
+                        "label": "No system"
+                    }
+                }
+            },
+            "7": {
+                "question": "Do you engage in proactive tax planning?",
+                "description": "Tax planning happens before year-end, not after.",
+                "options": {
+                    "year-round": {
+                        "label": "Year-round with a pro"
+                    },
+                    "year-end": {
+                        "label": "Some year-end planning"
+                    },
+                    "none": {
+                        "label": "No proactive planning"
+                    }
+                }
+            }
         }
     }
 }

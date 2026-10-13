@@ -54,6 +54,7 @@ Set the variables for the external integrations you use. A read-only local previ
 | `GHL_WEBHOOK_URL` | General server-side lead receiver URL |
 | `GHL_SCORP_ESTIMATOR_WEBHOOK_URL` | S-Corp estimator webhook URL |
 | `GHL_SURVEY_WEBHOOK_URL` | Survey webhook URL |
+| `HEALTH_SURVEY_FINGERPRINT_MIGRATION_CONFIRMED` | Exact `true` only after approved legacy survey reservation evidence/mapping; otherwise production general-assessment delivery and readiness fail closed |
 | `GHL_TAX_ANALYSIS_WEBHOOK_URL` | Tax analysis webhook URL |
 | `GHL_APPLICATION_WEBHOOK_URL` | Application webhook URL |
 | `GHL_RESTAURANT_APPLICATION_WEBHOOK_URL` | Restaurant application webhook URL |
@@ -62,6 +63,8 @@ Set the variables for the external integrations you use. A read-only local previ
 | `GHL_BLUEPRINT_MORE_INFO_WEBHOOK_URL` | Blueprint information-request webhook URL |
 
 Purchase delivery additionally requires an approved HTTPS receiver, exact hostname allowlist, HMAC secret, and owner-confirmed durable acknowledgement/idempotency contract. Follow [Shop fulfillment recovery](docs/shop-fulfillment-recovery.md) for the exact configuration and verification gates. Do not enable a confirmation flag merely because a local test passes.
+
+Before releasing the versioned health assessment, follow [Health survey fingerprint migration](docs/operations/health-survey-fingerprint-migration.md). The new confirmation gate prevents old accepted/uncertain reservations from being bypassed during the fingerprint transition. No production migration or configuration is inferred from a passing build.
 
 ### Stripe
 

@@ -1,0 +1,14 @@
+Keep deployment tooling compatible while removing obsolete dependencies
+
+The build repair now passes with the locale handler under Next's proxy convention.
+Remove unused npm crypto, apply compatible audit fixes, and refresh pinned patches.
+Keep next-intl's SWC on a supported patch that loads in the Windows workspace.
+
+Constraint: Preserve locale matching, cookie settings and existing page behavior
+Rejected: npm audit fix --force | major CMS and telemetry migrations plus an ESLint downgrade need separate validation
+Rejected: SWC native cache permission bypass | preserve cache integrity and filesystem security
+Confidence: high
+Scope-risk: moderate
+Directive: Revisit the next-intl SWC pin only after verifying native Windows builds
+Tested: Debug production builds on Node24 and Node22.23.3; production locale and root endpoint HTTP checks; preview HTTP200; audit88 to64 with no critical findings
+Not-tested: Hosted deployment and Linux clean install; residual major security migrations; local readiness lacks integration environment values

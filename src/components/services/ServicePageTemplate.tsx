@@ -78,13 +78,14 @@ export async function ServicePageTemplate({ page, locale, presentation }: Servic
                 <ServiceProcessSection id={`${page.slug.current}-process`} process={page.process} details={isScorp ? presentationT.raw("scorp.processDetails") as ProcessDetail[] : undefined} outputLabel={presentationT("processOutput")} primaryCta={{ label: primaryLabel, href: primaryHref }} ctaHelp={presentationT("processCtaHelp")} />
             ) : null}
 
-            {page.included.items?.length && page.included.heading ? (
-                <ServiceIncludedSection id={includedId} included={page.included} scopeLabel={presentationT("includedScope")} presentation={isScorp ? presentationT.raw("scorp.included") as IncludedPresentation : undefined} />
+            {(page.included.items?.length || page.included.pricingOffers?.length) && page.included.heading ? (
+                <ServiceIncludedSection id={includedId} included={page.included} locale={locale} scopeLabel={presentationT("includedScope")} presentation={isScorp ? presentationT.raw("scorp.included") as IncludedPresentation : undefined} />
             ) : null}
 
             {page.faqSection.items.length ? <div className="bg-white py-10 lg:py-12"><ShopFAQ items={page.faqSection.items} sectionId={`${page.slug.current}-faq`} className="mb-0 [&_aside]:min-h-0 lg:[&_[data-faq-title]]:text-[2.75rem]" copy={{ ...(presentation?.faqSupport ?? presentationT.raw("faqSupport") as FAQSupportCopy), answersTitle: page.faqSection.heading }} /></div> : null}
 
             <div className="homepage-rhythm">
+                {/* The approved closing journey remains the fixed booking CTA; pricing inquiry links do not change it. */}
                 <FinalBookingCTA id="service-next-step" placement={`${page.slug.current}_final_cta`} label={primaryLabel} copy={presentation?.finalCta} />
                 {page.closing?.disclaimer && <ServicePageContainer><p className="mx-auto mb-6 max-w-2xl text-center text-sm leading-relaxed text-zinc-600">{page.closing.disclaimer}</p></ServicePageContainer>}
             </div>

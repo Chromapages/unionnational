@@ -14,8 +14,10 @@ import { urlFor } from "@/sanity/lib/image";
 import { Breadcrumbs, type BreadcrumbItem } from "@/components/ui/Breadcrumbs";
 
 
-import { Service, SanityBlock } from "@/types/sanity";
+import { Service, SanityBlock, type PricingTier } from "@/types/sanity";
 import { safeHref } from "@/lib/security/content-urls";
+import { useLocale } from "next-intl";
+import { formatOfferPrice, pricingOffersSchema } from "@/lib/pricing/offers";
 
 // Portable Text Components
 const ptComponents: PortableTextComponents = {
@@ -57,21 +59,6 @@ interface RelatedService {
     shortDescription: string;
 }
 
-interface PricingTier {
-    _id: string;
-    name: string;
-    slug: { current: string };
-    category: string;
-    price?: string;
-    billingPeriod?: string;
-    tagline?: string;
-    bestFor?: string;
-    includes?: string;
-    ctaText?: string;
-    ctaUrl?: string;
-    displayOrder?: number;
-}
-
 interface ServiceDetailClientProps {
     service: Service;
     relatedServices: RelatedService[];
@@ -80,6 +67,8 @@ interface ServiceDetailClientProps {
 }
 
 export default function ServiceDetailClient({ service, relatedServices, tiers, breadcrumbItems }: ServiceDetailClientProps) {
+    const locale = useLocale();
+    const pricingOffers = pricingOffersSchema.parse(service.pricingOffers);
     const eligibilitySnippet = [
         typeof service.keyBenefit === "string" ? service.keyBenefit : service.keyBenefit?.en,
         ...(service.eligibilityPros || []),
@@ -132,7 +121,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
                     <div className="lg:col-span-8 space-y-24">
 
                         {/* Overview / Description */}
-                        <section id="overview" className="scroll-mt-24">
+                        <section id="overview" className="scroll-mt-[calc(var(--header-height)+1.5rem)]">
                             {service.impactGoal && (
                                 <div className="mb-12 p-8 rounded-3xl bg-gold-50/50 border border-gold-200/50 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -186,7 +175,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
 
                         {/* Tax Preparation Pricing - Only for Tax Filing service */}
                         {(service.slug?.current === 'tax-filing' || service.slug?.current === 'tax-filing-and-preparation-services') && tiers && tiers.length > 0 && (
-                            <section id="pricing" className="scroll-mt-24">
+                            <section id="pricing" className="scroll-mt-[calc(var(--header-height)+1.5rem)]">
                                 <h2 className="text-3xl font-bold text-brand-900 mb-3 font-heading">
                                     Tax Preparation Pricing
                                 </h2>
@@ -198,7 +187,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
                         )}
 
                         {(service.videoFileUrl || service.videoThumbnail) && (
-                            <section id="strategy-breakdown" className="scroll-mt-24">
+                            <section id="strategy-breakdown" className="scroll-mt-[calc(var(--header-height)+1.5rem)]">
                                 <div className="flex flex-col gap-6">
                                     <div>
                                         <h2 className="text-3xl font-bold text-brand-900 mb-3 font-heading">
@@ -222,7 +211,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
 
                         {/* FAQ Section */}
                         {service.faq && service.faq.length > 0 && (
-                            <section id="faq" className="scroll-mt-24">
+                            <section id="faq" className="scroll-mt-[calc(var(--header-height)+1.5rem)]">
                                 <h2 className="text-3xl font-bold text-brand-900 mb-8 font-heading">
                                     Frequently Asked Questions
                                 </h2>
@@ -243,7 +232,7 @@ export default function ServiceDetailClient({ service, relatedServices, tiers, b
                         <ServiceSidebar
                             title={service.title}
                             icon={service.icon || "Briefcase"}
-                            startingPrice={service.startingPrice}
+                            startingPrice={pricingOffers.length ? pricingOffers.map(offer => `${offer.name}: ${formatOfferPrice(offer, locale)}`).join("; ") : undefined}
                             features={service.features || []}
                             targetAudience={service.targetAudience}
                             keyBenefit={typeof service.keyBenefit === 'string' ? service.keyBenefit : (service.keyBenefit as any)?.en || undefined}

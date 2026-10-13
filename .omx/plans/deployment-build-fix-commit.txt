@@ -1,0 +1,12 @@
+Restore production builds after stricter metadata and query type checks
+
+The deployment revision compiled locally but failed on eleven TypeScript
+diagnostics. Use the existing query and Next metadata types, and align test
+fixtures and role queries with their installed APIs.
+
+Constraint: Preserve Next 16.3.8, Turbopack, strict type checking and current site behavior
+Rejected: Change bundlers | compilation succeeded and the concrete blockers were type errors
+Confidence: high
+Scope-risk: narrow
+Tested: Full npm run build and equivalent Next production build on Node 22.23.3; all 84 static pages generated
+Not-tested: Hosted deployment retry and separate unit-test execution

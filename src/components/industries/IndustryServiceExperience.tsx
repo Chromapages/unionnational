@@ -50,7 +50,7 @@ export function IndustryServiceExperience({ industry, locale }: { industry: Indu
             </ServicePageContainer>
         </section>
 
-        <section id="industry-topics" aria-labelledby="industry-topics-heading" className="scroll-mt-28 border-y border-brand-100 bg-slate-50 py-10 lg:py-14">
+        <section id="industry-topics" aria-labelledby="industry-topics-heading" className="scroll-mt-[calc(var(--header-height)+1.5rem)] border-y border-brand-100 bg-slate-50 py-10 lg:py-14">
             <ServicePageContainer>
                 <div className="max-w-3xl"><h2 id="industry-topics-heading" className="font-heading text-3xl font-bold leading-tight tracking-tight text-brand-900 sm:text-4xl">{copy.topicsTitle}</h2><p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">{copy.topicsIntro}</p></div>
                 <div className="mt-7 grid gap-5 md:grid-cols-2">{copy.topics.map(topic => <article key={topic.title} className="min-w-0 rounded-xl border border-brand-100 bg-white p-6 sm:p-8"><h3 className="font-heading text-xl font-semibold text-brand-900">{topic.title}</h3><p className="mt-3 text-base leading-relaxed text-slate-700">{topic.description}</p></article>)}</div>
@@ -77,7 +77,7 @@ export function IndustryServiceExperience({ industry, locale }: { industry: Indu
             </ServicePageContainer>
         </section>
 
-        <section id="consultation-form" aria-labelledby="industry-inquiry-heading" className="scroll-mt-28 border-t border-brand-100 bg-slate-50 py-10 lg:py-14">
+        <section id="consultation-form" aria-labelledby="industry-inquiry-heading" className="scroll-mt-[calc(var(--header-height)+1.5rem)] border-t border-brand-100 bg-slate-50 py-10 lg:py-14">
             <ServicePageContainer>
                 <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] lg:gap-12">
                     <div className="min-w-0"><ClipboardList aria-hidden="true" className="size-8 text-gold-700" /><h2 id="industry-inquiry-heading" className="mt-5 max-w-[25ch] font-heading text-3xl font-bold leading-tight tracking-tight text-brand-900 sm:text-4xl">{copy.formTitle}</h2><p className="mt-4 max-w-[54ch] text-base leading-relaxed text-slate-700 sm:text-lg">{copy.formIntro}</p><p className="mt-5 rounded-xl border border-brand-100 bg-white p-4 text-sm leading-relaxed text-slate-700">{copy.privacy}</p></div>

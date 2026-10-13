@@ -272,7 +272,7 @@ export const ServicesDropdown = ({
           onPointerEnter={handlePointerEnter}
           onPointerLeave={handlePointerLeave}
           onKeyDown={handlePanelKeyDown}
-          className="fixed left-[calc(50%+6rem)] z-30 w-[min(59rem,calc(100vw-3rem))] -translate-x-1/2 overflow-y-auto overscroll-contain pt-2 before:absolute before:-top-4 before:left-0 before:right-0 before:h-4 before:content-['']"
+          className="fixed left-1/2 z-30 w-[min(59rem,calc(100vw-3rem))] -translate-x-1/2 overflow-y-auto overscroll-contain pt-2 before:absolute before:-top-4 before:left-0 before:right-0 before:h-4 before:content-['']"
           style={{
             top: "calc(var(--header-height, 76px) - 0.5rem)",
             maxHeight: "calc(100dvh - var(--header-height, 76px) - 1rem)",

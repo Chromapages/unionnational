@@ -33,6 +33,7 @@ import {
     SERVICE_PAGE_SLUGS_QUERY,
     SERVICES_PAGE_QUERY,
     PRICING_TIERS_QUERY,
+    PRICING_PAGE_QUERY,
 } from './queries/service-queries'
 
 // ─── Shop queries ─────────────────────────────────────────────────────────────
@@ -103,6 +104,7 @@ export {
     SERVICE_PAGE_SLUGS_QUERY,
     SERVICES_PAGE_QUERY,
     PRICING_TIERS_QUERY,
+    PRICING_PAGE_QUERY,
     SHOP_PAGE_QUERY,
     ALL_PRODUCTS_QUERY,
     PRODUCT_DETAIL_QUERY,

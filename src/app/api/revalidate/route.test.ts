@@ -28,6 +28,8 @@ function request(body: unknown, secret = SECRET) {
 
 const scopes = [
     ["servicePage", null],
+    ["pricingPage", null],
+    ["pricingTier", null],
     ["blogPost", ["blog", "hub"]],
     ["siteSettings", null],
     ["product", ["shop", "books"]],

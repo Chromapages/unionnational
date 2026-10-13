@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { NextIntlClientProvider } from "next-intl";
 import { expect, it, vi } from "vitest";
 import messages from "@/messages/en.json";
+import spanishMessages from "@/messages/es.json";
 import { ProductHero } from "./ProductHero";
 
 vi.mock("next/image", () => ({ default: () => null }));
@@ -32,4 +33,18 @@ it("shows three relevant highlights on every book, with a safe fallback", () => 
         expect(strip).toContain(expected);
         if (slug !== "the-3m-s-to-freedom") expect(strip).not.toContain("Growth framework");
     }
+});
+
+it.each(["en", "es"] as const)("uses manuscript topic callouts for construction in %s", locale => {
+    const translated = locale === "es" ? spanishMessages : messages;
+    const html = renderToStaticMarkup(<NextIntlClientProvider locale={locale} timeZone="America/Denver" messages={translated}>
+        <ProductHero id="book" slug="the-money-making-blueprint-for-construction-companies" title="Existing book" subtitle={translated.Shop.Desktop.books.construction.description} image="" defaultPrice={27} format="digital" />
+    </NextIntlClientProvider>);
+    const strip = html.match(/<ul data-book-highlights[\s\S]*?<\/ul>/)?.[0] || "";
+    expect((strip.match(/<li\b/g) || []).length).toBe(3);
+    for (const highlight of translated.Shop.ProductPage.bookHighlights.construction) {
+        expect(strip).toContain(highlight.title);
+        expect(strip).toContain(highlight.body);
+    }
+    expect(strip).not.toMatch(/depreciation|depreciación|Tax planning|Planificación fiscal/);
 });

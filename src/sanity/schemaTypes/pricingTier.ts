@@ -68,6 +68,13 @@ export const pricingTier = defineType({
             group: 'content',
         }),
         defineField({
+            name: 'priceNote',
+            title: 'Price Qualifications and Credits',
+            type: 'localizedText',
+            group: 'content',
+            description: 'Approved limits, setup-fee qualifications, exclusions and credit rules. Do not invent amounts or payment terms.',
+        }),
+        defineField({
             name: 'billingPeriod',
             title: 'Billing Period',
             type: 'string',

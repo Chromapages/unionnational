@@ -31,6 +31,8 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title('Page Content')
             .items([
+              // Resolve the editor-owned record by type; do not fabricate a singleton document ID.
+              S.documentTypeListItem('pricingPage').title('Pricing Page'),
               S.listItem()
                 .title('Home Page')
                 .child(
@@ -133,7 +135,7 @@ export const structure: StructureResolver = (S) =>
           'teamPage', 'teamMember', 'blogPost', 'blogCategory', 'blogSettings', 
           'service', 'servicePage', 'product', 'shopSettings', 'siteSettings', 'testimonial', 
           'faq', 'homePage', 'aboutPage', 'servicesPage', 'contactSettings', 
-          'caseStudy', 'pricingTier', 'legalPage', 'playbook', 'playbookChapter', 
+          'caseStudy', 'pricingTier', 'pricingPage', 'legalPage', 'playbook', 'playbookChapter',
           'industryVertical', 'comparisonTable', 'stripeWebhookIdempotency'
         ];
         

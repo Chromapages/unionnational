@@ -3,21 +3,21 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import type { Metadata } from "next";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
+import { getTranslations } from "next-intl/server";
 
 export const revalidate = 60; // Revalidate every minute
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
+    const t = await getTranslations({locale, namespace: "HealthCheck.metadata"});
     return {
-        title: "Business Financial Health Check | Union National Tax",
-        description: "Get your Financial Health Score in 2 minutes. Discover if your business is thriving or needs attention with our free diagnostic tool.",
+        title: t("title"),
+        description: t("description"),
         alternates: localizedAlternates(locale, "/health-check"),
     };
 }
 
-export default async function HealthCheckPage(props: { params: Promise<{ locale: string }> }) {
-    const params = await props.params;
-    const locale = params.locale;
+export default function HealthCheckPage() {
     return (
         <main id="main-content" className="min-h-screen bg-slate-50 relative overflow-hidden">
             <HeaderWrapper />
