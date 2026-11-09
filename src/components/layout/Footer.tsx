@@ -53,7 +53,15 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
         getCachedFooterSettings(locale).catch(() => null),
         getCachedLegalPages(locale).catch(() => []),
     ]);
-    const termsSlug = legalPages?.find((page) => page.pageType === "terms")?.slug;
+    const termsSlug = Array.isArray(legalPages)
+        ? legalPages.find((page) => page?.pageType === "terms" && typeof page.slug === "string" && page.slug.trim())?.slug
+        : undefined;
+    const companyName = typeof siteSettings?.companyName === "string" && siteSettings.companyName.trim()
+        ? siteSettings.companyName
+        : "Union National Tax";
+    const disclaimerSummary = typeof siteSettings?.footerDisclaimerSummary === "string" && siteSettings.footerDisclaimerSummary.trim()
+        ? siteSettings.footerDisclaimerSummary
+        : tFooter("disclaimerBody");
 
     const navigationGroups: FooterNavigationGroup[] = [
         {
@@ -130,7 +138,9 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
         }] : []),
     ];
 
-    const rawCopyright = siteSettings?.copyrightText || tFooter("copyrightTextFallback");
+    const rawCopyright = typeof siteSettings?.copyrightText === "string" && siteSettings.copyrightText.trim()
+        ? siteSettings.copyrightText
+        : tFooter("copyrightTextFallback");
     const copyrightCompany = rawCopyright.replace(/^(?:©\s*(?:\{year\}|\d{4})\s*)+/i, "").trim();
     const currentYear = new Date().getFullYear();
 
@@ -143,7 +153,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
                 <li><Link href="/contact" data-footer-event="footer_contact_activate" data-footer-destination-id="contact_page" className="inline-flex min-h-11 items-center rounded-sm text-slate-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-400">{tFooter("contactTitle")}</Link></li>
                 <li><TrackingPreferences locale={locale} /></li>
             </ul></nav>
-            <FooterDisclaimerModal label={tFooter("readDisclaimer")} closeLabel={tFooter("closeDisclaimer")} content={siteSettings?.footerDisclaimerSummary || tFooter("disclaimerBody")} />
+            <FooterDisclaimerModal label={tFooter("readDisclaimer")} closeLabel={tFooter("closeDisclaimer")} content={disclaimerSummary} />
         </div>
     </footer>;
 
@@ -172,7 +182,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
                                 <div className="relative h-10 w-44">
                                     <Image
                                         src={siteSettings.logo.asset.url}
-                                        alt={siteSettings.companyName || "Union National Tax"}
+                                        alt={companyName}
                                         fill
                                         sizes="176px"
                                         className="object-contain object-left"
@@ -188,7 +198,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
                                         <div className="h-full w-full rounded-sm border border-[#fff6cc]/40 bg-gradient-to-tr from-[#7c5e13]/30 to-transparent" />
                                     </div>
                                     <span className="font-heading text-xl font-bold tracking-tight text-white transition-colors group-hover:text-gold-300">
-                                        {siteSettings?.companyName || "Union National Tax"}
+                                        {companyName}
                                     </span>
                                 </>
                             )}
@@ -254,7 +264,7 @@ export async function Footer({ bookingCta = false, compact = false, bookingLabel
                             <FooterDisclaimerModal
                                 label={tFooter("readDisclaimer")}
                                 closeLabel={tFooter("closeDisclaimer")}
-                                content={siteSettings?.footerDisclaimerSummary || tFooter("disclaimerBody")}
+                                content={disclaimerSummary}
                             />
                         </div>
                     </div>
