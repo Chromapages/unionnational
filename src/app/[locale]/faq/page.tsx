@@ -3,8 +3,7 @@ import { HeaderWrapper } from "@/components/layout/HeaderWrapper";
 import { Footer } from "@/components/layout/Footer";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { FAQList } from "@/components/faq/FAQList";
-import { sanityFetch } from "@/sanity/lib/live";
-import { FAQ_QUERY } from "@/sanity/lib/queries";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { Link as LocalizedLink } from "@/i18n/navigation";
 import { BOOKING_ROUTE } from "@/lib/booking";
@@ -22,19 +21,31 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
+async function getCatalogFaqs(locale: string) {
+    try {
+        const t = await getTranslations({ locale, namespace: "ServicesPage.FAQ" });
+        const items: unknown = t.has("items") ? t.raw("items") : [];
+        const category = t.has("eyebrow") ? t("eyebrow") : "";
+        return Array.isArray(items) ? items.flatMap((item, index) => {
+            if (!item || typeof item.question !== "string" || !item.question.trim()
+                || typeof item.answer !== "string" || !item.answer.trim()) return [];
+            return [{ _id: `faq-${index}`, question: item.question, answer: item.answer, category }];
+        }) : [];
+    } catch {
+        return [];
+    }
+}
+
 export default async function FAQPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
     
-    // Fetch all FAQs with live data sync
-    const { data: faqs } = await sanityFetch({ 
-        query: FAQ_QUERY, 
-        params: { locale } 
-    });
+    // ponytail: Use approved catalog FAQs until Contentful FAQ content is authored.
+    const faqs = await getCatalogFaqs(locale);
 
     return (
         <main id="main-content" className="min-h-screen w-full bg-surface flex flex-col">
-            <FAQPageSchema />
+            <FAQPageSchema items={faqs} />
             <HeaderWrapper />
 
             <div className="flex-1 pt-32 pb-24">
@@ -55,7 +66,7 @@ export default async function FAQPage(props: { params: Promise<{ locale: string 
 
                 {/* Main FAQ Content with Filters */}
                 <div className="max-w-7xl mx-auto px-6">
-                    <FAQList items={faqs || []} />
+                    <FAQList items={faqs} />
                 </div>
 
                 {/* Contact CTA */}
