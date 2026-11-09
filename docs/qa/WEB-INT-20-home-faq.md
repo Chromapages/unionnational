@@ -7,7 +7,7 @@
 | Surface | EN and ES source | Recovery / preserved behavior |
 | --- | --- | --- |
 | Home presentation | Sanity `HOME_PAGE_QUERY` and `SITE_SETTINGS_QUERY`; `ConsumerHome` local catalogs | Rejected/missing results remain optional; validate logo collection/records and schema `sameAs` at this route boundary. Keep valid logos and settings. |
-| Home metadata | Existing same-locale `ConsumerHome.seo` catalog; Sanity contributes only `seo.noIndex` | Missing/rejected SEO translation reads use the same approved local catalog, never another CMS or the opposite locale. Only boolean `true` emits restrictive route robots; otherwise inherit global policy. |
+| Home metadata | Existing same-locale `ConsumerHome.seo` catalog; Sanity contributes only `seo.noIndex` | Missing/rejected SEO translation reads use the same approved local catalog, never another CMS or the opposite locale. Preserve predecessor fail-closed truthiness: any truthy Home `noIndex` restricts robots, including malformed strings; otherwise inherit global policy. Never emit permissive robots. |
 | Home URLs/media | Existing locale guard, EN/ES canonical/alternates, foreground-video then background-video priority | No destination, video/poster, source ownership or presentation-approval changes. |
 | FAQ answers/schema | Existing approved `ServicesPage.FAQ` local catalog, not authored Contentful FAQ entries | Keep nonblank string question/answer pairs; share the same validated rows with visible FAQ and schema. Missing/malformed/rejected translations use the existing localized empty state and retain contact access, with no empty FAQ schema. |
 | FAQ metadata/route copy | Existing static English metadata/hero/contact copy; localized canonical/alternates and answer/search catalogs | Intentionally unchanged; this ticket supplies no new copy or native-Spanish approval. Global robots remain inherited. |
@@ -18,13 +18,13 @@ The prechange matrix was recorded before route edits in local `home-faq-source-b
 
 Changed: `src/app/[locale]/page.tsx`, its existing adjacent test, `src/app/[locale]/faq/page.tsx`, its adjacent test, and this note. No protected ConsumerHome/FAQSection/FAQAccordion/catalog or tracking files changed. `FAQPageSchema` needed no new repair.
 
-Pre-fix guarded fixture reproduction: 13 failures across the Home/FAQ tests. Home: null result-envelope destructuring; missing SEO keys leaking into metadata; string `"false"` enabling noindex; non-array/null/malformed logo records crashing the actual logo consumer; non-iterable schema `sameAs`. FAQ: missing/non-array/key-valued item collections, rejected translation read, and incomplete/nonstring rows leaking into UI/schema. Rejected Home SEO reads are also covered by final recovery checks; the original combined red case stopped at missing-key failure first. No live CMS corruption is asserted.
+Historical pre-fix guarded fixture reproduction: 13 failures across the Home/FAQ tests. Home: null result-envelope destructuring; missing SEO keys leaking into metadata; non-array/null/malformed logo records crashing the actual logo consumer; non-iterable schema `sameAs`. That run also included an incorrect new expectation that truthy string `"false"` should not restrict indexing; independent QA subsequently rejected that policy change, and the expectation is withdrawn. FAQ: missing/non-array/key-valued item collections, rejected translation read, and incomplete/nonstring rows leaking into UI/schema. Rejected Home SEO reads are also covered by the developer recovery checks; the original combined red case stopped at missing-key failure first. No live CMS corruption is asserted.
 
 Home's old tests only asserted JSX truthiness; replace them with consumer-visible metadata, actual logo-consumer and schema checks. FAQ tests retain answer expansion/search/schema consistency and localized booking destinations; remove obsolete no-CMS mock-call assertions. No wording snapshots or source-text tests were added.
 
-## Verification
+## Historical pre-QA developer verification
 
-On the integration tree:
+On the integration tree before independent QA (these results did not establish resolved-parent indexing correctness):
 
 - Guarded Vitest, four affected/prerequisite files: **33 passed**, exit 0. Home 10, FAQ 9, Footer 12, FAQPageSchema 2. Guard fetch, sockets/TLS, XHR, WebSocket and beacon; mock optional CMS/action/tracking seams.
 - Scoped six-file ESLint: exit 0, no diagnostics.
@@ -42,3 +42,18 @@ No FAQList, FAQAccordion, localizedAlternates, catalog, Contentful/blog/dependen
 ## Protection and exclusions
 
 Before/after private manifests, exact initial dirty diff and per-ticket delta patches accompany the freeze. Credentials are not copied or published; only private equality checks are retained. No stage/switch/commit/push, CMS/token requests/writes, source/business approvals, commerce/storage changes, weakened validators, real submission/purchase/conversion, merge or deploy. No full build, broad suite or known Sanity 402 re-probe. WEB-INT-06D remains paused; WEB-INT-07 authority remains blocked. Independent p5 QA and lead-owned cutover documentation/publication remain separate.
+
+## Independent indexing finding and bounded correction
+
+Independent p5 stopped verification after reproducing a blocking regression in standalone snapshot `ca275b854dc51582a1fd934ca7eb9d864035bccb`: with an indexable parent and malformed Home `noIndex: "true"`, predecessor metadata resolved to `noindex, nofollow`, while the strict-boolean snapshot resolved to `index, follow`. Truthy `"false"` likewise changed the predecessor's restrictive behavior. This is synthetic source corruption, not a live Sanity assertion. The settled finding is ground truth; its old probe was read but not rerun. Earlier red/green artifacts remain historical and unchanged. p5 stopped before independent browser verification.
+
+Restore only the original Home truthiness condition. No parsing, string special cases, permissive robots, source substitution or new indexing policy. Replace the incorrect strict-boolean test with actual installed Next `accumulateMetadata` resolution of actual Home metadata and parent metadata, following the existing repository resolver-test seam. Assert final `noindex, nofollow` for boolean `true` and malformed strings `"true"`/`"false"` with an indexable parent; when Home restriction is false or absent, assert inherited restrictive parent basic/Googlebot directives, including its preview restriction.
+
+Affected checks after correction, with guarded external seams:
+
+- Home `page.test.tsx` only: **14 passed**, one file, exit 0. No Footer/FAQ/schema tests or browser fixtures rerun.
+- ESLint on Home page/test only: exit 0, no diagnostics.
+- `tsc --noEmit --incremental false` for the new installed-resolver/Node import contracts: exit 0.
+- Installed RTK compacted human CLI output; complete original command/output evidence remains in `indexing-fix-home-tests.txt`, `indexing-fix-home-eslint.txt` and `indexing-fix-types.txt`. No configuration, dependency, Headroom profile or skill installation/change was made.
+
+Correction ownership is only Home page, adjacent test and this note. Preservation remains against the existing private `dev-after.json`, not a refreshed baseline; correction-only manifests and exact delta are under local `WEB-INT-pr-wave-20261109/indexing-fix/`. No Footer/FAQ/schema/catalog/commerce or other protected file is authorized to change. Lead must append/export/publish the corrected isolated PR snapshot; exact new PR-tree verification and p5's bounded independent recheck remain pending. This correction does not claim release readiness.

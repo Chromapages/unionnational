@@ -39,7 +39,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
     return {
         title: seo.title,
         description: seo.description,
-        ...(homePage?.seo?.noIndex === true ? { robots: { index: false, follow: false } } : {}),
+        ...(homePage?.seo?.noIndex ? { robots: { index: false, follow: false } } : {}),
         alternates: {
             canonical: canonicalUrl,
             languages: { en: `${baseUrl}/en`, es: `${baseUrl}/es` },

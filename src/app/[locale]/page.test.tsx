@@ -3,10 +3,28 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createTranslator } from "next-intl";
 import type { ReactNode } from "react";
 import type * as NextIntl from "next-intl";
+import type { Metadata } from "next";
+import type * as NextMetadataResolver from "next/dist/lib/metadata/resolve-metadata";
+import { createRequire, Module } from "node:module";
 import en from "@/messages/en.json";
 import es from "@/messages/es.json";
 import { ClientLogoStrip, type ClientLogo } from "@/components/contact/ClientLogoStrip";
 import Home, { generateMetadata } from "./page";
+
+// Match server compilation's erased marker while exercising the installed Next resolver.
+const nativeRequire = createRequire(import.meta.url);
+const markerPath = nativeRequire.resolve("server-only");
+const previousMarker = nativeRequire.cache[markerPath];
+const marker = new Module(markerPath);
+marker.exports = {};
+nativeRequire.cache[markerPath] = marker;
+let accumulateMetadata: typeof NextMetadataResolver.accumulateMetadata;
+try {
+    ({ accumulateMetadata } = nativeRequire("next/dist/lib/metadata/resolve-metadata"));
+} finally {
+    if (previousMarker) nativeRequire.cache[markerPath] = previousMarker;
+    else delete nativeRequire.cache[markerPath];
+}
 
 const fixture = vi.hoisted(() => ({
     locale: "en" as "en" | "es",
@@ -80,11 +98,22 @@ describe("Home source boundaries", () => {
         }
     });
 
-    it("only honors an explicit boolean CMS noIndex without adding a permissive robots override", async () => {
-        fixture.home = { data: { seo: { noIndex: "false" } } };
-        expect(await generateMetadata(params())).not.toHaveProperty("robots");
-        fixture.home = { data: { seo: { noIndex: true } } };
-        expect((await generateMetadata(params())).robots).toEqual({ index: false, follow: false });
+    it.each([true, "true", "false"])("resolves truthy Home noIndex %j as restrictive despite an indexable parent", async noIndex => {
+        fixture.home = { data: { seo: { noIndex } } };
+        const parent: Metadata = { robots: { index: true, follow: true } };
+        const home = await generateMetadata(params());
+        const resolved = await accumulateMetadata("/[locale]", [[parent, null], [home, null]], Promise.resolve("/en"), { trailingSlash: false, isStaticMetadataRouteFile: false });
+        expect(resolved.robots?.basic).toBe("noindex, nofollow");
+    });
+
+    it.each([false, undefined])("inherits restrictive parent robots when Home noIndex is %j", async noIndex => {
+        fixture.home = { data: { seo: { noIndex } } };
+        const parent: Metadata = { robots: { index: false, follow: false, googleBot: { index: false, follow: false, "max-image-preview": "none" } } };
+        const home = await generateMetadata(params());
+        const resolved = await accumulateMetadata("/[locale]", [[parent, null], [home, null]], Promise.resolve("/en"), { trailingSlash: false, isStaticMetadataRouteFile: false });
+        expect(resolved.robots?.basic).toBe("noindex, nofollow");
+        expect(resolved.robots?.googleBot).toContain("noindex, nofollow");
+        expect(resolved.robots?.googleBot).toContain("max-image-preview:none");
     });
 
     it.each([
