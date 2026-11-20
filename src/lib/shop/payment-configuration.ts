@@ -1,9 +1,9 @@
+import { paymentTargetGaps } from "./payment-target.mjs";
+
 type Configuration = Record<string, string | undefined>;
 
 export function paymentStorageGaps(env: Configuration = process.env) {
-    const gaps: string[] = [];
-    const dataset = env.SANITY_PAYMENT_DATASET;
-    if (!dataset || !/^[a-z0-9_-]{1,64}$/.test(dataset) || dataset === (env.NEXT_PUBLIC_SANITY_DATASET || "production")) gaps.push("SANITY_PAYMENT_DATASET");
+    const gaps = paymentTargetGaps(env);
     if (!env.SANITY_PAYMENT_AUTH_TOKEN) gaps.push("SANITY_PAYMENT_AUTH_TOKEN");
     for (const flag of ["SANITY_PAYMENT_PRIVATE_CONFIRMED", "SANITY_PAYMENT_MIGRATION_CONFIRMED"]) if (env[flag] !== "true") gaps.push(flag);
     return gaps;

@@ -1,4 +1,5 @@
 import { createClient } from "@sanity/client";
+import { paymentTargetGaps } from "../src/lib/shop/payment-target.mjs";
 
 const statuses = ["pending", "processing", "processed", "failed", "pending_manual", "pending_review"];
 const query = `{
@@ -17,14 +18,14 @@ async function main() {
   const args = process.argv.slice(2);
   if (!args.includes("--read-private-state")) {
     console.log(JSON.stringify({ event: "payment_monitoring_preview", mode: "local-query-preview", query,
-      requiredEnvironment: ["NEXT_PUBLIC_SANITY_PROJECT_ID", "SANITY_PAYMENT_DATASET", "SANITY_PAYMENT_AUTH_TOKEN", "SANITY_PAYMENT_PRIVATE_CONFIRMED"],
+      requiredEnvironment: ["SANITY_PAYMENT_PROJECT_ID", "SANITY_PAYMENT_DATASET", "SANITY_PAYMENT_AUTH_TOKEN", "SANITY_PAYMENT_PRIVATE_CONFIRMED"],
       requiredFlags: ["--read-private-state", "--project=<configured-project>", "--target=<private-dataset>"] }));
     return;
   }
-  const project = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const project = process.env.SANITY_PAYMENT_PROJECT_ID;
   const dataset = process.env.SANITY_PAYMENT_DATASET;
   const token = process.env.SANITY_PAYMENT_AUTH_TOKEN;
-  if (!project || !dataset || !/^[a-z0-9_-]{1,64}$/.test(dataset) || dataset === (process.env.NEXT_PUBLIC_SANITY_DATASET || "production") || !token ||
+  if (paymentTargetGaps(process.env).length || !token ||
       process.env.SANITY_PAYMENT_PRIVATE_CONFIRMED !== "true" || option(args, "--project") !== project || option(args, "--target") !== dataset) {
     throw new Error("An acknowledged private target and read-scoped credentials are required.");
   }

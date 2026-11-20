@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { parseArgs } from "node:util";
 import { pathToFileURL } from "node:url";
+import { paymentTargetGaps } from "../src/lib/shop/payment-target.mjs";
 
 export function planRecovery(record, outcome, now = Date.now(), confirmedNoDelivery = false) {
   if (!record || !/^stripeWebhookIdempotency\.[a-f0-9]{64}$/.test(record._id) || typeof record._rev !== "string") throw new Error("Invalid recovery record");
@@ -24,11 +25,12 @@ async function main() {
     console.log("Default: bounded private-store backlog report (read only).\nPreview: --record ID --outcome delivered|undelivered|stale-review [--receiver-confirmed-no-delivery].\nApply additionally requires --apply --revision REV --operator ID --evidence RECEIVER_LOG_REFERENCE and SHOP_RECOVERY_ALLOW_APPLY=true. Never posts fulfillment or creates a charge.");
     return;
   }
+  const projectId = process.env.SANITY_PAYMENT_PROJECT_ID;
   const dataset = process.env.SANITY_PAYMENT_DATASET;
-  if (!dataset || !/^[a-z0-9_-]{1,64}$/.test(dataset) || dataset === (process.env.NEXT_PUBLIC_SANITY_DATASET || "production")
+  if (paymentTargetGaps(process.env).length
     || !process.env.SANITY_PAYMENT_AUTH_TOKEN || process.env.SANITY_PAYMENT_PRIVATE_CONFIRMED !== "true" || process.env.SANITY_PAYMENT_MIGRATION_CONFIRMED !== "true") throw new Error("Verified isolated private payment storage is required");
   const { createClient } = await import("@sanity/client");
-  const store = createClient({ projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "p1x9y3wz", dataset, token: process.env.SANITY_PAYMENT_AUTH_TOKEN,
+  const store = createClient({ projectId, dataset, token: process.env.SANITY_PAYMENT_AUTH_TOKEN,
     apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2026-01-09", useCdn: false, timeout: 8000, maxRetries: 0 });
   if (!values.record) {
     const records = await store.fetch('*[_type == "stripeWebhookIdempotency" && status in $states] | order(updatedAt asc)[0...100]{_id,_rev,status,updatedAt,lastError}', { states: ["pending_manual", "pending_review", "processing", "failed"] });

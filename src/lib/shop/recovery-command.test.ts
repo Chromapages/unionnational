@@ -37,6 +37,8 @@ beforeEach(() => {
     mocks.session.mockReset().mockResolvedValue({ id: "cs_test_fixture", payment_status: "paid", metadata: { order_source: "unt_bookstore" } });
     mocks.update.mockReset().mockResolvedValue({});
     mocks.fields = {}; mocks.audit = {}; mocks.revision = "";
+    vi.stubEnv("SANITY_PAYMENT_PROJECT_ID", "payment-fixture");
+    vi.stubEnv("NEXT_PUBLIC_SANITY_PROJECT_ID", "public-fixture");
     vi.stubEnv("SANITY_PAYMENT_DATASET", "fixture_private");
     vi.stubEnv("NEXT_PUBLIC_SANITY_DATASET", "production");
     vi.stubEnv("SANITY_PAYMENT_AUTH_TOKEN", "fixture-only-private-token");
@@ -55,7 +57,7 @@ describe("private payment recovery command", () => {
         expect(mocks.createClient).not.toHaveBeenCalled();
         expect(log).toHaveBeenCalledWith(expect.stringContaining("Never posts fulfillment or creates a charge"));
     });
-    it.each([["SANITY_PAYMENT_DATASET", ""], ["SANITY_PAYMENT_DATASET", "../public"], ["SANITY_PAYMENT_DATASET", "production"], ["SANITY_PAYMENT_AUTH_TOKEN", ""], ["SANITY_PAYMENT_PRIVATE_CONFIRMED", "false"], ["SANITY_PAYMENT_MIGRATION_CONFIRMED", "false"]])("rejects unsafe storage configuration %s", async (key, value) => {
+    it.each([["SANITY_PAYMENT_PROJECT_ID", ""], ["SANITY_PAYMENT_PROJECT_ID", "../public"], ["SANITY_PAYMENT_DATASET", ""], ["SANITY_PAYMENT_DATASET", "../public"], ["SANITY_PAYMENT_DATASET", "production"], ["SANITY_PAYMENT_AUTH_TOKEN", ""], ["SANITY_PAYMENT_PRIVATE_CONFIRMED", "false"], ["SANITY_PAYMENT_MIGRATION_CONFIRMED", "false"]])("rejects unsafe storage configuration %s", async (key, value) => {
         vi.stubEnv(key, value);
         await command([], true);
         expect(mocks.createClient).not.toHaveBeenCalled();
@@ -64,6 +66,7 @@ describe("private payment recovery command", () => {
     it("reports a bounded backlog without personal data or provider calls", async () => {
         mocks.fetch.mockResolvedValue([{ _id: id, status: "pending_review" }]);
         await command([]);
+        expect(mocks.createClient).toHaveBeenCalledWith(expect.objectContaining({ projectId: "payment-fixture", dataset: "fixture_private" }));
         expect(mocks.fetch.mock.calls[0][0]).toContain("[0...100]");
         expect(JSON.parse(String(log.mock.calls[0][0]))).toMatchObject({ mode: "read-only", limit: 100 });
         expect(mocks.commit).not.toHaveBeenCalled();

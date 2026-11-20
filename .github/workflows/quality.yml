@@ -83,6 +83,7 @@ jobs:
           NEXT_PUBLIC_BASE_URL: https://example.test
           GHL_SHOP_PURCHASE_WEBHOOK_URL: https://example.test/webhook
           NEXT_PUBLIC_SANITY_DATASET: public-ci-fixture
+          SANITY_PAYMENT_PROJECT_ID: fixture-payment-project
           SANITY_PAYMENT_DATASET: private-ci-fixture
           SANITY_PAYMENT_AUTH_TOKEN: fixture-ci-private-sanity-token
           SANITY_PAYMENT_PRIVATE_CONFIRMED: "true"

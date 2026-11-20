@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { paymentTargetGaps } from "../src/lib/shop/payment-target.mjs";
 
 const root = process.cwd();
 const envPath = path.join(root, ".env.local");
@@ -36,7 +37,7 @@ function requireEnv(name, predicate = (value) => Boolean(value)) {
 requireEnv("STRIPE_SECRET_KEY", (value) => typeof value === "string" && /^sk_(test|live)_/.test(value));
 requireEnv("STRIPE_WEBHOOK_SECRET", (value) => typeof value === "string" && value.startsWith("whsec_") && !value.includes("..."));
 requireEnv("NEXT_PUBLIC_BASE_URL", (value) => typeof value === "string" && /^https?:\/\//.test(value));
-requireEnv("SANITY_PAYMENT_DATASET", (value) => typeof value === "string" && /^[a-z0-9_-]{1,64}$/.test(value) && value !== (env.NEXT_PUBLIC_SANITY_DATASET || "production"));
+for (const name of paymentTargetGaps(env)) failures.push(`${name} is missing or invalid.`);
 requireEnv("SANITY_PAYMENT_AUTH_TOKEN");
 for (const flag of ["SANITY_PAYMENT_PRIVATE_CONFIRMED", "SANITY_PAYMENT_MIGRATION_CONFIRMED", "GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED"]) {
   requireEnv(flag, (value) => value === "true");

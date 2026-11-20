@@ -7,6 +7,7 @@ Source was hardened on October 5, 2026. Checkout returns 503 until the private o
 | Setting | Required value and owner evidence |
 | --- | --- |
 | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | Existing server secrets for the same Stripe environment/account. The webhook secret also signs domain-separated order metadata and guest receipts. |
+| `SANITY_PAYMENT_PROJECT_ID` | Explicit server-only ID of the existing private payment project; independent of public catalog and Studio settings. Missing or invalid values stop app storage and operator tools before provider access. |
 | `SANITY_PAYMENT_DATASET` | Separate private operational dataset matching `[a-z0-9_-]{1,64}`, different from the public catalog dataset. |
 | `SANITY_PAYMENT_AUTH_TOKEN` | Separate service token restricted to operational order/audit records. Public catalog tokens and content editors must not mutate payment claims. |
 | `SANITY_PAYMENT_PRIVATE_CONFIRMED=true` | Set only after anonymous denial and least-privilege service/editor roles are verified. The flag is an owner attestation; it cannot establish remote ACLs. |

@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fixture = {
   SHOP_READINESS_STATIC: "1", STRIPE_SECRET_KEY: "sk_test_ci_fixture", STRIPE_WEBHOOK_SECRET: "whsec_ci_fixture",
   NEXT_PUBLIC_BASE_URL: "https://example.test", NEXT_PUBLIC_SANITY_DATASET: "public-ci-fixture",
+  SANITY_PAYMENT_PROJECT_ID: "fixture-payment-project",
   SANITY_PAYMENT_DATASET: "private-ci-fixture", SANITY_PAYMENT_AUTH_TOKEN: "fixture-ci-private-sanity-token",
   SANITY_PAYMENT_PRIVATE_CONFIRMED: "true", SANITY_PAYMENT_MIGRATION_CONFIRMED: "true",
   GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS: "example.test", GHL_SHOP_FULFILLMENT_SECRET: "fixture-ci-fulfillment-secret-value-not-for-production",
@@ -25,6 +26,8 @@ test("static readiness accepts synthetic shapes without claiming provider readin
   assert.match(result.stdout, /require owner verification/);
 });
 test("readiness blocks absent private storage and migration gates", () => {
+  assert.equal(check({ SANITY_PAYMENT_PROJECT_ID: "" }).status, 1);
+  assert.equal(check({ SANITY_PAYMENT_PROJECT_ID: "../public" }).status, 1);
   assert.equal(check({ SANITY_PAYMENT_PRIVATE_CONFIRMED: "false" }).status, 1);
   assert.equal(check({ SANITY_PAYMENT_MIGRATION_CONFIRMED: "false" }).status, 1);
   assert.equal(check({ SANITY_PAYMENT_DATASET: "public-ci-fixture" }).status, 1);
