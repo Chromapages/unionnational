@@ -10,11 +10,14 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 describe("Back Taxes & IRS Tax Resolution", () => {
-    it.each(["en", "es"] as const)("offers one detail-page path without adding claims or sensitive fields in %s", locale => {
+    it.each([
+        ["en", "Back Taxes & IRS Tax Resolution"],
+        ["es", "Impuestos atrasados y resolución de deudas con el IRS."],
+    ] as const)("offers one detail-page path without adding claims or sensitive fields in %s", (locale, title) => {
         const messages = locale === "es" ? es : en;
         render(<NextIntlClientProvider locale={locale} messages={messages}><TaxResolutionSection /></NextIntlClientProvider>);
-        const section = screen.getByRole("region", { name: "Back Taxes & IRS Tax Resolution" });
-        expect(within(section).getByRole("heading", { level: 2 })).toHaveTextContent("Back Taxes & IRS Tax Resolution");
+        const section = screen.getByRole("region", { name: title });
+        expect(within(section).getByRole("heading", { level: 2, name: title })).toBeVisible();
         expect(within(section).getByText(messages.TaxResolution.intro)).toBeVisible();
         expect(within(section).getAllByRole("heading", { level: 3 }).map(heading => heading.textContent)).toEqual([
             messages.TaxResolution.filings.title, messages.TaxResolution.balance.title,
