@@ -10,11 +10,12 @@ import { ShopPage, ProductDetailPage, CartPage, CheckoutSuccessPage } from "./pa
  * - Checkout cancellation path
  * - Checkout success and cart clearing
  *
- * Prerequisites: The app should be running at http://localhost:3000
- * Some tests require Stripe mock or test mode configuration.
+ * Run only against an isolated app with SHOP_PAYMENTS_ENABLED=true and a test-mode Stripe setup.
+ * PLAYWRIGHT_TEST_CHECKOUT=true explicitly selects this suite.
  */
 
 test.describe("Checkout Flows", () => {
+  test.skip(process.env.PLAYWRIGHT_TEST_CHECKOUT !== "true", "Requires an isolated payment-enabled test-mode deployment.");
   let shopPage: ShopPage;
   let productDetailPage: ProductDetailPage;
   let cartPage: CartPage;

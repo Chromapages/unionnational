@@ -16,10 +16,12 @@ const faqs = [
     {
         q: "When will I receive the physical book?",
         a: "Physical books ship within 3–5 business days via standard US shipping (free). You'll receive an order confirmation with tracking. All digital formats are available immediately after purchase.",
+        purchase: true,
     },
     {
         q: "Do I get digital access with the physical book?",
         a: "Yes. Every physical book purchase includes a complimentary digital PDF download so you can reference the material on your phone or tablet while you wait for the book to arrive.",
+        purchase: true,
     },
     {
         q: "Is this the same as working with Jason directly?",
@@ -35,7 +37,7 @@ const faqs = [
     },
 ];
 
-export function BlueprintFAQ() {
+export function BlueprintFAQ({ checkoutEnabled }: { checkoutEnabled: boolean }) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const handleToggle = (i: number) => {
@@ -63,7 +65,7 @@ export function BlueprintFAQ() {
                     </div>
 
                     <div className="space-y-4">
-                        {faqs.map((faq, i) => {
+                        {faqs.filter(faq => checkoutEnabled || !faq.purchase).map((faq, i) => {
                             const isOpen = openIndex === i;
                             return (
                                 <RevealOnScroll key={i} delay={i * 60}>

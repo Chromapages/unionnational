@@ -19,6 +19,7 @@ import { BlueprintAuthorBio } from "@/components/construction/profit-blueprint/B
 import { ServiceViewContent } from "@/components/seo/ServiceViewContent";
 import { CHECKOUT_PRODUCTS_QUERY, resolveCheckoutItem, type ProductCheckoutRecord } from "@/lib/shop/checkout";
 import { classifyFulfillment, normalizeEditionId } from "@/lib/shop/commerce";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 import type { ClientReturn } from "next-sanity";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -100,6 +101,7 @@ const resolveLocalized = (value: unknown, locale: Locale): string | undefined =>
 export default async function ProfitBlueprintPage(props: { params: Promise<{ locale: string }> }) {
     const { locale: rawLocale } = await props.params;
     const locale: Locale = rawLocale === "es" ? "es" : "en";
+    const checkoutEnabled = paymentsEnabled();
     const t = await getTranslations({ locale, namespace: "ConstructionBlueprint" });
     const shopCopy = await getTranslations({ locale, namespace: "Shop.ProductPage" });
     const footerCopy = await getTranslations({ locale, namespace: "Shop.Desktop.footer" });
@@ -110,7 +112,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
     try {
         const [response, catalog] = await Promise.all([
             sanityFetch({ query: PRODUCT_DETAIL_QUERY, params: { slug: "the-money-making-blueprint-for-construction-companies", locale } }),
-            sanityFetch({ query: CHECKOUT_PRODUCTS_QUERY, params: { slugs: ["the-money-making-blueprint-for-construction-companies"] } }),
+            checkoutEnabled ? sanityFetch({ query: CHECKOUT_PRODUCTS_QUERY, params: { slugs: ["the-money-making-blueprint-for-construction-companies"] } }) : null,
         ]);
         product = response?.data;
         catalogProduct = (catalog?.data as ProductCheckoutRecord[] | null)?.find(record => record._id === product?._id);
@@ -131,7 +133,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
     });
     const localeEditions = editions.filter((edition: BookEdition) => !edition.language || edition.language === locale);
     const selectedEdition = localeEditions.find((edition: BookEdition) => classifyFulfillment(edition.format, edition.name) === "physical") || localeEditions[0];
-    const canPurchase = !!product && !!selectedEdition;
+    const canPurchase = checkoutEnabled && !!product && !!selectedEdition;
 
     const productData = product ? {
         ...FALLBACK_PRODUCT,
@@ -220,6 +222,11 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                             </ul>
 
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-7">
+                                 {!checkoutEnabled ? (
+                                     <Link id="hero-get-blueprint-link" href="/contact" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-gold-500 px-8 py-4 text-center text-sm font-black uppercase tracking-wider text-brand-950 hover:bg-gold-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-400">
+                                         {footerCopy("contact")} <ArrowRight size={16} aria-hidden="true" />
+                                     </Link>
+                                 ) : (
                                  <a
                                      id="hero-get-blueprint-link"
                                      href="#book-sales"
@@ -236,6 +243,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                                          {canPurchase ? resolveLocalized(selectedEdition.name, locale) : shopCopy("purchaseUnavailable")}
                                      </span>
                                  </a>
+                                 )}
                              </div>
 
                             <div className="flex items-center gap-3 mt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
@@ -274,12 +282,12 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             </section>
 
             {/* Book Sales Section - Buy Widget + Guarantee */}
-            <div id="book-sales">
+            {checkoutEnabled && <div id="book-sales">
                 {canPurchase ? <ConstructionBookSalesSection product={productData} /> : <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8" role="status">
                     <p className="text-lg text-brand-900">{shopCopy("purchaseUnavailable")}</p>
                     <Link href="/contact" className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand-900 underline underline-offset-4">{footerCopy("contact")}</Link>
                 </div>}
-            </div>
+            </div>}
 
             {/* Alternative path for contractors who want hands-on implementation support */}
             <BlueprintServicesAlternative />
@@ -300,8 +308,8 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
                         </h2>
                         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
                             {locale === "es"
-                                ? "Después de obtener el plan, realice la Evaluación de Rentabilidad de la Construcción: un diagnóstico de 6 preguntas que identifica exactamente dónde su empresa está perdiendo el control."
-                                : "After you get the blueprint, take the Construction Profitability Assessment — a 6-question diagnostic that identifies exactly where your business is losing control."}
+                                ? "Realice la Evaluación de Rentabilidad de la Construcción: un diagnóstico de 6 preguntas que identifica exactamente dónde su empresa está perdiendo el control."
+                                : "Take the Construction Profitability Assessment — a 6-question diagnostic that identifies exactly where your business is losing control."}
                         </p>
                         <Link
                             href="/construction-profitability-assessment"
@@ -315,13 +323,13 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
             </RevealOnScroll>
 
             {/* Money Slide - The Math - Hit hard right after the emotional hook */}
-            <MathSection />
+            <MathSection contactLabel={checkoutEnabled ? undefined : footerCopy("contact")} />
 
             {/* Author Bio Section */}
             <BlueprintAuthorBio author={productData.author} />
 
             {/* Assessment questions */}
-            <BlueprintFAQ />
+            <BlueprintFAQ checkoutEnabled={checkoutEnabled} />
 
             {/* More Info Form - quick contact form at bottom */}
             <section className="py-12 lg:py-16 bg-brand-900 border-t border-brand-800">
@@ -332,7 +340,7 @@ export default async function ProfitBlueprintPage(props: { params: Promise<{ loc
 
             </main>
             <Footer />
-            <CartSidebar />
+            {canPurchase && <CartSidebar />}
             {canPurchase && <a href="#book-sales" className="fixed inset-x-4 bottom-4 z-40 flex min-h-14 items-center justify-center gap-3 rounded-full bg-brand-900 px-5 py-3 pb-[max(.75rem,env(safe-area-inset-bottom))] text-center font-bold text-gold-400 shadow-lg md:hidden">
                 {t("heroCtaWithPrice", { price: selectedEdition.price })}<ArrowRight className="size-4" aria-hidden="true" />
             </a>}

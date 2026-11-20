@@ -1,4 +1,5 @@
 import { paymentConfigurationGaps } from "@/lib/shop/payment-configuration";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 
 type EnvName =
   | "GHL_CLIENT_ID"
@@ -85,22 +86,12 @@ export const publicEnv = {
 };
 
 export const readinessChecks = [
+  "NEXT_PUBLIC_BASE_URL",
   "NEXT_PUBLIC_SANITY_DATASET",
   "NEXT_PUBLIC_SANITY_PROJECT_ID",
   "SANITY_AUTH_TOKEN",
   "SANITY_REVALIDATE_SECRET",
-  "STRIPE_SECRET_KEY",
-  "STRIPE_WEBHOOK_SECRET",
   "GHL_WEBHOOK_URL",
-  "GHL_SHOP_PURCHASE_WEBHOOK_URL",
-  "GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS",
-  "GHL_SHOP_FULFILLMENT_SECRET",
-  "GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED",
-  "SANITY_PAYMENT_PROJECT_ID",
-  "SANITY_PAYMENT_DATASET",
-  "SANITY_PAYMENT_AUTH_TOKEN",
-  "SANITY_PAYMENT_PRIVATE_CONFIRMED",
-  "SANITY_PAYMENT_MIGRATION_CONFIRMED",
   "GHL_APPLICATION_WEBHOOK_URL",
   "GHL_RESTAURANT_APPLICATION_WEBHOOK_URL",
   "GHL_SURVEY_WEBHOOK_URL",
@@ -113,6 +104,32 @@ export const readinessChecks = [
   "UPSTASH_REDIS_REST_TOKEN",
 ] as const satisfies readonly EnvName[];
 
+const paymentReadinessChecks = [
+  "STRIPE_SECRET_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "GHL_SHOP_PURCHASE_WEBHOOK_URL",
+  "GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS",
+  "GHL_SHOP_FULFILLMENT_SECRET",
+  "GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED",
+  "SANITY_PAYMENT_PROJECT_ID",
+  "SANITY_PAYMENT_DATASET",
+  "SANITY_PAYMENT_AUTH_TOKEN",
+  "SANITY_PAYMENT_PRIVATE_CONFIRMED",
+  "SANITY_PAYMENT_MIGRATION_CONFIRMED",
+] as const satisfies readonly EnvName[];
+
 export function getMissingReadinessEnv(): string[] {
-  return [...new Set([...readinessChecks.filter((name) => !getEnv(name)), ...paymentConfigurationGaps()])];
+  const missing = readinessChecks.filter((name) => {
+    const value = getEnv(name);
+    if (name !== "NEXT_PUBLIC_BASE_URL") return !value;
+    try {
+      const url = new URL(value ?? "");
+      return !!(url.username || url.password)
+        || (url.protocol !== "https:" && (process.env.NODE_ENV === "production" || url.protocol !== "http:"));
+    } catch {
+      return true;
+    }
+  });
+  if (!paymentsEnabled()) return missing;
+  return [...new Set([...missing, ...paymentReadinessChecks.filter((name) => !getEnv(name)), ...paymentConfigurationGaps()])];
 }

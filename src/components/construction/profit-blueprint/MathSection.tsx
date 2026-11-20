@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { ArrowRight, TrendingDown, TrendingUp, Calculator } from "lucide-react";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Link } from "@/i18n/navigation";
 
 const LOW_MARGIN = 0.05;
 const HIGH_MARGIN = 0.18;
 
 const fmt = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 
-export function MathSection() {
+export function MathSection({ contactLabel }: { contactLabel?: string }) {
     const [revenue, setRevenue] = useState(750000);
 
     const deltaPerYear = revenue * (HIGH_MARGIN - LOW_MARGIN);
@@ -176,16 +177,16 @@ export function MathSection() {
                 {/* CTA */}
                 <RevealOnScroll delay={500}>
                     <div className="text-center px-4">
-                        <a
-                            href="#book-sales"
+                        <Link
+                            href={contactLabel ? "/contact" : "#book-sales"}
                             className="inline-flex items-center justify-center gap-2 px-6 py-4 xs:px-10 xs:py-5 bg-gold-500 hover:bg-gold-600 text-white font-black uppercase tracking-wider text-xs xs:text-sm sm:text-base rounded-full transition-colors shadow-lg shadow-gold-500/30 w-full xs:w-auto focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer"
                         >
-                            <span>See How to Close the Gap</span>
-                            <ArrowRight size={18} className="shrink-0" />
-                        </a>
-                        <p className="mt-3 text-[10px] xs:text-xs text-slate-500 uppercase tracking-wider font-bold">
+                            <span>{contactLabel || "See How to Close the Gap"}</span>
+                            <ArrowRight size={18} className="shrink-0" aria-hidden="true" />
+                        </Link>
+                        {!contactLabel && <p className="mt-3 text-[10px] xs:text-xs text-slate-500 uppercase tracking-wider font-bold">
                             The Blueprint · $27 Digital or $39 Print
-                        </p>
+                        </p>}
                     </div>
                 </RevealOnScroll>
             </div>

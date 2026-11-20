@@ -17,7 +17,7 @@ export interface ProductCardProps {
     coverImage?: string | null;
     imageUrl?: string | null;
     imageMetadata?: { lqip?: string } | null;
-    price: number;
+    price?: number;
     compareAtPrice?: number;
     shortDescription: string;
     slug: string;
@@ -141,7 +141,7 @@ export function ProductCard({
                     </p>
 
                     <div className={cn("mt-auto flex flex-wrap items-center justify-between gap-3 pt-4", !relatedLayout && "border-t border-slate-100")}>
-                        <div className="flex flex-col">
+                        {price !== undefined && <div className="flex flex-col">
                             {compareAtPrice && compareAtPrice > price && (
                                 <span className="text-xs text-slate-700 line-through font-sans mb-0.5">
                                     {formatPrice(compareAtPrice)}
@@ -150,7 +150,7 @@ export function ProductCard({
                             <span className={cn("font-bold text-brand-900 tracking-tight", relatedLayout ? "font-data text-3xl" : "font-sans text-2xl")}>
                                 {relatedLayout ? formatProductPrice(price) : formatPrice(price)}
                             </span>
-                        </div>
+                        </div>}
                         {relatedLayout ? <span className="inline-flex min-h-11 items-center gap-3 font-heading text-base font-semibold text-brand-500">{t("viewBook")}<ArrowRight className="size-5" aria-hidden="true" /></span> : <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 transition-all duration-300 group-hover:bg-gold-500 group-hover:text-brand-950 group-hover:border-gold-500">
                             <ArrowRight className="w-4 h-4" aria-hidden="true" />
                         </div>}

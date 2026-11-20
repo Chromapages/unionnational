@@ -11,6 +11,7 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getEnv } from "@/lib/config/env";
 import { isCheckoutSessionId, purchaseReference, receiptCookieName, receiptSession } from "@/lib/shop/payment-security";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 import { checkRateLimit } from "@/lib/security/rate-limiter";
 import { leadRequesterKey } from "@/lib/security/lead-ingress";
 
@@ -35,6 +36,11 @@ function parseMetadataItems(metadata?: Stripe.Metadata | null): MetadataItem[] {
 }
 
 export default async function ShopSuccessPage({ searchParams, params }: SuccessPageProps) {
+    if (!paymentsEnabled()) {
+        const { locale } = await params;
+        redirect(`/${locale === "es" ? "es" : "en"}/contact`);
+    }
+
     const t = await getTranslations("Shop.Success");
     const [{ session_id, receipt }, { locale }] = await Promise.all([searchParams, params]);
     const secret = getEnv("STRIPE_WEBHOOK_SECRET") ?? "";

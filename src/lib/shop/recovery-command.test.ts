@@ -37,6 +37,7 @@ beforeEach(() => {
     mocks.session.mockReset().mockResolvedValue({ id: "cs_test_fixture", payment_status: "paid", metadata: { order_source: "unt_bookstore" } });
     mocks.update.mockReset().mockResolvedValue({});
     mocks.fields = {}; mocks.audit = {}; mocks.revision = "";
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
     vi.stubEnv("SANITY_PAYMENT_PROJECT_ID", "payment-fixture");
     vi.stubEnv("NEXT_PUBLIC_SANITY_PROJECT_ID", "public-fixture");
     vi.stubEnv("SANITY_PAYMENT_DATASET", "fixture_private");
@@ -51,6 +52,13 @@ beforeEach(() => {
 afterEach(() => { process.argv = originalArgv; process.exitCode = originalExitCode; vi.unstubAllEnvs(); vi.restoreAllMocks(); });
 
 describe("private payment recovery command", () => {
+    it("cannot inspect or reconcile payment storage when online payments are disabled", async () => {
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", undefined);
+        await command(applyArgs(), true);
+        expect(mocks.createClient).not.toHaveBeenCalled();
+        expect(mocks.event).not.toHaveBeenCalled();
+        expect(mocks.commit).not.toHaveBeenCalled();
+    });
     it("shows help before any account configuration or storage access", async () => {
         vi.stubEnv("SANITY_PAYMENT_AUTH_TOKEN", "");
         await command(["--help"]);

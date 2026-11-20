@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { getContentSecurityPolicy } from './content-security-policy';
 
 describe('request nonce policy', () => {
@@ -16,5 +16,15 @@ describe('request nonce policy', () => {
     it('isolates Studio and development exceptions', () => {
         expect(getContentSecurityPolicy('synthetic-nonce', false, true)).toContain('unsafe-eval');
         expect(getContentSecurityPolicy(undefined, true, false)).toContain("'unsafe-inline' 'unsafe-eval' https://*.sanity.io");
+    });
+    it('permits Stripe form targets only when payment is enabled, without removing booking', () => {
+        try {
+            vi.stubEnv('SHOP_PAYMENTS_ENABLED', undefined);
+            expect(getContentSecurityPolicy()).toContain("form-action 'self' https://link.agent-crm.com;");
+            vi.stubEnv('SHOP_PAYMENTS_ENABLED', 'true');
+            expect(getContentSecurityPolicy()).toContain("form-action 'self' https://link.agent-crm.com https://checkout.stripe.com;");
+        } finally {
+            vi.unstubAllEnvs();
+        }
     });
 });

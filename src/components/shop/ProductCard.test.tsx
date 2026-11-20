@@ -40,6 +40,11 @@ describe("ProductCard", () => {
     expect(screen.queryByRole("img")).toBeNull();
     expect(container.querySelector(".lucide-star")).not.toBeNull();
   });
+  it("browses a related book without advertising a price when none is passed", () => {
+    render(<ProductCard {...props} layout="related" price={undefined} compareAtPrice={30} />);
+    expect(screen.getByRole("link", { name: `viewBook: ${props.title}` })).toHaveAttribute("href", "/shop/published-resource");
+    expect(screen.queryByText(/\$/)).toBeNull();
+  });
   it.each([undefined, 0, 10, 20])("does not invent a discount from compareAtPrice %j", compareAtPrice => {
     const { container } = render(<ProductCard {...props} compareAtPrice={compareAtPrice} />);
     expect(container.querySelector(".line-through")).toBeNull();

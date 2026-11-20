@@ -1,19 +1,23 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import type { NextRequest } from "next/server";
+import { getStripe } from "@/lib/stripe";
+import { getPaymentStorage } from "@/lib/shop/payment-storage";
+import { client } from "@/sanity/lib/client";
+import { POST } from "./route";
 
 const createSession = vi.fn();
 const retrievePrice = vi.fn();
 const budgets = vi.hoisted(() => ({ identity: "fixture", check: vi.fn() }));
 vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "127.0.0.1", checkRateLimit: budgets.check }));
 vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => budgets.identity }));
-vi.mock("@/lib/stripe", () => ({ getStripe: () => ({ prices: { retrieve: retrievePrice }, checkout: { sessions: { create: createSession } } }) }));
-vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({}) }));
+vi.mock("@/lib/stripe", () => ({ getStripe: vi.fn(() => ({ prices: { retrieve: retrievePrice }, checkout: { sessions: { create: createSession } } })) }));
+vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: vi.fn(() => ({})) }));
 vi.mock("@/lib/config/env", () => ({
     publicEnv: { baseUrl: "https://unt.example.test" },
     getEnv: (key: string) => key === "STRIPE_SECRET_KEY" ? "sk_test_only" : key === "STRIPE_WEBHOOK_SECRET" ? "fixture_secret" : key === "GHL_SHOP_PURCHASE_WEBHOOK_URL" ? "https://receiver.example.test/order" : undefined,
 }));
 vi.mock("@/sanity/lib/client", () => ({
-    client: { fetch: async () => [{ _id: "product-1", slug: "book" }] },
+    client: { fetch: vi.fn(async () => [{ _id: "product-1", slug: "book" }]) },
 }));
 vi.mock("@/lib/shop/checkout", async (importOriginal) => ({
     ...await importOriginal<typeof import("@/lib/shop/checkout")>(),
@@ -47,6 +51,8 @@ function request(locale?: unknown, returnUrl?: unknown) {
 }
 
 beforeEach(() => {
+    vi.clearAllMocks();
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
     budgets.identity = "fixture";
     budgets.check.mockReset().mockResolvedValue({ success: true, remaining: 29, resetTime: Date.now() + 60000 });
     createSession.mockReset().mockResolvedValue({ id: "cs_test_checkoutFixture", url: "https://checkout.stripe.test/session" });
@@ -56,6 +62,21 @@ beforeEach(() => {
     vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");
 });
 afterEach(() => vi.unstubAllEnvs());
+
+it("returns an uncached 503 without touching the request or payment dependencies when disabled", async () => {
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", undefined);
+    const accessRequest = vi.fn(() => { throw new Error("Disabled checkout touched the request"); });
+    const response = await POST(new Proxy(request("en"), { get: accessRequest }));
+
+    expect(response.status).toBe(503);
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+    expect(await response.json()).toMatchObject({ ok: false, code: "CHECKOUT_DISABLED" });
+    expect(accessRequest).not.toHaveBeenCalled();
+    expect(budgets.check).not.toHaveBeenCalled();
+    expect(client.fetch).not.toHaveBeenCalled();
+    expect(getPaymentStorage).not.toHaveBeenCalled();
+    expect(getStripe).not.toHaveBeenCalled();
+});
 
 it("does not collapse all unknown buyers into a shared thirty-request identity", async () => {
     budgets.identity = "anonymous";

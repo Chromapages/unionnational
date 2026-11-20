@@ -8,6 +8,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import { ShopDesktopExperience, type ShopDesktopProduct } from "@/components/shop/ShopDesktopExperience";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -70,6 +71,7 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function ShopPage(props: { params: Promise<{ locale: string }> }) {
     const params = await props.params;
     const locale = params.locale;
+    const enabled = paymentsEnabled();
     const [
         { data: shopSettings },
         { data: products },
@@ -82,20 +84,28 @@ export default async function ShopPage(props: { params: Promise<{ locale: string
         getCachedLegalPages(locale as "en" | "es").catch(() => []),
     ]);
     const termsSlug = legalPages?.find((page) => page.pageType === "terms")?.slug;
-    const typedProducts: ShopDesktopProduct[] = products || [];
+    // Project catalog display data only; the CMS documents can include checkout URLs.
+    const forCatalog = ({ _id, title, slug, imageUrl, shortDescription, format, price, isFeatured, editions }: ShopDesktopProduct): ShopDesktopProduct => ({
+        _id, title, slug, imageUrl, shortDescription, format, price, isFeatured,
+        editions: editions?.map(({ name, price, format, description, stripePriceId }) => ({
+            name, price, format, description, ...(enabled ? { stripePriceId } : {}),
+        })),
+    });
+    const typedProducts: ShopDesktopProduct[] = (products || []).map(forCatalog);
     const faqCopy = await getTranslations({ locale, namespace: "Shop.Desktop.faq" });
     // Client-approved replacement answers; CMS delivery/refund statements conflict with fulfillment.
-    const faqItems = [0, 1, 2, 3, 4].map((index) => ({ question: faqCopy(`items.${index}.question`), answer: faqCopy(`items.${index}.answer`) }));
+    const faqItems = (enabled ? [0, 1, 2, 3, 4] : [0, 1, 2]).map((index) => ({ question: faqCopy(`items.${index}.question`), answer: faqCopy(`items.${index}.answer`) }));
 
     return (
         <div className="min-h-screen bg-white flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-brand-950">
             <JsonLd siteSettings={siteSettings} shopPageData={shopSettings} />
-            <HeaderWrapper />
+            <HeaderWrapper bookingCta={!enabled} />
 
             <main id="main-content">
                 <ShopDesktopExperience
+                    paymentsEnabled={enabled}
                     products={typedProducts}
-                    featuredProduct={shopSettings?.featuredProduct as ShopDesktopProduct | undefined}
+                    featuredProduct={shopSettings?.featuredProduct ? forCatalog(shopSettings.featuredProduct as ShopDesktopProduct) : undefined}
                     faqItems={faqItems}
                     socialLinks={siteSettings?.socialLinks}
                     termsHref={termsSlug ? `/legal/${termsSlug}` : undefined}

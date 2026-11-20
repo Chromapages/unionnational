@@ -4,6 +4,12 @@ import { getEnv, getMissingReadinessEnv, publicEnv, readinessChecks, requireEnv 
 describe("env config", () => {
   function configureFixtures() {
     for (const name of readinessChecks) vi.stubEnv(name, "configured");
+    vi.stubEnv("NEXT_PUBLIC_BASE_URL", "https://www.example.test");
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
+    vi.stubEnv("STRIPE_SECRET_KEY", "configured");
+    vi.stubEnv("STRIPE_WEBHOOK_SECRET", "configured");
+    vi.stubEnv("SANITY_PAYMENT_PROJECT_ID", "private-project");
+    vi.stubEnv("SANITY_PAYMENT_AUTH_TOKEN", "configured");
     vi.stubEnv("SANITY_PAYMENT_DATASET", "private_fixture");
     vi.stubEnv("SANITY_PAYMENT_PRIVATE_CONFIRMED", "true");
     vi.stubEnv("SANITY_PAYMENT_MIGRATION_CONFIRMED", "true");
@@ -46,6 +52,27 @@ describe("env config", () => {
     expect(getMissingReadinessEnv()).toEqual(expect.arrayContaining([
       "SANITY_PAYMENT_PRIVATE_CONFIRMED", "SANITY_PAYMENT_DATASET", "GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "GHL_SHOP_PURCHASE_WEBHOOK_URL",
     ]));
+  });
+
+  it.each([undefined, "false", "TRUE", "1"])("requires nonpayment readiness and omits payment requirements with SHOP_PAYMENTS_ENABLED=%s", (value) => {
+    configureFixtures();
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", value);
+    vi.stubEnv("STRIPE_SECRET_KEY", "");
+    vi.stubEnv("SANITY_PAYMENT_AUTH_TOKEN", "");
+    vi.stubEnv("GHL_SHOP_PURCHASE_WEBHOOK_URL", "invalid");
+    expect(getMissingReadinessEnv()).toEqual([]);
+
+    vi.stubEnv("GHL_WEBHOOK_URL", "");
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "");
+    vi.stubEnv("SANITY_REVALIDATE_SECRET", "");
+    expect(getMissingReadinessEnv()).toEqual(["SANITY_REVALIDATE_SECRET", "GHL_WEBHOOK_URL", "UPSTASH_REDIS_REST_URL"]);
+  });
+
+  it.each([undefined, "not a URL", "ftp://example.test"])("does not attest to contact readiness without a usable configured origin (%s)", (value) => {
+    configureFixtures();
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", undefined);
+    vi.stubEnv("NEXT_PUBLIC_BASE_URL", value);
+    expect(getMissingReadinessEnv()).toEqual(["NEXT_PUBLIC_BASE_URL"]);
   });
 
   it("exposes lazy public Sanity defaults and required values", () => {

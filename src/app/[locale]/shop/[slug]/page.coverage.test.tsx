@@ -1,6 +1,6 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({ fetch: vi.fn(), live: vi.fn(), hero: vi.fn(), cards: vi.fn(), view: vi.fn(), overview: vi.fn(), image: vi.fn(), copy: "Approved translated description" }));
 vi.mock("@/sanity/lib/client", () => ({ client: { fetch: mocks.fetch } }));
 vi.mock("@/sanity/lib/live", () => ({ sanityFetch: mocks.live }));
@@ -18,6 +18,7 @@ import Page, { generateMetadata, generateStaticParams } from "./page";
 const params = (slug = "other-book", locale = "en") => ({ params: Promise.resolve({ slug, locale }) });
 const product = { _id: "fixture-book", title: "Published fixture", slug: "other-book", shortDescription: "Approved CMS description", price: 49, format: "physical", shopDescriptions: { en: "Approved", es: "Guía publicada" } };
 beforeEach(() => { vi.clearAllMocks(); mocks.copy = "Approved translated description"; mocks.live.mockResolvedValue({ data: product }); });
+afterEach(() => vi.unstubAllEnvs());
 
 describe("published product route contracts", () => {
     it("generates locale-specific static entries from published slugs", async () => {
@@ -56,6 +57,7 @@ describe("published product route contracts", () => {
         expect(mocks.hero).toHaveBeenCalledWith(expect.objectContaining({ category: "Shop.Desktop.books.scorp.category", subtitle: mocks.copy }));
     });
     it("filters, deduplicates and caps valid related books while retaining their canonical edition prices", async () => {
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
         const related = { _id: "related", title: "Valid related", slug: "the-s-corp-playbook", shortDescription: "Valid related description", price: 49, format: "physical", editions: [{ name: "Digital PDF", price: 29, format: "digital" }] };
         mocks.live.mockResolvedValue({ data: { ...product, relatedProducts: [null, { ...related, _id: product._id }, { ...related, _id: "badslug", slug: "undefined" }, { ...related, _id: "badprice", price: NaN }, { ...related, _id: "badcopy", shortDescription: "Coming soon" }, { ...related, _id: "invalidslug", slug: "/outside" }, related, related, { ...related, _id: "second", title: "Second related", slug: "other-related", editions: undefined }, { ...related, _id: "third" }] } });
         const html = renderToStaticMarkup(await Page(params()));
@@ -66,6 +68,7 @@ describe("published product route contracts", () => {
         expect(mocks.cards.mock.calls[1][0]).toMatchObject({ price: 49, format: "physical", shortDescription: "Valid related description" });
     });
     it("preserves valid offers and escapes structured-data markup for a growth book", async () => {
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
         const editions = [{ name: "Hardcover", format: "physical", price: 49 }, { name: "Digital PDF", format: "digital", price: 29 }, { name: "Invalid", format: "digital", price: NaN }, { name: "Negative", format: "digital", price: -1 }];
         mocks.live.mockResolvedValue({ data: { ...product, title: "Safe </script> title", editions, samplePages: [{ url: "/fixture.png" }], videoUrl: "https://video.example.test/watch", author: { name: "Approved author" } } });
         const html = renderToStaticMarkup(await Page(params("the-3m-s-to-freedom", "es")));
@@ -77,5 +80,18 @@ describe("published product route contracts", () => {
         expect(mocks.view).toHaveBeenCalledWith(expect.objectContaining({ price: 29 }));
         expect(mocks.overview).toHaveBeenCalledWith(expect.objectContaining({ growthGuide: true, summaryBullets: ["Shop.ProductPage.growthBullets.0", "Shop.ProductPage.growthBullets.1", "Shop.ProductPage.growthBullets.2"] }));
         expect(mocks.hero).toHaveBeenCalledWith(expect.objectContaining({ editions, author: { name: "Approved author" }, videoUrl: "https://video.example.test/watch" }));
+    });
+    it("defaults to contact-only without serializing seller links or claiming offers", async () => {
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", undefined);
+        const buyLink = "https://provider.example.test/buy";
+        const edition = { _key: "hardcover", name: "Hardcover", format: "physical", price: 49, stripePriceId: "price_fixture", stripeProductId: "prod_fixture" };
+        const related = { ...product, _id: "related", slug: "related", buyLink, editions: [edition] };
+        mocks.live.mockResolvedValue({ data: { ...product, buyLink, stripePriceId: "price_main", stripeProductId: "prod_main", editions: [edition], relatedProducts: [related], samplePages: [{ url: "/sample.png" }] } });
+        const html = renderToStaticMarkup(await Page(params()));
+        expect(html).toContain('"@type":"Product"');
+        expect(html).not.toContain('"offers"');
+        expect(mocks.hero).toHaveBeenCalledWith(expect.objectContaining({ paymentsEnabled: false, samplePages: [{ url: "/sample.png" }], editions: [expect.objectContaining({ _key: "hardcover", name: "Hardcover", format: "physical", price: 49 })] }));
+        expect(JSON.stringify([mocks.hero.mock.calls, mocks.cards.mock.calls])).not.toMatch(/buyLink|stripePriceId|stripeProductId/);
+        expect(mocks.cards).toHaveBeenCalledWith(expect.objectContaining({ slug: "related", price: undefined }));
     });
 });

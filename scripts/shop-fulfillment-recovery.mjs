@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { parseArgs } from "node:util";
 import { pathToFileURL } from "node:url";
 import { paymentTargetGaps } from "../src/lib/shop/payment-target.mjs";
+import { paymentsEnabled } from "../src/lib/shop/payments-enabled.mjs";
 
 export function planRecovery(record, outcome, now = Date.now(), confirmedNoDelivery = false) {
   if (!record || !/^stripeWebhookIdempotency\.[a-f0-9]{64}$/.test(record._id) || typeof record._rev !== "string") throw new Error("Invalid recovery record");
@@ -25,6 +26,7 @@ async function main() {
     console.log("Default: bounded private-store backlog report (read only).\nPreview: --record ID --outcome delivered|undelivered|stale-review [--receiver-confirmed-no-delivery].\nApply additionally requires --apply --revision REV --operator ID --evidence RECEIVER_LOG_REFERENCE and SHOP_RECOVERY_ALLOW_APPLY=true. Never posts fulfillment or creates a charge.");
     return;
   }
+  if (!paymentsEnabled()) throw new Error("Payment recovery is disabled");
   const projectId = process.env.SANITY_PAYMENT_PROJECT_ID;
   const dataset = process.env.SANITY_PAYMENT_DATASET;
   if (paymentTargetGaps(process.env).length

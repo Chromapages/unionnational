@@ -93,6 +93,7 @@ describe("POST /api/shop/checkout", () => {
             id, active: true, type: "one_time", currency: "usd", product: "prod_fixture",
             unit_amount: id === "price_1T2dAkBBqB7ETKuVZCP3OsnA" ? 2700 : id === "price_1TOlYGBBqB7ETKuVjY3QWF1m" ? 2900 : id === "price_shipping123" ? 5900 : 4900,
         }));
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
         vi.stubEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", "ghl.example.com");
         vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "fixture-only-32-character-minimum-secret");
         vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");

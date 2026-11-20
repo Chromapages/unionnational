@@ -1,12 +1,12 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import type { ReactNode } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({ fetch: vi.fn(), sales: vi.fn() }));
 vi.mock("@/sanity/lib/live", () => ({ sanityFetch: mocks.fetch }));
 vi.mock("@/sanity/lib/queries", () => ({ PRODUCT_DETAIL_QUERY: "localized-detail" }));
 vi.mock("next-intl/server", () => ({ getTranslations: async () => (key: string) => key }));
-vi.mock("@/i18n/navigation", () => ({ Link: ({ href, children }: { href: string; children: ReactNode }) => <a href={href}>{children}</a> }));
+vi.mock("@/i18n/navigation", () => ({ Link: ({ href, children, ...props }: { href: string; children: ReactNode }) => <a href={href} {...props}>{children}</a> }));
 vi.mock("@/components/construction/profit-blueprint/ConstructionBookSalesSection", () => ({ ConstructionBookSalesSection: ({ product }: { product: unknown }) => { mocks.sales(product); return <p>Configured offers</p>; } }));
 vi.mock("@/components/layout/Footer", () => ({ Footer: () => null }));
 vi.mock("@/components/layout/LocaleSwitcher", () => ({ LocaleSwitcher: () => null }));
@@ -33,7 +33,23 @@ const page = async (locale = "es") => {
 };
 
 describe("construction catalog offers", () => {
-    beforeEach(() => { vi.clearAllMocks(); mocks.fetch.mockResolvedValue({ data: null }); });
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
+        mocks.fetch.mockResolvedValue({ data: null });
+    });
+    afterEach(() => vi.unstubAllEnvs());
+
+    it("routes the blueprint inquiry to contact without loading purchase offers by default", async () => {
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", undefined);
+        mocks.fetch.mockResolvedValue({ data: product });
+        const html = await page();
+        expect(html).toMatch(/<a href="\/contact" id="hero-get-blueprint-link"/);
+        expect(html).toContain("construction-profitability-assessment");
+        expect(html).not.toContain('href="#book-sales"');
+        expect(mocks.fetch).toHaveBeenCalledTimes(1);
+        expect(mocks.sales).not.toHaveBeenCalled();
+    });
 
     it("preserves configured Spanish catalog editions and their prices", async () => {
         mocks.fetch.mockImplementation(async ({ query }: { query: string }) => ({ data: query === "localized-detail" ? product : [product] }));

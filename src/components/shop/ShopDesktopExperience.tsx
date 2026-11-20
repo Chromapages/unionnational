@@ -14,22 +14,15 @@ export interface ShopDesktopProduct {
   title: string;
   slug: string;
   imageUrl?: string | null;
-  imageMetadata?: { lqip?: string } | null;
   price: number;
-  compareAtPrice?: number;
   shortDescription: string;
   format: string;
-  category?: string;
-  rating?: number;
-  badge?: string;
   isFeatured?: boolean;
-  buyLink?: string;
-  stripeProductId?: string;
-  stripePriceId?: string;
-  editions?: Array<{ _key?: string; id?: string; name: string; price: number; format: string; description?: string; stripePriceId?: string }>;
+  editions?: Array<{ name: string; price: number; format: string; description?: string; stripePriceId?: string }>;
 }
 
 interface ShopDesktopExperienceProps {
+  paymentsEnabled: boolean;
   products: ShopDesktopProduct[];
   featuredProduct?: ShopDesktopProduct | null;
   faqItems?: Array<{ question: string; answer: string }>;
@@ -49,9 +42,9 @@ const container = "mx-auto w-full shop-content-width max-w-[94rem] px-4 sm:px-6 
 const focus = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700";
 const formatPrice = (price: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(price).replace(/\.00$/, "");
 
-function BookFormats({ product, detailed = false }: { product: ShopDesktopProduct; detailed?: boolean }) {
+function BookFormats({ product, paymentsEnabled, detailed = false }: { product: ShopDesktopProduct; paymentsEnabled: boolean; detailed?: boolean }) {
   const t = useTranslations("Shop.Desktop.formats");
-  const formats = [...new Set((product.editions || []).filter((edition) => edition.stripePriceId)
+  const formats = [...new Set((product.editions || []).filter((edition) => paymentsEnabled ? edition.stripePriceId : Number.isFinite(edition.price) && edition.price >= 0)
     .map((edition) => classifyFulfillment(edition.format, edition.name)).filter((format) => format !== "unknown"))];
   if (!detailed || !formats.length) return <p className={`text-sm leading-relaxed ${detailed ? "text-white" : "text-slate-700"}`}>{formats.length ? formats.map((format) => t(format)).join(" · ") : t("pending")}</p>;
   return (
@@ -64,7 +57,7 @@ function BookFormats({ product, detailed = false }: { product: ShopDesktopProduc
   );
 }
 
-export function ShopDesktopExperience({ products, featuredProduct, faqItems = [], socialLinks, termsHref, logoUrl }: ShopDesktopExperienceProps) {
+export function ShopDesktopExperience({ paymentsEnabled, products, featuredProduct, faqItems = [], socialLinks, termsHref, logoUrl }: ShopDesktopExperienceProps) {
   const t = useTranslations("Shop.Desktop");
   const header = useTranslations("Header");
   const [goal, setGoal] = useState<string | null>(null);
@@ -114,11 +107,11 @@ export function ShopDesktopExperience({ products, featuredProduct, faqItems = []
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.24em] text-white">{category(featured)}</p>
               <h2 id="shop-featured-heading" className="mt-3 font-heading text-3xl font-bold leading-tight sm:text-4xl">{featured.title}</h2>
               <p className="mt-3 max-w-2xl text-base leading-relaxed text-white lg:text-lg">{description(featured)}</p>
-              <div className="mt-6 w-full"><BookFormats product={featured} detailed /></div>
-              <div className="mt-6 flex w-full flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/25 pt-5">
+              <div className="mt-6 w-full"><BookFormats product={featured} paymentsEnabled={paymentsEnabled} detailed /></div>
+              {paymentsEnabled && <div className="mt-6 flex w-full flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/25 pt-5">
                 <p className="font-data text-4xl font-bold tabular-nums">{formatPrice(getDefaultProductEdition(featured.editions || [])?.price ?? featured.price)}</p>
                 <p className="border-l border-white/25 pl-5 text-sm leading-relaxed text-white">{t("featured.editionNote")}</p>
-              </div>
+              </div>}
               <Link href={`/shop/${featured.slug}`} className="mt-5 inline-flex min-h-14 w-full max-w-xs items-center justify-center gap-5 rounded-xl bg-gold-300 px-6 py-3 text-lg font-semibold text-brand-950 hover:bg-gold-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300">{t("actions.viewBook")}<ArrowRight className="h-6 w-6" aria-hidden="true" /></Link>
             </div>
             {featured.slug === "the-s-corp-playbook" && <ul className="mx-6 mb-6 hidden gap-5 border-t border-white/25 pt-6 md:col-span-2 md:grid md:grid-cols-2 md:gap-x-8 xl:col-span-1 xl:m-0 xl:my-9 xl:mr-7 xl:grid-cols-1 xl:gap-0 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
@@ -158,9 +151,9 @@ export function ShopDesktopExperience({ products, featuredProduct, faqItems = []
                 <p className="text-[11px] font-semibold uppercase tracking-[0.13em] text-gold-900">{category(product)}</p>
                 <h3 className="mt-2 font-heading text-xl font-semibold leading-tight xl:text-[1.375rem]">{product.title}</h3>
                 <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-slate-600">{description(product)}</p>
-                <div className="mt-auto pt-5"><div className="border-t border-slate-200 pt-3"><BookFormats product={product} /></div></div>
+                <div className="mt-auto pt-5"><div className="border-t border-slate-200 pt-3"><BookFormats product={product} paymentsEnabled={paymentsEnabled} /></div></div>
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-                  <p className="font-data text-2xl font-bold tabular-nums">{formatPrice(getDefaultProductEdition(product.editions || [])?.price ?? product.price)}</p>
+                  {paymentsEnabled && <p className="font-data text-2xl font-bold tabular-nums">{formatPrice(getDefaultProductEdition(product.editions || [])?.price ?? product.price)}</p>}
                   <Link href={`/shop/${product.slug}`} className={`inline-flex min-h-11 items-center justify-center gap-2 rounded px-1 text-sm font-semibold text-brand-900 hover:text-gold-900 ${focus}`}>{t("actions.viewBook")}<ArrowRight className="h-5 w-5 shrink-0" aria-hidden="true" /></Link>
                 </div>
               </div>
@@ -172,10 +165,10 @@ export function ShopDesktopExperience({ products, featuredProduct, faqItems = []
           <p>{t("library.footerNote")}</p><p className="flex items-center gap-3"><span className="h-px w-10 bg-gold-700" aria-hidden="true" />Union National Tax</p>
         </div>
       </section>
-      <ShopFAQ items={faqItems} />
+      <ShopFAQ items={faqItems} contactOnly={!paymentsEnabled} />
       <div className="homepage-rhythm"><FinalBookingCTA id="shop-next-step" placement="shop_final_cta" label={header("bookCall")} /></div>
       <footer className="bg-brand-950 text-white">
-        <div className={`${container} flex flex-col items-start justify-between gap-4 py-6 pb-28 xl:flex-row xl:items-center xl:pb-6`}>
+        <div className={`${container} flex flex-col items-start justify-between gap-4 py-6 xl:flex-row xl:items-center ${paymentsEnabled ? "pb-28 xl:pb-6" : ""}`}>
           <Link href="/" className="inline-flex min-h-11 items-center font-heading text-lg font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300">{logoUrl ? <Image src={logoUrl} alt="Union National Tax" width={230} height={39} style={{ height: "auto" }} className="w-[230px] object-contain" /> : "Union National Tax"}</Link>
           <p className="text-sm leading-relaxed text-white">{t("footer.tagline")}</p>
           <nav aria-label={t("footer.navigationLabel")} className="flex flex-wrap items-center gap-4 text-sm">

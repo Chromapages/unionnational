@@ -1,3 +1,5 @@
+import { paymentsEnabled } from "../shop/payments-enabled.mjs";
+
 /** Consumer script nonces are generated per request; Studio has isolated compatibility exceptions. */
 export function getContentSecurityPolicy(nonce?: string, studio = false, development = process.env.NODE_ENV === "development") {
     const scriptPolicy = studio ? "'unsafe-inline' 'unsafe-eval' https://*.sanity.io" : `'nonce-${nonce}' 'strict-dynamic'${development ? " 'unsafe-eval'" : ""}`;
@@ -16,7 +18,7 @@ export function getContentSecurityPolicy(nonce?: string, studio = false, develop
         "worker-src 'self' blob:",
         "object-src 'none'",
         "base-uri 'self'",
-        "form-action 'self' https://checkout.stripe.com https://link.agent-crm.com",
+        `form-action 'self' https://link.agent-crm.com${paymentsEnabled() ? " https://checkout.stripe.com" : ""}`,
         "frame-ancestors 'none'",
         ...(development ? [] : ["upgrade-insecure-requests"]),
     ].join("; ") + ";";

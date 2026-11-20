@@ -78,6 +78,7 @@ describe("paid shop webhook ownership and recovery", () => {
         vi.clearAllMocks();
         settings.STRIPE_WEBHOOK_SECRET = "whsec_test";
         settings.GHL_SHOP_PURCHASE_WEBHOOK_URL = "https://ghl.example.test/order";
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
         vi.stubEnv("GHL_SHOP_FULFILLMENT_SECRET", "fixture-only-32-character-minimum-secret");
         vi.stubEnv("GHL_SHOP_FULFILLMENT_ALLOWED_HOSTS", "ghl.example.test");
         vi.stubEnv("GHL_SHOP_FULFILLMENT_CONTRACT_CONFIRMED", "true");

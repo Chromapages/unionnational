@@ -1,18 +1,22 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { issueReceiptCookie, purchaseReference } from "@/lib/shop/payment-security";
+import { cookies, headers } from "next/headers";
+import { getStripe } from "@/lib/stripe";
+import { checkRateLimit } from "@/lib/security/rate-limiter";
+import ShopSuccessPage from "./page";
 
 const retrieve = vi.fn();
 const completedCart = vi.hoisted(() => vi.fn());
 let proof: string | undefined;
 const secret = "fixture-receipt-secret";
-vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => proof ? { value: proof } : undefined }), headers: async () => new Headers() }));
+vi.mock("next/headers", () => ({ cookies: vi.fn(async () => ({ get: () => proof ? { value: proof } : undefined })), headers: vi.fn(async () => new Headers()) }));
 vi.mock("@/lib/config/env", () => ({ getEnv: () => "fixture-receipt-secret" }));
-vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "fixture", checkRateLimit: async () => ({ success: true }) }));
+vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "fixture", checkRateLimit: vi.fn(async () => ({ success: true })) }));
 vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => "fixture" }));
 vi.mock("next/navigation", () => ({ redirect: (url: string) => { throw new Error(`REDIRECT:${url}`); } }));
-vi.mock("@/lib/stripe", () => ({ getStripe: () => ({ checkout: { sessions: { retrieve } } }) }));
+vi.mock("@/lib/stripe", () => ({ getStripe: vi.fn(() => ({ checkout: { sessions: { retrieve } } })) }));
 vi.mock("next-intl/server", () => ({ getTranslations: async () => (key: string) => key }));
 vi.mock("@/i18n/navigation", () => ({ Link: ({ children, href }: React.PropsWithChildren<{ href: string }>) => <a href={href}>{children}</a> }));
 vi.mock("@/components/shop/ClearCartAfterPurchase", () => ({ ClearCartAfterPurchase: (props: unknown) => { completedCart(props); return <span data-cart-cleared />; } }));
@@ -27,12 +31,29 @@ const page = async (sessionId?: string) => {
 describe("shop success payment states", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
         retrieve.mockResolvedValue({
             id: "cs_test_order", payment_status: "paid", status: "complete",
             amount_total: 4900, currency: "usd",
             metadata: { fulfillment_status: "pending", order_source: "unt_bookstore" },
             line_items: { data: [] },
         });
+    });
+
+    afterEach(() => vi.unstubAllEnvs());
+
+    it.each(["en", "es"])("redirects disabled %s receipts to contact without accessing payment dependencies", async (locale) => {
+        vi.stubEnv("SHOP_PAYMENTS_ENABLED", undefined);
+        const sessionId = "cs_test_disabled";
+        proof = issueReceiptCookie(sessionId, secret);
+        await expect(ShopSuccessPage({
+            params: Promise.resolve({ locale }),
+            searchParams: Promise.resolve({ session_id: sessionId, receipt: purchaseReference(sessionId, secret) }),
+        })).rejects.toMatchObject({ message: `REDIRECT:/${locale}/contact` });
+        expect(cookies).not.toHaveBeenCalled();
+        expect(headers).not.toHaveBeenCalled();
+        expect(checkRateLimit).not.toHaveBeenCalled();
+        expect(getStripe).not.toHaveBeenCalled();
     });
 
     it("keeps the cart and tracking untouched when no session can be verified", async () => {

@@ -1,5 +1,6 @@
 import { CartSidebar } from "@/components/shop/CartSidebar";
 import { CartIcon } from "@/components/ui/CartIcon";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 
 export default function ShopLayout({
     children,
@@ -9,8 +10,7 @@ export default function ShopLayout({
     return (
         <div className="relative min-h-screen">
             {children}
-            <CartIcon />
-            <CartSidebar />
+            {paymentsEnabled() && <><CartIcon /><CartSidebar /></>}
         </div>
     );
 }

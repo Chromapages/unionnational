@@ -1,18 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { NextRequest } from "next/server";
 import Stripe from "stripe";
+import { getStripe } from "@/lib/stripe";
+import { getPaymentStorage } from "@/lib/shop/payment-storage";
 import { buildCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
 import { orderMetadataSignature } from "@/lib/shop/fulfillment";
+import { POST } from "./route";
 vi.mock("@/lib/security/rate-limiter", () => ({ getClientIdentifier: () => "fixture", checkRateLimit: mocks.quota }));
 vi.mock("@/lib/security/lead-ingress", () => ({ leadRequesterKey: () => "fixture" }));
 
 const mocks = vi.hoisted(() => ({ session: {} as Record<string, unknown>, delivery: vi.fn(), quota: vi.fn(), verify: vi.fn(), updates: [] as Record<string, unknown>[] }));
 vi.mock("@/lib/config/env", () => ({ getEnv: (name: string) => name === "STRIPE_WEBHOOK_SECRET" ? "test_signature_secret" : name === "GHL_SHOP_PURCHASE_WEBHOOK_URL" ? "https://fulfillment.example.invalid" : undefined }));
-vi.mock("@/lib/stripe", () => ({ getStripe: () => ({
+vi.mock("@/lib/stripe", () => ({ getStripe: vi.fn(() => ({
     webhooks: { constructEvent: mocks.verify },
     checkout: { sessions: { retrieve: async () => mocks.session, update: vi.fn(), listLineItems: async () => ({ has_more: false, data: [{ currency: "usd", price: { id: "price_test" }, quantity: 1 }] }) } },
-}) }));
-vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({
+})) }));
+vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: vi.fn(() => ({
     createIfNotExists: async () => ({ _id: "order_test", _rev: "r1", status: "pending", updatedAt: new Date().toISOString() }),
     fetch: async () => null,
     patch: () => {
@@ -24,7 +27,7 @@ vi.mock("@/lib/shop/payment-storage", () => ({ getPaymentStorage: () => ({
         };
         return patch;
     },
-}) }));
+})) }));
 vi.mock("@/lib/observability/api-handler", () => ({ createApiHandler: () => ({
     traceId: "trace_test", error: vi.fn(), log: { warn: vi.fn(), info: vi.fn() },
     json: (value: unknown) => new Response(JSON.stringify(value)),
@@ -33,6 +36,8 @@ vi.mock("@/lib/observability/api-handler", () => ({ createApiHandler: () => ({
 vi.mock("@/lib/observability/request-metrics", () => ({ withLatencyAsync: (_name: string, operation: () => unknown) => operation() }));
 
 beforeEach(() => {
+    vi.clearAllMocks();
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", "true");
     mocks.updates = [];
     mocks.quota.mockReset().mockResolvedValue({ success: true });
     mocks.verify.mockReset().mockReturnValue({ id: "evt_test", type: "checkout.session.completed", data: { object: { id: "cs_test_order" } } });
@@ -51,6 +56,19 @@ beforeEach(() => {
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 const request = () => new Request("https://unt.example.test/api/shop/webhook", { method: "POST", headers: { "stripe-signature": "test" }, body: "{}" }) as NextRequest;
+
+it("returns 503 without reading or processing a Stripe delivery when disabled", async () => {
+    vi.stubEnv("SHOP_PAYMENTS_ENABLED", "false");
+    const accessRequest = vi.fn(() => { throw new Error("Disabled webhook touched the request"); });
+    const response = await POST(new Proxy(request(), { get: accessRequest }));
+
+    expect(response.status).toBe(503);
+    expect(accessRequest).not.toHaveBeenCalled();
+    expect(mocks.quota).not.toHaveBeenCalled();
+    expect(getStripe).not.toHaveBeenCalled();
+    expect(getPaymentStorage).not.toHaveBeenCalled();
+    expect(mocks.delivery).not.toHaveBeenCalled();
+});
 
 describe("paid-order delivery", () => {
     it("keeps invalid raw-byte Stripe signatures out of authenticated processing capacity", async () => {

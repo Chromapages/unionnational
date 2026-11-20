@@ -9,6 +9,7 @@ import { incrementCounter, withLatencyAsync } from "@/lib/observability/request-
 import { readLeadJson } from "@/lib/intake/shared";
 import { buildCheckoutItemsMetadata } from "@/lib/shop/order-metadata";
 import { getPaymentStorage } from "@/lib/shop/payment-storage";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 import { issueReceiptCookie, oldReceiptCookieNames, purchaseReference, receiptCookieName, RECEIPT_TTL_SECONDS } from "@/lib/shop/payment-security";
 import { orderMetadataSignature, fulfillmentConfiguration } from "@/lib/shop/fulfillment";
 import {
@@ -24,6 +25,13 @@ const CHECKOUT_RATE_LIMIT_MAX = 30;
 const CHECKOUT_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 
 export async function POST(request: NextRequest) {
+    if (!paymentsEnabled()) {
+        return Response.json(
+            { ok: false, code: "CHECKOUT_DISABLED", message: "Online checkout is currently disabled." },
+            { status: 503, headers: { "Cache-Control": "no-store" } }
+        );
+    }
+
     const handler = createApiHandler(request, {
         module: "shop-checkout",
         rateLimitMax: CHECKOUT_RATE_LIMIT_MAX,

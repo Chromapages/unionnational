@@ -6,6 +6,7 @@ import { getEnv } from "@/lib/config/env";
 import { createApiHandler } from "@/lib/observability/api-handler";
 import { withLatencyAsync } from "@/lib/observability/request-metrics";
 import { getPaymentStorage } from "@/lib/shop/payment-storage";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 import { isCheckoutSessionId, purchaseReference, readWebhookBody } from "@/lib/shop/payment-security";
 import { fulfillmentConfiguration, fulfillmentSignature, validOrderMetadataSignature, verifiedOrderItems } from "@/lib/shop/fulfillment";
 import { checkRateLimit } from "@/lib/security/rate-limiter";
@@ -21,6 +22,10 @@ async function setStatus(storage: ReturnType<typeof getPaymentStorage>, record: 
 }
 
 export async function POST(req: NextRequest) {
+    if (!paymentsEnabled()) {
+        return new Response(null, { status: 503, headers: { "Cache-Control": "no-store" } });
+    }
+
     const handler = createApiHandler(req, { module: "shop-webhook" });
     const endpointSecret = getEnv("STRIPE_WEBHOOK_SECRET");
     const signature = req.headers.get("stripe-signature");

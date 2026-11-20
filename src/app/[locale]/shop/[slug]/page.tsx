@@ -9,13 +9,14 @@ import { getTranslations } from "next-intl/server";
 import { sanityFetch } from "@/sanity/lib/live";
 import { urlFor } from "@/sanity/lib/image";
 import { ProductCard } from "@/components/shop/ProductCard";
-import { ProductHero } from "@/components/shop/ProductHero";
+import { ProductHero, type ProductEdition as HeroEdition } from "@/components/shop/ProductHero";
 import { BookOverview } from "@/components/shop/BookOverview";
 import { ShopViewContent } from "@/components/seo/ShopViewContent";
 import { Link } from "@/i18n/navigation";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
 import { getDefaultProductEdition, hasPublishedProductDescription, storefrontBookCopyKeys } from "@/lib/shop/commerce";
 import type { ProductEdition } from "@/lib/shop/types";
+import { paymentsEnabled } from "@/lib/shop/payments-enabled.mjs";
 
 export const revalidate = 60;
 
@@ -29,6 +30,9 @@ interface RelatedProductCardData {
     shortDescription: string;
     format: string;
     editions?: ProductEdition[];
+    compareAtPrice?: number;
+    badge?: string;
+    rating?: number;
     category?: string;
 }
 
@@ -63,6 +67,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
     const { slug, locale } = await params;
+    const enabled = paymentsEnabled();
     const [{ data: product }, catalog, copy, header, homepage] = await Promise.all([
         sanityFetch({ query: PRODUCT_DETAIL_QUERY, params: { slug, locale } }),
         getTranslations({ locale, namespace: "Shop.Desktop" }),
@@ -81,29 +86,32 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     ).filter((book: RelatedProductCardData, index: number, books: RelatedProductCardData[]) =>
         books.findIndex(other => other._id === book._id) === index,
     ).slice(0, 2);
-    const defaultEdition = getDefaultProductEdition<ProductEdition>(product.editions || []);
-    const offers = (product.editions || []).filter((edition: ProductEdition) => Number.isFinite(edition.price) && edition.price >= 0)
-        .map((edition: ProductEdition) => ({ "@type": "Offer", name: edition.name, priceCurrency: "USD", price: edition.price, url: "https://unionnationaltax.com/" + locale + "/shop/" + slug }));
+    const defaultEdition = enabled ? getDefaultProductEdition<ProductEdition>(product.editions || []) : undefined;
+    const offers = enabled
+        ? (product.editions || []).filter((edition: ProductEdition) => Number.isFinite(edition.price) && edition.price >= 0)
+            .map((edition: ProductEdition) => ({ "@type": "Offer", name: edition.name, priceCurrency: "USD", price: edition.price, url: "https://unionnationaltax.com/" + locale + "/shop/" + slug }))
+        : [];
     const productJsonLd = {
         "@context": "https://schema.org", "@type": "Product",
         name: product.title, description: promise, image: product.imageUrl, sku: product._id,
         brand: { "@type": "Brand", name: "Union National Tax" },
-        offers: offers.length ? offers : { "@type": "Offer", priceCurrency: "USD", price: product.price, url: "https://unionnationaltax.com/" + locale + "/shop/" + slug },
+        ...(enabled ? { offers: offers.length ? offers : { "@type": "Offer", priceCurrency: "USD", price: product.price, url: "https://unionnationaltax.com/" + locale + "/shop/" + slug } } : {}),
     };
 
     return <div className="min-h-dvh bg-white font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-brand-950">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }} />
-        <HeaderWrapper />
-        <ShopViewContent productName={product.title} productId={product._id} price={defaultEdition?.price ?? product.price} />
-        <main id="main-content" className="pb-28 [&_a]:scroll-mb-28 [&_button]:scroll-mb-28">
+        <HeaderWrapper bookingCta={!enabled} />
+        <ShopViewContent productName={product.title} productId={product._id} price={enabled ? defaultEdition?.price ?? product.price : undefined} />
+        <main id="main-content" className={enabled ? "pb-28 [&_a]:scroll-mb-28 [&_button]:scroll-mb-28" : undefined}>
             <div className="mx-auto w-full max-w-[94rem] px-4 py-4 sm:px-6 lg:px-8">
                 <Link href="/shop" className="inline-flex min-h-11 items-center gap-2 rounded-sm font-heading text-sm font-semibold text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-700"><ChevronLeft className="size-5" aria-hidden="true" />{copy("backToShop")}</Link>
             </div>
             <ProductHero key={product._id} id={product._id} slug={product.slug} title={product.title} subtitle={promise}
                 image={product.imageUrl} imageMetadata={product.imageMetadata} samplePages={product.samplePages || []}
-                format={product.format} buyLink={product.buyLink} stripeProductId={product.stripeProductId} stripePriceId={product.stripePriceId}
+                format={product.format} paymentsEnabled={enabled}
+                {...(enabled ? { buyLink: product.buyLink, stripeProductId: product.stripeProductId, stripePriceId: product.stripePriceId } : {})}
                 defaultPrice={product.price} category={key ? catalog("books." + key + ".category") : product.category}
-                author={product.author} editions={product.editions}
+                author={product.author} editions={enabled ? product.editions : product.editions?.map(({ _key, id, name, price, format, description }: HeroEdition) => ({ _key, id, name, price, format, description }))}
                 videoUrl={product.videoUrl} videoFileUrl={product.videoFileUrl} videoThumbnail={product.videoThumbnail} />
             <BookOverview growthGuide={slug === "the-3m-s-to-freedom"} features={product.features} learningObjectives={product.learningObjectives}
                 summaryBullets={slug === "the-3m-s-to-freedom" ? [0, 1, 2].map(index => copy("growthBullets." + index)) : undefined} />
@@ -118,7 +126,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 const edition = getDefaultProductEdition(book.editions || []);
                                 const relatedKey = storefrontBookCopyKeys[book.slug];
                                 const description = relatedKey ? catalog("books." + relatedKey + ".description") : book.shortDescription;
-                                return <ProductCard key={book._id} {...book} layout="related" price={edition?.price ?? book.price} format={edition?.name || book.format}
+                                return <ProductCard key={book._id} title={book.title} slug={book.slug} imageUrl={book.imageUrl} imageMetadata={book.imageMetadata}
+                                    layout="related" format={edition?.name || book.format}
+                                    price={enabled ? edition?.price ?? book.price : undefined}
+                                    compareAtPrice={enabled ? book.compareAtPrice : undefined} badge={book.badge} rating={book.rating}
                                     category={relatedKey ? catalog("books." + relatedKey + ".category") : book.category}
                                     shortDescription={hasPublishedProductDescription(description) ? description : book.shortDescription} />;
                             })}
