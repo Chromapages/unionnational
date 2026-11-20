@@ -1,17 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 export type ClientLogo = { alt?: string; asset?: { url?: string; _id?: string } };
 
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onChange: () => void) {
+    const media = window.matchMedia(reducedMotionQuery);
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+}
+
 export function ClientLogoStrip({ logos = [], className }: { logos?: ClientLogo[]; className?: string }) {
     const t = useTranslations("ConsumerHome.logos");
     const [paused, setPaused] = useState(false);
-    const reduceMotion = useReducedMotion();
+    const reduceMotion = useSyncExternalStore(subscribeToReducedMotion, () => window.matchMedia(reducedMotionQuery).matches, () => false);
     const available = logos.filter(logo => logo.asset?.url && logo.alt?.trim());
     if (!available.length) return null;
     const repeated = Array.from({ length: Math.ceil(6 / available.length) }, () => available).flat();
