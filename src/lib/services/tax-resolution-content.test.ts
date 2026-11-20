@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 import { getTaxResolutionContent } from "./tax-resolution-content";
 
 describe("tax-resolution detail content", () => {
-    it.each(["en", "es"])("keeps the draft grounded in the known audience and existing consultation flow in %s", locale => {
+    it.each([
+        ["en", "Back Taxes & IRS Tax Resolution"],
+        ["es", "Impuestos atrasados y resolución de deudas con el IRS."],
+    ])("keeps the draft grounded in the known audience and existing consultation flow in %s", (locale, title) => {
         const { page, presentation } = getTaxResolutionContent(locale);
-        expect(page.title).toBe("Back Taxes & IRS Tax Resolution");
+        expect(page.title).toBe(title);
         expect(page.eligibility?.items).toHaveLength(2);
         expect(page.hero.primaryCta.href).toBe("/book");
         expect(page.closing.href).toBe("/book");

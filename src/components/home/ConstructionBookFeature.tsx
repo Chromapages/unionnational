@@ -17,7 +17,7 @@ export async function ConstructionBookFeature() {
                         </div>
                         <p className="absolute left-0 top-12 hidden max-w-[9ch] border-t-2 border-gold-700 pt-4 font-body text-xs font-medium uppercase leading-relaxed tracking-[.15em] text-gold-700 xl:block">{t("sideMotto")}</p>
                         <Image
-                            src="https://cdn.sanity.io/images/p1x9y3wz/production/fa0de758c05a6ebc863e41bc185645feb27e3360-1620x1620.png"
+                            src="/images/construction-book-cover.avif"
                             alt={t("coverAlt")}
                             width={1620}
                             height={1620}

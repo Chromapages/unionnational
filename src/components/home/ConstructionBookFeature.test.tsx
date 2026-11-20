@@ -25,7 +25,8 @@ describe("construction book homepage feature", () => {
         expect(cover).toHaveAttribute("width", "1620");
         expect(cover).toHaveAttribute("height", "1620");
         expect(cover).toHaveClass("object-contain");
-        expect(cover).toHaveAttribute("src", expect.stringContaining("fa0de758c05a6ebc863e41bc185645feb27e3360"));
+        const coverSource = new URL(cover.getAttribute("src") ?? "", document.baseURI).searchParams.get("url");
+        expect(coverSource).toMatch(/^\/images\//);
         expect(section.querySelector("form,input,button,h1")).toBeNull();
         expect(section.textContent).not.toMatch(/\$|Section 179|depreciation|S-Corp|1099|instant|download/i);
     });

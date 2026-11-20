@@ -28,12 +28,15 @@ async function schemaFor(data: Record<string, unknown>) {
 describe("CMS service JSON-LD graph", () => {
     beforeEach(() => fetchMock.mockReset());
 
-    it.each(["en", "es"])("uses local content for metadata and schema without fetching or inventing a CMS document in %s", async locale => {
+    it.each([
+        ["en", "Back Taxes & IRS Tax Resolution"],
+        ["es", "Impuestos atrasados y resolución de deudas con el IRS."],
+    ])("uses local content for metadata and schema without fetching or inventing a CMS document in %s", async (locale, title) => {
         const { page, presentation } = getTaxResolutionContent(locale);
         const props = { cmsSlug: page.slug.current, canonicalPath: page.canonicalPath, locale, content: page, presentation };
         const metadata = await getCmsServiceMetadata(props);
         expect(metadata.alternates?.canonical).toBe(`https://unionnationaltax.com/${locale}/back-taxes-irs-tax-resolution`);
-        expect(metadata.title).toBe("Back Taxes & IRS Tax Resolution | Union National Tax");
+        expect(metadata.title).toBe(`${title} | Union National Tax`);
         const html = renderToStaticMarkup(await CmsServicePage(props));
         const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)![1]);
         expect(schema["@graph"][0]).toMatchObject({ "@type": "Service", name: page.title, description: page.hero.subheadline });

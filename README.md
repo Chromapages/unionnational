@@ -80,7 +80,9 @@ Purchase delivery additionally requires an approved HTTPS receiver, exact hostna
 | `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset name (public) |
 | `NEXT_PUBLIC_SANITY_API_VERSION` | Sanity API version (public) |
 
-Payment state uses a separate private `SANITY_PAYMENT_DATASET` and `SANITY_PAYMENT_AUTH_TOKEN`. Verify anonymous denial, least-privilege grants, and legacy recovery migration before setting the private/migration confirmation flags. Public Content Lake assets do not become private through a website gate. The [payment runbook](docs/shop-fulfillment-recovery.md) records the required evidence.
+Set `NEXT_PUBLIC_SANITY_PROJECT_ID=22h4uolq` and `NEXT_PUBLIC_SANITY_DATASET=production` explicitly for the UNT release build. The embedded `/hq` Studio requires an explicit project/dataset and uses Sanity authentication. Before release, the CMS owner must verify intended Studio roles and add the exact approved HTTPS production and separate preview origins in Sanity CORS; allow credentials only for authorized Studio origins. Do not assume a public page read proves browser CORS or Studio write access.
+
+Payment state requires the server-only `SANITY_PAYMENT_PROJECT_ID`, `SANITY_PAYMENT_DATASET` and `SANITY_PAYMENT_AUTH_TOKEN` for the existing private store. Its project does not fall back to the public Sanity configuration. Verify anonymous denial, least-privilege grants, and recovery continuity before setting the private/migration confirmation flags. The [payment runbook](docs/shop-fulfillment-recovery.md) records the required evidence.
 
 ### Application
 

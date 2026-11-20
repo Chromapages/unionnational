@@ -57,7 +57,7 @@ export async function ConsumerHome({ heroVideoSrc, heroVideoPoster, clientLogos 
                         <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
                             <div className="w-full max-w-[19rem] sm:w-[18rem]">
                                 <BookingCtaLink
-                                    href={`${BOOKING_ROUTE}?returnTo=%2F`}
+                                    href={BOOKING_ROUTE}
                                     label={t("hero.primaryCta")}
                                     openingLabel={cta("openingSchedulingCalendar")}
                                     externalLabel={cta("opensInNewTab")}

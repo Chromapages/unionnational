@@ -24,7 +24,7 @@ export function ClientLogoStrip({ logos = [], className }: { logos?: ClientLogo[
                     {[0, 1].map(group => <span key={group} aria-hidden={group === 1 || undefined} className={cn("flex shrink-0 items-center gap-12 pr-12 sm:gap-16 sm:pr-16", group === 1 ? "motion-reduce:hidden" : "motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:pr-0")}>
                         {repeated.map((logo, index) => {
                             const duplicate = group === 1 || index >= available.length;
-                            return <span key={index} aria-hidden={duplicate || undefined} className={cn("flex h-12 w-32 shrink-0 items-center justify-center sm:h-14 sm:w-48", index >= available.length && "motion-reduce:hidden")}><Image src={logo.asset!.url!} alt={duplicate ? "" : logo.alt!} width={192} height={56} sizes="(min-width: 640px) 192px, 128px" loading="eager" className="h-full w-full object-contain opacity-50 grayscale" /></span>;
+                            return <span key={index} aria-hidden={duplicate || undefined} className={cn("flex h-12 w-32 shrink-0 items-center justify-center sm:h-14 sm:w-48", index >= available.length && "motion-reduce:hidden")}><Image src={logo.asset!.url!} alt={duplicate ? "" : logo.alt!} width={192} height={56} unoptimized loading="eager" className="h-full w-full object-contain opacity-50 grayscale" /></span>;
                         })}
                     </span>)}
                 </span>
