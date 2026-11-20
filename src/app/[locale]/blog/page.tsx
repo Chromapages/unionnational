@@ -7,6 +7,7 @@ import { BLOG_POSTS_QUERY } from "@/sanity/lib/queries";
 import { Tag } from "lucide-react";
 import { Metadata } from "next";
 import { localizedAlternates } from "@/lib/seo/localizedAlternates";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -19,7 +20,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function BlogIndexPage(props: { params: Promise<{ locale: string }> }) {
     const { locale } = await props.params;
-    const { data: posts } = await sanityFetch({ query: BLOG_POSTS_QUERY, params: { limit: 12, locale } });
+    const [t, { data: posts }] = await Promise.all([
+        getTranslations({ locale, namespace: "BlogPage.hero" }),
+        sanityFetch({ query: BLOG_POSTS_QUERY, params: { limit: 12, locale } }),
+    ]);
 
     return (
         <div className="min-h-dvh bg-surface flex flex-col font-sans text-brand-900 antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
@@ -38,22 +42,22 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: s
                                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold-500/10 border border-gold-500/20 rounded-full mb-8">
                                     <Tag size={14} className="text-gold-500" />
                                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-500">
-                                        The Capital Journal
+                                        {t("eyebrow")}
                                     </span>
                                 </div>
                                 <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-white tracking-tighter mb-8 font-heading font-black leading-[0.9] drop-shadow-sm">
-                                    Insights for <br />
-                                    <span className="text-gold-500">Growth.</span>
+                                    {t("title")} <br />
+                                    <span className="text-gold-500">{t("accent")}</span>
                                 </h1>
                                 <p className="text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-sans font-light">
-                                    Deep-dive analysis on tax optimization, wealth preservation, and business engineering for high-performance entrepreneurs.
+                                    {t("description")}
                                 </p>
                             </RevealOnScroll>
                         </div>
                     </div>
                 </section>
 
-                <BlogList initialPosts={posts} />
+                <BlogList initialPosts={posts ?? []} />
             </main>
 
             <Footer />

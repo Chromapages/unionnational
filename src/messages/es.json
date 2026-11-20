@@ -1,4 +1,16 @@
 {
+    "BlogPage": {
+        "hero": {
+            "eyebrow": "El Diario del Capital",
+            "title": "Ideas para",
+            "accent": "crecer.",
+            "description": "Análisis a fondo sobre optimización fiscal, preservación del patrimonio y estrategia empresarial para emprendedores."
+        },
+        "empty": {
+            "title": "Aún no hay artículos publicados.",
+            "body": "Vuelva a visitar esta página para encontrar artículos de Union National Tax sobre impuestos y negocios."
+        }
+    },
     "ServiceDetailPresentation": {
         "processLink": "Vea cómo funciona el proceso",
         "faqSupport": {
@@ -575,6 +587,14 @@
             "subtitle": "Vaya más allá del simple cumplimiento. Seleccione un nivel de asesoría que coincida con la complejidad de su negocio y sus objetivos de patrimonio.",
             "comparisonTitle": "Transparencia Total",
             "comparisonSubtitle": "Compare planes para encontrar el nivel de soporte adecuado para las necesidades de su negocio."
+        },
+        "PricingAvailability": {
+            "heading": "Precios de servicios",
+            "categories": "Categorías de precios",
+            "advisory": "Planes de asesoría",
+            "taxprep": "Preparación de impuestos",
+            "description": "Contáctanos para revisar el alcance y solicitar una cotización.",
+            "contact": "Contáctanos para conocer los precios."
         },
         "ComparisonTable": {
             "tierNames": {

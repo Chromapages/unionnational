@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { SanityBlogPost } from "@/types/sanity";
 import { BlogCard } from "./BlogCard";
 import { Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 interface BlogListProps {
@@ -13,6 +14,7 @@ interface BlogListProps {
 const CATEGORIES = ["All Strategy", "Tax Planning", "S-Corp", "Compliance"];
 
 export const BlogList = ({ initialPosts }: BlogListProps) => {
+    const t = useTranslations("BlogPage.empty");
     const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState("All Strategy");
 
@@ -37,6 +39,17 @@ export const BlogList = ({ initialPosts }: BlogListProps) => {
     const handleCategoryClick = (category: string) => {
         setActiveCategory(category);
     };
+
+    if (!initialPosts.length) {
+        return (
+            <section className="mx-auto max-w-7xl px-6 pb-32 pt-10">
+                <div className="rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 px-6 py-20 text-center">
+                    <h2 className="font-heading text-2xl font-bold text-brand-900">{t("title")}</h2>
+                    <p className="mx-auto mt-4 max-w-sm text-slate-600">{t("body")}</p>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <>

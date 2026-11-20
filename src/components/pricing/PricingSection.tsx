@@ -1,5 +1,7 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { AdvisoryPricingCards } from "./AdvisoryPricingCards";
 import { ServiceComparisonTable } from "@/components/services/ServiceComparisonTable";
@@ -32,6 +34,7 @@ export interface PricingTier {
 
 interface PricingSectionProps {
     tiers: PricingTier[];
+    hasAdvisoryTiers: boolean;
     hideTaxPrep?: boolean;
     translations?: {
         eyebrow: string;
@@ -42,11 +45,9 @@ interface PricingSectionProps {
     };
 }
 
-export function PricingSection({ tiers, hideTaxPrep = false, translations }: PricingSectionProps) {
-    if (!tiers) return null;
-
-    // Filter tiers based on category
-    const advisoryTiers = tiers.filter(t => t.category === "advisory" || !t.category);
+export function PricingSection({ tiers, hasAdvisoryTiers, hideTaxPrep = false, translations }: PricingSectionProps) {
+    const locale = useLocale();
+    const availability = useTranslations("ServicesPage.PricingAvailability");
 
     // Use translations or fallback to default English
     const t = translations || {
@@ -61,29 +62,42 @@ export function PricingSection({ tiers, hideTaxPrep = false, translations }: Pri
         <section className="relative overflow-hidden py-16 md:py-20">
             <div className="space-y-16 lg:space-y-24">
 
-                {/* Section Header */}
-                <div className="px-6">
-                    <RevealOnScroll>
-                        <SectionHeader label={t.eyebrow} heading={t.title} description={t.subtitle} className="mb-12 md:mb-16" />
-                    </RevealOnScroll>
-                </div>
+                {hasAdvisoryTiers && (
+                    <div className="px-6">
+                        <RevealOnScroll>
+                            <SectionHeader label={t.eyebrow} heading={t.title} description={t.subtitle} className="mb-12 md:mb-16" />
+                        </RevealOnScroll>
+                    </div>
+                )}
 
                 {/* Unified Pricing Carousel */}
                 <RevealOnScroll>
                     <div className="max-w-7xl mx-auto px-6">
                         <PricingCarousel
-                            advisoryView={<AdvisoryPricingCards tiers={advisoryTiers} />}
-                            taxPrepView={<TaxPrepPricingTables />}
-                            comparisonView={<ServiceComparisonTable />}
+                            advisoryView={hasAdvisoryTiers ? <AdvisoryPricingCards tiers={tiers} /> : (
+                                <p className="px-6 py-8 text-center text-lg leading-relaxed">
+                                    <Link href={`/${locale}/contact`} className="underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4">
+                                        {availability("contact")}
+                                    </Link>
+                                </p>
+                            )}
+                            taxPrepView={
+                                <>
+                                    <TaxPrepPricingTables />
+                                    {!hasAdvisoryTiers && <IncludedFeatures />}
+                                </>
+                            }
+                            comparisonView={hasAdvisoryTiers ? <ServiceComparisonTable /> : null}
                             hideTaxPrep={hideTaxPrep}
                         />
                     </div>
                 </RevealOnScroll>
 
-                {/* What's Included Section */}
-                <div className="mt-12 lg:mt-24">
-                    <IncludedFeatures />
-                </div>
+                {hasAdvisoryTiers && (
+                    <div className="mt-12 lg:mt-24">
+                        <IncludedFeatures />
+                    </div>
+                )}
 
             </div>
         </section>

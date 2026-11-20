@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import { CreditCard, FileText } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 interface PricingCarouselProps {
@@ -12,11 +13,12 @@ interface PricingCarouselProps {
 }
 
 const tabs = [
-    { id: "advisory", label: "Advisory Plans", icon: CreditCard },
-    { id: "taxprep", label: "Tax Preparation", icon: FileText },
+    { id: "advisory", icon: CreditCard },
+    { id: "taxprep", icon: FileText },
 ] as const;
 
 export function PricingCarousel({ advisoryView, taxPrepView, comparisonView, hideTaxPrep = false }: PricingCarouselProps) {
+    const t = useTranslations("ServicesPage.PricingAvailability");
     const [activeTab, setActiveTab] = useState<(typeof tabs)[number]["id"]>("advisory");
     const visibleTabs = hideTaxPrep ? tabs.filter((tab) => tab.id === "advisory") : tabs;
     const selectedTab = hideTaxPrep ? "advisory" : activeTab;
@@ -26,7 +28,7 @@ export function PricingCarousel({ advisoryView, taxPrepView, comparisonView, hid
     return (
         <div className="w-full">
             {visibleTabs.length > 1 && <div className="mb-8 flex justify-center">
-                <div className="grid w-full max-w-md grid-cols-2 gap-1 rounded-xl border border-brand-100 bg-brand-50 p-1 shadow-sm" role="tablist" aria-label="Pricing categories">
+                <div className="grid w-full max-w-md grid-cols-2 gap-1 rounded-xl border border-brand-100 bg-brand-50 p-1 shadow-sm" role="tablist" aria-label={t("categories")}>
                     {visibleTabs.map((tab, index) => {
                         const Icon = tab.icon;
                         const isActive = selectedTab === tab.id;
@@ -60,7 +62,7 @@ export function PricingCarousel({ advisoryView, taxPrepView, comparisonView, hid
                                 )}
                             >
                                 <Icon className={cn("h-4 w-4", isActive ? "text-gold-500" : "text-brand-900/40")} aria-hidden="true" />
-                                {tab.label}
+                                {t(tab.id)}
                             </button>
                         );
                     })}
@@ -71,7 +73,7 @@ export function PricingCarousel({ advisoryView, taxPrepView, comparisonView, hid
                 {selectedTab === "advisory" ? advisoryView : taxPrepView}
             </div>
 
-            {selectedTab === "advisory" && (
+            {selectedTab === "advisory" && comparisonView && (
                 <details id="pricing-comparison" className="mx-auto mt-8 max-w-7xl rounded-2xl border border-brand-100 bg-white px-5 py-1">
                     <summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand-900 marker:text-gold-500">
                         Compare all plans

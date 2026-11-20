@@ -1,4 +1,16 @@
 {
+    "BlogPage": {
+        "hero": {
+            "eyebrow": "The Capital Journal",
+            "title": "Insights for",
+            "accent": "Growth.",
+            "description": "Deep-dive analysis on tax optimization, wealth preservation, and business engineering for high-performance entrepreneurs."
+        },
+        "empty": {
+            "title": "No articles published yet.",
+            "body": "Check back for tax and business articles from Union National Tax."
+        }
+    },
     "ServiceDetailPresentation": {
         "processLink": "See how the process works",
         "faqSupport": {
@@ -571,6 +583,14 @@
             "subtitle": "Move beyond simple compliance. Select an advisory tier that matches the complexity of your business and your wealth goals.",
             "comparisonTitle": "Complete Transparency",
             "comparisonSubtitle": "Compare plans to find the right level of support for your business needs."
+        },
+        "PricingAvailability": {
+            "heading": "Service pricing",
+            "categories": "Pricing categories",
+            "advisory": "Advisory Plans",
+            "taxprep": "Tax Preparation",
+            "description": "Contact us to review scope and request a quote.",
+            "contact": "Contact us for pricing."
         },
         "ComparisonTable": {
             "tierNames": {
