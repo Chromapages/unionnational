@@ -130,7 +130,23 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
+    // Next matches `has.value` as a regex, after lowercasing only the direct host.
+    const wwwHost = 'www\\.unionnationaltax\\.com';
+    const forwardedWwwHost = wwwHost.replace(/[a-z]/g, letter => `[${letter}${letter.toUpperCase()}]`);
     return [
+      ...[
+        { type: 'host' as const, value: wwwHost },
+        // Match only the first host in the forwarded list.
+        {
+          type: 'header' as const,
+          key: 'x-forwarded-host',
+          value: `[ \\t]*${forwardedWwwHost}(?::443)?[ \\t]*(?:,.*)?`,
+        },
+      ].flatMap(condition => [
+        // An empty :path* drops the slash from Next's Location header.
+        { source: '/', has: [condition], destination: 'https://unionnationaltax.com/', statusCode: 301 },
+        { source: '/:path*', has: [condition], destination: 'https://unionnationaltax.com/:path*', statusCode: 301 },
+      ]),
       {
         source: '/services/back-taxes-irs-tax-resolution',
         destination: '/back-taxes-irs-tax-resolution',
