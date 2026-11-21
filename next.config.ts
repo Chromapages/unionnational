@@ -25,6 +25,8 @@ const nextConfig: NextConfig = {
 
   // Enable experimental optimizations
   experimental: {
+    // Hostinger's CPU count exceeds its thread limit during page-data collection.
+    cpus: 2,
     serverActions: { bodySizeLimit: "32kb" },
     optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   },
