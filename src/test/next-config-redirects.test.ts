@@ -15,11 +15,16 @@ describe("canonical service redirects in Next config", () => {
 });
 
 describe("canonical host redirects in Next config", () => {
-    it("puts both host redirects first, with a fixed HTTPS destination and HTTP 301", async () => {
-        const [direct, forwarded] = (await nextConfig.redirects?.()) ?? [];
+    it("puts host redirects first with fixed HTTPS destinations, including the root slash", async () => {
+        const [directRoot, direct, forwardedRoot, forwarded] = (await nextConfig.redirects?.()) ?? [];
         const redirect = { source: "/:path*", destination: "https://unionnationaltax.com/:path*", statusCode: 301 };
-        expect(direct).toEqual({ ...redirect, has: [{ type: "host", value: "www\\.unionnationaltax\\.com" }] });
-        expect(forwarded).toEqual({ ...redirect, has: [{ type: "header", key: "x-forwarded-host", value: expect.any(String) }] });
+        const root = { source: "/", destination: "https://unionnationaltax.com/", statusCode: 301 };
+        const directHas = [{ type: "host", value: "www\\.unionnationaltax\\.com" }];
+        const forwardedHas = [{ type: "header", key: "x-forwarded-host", value: expect.any(String) }];
+        expect(directRoot).toEqual({ ...root, has: directHas });
+        expect(direct).toEqual({ ...redirect, has: directHas });
+        expect(forwardedRoot).toEqual({ ...root, has: forwardedHas });
+        expect(forwarded).toEqual({ ...redirect, has: forwardedRoot?.has });
 
         const value = forwarded?.has?.[0]?.value;
         const matcher = new RegExp(`^${value}$`);
